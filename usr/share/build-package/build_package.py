@@ -264,7 +264,7 @@ class BuildPackage:
     
     def show_build_summary(self, package_name: str, branch_type: str):
         """Shows a summary of choices for normal build using Rich"""
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
         new_branch = f"{branch_type}-{timestamp}"
         repo_name = GitUtils.get_repo_name()
         
@@ -287,7 +287,7 @@ class BuildPackage:
     def show_aur_summary(self, aur_package_name: str):
         """Shows a summary of choices for AUR package build using Rich"""
         aur_url = f"https://aur.archlinux.org/{aur_package_name}.git"
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
         
         data = [
             ("Organization", self.organization),
