@@ -287,7 +287,7 @@ class BuildPackage:
     def show_aur_summary(self, aur_package_name: str):
         """Shows a summary of choices for AUR package build using Rich"""
         aur_url = f"https://aur.archlinux.org/{aur_package_name}.git"
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
         
         data = [
             ("Organization", self.organization),

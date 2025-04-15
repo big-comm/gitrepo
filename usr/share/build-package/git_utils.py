@@ -152,7 +152,7 @@ class GitUtils:
             return ""
         
         # Generate branch name with timestamp
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
         new_branch = f"{branch_type}-{timestamp}"
         
         try:
