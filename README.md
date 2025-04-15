@@ -8,6 +8,9 @@
 
 A comprehensive tool for package building, testing, and deployment. Streamlines Git operations, automates builds and manages package workflows for BigCommunity repositories and AUR packages.
 
+![build-package](https://github.com/user-attachments/assets/d0f44e33-5616-4fbd-b3dd-c9e35e2ec169)
+
+
 ## Overview
 
 Build Package is a specialized tool designed to simplify the package building process for BigCommunity repositories. It provides a streamlined interface for common Git operations, automates package builds, and integrates with GitHub Actions workflows for continuous integration.
