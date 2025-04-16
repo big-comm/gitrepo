@@ -39,6 +39,6 @@ COLORS = {
 }
 
 # Script version
-VERSION = "3.0.0"
+VERSION = "3.1.0"
 APP_NAME = "BUILD PACKAGE"
 APP_DESC = "A comprehensive tool for package building, testing, and deployment. Streamlines Git operations, automates builds and manages package workflows for BigCommunity repositories and AUR packages."
