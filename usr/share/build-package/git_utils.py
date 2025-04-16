@@ -122,13 +122,13 @@ class GitUtils:
             return False
         
         try:
-            # Set Up Git to Allow Automatic Merges
+            # Configure Git to accept automatic merges
             subprocess.run(
                 ["git", "config", "pull.rebase", "false"],
                 check=True
             )
             
-            # Execute git pull com merge automático
+            # Execute git pull with automatic merge
             if logger:
                 logger.log("cyan", "Pulling latest changes...")
             

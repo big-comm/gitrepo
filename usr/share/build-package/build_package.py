@@ -438,12 +438,13 @@ class BuildPackage:
             "Delete failed Action jobs",
             "Delete successful Action jobs",
             "Delete all tags",
+            "Merge branch to main",
             "Back"
         ]
         
         while True:
             result = self.menu.show_menu("Advanced Menu", options)
-            if result is None or result[0] == 4:  # None or "Back"
+            if result is None or result[0] == 5:  # None ou "Back"
                 return
             
             choice, _ = result
@@ -463,6 +464,83 @@ class BuildPackage:
             elif choice == 3:  # Delete tags
                 if self.menu.confirm("Are you sure you want to delete all repository tags?"):
                     self.github_api.clean_all_tags(self.logger)
+                    
+            elif choice == 4:  # Merge branch to main
+                self.merge_branch_menu()
+    
+    def merge_branch_menu(self):
+        """Displays menu for merging branches to main"""
+        if not self.is_git_repo:
+            self.logger.log("red", "This operation is only available in git repositories.")
+            return
+        
+        # Get available branches
+        try:
+            # Get all branches
+            result = subprocess.run(
+                ["git", "branch", "-r"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=True
+            )
+            
+            branches = []
+            for line in result.stdout.strip().split('\n'):
+                branch = line.strip().replace('origin/', '')
+                # Filter only testing and stable branches
+                if branch.startswith(('testing-', 'stable-', 'extra-')) and branch != 'HEAD':
+                    branches.append(branch)
+            
+            if not branches:
+                self.logger.log("yellow", "No testing or stable branches found to merge.")
+                return
+            
+            # Sort branches by date (newest first)
+            branches.sort(reverse=True)
+            
+            # Add a Back option
+            branches.append("Back")
+            
+            # Show branch selection menu
+            branch_result = self.menu.show_menu("Select branch to merge to main", branches)
+            if branch_result is None or branches[branch_result[0]] == "Back":
+                return
+            
+            selected_branch = branches[branch_result[0]]
+            
+            # Ask if should auto-merge
+            merge_options = ["Create PR (manual approval)", "Create PR and auto-merge"]
+            merge_result = self.menu.show_menu("Select merge option", merge_options)
+            if merge_result is None:
+                return
+            
+            auto_merge = (merge_result[0] == 1)  # True if "Create PR and auto-merge" is selected
+            
+            # Show summary
+            data = [
+                ("Source Branch", selected_branch),
+                ("Target Branch", "main"),
+                ("Auto-merge", "Yes" if auto_merge else "No")
+            ]
+            
+            self.logger.display_summary("Merge Summary", data)
+            
+            # Confirm action
+            if not self.menu.confirm("Do you want to proceed with creating the pull request?"):
+                self.logger.log("yellow", "Operation cancelled by user.")
+                return
+            
+            # Create pull request
+            pr_info = self.github_api.create_pull_request(selected_branch, "main", auto_merge, self.logger)
+            
+            if pr_info:
+                self.logger.log("green", "Pull request operation completed.")
+            
+        except subprocess.CalledProcessError as e:
+            self.logger.log("red", f"Error getting branches: {e.stderr.strip() if hasattr(e, 'stderr') else str(e)}")
+        except Exception as e:
+            self.logger.log("red", f"Unexpected error: {str(e)}")
     
     def run(self):
         """Executes main program flow"""
