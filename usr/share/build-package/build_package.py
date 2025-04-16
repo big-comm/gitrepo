@@ -436,7 +436,7 @@ class BuildPackage:
                 if choice == 0:  # Commit and push
                     # Check changes before asking for message
                     if not GitUtils.has_changes():
-                        self.logger.log("yellow", "No changes to commit. No action will be performed.")
+                        self.menu.show_menu("No Changes Detected", ["OK (No changes to commit)"])
                         continue
                     
                     # Pull latest changes
