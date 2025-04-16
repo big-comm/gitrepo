@@ -167,7 +167,26 @@ class BuildPackage:
         # Check if there are changes AFTER pulling
         has_changes = GitUtils.has_changes()
         if not has_changes:
-            self.logger.log("yellow", "No changes to commit. No action will be performed.")
+            # Create a panel for better visibility
+            from rich.panel import Panel
+            from rich.text import Text
+            
+            message = Text("No changes to commit. No action will be performed.", style="yellow bold")
+            panel = Panel(
+                message,
+                title="Commit Status",
+                border_style="yellow",
+                box=ROUNDED,
+                padding=(1, 2)
+            )
+            
+            # Clear screen and display panel
+            os.system('clear' if os.name == 'posix' else 'cls')
+            self.logger.draw_app_header()
+            self.console.print(panel)
+            
+            # Wait for user acknowledgment
+            Prompt.ask("\nPress ENTER to continue")
             return True
 
         # Only ask for commit message if there are changes and not specified
