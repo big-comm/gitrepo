@@ -198,7 +198,7 @@ class GitUtils:
             
             # Push to remote
             logger.log("cyan", "Pushing new branch to remote repository...")
-            subprocess.run(["git", "push", "-u", "origin", new_branch], check=True)
+            subprocess.run(["git", "push", "origin", new_branch], check=True)
             
             logger.log("green", f"Branch {new_branch} created and pushed successfully!")
             return new_branch
