@@ -225,9 +225,12 @@ class GitHubAPI:
             return {}
         
         # Get repository name
-        repo_name = self.get_repository_name()
+        repo_name = GitUtils.get_repo_name()
         if not repo_name:
             if logger:
+                logger.log("cyan", f"Token length: {len(self.token) if self.token else 0}") # Debug
+                logger.log("cyan", f"Repository name: {repo_name}") # Debug
+                logger.log("cyan", f"Creating PR from '{source_branch}' to '{target_branch}'") #Debug
                 logger.log("red", "Repository name could not be determined")
             return {}
         
@@ -255,6 +258,9 @@ class GitHubAPI:
             if response.status_code not in [200, 201]:
                 if logger:
                     logger.log("red", f"Failed to create PR: {response.json().get('message', '')}")
+                    logger.log("cyan", f"API response status: {response.status_code}")
+                    if response.status_code not in [200, 201]: # Debug
+                        logger.log("red", f"Error details: {response.text}") # Debug
                 return {}
             
             pr_info = response.json()
