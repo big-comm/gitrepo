@@ -153,7 +153,7 @@ class BuildPackage:
         console.print(panel)
     
     def commit_and_push(self):
-        """Performs only commit and push of changes"""
+        """Performs commit and creates PR to testing branch"""
         if not self.is_git_repo:
             self.logger.die("red", "This option is only available in git repositories.")
             return False
@@ -177,7 +177,43 @@ class BuildPackage:
                 self.logger.die("red", "Commit message cannot be empty.")
                 return False
         
-        return GitUtils.update_commit_push(commit_message, self.logger)
+        # Create feature branch for the commit
+        timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
+        feature_branch = f"feature-{timestamp}"
+        
+        # Create and switch to feature branch
+        try:
+            subprocess.run(["git", "checkout", "-b", feature_branch], check=True)
+        except subprocess.CalledProcessError as e:
+            self.logger.log("red", f"Error creating feature branch: {e}")
+            return False
+        
+        # Add and commit changes to feature branch
+        try:
+            subprocess.run(["git", "add", "--all"], check=True)
+            subprocess.run(["git", "commit", "-m", commit_message], check=True)
+        except subprocess.CalledProcessError as e:
+            self.logger.log("red", f"Error committing changes: {e}")
+            return False
+        
+        # Push feature branch to remote
+        try:
+            subprocess.run(["git", "push", "-u", "origin", feature_branch], check=True)
+        except subprocess.CalledProcessError as e:
+            self.logger.log("red", f"Error pushing to remote: {e}")
+            return False
+        
+        # Ask if user wants to create a PR automatically
+        auto_merge = False
+        if self.menu.confirm("Create PR to 'testing' branch?"):
+            if self.menu.confirm("Automatically merge the PR?"):
+                auto_merge = True
+                
+            # Create PR to testing branch
+            pr_result = self.github_api.create_pull_request(feature_branch, "testing", auto_merge, self.logger)
+            return bool(pr_result)
+        
+        return True
     
     def commit_and_generate_package(self):
         """Performs commit, creates branch and triggers workflow to generate package"""
