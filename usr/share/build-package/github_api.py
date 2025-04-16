@@ -216,3 +216,72 @@ class GitHubAPI:
         except Exception as e:
             logger.log("red", f"Error cleaning tags: {e}")
             return False
+        
+    def create_pull_request(self, source_branch: str, target_branch: str = "main", auto_merge: bool = False, logger = None) -> dict:
+        """Creates a pull request and optionally merges it automatically"""
+        if not source_branch:
+            if logger:
+                logger.log("red", "Source branch name is required to create a pull request")
+            return {}
+        
+        # Get repository name
+        repo_name = self.get_repository_name()
+        if not repo_name:
+            if logger:
+                logger.log("red", "Repository name could not be determined")
+            return {}
+        
+        if logger:
+            logger.log("cyan", f"Creating pull request from {source_branch} to {target_branch}...")
+        
+        # Create PR data
+        pr_data = {
+            "title": f"Merge {source_branch} into {target_branch}",
+            "body": f"Automated PR created by build_package.py",
+            "head": source_branch,
+            "base": target_branch
+        }
+        
+        try:
+            # Create the PR through GitHub API
+            url = f"https://api.github.com/repos/{repo_name}/pulls"
+            headers = {
+                "Authorization": f"token {self.token}",
+                "Accept": "application/vnd.github.v3+json"
+            }
+            
+            response = requests.post(url, json=pr_data, headers=headers)
+            
+            if response.status_code not in [200, 201]:
+                if logger:
+                    logger.log("red", f"Failed to create PR: {response.json().get('message', '')}")
+                return {}
+            
+            pr_info = response.json()
+            pr_url = pr_info.get("html_url", "")
+            pr_number = pr_info.get("number", 0)
+            
+            if logger:
+                logger.log("green", f"Pull request created successfully: {pr_url}")
+            
+            # Auto-merge if requested
+            if auto_merge and pr_number:
+                if logger:
+                    logger.log("cyan", "Attempting to merge pull request automatically...")
+                
+                merge_url = f"https://api.github.com/repos/{repo_name}/pulls/{pr_number}/merge"
+                merge_response = requests.put(merge_url, headers=headers)
+                
+                if merge_response.status_code == 200:
+                    if logger:
+                        logger.log("green", "Pull request merged successfully")
+                else:
+                    if logger:
+                        logger.log("yellow", f"Pull request created but could not be merged automatically: {merge_response.json().get('message', '')}")
+            
+            return pr_info
+        
+        except Exception as e:
+            if logger:
+                logger.log("red", f"Error creating pull request: {str(e)}")
+            return {}
