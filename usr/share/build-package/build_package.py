@@ -196,11 +196,13 @@ class BuildPackage:
                 self.logger.log("red", "Operation cancelled by user.")
                 return False
         
+        # Only prompt for commit message if there are changes
         commit_message = self.args.commit
-        if not commit_message:
-            if GitUtils.has_changes():
-                self.logger.die("red", "When using the '-b|--build' parameter, the '-c|--commit' parameter is also required.")
-                return False
+        has_changes = GitUtils.has_changes()
+        
+        if has_changes and not commit_message:
+            self.logger.die("red", "When using the '-b|--build' parameter and there are changes, the '-c|--commit' parameter is also required.")
+            return False
         
         # Get package name
         package_name = GitUtils.get_package_name()
@@ -389,6 +391,9 @@ class BuildPackage:
                         if not commit_message:
                             self.logger.log("red", "Commit message cannot be empty.")
                             continue
+                        else:
+                            # Skip message prompt if there are no changes
+                            self.logger.log("yellow", "No changes to commit, proceeding with package generation.")
                     
                     self.args.build = branch_type
                     self.args.commit = commit_message
@@ -473,6 +478,12 @@ class BuildPackage:
         if not self.is_git_repo:
             self.logger.log("red", "This operation is only available in git repositories.")
             return
+        
+        # Fetch the latest list of branches first
+        subprocess.run(
+            ["git", "fetch", "--all", "--prune"],
+            check=True
+        )
         
         # Get available branches
         try:
