@@ -309,7 +309,7 @@ class BuildPackage:
         self.show_build_summary(package_name, branch_type)
         
         # Pause for user to read summary
-        self.console.print("\n[#9966cc]Press [white]ENTER[/#9966cc] to continue[/]")
+        self.logger.console.print("\n[#9966cc]Press [white]ENTER[/#9966cc] to continue[/]")
         input()  # Wait for any input without displaying prompt text
         
         if not self.menu.confirm("Do you want to proceed with building the PACKAGE?"):
@@ -353,7 +353,7 @@ class BuildPackage:
         self.show_aur_summary(aur_package_name)
         
         # Pause for user to read summary
-        self.console.print("\n[#9966cc]Press [white]ENTER[/#9966cc] to continue[/]")
+        self.logger.console.print("\n[#9966cc]Press [white]ENTER[/#9966cc] to continue[/]")
         input()  # Wait for any input without displaying prompt text
         
         if not self.menu.confirm("Do you want to proceed with building the PACKAGE?"):
