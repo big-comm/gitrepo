@@ -158,20 +158,21 @@ class BuildPackage:
             self.logger.die("red", "This option is only available in git repositories.")
             return False
         
-        # Pull latest changes before committing
+        # Pull latest changes first
         if not GitUtils.git_pull(self.logger):
             if not self.menu.confirm("Failed to pull changes. Do you want to continue anyway?"):
                 self.logger.log("red", "Operation cancelled by user.")
                 return False
-        
-        # Check if there are changes
-        if not GitUtils.has_changes():
+
+        # Check if there are changes AFTER pulling
+        has_changes = GitUtils.has_changes()
+        if not has_changes:
             self.logger.log("yellow", "No changes to commit. No action will be performed.")
             return True
-        
-        # Ask for commit message if not specified
+
+        # Only ask for commit message if there are changes and not specified
         commit_message = self.args.commit
-        if not commit_message:
+        if has_changes and not commit_message:
             commit_message = Prompt.ask("Enter commit message")
             if not commit_message:
                 self.logger.die("red", "Commit message cannot be empty.")
@@ -263,7 +264,7 @@ class BuildPackage:
             return False
 
         # Ask if user wants to auto-merge the PR (default: Yes)
-        auto_merge = self.menu.confirm("Automatically merge the PR? [Y/n]", default=True)
+        auto_merge = self.menu.confirm("Automatically merge the PR? [Y/n]")
             
         # Create PR with selected merge option
         pr_result = self.github_api.create_pull_request(feature_branch, target_branch, auto_merge, self.logger)
