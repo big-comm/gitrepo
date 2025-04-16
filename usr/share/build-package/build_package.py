@@ -153,31 +153,123 @@ class BuildPackage:
         console.print(panel)
     
     def commit_and_push(self):
-        """Performs only commit and push of changes"""
+        """Performs commit on feature branch and creates PR to latest testing branch"""
         if not self.is_git_repo:
             self.logger.die("red", "This option is only available in git repositories.")
             return False
         
-        # Check if there are changes
-        if not GitUtils.has_changes():
-            self.logger.log("yellow", "No changes to commit. No action will be performed.")
-            return True
-        
-        # Pull latest changes before committing
+        # Pull latest changes first
         if not GitUtils.git_pull(self.logger):
             if not self.menu.confirm("Failed to pull changes. Do you want to continue anyway?"):
                 self.logger.log("red", "Operation cancelled by user.")
                 return False
-        
-        # Ask for commit message if not specified
+
+        # Check if there are changes AFTER pulling
+        has_changes = GitUtils.has_changes()
+        if not has_changes:
+            # Use menu system to display a dialog that requires user interaction
+            self.menu.show_menu("No Changes to Commit\n", ["Press Enter to return to main menu"])
+            return True
+
+        # Only ask for commit message if there are changes and not specified
         commit_message = self.args.commit
-        if not commit_message:
+        if has_changes and not commit_message:
             commit_message = Prompt.ask("Enter commit message")
             if not commit_message:
                 self.logger.die("red", "Commit message cannot be empty.")
                 return False
         
-        return GitUtils.update_commit_push(commit_message, self.logger)
+        # Create feature branch for the commit
+        timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
+        feature_branch = f"feature-{timestamp}"
+        
+        # Create and switch to feature branch
+        try:
+            subprocess.run(["git", "checkout", "-b", feature_branch], check=True)
+        except subprocess.CalledProcessError as e:
+            self.logger.log("red", f"Error creating feature branch: {e}")
+            return False
+        
+        # Add and commit changes to feature branch
+        try:
+            subprocess.run(["git", "add", "--all"], check=True)
+            subprocess.run(["git", "commit", "-m", commit_message], check=True)
+        except subprocess.CalledProcessError as e:
+            self.logger.log("red", f"Error committing changes: {e}")
+            return False
+        
+        # Push feature branch to remote
+        try:
+            subprocess.run(["git", "push", "-u", "origin", feature_branch], check=True)
+        except subprocess.CalledProcessError as e:
+            self.logger.log("red", f"Error pushing to remote: {e}")
+            return False
+        
+        # Find the latest testing branch
+        try:
+            # Fetch all branches
+            subprocess.run(["git", "fetch", "--all"], check=True)
+            
+            # Get remote branches
+            result = subprocess.run(
+                ["git", "branch", "-r"],
+                stdout=subprocess.PIPE,
+                text=True,
+                check=True
+            )
+            
+            # Find testing branches
+            testing_branches = []
+            for line in result.stdout.strip().split('\n'):
+                branch = line.strip()
+                if branch.startswith('origin/testing-'):
+                    # Remove origin/ prefix
+                    testing_branches.append(branch.replace('origin/', ''))
+            
+            target_branch = "main"  # Default if no testing branch exists
+            
+            if testing_branches:
+                # Sort by date (newest first)
+                testing_branches.sort(reverse=True)
+                target_branch = testing_branches[0]
+                self.logger.log("cyan", f"Found latest testing branch: {target_branch}")
+            else:
+                # Create a new testing branch if none exists
+                new_timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
+                target_branch = f"testing-{new_timestamp}"
+                self.logger.log("cyan", f"No testing branch found. Creating: {target_branch}")
+                
+                # Create from main branch
+                try:
+                    current_branch = subprocess.run(
+                        ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+                        stdout=subprocess.PIPE,
+                        text=True,
+                        check=True
+                    ).stdout.strip()
+                    
+                    # Switch to main
+                    subprocess.run(["git", "checkout", "main"], check=True)
+                    
+                    # Create and push new testing branch
+                    subprocess.run(["git", "checkout", "-b", target_branch], check=True)
+                    subprocess.run(["git", "push", "-u", "origin", target_branch], check=True)
+                    
+                    # Switch back to feature branch
+                    subprocess.run(["git", "checkout", feature_branch], check=True)
+                except subprocess.CalledProcessError as e:
+                    self.logger.log("red", f"Error creating testing branch: {e}")
+                    return False
+        except subprocess.CalledProcessError as e:
+            self.logger.log("red", f"Error finding testing branch: {e}")
+            return False
+
+        # Ask if user wants to auto-merge the PR (default: Yes)
+        auto_merge = self.menu.confirm("Automatically merge the PR? [Y/n]")
+            
+        # Create PR with selected merge option
+        pr_result = self.github_api.create_pull_request(feature_branch, target_branch, auto_merge, self.logger)
+        return bool(pr_result)
     
     def commit_and_generate_package(self):
         """Performs commit, creates branch and triggers workflow to generate package"""
@@ -217,7 +309,8 @@ class BuildPackage:
         self.show_build_summary(package_name, branch_type)
         
         # Pause for user to read summary
-        Prompt.ask("\nPress ENTER to continue")
+        self.console.print("\n[#9966cc]Press [white]ENTER[/#9966cc] to continue[/]")
+        input()  # Wait for any input without displaying prompt text
         
         if not self.menu.confirm("Do you want to proceed with building the PACKAGE?"):
             self.logger.log("red", "Package build cancelled.")
@@ -260,7 +353,8 @@ class BuildPackage:
         self.show_aur_summary(aur_package_name)
         
         # Pause for user to read summary
-        Prompt.ask("\nPress ENTER to continue")
+        self.console.print("\n[#9966cc]Press [white]ENTER[/#9966cc] to continue[/]")
+        input()  # Wait for any input without displaying prompt text
         
         if not self.menu.confirm("Do you want to proceed with building the PACKAGE?"):
             self.logger.log("red", "Package build cancelled.")
@@ -344,7 +438,7 @@ class BuildPackage:
                 if choice == 0:  # Commit and push
                     # Check changes before asking for message
                     if not GitUtils.has_changes():
-                        self.logger.log("yellow", "No changes to commit. No action will be performed.")
+                        self.menu.show_menu("No Changes to Commit\n", ["Press Enter to return to main menu"])
                         continue
                     
                     # Pull latest changes
