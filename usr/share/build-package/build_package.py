@@ -309,8 +309,8 @@ class BuildPackage:
         self.show_build_summary(package_name, branch_type)
         
         # Pause for user to read summary
-        self.logger.console.print("\n[#9966cc]Press [white]ENTER[/#9966cc] to continue[/]")
-        input()  # Wait for any input without displaying prompt text
+        self.logger.console.print("\n[#9966cc]Press [white]ENTER[/white] to continue[/#9966cc]")
+        input()  # Wait for any input without displaying prompt text #
         
         if not self.menu.confirm("Do you want to proceed with building the PACKAGE?"):
             self.logger.log("red", "Package build cancelled.")
@@ -324,7 +324,20 @@ class BuildPackage:
         new_branch = GitUtils.create_branch_and_push(branch_type, self.logger)
         if not new_branch:
             return False
-        
+
+        # Automatically merge the branch if it's a testing, stable, or extra branch
+        if branch_type in ["testing", "stable", "extra"]:
+            # Get current branch after new branch creation
+            current_branch = subprocess.run(
+                ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+                stdout=subprocess.PIPE,
+                text=True,
+                check=True
+            ).stdout.strip()
+            
+            # No need to create PR, just trigger the workflow
+            self.logger.log("cyan", f"Skipping PR creation for {branch_type} branch")
+
         # Trigger workflow
         return self.github_api.trigger_workflow(
             package_name, branch_type, new_branch, False, self.tmate_option, self.logger
@@ -353,7 +366,7 @@ class BuildPackage:
         self.show_aur_summary(aur_package_name)
         
         # Pause for user to read summary
-        self.logger.console.print("\n[#9966cc]Press [white]ENTER[/#9966cc] to continue[/]")
+        self.logger.console.print("\n[#9966cc]Press [white]ENTER[/white] to continue[/#9966cc]")
         input()  # Wait for any input without displaying prompt text
         
         if not self.menu.confirm("Do you want to proceed with building the PACKAGE?"):
