@@ -168,7 +168,7 @@ class BuildPackage:
         has_changes = GitUtils.has_changes()
         if not has_changes:
             # Use menu system to display a dialog that requires user interaction
-            self.menu.show_menu("No Changes Detected", ["OK (No changes to commit)"])
+            self.menu.show_menu("No Changes to Commit\n", ["Press Enter to return to main menu"])
             return True
 
         # Only ask for commit message if there are changes and not specified
@@ -436,7 +436,7 @@ class BuildPackage:
                 if choice == 0:  # Commit and push
                     # Check changes before asking for message
                     if not GitUtils.has_changes():
-                        self.menu.show_menu("No Changes Detected", ["OK (No changes to commit)"])
+                        self.menu.show_menu("No Changes to Commit\n", ["Press Enter to return to main menu"])
                         continue
                     
                     # Pull latest changes
