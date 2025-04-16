@@ -115,17 +115,25 @@ class GitUtils:
         
     @staticmethod
     def git_pull(logger=None) -> bool:
-        """Performs git pull operation"""
+        """Performs git pull operation with automatic merge"""
         if not GitUtils.is_git_repo():
             if logger:
                 logger.log("red", "This operation is only available in Git repositories.")
             return False
         
         try:
-            # Execute git pull
-            logger.log("cyan", "Pulling latest changes...")
+            # Set Up Git to Allow Automatic Merges
+            subprocess.run(
+                ["git", "config", "pull.rebase", "false"],
+                check=True
+            )
+            
+            # Execute git pull com merge automático
+            if logger:
+                logger.log("cyan", "Pulling latest changes...")
+            
             result = subprocess.run(
-                ["git", "pull"],
+                ["git", "pull", "--no-edit"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
