@@ -310,7 +310,7 @@ class BuildPackage:
         
         # Pause for user to read summary
         self.logger.console.print("\n[#9966cc]Press [white]ENTER[/white] to continue[/#9966cc]")
-        input()  # Wait for any input without displaying prompt text
+        input()  # Wait for any input without displaying prompt text #
         
         if not self.menu.confirm("Do you want to proceed with building the PACKAGE?"):
             self.logger.log("red", "Package build cancelled.")
