@@ -153,21 +153,21 @@ class BuildPackage:
         console.print(panel)
     
     def commit_and_push(self):
-        """Performs commit and creates PR to testing branch"""
+        """Performs commit on feature branch and creates PR to latest testing branch"""
         if not self.is_git_repo:
             self.logger.die("red", "This option is only available in git repositories.")
             return False
-        
-        # Check if there are changes
-        if not GitUtils.has_changes():
-            self.logger.log("yellow", "No changes to commit. No action will be performed.")
-            return True
         
         # Pull latest changes before committing
         if not GitUtils.git_pull(self.logger):
             if not self.menu.confirm("Failed to pull changes. Do you want to continue anyway?"):
                 self.logger.log("red", "Operation cancelled by user.")
                 return False
+        
+        # Check if there are changes
+        if not GitUtils.has_changes():
+            self.logger.log("yellow", "No changes to commit. No action will be performed.")
+            return True
         
         # Ask for commit message if not specified
         commit_message = self.args.commit
@@ -203,17 +203,71 @@ class BuildPackage:
             self.logger.log("red", f"Error pushing to remote: {e}")
             return False
         
-        # Ask if user wants to create a PR automatically
-        auto_merge = False
-        if self.menu.confirm("Create PR to 'testing' branch?"):
-            if self.menu.confirm("Automatically merge the PR?"):
-                auto_merge = True
+        # Find the latest testing branch
+        try:
+            # Fetch all branches
+            subprocess.run(["git", "fetch", "--all"], check=True)
+            
+            # Get remote branches
+            result = subprocess.run(
+                ["git", "branch", "-r"],
+                stdout=subprocess.PIPE,
+                text=True,
+                check=True
+            )
+            
+            # Find testing branches
+            testing_branches = []
+            for line in result.stdout.strip().split('\n'):
+                branch = line.strip()
+                if branch.startswith('origin/testing-'):
+                    # Remove origin/ prefix
+                    testing_branches.append(branch.replace('origin/', ''))
+            
+            target_branch = "main"  # Default if no testing branch exists
+            
+            if testing_branches:
+                # Sort by date (newest first)
+                testing_branches.sort(reverse=True)
+                target_branch = testing_branches[0]
+                self.logger.log("cyan", f"Found latest testing branch: {target_branch}")
+            else:
+                # Create a new testing branch if none exists
+                new_timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
+                target_branch = f"testing-{new_timestamp}"
+                self.logger.log("cyan", f"No testing branch found. Creating: {target_branch}")
                 
-            # Create PR to testing branch
-            pr_result = self.github_api.create_pull_request(feature_branch, "testing", auto_merge, self.logger)
-            return bool(pr_result)
-        
-        return True
+                # Create from main branch
+                try:
+                    current_branch = subprocess.run(
+                        ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+                        stdout=subprocess.PIPE,
+                        text=True,
+                        check=True
+                    ).stdout.strip()
+                    
+                    # Switch to main
+                    subprocess.run(["git", "checkout", "main"], check=True)
+                    
+                    # Create and push new testing branch
+                    subprocess.run(["git", "checkout", "-b", target_branch], check=True)
+                    subprocess.run(["git", "push", "-u", "origin", target_branch], check=True)
+                    
+                    # Switch back to feature branch
+                    subprocess.run(["git", "checkout", feature_branch], check=True)
+                except subprocess.CalledProcessError as e:
+                    self.logger.log("red", f"Error creating testing branch: {e}")
+                    return False
+        except subprocess.CalledProcessError as e:
+            self.logger.log("red", f"Error finding testing branch: {e}")
+            return False
+
+        # Ask if user wants to auto-merge the PR (default: Yes)
+        auto_merge = self.menu.confirm("Automatically merge the PR? [Y/n]", default=True)
+            
+        # Create PR with selected merge option
+        pr_result = self.github_api.create_pull_request(feature_branch, target_branch, auto_merge, self.logger)
+        return bool(pr_result)
     
     def commit_and_generate_package(self):
         """Performs commit, creates branch and triggers workflow to generate package"""
