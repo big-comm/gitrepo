@@ -163,6 +163,12 @@ class BuildPackage:
             self.logger.log("yellow", "No changes to commit. No action will be performed.")
             return True
         
+        # Pull latest changes before committing
+        if not GitUtils.git_pull(self.logger):
+            if not self.menu.confirm("Failed to pull changes. Do you want to continue anyway?"):
+                self.logger.log("red", "Operation cancelled by user.")
+                return False
+        
         # Ask for commit message if not specified
         commit_message = self.args.commit
         if not commit_message:
@@ -183,6 +189,12 @@ class BuildPackage:
         if not branch_type:
             self.logger.die("red", "Branch type not specified.")
             return False
+        
+        # Pull latest changes before proceeding
+        if not GitUtils.git_pull(self.logger):
+            if not self.menu.confirm("Failed to pull changes. Do you want to continue anyway?"):
+                self.logger.log("red", "Operation cancelled by user.")
+                return False
         
         commit_message = self.args.commit
         if not commit_message:
@@ -333,6 +345,11 @@ class BuildPackage:
                         self.logger.log("yellow", "No changes to commit. No action will be performed.")
                         continue
                     
+                    # Pull latest changes
+                    if not GitUtils.git_pull(self.logger):
+                        if not self.menu.confirm("Failed to pull changes. Do you want to continue anyway?"):
+                            continue
+                    
                     # Only ask for message if there are changes
                     commit_message = Prompt.ask("Enter commit message")
                     if not commit_message:
@@ -352,6 +369,11 @@ class BuildPackage:
                         continue
                     
                     branch_type = branch_options[branch_result[0]]
+                    
+                    # Pull latest changes
+                    if not GitUtils.git_pull(self.logger):
+                        if not self.menu.confirm("Failed to pull changes. Do you want to continue anyway?"):
+                            continue
                     
                     # Enable or disable tmate for debug
                     debug_result = self.menu.show_menu("Enable TMATE debug session?", ["No", "Yes"])

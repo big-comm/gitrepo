@@ -112,6 +112,34 @@ class GitUtils:
             return bool(status)
         except Exception:
             return False
+        
+    @staticmethod
+    def git_pull(logger=None) -> bool:
+        """Performs git pull operation"""
+        if not GitUtils.is_git_repo():
+            if logger:
+                logger.log("red", "This operation is only available in Git repositories.")
+            return False
+        
+        try:
+            # Execute git pull
+            logger.log("cyan", "Pulling latest changes...")
+            result = subprocess.run(
+                ["git", "pull"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=True
+            )
+            
+            if logger:
+                logger.log("green", "Successfully pulled latest changes")
+                
+            return True
+        except subprocess.CalledProcessError as e:
+            if logger:
+                logger.log("red", f"Error pulling changes: {e.stderr.strip()}")
+            return False
     
     @staticmethod
     def update_commit_push(commit_message: str, logger) -> bool:
