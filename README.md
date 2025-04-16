@@ -70,6 +70,35 @@ GitHub authentication is handled through a token file. Create a file at `~/.GITH
 - A single token value
 - Multiple tokens in format `organization=token` for different organizations
 
+## GitHub Token Configuration
+
+The application requires a GitHub Personal Access Token with specific permissions to interact with repositories, workflows, and packages.
+
+### Creating a GitHub Token
+
+1. Go to GitHub Settings > Developer settings > Personal access tokens > Tokens (classic)
+2. Click "Generate new token" > "Generate new token (classic)"
+3. Add a descriptive note (e.g. "CD/CI Community Packages - Big-Comm")
+4. Configure the token with these required permissions:
+   - `repo` - Full control of repositories (for commit, branch, and PR operations)
+   - `workflow` - Update GitHub Action workflows (for triggering builds)
+   - `write:packages` - Upload packages to GitHub Package Registry
+   - `delete:packages` - Delete packages from GitHub Package Registry (for cleanup)
+
+5. Click "Generate token" and copy the token value
+
+### Saving the Token
+
+Create a file at `~/.GITHUB_TOKEN` containing the token. You can use either format:
+
+```bash
+# Single token
+ghp_your_token_here
+
+# OR multiple tokens for different organizations
+big-comm=ghp_your_token_here
+biglinux=ghp_your_different_token_here
+
 ## Usage
 
 ### Interactive Mode
