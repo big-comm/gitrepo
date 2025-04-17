@@ -16,7 +16,7 @@ VALID_ORGANIZATIONS = ["big-comm", "biglinux"]  # Valid organizations
 TOKEN_FILE = "~/.GITHUB_TOKEN"
 
 # Branch settings
-VALID_BRANCHES = ["testing", "stable", "extra"]
+VALID_BRANCHES = ["dev"]
 
 # Log directory
 LOG_DIR_BASE = "/tmp/build-package"

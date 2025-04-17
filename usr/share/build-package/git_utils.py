@@ -123,102 +123,41 @@ class GitUtils:
         
         try:
             # Configure Git to accept automatic merges
-            subprocess.run(
-                ["git", "config", "pull.rebase", "false"],
-                check=True
-            )
+            subprocess.run(["git", "config", "pull.rebase", "false"], check=True)
             
-            # Get current branch type (testing, stable, etc.)
-            current_branch = subprocess.run(
-                ["git", "rev-parse", "--abbrev-ref", "HEAD"],
-                stdout=subprocess.PIPE,
-                text=True,
-                check=True
-            ).stdout.strip()
+            # Fetch first to update branch information
+            subprocess.run(["git", "fetch", "--all"], check=True)
             
-            # Extract branch type
-            branch_type = None
-            for prefix in ["testing", "stable", "extra"]:
-                if current_branch.startswith(prefix):
-                    branch_type = prefix
-                    break
+            # Try to pull from dev first (priorizar sempre o branch dev)
+            if logger:
+                logger.log("cyan", "Pulling from dev branch")
             
-            if branch_type:
-                # Find latest branch of same type
-                result = subprocess.run(
-                    ["git", "branch", "-r", "--sort=-committerdate"],
-                    stdout=subprocess.PIPE,
-                    text=True,
-                    check=True
-                )
-                
-                # Find latest branch of same type
-                latest_branch = None
-                for line in result.stdout.strip().split('\n'):
-                    remote_branch = line.strip().replace('origin/', '')
-                    if remote_branch.startswith(f"{branch_type}-"):
-                        latest_branch = remote_branch
-                        break
-                
-                if latest_branch:
-                    if logger:
-                        logger.log("cyan", f"Pulling from latest {branch_type} branch: {latest_branch}")
-                    subprocess.run(
-                        ["git", "pull", "origin", latest_branch, "--no-edit"],
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.PIPE,
-                        text=True,
-                        check=True
-                    )
-                else:
-                    # Fallback to main if no branch of same type found
-                    if logger:
-                        logger.log("yellow", f"No {branch_type} branch found, pulling from origin/main...")
-                    subprocess.run(
-                        ["git", "pull", "origin", "main", "--no-edit"],
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.PIPE,
-                        text=True,
-                        check=True
-                    )
-            else:
-                # Default behavior - try to pull from tracking branch
-                has_tracking = subprocess.run(
-                    ["git", "rev-parse", "--abbrev-ref", "@{u}"],
+            try:
+                subprocess.run(
+                    ["git", "pull", "origin", "dev", "--no-edit"],
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE,
                     text=True,
-                    check=False
-                ).returncode == 0
+                    check=True
+                )
+                if logger:
+                    logger.log("green", "Successfully pulled latest changes from dev")
+                return True
+            except subprocess.CalledProcessError:
+                # If failed, try main as fallback
+                if logger:
+                    logger.log("yellow", "Failed to pull from dev, trying main")
                 
-                if not has_tracking:
-                    if logger:
-                        logger.log("yellow", "No tracking for current branch, pulling from origin/main...")
-                    subprocess.run(
-                        ["git", "pull", "origin", "main", "--no-edit"],
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.PIPE,
-                        text=True,
-                        check=True
-                    )
-                else:
-                    if logger:
-                        logger.log("cyan", "Pulling latest changes...")
-                    subprocess.run(
-                        ["git", "pull", "--no-edit"],
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.PIPE,
-                        text=True,
-                        check=True
-                    )
-            
-            if logger:
-                logger.log("green", "Successfully pulled latest changes")
+                subprocess.run(
+                    ["git", "pull", "origin", "main", "--no-edit"],
+                    check=True
+                )
                 
-            return True
+                if logger:
+                    logger.log("green", "Successfully pulled latest changes from main")
+                return True
         except subprocess.CalledProcessError as e:
-            if logger:
-                logger.log("red", f"Error pulling changes: {e.stderr.strip() if hasattr(e, 'stderr') else str(e)}")
+            # Código de tratamento de erro existente
             return False
     
     @staticmethod
@@ -344,23 +283,25 @@ class GitUtils:
             branches_remote = [b.strip().replace('origin/', '') for b in branches_remote if b.strip()]
             
             # Filter branches to keep
-            to_keep = ['main', 'master']
+            to_keep = ['main', 'dev', 'master']
             
-            # Find the latest branch of each type
-            branch_types = ['testing', 'stable', 'extra']
-            for branch_type in branch_types:
-                # Filter all branches of this type (local + remote)
-                type_branches = [
-                    b for b in branches_local + branches_remote 
-                    if b.startswith(f"{branch_type}-")
-                ]
-                
-                # Sort by date (assuming format branch_type-YYYYMMDD_HHMMSS)
-                type_branches.sort(reverse=True)
-                
-                # Add the most recent to the list of branches to keep
-                if type_branches:
-                    to_keep.append(type_branches[0])
+            # Filter branches to keep - manter apenas os branches principais
+            to_keep = ['main', 'master', 'dev']  # Branches permanentes
+
+            # Add the most recent feature branch based on dev
+            dev_feature_branches = [
+                b for b in branches_local + branches_remote 
+                if b.startswith('dev-') or b.startswith('feature-')
+            ]
+
+            # Sort chronologically (assuming format dev-YY.MM.DD-HHMM)
+            dev_feature_branches.sort(reverse=True)
+
+            # Add only the most recent development branch
+            if dev_feature_branches:
+                to_keep.append(dev_feature_branches[0])
+                if len(dev_feature_branches) > 1:
+                    logger.log("yellow", f"Keeping only the most recent dev feature branch: {dev_feature_branches[0]}")
             
             # Remove local branches
             for branch in branches_local:

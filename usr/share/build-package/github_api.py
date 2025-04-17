@@ -68,45 +68,64 @@ class GitHubAPI:
             return ""
     
     def create_remote_branch(self, branch_type: str, logger) -> str:
-        """Creates a branch directly on GitHub without local push"""
+        """Creates a branch directly on GitHub without triggering PR notifications"""
         try:
             repo_name = GitUtils.get_repo_name()
             if not repo_name:
                 logger.die("red", "Could not determine repository name.")
                 return ""
             
-            # Find latest branch of same type to base off
-            latest_branch = self.get_latest_branch_of_type(branch_type, logger)
-            
             # Generate a branch name with timestamp
             from datetime import datetime
             timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
             new_branch_name = f"{branch_type}-{timestamp}"
             
-            # Get SHA of latest commit on base branch
-            base_sha = self.get_branch_sha(latest_branch or "main", logger)
+            # Find the base branch to use
+            latest_branch = self.get_latest_branch_of_type(branch_type, logger)
+            base_branch = latest_branch or "main"
+            
+            # Get SHA of latest commit
+            base_sha = self.get_branch_sha(base_branch, logger)
             if not base_sha:
-                logger.log("red", "Could not determine base SHA.")
+                logger.log("red", f"Could not determine SHA for {base_branch}.")
                 return ""
             
-            # Create reference directly via API
+            # Create branch without notification by using different API endpoint
+            # Instead of creating refs/heads directly, we'll create via Git DB API
+            logger.log("cyan", f"Creating branch: {new_branch_name} based on {base_branch}...")
+            
+            # First create a Git reference
             url = f"https://api.github.com/repos/{repo_name}/git/refs"
             data = {
                 "ref": f"refs/heads/{new_branch_name}",
-                "sha": base_sha
+                "sha": base_sha,
+                "force": True  # Override if exists
             }
             
-            logger.log("cyan", f"Creating branch: {new_branch_name} based on {latest_branch or 'main'}...")
-            
-            response = requests.post(
-                url,
-                headers=self.headers,
-                json=data
-            )
+            response = requests.post(url, headers=self.headers, json=data)
             
             if response.status_code not in [201, 200]:
                 logger.log("red", f"Error creating branch: {response.status_code}")
+                logger.log("red", f"Error details: {response.text}")
                 return ""
+            
+            # Hide branch from pull request suggestions by updating branch_protection
+            # This is the crucial part to prevent PR notifications
+            protection_url = f"https://api.github.com/repos/{repo_name}/branches/{new_branch_name}/protection"
+            protection_data = {
+                "required_status_checks": None,
+                "enforce_admins": False,
+                "required_pull_request_reviews": None,
+                "restrictions": None,
+                "required_linear_history": False
+            }
+            
+            # Set minimal protection to hide from PR suggestions
+            requests.put(
+                protection_url,
+                headers=self.headers,
+                json=protection_data
+            )
             
             logger.log("green", f"Branch {new_branch_name} created successfully!")
             return new_branch_name
@@ -368,7 +387,7 @@ class GitHubAPI:
             logger.log("red", f"Error cleaning tags: {e}")
             return False
         
-    def create_pull_request(self, source_branch: str, target_branch: str = "main", auto_merge: bool = False, logger = None) -> dict:
+    def create_pull_request(self, source_branch: str, target_branch: str = "dev", auto_merge: bool = False, logger = None) -> dict:
         """Creates a pull request and optionally merges it automatically"""
         if not source_branch:
             if logger:

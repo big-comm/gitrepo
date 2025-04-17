@@ -279,6 +279,7 @@ class BuildPackage:
         
         branch_type = self.args.build
         if not branch_type:
+            branch_type = "dev"
             self.logger.die("red", "Branch type not specified.")
             return False
         
@@ -288,10 +289,11 @@ class BuildPackage:
                 self.logger.log("red", "Operation cancelled by user.")
                 return False
         
-        # Only prompt for commit message if there are changes
-        commit_message = self.args.commit
+        # Check for changes AFTER pulling
         has_changes = GitUtils.has_changes()
+        commit_message = self.args.commit
         
+        # Only prompt for commit message if there are changes
         if has_changes and not commit_message:
             self.logger.die("red", "When using the '-b|--build' parameter and there are changes, the '-c|--commit' parameter is also required.")
             return False
@@ -310,20 +312,20 @@ class BuildPackage:
         
         # Pause for user to read summary
         self.logger.console.print("\n[#9966cc]Press [white]ENTER[/white] to continue[/#9966cc]")
-        input()  # Wait for any input without displaying prompt text #
+        input()
         
         if not self.menu.confirm("Do you want to proceed with building the PACKAGE?"):
             self.logger.log("red", "Package build cancelled.")
             return False
         
-        # Try to commit if there are changes
-        if GitUtils.has_changes() and commit_message:
+        # Try to commit if there are changes - SILENTLY if no changes
+        if has_changes and commit_message:
             GitUtils.update_commit_push(commit_message, self.logger)
         
-        # Skip branch creation - we'll use references via API instead
+        # Skip branch creation - we'll use API directly
         new_branch = ""
         
-        # Trigger workflow directly without branch creation
+        # Trigger workflow directly
         return self.github_api.trigger_workflow(
             package_name, branch_type, new_branch, False, self.tmate_option, self.logger
         )
@@ -592,11 +594,11 @@ class BuildPackage:
             for line in result.stdout.strip().split('\n'):
                 branch = line.strip().replace('origin/', '')
                 # Filter only testing and stable branches
-                if branch.startswith(('testing-', 'stable-', 'extra-')) and branch != 'HEAD':
+                if branch.startswith(('dev-')) and branch != 'HEAD':
                     branches.append(branch)
             
             if not branches:
-                self.logger.log("yellow", "No testing or stable branches found to merge.")
+                self.logger.log("yellow", "No dev branches found to merge.")
                 return
             
             # Sort branches by date (newest first)
