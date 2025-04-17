@@ -23,11 +23,162 @@ class GitHubAPI:
             "Authorization": f"token {self.token}"
         } if token else {}
     
+    def create_reference(self, branch_type: str, logger) -> str:
+        """Creates a reference (tag) in GitHub without creating a local branch"""
+        try:
+            repo_name = GitUtils.get_repo_name()
+            if not repo_name:
+                logger.die("red", "Could not determine repository name.")
+                return ""
+            
+            # Get the current commit SHA
+            current_sha = GitUtils.get_current_commit_sha()
+            if not current_sha:
+                logger.die("red", "Could not determine current commit SHA.")
+                return ""
+            
+            # Generate a reference name with timestamp
+            from datetime import datetime
+            timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
+            ref_name = f"{branch_type}-{timestamp}"
+            
+            # Create the reference in GitHub
+            logger.log("cyan", f"Creating reference: {ref_name}...")
+            
+            url = f"https://api.github.com/repos/{repo_name}/git/refs"
+            data = {
+                "ref": f"refs/tags/{ref_name}",
+                "sha": current_sha
+            }
+            
+            response = requests.post(
+                url,
+                headers=self.headers,
+                json=data
+            )
+            
+            if response.status_code not in [201, 200]:
+                logger.log("red", f"Error creating reference: {response.status_code}")
+                return ""
+            
+            logger.log("green", f"Reference {ref_name} created successfully!")
+            return ref_name
+        except Exception as e:
+            logger.log("red", f"Error creating reference: {e}")
+            return ""
+    
+    def create_remote_branch(self, branch_type: str, logger) -> str:
+        """Creates a branch directly on GitHub without local push"""
+        try:
+            repo_name = GitUtils.get_repo_name()
+            if not repo_name:
+                logger.die("red", "Could not determine repository name.")
+                return ""
+            
+            # Find latest branch of same type to base off
+            latest_branch = self.get_latest_branch_of_type(branch_type, logger)
+            
+            # Generate a branch name with timestamp
+            from datetime import datetime
+            timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
+            new_branch_name = f"{branch_type}-{timestamp}"
+            
+            # Get SHA of latest commit on base branch
+            base_sha = self.get_branch_sha(latest_branch or "main", logger)
+            if not base_sha:
+                logger.log("red", "Could not determine base SHA.")
+                return ""
+            
+            # Create reference directly via API
+            url = f"https://api.github.com/repos/{repo_name}/git/refs"
+            data = {
+                "ref": f"refs/heads/{new_branch_name}",
+                "sha": base_sha
+            }
+            
+            logger.log("cyan", f"Creating branch: {new_branch_name} based on {latest_branch or 'main'}...")
+            
+            response = requests.post(
+                url,
+                headers=self.headers,
+                json=data
+            )
+            
+            if response.status_code not in [201, 200]:
+                logger.log("red", f"Error creating branch: {response.status_code}")
+                return ""
+            
+            logger.log("green", f"Branch {new_branch_name} created successfully!")
+            return new_branch_name
+        except Exception as e:
+            logger.log("red", f"Error creating branch: {e}")
+            return ""
+
+    def get_latest_branch_of_type(self, branch_type: str, logger) -> str:
+        """Gets the latest branch of specified type"""
+        try:
+            repo_name = GitUtils.get_repo_name()
+            if not repo_name:
+                return ""
+            
+            # Get all branches
+            response = requests.get(
+                f"https://api.github.com/repos/{repo_name}/branches",
+                headers=self.headers
+            )
+            
+            if response.status_code != 200:
+                return ""
+            
+            branches = response.json()
+            matching_branches = [
+                b['name'] for b in branches 
+                if b['name'].startswith(f"{branch_type}-")
+            ]
+            
+            # Sort by name (assuming format type-YY.MM.DD-HHMM)
+            matching_branches.sort(reverse=True)
+            
+            if matching_branches:
+                return matching_branches[0]
+            return ""
+        except Exception:
+            return ""
+
+    def get_branch_sha(self, branch_name: str, logger) -> str:
+        """Gets the SHA of the latest commit on a branch"""
+        try:
+            repo_name = GitUtils.get_repo_name()
+            if not repo_name:
+                return ""
+            
+            response = requests.get(
+                f"https://api.github.com/repos/{repo_name}/branches/{branch_name}",
+                headers=self.headers
+            )
+            
+            if response.status_code != 200:
+                # Try with main if branch doesn't exist
+                if branch_name != "main":
+                    return self.get_branch_sha("main", logger)
+                return ""
+            
+            return response.json()['commit']['sha']
+        except Exception:
+            return ""
+
     def trigger_workflow(self, package_name: str, branch_type: str, 
-                         new_branch: str, is_aur: bool, tmate_option: bool,
-                         logger) -> bool:
+                        new_branch: str, is_aur: bool, tmate_option: bool,
+                        logger) -> bool:
         """Triggers a workflow on GitHub"""
         repo_workflow = f"{self.organization}/build-package"
+        
+        # If new_branch is empty, create a branch directly via API
+        if not new_branch and not is_aur:
+            new_branch = self.create_remote_branch(branch_type, logger)
+            if not new_branch:
+                logger.log("red", "Failed to create branch for the build.")
+                return False
         
         if is_aur:
             # Clean package name (remove aur- prefixes)

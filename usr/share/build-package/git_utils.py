@@ -128,17 +128,89 @@ class GitUtils:
                 check=True
             )
             
-            # Execute git pull with automatic merge
-            if logger:
-                logger.log("cyan", "Pulling latest changes...")
-            
-            result = subprocess.run(
-                ["git", "pull", "--no-edit"],
+            # Get current branch type (testing, stable, etc.)
+            current_branch = subprocess.run(
+                ["git", "rev-parse", "--abbrev-ref", "HEAD"],
                 stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
                 text=True,
                 check=True
-            )
+            ).stdout.strip()
+            
+            # Extract branch type
+            branch_type = None
+            for prefix in ["testing", "stable", "extra"]:
+                if current_branch.startswith(prefix):
+                    branch_type = prefix
+                    break
+            
+            if branch_type:
+                # Find latest branch of same type
+                result = subprocess.run(
+                    ["git", "branch", "-r", "--sort=-committerdate"],
+                    stdout=subprocess.PIPE,
+                    text=True,
+                    check=True
+                )
+                
+                # Find latest branch of same type
+                latest_branch = None
+                for line in result.stdout.strip().split('\n'):
+                    remote_branch = line.strip().replace('origin/', '')
+                    if remote_branch.startswith(f"{branch_type}-"):
+                        latest_branch = remote_branch
+                        break
+                
+                if latest_branch:
+                    if logger:
+                        logger.log("cyan", f"Pulling from latest {branch_type} branch: {latest_branch}")
+                    subprocess.run(
+                        ["git", "pull", "origin", latest_branch, "--no-edit"],
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        text=True,
+                        check=True
+                    )
+                else:
+                    # Fallback to main if no branch of same type found
+                    if logger:
+                        logger.log("yellow", f"No {branch_type} branch found, pulling from origin/main...")
+                    subprocess.run(
+                        ["git", "pull", "origin", "main", "--no-edit"],
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        text=True,
+                        check=True
+                    )
+            else:
+                # Default behavior - try to pull from tracking branch
+                has_tracking = subprocess.run(
+                    ["git", "rev-parse", "--abbrev-ref", "@{u}"],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                    check=False
+                ).returncode == 0
+                
+                if not has_tracking:
+                    if logger:
+                        logger.log("yellow", "No tracking for current branch, pulling from origin/main...")
+                    subprocess.run(
+                        ["git", "pull", "origin", "main", "--no-edit"],
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        text=True,
+                        check=True
+                    )
+                else:
+                    if logger:
+                        logger.log("cyan", "Pulling latest changes...")
+                    subprocess.run(
+                        ["git", "pull", "--no-edit"],
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        text=True,
+                        check=True
+                    )
             
             if logger:
                 logger.log("green", "Successfully pulled latest changes")
@@ -146,7 +218,7 @@ class GitUtils:
             return True
         except subprocess.CalledProcessError as e:
             if logger:
-                logger.log("red", f"Error pulling changes: {e.stderr.strip()}")
+                logger.log("red", f"Error pulling changes: {e.stderr.strip() if hasattr(e, 'stderr') else str(e)}")
             return False
     
     @staticmethod
@@ -329,3 +401,24 @@ class GitUtils:
         except Exception as e:
             logger.log("red", f"Error during branch cleanup: {e}")
             return False
+        
+    @staticmethod
+    def get_current_commit_sha() -> str:
+        """Gets the SHA of the current commit"""
+        if not GitUtils.is_git_repo():
+            return ""
+        
+        try:
+            result = subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False
+            )
+            
+            if result.returncode == 0:
+                return result.stdout.strip()
+            return ""
+        except Exception:
+            return ""
