@@ -101,7 +101,7 @@ class GitUtils:
     def has_changes() -> bool:
         """Checks if there are changes in the repository"""
         try:
-            # Check if there are changes to commit
+            # Check if there are changes to commit - simplified and more reliable
             status = subprocess.run(
                 ["git", "status", "--porcelain"],
                 stdout=subprocess.PIPE,
@@ -109,8 +109,11 @@ class GitUtils:
                 check=False
             ).stdout.strip()
             
-            return bool(status)
-        except Exception:
+            result = bool(status)
+            print(f"Git has changes: {result} - {status}")
+            return result
+        except Exception as e:
+            print(f"Error checking changes: {e}")
             return False
         
     @staticmethod
@@ -123,30 +126,74 @@ class GitUtils:
         
         try:
             # Configure Git to accept automatic merges
-            subprocess.run(
-                ["git", "config", "pull.rebase", "false"],
-                check=True
-            )
+            subprocess.run(["git", "config", "pull.rebase", "false"], check=True)
             
-            # Execute git pull with automatic merge
-            if logger:
-                logger.log("cyan", "Pulling latest changes...")
+            # Fetch first to update branch information
+            subprocess.run(["git", "fetch", "--all"], check=True)
             
-            result = subprocess.run(
-                ["git", "pull", "--no-edit"],
+            # Check if the dev branch exists
+            remote_branches = subprocess.run(
+                ["git", "branch", "-r"],
                 stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
                 text=True,
                 check=True
-            )
+            ).stdout.strip().split('\n')
             
-            if logger:
-                logger.log("green", "Successfully pulled latest changes")
+            remote_branches = [b.strip() for b in remote_branches]
+            
+            # Try to pull from dev first if it exists
+            if "origin/dev" in remote_branches:
+                if logger:
+                    logger.log("cyan", "Pulling from dev branch")
                 
-            return True
+                try:
+                    subprocess.run(
+                        ["git", "pull", "origin", "dev", "--no-edit"],
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        text=True,
+                        check=True
+                    )
+                    if logger:
+                        logger.log("green", "Successfully pulled latest changes from dev")
+                    return True
+                except subprocess.CalledProcessError:
+                    # If failed, try main as fallback
+                    if logger:
+                        logger.log("yellow", "Failed to pull from dev, trying main")
+                    
+                    subprocess.run(
+                        ["git", "pull", "origin", "main", "--no-edit"],
+                        check=True
+                    )
+                    
+                    if logger:
+                        logger.log("green", "Successfully pulled latest changes from main")
+                    return True
+            else:
+                # If dev branch doesn't exist, pull from main
+                if logger:
+                    logger.log("yellow", "Dev branch not found, pulling from main")
+                
+                subprocess.run(
+                    ["git", "pull", "origin", "main", "--no-edit"],
+                    check=True
+                )
+                
+                if logger:
+                    logger.log("green", "Successfully pulled latest changes from main")
+                return True
+                
         except subprocess.CalledProcessError as e:
             if logger:
-                logger.log("red", f"Error pulling changes: {e.stderr.strip()}")
+                error_msg = str(e)
+                if hasattr(e, 'stderr') and e.stderr:
+                    error_msg = e.stderr.strip()
+                logger.log("red", f"Error pulling changes: {error_msg}")
+            return False
+        except Exception as e:
+            if logger:
+                logger.log("red", f"Unexpected error: {str(e)}")
             return False
     
     @staticmethod
@@ -157,8 +204,10 @@ class GitUtils:
             return False
         
         try:
-            # Check if there are changes before proceeding
-            if not GitUtils.has_changes():
+            changes = GitUtils.has_changes()
+            logger.log("cyan", f"Changes detected: {changes}")
+            
+            if not changes:
                 logger.log("yellow", "No changes to commit.")
                 return True
             
@@ -176,6 +225,7 @@ class GitUtils:
             
             logger.log("green", "Commit and push completed successfully!")
             return True
+            
         except subprocess.CalledProcessError as e:
             logger.log("red", f"Error executing Git operation: {e}")
             return False
@@ -198,7 +248,7 @@ class GitUtils:
             
             # Push to remote
             logger.log("cyan", "Pushing new branch to remote repository...")
-            subprocess.run(["git", "push", "-u", "origin", new_branch], check=True)
+            subprocess.run(["git", "push", "origin", new_branch], check=True)
             
             logger.log("green", f"Branch {new_branch} created and pushed successfully!")
             return new_branch
@@ -272,23 +322,25 @@ class GitUtils:
             branches_remote = [b.strip().replace('origin/', '') for b in branches_remote if b.strip()]
             
             # Filter branches to keep
-            to_keep = ['main', 'master']
+            to_keep = ['main', 'dev', 'master']
             
-            # Find the latest branch of each type
-            branch_types = ['testing', 'stable', 'extra']
-            for branch_type in branch_types:
-                # Filter all branches of this type (local + remote)
-                type_branches = [
-                    b for b in branches_local + branches_remote 
-                    if b.startswith(f"{branch_type}-")
-                ]
-                
-                # Sort by date (assuming format branch_type-YYYYMMDD_HHMMSS)
-                type_branches.sort(reverse=True)
-                
-                # Add the most recent to the list of branches to keep
-                if type_branches:
-                    to_keep.append(type_branches[0])
+            # Filter branches to keep - manter apenas os branches principais
+            to_keep = ['main', 'master', 'dev']  # Branches permanentes
+
+            # Add the most recent feature branch based on dev
+            dev_feature_branches = [
+                b for b in branches_local + branches_remote 
+                if b.startswith('dev-') or b.startswith('feature-')
+            ]
+
+            # Sort chronologically (assuming format dev-YY.MM.DD-HHMM)
+            dev_feature_branches.sort(reverse=True)
+
+            # Add only the most recent development branch
+            if dev_feature_branches:
+                to_keep.append(dev_feature_branches[0])
+                if len(dev_feature_branches) > 1:
+                    logger.log("yellow", f"Keeping only the most recent dev feature branch: {dev_feature_branches[0]}")
             
             # Remove local branches
             for branch in branches_local:
@@ -329,3 +381,24 @@ class GitUtils:
         except Exception as e:
             logger.log("red", f"Error during branch cleanup: {e}")
             return False
+        
+    @staticmethod
+    def get_current_commit_sha() -> str:
+        """Gets the SHA of the current commit"""
+        if not GitUtils.is_git_repo():
+            return ""
+        
+        try:
+            result = subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False
+            )
+            
+            if result.returncode == 0:
+                return result.stdout.strip()
+            return ""
+        except Exception:
+            return ""

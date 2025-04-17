@@ -153,10 +153,13 @@ class BuildPackage:
         console.print(panel)
     
     def commit_and_push(self):
-        """Performs commit on feature branch and creates PR to latest testing branch"""
+        """Performs commit on dev branch"""
         if not self.is_git_repo:
             self.logger.die("red", "This option is only available in git repositories.")
             return False
+        
+        # Ensure dev branch exists
+        self.ensure_dev_branch_exists()
         
         # Pull latest changes first
         if not GitUtils.git_pull(self.logger):
@@ -166,31 +169,34 @@ class BuildPackage:
 
         # Check if there are changes AFTER pulling
         has_changes = GitUtils.has_changes()
-        if not has_changes:
-            # Use menu system to display a dialog that requires user interaction
-            self.menu.show_menu("No Changes to Commit\n", ["Press Enter to return to main menu"])
-            return True
 
-        # Only ask for commit message if there are changes and not specified
-        commit_message = self.args.commit
-        if has_changes and not commit_message:
+        # Handle commit message based on if we have changes and args
+        if self.args.commit:
+            # User already provided commit message via argument
+            commit_message = self.args.commit
+        elif has_changes:
+            # No commit message provided, but we have changes - ask for message
             commit_message = Prompt.ask("Enter commit message")
             if not commit_message:
                 self.logger.die("red", "Commit message cannot be empty.")
                 return False
+        else:
+            # No changes to commit
+            self.menu.show_menu("No Changes to Commit\n", ["Press Enter to return to main menu"])
+            return True
         
-        # Create feature branch for the commit
+        # Create new dev branch with timestamp
         timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
-        feature_branch = f"feature-{timestamp}"
+        dev_branch = f"dev-{timestamp}"
         
-        # Create and switch to feature branch
+        # Create and switch to dev branch
         try:
-            subprocess.run(["git", "checkout", "-b", feature_branch], check=True)
+            subprocess.run(["git", "checkout", "-b", dev_branch], check=True)
         except subprocess.CalledProcessError as e:
-            self.logger.log("red", f"Error creating feature branch: {e}")
+            self.logger.log("red", f"Error creating dev branch: {e}")
             return False
         
-        # Add and commit changes to feature branch
+        # Add and commit changes to dev branch
         try:
             subprocess.run(["git", "add", "--all"], check=True)
             subprocess.run(["git", "commit", "-m", commit_message], check=True)
@@ -198,49 +204,59 @@ class BuildPackage:
             self.logger.log("red", f"Error committing changes: {e}")
             return False
         
-        # Push feature branch to remote
+        # Push dev branch to remote
         try:
-            subprocess.run(["git", "push", "-u", "origin", feature_branch], check=True)
+            subprocess.run(["git", "push", "-u", "origin", dev_branch], check=True)
         except subprocess.CalledProcessError as e:
             self.logger.log("red", f"Error pushing to remote: {e}")
             return False
         
-        # Find the latest testing branch
-        try:
-            # Fetch all branches
-            subprocess.run(["git", "fetch", "--all"], check=True)
+        self.logger.log("green", "Changes committed and pushed to dev branch successfully!")
+        return True
+    
+    def ensure_dev_branch_exists(self):
+        """Creates the dev branch if it doesn't exist yet"""
+        if not self.is_git_repo:
+            self.logger.log("red", "This operation is only available in git repositories.")
+            return False
             
-            # Get remote branches
-            result = subprocess.run(
+        try:
+            # Check if dev branch exists locally
+            local_branches = subprocess.run(
+                ["git", "branch"],
+                stdout=subprocess.PIPE,
+                text=True,
+                check=True
+            ).stdout.strip().split('\n')
+            
+            local_branches = [b.strip('* ') for b in local_branches if b.strip()]
+            
+            # Check if dev branch exists remotely
+            remote_branches = subprocess.run(
                 ["git", "branch", "-r"],
                 stdout=subprocess.PIPE,
                 text=True,
                 check=True
-            )
+            ).stdout.strip().split('\n')
             
-            # Find testing branches
-            testing_branches = []
-            for line in result.stdout.strip().split('\n'):
-                branch = line.strip()
-                if branch.startswith('origin/testing-'):
-                    # Remove origin/ prefix
-                    testing_branches.append(branch.replace('origin/', ''))
+            remote_branches = [b.strip().replace('origin/', '') for b in remote_branches if b.strip()]
             
-            target_branch = "main"  # Default if no testing branch exists
-            
-            if testing_branches:
-                # Sort by date (newest first)
-                testing_branches.sort(reverse=True)
-                target_branch = testing_branches[0]
-                self.logger.log("cyan", f"Found latest testing branch: {target_branch}")
-            else:
-                # Create a new testing branch if none exists
-                new_timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
-                target_branch = f"testing-{new_timestamp}"
-                self.logger.log("cyan", f"No testing branch found. Creating: {target_branch}")
+            # If dev branch doesn't exist anywhere, create it
+            if 'dev' not in local_branches and 'dev' not in remote_branches:
+                self.logger.log("yellow", "Dev branch doesn't exist. Creating it now...")
                 
-                # Create from main branch
+                # Check if we have uncommitted changes
+                has_changes = GitUtils.has_changes()
+                if has_changes:
+                    # Stash changes temporarily
+                    self.logger.log("cyan", "Stashing local changes temporarily...")
+                    subprocess.run(["git", "stash"], check=True)
+                    stashed = True
+                else:
+                    stashed = False
+                
                 try:
+                    # Get current branch
                     current_branch = subprocess.run(
                         ["git", "rev-parse", "--abbrev-ref", "HEAD"],
                         stdout=subprocess.PIPE,
@@ -248,28 +264,49 @@ class BuildPackage:
                         check=True
                     ).stdout.strip()
                     
-                    # Switch to main
-                    subprocess.run(["git", "checkout", "main"], check=True)
+                    # Try to checkout main first (only if different from current)
+                    if current_branch != "main":
+                        subprocess.run(["git", "checkout", "main"], check=True)
                     
-                    # Create and push new testing branch
-                    subprocess.run(["git", "checkout", "-b", target_branch], check=True)
-                    subprocess.run(["git", "push", "-u", "origin", target_branch], check=True)
+                    # Create dev branch from main
+                    subprocess.run(["git", "checkout", "-b", "dev"], check=True)
+                    subprocess.run(["git", "push", "-u", "origin", "dev"], check=True)
                     
-                    # Switch back to feature branch
-                    subprocess.run(["git", "checkout", feature_branch], check=True)
+                    # Go back to original branch
+                    if current_branch != "main" and current_branch != "dev":
+                        subprocess.run(["git", "checkout", current_branch], check=True)
+                    
+                    # Apply stashed changes if any
+                    if stashed:
+                        self.logger.log("cyan", "Applying stashed changes...")
+                        subprocess.run(["git", "stash", "pop"], check=True)
+                    
+                    self.logger.log("green", "Dev branch created successfully!")
+                    return True
                 except subprocess.CalledProcessError as e:
-                    self.logger.log("red", f"Error creating testing branch: {e}")
+                    self.logger.log("red", f"Could not create dev branch: {e}")
+                    
+                    # Try to restore original state
+                    try:
+                        if current_branch != "dev":
+                            subprocess.run(["git", "checkout", current_branch], check=True)
+                    except:
+                        pass
+                    
+                    # Apply stashed changes if any
+                    if stashed:
+                        try:
+                            self.logger.log("cyan", "Applying stashed changes...")
+                            subprocess.run(["git", "stash", "pop"], check=True)
+                        except:
+                            self.logger.log("red", "Could not apply stashed changes. Your changes are in the stash.")
+                    
                     return False
-        except subprocess.CalledProcessError as e:
-            self.logger.log("red", f"Error finding testing branch: {e}")
+                
+            return True
+        except Exception as e:
+            self.logger.log("red", f"Error creating dev branch: {e}")
             return False
-
-        # Ask if user wants to auto-merge the PR (default: Yes)
-        auto_merge = self.menu.confirm("Automatically merge the PR? [Y/n]")
-            
-        # Create PR with selected merge option
-        pr_result = self.github_api.create_pull_request(feature_branch, target_branch, auto_merge, self.logger)
-        return bool(pr_result)
     
     def commit_and_generate_package(self):
         """Performs commit, creates branch and triggers workflow to generate package"""
@@ -282,65 +319,66 @@ class BuildPackage:
             self.logger.die("red", "Branch type not specified.")
             return False
         
+        # Ensure dev branch exists before proceeding
+        self.ensure_dev_branch_exists()
+        
         # Pull latest changes before proceeding
         if not GitUtils.git_pull(self.logger):
             if not self.menu.confirm("Failed to pull changes. Do you want to continue anyway?"):
                 self.logger.log("red", "Operation cancelled by user.")
                 return False
         
-        # Only prompt for commit message if there are changes
-        commit_message = self.args.commit
+        # Check for changes AFTER pulling
         has_changes = GitUtils.has_changes()
-        
+
+        # Handle commit message
+        if self.args.commit:
+            # Already provided via command line
+            commit_message = self.args.commit
+        elif has_changes:
+            # Need to ask for a message
+            commit_message = Prompt.ask("Enter commit message")
+            if not commit_message:
+                self.logger.log("red", "Commit message cannot be empty.")
+                return False
+        else:
+            # No changes, no message needed
+            commit_message = ""
+            
+        # Make sure we have a message if there are changes
         if has_changes and not commit_message:
             self.logger.die("red", "When using the '-b|--build' parameter and there are changes, the '-c|--commit' parameter is also required.")
             return False
+
+        # Try to commit if there are changes and we have a message
+        if has_changes and commit_message:
+            GitUtils.update_commit_push(commit_message, self.logger)
         
         # Get package name
         package_name = GitUtils.get_package_name()
         if package_name in ["error2", "error3"]:
-            if package_name == "error2":
-                self.logger.die("red", "Error: PKGBUILD file not found.")
-            else:
-                self.logger.die("red", "Error: Package name not found in PKGBUILD.")
+            error_msg = "Error: PKGBUILD file not found." if package_name == "error2" else "Error: Package name not found in PKGBUILD."
+            self.logger.die("red", error_msg)
             return False
-        
-        # Summary of choices
+
         self.show_build_summary(package_name, branch_type)
         
         # Pause for user to read summary
         self.logger.console.print("\n[#9966cc]Press [white]ENTER[/white] to continue[/#9966cc]")
-        input()  # Wait for any input without displaying prompt text #
+        input()
         
         if not self.menu.confirm("Do you want to proceed with building the PACKAGE?"):
             self.logger.log("red", "Package build cancelled.")
             return False
         
-        # Try to commit if there are changes
-        if GitUtils.has_changes() and commit_message:
-            GitUtils.update_commit_push(commit_message, self.logger)
+        repo_type = branch_type  # testing, stable, extra
         
-        # Create branch and push
-        new_branch = GitUtils.create_branch_and_push(branch_type, self.logger)
-        if not new_branch:
-            return False
-
-        # Automatically merge the branch if it's a testing, stable, or extra branch
-        if branch_type in ["testing", "stable", "extra"]:
-            # Get current branch after new branch creation
-            current_branch = subprocess.run(
-                ["git", "rev-parse", "--abbrev-ref", "HEAD"],
-                stdout=subprocess.PIPE,
-                text=True,
-                check=True
-            ).stdout.strip()
-            
-            # No need to create PR, just trigger the workflow
-            self.logger.log("cyan", f"Skipping PR creation for {branch_type} branch")
-
-        # Trigger workflow
+        # Skip branch creation - we'll use API directly
+        new_branch = ""
+        
+        # Trigger workflow directly
         return self.github_api.trigger_workflow(
-            package_name, branch_type, new_branch, False, self.tmate_option, self.logger
+            package_name, repo_type, new_branch, False, self.tmate_option, self.logger
         )
     
     def build_aur_package(self):
@@ -376,7 +414,7 @@ class BuildPackage:
         # Create branch and push if in a Git repository
         new_branch = ""
         if self.is_git_repo:
-            new_branch = GitUtils.create_branch_and_push("aur", self.logger)
+            new_branch = GitUtils.create_branch_and_push("dev", self.logger)
         
         # Trigger workflow
         return self.github_api.trigger_workflow(
@@ -492,15 +530,16 @@ class BuildPackage:
                     self.tmate_option = (debug_result[0] == 1)  # Yes = index 1
                     
                     # Get commit message if there are changes
+                    has_changes = GitUtils.has_changes()
                     commit_message = ""
-                    if GitUtils.has_changes():
+
+                    if has_changes:
                         commit_message = Prompt.ask("Enter commit message")
                         if not commit_message:
                             self.logger.log("red", "Commit message cannot be empty.")
                             continue
-                        else:
-                            # Skip message prompt if there are no changes
-                            self.logger.log("yellow", "No changes to commit, proceeding with package generation.")
+                    else:
+                        self.logger.log("yellow", "No changes to commit, proceeding with package generation.")
                     
                     self.args.build = branch_type
                     self.args.commit = commit_message
@@ -607,11 +646,11 @@ class BuildPackage:
             for line in result.stdout.strip().split('\n'):
                 branch = line.strip().replace('origin/', '')
                 # Filter only testing and stable branches
-                if branch.startswith(('testing-', 'stable-', 'extra-')) and branch != 'HEAD':
+                if branch.startswith(('dev-')) and branch != 'HEAD':
                     branches.append(branch)
             
             if not branches:
-                self.logger.log("yellow", "No testing or stable branches found to merge.")
+                self.logger.log("yellow", "No dev branches found to merge.")
                 return
             
             # Sort branches by date (newest first)

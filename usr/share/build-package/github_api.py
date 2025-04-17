@@ -23,11 +23,182 @@ class GitHubAPI:
             "Authorization": f"token {self.token}"
         } if token else {}
     
+    def create_reference(self, branch_type: str, logger) -> str:
+        """Creates a reference (tag) in GitHub without creating a local branch"""
+        try:
+            repo_name = GitUtils.get_repo_name()
+            if not repo_name:
+                logger.die("red", "Could not determine repository name.")
+                return ""
+            
+            # Get the current commit SHA
+            current_sha = GitUtils.get_current_commit_sha()
+            if not current_sha:
+                logger.die("red", "Could not determine current commit SHA.")
+                return ""
+            
+            # Generate a reference name with timestamp
+            from datetime import datetime
+            timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
+            ref_name = f"{branch_type}-{timestamp}"
+            
+            # Create the reference in GitHub
+            logger.log("cyan", f"Creating reference: {ref_name}...")
+            
+            url = f"https://api.github.com/repos/{repo_name}/git/refs"
+            data = {
+                "ref": f"refs/tags/{ref_name}",
+                "sha": current_sha
+            }
+            
+            response = requests.post(
+                url,
+                headers=self.headers,
+                json=data
+            )
+            
+            if response.status_code not in [201, 200]:
+                logger.log("red", f"Error creating reference: {response.status_code}")
+                return ""
+            
+            logger.log("green", f"Reference {ref_name} created successfully!")
+            return ref_name
+        except Exception as e:
+            logger.log("red", f"Error creating reference: {e}")
+            return ""
+    
+    def create_remote_branch(self, branch_type: str, logger) -> str:
+        """Creates a branch directly on GitHub without triggering PR notifications"""
+        try:
+            repo_name = GitUtils.get_repo_name()
+            if not repo_name:
+                logger.die("red", "Could not determine repository name.")
+                return ""
+            
+            # Generate a branch name with timestamp
+            from datetime import datetime
+            timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
+            new_branch_name = f"dev-{timestamp}"  # Always use dev- prefix
+
+            # Use dev branch as base, or main if dev doesn't exist
+            base_branch = self.get_branch_sha("dev", logger) and "dev" or "main"
+            
+            base_sha = self.get_branch_sha(base_branch, logger)
+            if not base_sha:
+                logger.log("red", f"Could not determine SHA for {base_branch}.")
+                return ""
+            
+            logger.log("cyan", f"Creating branch: {new_branch_name} based on {base_branch}...")
+            
+            # First create a Git reference
+            url = f"https://api.github.com/repos/{repo_name}/git/refs"
+            data = {
+                "ref": f"refs/heads/{new_branch_name}",
+                "sha": base_sha,
+                "force": True  # Override if exists
+            }
+            
+            response = requests.post(url, headers=self.headers, json=data)
+            
+            if response.status_code not in [201, 200]:
+                logger.log("red", f"Error creating branch: {response.status_code}")
+                logger.log("red", f"Error details: {response.text}")
+                return ""
+            
+            # Hide branch from pull request suggestions by updating branch_protection
+            # This is the crucial part to prevent PR notifications
+            protection_url = f"https://api.github.com/repos/{repo_name}/branches/{new_branch_name}/protection"
+            protection_data = {
+                "required_status_checks": None,
+                "enforce_admins": False,
+                "required_pull_request_reviews": None,
+                "restrictions": None,
+                "required_linear_history": False
+            }
+            
+            # Set minimal protection to hide from PR suggestions
+            requests.put(
+                protection_url,
+                headers=self.headers,
+                json=protection_data,
+                timeout=10
+            )
+            
+            logger.log("green", f"Branch {new_branch_name} created successfully!")
+            return new_branch_name
+        except Exception as e:
+            logger.log("red", f"Error creating branch: {e}")
+            return ""
+
+    def get_latest_dev_branch(self, logger) -> str:
+        """Gets the most recent dev branch"""
+        try:
+            repo_name = GitUtils.get_repo_name()
+            if not repo_name:
+                return ""
+            
+            # Get all branches
+            response = requests.get(
+                f"https://api.github.com/repos/{repo_name}/branches",
+                headers=self.headers
+            )
+            
+            if response.status_code != 200:
+                return ""
+            
+            branches = response.json()
+            dev_branches = [
+                b['name'] for b in branches 
+                if b['name'] == 'dev' or b['name'].startswith('dev-')
+            ]
+            
+            # Sort by name (assuming format dev-YY.MM.DD-HHMM)
+            dev_branches.sort(reverse=True)
+            
+            # Return 'dev' branch if it exists, otherwise the most recent dev-* branch
+            if 'dev' in dev_branches:
+                return 'dev'
+            elif dev_branches:
+                return dev_branches[0]
+            return ""
+        except Exception:
+            return ""
+
+    def get_branch_sha(self, branch_name: str, logger) -> str:
+        """Gets the SHA of the latest commit on a branch"""
+        try:
+            repo_name = GitUtils.get_repo_name()
+            if not repo_name:
+                return ""
+            
+            response = requests.get(
+                f"https://api.github.com/repos/{repo_name}/branches/{branch_name}",
+                headers=self.headers
+            )
+            
+            if response.status_code != 200:
+                # Try with main if branch doesn't exist
+                if branch_name != "main":
+                    return self.get_branch_sha("main", logger)
+                return ""
+            
+            return response.json()['commit']['sha']
+        except Exception:
+            return ""
+
     def trigger_workflow(self, package_name: str, branch_type: str, 
-                         new_branch: str, is_aur: bool, tmate_option: bool,
-                         logger) -> bool:
+                        new_branch: str, is_aur: bool, tmate_option: bool,
+                        logger) -> bool:
         """Triggers a workflow on GitHub"""
         repo_workflow = f"{self.organization}/build-package"
+        
+        # If new_branch is empty, create a branch directly via API
+        if not new_branch and not is_aur:
+            # Always create dev branch regardless of branch_type
+            new_branch = self.create_remote_branch("dev", logger)
+            if not new_branch:
+                logger.log("red", "Failed to create branch for the build.")
+                return False
         
         if is_aur:
             # Clean package name (remove aur- prefixes)
@@ -217,7 +388,7 @@ class GitHubAPI:
             logger.log("red", f"Error cleaning tags: {e}")
             return False
         
-    def create_pull_request(self, source_branch: str, target_branch: str = "main", auto_merge: bool = False, logger = None) -> dict:
+    def create_pull_request(self, source_branch: str, target_branch: str = "dev", auto_merge: bool = False, logger = None) -> dict:
         """Creates a pull request and optionally merges it automatically"""
         if not source_branch:
             if logger:
