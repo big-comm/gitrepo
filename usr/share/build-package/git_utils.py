@@ -219,13 +219,50 @@ class GitUtils:
             logger.log("cyan", f"Making commit: {commit_message}")
             subprocess.run(["git", "commit", "-m", commit_message], check=True)
             
-            # Push changes to remote
+            # Push changes to remote with special configuration to prevent PR suggestions
             logger.log("cyan", "Pushing changes to remote repository...")
-            subprocess.run(["git", "push", "origin", "HEAD"], check=True)
+            
+            # First, configure Git to suppress the PR suggestion messages
+            # This sets local config options that affect push behavior
+            try:
+                subprocess.run(
+                    ["git", "config", "advice.pushCreateRefWarning", "false"],
+                    check=False
+                )
+                subprocess.run(
+                    ["git", "config", "advice.pushUpdateRejected", "false"],
+                    check=False
+                )
+                subprocess.run(
+                    ["git", "config", "push.autoSetupRemote", "true"],
+                    check=False
+                )
+            except Exception as e:
+                logger.log("yellow", f"Warning: Could not set Git config: {e}")
+            
+            # Push with special flags to minimize messages
+            try:
+                push_result = subprocess.run(
+                    ["git", "push", "-o", "no-verify", "--porcelain", "origin", "HEAD"],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                    check=True
+                )
+                # Log only essential output
+                if push_result.stdout:
+                    important_lines = [l for l in push_result.stdout.split('\n') 
+                                    if not l.startswith("remote:") and l.strip()]
+                    for line in important_lines:
+                        logger.log("cyan", line)
+            except subprocess.CalledProcessError as e:
+                # Fall back to standard push if the special one fails
+                logger.log("yellow", "Special push failed, trying standard push...")
+                subprocess.run(["git", "push", "origin", "HEAD"], check=True)
             
             logger.log("green", "Commit and push completed successfully!")
             return True
-            
+                
         except subprocess.CalledProcessError as e:
             logger.log("red", f"Error executing Git operation: {e}")
             return False
@@ -246,9 +283,43 @@ class GitUtils:
             logger.log("cyan", f"Creating new branch: {new_branch}")
             subprocess.run(["git", "checkout", "-b", new_branch], check=True)
             
-            # Push to remote
+            # Configure Git to suppress PR suggestion messages
+            try:
+                subprocess.run(
+                    ["git", "config", "advice.pushCreateRefWarning", "false"],
+                    check=False
+                )
+                subprocess.run(
+                    ["git", "config", "advice.pushUpdateRejected", "false"],
+                    check=False
+                )
+                subprocess.run(
+                    ["git", "config", "push.autoSetupRemote", "true"],
+                    check=False
+                )
+            except Exception as e:
+                logger.log("yellow", f"Warning: Could not set Git config: {e}")
+            
+            # Push to remote with special flags
             logger.log("cyan", "Pushing new branch to remote repository...")
-            subprocess.run(["git", "push", "origin", new_branch], check=True)
+            try:
+                push_result = subprocess.run(
+                    ["git", "push", "-o", "no-verify", "--porcelain", "origin", new_branch],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                    check=True
+                )
+                # Log only essential output
+                if push_result.stdout:
+                    important_lines = [l for l in push_result.stdout.split('\n') 
+                                    if not l.startswith("remote:") and l.strip()]
+                    for line in important_lines:
+                        logger.log("cyan", line)
+            except subprocess.CalledProcessError as e:
+                # Fall back to standard push if the special one fails
+                logger.log("yellow", "Special push failed, trying standard push...")
+                subprocess.run(["git", "push", "origin", new_branch], check=True)
             
             logger.log("green", f"Branch {new_branch} created and pushed successfully!")
             return new_branch
