@@ -402,7 +402,9 @@ class BuildPackage:
                     subprocess.run(["git", "add", "--all"], check=True)
                     
                     # Commit changes
-                    self.logger.log("cyan", f"Committing changes with message: {commit_message}")
+                    # self.logger.log("cyan", f"Committing changes with message: {commit_message}")
+                    self.logger.log("cyan", "Committing changes with message:")
+                    self.logger.log("purple", commit_message)
                     subprocess.run(["git", "commit", "-m", commit_message], check=True)
                     
                     # Push to remote
@@ -420,7 +422,9 @@ class BuildPackage:
                 subprocess.run(["git", "add", "--all"], check=True)
                 
                 # Commit changes
-                self.logger.log("cyan", f"Committing changes with message: {commit_message}")
+                # self.logger.log("cyan", f"Committing changes with message: {commit_message}")
+                self.logger.log("cyan", "Committing changes with message:")
+                self.logger.log("purple", commit_message)
                 subprocess.run(["git", "commit", "-m", commit_message], check=True)
                 
                 # Push to remote

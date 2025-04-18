@@ -244,7 +244,7 @@ class GitHubAPI:
             else:
                 # Use the current branch instead of creating a new one
                 new_branch = current_branch
-                logger.log("cyan", f"Using existing branch: {new_branch}")
+                logger.log("white", f"Using existing branch: {new_branch}")
         
         if is_aur:
             # Clean package name (remove aur- prefixes)
@@ -269,7 +269,7 @@ class GitHubAPI:
                 logger.die("red", f"Error retrieving remote repository URL for package: {package_name}")
                 return False
             
-            logger.log("cyan", f"Detected repository: {repo_name}")
+            logger.log("white", f"Detected repository: {repo_name}")
             
             data = {
                 "event_type": package_name,
