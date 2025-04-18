@@ -131,53 +131,70 @@ class GitUtils:
             # Fetch first to update branch information
             subprocess.run(["git", "fetch", "--all"], check=True)
             
-            # Get all remote branches
-            remote_branches_output = subprocess.run(
-                ["git", "branch", "-r", "--sort=-committerdate"],  # Sort by commit date, newest first
+            # Get current branch
+            current_branch = subprocess.run(
+                ["git", "rev-parse", "--abbrev-ref", "HEAD"],
                 stdout=subprocess.PIPE,
                 text=True,
                 check=True
-            ).stdout.strip().split('\n')
+            ).stdout.strip()
             
-            # Clean formatting and filter relevant branches
-            remote_branches = []
-            for branch in remote_branches_output:
-                branch = branch.strip()
-                if branch and not branch.endswith('/HEAD'):
-                    # Remove 'origin/' prefix
-                    branch_name = branch.replace('origin/', '')
-                    # Only consider main, dev, and feature branches
-                    if branch_name in ['main', 'dev'] or branch_name.startswith('feature-'):
-                        remote_branches.append(branch_name)
-            
-            # No branches found (unlikely)
-            if not remote_branches:
-                if logger:
-                    logger.log("yellow", "No suitable branches found to pull from.")
-                return False
-            
-            # The first branch is now the most recent one due to sorting
-            most_recent_branch = remote_branches[0]
-            
+            # First try to pull from the current branch's upstream
             if logger:
-                logger.log("cyan", f"Pulling from the most recent branch: {most_recent_branch}")
-            
+                logger.log("cyan", f"Trying to pull latest changes for current branch: {current_branch}")
+                
             try:
-                # Try to pull from the most recent branch
+                # Try to pull current branch first
                 subprocess.run(
-                    ["git", "pull", "origin", most_recent_branch, "--no-edit"],
+                    ["git", "pull", "--no-edit"],
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE,
                     text=True,
                     check=True
                 )
                 if logger:
-                    logger.log("green", f"Successfully pulled latest changes from {most_recent_branch}")
+                    logger.log("green", f"Successfully pulled latest changes for {current_branch}")
+                
+                # Now check for newer branches to merge
+                newer_branches = GitUtils.find_newer_branches(current_branch, logger)
+                
+                if newer_branches and logger:
+                    logger.log("yellow", f"Note: Found newer branches: {', '.join(newer_branches[:3])}... but staying on current branch")
+                
                 return True
             except subprocess.CalledProcessError:
-                # If failed with the most recent, try main as fallback
+                # Current branch pull failed, look for alternatives
                 if logger:
-                    logger.log("yellow", f"Failed to pull from {most_recent_branch}, trying main")
+                    logger.log("yellow", f"Could not pull from current branch, looking for alternatives...")
+                
+                # Try dev branch if exists
+                try:
+                    # Check if dev branch exists
+                    dev_exists = subprocess.run(
+                        ["git", "rev-parse", "--verify", "origin/dev"],
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        check=True
+                    ).returncode == 0
+                    
+                    if dev_exists:
+                        if logger:
+                            logger.log("cyan", "Trying to pull from dev branch...")
+                        
+                        subprocess.run(
+                            ["git", "pull", "origin", "dev", "--no-edit"],
+                            check=True
+                        )
+                        if logger:
+                            logger.log("green", "Successfully pulled latest changes from dev")
+                        return True
+                except subprocess.CalledProcessError:
+                    # Dev branch pull failed, try main
+                    pass
+                
+                # Final fallback: try main
+                if logger:
+                    logger.log("cyan", "Trying to pull from main branch...")
                 
                 try:
                     subprocess.run(
@@ -206,6 +223,70 @@ class GitUtils:
             if logger:
                 logger.log("red", f"Unexpected error: {str(e)}")
             return False
+
+    @staticmethod
+    def find_newer_branches(current_branch, logger=None):
+        """Finds branches with commits newer than the current branch"""
+        try:
+            # Get all remote branches with their last commit date
+            branches_with_dates = []
+            
+            # Get list of all remote branches
+            remote_branches_output = subprocess.run(
+                ["git", "branch", "-r"],
+                stdout=subprocess.PIPE,
+                text=True,
+                check=True
+            ).stdout.strip().split('\n')
+            
+            # Get current branch's latest commit date
+            current_date_output = subprocess.run(
+                ["git", "log", "-1", "--format=%ct", "HEAD"],
+                stdout=subprocess.PIPE,
+                text=True,
+                check=True
+            ).stdout.strip()
+            
+            if not current_date_output:
+                return []
+                
+            current_date = int(current_date_output)
+            
+            # For each branch, get the last commit date
+            for branch in remote_branches_output:
+                branch = branch.strip()
+                if branch and not branch.endswith('/HEAD'):
+                    # Remove 'origin/' prefix
+                    branch_name = branch.replace('origin/', '')
+                    
+                    # Only consider main, dev, and dev-* branches
+                    if branch_name in ['main', 'dev'] or branch_name.startswith('dev-'):
+                        try:
+                            # Get the commit date in Unix timestamp format
+                            date_output = subprocess.run(
+                                ["git", "log", "-1", "--format=%ct", branch],
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE,
+                                text=True,
+                                check=True
+                            ).stdout.strip()
+                            
+                            if date_output:
+                                commit_date = int(date_output)
+                                # Only add branches with newer commits
+                                if commit_date > current_date:
+                                    branches_with_dates.append((branch_name, commit_date))
+                        except (subprocess.CalledProcessError, ValueError):
+                            # If we can't get the date, ignore this branch
+                            pass
+            
+            # Sort branches by date, newest first
+            branches_with_dates.sort(key=lambda x: x[1], reverse=True)
+            
+            # Return just the branch names
+            return [branch for branch, _ in branches_with_dates]
+        except Exception:
+            return []
     
     @staticmethod
     def update_commit_push(commit_message: str, logger) -> bool:
@@ -338,20 +419,20 @@ class GitUtils:
             # Filter branches to keep - manter apenas os branches principais
             to_keep = ['main', 'master', 'dev']  # Branches permanentes
 
-            # Add the most recent feature branch based on feature
-            dev_feature_branches = [
+            # Add the most recent dev branch based on dev
+            dev_branches = [
                 b for b in branches_local + branches_remote 
-                if b.startswith('feature-')
+                if b.startswith('dev-')
             ]
 
             # Sort chronologically (assuming format dev-YY.MM.DD-HHMM)
-            dev_feature_branches.sort(reverse=True)
+            dev_branches.sort(reverse=True)
 
             # Add only the most recent development branch
-            if dev_feature_branches:
-                to_keep.append(dev_feature_branches[0])
-                if len(dev_feature_branches) > 1:
-                    logger.log("yellow", f"Keeping only the most recent feature branch: {dev_feature_branches[0]}")
+            if dev_branches:
+                to_keep.append(dev_branches[0])
+                if len(dev_branches) > 1:
+                    logger.log("yellow", f"Keeping only the most recent dev branch: {dev_branches[0]}")
             
             # Remove local branches
             for branch in branches_local:
