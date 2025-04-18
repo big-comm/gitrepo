@@ -193,7 +193,7 @@ class BuildPackage:
         try:
             subprocess.run(["git", "checkout", "-b", feature_branch], check=True)
         except subprocess.CalledProcessError as e:
-            self.logger.log("red", f"Error creating dev branch: {e}")
+            self.logger.log("red", f"Error creating feature branch: {e}")
             return False
         
         # Add and commit changes to dev branch
@@ -206,12 +206,12 @@ class BuildPackage:
         
         # Push dev branch to remote
         try:
-            subprocess.run(["git", "push", "-u", "origin", dev_branch], check=True)
+            subprocess.run(["git", "push", "-u", "origin", feature_branch], check=True)
         except subprocess.CalledProcessError as e:
             self.logger.log("red", f"Error pushing to remote: {e}")
             return False
         
-        self.logger.log("green", "Changes committed and pushed to dev branch successfully!")
+        self.logger.log("green", "Changes committed and pushed to feature branch successfully!")
         return True
     
     def ensure_dev_branch_exists(self):
@@ -322,7 +322,7 @@ class BuildPackage:
                 
             return True
         except Exception as e:
-            self.logger.log("red", f"Error creating dev branch: {e}")
+            self.logger.log("red", f"Error creating feature branch: {e}")
             return False
     
     def commit_and_generate_package(self):
@@ -386,7 +386,7 @@ class BuildPackage:
                 if has_changes and commit_message:
                     GitUtils.update_commit_push(commit_message, self.logger)
             except subprocess.CalledProcessError as e:
-                self.logger.log("red", f"Error creating dev branch: {e}")
+                self.logger.log("red", f"Error creating feature branch: {e}")
                 return False
         else:
             # Already on a non-main branch, proceed normally

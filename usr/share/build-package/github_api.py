@@ -237,7 +237,7 @@ class GitHubAPI:
             
             # Only create a new branch if we're not already on a feature-* branch
             if not current_branch.startswith("feature-"):
-                new_branch = self.create_remote_branch("dev", logger)
+                new_branch = self.create_remote_branch("feature", logger)
                 if not new_branch:
                     logger.log("red", "Failed to create branch for the build.")
                     return False

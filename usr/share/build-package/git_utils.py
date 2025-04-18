@@ -118,7 +118,7 @@ class GitUtils:
         
     @staticmethod
     def git_pull(logger=None) -> bool:
-        """Performs git pull operation with automatic merge"""
+        """Performs git pull operation with automatic merge - always gets the most recent code"""
         if not GitUtils.is_git_repo():
             if logger:
                 logger.log("red", "This operation is only available in Git repositories.")
@@ -131,59 +131,70 @@ class GitUtils:
             # Fetch first to update branch information
             subprocess.run(["git", "fetch", "--all"], check=True)
             
-            # Check if the dev branch exists
-            remote_branches = subprocess.run(
-                ["git", "branch", "-r"],
+            # Get all remote branches
+            remote_branches_output = subprocess.run(
+                ["git", "branch", "-r", "--sort=-committerdate"],  # Sort by commit date, newest first
                 stdout=subprocess.PIPE,
                 text=True,
                 check=True
             ).stdout.strip().split('\n')
             
-            remote_branches = [b.strip() for b in remote_branches]
+            # Clean formatting and filter relevant branches
+            remote_branches = []
+            for branch in remote_branches_output:
+                branch = branch.strip()
+                if branch and not branch.endswith('/HEAD'):
+                    # Remove 'origin/' prefix
+                    branch_name = branch.replace('origin/', '')
+                    # Only consider main, dev, and feature branches
+                    if branch_name in ['main', 'dev'] or branch_name.startswith('feature-'):
+                        remote_branches.append(branch_name)
             
-            # Try to pull from dev first if it exists
-            if "origin/dev" in remote_branches:
+            # No branches found (unlikely)
+            if not remote_branches:
                 if logger:
-                    logger.log("cyan", "Pulling from dev branch")
+                    logger.log("yellow", "No suitable branches found to pull from.")
+                return False
+            
+            # The first branch is now the most recent one due to sorting
+            most_recent_branch = remote_branches[0]
+            
+            if logger:
+                logger.log("cyan", f"Pulling from the most recent branch: {most_recent_branch}")
+            
+            try:
+                # Try to pull from the most recent branch
+                subprocess.run(
+                    ["git", "pull", "origin", most_recent_branch, "--no-edit"],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                    check=True
+                )
+                if logger:
+                    logger.log("green", f"Successfully pulled latest changes from {most_recent_branch}")
+                return True
+            except subprocess.CalledProcessError:
+                # If failed with the most recent, try main as fallback
+                if logger:
+                    logger.log("yellow", f"Failed to pull from {most_recent_branch}, trying main")
                 
                 try:
-                    subprocess.run(
-                        ["git", "pull", "origin", "dev", "--no-edit"],
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.PIPE,
-                        text=True,
-                        check=True
-                    )
-                    if logger:
-                        logger.log("green", "Successfully pulled latest changes from dev")
-                    return True
-                except subprocess.CalledProcessError:
-                    # If failed, try main as fallback
-                    if logger:
-                        logger.log("yellow", "Failed to pull from dev, trying main")
-                    
                     subprocess.run(
                         ["git", "pull", "origin", "main", "--no-edit"],
                         check=True
                     )
-                    
                     if logger:
                         logger.log("green", "Successfully pulled latest changes from main")
                     return True
-            else:
-                # If dev branch doesn't exist, pull from main
-                if logger:
-                    logger.log("yellow", "Dev branch not found, pulling from main")
-                
-                subprocess.run(
-                    ["git", "pull", "origin", "main", "--no-edit"],
-                    check=True
-                )
-                
-                if logger:
-                    logger.log("green", "Successfully pulled latest changes from main")
-                return True
-                
+                except subprocess.CalledProcessError as e:
+                    if logger:
+                        error_msg = str(e)
+                        if hasattr(e, 'stderr') and e.stderr:
+                            error_msg = e.stderr.strip()
+                        logger.log("red", f"Error pulling changes: {error_msg}")
+                    return False
+                    
         except subprocess.CalledProcessError as e:
             if logger:
                 error_msg = str(e)
@@ -340,7 +351,7 @@ class GitUtils:
             if dev_feature_branches:
                 to_keep.append(dev_feature_branches[0])
                 if len(dev_feature_branches) > 1:
-                    logger.log("yellow", f"Keeping only the most recent feature feature branch: {dev_feature_branches[0]}")
+                    logger.log("yellow", f"Keeping only the most recent feature branch: {dev_feature_branches[0]}")
             
             # Remove local branches
             for branch in branches_local:
