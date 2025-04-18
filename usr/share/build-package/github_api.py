@@ -194,11 +194,19 @@ class GitHubAPI:
         
         # If new_branch is empty, create a branch directly via API
         if not new_branch and not is_aur:
-            # Always create dev branch regardless of branch_type
-            new_branch = self.create_remote_branch("dev", logger)
-            if not new_branch:
-                logger.log("red", "Failed to create branch for the build.")
-                return False
+            # Get current branch name first to check if we already have a branch
+            current_branch = GitUtils.get_current_branch()
+            
+            # Only create a new branch if we're not already on a dev-* branch
+            if not current_branch.startswith("dev-"):
+                new_branch = self.create_remote_branch("dev", logger)
+                if not new_branch:
+                    logger.log("red", "Failed to create branch for the build.")
+                    return False
+            else:
+                # Use the current branch instead of creating a new one
+                new_branch = current_branch
+                logger.log("cyan", f"Using existing branch: {new_branch}")
         
         if is_aur:
             # Clean package name (remove aur- prefixes)

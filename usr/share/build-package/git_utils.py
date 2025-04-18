@@ -402,3 +402,22 @@ class GitUtils:
             return ""
         except Exception:
             return ""
+    @staticmethod
+    def get_current_branch() -> str:
+        """Gets the name of the current branch"""
+        if not GitUtils.is_git_repo():
+            return ""
+        
+        try:
+            result = subprocess.run(
+                ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+                stdout=subprocess.PIPE,
+                text=True,
+                check=False
+            )
+            
+            if result.returncode == 0:
+                return result.stdout.strip()
+            return ""
+        except Exception:
+            return ""
