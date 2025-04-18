@@ -247,13 +247,25 @@ class BuildPackage:
                 
                 # Check if we have uncommitted changes
                 has_changes = GitUtils.has_changes()
+                stashed = False
                 if has_changes:
                     # Stash changes temporarily
                     self.logger.log("cyan", "Stashing local changes temporarily...")
-                    subprocess.run(["git", "stash"], check=True)
-                    stashed = True
-                else:
-                    stashed = False
+                    try:
+                        subprocess.run(["git", "stash"], check=True)
+                        # Verify if anything was actually stashed
+                        stash_list = subprocess.run(
+                            ["git", "stash", "list"],
+                            stdout=subprocess.PIPE,
+                            text=True,
+                            check=True
+                        ).stdout.strip()
+                        stashed = bool(stash_list)  # True if something was stashed
+                        if not stashed:
+                            self.logger.log("yellow", "No local changes were stashed.")
+                    except subprocess.CalledProcessError as e:
+                        self.logger.log("red", f"Error stashing changes: {e}")
+                        return False
                 
                 try:
                     # Get current branch
@@ -276,10 +288,15 @@ class BuildPackage:
                     if current_branch != "main" and current_branch != "dev":
                         subprocess.run(["git", "checkout", current_branch], check=True)
                     
-                    # Apply stashed changes if any
+                    # Apply stashed changes only if something was actually stashed
                     if stashed:
-                        self.logger.log("cyan", "Applying stashed changes...")
-                        subprocess.run(["git", "stash", "pop"], check=True)
+                        try:
+                            self.logger.log("cyan", "Applying stashed changes...")
+                            subprocess.run(["git", "stash", "pop"], check=True)
+                            self.logger.log("green", "Stashed changes applied successfully.")
+                        except subprocess.CalledProcessError as e:
+                            self.logger.log("red", f"Error applying stashed changes: {e}")
+                            self.logger.log("yellow", "Your changes might be in the stash. Use 'git stash list' to check.")
                     
                     self.logger.log("green", "Dev branch created successfully!")
                     return True
@@ -350,9 +367,31 @@ class BuildPackage:
             self.logger.die("red", "When using the '-b|--build' parameter and there are changes, the '-c|--commit' parameter is also required.")
             return False
 
-        # Try to commit if there are changes and we have a message
-        if has_changes and commit_message:
-            GitUtils.update_commit_push(commit_message, self.logger)
+        # Check current branch
+        current_branch = subprocess.run(
+            ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+            stdout=subprocess.PIPE,
+            text=True,
+            check=True
+        ).stdout.strip()
+
+        # If on main branch, create a new dev branch first
+        if current_branch == "main" or current_branch == "master":
+            timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
+            dev_branch = f"dev-{timestamp}"
+            self.logger.log("cyan", f"You are currently on {current_branch}. Creating new branch: {dev_branch}")
+            try:
+                subprocess.run(["git", "checkout", "-b", dev_branch], check=True)
+                # Now commit on the new dev branch if we have changes
+                if has_changes and commit_message:
+                    GitUtils.update_commit_push(commit_message, self.logger)
+            except subprocess.CalledProcessError as e:
+                self.logger.log("red", f"Error creating dev branch: {e}")
+                return False
+        else:
+            # Already on a non-main branch, proceed normally
+            if has_changes and commit_message:
+                GitUtils.update_commit_push(commit_message, self.logger)
         
         # Get package name
         package_name = GitUtils.get_package_name()
@@ -424,7 +463,8 @@ class BuildPackage:
     def show_build_summary(self, package_name: str, branch_type: str):
         """Shows a summary of choices for normal build using Rich"""
         timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
-        new_branch = f"{branch_type}-{timestamp}"
+        # Always use the dev- prefix for branches
+        new_branch = f"dev-{timestamp}"
         repo_name = GitUtils.get_repo_name()
         
         data = [
@@ -432,8 +472,8 @@ class BuildPackage:
             ("Repo Workflow", self.repo_workflow),
             ("User Name", self.github_user_name),
             ("Package Name", package_name),
-            ("Branch_type", branch_type),
-            ("New Branch", new_branch)
+            ("Repository Type", branch_type),
+            ("New Branch", new_branch),
         ]
         
         if repo_name:
