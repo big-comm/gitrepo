@@ -224,7 +224,8 @@ class BuildPackage:
             self.logger.log("red", f"Error pushing to remote: {e}")
             return False
         
-        self.logger.log("green", "Changes committed and pushed to dev branch successfully!")
+        # self.logger.log("green", "Changes committed and pushed to dev branch successfully!")
+        self.logger.log("green", f"Changes committed and pushed to {self.logger.format_branch_name(dev_branch)} branch successfully!")
         return True
     
     def ensure_dev_branch_exists(self):

@@ -140,7 +140,8 @@ class GitUtils:
             ).stdout.strip()
             
             if logger:
-                logger.log("cyan", f"Current branch: {current_branch}")
+                # logger.log("cyan", f"Current branch: {current_branch}")
+                logger.log("cyan", f"Current branch: {logger.format_branch_name(current_branch)}")
             
             # Find the most recent branch
             branches_output = subprocess.run(
@@ -162,12 +163,14 @@ class GitUtils:
             most_recent_branch = relevant_branches[0] if relevant_branches else 'dev'
             
             if logger:
-                logger.log("cyan", f"Most recent branch identified: {most_recent_branch}")
+                # logger.log("cyan", f"Most recent branch identified: {most_recent_branch}")
+                logger.log("cyan", f"Most recent branch identified: {logger.format_branch_name(most_recent_branch)}")
             
             # Try to pull from most recent branch first
             try:
                 if logger:
-                    logger.log("cyan", f"Pulling latest changes from most recent branch: {most_recent_branch}")
+                    # logger.log("cyan", f"Pulling latest changes from most recent branch: {most_recent_branch}")
+                    logger.log("cyan", f"Pulling latest changes from most recent branch: {logger.format_branch_name(most_recent_branch)}")
                 
                 subprocess.run(
                     ["git", "pull", "origin", most_recent_branch, "--no-edit"],
