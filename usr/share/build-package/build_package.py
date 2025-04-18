@@ -161,6 +161,19 @@ class BuildPackage:
         # Ensure dev branch exists
         self.ensure_dev_branch_exists()
         
+        # Get current branch
+        current_branch = GitUtils.get_current_branch()
+        
+        # Switch to dev branch if not already on it or a dev-* branch
+        if not (current_branch == "dev" or current_branch.startswith("dev-")):
+            self.logger.log("yellow", f"Currently on {current_branch}. Switching to dev branch...")
+            try:
+                subprocess.run(["git", "checkout", "dev"], check=True)
+                self.logger.log("green", "Switched to dev branch")
+            except subprocess.CalledProcessError:
+                self.logger.die("red", "Failed to switch to dev branch")
+                return False
+        
         # Pull latest changes first
         if not GitUtils.git_pull(self.logger):
             if not self.menu.confirm("Failed to pull changes. Do you want to continue anyway?"):
@@ -211,7 +224,8 @@ class BuildPackage:
             self.logger.log("red", f"Error pushing to remote: {e}")
             return False
         
-        self.logger.log("green", "Changes committed and pushed to dev branch successfully!")
+        # self.logger.log("green", "Changes committed and pushed to dev branch successfully!")
+        self.logger.log("green", f"Changes committed and pushed to {self.logger.format_branch_name(dev_branch)} branch successfully!")
         return True
     
     def ensure_dev_branch_exists(self):
@@ -384,14 +398,41 @@ class BuildPackage:
                 subprocess.run(["git", "checkout", "-b", dev_branch], check=True)
                 # Now commit on the new dev branch if we have changes
                 if has_changes and commit_message:
-                    GitUtils.update_commit_push(commit_message, self.logger)
+                    # Add all files
+                    subprocess.run(["git", "add", "--all"], check=True)
+                    
+                    # Commit changes
+                    # self.logger.log("cyan", f"Committing changes with message: {commit_message}")
+                    self.logger.log("cyan", "Committing changes with message:")
+                    self.logger.log("purple", commit_message)
+                    subprocess.run(["git", "commit", "-m", commit_message], check=True)
+                    
+                    # Push to remote
+                    self.logger.log("cyan", "Pushing changes to remote repository...")
+                    subprocess.run(["git", "push", "-u", "origin", dev_branch], check=True)
+                    
+                    self.logger.log("green", f"Changes committed and pushed to {self.logger.format_branch_name(dev_branch)} successfully!")
             except subprocess.CalledProcessError as e:
                 self.logger.log("red", f"Error creating dev branch: {e}")
                 return False
         else:
             # Already on a non-main branch, proceed normally
             if has_changes and commit_message:
-                GitUtils.update_commit_push(commit_message, self.logger)
+                # Add all files
+                subprocess.run(["git", "add", "--all"], check=True)
+                
+                # Commit changes
+                # self.logger.log("cyan", f"Committing changes with message: {commit_message}")
+                self.logger.log("cyan", "Committing changes with message:")
+                self.logger.log("purple", commit_message)
+                subprocess.run(["git", "commit", "-m", commit_message], check=True)
+                
+                # Push to remote
+                self.logger.log("cyan", "Pushing changes to remote repository...")
+                current_branch = GitUtils.get_current_branch()
+                subprocess.run(["git", "push", "origin", current_branch], check=True)
+                
+                self.logger.log("green", f"Changes committed and pushed to {self.logger.format_branch_name(current_branch)} successfully!")
         
         # Get package name
         package_name = GitUtils.get_package_name()

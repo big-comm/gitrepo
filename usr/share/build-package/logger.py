@@ -134,3 +134,12 @@ class RichLogger:
         )
         
         self.console.print(panel)
+        
+    def format_branch_name(self, branch_name: str) -> str:
+        """Formats branch names with consistent styling"""
+        if branch_name.startswith('dev-'):
+            branch_prefix = "dev-"
+            timestamp = branch_name.replace('dev-', '')
+            return f"[green bold]{branch_prefix}[/green bold][cyan bold]{timestamp}[/cyan bold]"
+        else:
+            return f"[cyan bold]{branch_name}[/cyan bold]"
