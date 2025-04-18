@@ -327,10 +327,10 @@ class GitUtils:
             # Filter branches to keep - manter apenas os branches principais
             to_keep = ['main', 'master', 'dev']  # Branches permanentes
 
-            # Add the most recent feature branch based on dev
+            # Add the most recent feature branch based on feature
             dev_feature_branches = [
                 b for b in branches_local + branches_remote 
-                if b.startswith('dev-') or b.startswith('feature-')
+                if b.startswith('feature-')
             ]
 
             # Sort chronologically (assuming format dev-YY.MM.DD-HHMM)
@@ -340,7 +340,7 @@ class GitUtils:
             if dev_feature_branches:
                 to_keep.append(dev_feature_branches[0])
                 if len(dev_feature_branches) > 1:
-                    logger.log("yellow", f"Keeping only the most recent dev feature branch: {dev_feature_branches[0]}")
+                    logger.log("yellow", f"Keeping only the most recent feature feature branch: {dev_feature_branches[0]}")
             
             # Remove local branches
             for branch in branches_local:

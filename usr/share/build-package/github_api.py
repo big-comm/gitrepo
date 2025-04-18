@@ -78,7 +78,7 @@ class GitHubAPI:
             # Generate a branch name with timestamp
             from datetime import datetime
             timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
-            new_branch_name = f"dev-{timestamp}"  # Always use dev- prefix
+            new_branch_name = f"feature-{timestamp}"  # Always use feature- prefix
 
             # Use dev branch as base, or main if dev doesn't exist
             base_branch = self.get_branch_sha("dev", logger) and "dev" or "main"
@@ -187,7 +187,7 @@ class GitHubAPI:
             branches = response.json()
             dev_branches = [
                 b['name'] for b in branches 
-                if b['name'] == 'dev' or b['name'].startswith('dev-')
+                if b['name'] == 'dev' or b['name'].startswith('feature-')
             ]
             
             # Sort by name (assuming format dev-YY.MM.DD-HHMM)
@@ -235,8 +235,8 @@ class GitHubAPI:
             # Get current branch name first to check if we already have a branch
             current_branch = GitUtils.get_current_branch()
             
-            # Only create a new branch if we're not already on a dev-* branch
-            if not current_branch.startswith("dev-"):
+            # Only create a new branch if we're not already on a feature-* branch
+            if not current_branch.startswith("feature-"):
                 new_branch = self.create_remote_branch("dev", logger)
                 if not new_branch:
                     logger.log("red", "Failed to create branch for the build.")

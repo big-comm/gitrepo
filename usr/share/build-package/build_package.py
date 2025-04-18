@@ -187,11 +187,11 @@ class BuildPackage:
         
         # Create new dev branch with timestamp
         timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
-        dev_branch = f"dev-{timestamp}"
+        feature_branch = f"feature-{timestamp}"
         
         # Create and switch to dev branch
         try:
-            subprocess.run(["git", "checkout", "-b", dev_branch], check=True)
+            subprocess.run(["git", "checkout", "-b", feature_branch], check=True)
         except subprocess.CalledProcessError as e:
             self.logger.log("red", f"Error creating dev branch: {e}")
             return False
@@ -378,10 +378,10 @@ class BuildPackage:
         # If on main branch, create a new dev branch first
         if current_branch == "main" or current_branch == "master":
             timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
-            dev_branch = f"dev-{timestamp}"
-            self.logger.log("cyan", f"You are currently on {current_branch}. Creating new branch: {dev_branch}")
+            feature_branch = f"feature-{timestamp}"
+            self.logger.log("cyan", f"You are currently on {current_branch}. Creating new branch: {feature_branch}")
             try:
-                subprocess.run(["git", "checkout", "-b", dev_branch], check=True)
+                subprocess.run(["git", "checkout", "-b", feature_branch], check=True)
                 # Now commit on the new dev branch if we have changes
                 if has_changes and commit_message:
                     GitUtils.update_commit_push(commit_message, self.logger)
@@ -464,7 +464,7 @@ class BuildPackage:
         """Shows a summary of choices for normal build using Rich"""
         timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
         # Always use the dev- prefix for branches
-        new_branch = f"dev-{timestamp}"
+        new_branch = f"feature-{timestamp}"
         repo_name = GitUtils.get_repo_name()
         
         data = [
@@ -686,7 +686,7 @@ class BuildPackage:
             for line in result.stdout.strip().split('\n'):
                 branch = line.strip().replace('origin/', '')
                 # Filter only testing and stable branches
-                if branch.startswith(('dev-')) and branch != 'HEAD':
+                if branch.startswith(('feature-')) and branch != 'HEAD':
                     branches.append(branch)
             
             if not branches:
