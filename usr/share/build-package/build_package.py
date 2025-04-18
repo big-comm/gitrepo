@@ -161,6 +161,19 @@ class BuildPackage:
         # Ensure dev branch exists
         self.ensure_dev_branch_exists()
         
+        # Get current branch
+        current_branch = GitUtils.get_current_branch()
+        
+        # Switch to dev branch if not already on it or a dev-* branch
+        if not (current_branch == "dev" or current_branch.startswith("dev-")):
+            self.logger.log("yellow", f"Currently on {current_branch}. Switching to dev branch...")
+            try:
+                subprocess.run(["git", "checkout", "dev"], check=True)
+                self.logger.log("green", "Switched to dev branch")
+            except subprocess.CalledProcessError:
+                self.logger.die("red", "Failed to switch to dev branch")
+                return False
+        
         # Pull latest changes first
         if not GitUtils.git_pull(self.logger):
             if not self.menu.confirm("Failed to pull changes. Do you want to continue anyway?"):
