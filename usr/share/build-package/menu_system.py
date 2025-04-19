@@ -3,9 +3,6 @@
 #
 # menu_system.py - Interactive menu system
 #
-# Copyright (c) 2025, BigCommunity Team
-# All rights reserved.
-#
 
 import os
 import sys
@@ -16,6 +13,7 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.prompt import Prompt, Confirm
 from rich.box import ROUNDED
+from translation_utils import _
 
 class MenuSystem:
     """Menu system using Rich"""
@@ -44,9 +42,9 @@ class MenuSystem:
                     # Selected item - make it brighter without background
                     if "AUR" in option:
                         text_style = "bold bright_cyan"
-                    elif option == "Exit":
+                    elif option == _("Exit"):
                         text_style = "bold red"
-                    elif option == "Back":
+                    elif option == _("Back"):
                         text_style = "bold bright_cyan"
                     else:
                         text_style = "bold bright_white"
@@ -58,9 +56,9 @@ class MenuSystem:
                     # Unselected item - dimmer
                     if "AUR" in option:
                         text_style = "dim cyan"
-                    elif option == "Exit":
+                    elif option == _("Exit"):
                         text_style = "dim red"
-                    elif option == "Back":
+                    elif option == _("Back"):
                         text_style = "dim cyan"
                     else:
                         text_style = "dim white"
@@ -90,7 +88,7 @@ class MenuSystem:
             self.console.print(menu_panel)
             
             # Navigation hint with purple color but white arrows
-            nav_text = "Use [white]arrow keys ↑↓[/] to navigate, [white]Enter[/] to select, [white]ESC[/] to exit"
+            nav_text = _("Use [white]arrow keys ↑↓[/] to navigate, [white]Enter[/] to select, [white]ESC[/] to exit")
             self.console.print(f"\n[#9966cc]{nav_text}[/]")
             
         # Initial menu draw

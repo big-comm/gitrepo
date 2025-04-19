@@ -3,13 +3,11 @@
 #
 # main.py - Entry point for build_package application
 #
-# Copyright (c) 2025, BigCommunity Team
-# All rights reserved.
-#
 
 import sys
 from rich.console import Console
 from build_package import BuildPackage
+from translation_utils import _
 
 def main():
     """Main entry point of the application"""
@@ -20,10 +18,10 @@ def main():
         build_package = BuildPackage()
         build_package.run()
     except KeyboardInterrupt:
-        console.print("\n[yellow]Operation cancelled by user.[/]")
+        console.print("\n[yellow]" + _("Operation cancelled by user.") + "[/]")
         sys.exit(1)
     except Exception as e:
-        console.print(f"[red]Unhandled error: {e}[/]")
+        console.print("[red]" + _("Unhandled error: {0}").format(e) + "[/]")
         sys.exit(1)
 
 if __name__ == "__main__":

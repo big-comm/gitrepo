@@ -3,9 +3,6 @@
 #
 # logger.py - Logging management for build_package
 #
-# Copyright (c) 2025, BigCommunity Team
-# All rights reserved.
-#
 
 import os
 import sys
@@ -17,6 +14,7 @@ from rich.table import Table
 from rich.box import ROUNDED
 
 from config import APP_NAME, APP_DESC, VERSION, LOG_DIR_BASE
+from translation_utils import _
 
 class RichLogger:
     """Manages logs and formatted messages using the Rich library"""
@@ -66,7 +64,7 @@ class RichLogger:
     
     def die(self, style: str, message: str, exit_code: int = 1):
         """Displays error message and exits the program"""
-        self.log(style, f"ERROR: {message}")
+        self.log(style, f"{_('ERROR')}: {message}")
         sys.exit(exit_code)
     
     def draw_app_header(self):
@@ -118,8 +116,8 @@ class RichLogger:
     def display_summary(self, title: str, data: list):
         """Displays a formatted summary in a Rich table"""
         table = Table(show_header=False, box=ROUNDED, border_style="blue", padding=(0, 1))
-        table.add_column("Field", style="white")
-        table.add_column("Value", style="bright_cyan")
+        table.add_column(_("Field"), style="white")
+        table.add_column(_("Value"), style="bright_cyan")
         
         for key, value in data:
             table.add_row(key, value)

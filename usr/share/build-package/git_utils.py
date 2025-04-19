@@ -3,14 +3,12 @@
 #
 # git_utils.py - Git repository utilities
 #
-# Copyright (c) 2025, BigCommunity Team
-# All rights reserved.
-#
 
 import os
 import re
 import subprocess
 from datetime import datetime
+from translation_utils import _
 
 class GitUtils:
     """Utilities for Git repository operations"""
@@ -110,10 +108,10 @@ class GitUtils:
             ).stdout.strip()
             
             result = bool(status)
-            print(f"Git has changes: {result} - {status}")
+            print(_("Git has changes: {0} - {1}").format(result, status))
             return result
         except Exception as e:
-            print(f"Error checking changes: {e}")
+            print(_("Error checking changes: {0}").format(e))
             return False
         
     @staticmethod
@@ -121,7 +119,7 @@ class GitUtils:
         """Performs git pull operation, prioritizing the most recent branch"""
         if not GitUtils.is_git_repo():
             if logger:
-                logger.log("red", "This operation is only available in Git repositories.")
+                logger.log("red", _("This operation is only available in Git repositories."))
             return False
         
         try:
@@ -141,7 +139,7 @@ class GitUtils:
             
             if logger:
                 # logger.log("cyan", f"Current branch: {current_branch}")
-                logger.log("cyan", f"Current branch: {logger.format_branch_name(current_branch)}")
+                logger.log("cyan", _("Current branch: {0}").format(logger.format_branch_name(current_branch)))
             
             # Find the most recent branch
             branches_output = subprocess.run(
@@ -164,13 +162,13 @@ class GitUtils:
             
             if logger:
                 # logger.log("cyan", f"Most recent branch identified: {most_recent_branch}")
-                logger.log("cyan", f"Most recent branch identified: {logger.format_branch_name(most_recent_branch)}")
+                logger.log("cyan", _("Most recent branch identified: {0}").format(logger.format_branch_name(most_recent_branch)))
             
             # Try to pull from most recent branch first
             try:
                 if logger:
                     # logger.log("cyan", f"Pulling latest changes from most recent branch: {most_recent_branch}")
-                    logger.log("cyan", f"Pulling latest changes from most recent branch: {logger.format_branch_name(most_recent_branch)}")
+                    logger.log("cyan", _("Pulling latest changes from most recent branch: {0}").format(logger.format_branch_name(most_recent_branch)))
                 
                 subprocess.run(
                     ["git", "pull", "origin", most_recent_branch, "--no-edit"],
@@ -181,13 +179,13 @@ class GitUtils:
                 )
                 
                 if logger:
-                    logger.log("green", f"Successfully pulled latest changes from {most_recent_branch}")
+                    logger.log("green", _("Successfully pulled latest changes from {0}").format(most_recent_branch))
                 return True
                 
             except subprocess.CalledProcessError:
                 # If most recent branch pull fails, try current branch
                 if logger:
-                    logger.log("yellow", f"Failed to pull from {most_recent_branch}, trying current branch: {current_branch}")
+                    logger.log("yellow", _("Failed to pull from {0}, trying current branch: {1}").format(most_recent_branch, current_branch))
                 
                 try:
                     subprocess.run(
@@ -196,13 +194,13 @@ class GitUtils:
                     )
                     
                     if logger:
-                        logger.log("green", f"Successfully pulled latest changes from {current_branch}")
+                        logger.log("green", _("Successfully pulled latest changes from {0}").format(current_branch))
                     return True
                     
                 except subprocess.CalledProcessError:
                     # If both fail, try dev as last resort
                     if logger:
-                        logger.log("yellow", "Failed to pull from current branch, trying dev branch")
+                        logger.log("yellow", _("Failed to pull from current branch, trying dev branch"))
                     
                     try:
                         subprocess.run(
@@ -211,7 +209,7 @@ class GitUtils:
                         )
                         
                         if logger:
-                            logger.log("green", "Successfully pulled latest changes from dev")
+                            logger.log("green", _("Successfully pulled latest changes from dev"))
                         return True
                         
                     except subprocess.CalledProcessError as e:
@@ -219,12 +217,12 @@ class GitUtils:
                             error_msg = str(e)
                             if hasattr(e, 'stderr') and e.stderr:
                                 error_msg = e.stderr.strip()
-                            logger.log("red", f"Error pulling changes: {error_msg}")
+                            logger.log("red", _("Error pulling changes: {0}").format(error_msg))
                         return False
                     
         except Exception as e:
             if logger:
-                logger.log("red", f"Unexpected error: {str(e)}")
+                logger.log("red", _("Unexpected error: {0}").format(str(e)))
             return False
 
     @staticmethod
@@ -254,14 +252,14 @@ class GitUtils:
             
         except Exception as e:
             if logger:
-                logger.log("red", f"Error finding most recent branch: {e}")
+                logger.log("red", _("Error finding most recent branch: {0}").format(e))
             return 'dev'
     
     @staticmethod
     def create_branch_and_push(branch_type: str, logger) -> str:
         """Creates a new branch and pushes to remote"""
         if not GitUtils.is_git_repo():
-            logger.die("red", "This operation is only available in Git repositories.")
+            logger.die("red", _("This operation is only available in Git repositories."))
             return ""
         
         # Generate branch name with timestamp
@@ -270,17 +268,17 @@ class GitUtils:
         
         try:
             # Create new branch
-            logger.log("cyan", f"Creating new branch: {new_branch}")
+            logger.log("cyan", _("Creating new branch: {0}").format(new_branch))
             subprocess.run(["git", "checkout", "-b", new_branch], check=True)
             
             # Push to remote
-            logger.log("cyan", "Pushing new branch to remote repository...")
+            logger.log("cyan", _("Pushing new branch to remote repository..."))
             subprocess.run(["git", "push", "origin", new_branch], check=True)
             
-            logger.log("green", f"Branch {new_branch} created and pushed successfully!")
+            logger.log("green", _("Branch {0} created and pushed successfully!").format(new_branch))
             return new_branch
         except subprocess.CalledProcessError as e:
-            logger.log("red", f"Error creating or pushing branch: {e}")
+            logger.log("red", _("Error creating or pushing branch: {0}").format(e))
             return ""
     
     @staticmethod
@@ -316,12 +314,12 @@ class GitUtils:
     def cleanup_old_branches(logger) -> bool:
         """Cleans up old branches, keeping only main and the latest testing, stable and extra"""
         if not GitUtils.is_git_repo():
-            logger.die("red", "This operation is only available in Git repositories.")
+            logger.die("red", _("This operation is only available in Git repositories."))
             return False
             
         try:
             # Get all branches
-            logger.log("cyan", "Getting branch list...")
+            logger.log("cyan", _("Getting branch list..."))
             
             # Update remote branches locally
             subprocess.run(["git", "fetch", "--all", "--prune"], check=True)
@@ -367,12 +365,12 @@ class GitUtils:
             if dev_branches:
                 to_keep.append(dev_branches[0])
                 if len(dev_branches) > 1:
-                    logger.log("yellow", f"Keeping only the most recent dev branch: {dev_branches[0]}")
+                    logger.log("yellow", _("Keeping only the most recent dev branch: {0}").format(dev_branches[0]))
             
             # Remove local branches
             for branch in branches_local:
                 if branch not in to_keep and branch not in ['main', 'master']:
-                    logger.log("yellow", f"Removing local branch: {branch}")
+                    logger.log("yellow", _("Removing local branch: {0}").format(branch))
                     try:
                         # Check if we're not on the branch
                         current_branch = subprocess.run(
@@ -392,21 +390,21 @@ class GitUtils:
                         # Remove local branch
                         subprocess.run(["git", "branch", "-D", branch], check=True)
                     except subprocess.CalledProcessError as e:
-                        logger.log("red", f"Error removing local branch {branch}: {e}")
+                        logger.log("red", _("Error removing local branch {0}: {1}").format(branch, e))
             
             # Remove remote branches
             for branch in branches_remote:
                 if branch not in to_keep and branch not in ['main', 'master']:
-                    logger.log("yellow", f"Removing remote branch: {branch}")
+                    logger.log("yellow", _("Removing remote branch: {0}").format(branch))
                     try:
                         subprocess.run(["git", "push", "origin", "--delete", branch], check=True)
                     except subprocess.CalledProcessError as e:
-                        logger.log("red", f"Error removing remote branch {branch}: {e}")
+                        logger.log("red", _("Error removing remote branch {0}: {1}").format(branch, e))
             
-            logger.log("green", "Branch cleanup completed successfully!")
+            logger.log("green", _("Branch cleanup completed successfully!"))
             return True
         except Exception as e:
-            logger.log("red", f"Error during branch cleanup: {e}")
+            logger.log("red", _("Error during branch cleanup: {0}").format(e))
             return False
         
     @staticmethod

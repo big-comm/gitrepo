@@ -2,10 +2,6 @@
 # -*- coding: utf-8 -*-
 #
 # build_package.py - Main class for package management
-#
-# Copyright (c) 2025, BigCommunity Team
-# All rights reserved.
-#
 
 import os
 import sys

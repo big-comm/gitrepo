@@ -3,14 +3,12 @@
 #
 # github_api.py - GitHub API interface
 #
-# Copyright (c) 2025, BigCommunity Team
-# All rights reserved.
-#
 
 import os
 import requests
 from git_utils import GitUtils
 from config import TOKEN_FILE
+from translation_utils import _
 
 class GitHubAPI:
     """Interface with GitHub API"""
@@ -28,13 +26,13 @@ class GitHubAPI:
         try:
             repo_name = GitUtils.get_repo_name()
             if not repo_name:
-                logger.die("red", "Could not determine repository name.")
+                logger.die("red", _("Could not determine repository name."))
                 return ""
             
             # Get the current commit SHA
             current_sha = GitUtils.get_current_commit_sha()
             if not current_sha:
-                logger.die("red", "Could not determine current commit SHA.")
+                logger.die("red", _("Could not determine current commit SHA."))
                 return ""
             
             # Generate a reference name with timestamp
@@ -43,7 +41,7 @@ class GitHubAPI:
             ref_name = f"{branch_type}-{timestamp}"
             
             # Create the reference in GitHub
-            logger.log("cyan", f"Creating reference: {ref_name}...")
+            logger.log("cyan", _("Creating reference: {0}...").format(ref_name))
             
             url = f"https://api.github.com/repos/{repo_name}/git/refs"
             data = {
@@ -58,13 +56,13 @@ class GitHubAPI:
             )
             
             if response.status_code not in [201, 200]:
-                logger.log("red", f"Error creating reference: {response.status_code}")
+                logger.log("red", _("Error creating reference: {0}").format(response.status_code))
                 return ""
             
-            logger.log("green", f"Reference {ref_name} created successfully!")
+            logger.log("green", _("Reference {0} created successfully!").format(ref_name))
             return ref_name
         except Exception as e:
-            logger.log("red", f"Error creating reference: {e}")
+            logger.log("red", _("Error creating reference: {0}").format(e))
             return ""
     
     def create_remote_branch(self, branch_type: str, logger) -> str:
@@ -72,7 +70,7 @@ class GitHubAPI:
         try:
             repo_name = GitUtils.get_repo_name()
             if not repo_name:
-                logger.die("red", "Could not determine repository name.")
+                logger.die("red", _("Could not determine repository name."))
                 return ""
             
             # Generate a branch name with timestamp
@@ -85,10 +83,10 @@ class GitHubAPI:
             
             base_sha = self.get_branch_sha(base_branch, logger)
             if not base_sha:
-                logger.log("red", f"Could not determine SHA for {base_branch}.")
+                logger.log("red", _("Could not determine SHA for {0}.").format(base_branch))
                 return ""
             
-            logger.log("cyan", f"Creating branch: {new_branch_name} based on {base_branch}...")
+            logger.log("cyan", _("Creating branch: {0} based on {1}...").format(new_branch_name, base_branch))
             
             # First create a Git reference
             url = f"https://api.github.com/repos/{repo_name}/git/refs"
@@ -100,8 +98,8 @@ class GitHubAPI:
             response = requests.post(url, headers=self.headers, json=data)
             
             if response.status_code not in [201, 200]:
-                logger.log("red", f"Error creating branch: {response.status_code}")
-                logger.log("red", f"Error details: {response.text}")
+                logger.log("red", _("Error creating branch: {0}").format(response.status_code))
+                logger.log("red", _("Error details: {0}").format(response.text))
                 return ""
             
             # Add a special naming convention to mark branch as non-PR
@@ -159,13 +157,13 @@ class GitHubAPI:
                             
                             requests.patch(update_ref_url, headers=self.headers, json=update_ref_data)
             except Exception as e:
-                logger.log("yellow", f"Warning: Could not mark branch as non-PR: {e}")
+                logger.log("yellow", _("Warning: Could not mark branch as non-PR: {0}").format(e))
                 # Continue anyway as the branch was created
             
-            logger.log("green", f"Branch {new_branch_name} created successfully!")
+            logger.log("green", _("Branch {0} created successfully!").format(new_branch_name))
             return new_branch_name
         except Exception as e:
-            logger.log("red", f"Error creating branch: {e}")
+            logger.log("red", _("Error creating branch: {0}").format(e))
             return ""
 
     def get_latest_dev_branch(self, logger) -> str:
@@ -239,12 +237,12 @@ class GitHubAPI:
             if not current_branch.startswith("dev-"):
                 new_branch = self.create_remote_branch("dev", logger)
                 if not new_branch:
-                    logger.log("red", "Failed to create branch for the build.")
+                    logger.log("red", _("Failed to create branch for the build."))
                     return False
             else:
                 # Use the current branch instead of creating a new one
                 new_branch = current_branch
-                logger.log("white", f"Using existing branch: {new_branch}")
+                logger.log("white", _("Using existing branch: {0}").format(new_branch))
         
         if is_aur:
             # Clean package name (remove aur- prefixes)
@@ -266,10 +264,10 @@ class GitHubAPI:
             # Get remote repository name
             repo_name = GitUtils.get_repo_name()
             if not repo_name:
-                logger.die("red", f"Error retrieving remote repository URL for package: {package_name}")
+                logger.die("red", _("Error retrieving remote repository URL for package: {0}").format(package_name))
                 return False
             
-            logger.log("white", f"Detected repository: {repo_name}")
+            logger.log("white", _("Detected repository: {0}").format(repo_name))
             
             data = {
                 "event_type": package_name,
@@ -284,7 +282,7 @@ class GitHubAPI:
             event_type = "package-build"
         
         try:
-            logger.log("cyan", "Triggering build workflow on GitHub...")
+            logger.log("cyan", _("Triggering build workflow on GitHub..."))
             
             response = requests.post(
                 f"https://api.github.com/repos/{repo_workflow}/dispatches",
@@ -293,18 +291,18 @@ class GitHubAPI:
             )
             
             if response.status_code != 204:
-                logger.log("red", f"Error triggering workflow. Response code: {response.status_code}")
+                logger.log("red", _("Error triggering workflow. Response code: {0}").format(response.status_code))
                 return False
             
-            logger.log("green", f"Build workflow ({event_type}) triggered successfully.")
+            logger.log("green", _("Build workflow ({0}) triggered successfully.").format(event_type))
             
             # Generate Action link
             action_url = f"https://github.com/{repo_workflow}/actions"
-            logger.log("cyan", f"URL to monitor the build: {action_url}")
+            logger.log("cyan", _("URL to monitor the build: {0}").format(action_url))
             
             return True
         except Exception as e:
-            logger.log("red", f"Error triggering workflow: {e}")
+            logger.log("red", _("Error triggering workflow: {0}").format(e))
             return False
     
     def get_github_token(self, logger) -> str:
@@ -312,7 +310,7 @@ class GitHubAPI:
         token_file = os.path.expanduser(TOKEN_FILE)
         
         if not os.path.exists(token_file):
-            logger.die("red", f"Token file '{token_file}' not found.")
+            logger.die("red", _("Token file '{0}' not found.").format(token_file))
             return ""
         
         try:
@@ -330,10 +328,10 @@ class GitHubAPI:
                     # If it's just a token without a specific organization
                     return line
             
-            logger.die("red", f"Token for organization '{self.organization}' not found.")
+            logger.die("red", _("Token for organization '{0}' not found.").format(self.organization))
             return ""
         except Exception as e:
-            logger.die("red", f"Error reading token: {e}")
+            logger.die("red", _("Error reading token: {0}").format(e))
             return ""
             
     def clean_action_jobs(self, status: str, logger) -> bool:
@@ -341,10 +339,10 @@ class GitHubAPI:
         try:
             repo_name = GitUtils.get_repo_name()
             if not repo_name:
-                logger.die("red", "Could not determine repository name.")
+                logger.die("red", _("Could not determine repository name."))
                 return False
                 
-            logger.log("cyan", f"Cleaning Actions jobs with '{status}' status...")
+            logger.log("cyan", _("Cleaning Actions jobs with '{0}' status...").format(status))
             
             # Fetch workflows runs
             response = requests.get(
@@ -353,21 +351,21 @@ class GitHubAPI:
             )
             
             if response.status_code != 200:
-                logger.log("red", f"Error fetching Actions jobs. Code: {response.status_code}")
+                logger.log("red", _("Error fetching Actions jobs. Code: {0}").format(response.status_code))
                 return False
                 
             data = response.json()
             workflow_runs = data.get('workflow_runs', [])
             
             if not workflow_runs:
-                logger.log("yellow", f"No Action jobs with '{status}' status found.")
+                logger.log("yellow", _("No Action jobs with '{0}' status found.").format(status))
                 return True
                 
             # Delete each workflow run
             deleted_count = 0
             for run in workflow_runs:
                 run_id = run.get('id')
-                logger.log("yellow", f"Deleting job {run_id}...")
+                logger.log("yellow", _("Deleting job {0}...").format(run_id))
                 
                 delete_response = requests.delete(
                     f"https://api.github.com/repos/{repo_name}/actions/runs/{run_id}",
@@ -377,12 +375,12 @@ class GitHubAPI:
                 if delete_response.status_code in [204, 200]:
                     deleted_count += 1
                 else:
-                    logger.log("red", f"Error deleting job {run_id}. Code: {delete_response.status_code}")
+                    logger.log("red", _("Error deleting job {0}. Code: {1}").format(run_id, delete_response.status_code))
             
-            logger.log("green", f"Deleted {deleted_count} Actions jobs with '{status}' status.")
+            logger.log("green", _("Deleted {0} Actions jobs with '{1}' status.").format(deleted_count, status))
             return True
         except Exception as e:
-            logger.log("red", f"Error cleaning Actions jobs: {e}")
+            logger.log("red", _("Error cleaning Actions jobs: {0}").format(e))
             return False
             
     def clean_all_tags(self, logger) -> bool:
@@ -390,10 +388,10 @@ class GitHubAPI:
         try:
             repo_name = GitUtils.get_repo_name()
             if not repo_name:
-                logger.die("red", "Could not determine repository name.")
+                logger.die("red", _("Could not determine repository name."))
                 return False
                 
-            logger.log("cyan", "Getting tag list...")
+            logger.log("cyan", _("Getting tag list..."))
             
             # Fetch tags
             response = requests.get(
@@ -402,20 +400,20 @@ class GitHubAPI:
             )
             
             if response.status_code != 200:
-                logger.log("red", f"Error fetching tags. Code: {response.status_code}")
+                logger.log("red", _("Error fetching tags. Code: {0}").format(response.status_code))
                 return False
                 
             tags = response.json()
             
             if not tags:
-                logger.log("yellow", "No tags found.")
+                logger.log("yellow", _("No tags found."))
                 return True
                 
             # Delete each tag
             deleted_count = 0
             for tag in tags:
                 tag_name = tag.get('name')
-                logger.log("yellow", f"Deleting tag {tag_name}...")
+                logger.log("yellow", _("Deleting tag {0}...").format(tag_name))
                 
                 # To delete a tag, we need to delete the corresponding reference
                 delete_response = requests.delete(
@@ -426,38 +424,38 @@ class GitHubAPI:
                 if delete_response.status_code in [204, 200]:
                     deleted_count += 1
                 else:
-                    logger.log("red", f"Error deleting tag {tag_name}. Code: {delete_response.status_code}")
+                    logger.log("red", _("Error deleting tag {0}. Code: {1}").format(tag_name, delete_response.status_code))
             
-            logger.log("green", f"Deleted {deleted_count} tags.")
+            logger.log("green", _("Deleted {0} tags.").format(deleted_count))
             return True
         except Exception as e:
-            logger.log("red", f"Error cleaning tags: {e}")
+            logger.log("red", _("Error cleaning tags: {0}").format(e))
             return False
         
     def create_pull_request(self, source_branch: str, target_branch: str = "dev", auto_merge: bool = False, logger = None) -> dict:
         """Creates a pull request and optionally merges it automatically"""
         if not source_branch:
             if logger:
-                logger.log("red", "Source branch name is required to create a pull request")
+                logger.log("red", _("Source branch name is required to create a pull request"))
             return {}
         
         # Get repository name
         repo_name = GitUtils.get_repo_name()
         if not repo_name:
             if logger:
-                logger.log("cyan", f"Token length: {len(self.token) if self.token else 0}") # Debug
-                logger.log("cyan", f"Repository name: {repo_name}") # Debug
-                logger.log("cyan", f"Creating PR from '{source_branch}' to '{target_branch}'") #Debug
-                logger.log("red", "Repository name could not be determined")
+                logger.log("cyan", _("Token length: {0}").format(len(self.token) if self.token else 0)) # Debug
+                logger.log("cyan", _("Repository name: {0}").format(repo_name)) # Debug
+                logger.log("cyan", _("Creating PR from '{0}' to '{1}'").format(source_branch, target_branch)) #Debug
+                logger.log("red", _("Repository name could not be determined"))
             return {}
         
         if logger:
-            logger.log("cyan", f"Creating pull request from {source_branch} to {target_branch}...")
+            logger.log("cyan", _("Creating pull request from {0} to {1}...").format(source_branch, target_branch))
         
         # Create PR data
         pr_data = {
-            "title": f"Merge {source_branch} into {target_branch}",
-            "body": f"Automated PR created by build_package.py",
+            "title": _("Merge {0} into {1}").format(source_branch, target_branch),
+            "body": _("Automated PR created by build_package.py"),
             "head": source_branch,
             "base": target_branch
         }
@@ -474,10 +472,10 @@ class GitHubAPI:
             
             if response.status_code not in [200, 201]:
                 if logger:
-                    logger.log("red", f"Failed to create PR: {response.json().get('message', '')}")
-                    logger.log("cyan", f"API response status: {response.status_code}")
+                    logger.log("red", _("Failed to create PR: {0}").format(response.json().get('message', '')))
+                    logger.log("cyan", _("API response status: {0}").format(response.status_code))
                     if response.status_code not in [200, 201]: # Debug
-                        logger.log("red", f"Error details: {response.text}") # Debug
+                        logger.log("red", _("Error details: {0}").format(response.text)) # Debug
                 return {}
             
             pr_info = response.json()
@@ -485,26 +483,26 @@ class GitHubAPI:
             pr_number = pr_info.get("number", 0)
             
             if logger:
-                logger.log("green", f"Pull request created successfully: {pr_url}")
+                logger.log("green", _("Pull request created successfully: {0}").format(pr_url))
             
             # Auto-merge if requested
             if auto_merge and pr_number:
                 if logger:
-                    logger.log("cyan", "Attempting to merge pull request automatically...")
+                    logger.log("cyan", _("Attempting to merge pull request automatically..."))
                 
                 merge_url = f"https://api.github.com/repos/{repo_name}/pulls/{pr_number}/merge"
                 merge_response = requests.put(merge_url, headers=headers)
                 
                 if merge_response.status_code == 200:
                     if logger:
-                        logger.log("green", "Pull request merged successfully")
+                        logger.log("green", _("Pull request merged successfully"))
                 else:
                     if logger:
-                        logger.log("yellow", f"Pull request created but could not be merged automatically: {merge_response.json().get('message', '')}")
+                        logger.log("yellow", _("Pull request created but could not be merged automatically: {0}").format(merge_response.json().get('message', '')))
             
             return pr_info
         
         except Exception as e:
             if logger:
-                logger.log("red", f"Error creating pull request: {str(e)}")
+                logger.log("red", _("Error creating pull request: {0}").format(str(e)))
             return {}
