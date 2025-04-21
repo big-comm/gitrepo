@@ -3,7 +3,6 @@
 #
 # build_package.py - Main class for package management
 
-import os
 import sys
 import argparse
 import subprocess
@@ -439,10 +438,6 @@ class BuildPackage:
 
         self.show_build_summary(package_name, branch_type)
         
-        # Pause for user to read summary
-        self.logger.console.print("\n[#9966cc]Press [white]ENTER[/white] to continue[/#9966cc]")
-        input()
-        
         if not self.menu.confirm("Do you want to proceed with building the PACKAGE?"):
             self.logger.log("red", "Package build cancelled.")
             return False
@@ -478,10 +473,6 @@ class BuildPackage:
         
         # Summary of choices for AUR
         self.show_aur_summary(aur_package_name)
-        
-        # Pause for user to read summary
-        self.logger.console.print("\n[#9966cc]Press [white]ENTER[/white] to continue[/#9966cc]")
-        input()  # Wait for any input without displaying prompt text
         
         if not self.menu.confirm("Do you want to proceed with building the PACKAGE?"):
             self.logger.log("red", "Package build cancelled.")
