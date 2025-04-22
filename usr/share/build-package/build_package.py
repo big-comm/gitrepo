@@ -10,6 +10,8 @@ from rich.console import Console
 from rich.prompt import Prompt
 from datetime import datetime
 
+from translation_utils import translate_text as t
+
 from config import (
     APP_NAME, APP_DESC, VERSION, DEFAULT_ORGANIZATION, 
     VALID_ORGANIZATIONS, VALID_BRANCHES
@@ -70,7 +72,7 @@ class BuildPackage:
                     check=True
                 )
             except subprocess.CalledProcessError:
-                self.logger.die("red", f"Dependency '{dep}' not found. Please install it before continuing.")
+                self.logger.die("red", t("Dependency '{0}' not found. Please install it before continuing.").format(dep))
     
     def parse_arguments(self) -> argparse.Namespace:
         """Parses command line arguments"""
@@ -81,28 +83,28 @@ class BuildPackage:
         
         parser.add_argument("-o", "--org", "--organization", 
                            dest="organization", 
-                           help="Configure GitHub organization (default: big-comm)",
+                           help=t("Configure GitHub organization (default: big-comm)"),
                            choices=VALID_ORGANIZATIONS,
                            default=DEFAULT_ORGANIZATION)
         
         parser.add_argument("-b", "--build",
-                           help="Commit/push and generate package",
+                           help=t("Commit/push and generate package"),
                            choices=VALID_BRANCHES)
         
         parser.add_argument("-c", "--commit",
-                           help="Just commit/push with the specified message")
+                           help=t("Just commit/push with the specified message"))
         
         parser.add_argument("-a", "--aur",
-                           help="Build AUR package")
+                           help=t("Build AUR package"))
         
         parser.add_argument("-n", "--nocolor", action="store_true",
-                           help="Suppress color printing")
+                           help=t("Suppress color printing"))
         
         parser.add_argument("-V", "--version", action="store_true",
-                           help="Print application version")
+                           help=t("Print application version"))
         
         parser.add_argument("-t", "--tmate", action="store_true",
-                           help="Enable tmate for debugging")
+                           help=t("Enable tmate for debugging"))
         
         # Don't manually add "-h/--help" argument as argparse already adds it
         
@@ -124,19 +126,19 @@ class BuildPackage:
         version_text = Text()
         version_text.append(f"{APP_NAME} v{VERSION}\n", style="bold cyan")
         version_text.append(f"{APP_DESC}\n\n", style="white")
-        version_text.append(f"Copyright (C) 2024-2025 BigCommunity Team\n\n", style="blue")
-        version_text.append("""
+        version_text.append(t("Copyright (C) 2024-2025 BigCommunity Team\n\n"), style="blue")
+        version_text.append(t("""
     This is free software: you are free to modify and redistribute it.
-    """, style="white")
+    """), style="white")
         version_text.append(f"{APP_NAME}", style="cyan")
-        version_text.append(""" is provided to you under the """, style="white")
-        version_text.append("MIT License", style="yellow")
-        version_text.append(""", and
+        version_text.append(t(" is provided to you under the "), style="white")
+        version_text.append(t("MIT License"), style="yellow")
+        version_text.append(t(""", and
     includes open source software under a variety of other licenses.
     You can read instructions about how to download and build for yourself
     the specific source code used to create this copy.
-    """, style="white")
-        version_text.append("This program comes with absolutely NO warranty.", style="red")
+    """), style="white")
+        version_text.append(t("This program comes with absolutely NO warranty."), style="red")
         
         panel = Panel(
             version_text,
@@ -150,7 +152,7 @@ class BuildPackage:
     def commit_and_push(self):
         """Performs commit on dev branch"""
         if not self.is_git_repo:
-            self.logger.die("red", "This option is only available in git repositories.")
+            self.logger.die("red", t("This option is only available in git repositories."))
             return False
         
         # Ensure dev branch exists
@@ -161,18 +163,18 @@ class BuildPackage:
         
         # Switch to dev branch if not already on it or a dev-* branch
         if not (current_branch == "dev" or current_branch.startswith("dev-")):
-            self.logger.log("yellow", f"Currently on {current_branch}. Switching to dev branch...")
+            self.logger.log("yellow", t("Currently on {0}. Switching to dev branch...").format(current_branch))
             try:
                 subprocess.run(["git", "checkout", "dev"], check=True)
-                self.logger.log("green", "Switched to dev branch")
+                self.logger.log("green", t("Switched to dev branch"))
             except subprocess.CalledProcessError:
-                self.logger.die("red", "Failed to switch to dev branch")
+                self.logger.die("red", t("Failed to switch to dev branch"))
                 return False
         
         # Pull latest changes first
         if not GitUtils.git_pull(self.logger):
-            if not self.menu.confirm("Failed to pull changes. Do you want to continue anyway?"):
-                self.logger.log("red", "Operation cancelled by user.")
+            if not self.menu.confirm(t("Failed to pull changes. Do you want to continue anyway?")):
+                self.logger.log("red", t("Operation cancelled by user."))
                 return False
 
         # Check if there are changes AFTER pulling
@@ -184,13 +186,13 @@ class BuildPackage:
             commit_message = self.args.commit
         elif has_changes:
             # No commit message provided, but we have changes - ask for message
-            commit_message = Prompt.ask("Enter commit message")
+            commit_message = Prompt.ask(t("Enter commit message"))
             if not commit_message:
-                self.logger.die("red", "Commit message cannot be empty.")
+                self.logger.die("red", t("Commit message cannot be empty."))
                 return False
         else:
             # No changes to commit
-            self.menu.show_menu("No Changes to Commit\n", ["Press Enter to return to main menu"])
+            self.menu.show_menu(t("No Changes to Commit\n"), [t("Press Enter to return to main menu")])
             return True
         
         # Create new dev branch with timestamp
@@ -201,7 +203,7 @@ class BuildPackage:
         try:
             subprocess.run(["git", "checkout", "-b", dev_branch], check=True)
         except subprocess.CalledProcessError as e:
-            self.logger.log("red", f"Error creating dev branch: {e}")
+            self.logger.log("red", t("Error creating dev branch: {0}").format(e))
             return False
         
         # Add and commit changes to dev branch
@@ -209,24 +211,23 @@ class BuildPackage:
             subprocess.run(["git", "add", "--all"], check=True)
             subprocess.run(["git", "commit", "-m", commit_message], check=True)
         except subprocess.CalledProcessError as e:
-            self.logger.log("red", f"Error committing changes: {e}")
+            self.logger.log("red", t("Error committing changes: {0}").format(e))
             return False
         
         # Push dev branch to remote
         try:
             subprocess.run(["git", "push", "-u", "origin", dev_branch], check=True)
         except subprocess.CalledProcessError as e:
-            self.logger.log("red", f"Error pushing to remote: {e}")
+            self.logger.log("red", t("Error pushing to remote: {0}").format(e))
             return False
         
-        # self.logger.log("green", "Changes committed and pushed to dev branch successfully!")
-        self.logger.log("green", f"Changes committed and pushed to {self.logger.format_branch_name(dev_branch)} branch successfully!")
+        self.logger.log("green", t("Changes committed and pushed to {0} branch successfully!").format(self.logger.format_branch_name(dev_branch)))
         return True
     
     def ensure_dev_branch_exists(self):
         """Creates the dev branch if it doesn't exist yet"""
         if not self.is_git_repo:
-            self.logger.log("red", "This operation is only available in git repositories.")
+            self.logger.log("red", t("This operation is only available in git repositories."))
             return False
             
         try:
@@ -252,14 +253,14 @@ class BuildPackage:
             
             # If dev branch doesn't exist anywhere, create it
             if 'dev' not in local_branches and 'dev' not in remote_branches:
-                self.logger.log("yellow", "Dev branch doesn't exist. Creating it now...")
+                self.logger.log("yellow", t("Dev branch doesn't exist. Creating it now..."))
                 
                 # Check if we have uncommitted changes
                 has_changes = GitUtils.has_changes()
                 stashed = False
                 if has_changes:
                     # Stash changes temporarily
-                    self.logger.log("cyan", "Stashing local changes temporarily...")
+                    self.logger.log("cyan", t("Stashing local changes temporarily..."))
                     try:
                         subprocess.run(["git", "stash"], check=True)
                         # Verify if anything was actually stashed
@@ -271,9 +272,9 @@ class BuildPackage:
                         ).stdout.strip()
                         stashed = bool(stash_list)  # True if something was stashed
                         if not stashed:
-                            self.logger.log("yellow", "No local changes were stashed.")
+                            self.logger.log("yellow", t("No local changes were stashed."))
                     except subprocess.CalledProcessError as e:
-                        self.logger.log("red", f"Error stashing changes: {e}")
+                        self.logger.log("red", t("Error stashing changes: {0}").format(e))
                         return False
                 
                 try:
@@ -300,17 +301,17 @@ class BuildPackage:
                     # Apply stashed changes only if something was actually stashed
                     if stashed:
                         try:
-                            self.logger.log("cyan", "Applying stashed changes...")
+                            self.logger.log("cyan", t("Applying stashed changes..."))
                             subprocess.run(["git", "stash", "pop"], check=True)
-                            self.logger.log("green", "Stashed changes applied successfully.")
+                            self.logger.log("green", t("Stashed changes applied successfully."))
                         except subprocess.CalledProcessError as e:
-                            self.logger.log("red", f"Error applying stashed changes: {e}")
-                            self.logger.log("yellow", "Your changes might be in the stash. Use 'git stash list' to check.")
+                            self.logger.log("red", t("Error applying stashed changes: {0}").format(e))
+                            self.logger.log("yellow", t("Your changes might be in the stash. Use 'git stash list' to check."))
                     
-                    self.logger.log("green", "Dev branch created successfully!")
+                    self.logger.log("green", t("Dev branch created successfully!"))
                     return True
                 except subprocess.CalledProcessError as e:
-                    self.logger.log("red", f"Could not create dev branch: {e}")
+                    self.logger.log("red", t("Could not create dev branch: {0}").format(e))
                     
                     # Try to restore original state
                     try:
@@ -322,27 +323,27 @@ class BuildPackage:
                     # Apply stashed changes if any
                     if stashed:
                         try:
-                            self.logger.log("cyan", "Applying stashed changes...")
+                            self.logger.log("cyan", t("Applying stashed changes..."))
                             subprocess.run(["git", "stash", "pop"], check=True)
                         except:
-                            self.logger.log("red", "Could not apply stashed changes. Your changes are in the stash.")
+                            self.logger.log("red", t("Could not apply stashed changes. Your changes are in the stash."))
                     
                     return False
                 
             return True
         except Exception as e:
-            self.logger.log("red", f"Error creating dev branch: {e}")
+            self.logger.log("red", t("Error creating dev branch: {0}").format(e))
             return False
     
     def commit_and_generate_package(self):
         """Performs commit, creates branch and triggers workflow to generate package"""
         if not self.is_git_repo:
-            self.logger.die("red", "This operation is only available in git repositories.")
+            self.logger.die("red", t("This operation is only available in git repositories."))
             return False
         
         branch_type = self.args.build
         if not branch_type:
-            self.logger.die("red", "Branch type not specified.")
+            self.logger.die("red", t("Branch type not specified."))
             return False
         
         # Ensure dev branch exists before proceeding
@@ -350,8 +351,8 @@ class BuildPackage:
         
         # Pull latest changes before proceeding
         if not GitUtils.git_pull(self.logger):
-            if not self.menu.confirm("Failed to pull changes. Do you want to continue anyway?"):
-                self.logger.log("red", "Operation cancelled by user.")
+            if not self.menu.confirm(t("Failed to pull changes. Do you want to continue anyway?")):
+                self.logger.log("red", t("Operation cancelled by user."))
                 return False
         
         # Check for changes AFTER pulling
@@ -363,9 +364,9 @@ class BuildPackage:
             commit_message = self.args.commit
         elif has_changes:
             # Need to ask for a message
-            commit_message = Prompt.ask("Enter commit message")
+            commit_message = Prompt.ask(t("Enter commit message"))
             if not commit_message:
-                self.logger.log("red", "Commit message cannot be empty.")
+                self.logger.log("red", t("Commit message cannot be empty."))
                 return False
         else:
             # No changes, no message needed
@@ -373,7 +374,7 @@ class BuildPackage:
             
         # Make sure we have a message if there are changes
         if has_changes and not commit_message:
-            self.logger.die("red", "When using the '-b|--build' parameter and there are changes, the '-c|--commit' parameter is also required.")
+            self.logger.die("red", t("When using the '-b|--build' parameter and there are changes, the '-c|--commit' parameter is also required."))
             return False
 
         # Check current branch
@@ -388,7 +389,7 @@ class BuildPackage:
         if current_branch == "main" or current_branch == "master":
             timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
             dev_branch = f"dev-{timestamp}"
-            self.logger.log("cyan", f"You are currently on {current_branch}. Creating new branch: {dev_branch}")
+            self.logger.log("cyan", t("You are currently on {0}. Creating new branch: {1}").format(current_branch, dev_branch))
             try:
                 subprocess.run(["git", "checkout", "-b", dev_branch], check=True)
                 # Now commit on the new dev branch if we have changes
@@ -397,18 +398,17 @@ class BuildPackage:
                     subprocess.run(["git", "add", "--all"], check=True)
                     
                     # Commit changes
-                    # self.logger.log("cyan", f"Committing changes with message: {commit_message}")
-                    self.logger.log("cyan", "Committing changes with message:")
+                    self.logger.log("cyan", t("Committing changes with message:"))
                     self.logger.log("purple", commit_message)
                     subprocess.run(["git", "commit", "-m", commit_message], check=True)
                     
                     # Push to remote
-                    self.logger.log("cyan", "Pushing changes to remote repository...")
+                    self.logger.log("cyan", t("Pushing changes to remote repository..."))
                     subprocess.run(["git", "push", "-u", "origin", dev_branch], check=True)
                     
-                    self.logger.log("green", f"Changes committed and pushed to {self.logger.format_branch_name(dev_branch)} successfully!")
+                    self.logger.log("green", t("Changes committed and pushed to {0} successfully!").format(self.logger.format_branch_name(dev_branch)))
             except subprocess.CalledProcessError as e:
-                self.logger.log("red", f"Error creating dev branch: {e}")
+                self.logger.log("red", t("Error creating dev branch: {0}").format(e))
                 return False
         else:
             # Already on a non-main branch, proceed normally
@@ -417,29 +417,28 @@ class BuildPackage:
                 subprocess.run(["git", "add", "--all"], check=True)
                 
                 # Commit changes
-                # self.logger.log("cyan", f"Committing changes with message: {commit_message}")
-                self.logger.log("cyan", "Committing changes with message:")
+                self.logger.log("cyan", t("Committing changes with message:"))
                 self.logger.log("purple", commit_message)
                 subprocess.run(["git", "commit", "-m", commit_message], check=True)
                 
                 # Push to remote
-                self.logger.log("cyan", "Pushing changes to remote repository...")
+                self.logger.log("cyan", t("Pushing changes to remote repository..."))
                 current_branch = GitUtils.get_current_branch()
                 subprocess.run(["git", "push", "origin", current_branch], check=True)
                 
-                self.logger.log("green", f"Changes committed and pushed to {self.logger.format_branch_name(current_branch)} successfully!")
+                self.logger.log("green", t("Changes committed and pushed to {0} successfully!").format(self.logger.format_branch_name(current_branch)))
         
         # Get package name
         package_name = GitUtils.get_package_name()
         if package_name in ["error2", "error3"]:
-            error_msg = "Error: PKGBUILD file not found." if package_name == "error2" else "Error: Package name not found in PKGBUILD."
+            error_msg = t("Error: PKGBUILD file not found.") if package_name == "error2" else t("Error: Package name not found in PKGBUILD.")
             self.logger.die("red", error_msg)
             return False
 
         self.show_build_summary(package_name, branch_type)
         
-        if not self.menu.confirm("Do you want to proceed with building the PACKAGE?"):
-            self.logger.log("red", "Package build cancelled.")
+        if not self.menu.confirm(t("Do you want to proceed with building the PACKAGE?")):
+            self.logger.log("red", t("Package build cancelled."))
             return False
         
         repo_type = branch_type  # testing, stable, extra
@@ -456,16 +455,16 @@ class BuildPackage:
         """Triggers workflow to build an AUR package"""
         aur_package_name = self.args.aur
         if not aur_package_name:
-            self.logger.log("purple", "Enter the AUR package name (ex: showtime): type EXIT to exit")
+            self.logger.log("purple", t("Enter the AUR package name (ex: showtime): type EXIT to exit"))
             while True:
                 aur_package_name = Prompt.ask("> ")
                 aur_package_name = aur_package_name.replace("aur-", "").replace("aur/", "")
                 
                 if aur_package_name.upper() == "EXIT":
-                    self.logger.log("yellow", "Exiting script. No action was performed.")
+                    self.logger.log("yellow", t("Exiting script. No action was performed."))
                     return False
                 elif not aur_package_name:
-                    self.logger.log("red", "Error: No package name was entered.")
+                    self.logger.log("red", t("Error: No package name was entered."))
                     continue
                 break
         
@@ -474,8 +473,8 @@ class BuildPackage:
         # Summary of choices for AUR
         self.show_aur_summary(aur_package_name)
         
-        if not self.menu.confirm("Do you want to proceed with building the PACKAGE?"):
-            self.logger.log("red", "Package build cancelled.")
+        if not self.menu.confirm(t("Do you want to proceed with building the PACKAGE?")):
+            self.logger.log("red", t("Package build cancelled."))
             return False
         
         # Create branch and push if in a Git repository
@@ -496,20 +495,20 @@ class BuildPackage:
         repo_name = GitUtils.get_repo_name()
         
         data = [
-            ("Organization", self.organization),
-            ("Repo Workflow", self.repo_workflow),
-            ("User Name", self.github_user_name),
-            ("Package Name", package_name),
-            ("Repository Type", branch_type),
-            ("New Branch", new_branch),
+            (t("Organization"), self.organization),
+            (t("Repo Workflow"), self.repo_workflow),
+            (t("User Name"), self.github_user_name),
+            (t("Package Name"), package_name),
+            (t("Repository Type"), branch_type),
+            (t("New Branch"), new_branch),
         ]
         
         if repo_name:
-            data.append(("Url", f"https://github.com/{repo_name}"))
+            data.append((t("Url"), f"https://github.com/{repo_name}"))
         
-        data.append(("TMATE Debug", str(self.tmate_option)))
+        data.append((t("TMATE Debug"), str(self.tmate_option)))
         
-        self.logger.display_summary("Summary of Choices", data)
+        self.logger.display_summary(t("Summary of Choices"), data)
     
     def show_aur_summary(self, aur_package_name: str):
         """Shows a summary of choices for AUR package build using Rich"""
@@ -517,38 +516,38 @@ class BuildPackage:
         timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
         
         data = [
-            ("Organization", self.organization),
-            ("Repo Workflow", self.repo_workflow),
-            ("User Name", self.github_user_name),
-            ("Package AUR Name", aur_package_name),
-            ("Branch_type", f"aur-{timestamp}"),
-            ("New Branch", f"aur-{timestamp}"),
-            ("Url", aur_url),
-            ("TMATE Debug", str(self.tmate_option))
+            (t("Organization"), self.organization),
+            (t("Repo Workflow"), self.repo_workflow),
+            (t("User Name"), self.github_user_name),
+            (t("Package AUR Name"), aur_package_name),
+            (t("Branch_type"), f"aur-{timestamp}"),
+            (t("New Branch"), f"aur-{timestamp}"),
+            (t("Url"), aur_url),
+            (t("TMATE Debug"), str(self.tmate_option))
         ]
         
-        self.logger.display_summary("AUR - Summary of Choices", data)
+        self.logger.display_summary(t("AUR - Summary of Choices"), data)
     
     def main_menu(self):
         """Displays interactive main menu"""
         while True:
             if self.is_git_repo:
                 options = [
-                    "Commit and push",
-                    "Generate package (commit + branch + build)",
-                    "Build AUR package",
-                    "Advanced menu",
-                    "Exit"
+                    t("Commit and push"),
+                    t("Generate package (commit + branch + build)"),
+                    t("Build AUR package"),
+                    t("Advanced menu"),
+                    t("Exit")
                 ]
             else:
                 options = [
-                    "Build AUR package",
-                    "Exit"
+                    t("Build AUR package"),
+                    t("Exit")
                 ]
             
-            result = self.menu.show_menu("Main Menu", options)
+            result = self.menu.show_menu(t("Main Menu"), options)
             if result is None:
-                self.logger.log("yellow", "Operation cancelled by user.")
+                self.logger.log("yellow", t("Operation cancelled by user."))
                 return
             
             choice, _ = result
@@ -557,18 +556,18 @@ class BuildPackage:
                 if choice == 0:  # Commit and push
                     # Check changes before asking for message
                     if not GitUtils.has_changes():
-                        self.menu.show_menu("No Changes to Commit\n", ["Press Enter to return to main menu"])
+                        self.menu.show_menu(t("No Changes to Commit\n"), [t("Press Enter to return to main menu")])
                         continue
                     
                     # Pull latest changes
                     if not GitUtils.git_pull(self.logger):
-                        if not self.menu.confirm("Failed to pull changes. Do you want to continue anyway?"):
+                        if not self.menu.confirm(t("Failed to pull changes. Do you want to continue anyway?")):
                             continue
                     
                     # Only ask for message if there are changes
-                    commit_message = Prompt.ask("Enter commit message")
+                    commit_message = Prompt.ask(t("Enter commit message"))
                     if not commit_message:
-                        self.logger.log("red", "Commit message cannot be empty.")
+                        self.logger.log("red", t("Commit message cannot be empty."))
                         continue
                     
                     self.args.commit = commit_message
@@ -577,21 +576,21 @@ class BuildPackage:
                 
                 elif choice == 1:  # Generate package
                     # Select branch type
-                    branch_options = ["testing", "stable", "extra", "Back"]
-                    branch_result = self.menu.show_menu("Select repository", branch_options)
+                    branch_options = ["testing", "stable", "extra", t("Back")]
+                    branch_result = self.menu.show_menu(t("Select repository"), branch_options)
                     
-                    if branch_result is None or branch_options[branch_result[0]] == "Back":
+                    if branch_result is None or branch_options[branch_result[0]] == t("Back"):
                         continue
                     
                     branch_type = branch_options[branch_result[0]]
                     
                     # Pull latest changes
                     if not GitUtils.git_pull(self.logger):
-                        if not self.menu.confirm("Failed to pull changes. Do you want to continue anyway?"):
+                        if not self.menu.confirm(t("Failed to pull changes. Do you want to continue anyway?")):
                             continue
                     
                     # Enable or disable tmate for debug
-                    debug_result = self.menu.show_menu("Enable TMATE debug session?", ["No", "Yes"])
+                    debug_result = self.menu.show_menu(t("Enable TMATE debug session?"), [t("No"), t("Yes")])
                     if debug_result is None:
                         continue
                     
@@ -602,12 +601,12 @@ class BuildPackage:
                     commit_message = ""
 
                     if has_changes:
-                        commit_message = Prompt.ask("Enter commit message")
+                        commit_message = Prompt.ask(t("Enter commit message"))
                         if not commit_message:
-                            self.logger.log("red", "Commit message cannot be empty.")
+                            self.logger.log("red", t("Commit message cannot be empty."))
                             continue
                     else:
-                        self.logger.log("yellow", "No changes to commit, proceeding with package generation.")
+                        self.logger.log("yellow", t("No changes to commit, proceeding with package generation."))
                     
                     self.args.build = branch_type
                     self.args.commit = commit_message
@@ -616,7 +615,7 @@ class BuildPackage:
                 
                 elif choice == 2:  # Build AUR package
                     # Enable or disable tmate for debug
-                    debug_result = self.menu.show_menu("Enable TMATE debug session?", ["No", "Yes"])
+                    debug_result = self.menu.show_menu(t("Enable TMATE debug session?"), [t("No"), t("Yes")])
                     if debug_result is None:
                         continue
                     
@@ -631,12 +630,12 @@ class BuildPackage:
                     continue
                 
                 elif choice == 4:  # Exit
-                    self.logger.log("yellow", "Exiting script. No action was performed.")
+                    self.logger.log("yellow", t("Exiting script. No action was performed."))
                     return
             else:
                 if choice == 0:  # Build AUR package
                     # Enable or disable tmate for debug
-                    debug_result = self.menu.show_menu("Enable TMATE debug session?", ["No", "Yes"])
+                    debug_result = self.menu.show_menu(t("Enable TMATE debug session?"), [t("No"), t("Yes")])
                     if debug_result is None:
                         continue
                     
@@ -647,41 +646,41 @@ class BuildPackage:
                     return
                 
                 elif choice == 1:  # Exit
-                    self.logger.log("yellow", "Exiting script. No action was performed.")
+                    self.logger.log("yellow", t("Exiting script. No action was performed."))
                     return
     
     def advanced_menu(self):
         """Displays advanced options menu"""
         options = [
-            "Delete branches (except main and latest)",
-            "Delete failed Action jobs",
-            "Delete successful Action jobs",
-            "Delete all tags",
-            "Merge branch to main",
-            "Back"
+            t("Delete branches (except main and latest)"),
+            t("Delete failed Action jobs"),
+            t("Delete successful Action jobs"),
+            t("Delete all tags"),
+            t("Merge branch to main"),
+            t("Back")
         ]
         
         while True:
-            result = self.menu.show_menu("Advanced Menu", options)
+            result = self.menu.show_menu(t("Advanced Menu"), options)
             if result is None or result[0] == 5:  # None ou "Back"
                 return
             
             choice, _ = result
             
             if choice == 0:  # Delete branches
-                if self.menu.confirm("Are you sure you want to delete branches? This action cannot be undone."):
+                if self.menu.confirm(t("Are you sure you want to delete branches? This action cannot be undone.")):
                     GitUtils.cleanup_old_branches(self.logger)
             
             elif choice == 1:  # Delete failed Action jobs
-                if self.menu.confirm("Are you sure you want to delete all failed Action jobs?"):
+                if self.menu.confirm(t("Are you sure you want to delete all failed Action jobs?")):
                     self.github_api.clean_action_jobs("failure", self.logger)
             
             elif choice == 2:  # Delete successful Action jobs
-                if self.menu.confirm("Are you sure you want to delete all successful Action jobs?"):
+                if self.menu.confirm(t("Are you sure you want to delete all successful Action jobs?")):
                     self.github_api.clean_action_jobs("success", self.logger)
             
             elif choice == 3:  # Delete tags
-                if self.menu.confirm("Are you sure you want to delete all repository tags?"):
+                if self.menu.confirm(t("Are you sure you want to delete all repository tags?")):
                     self.github_api.clean_all_tags(self.logger)
                     
             elif choice == 4:  # Merge branch to main
@@ -690,7 +689,7 @@ class BuildPackage:
     def merge_branch_menu(self):
         """Displays menu for merging branches to main"""
         if not self.is_git_repo:
-            self.logger.log("red", "This operation is only available in git repositories.")
+            self.logger.log("red", t("This operation is only available in git repositories."))
             return
         
         # Fetch the latest list of branches first
@@ -718,25 +717,25 @@ class BuildPackage:
                     branches.append(branch)
             
             if not branches:
-                self.logger.log("yellow", "No dev branches found to merge.")
+                self.logger.log("yellow", t("No dev branches found to merge."))
                 return
             
             # Sort branches by date (newest first)
             branches.sort(reverse=True)
             
             # Add a Back option
-            branches.append("Back")
+            branches.append(t("Back"))
             
             # Show branch selection menu
-            branch_result = self.menu.show_menu("Select branch to merge to main", branches)
-            if branch_result is None or branches[branch_result[0]] == "Back":
+            branch_result = self.menu.show_menu(t("Select branch to merge to main"), branches)
+            if branch_result is None or branches[branch_result[0]] == t("Back"):
                 return
             
             selected_branch = branches[branch_result[0]]
             
             # Ask if should auto-merge
-            merge_options = ["Create PR (manual approval)", "Create PR and auto-merge"]
-            merge_result = self.menu.show_menu("Select merge option", merge_options)
+            merge_options = [t("Create PR (manual approval)"), t("Create PR and auto-merge")]
+            merge_result = self.menu.show_menu(t("Select merge option"), merge_options)
             if merge_result is None:
                 return
             
@@ -744,28 +743,28 @@ class BuildPackage:
             
             # Show summary
             data = [
-                ("Source Branch", selected_branch),
-                ("Target Branch", "main"),
-                ("Auto-merge", "Yes" if auto_merge else "No")
+                (t("Source Branch"), selected_branch),
+                (t("Target Branch"), "main"),
+                (t("Auto-merge"), t("Yes") if auto_merge else t("No"))
             ]
             
-            self.logger.display_summary("Merge Summary", data)
+            self.logger.display_summary(t("Merge Summary"), data)
             
             # Confirm action
-            if not self.menu.confirm("Do you want to proceed with creating the pull request?"):
-                self.logger.log("yellow", "Operation cancelled by user.")
+            if not self.menu.confirm(t("Do you want to proceed with creating the pull request?")):
+                self.logger.log("yellow", t("Operation cancelled by user."))
                 return
             
             # Create pull request
             pr_info = self.github_api.create_pull_request(selected_branch, "main", auto_merge, self.logger)
             
             if pr_info:
-                self.logger.log("green", "Pull request operation completed.")
+                self.logger.log("green", t("Pull request operation completed."))
             
         except subprocess.CalledProcessError as e:
-            self.logger.log("red", f"Error getting branches: {e.stderr.strip() if hasattr(e, 'stderr') else str(e)}")
+            self.logger.log("red", t("Error getting branches: {0}").format(e.stderr.strip() if hasattr(e, 'stderr') else str(e)))
         except Exception as e:
-            self.logger.log("red", f"Unexpected error: {str(e)}")
+            self.logger.log("red", t("Unexpected error: {0}").format(str(e)))
     
     def run(self):
         """Executes main program flow"""

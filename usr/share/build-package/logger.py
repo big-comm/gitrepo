@@ -11,10 +11,12 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
 from rich.table import Table
+from translation_utils import translate_text as _
+
 from rich.box import ROUNDED
 
 from config import APP_NAME, APP_DESC, VERSION, LOG_DIR_BASE
-from translation_utils import _
+# from translation_utils import _
 
 class RichLogger:
     """Manages logs and formatted messages using the Rich library"""

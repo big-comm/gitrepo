@@ -7,7 +7,17 @@
 import sys
 from rich.console import Console
 from build_package import BuildPackage
-from translation_utils import _
+from translation_utils import translate_text as _
+
+
+import traceback
+
+def debug_hook(type, value, tb):
+    print("\nERRO DETALHADO:")
+    traceback.print_exception(type, value, tb)
+    print("\n")
+
+sys.excepthook = debug_hook
 
 def main():
     """Main entry point of the application"""

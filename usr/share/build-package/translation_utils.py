@@ -5,10 +5,12 @@
 #
 import gettext
 
-# Translation setup
-lang_translations = gettext.translation(
-    "gitrepo", localedir="/usr/share/locale", fallback=True
-)
-lang_translations.install()
-# define _ shortcut for translations
-_ = lang_translations.gettext
+# Configure the translation repo/name
+gettext.textdomain("gitrepo")
+
+# Use a more unique and descriptive name
+def translate_text(text):
+    """Translates the text using gettext"""
+    if not isinstance(text, str):
+        return text
+    return gettext.gettext(text)
