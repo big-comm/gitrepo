@@ -11,9 +11,9 @@ import tty
 from typing import Optional, Tuple
 from rich.console import Console
 from rich.panel import Panel
-from rich.prompt import Prompt, Confirm
+from rich.prompt import Confirm
+from translation_utils import translate_text as _
 from rich.box import ROUNDED
-from translation_utils import _
 
 class MenuSystem:
     """Menu system using Rich"""
@@ -119,7 +119,6 @@ class MenuSystem:
         
     def _getch(self):
         """Gets a single character from standard input without echo"""
-        import sys, tty, termios
         fd = sys.stdin.fileno()
         old_settings = termios.tcgetattr(fd)
         try:
