@@ -673,7 +673,7 @@ the specific source code used to create this copy."""), style="white")
             if result is None or result[0] == 5:  # None ou "Back"
                 return
             
-            choice, _ = result
+            choice, ignore = result
             
             if choice == 0:  # Delete branches
                 if self.menu.confirm(_("Are you sure you want to delete branches? This action cannot be undone.")):
