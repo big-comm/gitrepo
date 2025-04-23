@@ -102,64 +102,6 @@ class GitHubAPI:
                 logger.log("red", _("Error details: {0}").format(response.text))
                 return ""
             
-            # Add a special naming convention to mark branch as non-PR
-            # This is done by creating a file in the branch called .nopr
-            try:
-                # Create blob for .nopr file
-                blob_url = f"https://api.github.com/repos/{repo_name}/git/blobs"
-                blob_data = {
-                    "content": "This branch should not be used for PRs",
-                    "encoding": "utf-8"
-                }
-                blob_response = requests.post(blob_url, headers=self.headers, json=blob_data)
-                
-                if blob_response.status_code == 201:
-                    blob_sha = blob_response.json()["sha"]
-                    
-                    # Create a tree with the new file
-                    tree_url = f"https://api.github.com/repos/{repo_name}/git/trees"
-                    tree_data = {
-                        "base_tree": base_sha,
-                        "tree": [
-                            {
-                                "path": ".nopr",
-                                "mode": "100644",
-                                "type": "blob",
-                                "sha": blob_sha
-                            }
-                        ]
-                    }
-                    
-                    tree_response = requests.post(tree_url, headers=self.headers, json=tree_data)
-                    
-                    if tree_response.status_code == 201:
-                        tree_sha = tree_response.json()["sha"]
-                        
-                        # Create a commit with this tree
-                        commit_url = f"https://api.github.com/repos/{repo_name}/git/commits"
-                        commit_data = {
-                            "message": "Mark as non-PR branch",
-                            "tree": tree_sha,
-                            "parents": [base_sha]
-                        }
-                        
-                        commit_response = requests.post(commit_url, headers=self.headers, json=commit_data)
-                        
-                        if commit_response.status_code == 201:
-                            commit_sha = commit_response.json()["sha"]
-                            
-                            # Update branch reference to point to this commit
-                            update_ref_url = f"https://api.github.com/repos/{repo_name}/git/refs/heads/{new_branch_name}"
-                            update_ref_data = {
-                                "sha": commit_sha,
-                                "force": True
-                            }
-                            
-                            requests.patch(update_ref_url, headers=self.headers, json=update_ref_data)
-            except Exception as e:
-                logger.log("yellow", _("Warning: Could not mark branch as non-PR: {0}").format(e))
-                # Continue anyway as the branch was created
-            
             logger.log("green", _("Branch {0} created successfully!").format(new_branch_name))
             return new_branch_name
         except Exception as e:

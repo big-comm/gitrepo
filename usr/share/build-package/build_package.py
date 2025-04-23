@@ -29,6 +29,7 @@ class BuildPackage:
         self.menu = MenuSystem(self.logger)
         self.organization = self.args.organization or DEFAULT_ORGANIZATION
         self.repo_workflow = f"{self.organization}/build-package"
+        self.console = Console()  # Add console object for colorful prompts
         
         # Check if it's a Git repository
         self.is_git_repo = GitUtils.is_git_repo()
@@ -146,6 +147,17 @@ the specific source code used to create this copy."""), style="white")
         
         console.print(panel)
     
+    def custom_commit_prompt(self):
+        """Gets commit message from user"""
+        # Show prompt and get input
+        commit_message = input("\033[1;36m" + _("Enter commit message: ") + "\033[0m")
+        
+        # Show confirmation in green if there's a message
+        if commit_message:
+            print("\033[1;32mMessage: " + commit_message + "\033[0m")
+        
+        return commit_message
+    
     def commit_and_push(self):
         """Performs commit on dev branch"""
         if not self.is_git_repo:
@@ -183,7 +195,7 @@ the specific source code used to create this copy."""), style="white")
             commit_message = self.args.commit
         elif has_changes:
             # No commit message provided, but we have changes - ask for message
-            commit_message = Prompt.ask(_("Enter commit message"), style="cyan")
+            commit_message = self.custom_commit_prompt()
             if not commit_message:
                 self.logger.die("red", _("Commit message cannot be empty."))
                 return False
@@ -361,7 +373,7 @@ the specific source code used to create this copy."""), style="white")
             commit_message = self.args.commit
         elif has_changes:
             # Need to ask for a message
-            commit_message = Prompt.ask(_("Enter commit message"), style="cyan")
+            commit_message = self.custom_commit_prompt()
             if not commit_message:
                 self.logger.log("red", _("Commit message cannot be empty."))
                 return False
@@ -562,7 +574,7 @@ the specific source code used to create this copy."""), style="white")
                             continue
                     
                     # Only ask for message if there are changes
-                    commit_message = Prompt.ask(_("Enter commit message"), style="cyan")
+                    commit_message = self.custom_commit_prompt()
                     if not commit_message:
                         self.logger.log("red", _("Commit message cannot be empty."))
                         continue
@@ -598,7 +610,7 @@ the specific source code used to create this copy."""), style="white")
                     commit_message = ""
 
                     if has_changes:
-                        commit_message = Prompt.ask(_("Enter commit message"), style="cyan")
+                        commit_message = self.custom_commit_prompt()
                         if not commit_message:
                             self.logger.log("red", _("Commit message cannot be empty."))
                             continue
