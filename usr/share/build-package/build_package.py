@@ -126,17 +126,15 @@ class BuildPackage:
         version_text.append(f"{APP_NAME} v{VERSION}\n", style="bold cyan")
         version_text.append(f"{APP_DESC}\n\n", style="white")
         version_text.append(_("Copyright (C) 2024-2025 BigCommunity Team\n\n"), style="blue")
-        version_text.append(_("""
-    This is free software: you are free to modify and redistribute it.
-    """), style="white")
+        version_text.append(_("""This is free software: you are free to modify and redistribute it."""), style="white")
+        version_text.append("\n", style="white")
         version_text.append(f"{APP_NAME}", style="cyan")
         version_text.append(_(" is provided to you under the "), style="white")
         version_text.append(_("MIT License"), style="yellow")
-        version_text.append(_(""", and
-    includes open source software under a variety of other licenses.
-    You can read instructions about how to download and build for yourself
-    the specific source code used to create this copy.
-    """), style="white")
+        version_text.append(_(""", and includes open source software under a variety of other licenses.
+You can read instructions about how to download and build for yourself
+the specific source code used to create this copy."""), style="white")
+        version_text.append("\n", style="white")
         version_text.append(_("This program comes with absolutely NO warranty."), style="red")
         
         panel = Panel(
