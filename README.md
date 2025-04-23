@@ -9,7 +9,7 @@
 A comprehensive tool for package building, testing, and deployment. Streamlines Git operations, automates builds and manages package workflows for BigCommunity repositories and AUR packages.
 
 <p align="center">
-   <img src="https://github.com/user-attachments/assets/d0f44e33-5616-4fbd-b3dd-c9e35e2ec169" alt="build-package" />
+   <img src="https://github.com/user-attachments/assets/cf5e01ff-a01f-45e3-9710-b585a9942d6d" alt="build-package" />
 </p>
 
 ## Overview
