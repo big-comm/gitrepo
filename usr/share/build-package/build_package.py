@@ -149,12 +149,11 @@ the specific source code used to create this copy."""), style="white")
     
     def custom_commit_prompt(self):
         """Gets commit message from user"""
-        # Show prompt and get input
-        commit_message = input("\033[1;36m" + _("Enter commit message: ") + "\033[0m")
+        # Show prompt in cyan
+        print("\033[1;36m" + _("Enter commit message: ") + "\033[0m", end="")
         
-        # Show confirmation in green if there's a message
-        if commit_message:
-            print("\033[1;32mMessage: " + commit_message + "\033[0m")
+        # Capture user input
+        commit_message = input()
         
         return commit_message
     
