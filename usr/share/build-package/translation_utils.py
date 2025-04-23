@@ -8,9 +8,5 @@ import gettext
 # Configure the translation repo/name
 gettext.textdomain("gitrepo")
 
-# Use a more unique and descriptive name
-def translate_text(text):
-    """Translates the text using gettext"""
-    if not isinstance(text, str):
-        return text
-    return gettext.gettext(text)
+# Export _ directly as the translation function
+_ = gettext.gettext

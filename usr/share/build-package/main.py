@@ -7,7 +7,7 @@
 import sys
 from rich.console import Console
 from build_package import BuildPackage
-from translation_utils import translate_text as _
+from translation_utils import _
 
 
 import traceback

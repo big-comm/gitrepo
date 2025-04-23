@@ -74,12 +74,6 @@ msgstr "ブランチの作成エラー: {0}"
 msgid "Error details: {0}"
 msgstr "エラーの詳細: {0}"
 # 
-# File: usr/share/build-package/github_api.py, line: 160
-#: NEEDS WORK
-#, python-brace-format
-msgid "Warning: Could not mark branch as non-PR: {0}"
-msgstr "警告: ブランチを非PRとしてマークできませんでした: {0}"
-# 
 # File: usr/share/build-package/github_api.py, line: 163
 #: NEEDS WORK
 #, python-brace-format
@@ -481,17 +475,564 @@ msgstr "ブランチのクリーンアップが正常に完了しました！"
 msgid "Error during branch cleanup: {0}"
 msgstr "ブランチのクリーンアップ中にエラーが発生しました: {0}"
 # 
+# File: usr/share/build-package/build_package.py, line: 74
+#: NEEDS WORK
+#, python-brace-format
+msgid "Dependency '{0}' not found. Please install it before continuing."
+msgstr "依存関係 '{0}' が見つかりません。続行する前にインストールしてください。"
+# 
+# File: usr/share/build-package/build_package.py, line: 85
+#: NEEDS WORK
+msgid "Configure GitHub organization (default: big-comm)"
+msgstr "GitHub組織を設定する（デフォルト：big-comm）"
+# 
+# File: usr/share/build-package/build_package.py, line: 90
+#: NEEDS WORK
+msgid "Commit/push and generate package"
+msgstr "コミット/プッシュしてパッケージを生成する"
+# 
+# File: usr/share/build-package/build_package.py, line: 94
+#: NEEDS WORK
+msgid "Just commit/push with the specified message"
+msgstr "指定されたメッセージでコミット/プッシュしてください。"
+# 
+# File: usr/share/build-package/build_package.py, line: 97
+# File: usr/share/build-package/build_package.py, line: 537
+# File: usr/share/build-package/build_package.py, line: 543
+#: NEEDS WORK
+msgid "Build AUR package"
+msgstr "AURパッケージをビルド"
+# 
+# File: usr/share/build-package/build_package.py, line: 100
+#: NEEDS WORK
+msgid "Suppress color printing"
+msgstr "カラー印刷を抑制する"
+# 
+# File: usr/share/build-package/build_package.py, line: 103
+#: NEEDS WORK
+msgid "Print application version"
+msgstr "アプリケーションのバージョンを印刷する"
+# 
+# File: usr/share/build-package/build_package.py, line: 106
+#: NEEDS WORK
+msgid "Enable tmate for debugging"
+msgstr "デバッグのためにtmateを有効にする"
+# 
+# File: usr/share/build-package/build_package.py, line: 128
+#: NEEDS WORK
+msgid ""
+"Copyright (C) 2024-2025 BigCommunity Team\n"
+"\n"
+msgstr "著作権 (C) 2024-2025 BigCommunity チーム"
+# 
+# File: usr/share/build-package/build_package.py, line: 129
+#: NEEDS WORK
+msgid "This is free software: you are free to modify and redistribute it."
+msgstr "これはフリーソフトウェアです：あなたはそれを変更し、再配布する自由があります。"
+# 
+# File: usr/share/build-package/build_package.py, line: 133
+#: NEEDS WORK
+msgid " is provided to you under the "
+msgstr "は提供されます。"
+# 
+# File: usr/share/build-package/build_package.py, line: 134
+#: NEEDS WORK
+msgid "MIT License"
+msgstr "MITライセンス"
+# 
+# File: usr/share/build-package/build_package.py, line: 134
+#: NEEDS WORK
+msgid ""
+", and includes open source software under a variety of other licenses.\n"
+"You can read instructions about how to download and build for yourself\n"
+"the specific source code used to create this copy."
+msgstr ""
+"さまざまな他のライセンスの下でオープンソースソフトウェアが含まれています。  \n"
+"自分でダウンロードしてビルドする方法についての指示を読むことができます。  \n"
+"このコピーを作成するために使用された特定のソースコード。"
+# 
+# File: usr/share/build-package/build_package.py, line: 140
+#: NEEDS WORK
+msgid "This program comes with absolutely NO warranty."
+msgstr "このプログラムには、全く保証がありません。"
+# 
+# File: usr/share/build-package/build_package.py, line: 153
+#: NEEDS WORK
+msgid "Enter commit message: "
+msgstr "コミットメッセージを入力してください:"
+# 
+# File: usr/share/build-package/build_package.py, line: 154
+#: NEEDS WORK
+msgid "This option is only available in git repositories."
+msgstr "このオプションは、git リポジトリでのみ利用可能です。"
+# 
+# File: usr/share/build-package/build_package.py, line: 165
+#: NEEDS WORK
+#, python-brace-format
+msgid "Currently on {0}. Switching to dev branch..."
+msgstr "現在 {0} にいます。dev ブランチに切り替えています..."
+# 
+# File: usr/share/build-package/build_package.py, line: 168
+#: NEEDS WORK
+msgid "Switched to dev branch"
+msgstr "開発ブランチに切り替えました"
+# 
+# File: usr/share/build-package/build_package.py, line: 170
+#: NEEDS WORK
+msgid "Failed to switch to dev branch"
+msgstr "開発ブランチへの切り替えに失敗しました"
+# 
+# File: usr/share/build-package/build_package.py, line: 175
+# File: usr/share/build-package/build_package.py, line: 353
+# File: usr/share/build-package/build_package.py, line: 563
+# File: usr/share/build-package/build_package.py, line: 588
+#: NEEDS WORK
+msgid "Failed to pull changes. Do you want to continue anyway?"
+msgstr "変更の取得に失敗しました。それでも続行しますか？"
+# 
+# File: usr/share/build-package/build_package.py, line: 190
+# File: usr/share/build-package/build_package.py, line: 368
+# File: usr/share/build-package/build_package.py, line: 569
+# File: usr/share/build-package/build_package.py, line: 605
+#: NEEDS WORK
+msgid "Commit message cannot be empty."
+msgstr "コミットメッセージは空にできません。"
+# 
+# File: usr/share/build-package/build_package.py, line: 194
+# File: usr/share/build-package/build_package.py, line: 558
+#: NEEDS WORK
+msgid "No Changes to Commit\n"
+msgstr "コミットする変更はありません"
+# 
+# File: usr/share/build-package/build_package.py, line: 194
+# File: usr/share/build-package/build_package.py, line: 558
+#: NEEDS WORK
+msgid "Press Enter to return to main menu"
+msgstr "エンターを押してメインメニューに戻る"
+# 
+# File: usr/share/build-package/build_package.py, line: 205
+# File: usr/share/build-package/build_package.py, line: 334
+# File: usr/share/build-package/build_package.py, line: 410
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating dev branch: {0}"
+msgstr "開発ブランチの作成エラー: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 213
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error committing changes: {0}"
+msgstr "変更のコミット中にエラーが発生しました: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 220
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error pushing to remote: {0}"
+msgstr "リモートへのプッシュエラー: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 223
+#: NEEDS WORK
+#, python-brace-format
+msgid "Changes committed and pushed to {0} branch successfully!"
+msgstr "{0} ブランチに変更が正常にコミットされ、プッシュされました！"
+# 
+# File: usr/share/build-package/build_package.py, line: 229
+# File: usr/share/build-package/build_package.py, line: 340
+# File: usr/share/build-package/build_package.py, line: 691
+#: NEEDS WORK
+msgid "This operation is only available in git repositories."
+msgstr "この操作は、git リポジトリでのみ利用可能です。"
+# 
+# File: usr/share/build-package/build_package.py, line: 255
+#: NEEDS WORK
+msgid "Dev branch doesn't exist. Creating it now..."
+msgstr "Devブランチは存在しません。今作成しています..."
+# 
+# File: usr/share/build-package/build_package.py, line: 262
+#: NEEDS WORK
+msgid "Stashing local changes temporarily..."
+msgstr "ローカルの変更を一時的にスタッシュしています..."
+# 
+# File: usr/share/build-package/build_package.py, line: 274
+#: NEEDS WORK
+msgid "No local changes were stashed."
+msgstr "ローカルの変更はスタッシュされませんでした。"
+# 
+# File: usr/share/build-package/build_package.py, line: 276
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error stashing changes: {0}"
+msgstr "変更をスタッシュする際にエラーが発生しました: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 303
+# File: usr/share/build-package/build_package.py, line: 325
+#: NEEDS WORK
+msgid "Applying stashed changes..."
+msgstr "スタッシュされた変更を適用しています..."
+# 
+# File: usr/share/build-package/build_package.py, line: 305
+#: NEEDS WORK
+msgid "Stashed changes applied successfully."
+msgstr "変更が正常に適用されました。"
+# 
+# File: usr/share/build-package/build_package.py, line: 307
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error applying stashed changes: {0}"
+msgstr "スタッシュされた変更の適用中にエラーが発生しました: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 308
+#: NEEDS WORK
+msgid "Your changes might be in the stash. Use 'git stash list' to check."
+msgstr "あなたの変更はスタッシュにあるかもしれません。'git stash list'を使用して確認してください。"
+# 
+# File: usr/share/build-package/build_package.py, line: 310
+#: NEEDS WORK
+msgid "Dev branch created successfully!"
+msgstr "Devブランチが正常に作成されました！"
+# 
+# File: usr/share/build-package/build_package.py, line: 313
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not create dev branch: {0}"
+msgstr "開発ブランチを作成できませんでした: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 328
+#: NEEDS WORK
+msgid "Could not apply stashed changes. Your changes are in the stash."
+msgstr "スタッシュされた変更を適用できませんでした。あなたの変更はスタッシュにあります。"
+# 
+# File: usr/share/build-package/build_package.py, line: 345
+#: NEEDS WORK
+msgid "Branch type not specified."
+msgstr "ブランチタイプが指定されていません。"
+# 
+# File: usr/share/build-package/build_package.py, line: 376
+#: NEEDS WORK
+msgid ""
+"When using the '-b|--build' parameter and there are changes, the '-c|--commit' parameter is also "
+"required."
+msgstr "'-b|--build'パラメータを使用し、変更がある場合は、'-c|--commit'パラメータも必要です。"
+# 
+# File: usr/share/build-package/build_package.py, line: 391
+#: NEEDS WORK
+#, python-brace-format
+msgid "You are currently on {0}. Creating new branch: {1}"
+msgstr "現在、{0}にいます。新しいブランチを作成中: {1}"
+# 
+# File: usr/share/build-package/build_package.py, line: 400
+# File: usr/share/build-package/build_package.py, line: 419
+#: NEEDS WORK
+msgid "Committing changes with message:"
+msgstr "変更をメッセージと共にコミットする:"
+# 
+# File: usr/share/build-package/build_package.py, line: 405
+# File: usr/share/build-package/build_package.py, line: 424
+#: NEEDS WORK
+msgid "Pushing changes to remote repository..."
+msgstr "リモートリポジトリに変更をプッシュしています..."
+# 
+# File: usr/share/build-package/build_package.py, line: 408
+# File: usr/share/build-package/build_package.py, line: 428
+#: NEEDS WORK
+#, python-brace-format
+msgid "Changes committed and pushed to {0} successfully!"
+msgstr "{0}に変更が正常にコミットされ、プッシュされました！"
+# 
+# File: usr/share/build-package/build_package.py, line: 433
+#: NEEDS WORK
+msgid "Error: PKGBUILD file not found."
+msgstr "エラー: PKGBUILDファイルが見つかりません。"
+# 
+# File: usr/share/build-package/build_package.py, line: 433
+#: NEEDS WORK
+msgid "Error: Package name not found in PKGBUILD."
+msgstr "エラー: PKGBUILDにパッケージ名が見つかりません。"
+# 
+# File: usr/share/build-package/build_package.py, line: 439
+# File: usr/share/build-package/build_package.py, line: 475
+#: NEEDS WORK
+msgid "Do you want to proceed with building the PACKAGE?"
+msgstr "パッケージのビルドを続行しますか？"
+# 
+# File: usr/share/build-package/build_package.py, line: 440
+# File: usr/share/build-package/build_package.py, line: 476
+#: NEEDS WORK
+msgid "Package build cancelled."
+msgstr "パッケージビルドがキャンセルされました。"
+# 
+# File: usr/share/build-package/build_package.py, line: 457
+#: NEEDS WORK
+msgid "Enter the AUR package name (ex: showtime): type EXIT to exit"
+msgstr "AURパッケージ名を入力してください（例：showtime）：終了するにはEXITと入力してください"
+# 
+# File: usr/share/build-package/build_package.py, line: 463
+# File: usr/share/build-package/build_package.py, line: 632
+# File: usr/share/build-package/build_package.py, line: 648
+#: NEEDS WORK
+msgid "Exiting script. No action was performed."
+msgstr "スクリプトを終了しています。アクションは実行されませんでした。"
+# 
+# File: usr/share/build-package/build_package.py, line: 466
+#: NEEDS WORK
+msgid "Error: No package name was entered."
+msgstr "エラー: パッケージ名が入力されていません。"
+# 
+# File: usr/share/build-package/build_package.py, line: 497
+# File: usr/share/build-package/build_package.py, line: 518
+#: NEEDS WORK
+msgid "Organization"
+msgstr "組織"
+# 
+# File: usr/share/build-package/build_package.py, line: 498
+# File: usr/share/build-package/build_package.py, line: 519
+#: NEEDS WORK
+msgid "Repo Workflow"
+msgstr "リポジトリワークフロー"
+# 
+# File: usr/share/build-package/build_package.py, line: 499
+# File: usr/share/build-package/build_package.py, line: 520
+#: NEEDS WORK
+msgid "User Name"
+msgstr "ユーザー名"
+# 
+# File: usr/share/build-package/build_package.py, line: 500
+#: NEEDS WORK
+msgid "Package Name"
+msgstr "パッケージ名"
+# 
+# File: usr/share/build-package/build_package.py, line: 501
+#: NEEDS WORK
+msgid "Repository Type"
+msgstr "リポジトリタイプ"
+# 
+# File: usr/share/build-package/build_package.py, line: 502
+# File: usr/share/build-package/build_package.py, line: 523
+#: NEEDS WORK
+msgid "New Branch"
+msgstr "新しいブランチ"
+# 
+# File: usr/share/build-package/build_package.py, line: 506
+# File: usr/share/build-package/build_package.py, line: 524
+#: NEEDS WORK
+msgid "Url"
+msgstr "URL"
+# 
+# File: usr/share/build-package/build_package.py, line: 508
+# File: usr/share/build-package/build_package.py, line: 525
+#: NEEDS WORK
+msgid "TMATE Debug"
+msgstr "TMATE デバッグ"
+# 
+# File: usr/share/build-package/build_package.py, line: 510
+#: NEEDS WORK
+msgid "Summary of Choices"
+msgstr "選択の概要"
+# 
+# File: usr/share/build-package/build_package.py, line: 521
+#: NEEDS WORK
+msgid "Package AUR Name"
+msgstr "パッケージ AUR 名称"
+# 
+# File: usr/share/build-package/build_package.py, line: 522
+#: NEEDS WORK
+msgid "Branch_type"
+msgstr "ブランチタイプ"
+# 
+# File: usr/share/build-package/build_package.py, line: 528
+#: NEEDS WORK
+msgid "AUR - Summary of Choices"
+msgstr "AUR - 選択の概要"
+# 
+# File: usr/share/build-package/build_package.py, line: 535
+#: NEEDS WORK
+msgid "Commit and push"
+msgstr "コミットしてプッシュ"
+# 
+# File: usr/share/build-package/build_package.py, line: 536
+#: NEEDS WORK
+msgid "Generate package (commit + branch + build)"
+msgstr "パッケージを生成する（コミット + ブランチ + ビルド）"
+# 
+# File: usr/share/build-package/build_package.py, line: 538
+#: NEEDS WORK
+msgid "Advanced menu"
+msgstr "高度なメニュー"
+# 
 # File: usr/share/build-package/menu_system.py, line: 45
 # File: usr/share/build-package/menu_system.py, line: 59
 #: NEEDS WORK
 msgid "Exit"
 msgstr "終了"
 # 
+# File: usr/share/build-package/build_package.py, line: 547
+#: NEEDS WORK
+msgid "Main Menu"
+msgstr "メインメニュー"
+# 
 # File: usr/share/build-package/menu_system.py, line: 47
 # File: usr/share/build-package/menu_system.py, line: 61
 #: NEEDS WORK
 msgid "Back"
 msgstr "戻る"
+# 
+# File: usr/share/build-package/build_package.py, line: 579
+#: NEEDS WORK
+msgid "Select repository"
+msgstr "リポジトリを選択"
+# 
+# File: usr/share/build-package/build_package.py, line: 592
+# File: usr/share/build-package/build_package.py, line: 617
+# File: usr/share/build-package/build_package.py, line: 637
+#: NEEDS WORK
+msgid "Enable TMATE debug session?"
+msgstr "TMATEデバッグセッションを有効にしますか？"
+# 
+# File: usr/share/build-package/build_package.py, line: 592
+# File: usr/share/build-package/build_package.py, line: 617
+# File: usr/share/build-package/build_package.py, line: 637
+# File: usr/share/build-package/build_package.py, line: 747
+#: NEEDS WORK
+msgid "No"
+msgstr "いいえ"
+# 
+# File: usr/share/build-package/build_package.py, line: 592
+# File: usr/share/build-package/build_package.py, line: 617
+# File: usr/share/build-package/build_package.py, line: 637
+# File: usr/share/build-package/build_package.py, line: 747
+#: NEEDS WORK
+msgid "Yes"
+msgstr "はい"
+# 
+# File: usr/share/build-package/build_package.py, line: 608
+#: NEEDS WORK
+msgid "No changes to commit, proceeding with package generation."
+msgstr "コミットする変更はありません。パッケージ生成を続行します。"
+# 
+# File: usr/share/build-package/build_package.py, line: 654
+#: NEEDS WORK
+msgid "Delete branches (except main and latest)"
+msgstr "ブランチを削除する（メインと最新を除く）"
+# 
+# File: usr/share/build-package/build_package.py, line: 655
+#: NEEDS WORK
+msgid "Delete failed Action jobs"
+msgstr "削除に失敗したアクションジョブ"
+# 
+# File: usr/share/build-package/build_package.py, line: 656
+#: NEEDS WORK
+msgid "Delete successful Action jobs"
+msgstr "アクションジョブの削除に成功しました"
+# 
+# File: usr/share/build-package/build_package.py, line: 657
+#: NEEDS WORK
+msgid "Delete all tags"
+msgstr "すべてのタグを削除"
+# 
+# File: usr/share/build-package/build_package.py, line: 658
+#: NEEDS WORK
+msgid "Merge branch to main"
+msgstr "メインにブランチをマージ"
+# 
+# File: usr/share/build-package/build_package.py, line: 663
+#: NEEDS WORK
+msgid "Advanced Menu"
+msgstr "高度なメニュー"
+# 
+# File: usr/share/build-package/build_package.py, line: 670
+#: NEEDS WORK
+msgid "Are you sure you want to delete branches? This action cannot be undone."
+msgstr "ブランチを削除してもよろしいですか？この操作は元に戻せません。"
+# 
+# File: usr/share/build-package/build_package.py, line: 674
+#: NEEDS WORK
+msgid "Are you sure you want to delete all failed Action jobs?"
+msgstr "すべての失敗したアクションジョブを削除してもよろしいですか？"
+# 
+# File: usr/share/build-package/build_package.py, line: 678
+#: NEEDS WORK
+msgid "Are you sure you want to delete all successful Action jobs?"
+msgstr "すべての成功したアクションジョブを削除してもよろしいですか？"
+# 
+# File: usr/share/build-package/build_package.py, line: 682
+#: NEEDS WORK
+msgid "Are you sure you want to delete all repository tags?"
+msgstr "すべてのリポジトリタグを削除してもよろしいですか？"
+# 
+# File: usr/share/build-package/build_package.py, line: 719
+#: NEEDS WORK
+msgid "No dev branches found to merge."
+msgstr "マージする開発ブランチが見つかりません。"
+# 
+# File: usr/share/build-package/build_package.py, line: 729
+#: NEEDS WORK
+msgid "Select branch to merge to main"
+msgstr "メインにマージするブランチを選択してください"
+# 
+# File: usr/share/build-package/build_package.py, line: 736
+#: NEEDS WORK
+msgid "Create PR (manual approval)"
+msgstr "PRを作成する（手動承認）"
+# 
+# File: usr/share/build-package/build_package.py, line: 736
+#: NEEDS WORK
+msgid "Create PR and auto-merge"
+msgstr "PRを作成して自動マージ"
+# 
+# File: usr/share/build-package/build_package.py, line: 737
+#: NEEDS WORK
+msgid "Select merge option"
+msgstr "マージオプションを選択"
+# 
+# File: usr/share/build-package/build_package.py, line: 745
+#: NEEDS WORK
+msgid "Source Branch"
+msgstr "ソースブランチ"
+# 
+# File: usr/share/build-package/build_package.py, line: 746
+#: NEEDS WORK
+msgid "Target Branch"
+msgstr "ターゲットブランチ"
+# 
+# File: usr/share/build-package/build_package.py, line: 747
+#: NEEDS WORK
+msgid "Auto-merge"
+msgstr "自動マージ"
+# 
+# File: usr/share/build-package/build_package.py, line: 750
+#: NEEDS WORK
+msgid "Merge Summary"
+msgstr "マージの概要"
+# 
+# File: usr/share/build-package/build_package.py, line: 753
+#: NEEDS WORK
+msgid "Do you want to proceed with creating the pull request?"
+msgstr "プルリクエストの作成を続行しますか？"
+# 
+# File: usr/share/build-package/build_package.py, line: 761
+#: NEEDS WORK
+msgid "Pull request operation completed."
+msgstr "プルリクエスト操作が完了しました。"
+# 
+# File: usr/share/build-package/build_package.py, line: 764
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error getting branches: {0}"
+msgstr "ブランチの取得エラー: {0}"
+# 
+# File: usr/share/build-package/config.py, line: 46
+#: NEEDS WORK
+msgid "BUILD PACKAGE"
+msgstr "パッケージをビルド"
+# 
+# File: usr/share/build-package/config.py, line: 47
+#: NEEDS WORK
+msgid ""
+"A comprehensive tool for package building, testing, and deployment. Streamlines Git operations, "
+"automates builds and manages package workflows for BigCommunity repositories and AUR packages."
+msgstr ""
+"パッケージのビルド、テスト、デプロイメントのための包括的なツール。Git操作を効率化し、ビルドを自動化し、BigCommunityリポジトリとAURパッケージのためのパッケージワークフローを管理します"
+"。"
 # 
 # File: usr/share/build-package/menu_system.py, line: 91
 #: NEEDS WORK

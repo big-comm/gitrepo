@@ -74,12 +74,6 @@ msgstr "브랜치 생성 오류: {0}"
 msgid "Error details: {0}"
 msgstr "오류 세부정보: {0}"
 # 
-# File: usr/share/build-package/github_api.py, line: 160
-#: NEEDS WORK
-#, python-brace-format
-msgid "Warning: Could not mark branch as non-PR: {0}"
-msgstr "경고: 브랜치를 비-PR로 표시할 수 없습니다: {0}"
-# 
 # File: usr/share/build-package/github_api.py, line: 163
 #: NEEDS WORK
 #, python-brace-format
@@ -481,17 +475,564 @@ msgstr "브랜치 정리 완료!"
 msgid "Error during branch cleanup: {0}"
 msgstr "브랜치 정리 중 오류: {0}"
 # 
+# File: usr/share/build-package/build_package.py, line: 74
+#: NEEDS WORK
+#, python-brace-format
+msgid "Dependency '{0}' not found. Please install it before continuing."
+msgstr "종속성 '{0}'을(를) 찾을 수 없습니다. 계속하기 전에 설치해 주십시오."
+# 
+# File: usr/share/build-package/build_package.py, line: 85
+#: NEEDS WORK
+msgid "Configure GitHub organization (default: big-comm)"
+msgstr "GitHub 조직 구성(기본값: big-comm)"
+# 
+# File: usr/share/build-package/build_package.py, line: 90
+#: NEEDS WORK
+msgid "Commit/push and generate package"
+msgstr "커밋/푸시 및 패키지 생성"
+# 
+# File: usr/share/build-package/build_package.py, line: 94
+#: NEEDS WORK
+msgid "Just commit/push with the specified message"
+msgstr "지정된 메시지로 커밋/푸시만 하세요."
+# 
+# File: usr/share/build-package/build_package.py, line: 97
+# File: usr/share/build-package/build_package.py, line: 537
+# File: usr/share/build-package/build_package.py, line: 543
+#: NEEDS WORK
+msgid "Build AUR package"
+msgstr "AUR 패키지 빌드"
+# 
+# File: usr/share/build-package/build_package.py, line: 100
+#: NEEDS WORK
+msgid "Suppress color printing"
+msgstr "색상 인쇄 억제"
+# 
+# File: usr/share/build-package/build_package.py, line: 103
+#: NEEDS WORK
+msgid "Print application version"
+msgstr "애플리케이션 버전 인쇄"
+# 
+# File: usr/share/build-package/build_package.py, line: 106
+#: NEEDS WORK
+msgid "Enable tmate for debugging"
+msgstr "디버깅을 위해 tmate 활성화"
+# 
+# File: usr/share/build-package/build_package.py, line: 128
+#: NEEDS WORK
+msgid ""
+"Copyright (C) 2024-2025 BigCommunity Team\n"
+"\n"
+msgstr "저작권 (C) 2024-2025 빅커뮤니티 팀"
+# 
+# File: usr/share/build-package/build_package.py, line: 129
+#: NEEDS WORK
+msgid "This is free software: you are free to modify and redistribute it."
+msgstr "이 소프트웨어는 무료입니다: 수정하고 재배포할 수 있습니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 133
+#: NEEDS WORK
+msgid " is provided to you under the "
+msgstr "제공됩니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 134
+#: NEEDS WORK
+msgid "MIT License"
+msgstr "MIT 라이선스"
+# 
+# File: usr/share/build-package/build_package.py, line: 134
+#: NEEDS WORK
+msgid ""
+", and includes open source software under a variety of other licenses.\n"
+"You can read instructions about how to download and build for yourself\n"
+"the specific source code used to create this copy."
+msgstr ""
+"다양한 다른 라이센스 하에 오픈 소스 소프트웨어가 포함되어 있습니다.  \n"
+"자신을 위해 다운로드하고 빌드하는 방법에 대한 지침을 읽을 수 있습니다.  \n"
+"이 복사본을 생성하는 데 사용된 특정 소스 코드를 확인할 수 있습니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 140
+#: NEEDS WORK
+msgid "This program comes with absolutely NO warranty."
+msgstr "이 프로그램은 전혀 보증이 없습니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 153
+#: NEEDS WORK
+msgid "Enter commit message: "
+msgstr "커밋 메시지 입력:"
+# 
+# File: usr/share/build-package/build_package.py, line: 154
+#: NEEDS WORK
+msgid "This option is only available in git repositories."
+msgstr "이 옵션은 git 저장소에서만 사용할 수 있습니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 165
+#: NEEDS WORK
+#, python-brace-format
+msgid "Currently on {0}. Switching to dev branch..."
+msgstr "현재 {0}에 있습니다. 개발 브랜치로 전환 중..."
+# 
+# File: usr/share/build-package/build_package.py, line: 168
+#: NEEDS WORK
+msgid "Switched to dev branch"
+msgstr "개발 브랜치로 전환됨"
+# 
+# File: usr/share/build-package/build_package.py, line: 170
+#: NEEDS WORK
+msgid "Failed to switch to dev branch"
+msgstr "개발 브랜치로 전환하지 못했습니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 175
+# File: usr/share/build-package/build_package.py, line: 353
+# File: usr/share/build-package/build_package.py, line: 563
+# File: usr/share/build-package/build_package.py, line: 588
+#: NEEDS WORK
+msgid "Failed to pull changes. Do you want to continue anyway?"
+msgstr "변경 사항을 가져오는 데 실패했습니다. 그래도 계속하시겠습니까?"
+# 
+# File: usr/share/build-package/build_package.py, line: 190
+# File: usr/share/build-package/build_package.py, line: 368
+# File: usr/share/build-package/build_package.py, line: 569
+# File: usr/share/build-package/build_package.py, line: 605
+#: NEEDS WORK
+msgid "Commit message cannot be empty."
+msgstr "커밋 메시지는 비워둘 수 없습니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 194
+# File: usr/share/build-package/build_package.py, line: 558
+#: NEEDS WORK
+msgid "No Changes to Commit\n"
+msgstr "커밋할 변경 사항 없음"
+# 
+# File: usr/share/build-package/build_package.py, line: 194
+# File: usr/share/build-package/build_package.py, line: 558
+#: NEEDS WORK
+msgid "Press Enter to return to main menu"
+msgstr "Enter 키를 눌러 기본 메뉴로 돌아갑니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 205
+# File: usr/share/build-package/build_package.py, line: 334
+# File: usr/share/build-package/build_package.py, line: 410
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating dev branch: {0}"
+msgstr "개발 브랜치 생성 오류: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 213
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error committing changes: {0}"
+msgstr "변경 사항 커밋 오류: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 220
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error pushing to remote: {0}"
+msgstr "원격으로 푸시하는 중 오류: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 223
+#: NEEDS WORK
+#, python-brace-format
+msgid "Changes committed and pushed to {0} branch successfully!"
+msgstr "{0} 브랜치에 변경 사항이 성공적으로 커밋되고 푸시되었습니다!"
+# 
+# File: usr/share/build-package/build_package.py, line: 229
+# File: usr/share/build-package/build_package.py, line: 340
+# File: usr/share/build-package/build_package.py, line: 691
+#: NEEDS WORK
+msgid "This operation is only available in git repositories."
+msgstr "이 작업은 git 저장소에서만 사용할 수 있습니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 255
+#: NEEDS WORK
+msgid "Dev branch doesn't exist. Creating it now..."
+msgstr "개발 브랜치가 존재하지 않습니다. 지금 생성 중입니다..."
+# 
+# File: usr/share/build-package/build_package.py, line: 262
+#: NEEDS WORK
+msgid "Stashing local changes temporarily..."
+msgstr "로컬 변경 사항을 임시로 스태시하고 있습니다..."
+# 
+# File: usr/share/build-package/build_package.py, line: 274
+#: NEEDS WORK
+msgid "No local changes were stashed."
+msgstr "로컬 변경 사항이 저장되지 않았습니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 276
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error stashing changes: {0}"
+msgstr "변경 사항을 스태시하는 중 오류: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 303
+# File: usr/share/build-package/build_package.py, line: 325
+#: NEEDS WORK
+msgid "Applying stashed changes..."
+msgstr "임시 저장된 변경 사항 적용 중..."
+# 
+# File: usr/share/build-package/build_package.py, line: 305
+#: NEEDS WORK
+msgid "Stashed changes applied successfully."
+msgstr "변경 사항이 성공적으로 적용되었습니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 307
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error applying stashed changes: {0}"
+msgstr "스태시된 변경 사항 적용 오류: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 308
+#: NEEDS WORK
+msgid "Your changes might be in the stash. Use 'git stash list' to check."
+msgstr "변경 사항이 스태시에 있을 수 있습니다. 'git stash list'를 사용하여 확인하세요."
+# 
+# File: usr/share/build-package/build_package.py, line: 310
+#: NEEDS WORK
+msgid "Dev branch created successfully!"
+msgstr "개발 브랜치가 성공적으로 생성되었습니다!"
+# 
+# File: usr/share/build-package/build_package.py, line: 313
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not create dev branch: {0}"
+msgstr "개발 브랜치를 생성할 수 없습니다: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 328
+#: NEEDS WORK
+msgid "Could not apply stashed changes. Your changes are in the stash."
+msgstr "변경 사항을 적용할 수 없습니다. 변경 사항이 스태시에 있습니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 345
+#: NEEDS WORK
+msgid "Branch type not specified."
+msgstr "브랜치 유형이 지정되지 않았습니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 376
+#: NEEDS WORK
+msgid ""
+"When using the '-b|--build' parameter and there are changes, the '-c|--commit' parameter is also "
+"required."
+msgstr "'-b|--build' 매개변수를 사용할 때 변경 사항이 있으면 '-c|--commit' 매개변수도 필요합니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 391
+#: NEEDS WORK
+#, python-brace-format
+msgid "You are currently on {0}. Creating new branch: {1}"
+msgstr "현재 {0}에 있습니다. 새 브랜치 생성: {1}"
+# 
+# File: usr/share/build-package/build_package.py, line: 400
+# File: usr/share/build-package/build_package.py, line: 419
+#: NEEDS WORK
+msgid "Committing changes with message:"
+msgstr "변경 사항을 메시지와 함께 커밋하기:"
+# 
+# File: usr/share/build-package/build_package.py, line: 405
+# File: usr/share/build-package/build_package.py, line: 424
+#: NEEDS WORK
+msgid "Pushing changes to remote repository..."
+msgstr "원격 저장소에 변경 사항 푸시 중..."
+# 
+# File: usr/share/build-package/build_package.py, line: 408
+# File: usr/share/build-package/build_package.py, line: 428
+#: NEEDS WORK
+#, python-brace-format
+msgid "Changes committed and pushed to {0} successfully!"
+msgstr "변경 사항이 {0}에 성공적으로 커밋되고 푸시되었습니다!"
+# 
+# File: usr/share/build-package/build_package.py, line: 433
+#: NEEDS WORK
+msgid "Error: PKGBUILD file not found."
+msgstr "오류: PKGBUILD 파일을 찾을 수 없습니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 433
+#: NEEDS WORK
+msgid "Error: Package name not found in PKGBUILD."
+msgstr "오류: PKGBUILD에서 패키지 이름을 찾을 수 없습니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 439
+# File: usr/share/build-package/build_package.py, line: 475
+#: NEEDS WORK
+msgid "Do you want to proceed with building the PACKAGE?"
+msgstr "패키지를 빌드하시겠습니까?"
+# 
+# File: usr/share/build-package/build_package.py, line: 440
+# File: usr/share/build-package/build_package.py, line: 476
+#: NEEDS WORK
+msgid "Package build cancelled."
+msgstr "패키지 빌드가 취소되었습니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 457
+#: NEEDS WORK
+msgid "Enter the AUR package name (ex: showtime): type EXIT to exit"
+msgstr "AUR 패키지 이름을 입력하세요 (예: showtime): 종료하려면 EXIT를 입력하세요"
+# 
+# File: usr/share/build-package/build_package.py, line: 463
+# File: usr/share/build-package/build_package.py, line: 632
+# File: usr/share/build-package/build_package.py, line: 648
+#: NEEDS WORK
+msgid "Exiting script. No action was performed."
+msgstr "스크립트를 종료합니다. 아무 작업도 수행되지 않았습니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 466
+#: NEEDS WORK
+msgid "Error: No package name was entered."
+msgstr "오류: 패키지 이름이 입력되지 않았습니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 497
+# File: usr/share/build-package/build_package.py, line: 518
+#: NEEDS WORK
+msgid "Organization"
+msgstr "조직"
+# 
+# File: usr/share/build-package/build_package.py, line: 498
+# File: usr/share/build-package/build_package.py, line: 519
+#: NEEDS WORK
+msgid "Repo Workflow"
+msgstr "레포 워크플로우"
+# 
+# File: usr/share/build-package/build_package.py, line: 499
+# File: usr/share/build-package/build_package.py, line: 520
+#: NEEDS WORK
+msgid "User Name"
+msgstr "사용자 이름"
+# 
+# File: usr/share/build-package/build_package.py, line: 500
+#: NEEDS WORK
+msgid "Package Name"
+msgstr "패키지 이름"
+# 
+# File: usr/share/build-package/build_package.py, line: 501
+#: NEEDS WORK
+msgid "Repository Type"
+msgstr "저장소 유형"
+# 
+# File: usr/share/build-package/build_package.py, line: 502
+# File: usr/share/build-package/build_package.py, line: 523
+#: NEEDS WORK
+msgid "New Branch"
+msgstr "새 브랜치"
+# 
+# File: usr/share/build-package/build_package.py, line: 506
+# File: usr/share/build-package/build_package.py, line: 524
+#: NEEDS WORK
+msgid "Url"
+msgstr "URL"
+# 
+# File: usr/share/build-package/build_package.py, line: 508
+# File: usr/share/build-package/build_package.py, line: 525
+#: NEEDS WORK
+msgid "TMATE Debug"
+msgstr "TMATE 디버그"
+# 
+# File: usr/share/build-package/build_package.py, line: 510
+#: NEEDS WORK
+msgid "Summary of Choices"
+msgstr "선택 요약"
+# 
+# File: usr/share/build-package/build_package.py, line: 521
+#: NEEDS WORK
+msgid "Package AUR Name"
+msgstr "패키지 AUR 이름"
+# 
+# File: usr/share/build-package/build_package.py, line: 522
+#: NEEDS WORK
+msgid "Branch_type"
+msgstr "브랜치_유형"
+# 
+# File: usr/share/build-package/build_package.py, line: 528
+#: NEEDS WORK
+msgid "AUR - Summary of Choices"
+msgstr "AUR - 선택 요약"
+# 
+# File: usr/share/build-package/build_package.py, line: 535
+#: NEEDS WORK
+msgid "Commit and push"
+msgstr "커밋 및 푸시"
+# 
+# File: usr/share/build-package/build_package.py, line: 536
+#: NEEDS WORK
+msgid "Generate package (commit + branch + build)"
+msgstr "패키지 생성 (커밋 + 브랜치 + 빌드)"
+# 
+# File: usr/share/build-package/build_package.py, line: 538
+#: NEEDS WORK
+msgid "Advanced menu"
+msgstr "고급 메뉴"
+# 
 # File: usr/share/build-package/menu_system.py, line: 45
 # File: usr/share/build-package/menu_system.py, line: 59
 #: NEEDS WORK
 msgid "Exit"
 msgstr "종료"
 # 
+# File: usr/share/build-package/build_package.py, line: 547
+#: NEEDS WORK
+msgid "Main Menu"
+msgstr "메인 메뉴"
+# 
 # File: usr/share/build-package/menu_system.py, line: 47
 # File: usr/share/build-package/menu_system.py, line: 61
 #: NEEDS WORK
 msgid "Back"
 msgstr "뒤로"
+# 
+# File: usr/share/build-package/build_package.py, line: 579
+#: NEEDS WORK
+msgid "Select repository"
+msgstr "저장소 선택"
+# 
+# File: usr/share/build-package/build_package.py, line: 592
+# File: usr/share/build-package/build_package.py, line: 617
+# File: usr/share/build-package/build_package.py, line: 637
+#: NEEDS WORK
+msgid "Enable TMATE debug session?"
+msgstr "TMATE 디버그 세션을 활성화하시겠습니까?"
+# 
+# File: usr/share/build-package/build_package.py, line: 592
+# File: usr/share/build-package/build_package.py, line: 617
+# File: usr/share/build-package/build_package.py, line: 637
+# File: usr/share/build-package/build_package.py, line: 747
+#: NEEDS WORK
+msgid "No"
+msgstr "아니요"
+# 
+# File: usr/share/build-package/build_package.py, line: 592
+# File: usr/share/build-package/build_package.py, line: 617
+# File: usr/share/build-package/build_package.py, line: 637
+# File: usr/share/build-package/build_package.py, line: 747
+#: NEEDS WORK
+msgid "Yes"
+msgstr "네"
+# 
+# File: usr/share/build-package/build_package.py, line: 608
+#: NEEDS WORK
+msgid "No changes to commit, proceeding with package generation."
+msgstr "커밋할 변경 사항이 없습니다. 패키지 생성을 진행합니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 654
+#: NEEDS WORK
+msgid "Delete branches (except main and latest)"
+msgstr "브랜치 삭제 (메인 및 최신 제외)"
+# 
+# File: usr/share/build-package/build_package.py, line: 655
+#: NEEDS WORK
+msgid "Delete failed Action jobs"
+msgstr "작업 삭제 실패"
+# 
+# File: usr/share/build-package/build_package.py, line: 656
+#: NEEDS WORK
+msgid "Delete successful Action jobs"
+msgstr "작업 삭제 성공"
+# 
+# File: usr/share/build-package/build_package.py, line: 657
+#: NEEDS WORK
+msgid "Delete all tags"
+msgstr "모든 태그 삭제"
+# 
+# File: usr/share/build-package/build_package.py, line: 658
+#: NEEDS WORK
+msgid "Merge branch to main"
+msgstr "메인으로 브랜치 병합"
+# 
+# File: usr/share/build-package/build_package.py, line: 663
+#: NEEDS WORK
+msgid "Advanced Menu"
+msgstr "고급 메뉴"
+# 
+# File: usr/share/build-package/build_package.py, line: 670
+#: NEEDS WORK
+msgid "Are you sure you want to delete branches? This action cannot be undone."
+msgstr "브랜치를 삭제하시겠습니까? 이 작업은 취소할 수 없습니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 674
+#: NEEDS WORK
+msgid "Are you sure you want to delete all failed Action jobs?"
+msgstr "모든 실패한 작업을 삭제하시겠습니까?"
+# 
+# File: usr/share/build-package/build_package.py, line: 678
+#: NEEDS WORK
+msgid "Are you sure you want to delete all successful Action jobs?"
+msgstr "모든 성공적인 작업을 삭제하시겠습니까?"
+# 
+# File: usr/share/build-package/build_package.py, line: 682
+#: NEEDS WORK
+msgid "Are you sure you want to delete all repository tags?"
+msgstr "모든 리포지토리 태그를 삭제하시겠습니까?"
+# 
+# File: usr/share/build-package/build_package.py, line: 719
+#: NEEDS WORK
+msgid "No dev branches found to merge."
+msgstr "병합할 개발 브랜치가 없습니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 729
+#: NEEDS WORK
+msgid "Select branch to merge to main"
+msgstr "주 브랜치를 선택하여 메인에 병합하기"
+# 
+# File: usr/share/build-package/build_package.py, line: 736
+#: NEEDS WORK
+msgid "Create PR (manual approval)"
+msgstr "PR 생성 (수동 승인)"
+# 
+# File: usr/share/build-package/build_package.py, line: 736
+#: NEEDS WORK
+msgid "Create PR and auto-merge"
+msgstr "PR 생성 및 자동 병합"
+# 
+# File: usr/share/build-package/build_package.py, line: 737
+#: NEEDS WORK
+msgid "Select merge option"
+msgstr "병합 옵션 선택"
+# 
+# File: usr/share/build-package/build_package.py, line: 745
+#: NEEDS WORK
+msgid "Source Branch"
+msgstr "소스 브랜치"
+# 
+# File: usr/share/build-package/build_package.py, line: 746
+#: NEEDS WORK
+msgid "Target Branch"
+msgstr "대상 브랜치"
+# 
+# File: usr/share/build-package/build_package.py, line: 747
+#: NEEDS WORK
+msgid "Auto-merge"
+msgstr "자동 병합"
+# 
+# File: usr/share/build-package/build_package.py, line: 750
+#: NEEDS WORK
+msgid "Merge Summary"
+msgstr "병합 요약"
+# 
+# File: usr/share/build-package/build_package.py, line: 753
+#: NEEDS WORK
+msgid "Do you want to proceed with creating the pull request?"
+msgstr "풀 리퀘스트 생성을 진행하시겠습니까?"
+# 
+# File: usr/share/build-package/build_package.py, line: 761
+#: NEEDS WORK
+msgid "Pull request operation completed."
+msgstr "풀 리퀘스트 작업이 완료되었습니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 764
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error getting branches: {0}"
+msgstr "브랜치를 가져오는 중 오류: {0}"
+# 
+# File: usr/share/build-package/config.py, line: 46
+#: NEEDS WORK
+msgid "BUILD PACKAGE"
+msgstr "패키지 빌드"
+# 
+# File: usr/share/build-package/config.py, line: 47
+#: NEEDS WORK
+msgid ""
+"A comprehensive tool for package building, testing, and deployment. Streamlines Git operations, "
+"automates builds and manages package workflows for BigCommunity repositories and AUR packages."
+msgstr ""
+"패키지 빌딩, 테스트 및 배포를 위한 종합 도구. Git 작업을 간소화하고, 빌드를 자동화하며 BigCommunity 리포지토리 및 AUR 패키지에 대한 패키지 워크플로를 "
+"관리합니다."
 # 
 # File: usr/share/build-package/menu_system.py, line: 91
 #: NEEDS WORK

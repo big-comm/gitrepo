@@ -7,6 +7,9 @@
 # All rights reserved.
 #
 
+# Import translation function
+from translation_utils import _
+
 # Repository settings
 REPO_WORKFLOW = "big-comm/build-package"        # Repository containing workflows
 DEFAULT_ORGANIZATION = "big-comm"               # Default organization
@@ -40,5 +43,5 @@ COLORS = {
 
 # Script version
 VERSION = "3.0.0"
-APP_NAME = "BUILD PACKAGE"
-APP_DESC = "A comprehensive tool for package building, testing, and deployment. Streamlines Git operations, automates builds and manages package workflows for BigCommunity repositories and AUR packages."
+APP_NAME = _("BUILD PACKAGE")
+APP_DESC = _("A comprehensive tool for package building, testing, and deployment. Streamlines Git operations, automates builds and manages package workflows for BigCommunity repositories and AUR packages.")
