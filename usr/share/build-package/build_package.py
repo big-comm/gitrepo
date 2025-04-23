@@ -183,7 +183,7 @@ the specific source code used to create this copy."""), style="white")
             commit_message = self.args.commit
         elif has_changes:
             # No commit message provided, but we have changes - ask for message
-            commit_message = Prompt.ask(_("Enter commit message"))
+            commit_message = Prompt.ask(_("Enter commit message"), style="cyan")
             if not commit_message:
                 self.logger.die("red", _("Commit message cannot be empty."))
                 return False
@@ -361,7 +361,7 @@ the specific source code used to create this copy."""), style="white")
             commit_message = self.args.commit
         elif has_changes:
             # Need to ask for a message
-            commit_message = Prompt.ask(_("Enter commit message"))
+            commit_message = Prompt.ask(_("Enter commit message"), style="cyan")
             if not commit_message:
                 self.logger.log("red", _("Commit message cannot be empty."))
                 return False
@@ -562,7 +562,7 @@ the specific source code used to create this copy."""), style="white")
                             continue
                     
                     # Only ask for message if there are changes
-                    commit_message = Prompt.ask(_("Enter commit message"))
+                    commit_message = Prompt.ask(_("Enter commit message"), style="cyan")
                     if not commit_message:
                         self.logger.log("red", _("Commit message cannot be empty."))
                         continue
@@ -598,7 +598,7 @@ the specific source code used to create this copy."""), style="white")
                     commit_message = ""
 
                     if has_changes:
-                        commit_message = Prompt.ask(_("Enter commit message"))
+                        commit_message = Prompt.ask(_("Enter commit message"), style="cyan")
                         if not commit_message:
                             self.logger.log("red", _("Commit message cannot be empty."))
                             continue
