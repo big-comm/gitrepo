@@ -8,7 +8,7 @@ import os
 import requests
 from git_utils import GitUtils
 from config import TOKEN_FILE
-from translation_utils import translate_text as _
+from translation_utils import _
 
 class GitHubAPI:
     """Interface with GitHub API"""

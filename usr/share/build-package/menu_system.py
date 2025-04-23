@@ -12,7 +12,7 @@ from typing import Optional, Tuple
 from rich.console import Console
 from rich.panel import Panel
 from rich.prompt import Confirm
-from translation_utils import translate_text as _
+from translation_utils import _
 from rich.box import ROUNDED
 
 class MenuSystem:

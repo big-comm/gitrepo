@@ -11,7 +11,7 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
 from rich.table import Table
-from translation_utils import translate_text as _
+from translation_utils import _
 
 from rich.box import ROUNDED
 

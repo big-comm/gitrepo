@@ -8,7 +8,7 @@ import os
 import re
 import subprocess
 from datetime import datetime
-from translation_utils import translate_text as _
+from translation_utils import _
 
 class GitUtils:
     """Utilities for Git repository operations"""
