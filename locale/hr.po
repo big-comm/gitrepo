@@ -106,21 +106,10 @@ msgstr "Unesite poruku o potvrdi:"
 msgid "This option is only available in git repositories."
 msgstr "Ova opcija je dostupna samo u git repozitorijima."
 # 
-# File: usr/share/build-package/build_package.py, line: 165
+# File: usr/share/build-package/build_package.py, line: 174
 #: NEEDS WORK
-#, python-brace-format
-msgid "Currently on {0}. Switching to dev branch..."
-msgstr "Trenutno na {0}. Prebacivanje na dev granu..."
-# 
-# File: usr/share/build-package/build_package.py, line: 168
-#: NEEDS WORK
-msgid "Switched to dev branch"
-msgstr "Prebačeno na dev granu"
-# 
-# File: usr/share/build-package/build_package.py, line: 170
-#: NEEDS WORK
-msgid "Failed to switch to dev branch"
-msgstr "Neuspjeh pri prebacivanju na dev granu"
+msgid "WARNING: You are on main branch. Commits should not be made directly on main!"
+msgstr "UPIT: Nalazite se na glavnoj grani. Promjene se ne bi trebale izravno izvršavati na glavnoj!"
 # 
 # File: usr/share/build-package/build_package.py, line: 175
 # File: usr/share/build-package/build_package.py, line: 353
@@ -154,6 +143,12 @@ msgstr "Nema promjena za potvrdu"
 #: NEEDS WORK
 msgid "Press Enter to return to main menu"
 msgstr "Pritisnite Enter za povratak na glavni izbornik"
+# 
+# File: usr/share/build-package/git_utils.py, line: 271
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating new branch: {0}"
+msgstr "Stvaranje nove grane: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 205
 # File: usr/share/build-package/build_package.py, line: 334
@@ -331,12 +326,6 @@ msgstr "Greška: Nije unijeno ime paketa."
 msgid "Organization"
 msgstr "Organizacija"
 # 
-# File: usr/share/build-package/build_package.py, line: 498
-# File: usr/share/build-package/build_package.py, line: 519
-#: NEEDS WORK
-msgid "Repo Workflow"
-msgstr "Repo Radni Tok"
-# 
 # File: usr/share/build-package/build_package.py, line: 499
 # File: usr/share/build-package/build_package.py, line: 520
 #: NEEDS WORK
@@ -375,6 +364,12 @@ msgstr "TMATE Debug"
 #: NEEDS WORK
 msgid "Summary of Choices"
 msgstr "Sažetak izbora"
+# 
+# File: usr/share/build-package/build_package.py, line: 498
+# File: usr/share/build-package/build_package.py, line: 519
+#: NEEDS WORK
+msgid "Repo Workflow"
+msgstr "Repo Radni Tok"
 # 
 # File: usr/share/build-package/build_package.py, line: 521
 #: NEEDS WORK
@@ -980,12 +975,6 @@ msgstr "Greška prilikom preuzimanja promjena: {0}"
 #, python-brace-format
 msgid "Error finding most recent branch: {0}"
 msgstr "Greška prilikom pronalaženja najnovije grane: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 271
-#: NEEDS WORK
-#, python-brace-format
-msgid "Creating new branch: {0}"
-msgstr "Stvaranje nove grane: {0}"
 # 
 # File: usr/share/build-package/git_utils.py, line: 275
 #: NEEDS WORK

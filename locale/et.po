@@ -107,21 +107,10 @@ msgstr "Sisesta commit'i sõnum:"
 msgid "This option is only available in git repositories."
 msgstr "See valik on saadaval ainult git-repositooriumides."
 # 
-# File: usr/share/build-package/build_package.py, line: 165
+# File: usr/share/build-package/build_package.py, line: 174
 #: NEEDS WORK
-#, python-brace-format
-msgid "Currently on {0}. Switching to dev branch..."
-msgstr "Praegu {0} peal. Lülitamine arendus harule..."
-# 
-# File: usr/share/build-package/build_package.py, line: 168
-#: NEEDS WORK
-msgid "Switched to dev branch"
-msgstr "Lülitatud arendus haru"
-# 
-# File: usr/share/build-package/build_package.py, line: 170
-#: NEEDS WORK
-msgid "Failed to switch to dev branch"
-msgstr "Eba dev haru vahetusse minek."
+msgid "WARNING: You are on main branch. Commits should not be made directly on main!"
+msgstr "HOIATUS: Olete peaharul. Komite ei tohi teha otse peaharule!"
 # 
 # File: usr/share/build-package/build_package.py, line: 175
 # File: usr/share/build-package/build_package.py, line: 353
@@ -155,6 +144,12 @@ msgstr "Ei muudatusi, mida kinnitada."
 #: NEEDS WORK
 msgid "Press Enter to return to main menu"
 msgstr "Vajutage Enter, et naasta peamenüüsse"
+# 
+# File: usr/share/build-package/git_utils.py, line: 271
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating new branch: {0}"
+msgstr "Uue haru loomine: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 205
 # File: usr/share/build-package/build_package.py, line: 334
@@ -330,12 +325,6 @@ msgstr "Viga: Paketi nime ei sisestatud."
 msgid "Organization"
 msgstr "Organisatsioon"
 # 
-# File: usr/share/build-package/build_package.py, line: 498
-# File: usr/share/build-package/build_package.py, line: 519
-#: NEEDS WORK
-msgid "Repo Workflow"
-msgstr "Repo töövoog"
-# 
 # File: usr/share/build-package/build_package.py, line: 499
 # File: usr/share/build-package/build_package.py, line: 520
 #: NEEDS WORK
@@ -374,6 +363,12 @@ msgstr "TMATE Silumine"
 #: NEEDS WORK
 msgid "Summary of Choices"
 msgstr "Valikute kokkuvõte"
+# 
+# File: usr/share/build-package/build_package.py, line: 498
+# File: usr/share/build-package/build_package.py, line: 519
+#: NEEDS WORK
+msgid "Repo Workflow"
+msgstr "Repo töövoog"
 # 
 # File: usr/share/build-package/build_package.py, line: 521
 #: NEEDS WORK
@@ -980,12 +975,6 @@ msgstr "Viga muudatuste tõmbamisel: {0}"
 #, python-brace-format
 msgid "Error finding most recent branch: {0}"
 msgstr "Viga viimase haru leidmisel: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 271
-#: NEEDS WORK
-#, python-brace-format
-msgid "Creating new branch: {0}"
-msgstr "Uue haru loomine: {0}"
 # 
 # File: usr/share/build-package/git_utils.py, line: 275
 #: NEEDS WORK

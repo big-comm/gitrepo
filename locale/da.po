@@ -107,21 +107,10 @@ msgstr "Indtast commit-besked:"
 msgid "This option is only available in git repositories."
 msgstr "Denne mulighed er kun tilgængelig i git-repositorier."
 # 
-# File: usr/share/build-package/build_package.py, line: 165
+# File: usr/share/build-package/build_package.py, line: 174
 #: NEEDS WORK
-#, python-brace-format
-msgid "Currently on {0}. Switching to dev branch..."
-msgstr "I øjeblikket på {0}. Skifter til dev-grenen..."
-# 
-# File: usr/share/build-package/build_package.py, line: 168
-#: NEEDS WORK
-msgid "Switched to dev branch"
-msgstr "Skiftet til udviklingsgren"
-# 
-# File: usr/share/build-package/build_package.py, line: 170
-#: NEEDS WORK
-msgid "Failed to switch to dev branch"
-msgstr "Mislykkedes at skifte til udviklingsgren"
+msgid "WARNING: You are on main branch. Commits should not be made directly on main!"
+msgstr "ADVARSEL: Du er på hovedgrenen. Commits bør ikke laves direkte på hoved!"
 # 
 # File: usr/share/build-package/build_package.py, line: 175
 # File: usr/share/build-package/build_package.py, line: 353
@@ -155,6 +144,12 @@ msgstr "Ingen ændringer at forpligte"
 #: NEEDS WORK
 msgid "Press Enter to return to main menu"
 msgstr "Tryk på Enter for at vende tilbage til hovedmenuen"
+# 
+# File: usr/share/build-package/git_utils.py, line: 271
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating new branch: {0}"
+msgstr "Opretter ny gren: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 205
 # File: usr/share/build-package/build_package.py, line: 334
@@ -332,12 +327,6 @@ msgstr "Fejl: Der blev ikke indtastet noget pakkenavn."
 msgid "Organization"
 msgstr "Organisation"
 # 
-# File: usr/share/build-package/build_package.py, line: 498
-# File: usr/share/build-package/build_package.py, line: 519
-#: NEEDS WORK
-msgid "Repo Workflow"
-msgstr "Repo Arbejdsgang"
-# 
 # File: usr/share/build-package/build_package.py, line: 499
 # File: usr/share/build-package/build_package.py, line: 520
 #: NEEDS WORK
@@ -376,6 +365,12 @@ msgstr "TMATE Fejlfinding"
 #: NEEDS WORK
 msgid "Summary of Choices"
 msgstr "Oversigt over valg"
+# 
+# File: usr/share/build-package/build_package.py, line: 498
+# File: usr/share/build-package/build_package.py, line: 519
+#: NEEDS WORK
+msgid "Repo Workflow"
+msgstr "Repo Arbejdsgang"
 # 
 # File: usr/share/build-package/build_package.py, line: 521
 #: NEEDS WORK
@@ -982,12 +977,6 @@ msgstr "Fejl ved hentning af ændringer: {0}"
 #, python-brace-format
 msgid "Error finding most recent branch: {0}"
 msgstr "Fejl ved at finde den seneste gren: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 271
-#: NEEDS WORK
-#, python-brace-format
-msgid "Creating new branch: {0}"
-msgstr "Opretter ny gren: {0}"
 # 
 # File: usr/share/build-package/git_utils.py, line: 275
 #: NEEDS WORK

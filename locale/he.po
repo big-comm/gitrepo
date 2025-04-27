@@ -107,21 +107,10 @@ msgstr "הזן הודעת התחייבות:"
 msgid "This option is only available in git repositories."
 msgstr "אפשרות זו זמינה רק במאגרי git."
 # 
-# File: usr/share/build-package/build_package.py, line: 165
+# File: usr/share/build-package/build_package.py, line: 174
 #: NEEDS WORK
-#, python-brace-format
-msgid "Currently on {0}. Switching to dev branch..."
-msgstr "נוכחי ב-{0}. מעביר לענף dev..."
-# 
-# File: usr/share/build-package/build_package.py, line: 168
-#: NEEDS WORK
-msgid "Switched to dev branch"
-msgstr "עברתי לענף הפיתוח"
-# 
-# File: usr/share/build-package/build_package.py, line: 170
-#: NEEDS WORK
-msgid "Failed to switch to dev branch"
-msgstr "נכשל במעבר לענף הפיתוח"
+msgid "WARNING: You are on main branch. Commits should not be made directly on main!"
+msgstr "אזהרה: אתה נמצא בענף הראשי. לא should לבצע קומיטים ישירות על הראשי!"
 # 
 # File: usr/share/build-package/build_package.py, line: 175
 # File: usr/share/build-package/build_package.py, line: 353
@@ -155,6 +144,12 @@ msgstr "אין שינויים להתחייב"
 #: NEEDS WORK
 msgid "Press Enter to return to main menu"
 msgstr "לחץ על Enter כדי לחזור לתפריט הראשי"
+# 
+# File: usr/share/build-package/git_utils.py, line: 271
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating new branch: {0}"
+msgstr "יצירת ענף חדש: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 205
 # File: usr/share/build-package/build_package.py, line: 334
@@ -330,12 +325,6 @@ msgstr "שגיאה: לא הוזן שם חבילה."
 msgid "Organization"
 msgstr "ארגון"
 # 
-# File: usr/share/build-package/build_package.py, line: 498
-# File: usr/share/build-package/build_package.py, line: 519
-#: NEEDS WORK
-msgid "Repo Workflow"
-msgstr "זרימת עבודה במאגר"
-# 
 # File: usr/share/build-package/build_package.py, line: 499
 # File: usr/share/build-package/build_package.py, line: 520
 #: NEEDS WORK
@@ -374,6 +363,12 @@ msgstr "TMATE דיבוג"
 #: NEEDS WORK
 msgid "Summary of Choices"
 msgstr "סיכום אפשרויות"
+# 
+# File: usr/share/build-package/build_package.py, line: 498
+# File: usr/share/build-package/build_package.py, line: 519
+#: NEEDS WORK
+msgid "Repo Workflow"
+msgstr "זרימת עבודה במאגר"
 # 
 # File: usr/share/build-package/build_package.py, line: 521
 #: NEEDS WORK
@@ -979,12 +974,6 @@ msgstr "שגיאה במשיכת שינויים: {0}"
 #, python-brace-format
 msgid "Error finding most recent branch: {0}"
 msgstr "שגיאה במציאת הסניף האחרון: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 271
-#: NEEDS WORK
-#, python-brace-format
-msgid "Creating new branch: {0}"
-msgstr "יצירת ענף חדש: {0}"
 # 
 # File: usr/share/build-package/git_utils.py, line: 275
 #: NEEDS WORK

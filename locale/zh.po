@@ -106,21 +106,10 @@ msgstr "输入提交信息："
 msgid "This option is only available in git repositories."
 msgstr "此选项仅在 git 仓库中可用。"
 # 
-# File: usr/share/build-package/build_package.py, line: 165
+# File: usr/share/build-package/build_package.py, line: 174
 #: NEEDS WORK
-#, python-brace-format
-msgid "Currently on {0}. Switching to dev branch..."
-msgstr "当前在 {0}。切换到开发分支..."
-# 
-# File: usr/share/build-package/build_package.py, line: 168
-#: NEEDS WORK
-msgid "Switched to dev branch"
-msgstr "切换到开发分支"
-# 
-# File: usr/share/build-package/build_package.py, line: 170
-#: NEEDS WORK
-msgid "Failed to switch to dev branch"
-msgstr "切换到开发分支失败"
+msgid "WARNING: You are on main branch. Commits should not be made directly on main!"
+msgstr "警告：您当前在主分支上。提交不应直接在主分支上进行！"
 # 
 # File: usr/share/build-package/build_package.py, line: 175
 # File: usr/share/build-package/build_package.py, line: 353
@@ -154,6 +143,12 @@ msgstr "没有要提交的更改"
 #: NEEDS WORK
 msgid "Press Enter to return to main menu"
 msgstr "按回车键返回主菜单"
+# 
+# File: usr/share/build-package/git_utils.py, line: 271
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating new branch: {0}"
+msgstr "创建新分支：{0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 205
 # File: usr/share/build-package/build_package.py, line: 334
@@ -329,12 +324,6 @@ msgstr "错误：未输入包名。"
 msgid "Organization"
 msgstr "组织"
 # 
-# File: usr/share/build-package/build_package.py, line: 498
-# File: usr/share/build-package/build_package.py, line: 519
-#: NEEDS WORK
-msgid "Repo Workflow"
-msgstr "仓库工作流程"
-# 
 # File: usr/share/build-package/build_package.py, line: 499
 # File: usr/share/build-package/build_package.py, line: 520
 #: NEEDS WORK
@@ -373,6 +362,12 @@ msgstr "TMATE 调试"
 #: NEEDS WORK
 msgid "Summary of Choices"
 msgstr "选择摘要"
+# 
+# File: usr/share/build-package/build_package.py, line: 498
+# File: usr/share/build-package/build_package.py, line: 519
+#: NEEDS WORK
+msgid "Repo Workflow"
+msgstr "仓库工作流程"
 # 
 # File: usr/share/build-package/build_package.py, line: 521
 #: NEEDS WORK
@@ -976,12 +971,6 @@ msgstr "拉取更改时出错：{0}"
 #, python-brace-format
 msgid "Error finding most recent branch: {0}"
 msgstr "找不到最近的分支：{0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 271
-#: NEEDS WORK
-#, python-brace-format
-msgid "Creating new branch: {0}"
-msgstr "创建新分支：{0}"
 # 
 # File: usr/share/build-package/git_utils.py, line: 275
 #: NEEDS WORK
