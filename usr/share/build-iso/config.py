@@ -83,15 +83,12 @@ BIGCOMM_EDITIONS = ["cinnamon", "cosmic", "deepin", "gnome", "kde", "xfce", "wma
 BIGLINUX_EDITIONS = ["base", "FalaQueEuTeEscuto", "flisol", "kde", "small", "xivastudio"]
 TALESAM_EDITIONS = ["cinnamon", "cosmic", "deepin", "gnome", "kde", "xfce", "wmaker"]
 
-# Build directories description
-BUILD_DIR_DESCRIPTION = _("The directory within the ISO profiles repository that contains specific distribution configurations")
-
 # Build dirs for different distros
 BIGCOMM_BUILD_DIRS = ["bigcommunity"]
 BIGLINUX_BUILD_DIRS = ["biglinux", "biglinux-make-iso-profiles"]
 TALESAM_BUILD_DIRS = ["bigcommunity"]
 
 # Script version
-VERSION = "1.0.0"
+VERSION = "2.0.0"
 APP_NAME = _("BUILD ISO")
 APP_DESC = _("Wrapper for ISO building using GitHub Actions. Streamlines the process of creating custom Linux distribution ISO images through automation.")
