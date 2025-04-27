@@ -89,6 +89,6 @@ BIGLINUX_BUILD_DIRS = ["biglinux", "biglinux-make-iso-profiles"]
 TALESAM_BUILD_DIRS = ["bigcommunity"]
 
 # Script version
-VERSION = "2.0.0"
+VERSION = "3.0.0"
 APP_NAME = _("BUILD ISO")
 APP_DESC = _("Wrapper for ISO building using GitHub Actions. Streamlines the process of creating custom Linux distribution ISO images through automation.")

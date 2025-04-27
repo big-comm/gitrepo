@@ -158,7 +158,7 @@ the specific source code used to create this copy."""), style="white")
         return commit_message
     
     def commit_and_push(self):
-        """Performs commit on dev branch"""
+        """Performs commit on a new dev branch with timestamp"""
         if not self.is_git_repo:
             self.logger.die("red", _("This option is only available in git repositories."))
             return False
@@ -169,17 +169,11 @@ the specific source code used to create this copy."""), style="white")
         # Get current branch
         current_branch = GitUtils.get_current_branch()
         
-        # Switch to dev branch if not already on it or a dev-* branch
-        if not (current_branch == "dev" or current_branch.startswith("dev-")):
-            self.logger.log("yellow", _("Currently on {0}. Switching to dev branch...").format(current_branch))
-            try:
-                subprocess.run(["git", "checkout", "dev"], check=True)
-                self.logger.log("green", _("Switched to dev branch"))
-            except subprocess.CalledProcessError:
-                self.logger.die("red", _("Failed to switch to dev branch"))
-                return False
+        # If on main branch, we need to be careful
+        if current_branch == "main" or current_branch == "master":
+            self.logger.log("yellow", _("WARNING: You are on main branch. Commits should not be made directly on main!"))
         
-        # Pull latest changes first
+        # Pull latest changes first - always try to get most recent code
         if not GitUtils.git_pull(self.logger):
             if not self.menu.confirm(_("Failed to pull changes. Do you want to continue anyway?")):
                 self.logger.log("red", _("Operation cancelled by user."))
@@ -203,11 +197,12 @@ the specific source code used to create this copy."""), style="white")
             self.menu.show_menu(_("No Changes to Commit\n"), [_("Press Enter to return to main menu")])
             return True
         
-        # Create new dev branch with timestamp
+        # ALWAYS create new dev branch with timestamp
         timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
         dev_branch = f"dev-{timestamp}"
         
-        # Create and switch to dev branch
+        # Create and switch to new dev branch
+        self.logger.log("cyan", _("Creating new branch: {0}").format(dev_branch))
         try:
             subprocess.run(["git", "checkout", "-b", dev_branch], check=True)
         except subprocess.CalledProcessError as e:
@@ -504,7 +499,7 @@ the specific source code used to create this copy."""), style="white")
         
         data = [
             (_("Organization"), self.organization),
-            (_("Repo Workflow"), self.repo_workflow),
+            # (_("Repo Workflow"), self.repo_workflow),
             (_("User Name"), self.github_user_name),
             (_("Package Name"), package_name),
             (_("Repository Type"), branch_type),
