@@ -106,21 +106,10 @@ msgstr "Ange commit-meddelande:"
 msgid "This option is only available in git repositories."
 msgstr "Detta alternativ är endast tillgängligt i git-repositorier."
 # 
-# File: usr/share/build-package/build_package.py, line: 165
+# File: usr/share/build-package/build_package.py, line: 174
 #: NEEDS WORK
-#, python-brace-format
-msgid "Currently on {0}. Switching to dev branch..."
-msgstr "För närvarande på {0}. Växlar till utvecklingsgrenen..."
-# 
-# File: usr/share/build-package/build_package.py, line: 168
-#: NEEDS WORK
-msgid "Switched to dev branch"
-msgstr "Bytt till utvecklingsgren"
-# 
-# File: usr/share/build-package/build_package.py, line: 170
-#: NEEDS WORK
-msgid "Failed to switch to dev branch"
-msgstr "Misslyckades med att byta till utvecklingsgren"
+msgid "WARNING: You are on main branch. Commits should not be made directly on main!"
+msgstr "VARNING: Du är på huvudgrenen. Åtaganden bör inte göras direkt på huvud!"
 # 
 # File: usr/share/build-package/build_package.py, line: 175
 # File: usr/share/build-package/build_package.py, line: 353
@@ -154,6 +143,12 @@ msgstr "Inga ändringar att begå"
 #: NEEDS WORK
 msgid "Press Enter to return to main menu"
 msgstr "Tryck på Enter för att återgå till huvudmenyn"
+# 
+# File: usr/share/build-package/git_utils.py, line: 271
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating new branch: {0}"
+msgstr "Skapar ny gren: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 205
 # File: usr/share/build-package/build_package.py, line: 334
@@ -331,12 +326,6 @@ msgstr "Fel: Inget paketnamn angavs."
 msgid "Organization"
 msgstr "Organisation"
 # 
-# File: usr/share/build-package/build_package.py, line: 498
-# File: usr/share/build-package/build_package.py, line: 519
-#: NEEDS WORK
-msgid "Repo Workflow"
-msgstr "Repo Arbetsflöde"
-# 
 # File: usr/share/build-package/build_package.py, line: 499
 # File: usr/share/build-package/build_package.py, line: 520
 #: NEEDS WORK
@@ -375,6 +364,12 @@ msgstr "TMATE Felsökning"
 #: NEEDS WORK
 msgid "Summary of Choices"
 msgstr "Sammanfattning av val"
+# 
+# File: usr/share/build-package/build_package.py, line: 498
+# File: usr/share/build-package/build_package.py, line: 519
+#: NEEDS WORK
+msgid "Repo Workflow"
+msgstr "Repo Arbetsflöde"
 # 
 # File: usr/share/build-package/build_package.py, line: 521
 #: NEEDS WORK
@@ -981,12 +976,6 @@ msgstr "Fel vid hämtning av ändringar: {0}"
 #, python-brace-format
 msgid "Error finding most recent branch: {0}"
 msgstr "Fel vid hämtning av den senaste grenen: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 271
-#: NEEDS WORK
-#, python-brace-format
-msgid "Creating new branch: {0}"
-msgstr "Skapar ny gren: {0}"
 # 
 # File: usr/share/build-package/git_utils.py, line: 275
 #: NEEDS WORK

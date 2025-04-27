@@ -107,21 +107,10 @@ msgstr "コミットメッセージを入力してください:"
 msgid "This option is only available in git repositories."
 msgstr "このオプションは、git リポジトリでのみ利用可能です。"
 # 
-# File: usr/share/build-package/build_package.py, line: 165
+# File: usr/share/build-package/build_package.py, line: 174
 #: NEEDS WORK
-#, python-brace-format
-msgid "Currently on {0}. Switching to dev branch..."
-msgstr "現在 {0} にいます。dev ブランチに切り替えています..."
-# 
-# File: usr/share/build-package/build_package.py, line: 168
-#: NEEDS WORK
-msgid "Switched to dev branch"
-msgstr "開発ブランチに切り替えました"
-# 
-# File: usr/share/build-package/build_package.py, line: 170
-#: NEEDS WORK
-msgid "Failed to switch to dev branch"
-msgstr "開発ブランチへの切り替えに失敗しました"
+msgid "WARNING: You are on main branch. Commits should not be made directly on main!"
+msgstr "警告: あなたはメインブランチにいます。コミットはメインに直接行うべきではありません！"
 # 
 # File: usr/share/build-package/build_package.py, line: 175
 # File: usr/share/build-package/build_package.py, line: 353
@@ -155,6 +144,12 @@ msgstr "コミットする変更はありません"
 #: NEEDS WORK
 msgid "Press Enter to return to main menu"
 msgstr "エンターを押してメインメニューに戻る"
+# 
+# File: usr/share/build-package/git_utils.py, line: 271
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating new branch: {0}"
+msgstr "新しいブランチを作成中: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 205
 # File: usr/share/build-package/build_package.py, line: 334
@@ -330,12 +325,6 @@ msgstr "エラー: パッケージ名が入力されていません。"
 msgid "Organization"
 msgstr "組織"
 # 
-# File: usr/share/build-package/build_package.py, line: 498
-# File: usr/share/build-package/build_package.py, line: 519
-#: NEEDS WORK
-msgid "Repo Workflow"
-msgstr "リポジトリワークフロー"
-# 
 # File: usr/share/build-package/build_package.py, line: 499
 # File: usr/share/build-package/build_package.py, line: 520
 #: NEEDS WORK
@@ -374,6 +363,12 @@ msgstr "TMATE デバッグ"
 #: NEEDS WORK
 msgid "Summary of Choices"
 msgstr "選択の概要"
+# 
+# File: usr/share/build-package/build_package.py, line: 498
+# File: usr/share/build-package/build_package.py, line: 519
+#: NEEDS WORK
+msgid "Repo Workflow"
+msgstr "リポジトリワークフロー"
 # 
 # File: usr/share/build-package/build_package.py, line: 521
 #: NEEDS WORK
@@ -979,12 +974,6 @@ msgstr "変更の取得中にエラーが発生しました: {0}"
 #, python-brace-format
 msgid "Error finding most recent branch: {0}"
 msgstr "最新のブランチを見つける際にエラーが発生しました: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 271
-#: NEEDS WORK
-#, python-brace-format
-msgid "Creating new branch: {0}"
-msgstr "新しいブランチを作成中: {0}"
 # 
 # File: usr/share/build-package/git_utils.py, line: 275
 #: NEEDS WORK

@@ -107,21 +107,10 @@ msgstr "커밋 메시지 입력:"
 msgid "This option is only available in git repositories."
 msgstr "이 옵션은 git 저장소에서만 사용할 수 있습니다."
 # 
-# File: usr/share/build-package/build_package.py, line: 165
+# File: usr/share/build-package/build_package.py, line: 174
 #: NEEDS WORK
-#, python-brace-format
-msgid "Currently on {0}. Switching to dev branch..."
-msgstr "현재 {0}에 있습니다. 개발 브랜치로 전환 중..."
-# 
-# File: usr/share/build-package/build_package.py, line: 168
-#: NEEDS WORK
-msgid "Switched to dev branch"
-msgstr "개발 브랜치로 전환됨"
-# 
-# File: usr/share/build-package/build_package.py, line: 170
-#: NEEDS WORK
-msgid "Failed to switch to dev branch"
-msgstr "개발 브랜치로 전환하지 못했습니다."
+msgid "WARNING: You are on main branch. Commits should not be made directly on main!"
+msgstr "경고: 현재 메인 브랜치에 있습니다. 커밋은 메인에 직접적으로 하지 않아야 합니다!"
 # 
 # File: usr/share/build-package/build_package.py, line: 175
 # File: usr/share/build-package/build_package.py, line: 353
@@ -155,6 +144,12 @@ msgstr "커밋할 변경 사항 없음"
 #: NEEDS WORK
 msgid "Press Enter to return to main menu"
 msgstr "Enter 키를 눌러 기본 메뉴로 돌아갑니다."
+# 
+# File: usr/share/build-package/git_utils.py, line: 271
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating new branch: {0}"
+msgstr "새 브랜치 생성: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 205
 # File: usr/share/build-package/build_package.py, line: 334
@@ -330,12 +325,6 @@ msgstr "오류: 패키지 이름이 입력되지 않았습니다."
 msgid "Organization"
 msgstr "조직"
 # 
-# File: usr/share/build-package/build_package.py, line: 498
-# File: usr/share/build-package/build_package.py, line: 519
-#: NEEDS WORK
-msgid "Repo Workflow"
-msgstr "레포 워크플로우"
-# 
 # File: usr/share/build-package/build_package.py, line: 499
 # File: usr/share/build-package/build_package.py, line: 520
 #: NEEDS WORK
@@ -374,6 +363,12 @@ msgstr "TMATE 디버그"
 #: NEEDS WORK
 msgid "Summary of Choices"
 msgstr "선택 요약"
+# 
+# File: usr/share/build-package/build_package.py, line: 498
+# File: usr/share/build-package/build_package.py, line: 519
+#: NEEDS WORK
+msgid "Repo Workflow"
+msgstr "레포 워크플로우"
 # 
 # File: usr/share/build-package/build_package.py, line: 521
 #: NEEDS WORK
@@ -979,12 +974,6 @@ msgstr "변경 사항을 가져오는 중 오류: {0}"
 #, python-brace-format
 msgid "Error finding most recent branch: {0}"
 msgstr "가장 최근 브랜치를 찾는 중 오류: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 271
-#: NEEDS WORK
-#, python-brace-format
-msgid "Creating new branch: {0}"
-msgstr "새 브랜치 생성: {0}"
 # 
 # File: usr/share/build-package/git_utils.py, line: 275
 #: NEEDS WORK

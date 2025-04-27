@@ -107,21 +107,10 @@ msgstr "Ingrese el mensaje de confirmación:"
 msgid "This option is only available in git repositories."
 msgstr "Esta opción solo está disponible en repositorios de git."
 # 
-# File: usr/share/build-package/build_package.py, line: 165
+# File: usr/share/build-package/build_package.py, line: 174
 #: NEEDS WORK
-#, python-brace-format
-msgid "Currently on {0}. Switching to dev branch..."
-msgstr "Actualmente en {0}. Cambiando a la rama de desarrollo..."
-# 
-# File: usr/share/build-package/build_package.py, line: 168
-#: NEEDS WORK
-msgid "Switched to dev branch"
-msgstr "Cambiado a la rama de desarrollo"
-# 
-# File: usr/share/build-package/build_package.py, line: 170
-#: NEEDS WORK
-msgid "Failed to switch to dev branch"
-msgstr "Error al cambiar a la rama de desarrollo"
+msgid "WARNING: You are on main branch. Commits should not be made directly on main!"
+msgstr "ADVERTENCIA: Estás en la rama principal. ¡No se deben hacer commits directamente en la principal!"
 # 
 # File: usr/share/build-package/build_package.py, line: 175
 # File: usr/share/build-package/build_package.py, line: 353
@@ -155,6 +144,12 @@ msgstr "No hay cambios para confirmar"
 #: NEEDS WORK
 msgid "Press Enter to return to main menu"
 msgstr "Presione Enter para volver al menú principal"
+# 
+# File: usr/share/build-package/git_utils.py, line: 271
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating new branch: {0}"
+msgstr "Creando nueva rama: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 205
 # File: usr/share/build-package/build_package.py, line: 334
@@ -330,12 +325,6 @@ msgstr "Error: No se ingresó el nombre del paquete."
 msgid "Organization"
 msgstr "Organización"
 # 
-# File: usr/share/build-package/build_package.py, line: 498
-# File: usr/share/build-package/build_package.py, line: 519
-#: NEEDS WORK
-msgid "Repo Workflow"
-msgstr "Flujo de trabajo del repositorio"
-# 
 # File: usr/share/build-package/build_package.py, line: 499
 # File: usr/share/build-package/build_package.py, line: 520
 #: NEEDS WORK
@@ -374,6 +363,12 @@ msgstr "TMATE Depuración"
 #: NEEDS WORK
 msgid "Summary of Choices"
 msgstr "Resumen de Opciones"
+# 
+# File: usr/share/build-package/build_package.py, line: 498
+# File: usr/share/build-package/build_package.py, line: 519
+#: NEEDS WORK
+msgid "Repo Workflow"
+msgstr "Flujo de trabajo del repositorio"
 # 
 # File: usr/share/build-package/build_package.py, line: 521
 #: NEEDS WORK
@@ -980,12 +975,6 @@ msgstr "Error al obtener cambios: {0}"
 #, python-brace-format
 msgid "Error finding most recent branch: {0}"
 msgstr "Error al encontrar la rama más reciente: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 271
-#: NEEDS WORK
-#, python-brace-format
-msgid "Creating new branch: {0}"
-msgstr "Creando nueva rama: {0}"
 # 
 # File: usr/share/build-package/git_utils.py, line: 275
 #: NEEDS WORK

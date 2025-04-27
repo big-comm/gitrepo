@@ -107,21 +107,10 @@ msgstr "Εισάγετε μήνυμα δέσμευσης:"
 msgid "This option is only available in git repositories."
 msgstr "Αυτή η επιλογή είναι διαθέσιμη μόνο σε αποθετήρια git."
 # 
-# File: usr/share/build-package/build_package.py, line: 165
+# File: usr/share/build-package/build_package.py, line: 174
 #: NEEDS WORK
-#, python-brace-format
-msgid "Currently on {0}. Switching to dev branch..."
-msgstr "Αυτή τη στιγμή σε {0}. Μεταβαίνω στο κλάδο ανάπτυξης..."
-# 
-# File: usr/share/build-package/build_package.py, line: 168
-#: NEEDS WORK
-msgid "Switched to dev branch"
-msgstr "Μεταφέρθηκε στον κλάδο ανάπτυξης"
-# 
-# File: usr/share/build-package/build_package.py, line: 170
-#: NEEDS WORK
-msgid "Failed to switch to dev branch"
-msgstr "Αποτυχία αλλαγής σε κλάδο ανάπτυξης"
+msgid "WARNING: You are on main branch. Commits should not be made directly on main!"
+msgstr "ΠΡΟΕΙΔΟΠΟΙΗΣΗ: Είστε στο κύριο κλάδο. Οι δεσμεύσεις δεν θα πρέπει να γίνονται απευθείας στο κύριο!"
 # 
 # File: usr/share/build-package/build_package.py, line: 175
 # File: usr/share/build-package/build_package.py, line: 353
@@ -155,6 +144,12 @@ msgstr "Δεν υπάρχουν αλλαγές για δέσμευση"
 #: NEEDS WORK
 msgid "Press Enter to return to main menu"
 msgstr "Πατήστε Enter για να επιστρέψετε στο κύριο μενού"
+# 
+# File: usr/share/build-package/git_utils.py, line: 271
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating new branch: {0}"
+msgstr "Δημιουργία νέου κλάδου: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 205
 # File: usr/share/build-package/build_package.py, line: 334
@@ -332,12 +327,6 @@ msgstr "Σφάλμα: Δεν καταχωρήθηκε όνομα πακέτου.
 msgid "Organization"
 msgstr "Οργάνωση"
 # 
-# File: usr/share/build-package/build_package.py, line: 498
-# File: usr/share/build-package/build_package.py, line: 519
-#: NEEDS WORK
-msgid "Repo Workflow"
-msgstr "Ροή Εργασίας Αποθετηρίου"
-# 
 # File: usr/share/build-package/build_package.py, line: 499
 # File: usr/share/build-package/build_package.py, line: 520
 #: NEEDS WORK
@@ -376,6 +365,12 @@ msgstr "TMATE Αποσφαλμάτωση"
 #: NEEDS WORK
 msgid "Summary of Choices"
 msgstr "Περίληψη Επιλογών"
+# 
+# File: usr/share/build-package/build_package.py, line: 498
+# File: usr/share/build-package/build_package.py, line: 519
+#: NEEDS WORK
+msgid "Repo Workflow"
+msgstr "Ροή Εργασίας Αποθετηρίου"
 # 
 # File: usr/share/build-package/build_package.py, line: 521
 #: NEEDS WORK
@@ -982,12 +977,6 @@ msgstr "Σφάλμα κατά την ανάκτηση αλλαγών: {0}"
 #, python-brace-format
 msgid "Error finding most recent branch: {0}"
 msgstr "Σφάλμα κατά την εύρεση του πιο πρόσφατου κλάδου: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 271
-#: NEEDS WORK
-#, python-brace-format
-msgid "Creating new branch: {0}"
-msgstr "Δημιουργία νέου κλάδου: {0}"
 # 
 # File: usr/share/build-package/git_utils.py, line: 275
 #: NEEDS WORK
