@@ -17,7 +17,7 @@ from config import (
     VALID_DISTROS, DISTRO_DISPLAY_NAMES, ORG_TO_DISTRO_MAP,
     ISO_PROFILES, DEFAULT_ISO_PROFILES, API_PROFILES,
     BIGCOMM_EDITIONS, BIGLINUX_EDITIONS,
-    TALESAM_EDITIONS, BUILD_DIR_DESCRIPTION, BIGCOMM_BUILD_DIRS,
+    TALESAM_EDITIONS, BIGCOMM_BUILD_DIRS,
     BIGLINUX_BUILD_DIRS, TALESAM_BUILD_DIRS
 )
 from logger import RichLogger
@@ -239,9 +239,6 @@ the specific source code used to create this copy."""), style="white")
         if not self.iso_profiles_repo:
             self.logger.log("red", _("No ISO profiles repository selected."))
             return False
-        
-        # Add description to explain what BUILD_DIR is
-        self.logger.log("cyan", BUILD_DIR_DESCRIPTION)
         
         # Get the API URL for the repository
         api_url = API_PROFILES.get(self.iso_profiles_repo)
@@ -472,11 +469,10 @@ the specific source code used to create this copy."""), style="white")
         # Create summary data
         data = [
             (_("Organization"), self.organization),
-            (_("Repo Workflow"), self.repo_workflow),
             (_("User Name"), self.github_user_name),
-            (_("Distroname"), distro_display),
+            (_("Distribution"), distro_display), 
             (_("ISO Profiles Repo"), self.iso_profiles_repo),
-            (_("Build Dir"), f"{self.build_dir} ({BUILD_DIR_DESCRIPTION})"),
+            (_("Build Dir"), self.build_dir),
             (_("Edition"), self.edition),
             (_("Manjaro Branch"), self.branches.get("manjaro", "")),
             (_("Community Branch"), self.branches.get("community", "")),
