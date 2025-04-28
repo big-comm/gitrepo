@@ -171,8 +171,8 @@ class GitHubAPI:
         repo_workflow = f"{self.organization}/build-package"
         
         # If new_branch is empty, create a branch directly via API
-        if not new_branch and not is_aur:
-            # Get current branch name first to check if we already have a branch
+        if not new_branch and not is_aur and branch_type != "stable" and branch_type != "extra":
+            # Apenas cria novo branch para tipos diferentes de stable/extra
             current_branch = GitUtils.get_current_branch()
             
             # Only create a new branch if we're not already on a dev-* branch
@@ -266,7 +266,7 @@ class GitHubAPI:
                     org, token = line.split('=', 1)
                     if org.lower() == self.organization.lower():
                         return token
-                elif line and not '=' in line:
+                elif line and '=' not in line:
                     # If it's just a token without a specific organization
                     return line
             
