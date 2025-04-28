@@ -44,8 +44,8 @@ msgstr "Just commit/push with the specified message"
 
 #
 # File: usr/share/build-package/build_package.py, line: 98
-# File: usr/share/build-package/build_package.py, line: 541
-# File: usr/share/build-package/build_package.py, line: 547
+# File: usr/share/build-package/build_package.py, line: 781
+# File: usr/share/build-package/build_package.py, line: 787
 msgid "Build AUR package"
 msgstr "Build AUR package"
 
@@ -150,9 +150,8 @@ msgstr ""
 
 #
 # File: usr/share/build-package/build_package.py, line: 178
-# File: usr/share/build-package/build_package.py, line: 357
-# File: usr/share/build-package/build_package.py, line: 567
-# File: usr/share/build-package/build_package.py, line: 592
+# File: usr/share/build-package/build_package.py, line: 807
+# File: usr/share/build-package/build_package.py, line: 832
 msgid "Failed to pull changes. Do you want to continue anyway?"
 msgstr "Failed to pull changes. Do you want to continue anyway?"
 
@@ -164,9 +163,9 @@ msgstr "Failed to pull changes. Do you want to continue anyway?"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/build_package.py, line: 179
-# File: usr/share/build-package/build_package.py, line: 358
-# File: usr/share/build-package/build_package.py, line: 553
-# File: usr/share/build-package/build_package.py, line: 758
+# File: usr/share/build-package/build_package.py, line: 433
+# File: usr/share/build-package/build_package.py, line: 793
+# File: usr/share/build-package/build_package.py, line: 998
 # File: usr/share/build-package/main.py, line: 31
 # File: usr/share/build-iso/main.py, line: 30
 # File: usr/share/build-iso/build_iso.py, line: 178
@@ -175,21 +174,21 @@ msgstr "Operation cancelled by user."
 
 #
 # File: usr/share/build-package/build_package.py, line: 193
-# File: usr/share/build-package/build_package.py, line: 372
-# File: usr/share/build-package/build_package.py, line: 573
-# File: usr/share/build-package/build_package.py, line: 609
+# File: usr/share/build-package/build_package.py, line: 565
+# File: usr/share/build-package/build_package.py, line: 813
+# File: usr/share/build-package/build_package.py, line: 849
 msgid "Commit message cannot be empty."
 msgstr "Commit message cannot be empty."
 
 #
 # File: usr/share/build-package/build_package.py, line: 197
-# File: usr/share/build-package/build_package.py, line: 562
+# File: usr/share/build-package/build_package.py, line: 802
 msgid "No Changes to Commit\n"
 msgstr "No Changes to Commit\n"
 
 #
 # File: usr/share/build-package/build_package.py, line: 197
-# File: usr/share/build-package/build_package.py, line: 562
+# File: usr/share/build-package/build_package.py, line: 802
 msgid "Press Enter to return to main menu"
 msgstr "Press Enter to return to main menu"
 
@@ -205,7 +204,7 @@ msgstr "Creating new branch: {0}"
 #
 # File: usr/share/build-package/build_package.py, line: 209
 # File: usr/share/build-package/build_package.py, line: 338
-# File: usr/share/build-package/build_package.py, line: 414
+# File: usr/share/build-package/build_package.py, line: 587
 #, python-brace-format
 msgid "Error creating dev branch: {0}"
 msgstr "Error creating dev branch: {0}"
@@ -230,8 +229,8 @@ msgstr "Changes committed and pushed to {0} branch successfully!"
 
 #
 # File: usr/share/build-package/build_package.py, line: 233
-# File: usr/share/build-package/build_package.py, line: 344
-# File: usr/share/build-package/build_package.py, line: 695
+# File: usr/share/build-package/build_package.py, line: 487
+# File: usr/share/build-package/build_package.py, line: 935
 msgid "This operation is only available in git repositories."
 msgstr "This operation is only available in git repositories."
 
@@ -295,12 +294,182 @@ msgid "Could not apply stashed changes. Your changes are in the stash."
 msgstr "Could not apply stashed changes. Your changes are in the stash."
 
 #
+# File: usr/share/build-package/build_package.py, line: 343
+msgid "Determining which branch has the most recent code..."
+msgstr "Determining which branch has the most recent code..."
+
+#
 # File: usr/share/build-package/build_package.py, line: 349
+msgid "Warning: Failed to fetch latest changes from remote."
+msgstr "Warning: Failed to fetch latest changes from remote."
+
+#
+# File: usr/share/build-package/build_package.py, line: 368
+msgid "Warning: Failed to get branch list."
+msgstr "Warning: Failed to get branch list."
+
+#
+# File: usr/share/build-package/build_package.py, line: 398
+#, python-brace-format
+msgid "The most recent branch is: {0}"
+msgstr "The most recent branch is: {0}"
+
+#
+# File: usr/share/build-package/build_package.py, line: 408
+#, python-brace-format
+msgid ""
+"You're already on the most recent branch: {0}. Pulling latest changes..."
+msgstr ""
+"You're already on the most recent branch: {0}. Pulling latest changes..."
+
+#
+# File: usr/share/build-package/build_package.py, line: 413
+# File: usr/share/build-package/build_package.py, line: 552
+msgid "Warning: Failed to pull latest changes."
+msgstr "Warning: Failed to pull latest changes."
+
+#
+# File: usr/share/build-package/build_package.py, line: 417
+#, python-brace-format
+msgid "The most recent code is on branch: {0}"
+msgstr "The most recent code is on branch: {0}"
+
+#
+# File: usr/share/build-package/build_package.py, line: 424
+msgid "You have local changes that could be lost if you switch branches."
+msgstr "You have local changes that could be lost if you switch branches."
+
+#
+# File: usr/share/build-package/build_package.py, line: 426
+msgid "Stash changes and switch to most recent branch"
+msgstr "Stash changes and switch to most recent branch"
+
+#
+# File: usr/share/build-package/build_package.py, line: 427
+msgid "Stay on current branch and just pull its latest version"
+msgstr "Stay on current branch and just pull its latest version"
+
+#
+# File: usr/share/build-package/build_package.py, line: 428
+msgid "Cancel operation"
+msgstr "Cancel operation"
+
+#
+# File: usr/share/build-package/build_package.py, line: 430
+msgid "How do you want to proceed?"
+msgstr "How do you want to proceed?"
+
+#
+# File: usr/share/build-package/build_package.py, line: 439
+msgid "Stashing your local changes..."
+msgstr "Stashing your local changes..."
+
+#
+# File: usr/share/build-package/build_package.py, line: 443
+# File: usr/share/build-package/build_package.py, line: 472
+#, python-brace-format
+msgid "Switching to most recent branch: {0}"
+msgstr "Switching to most recent branch: {0}"
+
+#
+# File: usr/share/build-package/build_package.py, line: 447
+# File: usr/share/build-package/build_package.py, line: 475
+msgid "Pulling latest changes..."
+msgstr "Pulling latest changes..."
+
+#
+# File: usr/share/build-package/build_package.py, line: 451
+# File: usr/share/build-package/build_package.py, line: 529
+msgid "Applying your stashed changes..."
+msgstr "Applying your stashed changes..."
+
+#
+# File: usr/share/build-package/build_package.py, line: 454
+msgid "Successfully switched to most recent branch with your changes."
+msgstr "Successfully switched to most recent branch with your changes."
+
+#
+# File: usr/share/build-package/build_package.py, line: 457
+msgid "Error during branch switch operations."
+msgstr "Error during branch switch operations."
+
+#
+# File: usr/share/build-package/build_package.py, line: 458
+msgid "You may need to manually resolve the situation."
+msgstr "You may need to manually resolve the situation."
+
+#
+# File: usr/share/build-package/build_package.py, line: 462
+msgid "Staying on current branch and pulling its latest version..."
+msgstr "Staying on current branch and pulling its latest version..."
+
+#
+# File: usr/share/build-package/build_package.py, line: 464
+#, python-brace-format
+msgid "Note: You're not working with the most recent code from {0}."
+msgstr "Note: You're not working with the most recent code from {0}."
+
+#
+# File: usr/share/build-package/build_package.py, line: 467
+msgid "Error pulling latest changes."
+msgstr "Error pulling latest changes."
+
+#
+# File: usr/share/build-package/build_package.py, line: 478
+msgid "Successfully switched to most recent branch."
+msgstr "Successfully switched to most recent branch."
+
+#
+# File: usr/share/build-package/build_package.py, line: 481
+msgid "Error switching to most recent branch."
+msgstr "Error switching to most recent branch."
+
+#
+# File: usr/share/build-package/build_package.py, line: 492
 msgid "Branch type not specified."
 msgstr "Branch type not specified."
 
 #
-# File: usr/share/build-package/build_package.py, line: 380
+# File: usr/share/build-package/build_package.py, line: 499
+msgid "Fetching latest updates from remote..."
+msgstr "Fetching latest updates from remote..."
+
+#
+# File: usr/share/build-package/build_package.py, line: 503
+msgid "Warning: Failed to fetch latest changes, continuing with local code."
+msgstr "Warning: Failed to fetch latest changes, continuing with local code."
+
+#
+# File: usr/share/build-package/build_package.py, line: 511
+#, python-brace-format
+msgid "Switching to the most recent branch: {0}"
+msgstr "Switching to the most recent branch: {0}"
+
+#
+# File: usr/share/build-package/build_package.py, line: 518
+msgid "Stashing your local changes automatically..."
+msgstr "Stashing your local changes automatically..."
+
+#
+# File: usr/share/build-package/build_package.py, line: 534
+#, python-brace-format
+msgid "Error during branch operations: {0}"
+msgstr "Error during branch operations: {0}"
+
+#
+# File: usr/share/build-package/build_package.py, line: 535
+# File: usr/share/build-package/build_package.py, line: 545
+msgid "Error encountered. Do you want to continue anyway?"
+msgstr "Error encountered. Do you want to continue anyway?"
+
+#
+# File: usr/share/build-package/build_package.py, line: 544
+#, python-brace-format
+msgid "Error switching to most recent branch: {0}"
+msgstr "Error switching to most recent branch: {0}"
+
+#
+# File: usr/share/build-package/build_package.py, line: 573
 msgid ""
 "When using the '-b|--build' parameter and there are changes, the '-c|--"
 "commit' parameter is also required."
@@ -309,74 +478,102 @@ msgstr ""
 "commit' parameter is also required."
 
 #
-# File: usr/share/build-package/build_package.py, line: 395
+# File: usr/share/build-package/build_package.py, line: 581
 #, python-brace-format
-msgid "You are currently on {0}. Creating new branch: {1}"
-msgstr "You are currently on {0}. Creating new branch: {1}"
+msgid "Creating new testing branch: {0}"
+msgstr "Creating new testing branch: {0}"
 
 #
-# File: usr/share/build-package/build_package.py, line: 404
-# File: usr/share/build-package/build_package.py, line: 423
+# File: usr/share/build-package/build_package.py, line: 593
+# File: usr/share/build-package/build_package.py, line: 629
 msgid "Committing changes with message:"
 msgstr "Committing changes with message:"
 
 #
-# File: usr/share/build-package/build_package.py, line: 409
-# File: usr/share/build-package/build_package.py, line: 428
-msgid "Pushing changes to remote repository..."
-msgstr "Pushing changes to remote repository..."
-
-#
-# File: usr/share/build-package/build_package.py, line: 412
-# File: usr/share/build-package/build_package.py, line: 432
+# File: usr/share/build-package/build_package.py, line: 597
+# File: usr/share/build-package/build_package.py, line: 633
 #, python-brace-format
 msgid "Changes committed and pushed to {0} successfully!"
 msgstr "Changes committed and pushed to {0} successfully!"
 
 #
-# File: usr/share/build-package/build_package.py, line: 437
+# File: usr/share/build-package/build_package.py, line: 608
+#, python-brace-format
+msgid "Creating temporary branch {0} for your changes"
+msgstr "Creating temporary branch {0} for your changes"
+
+#
+# File: usr/share/build-package/build_package.py, line: 625
+msgid "Warning: Could not merge changes from original branch."
+msgstr "Warning: Could not merge changes from original branch."
+
+#
+# File: usr/share/build-package/build_package.py, line: 638
+#, python-brace-format
+msgid "Error in branch operations: {0}"
+msgstr "Error in branch operations: {0}"
+
+#
+# File: usr/share/build-package/build_package.py, line: 643
+#, python-brace-format
+msgid "Automatically merging {0} to main for stable/extra package"
+msgstr "Automatically merging {0} to main for stable/extra package"
+
+#
+# File: usr/share/build-package/build_package.py, line: 658
+#, python-brace-format
+msgid "Successfully merged {0} to main!"
+msgstr "Successfully merged {0} to main!"
+
+#
+# File: usr/share/build-package/build_package.py, line: 661
+msgid "Automatic merge failed - conflicts detected. Using main branch as is."
+msgstr "Automatic merge failed - conflicts detected. Using main branch as is."
+
+#
+# File: usr/share/build-package/build_package.py, line: 673
 msgid "Error: PKGBUILD file not found."
 msgstr "Error: PKGBUILD file not found."
 
 #
-# File: usr/share/build-package/build_package.py, line: 437
+# File: usr/share/build-package/build_package.py, line: 673
 msgid "Error: Package name not found in PKGBUILD."
 msgstr "Error: Package name not found in PKGBUILD."
 
 #
-# File: usr/share/build-package/build_package.py, line: 443
-# File: usr/share/build-package/build_package.py, line: 479
+# File: usr/share/build-package/build_package.py, line: 680
+# File: usr/share/build-package/build_package.py, line: 716
 msgid "Do you want to proceed with building the PACKAGE?"
 msgstr "Do you want to proceed with building the PACKAGE?"
 
 #
-# File: usr/share/build-package/build_package.py, line: 444
-# File: usr/share/build-package/build_package.py, line: 480
+# File: usr/share/build-package/build_package.py, line: 681
+# File: usr/share/build-package/build_package.py, line: 717
 msgid "Package build cancelled."
 msgstr "Package build cancelled."
 
 #
-# File: usr/share/build-package/build_package.py, line: 461
+# File: usr/share/build-package/build_package.py, line: 698
 msgid "Enter the AUR package name (ex: showtime): type EXIT to exit"
 msgstr "Enter the AUR package name (ex: showtime): type EXIT to exit"
 
 #
-# File: usr/share/build-package/build_package.py, line: 467
-# File: usr/share/build-package/build_package.py, line: 636
-# File: usr/share/build-package/build_package.py, line: 652
+# File: usr/share/build-package/build_package.py, line: 704
+# File: usr/share/build-package/build_package.py, line: 876
+# File: usr/share/build-package/build_package.py, line: 892
 msgid "Exiting script. No action was performed."
 msgstr "Exiting script. No action was performed."
 
 #
-# File: usr/share/build-package/build_package.py, line: 470
+# File: usr/share/build-package/build_package.py, line: 707
 msgid "Error: No package name was entered."
 msgstr "Error: No package name was entered."
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/build_package.py, line: 501
-# File: usr/share/build-package/build_package.py, line: 522
+# File: usr/share/build-package/build_package.py, line: 741
+# File: usr/share/build-package/build_package.py, line: 762
 # File: usr/share/build-iso/build_iso.py, line: 471
 msgid "Organization"
 msgstr "Organization"
@@ -384,80 +581,84 @@ msgstr "Organization"
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/build_package.py, line: 503
-# File: usr/share/build-package/build_package.py, line: 524
+# File: usr/share/build-package/build_package.py, line: 743
+# File: usr/share/build-package/build_package.py, line: 764
 # File: usr/share/build-iso/build_iso.py, line: 472
 msgid "User Name"
 msgstr "User Name"
 
 #
-# File: usr/share/build-package/build_package.py, line: 504
+# File: usr/share/build-package/build_package.py, line: 744
 msgid "Package Name"
 msgstr "Package Name"
 
 #
-# File: usr/share/build-package/build_package.py, line: 505
+# File: usr/share/build-package/build_package.py, line: 745
 msgid "Repository Type"
 msgstr "Repository Type"
 
 #
-# File: usr/share/build-package/build_package.py, line: 506
-# File: usr/share/build-package/build_package.py, line: 527
-msgid "New Branch"
-msgstr "New Branch"
+# File: usr/share/build-package/build_package.py, line: 746
+msgid "Working Branch"
+msgstr "Working Branch"
 
 #
-# File: usr/share/build-package/build_package.py, line: 510
-# File: usr/share/build-package/build_package.py, line: 528
+# File: usr/share/build-package/build_package.py, line: 750
+# File: usr/share/build-package/build_package.py, line: 768
 msgid "Url"
 msgstr "Url"
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/build_package.py, line: 512
-# File: usr/share/build-package/build_package.py, line: 529
+# File: usr/share/build-package/build_package.py, line: 752
+# File: usr/share/build-package/build_package.py, line: 769
 # File: usr/share/build-iso/build_iso.py, line: 482
 msgid "TMATE Debug"
 msgstr "TMATE Debug"
 
 #
-# File: usr/share/build-package/build_package.py, line: 514
+# File: usr/share/build-package/build_package.py, line: 754
 msgid "Summary of Choices"
 msgstr "Summary of Choices"
 
 #
-# File: usr/share/build-package/build_package.py, line: 523
+# File: usr/share/build-package/build_package.py, line: 763
 msgid "Repo Workflow"
 msgstr "Repo Workflow"
 
 #
-# File: usr/share/build-package/build_package.py, line: 525
+# File: usr/share/build-package/build_package.py, line: 765
 msgid "Package AUR Name"
 msgstr "Package AUR Name"
 
 #
-# File: usr/share/build-package/build_package.py, line: 526
+# File: usr/share/build-package/build_package.py, line: 766
 msgid "Branch_type"
 msgstr "Branch_type"
 
 #
-# File: usr/share/build-package/build_package.py, line: 532
+# File: usr/share/build-package/build_package.py, line: 767
+msgid "New Branch"
+msgstr "New Branch"
+
+#
+# File: usr/share/build-package/build_package.py, line: 772
 msgid "AUR - Summary of Choices"
 msgstr "AUR - Summary of Choices"
 
 #
-# File: usr/share/build-package/build_package.py, line: 539
+# File: usr/share/build-package/build_package.py, line: 779
 msgid "Commit and push"
 msgstr "Commit and push"
 
 #
-# File: usr/share/build-package/build_package.py, line: 540
+# File: usr/share/build-package/build_package.py, line: 780
 msgid "Generate package (commit + branch + build)"
 msgstr "Generate package (commit + branch + build)"
 
 #
-# File: usr/share/build-package/build_package.py, line: 542
+# File: usr/share/build-package/build_package.py, line: 782
 msgid "Advanced menu"
 msgstr "Advanced menu"
 
@@ -468,8 +669,8 @@ msgstr "Advanced menu"
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/build_package.py, line: 543
-# File: usr/share/build-package/build_package.py, line: 548
+# File: usr/share/build-package/build_package.py, line: 783
+# File: usr/share/build-package/build_package.py, line: 788
 # File: usr/share/build-package/menu_system.py, line: 45
 # File: usr/share/build-package/menu_system.py, line: 59
 # File: usr/share/build-iso/build_iso.py, line: 174
@@ -479,7 +680,7 @@ msgid "Exit"
 msgstr "Exit"
 
 #
-# File: usr/share/build-package/build_package.py, line: 551
+# File: usr/share/build-package/build_package.py, line: 791
 msgid "Main Menu"
 msgstr "Main Menu"
 
@@ -490,11 +691,11 @@ msgstr "Main Menu"
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/build_package.py, line: 582
-# File: usr/share/build-package/build_package.py, line: 585
-# File: usr/share/build-package/build_package.py, line: 663
-# File: usr/share/build-package/build_package.py, line: 730
-# File: usr/share/build-package/build_package.py, line: 734
+# File: usr/share/build-package/build_package.py, line: 822
+# File: usr/share/build-package/build_package.py, line: 825
+# File: usr/share/build-package/build_package.py, line: 903
+# File: usr/share/build-package/build_package.py, line: 970
+# File: usr/share/build-package/build_package.py, line: 974
 # File: usr/share/build-package/menu_system.py, line: 47
 # File: usr/share/build-package/menu_system.py, line: 61
 # File: usr/share/build-iso/build_iso.py, line: 197
@@ -514,16 +715,16 @@ msgid "Back"
 msgstr "Back"
 
 #
-# File: usr/share/build-package/build_package.py, line: 583
+# File: usr/share/build-package/build_package.py, line: 823
 msgid "Select repository"
 msgstr "Select repository"
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/build_package.py, line: 596
-# File: usr/share/build-package/build_package.py, line: 621
-# File: usr/share/build-package/build_package.py, line: 641
+# File: usr/share/build-package/build_package.py, line: 836
+# File: usr/share/build-package/build_package.py, line: 861
+# File: usr/share/build-package/build_package.py, line: 881
 # File: usr/share/build-iso/build_iso.py, line: 451
 msgid "Enable TMATE debug session?"
 msgstr "Enable TMATE debug session?"
@@ -531,10 +732,10 @@ msgstr "Enable TMATE debug session?"
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/build_package.py, line: 596
-# File: usr/share/build-package/build_package.py, line: 621
-# File: usr/share/build-package/build_package.py, line: 641
-# File: usr/share/build-package/build_package.py, line: 751
+# File: usr/share/build-package/build_package.py, line: 836
+# File: usr/share/build-package/build_package.py, line: 861
+# File: usr/share/build-package/build_package.py, line: 881
+# File: usr/share/build-package/build_package.py, line: 991
 # File: usr/share/build-iso/build_iso.py, line: 452
 # File: usr/share/build-iso/build_iso.py, line: 482
 msgid "No"
@@ -543,128 +744,128 @@ msgstr "No"
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/build_package.py, line: 596
-# File: usr/share/build-package/build_package.py, line: 621
-# File: usr/share/build-package/build_package.py, line: 641
-# File: usr/share/build-package/build_package.py, line: 751
+# File: usr/share/build-package/build_package.py, line: 836
+# File: usr/share/build-package/build_package.py, line: 861
+# File: usr/share/build-package/build_package.py, line: 881
+# File: usr/share/build-package/build_package.py, line: 991
 # File: usr/share/build-iso/build_iso.py, line: 452
 # File: usr/share/build-iso/build_iso.py, line: 482
 msgid "Yes"
 msgstr "Yes"
 
 #
-# File: usr/share/build-package/build_package.py, line: 612
+# File: usr/share/build-package/build_package.py, line: 852
 msgid "No changes to commit, proceeding with package generation."
 msgstr "No changes to commit, proceeding with package generation."
 
 #
-# File: usr/share/build-package/build_package.py, line: 658
+# File: usr/share/build-package/build_package.py, line: 898
 msgid "Delete branches (except main and latest)"
 msgstr "Delete branches (except main and latest)"
 
 #
-# File: usr/share/build-package/build_package.py, line: 659
+# File: usr/share/build-package/build_package.py, line: 899
 msgid "Delete failed Action jobs"
 msgstr "Delete failed Action jobs"
 
 #
-# File: usr/share/build-package/build_package.py, line: 660
+# File: usr/share/build-package/build_package.py, line: 900
 msgid "Delete successful Action jobs"
 msgstr "Delete successful Action jobs"
 
 #
-# File: usr/share/build-package/build_package.py, line: 661
+# File: usr/share/build-package/build_package.py, line: 901
 msgid "Delete all tags"
 msgstr "Delete all tags"
 
 #
-# File: usr/share/build-package/build_package.py, line: 662
+# File: usr/share/build-package/build_package.py, line: 902
 msgid "Merge branch to main"
 msgstr "Merge branch to main"
 
 #
-# File: usr/share/build-package/build_package.py, line: 667
+# File: usr/share/build-package/build_package.py, line: 907
 msgid "Advanced Menu"
 msgstr "Advanced Menu"
 
 #
-# File: usr/share/build-package/build_package.py, line: 674
+# File: usr/share/build-package/build_package.py, line: 914
 msgid "Are you sure you want to delete branches? This action cannot be undone."
 msgstr ""
 "Are you sure you want to delete branches? This action cannot be undone."
 
 #
-# File: usr/share/build-package/build_package.py, line: 678
+# File: usr/share/build-package/build_package.py, line: 918
 msgid "Are you sure you want to delete all failed Action jobs?"
 msgstr "Are you sure you want to delete all failed Action jobs?"
 
 #
-# File: usr/share/build-package/build_package.py, line: 682
+# File: usr/share/build-package/build_package.py, line: 922
 msgid "Are you sure you want to delete all successful Action jobs?"
 msgstr "Are you sure you want to delete all successful Action jobs?"
 
 #
-# File: usr/share/build-package/build_package.py, line: 686
+# File: usr/share/build-package/build_package.py, line: 926
 msgid "Are you sure you want to delete all repository tags?"
 msgstr "Are you sure you want to delete all repository tags?"
 
 #
-# File: usr/share/build-package/build_package.py, line: 723
+# File: usr/share/build-package/build_package.py, line: 963
 msgid "No dev branches found to merge."
 msgstr "No dev branches found to merge."
 
 #
-# File: usr/share/build-package/build_package.py, line: 733
+# File: usr/share/build-package/build_package.py, line: 973
 msgid "Select branch to merge to main"
 msgstr "Select branch to merge to main"
 
 #
-# File: usr/share/build-package/build_package.py, line: 740
+# File: usr/share/build-package/build_package.py, line: 980
 msgid "Create PR (manual approval)"
 msgstr "Create PR (manual approval)"
 
 #
-# File: usr/share/build-package/build_package.py, line: 740
+# File: usr/share/build-package/build_package.py, line: 980
 msgid "Create PR and auto-merge"
 msgstr "Create PR and auto-merge"
 
 #
-# File: usr/share/build-package/build_package.py, line: 741
+# File: usr/share/build-package/build_package.py, line: 981
 msgid "Select merge option"
 msgstr "Select merge option"
 
 #
-# File: usr/share/build-package/build_package.py, line: 749
+# File: usr/share/build-package/build_package.py, line: 989
 msgid "Source Branch"
 msgstr "Source Branch"
 
 #
-# File: usr/share/build-package/build_package.py, line: 750
+# File: usr/share/build-package/build_package.py, line: 990
 msgid "Target Branch"
 msgstr "Target Branch"
 
 #
-# File: usr/share/build-package/build_package.py, line: 751
+# File: usr/share/build-package/build_package.py, line: 991
 msgid "Auto-merge"
 msgstr "Auto-merge"
 
 #
-# File: usr/share/build-package/build_package.py, line: 754
+# File: usr/share/build-package/build_package.py, line: 994
 msgid "Merge Summary"
 msgstr "Merge Summary"
 
 #
-# File: usr/share/build-package/build_package.py, line: 757
+# File: usr/share/build-package/build_package.py, line: 997
 msgid "Do you want to proceed with creating the pull request?"
 msgstr "Do you want to proceed with creating the pull request?"
 
 #
-# File: usr/share/build-package/build_package.py, line: 765
+# File: usr/share/build-package/build_package.py, line: 1005
 msgid "Pull request operation completed."
 msgstr "Pull request operation completed."
 
 #
-# File: usr/share/build-package/build_package.py, line: 768
+# File: usr/share/build-package/build_package.py, line: 1008
 #, python-brace-format
 msgid "Error getting branches: {0}"
 msgstr "Error getting branches: {0}"
@@ -672,7 +873,7 @@ msgstr "Error getting branches: {0}"
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/build_package.py, line: 770
+# File: usr/share/build-package/build_package.py, line: 1010
 # File: usr/share/build-package/git_utils.py, line: 225
 #, python-brace-format
 msgid "Unexpected error: {0}"
