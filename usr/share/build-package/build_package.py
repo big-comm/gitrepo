@@ -575,28 +575,31 @@ the specific source code used to create this copy."""), style="white")
 
         # Different flows based on the package type
         if branch_type == "testing":
-            # Always create a new dev-* branch for testing packages
-            timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
-            dev_branch = f"dev-{timestamp}"
-            self.logger.log("cyan", _("Creating new testing branch: {0}").format(dev_branch))
-            try:
-                # Create the new branch directly from the current branch
-                subprocess.run(["git", "checkout", "-b", dev_branch], check=True)
-                current_branch = dev_branch  # Update current branch
-            except subprocess.CalledProcessError as e:
-                self.logger.log("red", _("Error creating dev branch: {0}").format(e))
-                return False
-            
-            # Commit changes in the current dev branch
             if has_changes and commit_message:
-                subprocess.run(["git", "add", "--all"], check=True)
-                self.logger.log("cyan", _("Committing changes with message:"))
-                self.logger.log("purple", commit_message)
-                subprocess.run(["git", "commit", "-m", commit_message], check=True)
-                subprocess.run(["git", "push", "origin", current_branch], check=True)
-                self.logger.log("green", _("Changes committed and pushed to {0} successfully!").format(self.logger.format_branch_name(current_branch)))
+                # Create a new dev-* branch for testing packages only if we have changes
+                timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
+                dev_branch = f"dev-{timestamp}"
+                self.logger.log("cyan", _("Creating new testing branch: {0}").format(dev_branch))
+                try:
+                    # Create the new branch directly from the current branch
+                    subprocess.run(["git", "checkout", "-b", dev_branch], check=True)
+                    current_branch = dev_branch  # Update current branch
+                    
+                    # Commit and push changes in the new branch
+                    subprocess.run(["git", "add", "--all"], check=True)
+                    self.logger.log("cyan", _("Committing changes with message:"))
+                    self.logger.log("purple", commit_message)
+                    subprocess.run(["git", "commit", "-m", commit_message], check=True)
+                    subprocess.run(["git", "push", "origin", current_branch], check=True)
+                    self.logger.log("green", _("Changes committed and pushed to {0} successfully!").format(self.logger.format_branch_name(current_branch)))
+                except subprocess.CalledProcessError as e:
+                    self.logger.log("red", _("Error during branch operations: {0}").format(e))
+                    return False
+            else:
+                # No changes, use current branch which should already exist on remote
+                self.logger.log("yellow", _("No changes to commit, using current branch for package."))
             
-            # Use the current branch (should be a dev-*) for the package
+            # Use the current branch for the package
             working_branch = current_branch
             
         else:  # stable/extra packages
