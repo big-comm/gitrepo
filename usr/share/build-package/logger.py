@@ -15,7 +15,7 @@ from translation_utils import _
 
 from rich.box import ROUNDED
 
-from config import APP_NAME, APP_DESC, VERSION, LOG_DIR_BASE
+from config import APP_NAME, APP_DESC, LOG_DIR_BASE
 # from translation_utils import _
 
 class RichLogger:
@@ -74,7 +74,7 @@ class RichLogger:
         panel_width = 70  # Fixed width for the panel
         
         # Create title with centered text and blue background that extends edge-to-edge
-        title_text = f"{APP_NAME.upper()} v{VERSION}"
+        title_text = f"{APP_NAME.upper()}"
         
         # Calculate inner width (panel width minus padding and borders)
         inner_width = panel_width - 4  # 2 chars on each side for borders and padding
