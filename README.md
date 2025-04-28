@@ -1,7 +1,7 @@
 # GitRepo Tools
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Version-3.0.0-blue.svg" alt="Version"/>
+  <img src="https://img.shields.io/badge/Version-3.0.2-blue.svg" alt="Version"/>
   <img src="https://img.shields.io/badge/Arch-Linux-1793D1.svg?logo=arch-linux" alt="Arch Linux"/>
   <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License"/>
 </p>
