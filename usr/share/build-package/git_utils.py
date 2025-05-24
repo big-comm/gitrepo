@@ -123,6 +123,23 @@ class GitUtils:
             return False
         
         try:
+            # Check and abort any merge in progress
+            merge_head_path = os.path.join(GitUtils.get_repo_root_path(), '.git', 'MERGE_HEAD')
+            if os.path.exists(merge_head_path):
+                if logger:
+                    logger.log("yellow", _("Aborting merge in progress..."))
+                subprocess.run(["git", "merge", "--abort"], capture_output=True, check=False)
+            
+            # Check for unmerged files and reset if needed
+            status_result = subprocess.run(
+                ["git", "diff", "--name-only", "--diff-filter=U"],
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False
+            )
+            if status_result.stdout.strip():
+                if logger:
+                    logger.log("yellow", _("Resolving conflicts automatically..."))
+                subprocess.run(["git", "reset", "--hard", "HEAD"], check=True)
+            
             # Configure Git to accept automatic merges
             subprocess.run(["git", "config", "pull.rebase", "false"], check=True)
             

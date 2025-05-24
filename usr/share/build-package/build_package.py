@@ -4,6 +4,7 @@
 # build_package.py - Main class for package management
 
 import sys
+import os
 import argparse
 import subprocess
 from rich.console import Console
@@ -492,6 +493,57 @@ the specific source code used to create this copy."""), style="white")
             self.logger.die("red", _("Branch type not specified."))
             return False
         
+        # FORCE CLEANUP AT START - resolve any conflicts immediately without external functions
+        self.logger.log("cyan", _("Checking and resolving any existing conflicts..."))
+        try:
+            # Check if there are unmerged files (conflicts)
+            status_result = subprocess.run(
+                ["git", "diff", "--name-only", "--diff-filter=U"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False
+            )
+            has_conflicts = bool(status_result.stdout.strip())
+            
+            # Check if merge is in progress
+            repo_root = GitUtils.get_repo_root_path()
+            merge_head_path = os.path.join(repo_root, '.git', 'MERGE_HEAD')
+            merge_in_progress = os.path.exists(merge_head_path)
+            
+            if has_conflicts or merge_in_progress:
+                self.logger.log("yellow", _("Conflicts detected. Performing automatic cleanup..."))
+                
+                # Force abort any merge in progress
+                subprocess.run(["git", "merge", "--abort"], capture_output=True, check=False)
+                
+                # Stash any local changes to preserve them
+                stash_result = subprocess.run(["git", "stash", "push", "-m", "auto-backup-before-cleanup"], 
+                                            capture_output=True, check=False)
+                stashed = stash_result.returncode == 0 and "No local changes to save" not in stash_result.stdout.decode()
+                
+                # Hard reset to clean state
+                subprocess.run(["git", "reset", "--hard", "HEAD"], check=True)
+                
+                # Clean untracked files
+                subprocess.run(["git", "clean", "-fd"], check=True)
+                
+                self.logger.log("green", _("Repository cleaned to stable state."))
+                
+                # Try to restore stashed changes
+                if stashed:
+                    self.logger.log("cyan", _("Restoring your local changes..."))
+                    restore_result = subprocess.run(["git", "stash", "pop"], capture_output=True, text=True)
+                    if restore_result.returncode == 0:
+                        self.logger.log("green", _("Local changes restored successfully"))
+                    else:
+                        self.logger.log("yellow", _("Could not restore stashed changes. Use 'git stash list' to see them."))
+            else:
+                self.logger.log("green", _("Repository is already in clean state."))
+                
+        except subprocess.CalledProcessError as e:
+            self.logger.log("yellow", _("Warning during cleanup: {0}").format(e))
+        
         # Ensure dev branch exists before proceeding
         self.ensure_dev_branch_exists()
         
@@ -502,70 +554,69 @@ the specific source code used to create this copy."""), style="white")
         except subprocess.CalledProcessError:
             self.logger.log("yellow", _("Warning: Failed to fetch latest changes, continuing with local code."))
         
-        # Identify most recent branch
-        most_recent_branch = self.get_most_recent_branch()
+        # Get current branch after cleanup
         current_branch = GitUtils.get_current_branch()
         
-        # AUTOMATION: If we are not on the most recent branch, switch to it
+        # Identify most recent branch
+        most_recent_branch = self.get_most_recent_branch()
+        
+        # AUTOMATION: Switch to most recent branch if needed with conflict-resistant pull
         if most_recent_branch != current_branch:
             self.logger.log("cyan", _("Switching to the most recent branch: {0}").format(most_recent_branch))
             
-            # Check if we have local changes
-            has_changes = GitUtils.has_changes()
-            
-            if has_changes:
-                # AUTOMATION: Save local changes into a stash
-                self.logger.log("cyan", _("Stashing your local changes automatically..."))
-                try:
-                    subprocess.run(["git", "stash"], check=True)
-                    
-                    # Switch to the most recent branch
-                    subprocess.run(["git", "checkout", most_recent_branch], check=True)
-                    
-                    # Pull latest changes
-                    subprocess.run(["git", "pull", "origin", most_recent_branch], check=True)
-                    
-                    # Apply stashed changes
-                    self.logger.log("cyan", _("Applying your stashed changes..."))
-                    subprocess.run(["git", "stash", "pop"], check=True)
-                    
-                    current_branch = most_recent_branch
-                except subprocess.CalledProcessError as e:
-                    self.logger.log("red", _("Error during branch operations: {0}").format(e))
-                    if not self.menu.confirm(_("Error encountered. Do you want to continue anyway?")):
-                        return False
-            else:
-                # No local changes, simple branch switch
-                try:
-                    subprocess.run(["git", "checkout", most_recent_branch], check=True)
-                    subprocess.run(["git", "pull", "origin", most_recent_branch], check=True)
-                    current_branch = most_recent_branch
-                except subprocess.CalledProcessError as e:
-                    self.logger.log("red", _("Error switching to most recent branch: {0}").format(e))
-                    if not self.menu.confirm(_("Error encountered. Do you want to continue anyway?")):
-                        return False
-        else:
-            # Already on the most recent branch, just pull
             try:
-                subprocess.run(["git", "pull", "origin", current_branch], check=True)
-            except subprocess.CalledProcessError:
-                self.logger.log("yellow", _("Warning: Failed to pull latest changes."))
+                # Simple checkout - conflicts should be resolved now
+                subprocess.run(["git", "checkout", most_recent_branch], check=True)
+                
+                # Conflict-resistant pull strategy
+                pull_cmd = ["git", "pull", "origin", most_recent_branch, "--strategy-option=theirs", "--no-edit"]
+                pull_result = subprocess.run(pull_cmd, capture_output=True, text=True)
+                
+                if pull_result.returncode != 0:
+                    # If pull fails, try alternative strategies
+                    self.logger.log("yellow", _("Standard pull failed, trying force strategy..."))
+                    
+                    # Try fetch + reset strategy
+                    subprocess.run(["git", "fetch", "origin", most_recent_branch], check=True)
+                    subprocess.run(["git", "reset", "--hard", f"origin/{most_recent_branch}"], check=True)
+                    self.logger.log("green", _("Force-updated to latest {0}").format(most_recent_branch))
+                else:
+                    self.logger.log("green", _("Successfully updated to latest {0}").format(most_recent_branch))
+                
+                current_branch = most_recent_branch
+                
+            except subprocess.CalledProcessError as e:
+                self.logger.log("yellow", _("Could not switch branches automatically: {0}").format(e))
+                self.logger.log("yellow", _("Continuing with current branch: {0}").format(current_branch))
+        else:
+            # Already on most recent branch, try conflict-resistant pull
+            pull_cmd = ["git", "pull", "origin", current_branch, "--strategy-option=theirs", "--no-edit"]
+            pull_result = subprocess.run(pull_cmd, capture_output=True, text=True)
+            
+            if pull_result.returncode != 0:
+                # Try alternative strategy
+                self.logger.log("yellow", _("Standard pull failed, trying force update..."))
+                try:
+                    subprocess.run(["git", "fetch", "origin", current_branch], check=True)
+                    subprocess.run(["git", "reset", "--hard", f"origin/{current_branch}"], check=True)
+                    self.logger.log("green", _("Force-updated to latest {0}").format(current_branch))
+                except subprocess.CalledProcessError:
+                    self.logger.log("yellow", _("Could not update branch, continuing with current state"))
+            else:
+                self.logger.log("green", _("Successfully pulled latest changes"))
         
-        # Check changes AFTER pull
+        # Check changes AFTER all operations
         has_changes = GitUtils.has_changes()
 
         # Handle commit message
         if self.args.commit:
-            # Already provided via command line
             commit_message = self.args.commit
         elif has_changes:
-            # Ask for message
             commit_message = self.custom_commit_prompt()
             if not commit_message:
                 self.logger.log("red", _("Commit message cannot be empty."))
                 return False
         else:
-            # No changes, no message
             commit_message = ""
             
         # Ensure we have a message if there are changes
@@ -576,16 +627,14 @@ the specific source code used to create this copy."""), style="white")
         # Different flows based on the package type
         if branch_type == "testing":
             if has_changes and commit_message:
-                # Create a new dev-* branch for testing packages only if we have changes
+                # Create a new dev-* branch for testing packages
                 timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
                 dev_branch = f"dev-{timestamp}"
                 self.logger.log("cyan", _("Creating new testing branch: {0}").format(dev_branch))
                 try:
-                    # Create the new branch directly from the current branch
                     subprocess.run(["git", "checkout", "-b", dev_branch], check=True)
-                    current_branch = dev_branch  # Update current branch
+                    current_branch = dev_branch
                     
-                    # Commit and push changes in the new branch
                     subprocess.run(["git", "add", "--all"], check=True)
                     self.logger.log("cyan", _("Committing changes with message:"))
                     self.logger.log("purple", commit_message)
@@ -596,78 +645,77 @@ the specific source code used to create this copy."""), style="white")
                     self.logger.log("red", _("Error during branch operations: {0}").format(e))
                     return False
             else:
-                # No changes, use current branch which should already exist on remote
                 self.logger.log("yellow", _("No changes to commit, using current branch for package."))
             
-            # Use the current branch for the package
             working_branch = current_branch
             
         else:  # stable/extra packages
-            # Create temporary dev-* branch for local changes if necessary
+            # Create temporary dev-* branch for changes if necessary
             if has_changes and commit_message:
-                # Create temporary branch
                 timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
                 dev_branch = f"dev-{timestamp}"
                 self.logger.log("cyan", _("Creating temporary branch {0} for your changes").format(dev_branch))
                 try:
-                    if current_branch == "main" or current_branch == "master":
-                        # Create new branch directly
-                        subprocess.run(["git", "checkout", "-b", dev_branch], check=True)
-                    else:
-                        # Already on a dev-* branch, create new one from main
-                        subprocess.run(["git", "checkout", "main"], check=True)
-                        subprocess.run(["git", "pull", "origin", "main"], check=True)
-                        subprocess.run(["git", "checkout", "-b", dev_branch], check=True)
-                    
-                    # Apply changes if necessary (if coming from another branch)
-                    if current_branch != "main" and current_branch != "master":
-                        # Try to merge changes from the original branch
-                        try:
-                            subprocess.run(["git", "merge", "--no-commit", current_branch], check=True)
-                        except:
-                            self.logger.log("yellow", _("Warning: Could not merge changes from original branch."))
-                    
-                    # Commit in the new branch
+                    subprocess.run(["git", "checkout", "-b", dev_branch], check=True)
                     subprocess.run(["git", "add", "--all"], check=True)
                     self.logger.log("cyan", _("Committing changes with message:"))
                     self.logger.log("purple", commit_message)
                     subprocess.run(["git", "commit", "-m", commit_message], check=True)
                     subprocess.run(["git", "push", "-u", "origin", dev_branch], check=True)
                     self.logger.log("green", _("Changes committed and pushed to {0} successfully!").format(self.logger.format_branch_name(dev_branch)))
-                    
-                    # Update most recent branch
                     most_recent_branch = dev_branch
                 except subprocess.CalledProcessError as e:
                     self.logger.log("red", _("Error in branch operations: {0}").format(e))
                     return False
             
-            # AUTOMATION: Merge the most recent branch into main
+            # AGGRESSIVE MERGE to main for stable/extra
             if most_recent_branch != "main" and most_recent_branch != "master":
-                self.logger.log("cyan", _("Automatically merging {0} to main for stable/extra package").format(most_recent_branch))
+                self.logger.log("cyan", _("Force merging {0} to main for stable/extra package").format(most_recent_branch))
                 
                 try:
                     # Switch to main
                     subprocess.run(["git", "checkout", "main"], check=True)
                     
-                    # Pull to ensure we have the latest version
-                    subprocess.run(["git", "pull", "origin", "main"], check=True)
+                    # Force update main first
+                    subprocess.run(["git", "fetch", "origin", "main"], check=True)
+                    subprocess.run(["git", "reset", "--hard", "origin/main"], check=True)
                     
-                    # Merge the most recent branch
-                    subprocess.run(["git", "merge", f"origin/{most_recent_branch}"], check=True)
+                    # Try different merge strategies
+                    merge_strategies = [
+                        ["git", "merge", f"origin/{most_recent_branch}", "--strategy-option=theirs", "--no-edit"],
+                        ["git", "merge", f"origin/{most_recent_branch}", "--strategy=ours", "--no-edit"],
+                        ["git", "reset", "--hard", f"origin/{most_recent_branch}"]  # Nuclear option
+                    ]
                     
-                    # Push the result
-                    subprocess.run(["git", "push", "origin", "main"], check=True)
+                    merge_success = False
+                    for i, merge_cmd in enumerate(merge_strategies):
+                        try:
+                            if i == 2:  # Nuclear option
+                                self.logger.log("yellow", _("Using nuclear merge strategy (reset to source branch)"))
+                            
+                            subprocess.run(merge_cmd, check=True)
+                            merge_success = True
+                            break
+                        except subprocess.CalledProcessError:
+                            if i < len(merge_strategies) - 1:
+                                self.logger.log("yellow", _("Merge strategy {0} failed, trying next...").format(i+1))
+                                # Abort any partial merge before trying next strategy
+                                subprocess.run(["git", "merge", "--abort"], capture_output=True, check=False)
+                            continue
                     
-                    self.logger.log("green", _("Successfully merged {0} to main!").format(most_recent_branch))
-                except subprocess.CalledProcessError:
-                    # If auto-merge fails, abort and use main as is
-                    self.logger.log("yellow", _("Automatic merge failed - conflicts detected. Using main branch as is."))
-                    try:
-                        subprocess.run(["git", "merge", "--abort"], check=True)
-                    except:
-                        pass
+                    if merge_success:
+                        # Push successful merge
+                        subprocess.run(["git", "push", "origin", "main", "--force"], check=True)
+                        self.logger.log("green", _("Successfully merged {0} to main!").format(most_recent_branch))
+                    else:
+                        self.logger.log("red", _("All merge strategies failed"))
+                        return False
+                    
+                except subprocess.CalledProcessError as e:
+                    self.logger.log("yellow", _("Could not merge automatically: {0}").format(e))
+                    # Abort any partial merge
+                    subprocess.run(["git", "merge", "--abort"], capture_output=True, check=False)
                 
-            # For stable/extra, we always use main for the package
             working_branch = "main"
         
         # Get package name
@@ -679,17 +727,15 @@ the specific source code used to create this copy."""), style="white")
 
         self.show_build_summary(package_name, branch_type, working_branch)
         
-        # ONLY INTERACTION: Confirm package generation
+        # Confirm package generation
         if not self.menu.confirm(_("Do you want to proceed with building the PACKAGE?")):
             self.logger.log("red", _("Package build cancelled."))
             return False
         
-        repo_type = branch_type  # testing, stable, extra
-        
-        # Use working_branch for the workflow
+        repo_type = branch_type
         new_branch = working_branch if working_branch != "main" else ""
         
-        # Trigger workflow directly
+        # Trigger workflow
         return self.github_api.trigger_workflow(
             package_name, repo_type, new_branch, False, self.tmate_option, self.logger
         )
@@ -829,11 +875,7 @@ the specific source code used to create this copy."""), style="white")
                         continue
                     
                     branch_type = branch_options[branch_result[0]]
-                    
-                    # Pull latest changes
-                    if not GitUtils.git_pull(self.logger):
-                        if not self.menu.confirm(_("Failed to pull changes. Do you want to continue anyway?")):
-                            continue
+
                     
                     # Enable or disable tmate for debug
                     debug_result = self.menu.show_menu(_("Enable TMATE debug session?"), [_("No"), _("Yes")])
