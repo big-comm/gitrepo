@@ -61,8 +61,33 @@ class GitHubAPI:
         tag = datetime.now().strftime("%Y-%m-%d_%H-%M")
         
         # Create the event type string
-        active_branch = branches.get('manjaro', 'stable').upper()
-        event_type = f"ISO-{distroname}_{active_branch}_{edition.lower()}_{tag}"
+        # Determine ISO type based on branches (same logic as build-iso.sh)
+        manjaro_branch = branches.get('manjaro', 'stable')
+        biglinux_branch = branches.get('biglinux', 'stable') 
+        community_branch = branches.get('community', 'stable')
+
+        if distroname == 'bigcommunity':
+            if manjaro_branch == 'stable' and community_branch == 'stable':
+                iso_type = 'STABLE'
+            elif manjaro_branch == 'stable' and community_branch == 'testing':
+                iso_type = 'BETA'
+            elif 'unstable' in [manjaro_branch, community_branch]:
+                iso_type = 'DEVELOPMENT'
+            else:
+                iso_type = 'BETA'
+        elif distroname == 'biglinux':
+            if manjaro_branch == 'stable' and biglinux_branch == 'stable':
+                iso_type = 'STABLE' 
+            elif manjaro_branch == 'stable' and biglinux_branch == 'testing':
+                iso_type = 'BETA'
+            elif 'unstable' in [manjaro_branch, biglinux_branch]:
+                iso_type = 'DEVELOPMENT'
+            else:
+                iso_type = 'BETA'
+        else:
+            iso_type = manjaro_branch.upper()
+
+        event_type = f"ISO-{distroname}_{iso_type}_{edition.lower()}_{tag}"
         
         # Convert tmate boolean to string for JSON
         tmate_option = "true" if tmate else "false"
