@@ -826,6 +826,7 @@ the specific source code used to create this copy."""), style="white")
             if self.is_git_repo:
                 options = [
                     _("Commit and push"),
+                    _("Pull latest"),
                     _("Generate package (commit + branch + build)"),
                     _("Build AUR package"),
                     _("Advanced menu"),
@@ -866,7 +867,11 @@ the specific source code used to create this copy."""), style="white")
                     self.commit_and_push()
                     return
                 
-                elif choice == 1:  # Generate package
+                elif choice == 1:  # Pull latest
+                    self.pull_latest_code_menu()
+                    continue
+                
+                elif choice == 2:  # Generate package
                     # Select branch type
                     branch_options = ["testing", "stable", "extra", _("Back")]
                     branch_result = self.menu.show_menu(_("Select repository"), branch_options)
@@ -901,7 +906,7 @@ the specific source code used to create this copy."""), style="white")
                     self.commit_and_generate_package()
                     return
                 
-                elif choice == 2:  # Build AUR package
+                elif choice == 3:  # Build AUR package
                     # Enable or disable tmate for debug
                     debug_result = self.menu.show_menu(_("Enable TMATE debug session?"), [_("No"), _("Yes")])
                     if debug_result is None:
@@ -913,11 +918,11 @@ the specific source code used to create this copy."""), style="white")
                     self.build_aur_package()
                     return
                 
-                elif choice == 3:  # Advanced menu
+                elif choice == 4:  # Advanced menu
                     self.advanced_menu()
                     continue
                 
-                elif choice == 4:  # Exit
+                elif choice == 5:  # Exit
                     self.logger.log("yellow", _("Exiting script. No action was performed."))
                     return
             else:
@@ -1072,3 +1077,102 @@ the specific source code used to create this copy."""), style="white")
         else:
             # No specific argument, show interactive menu
             self.main_menu()
+            
+    def pull_latest_code_menu(self):
+        """Pulls the latest code from the most recent branch with user feedback"""
+        if not self.is_git_repo:
+            self.logger.log("red", _("This operation is only available in git repositories."))
+            return False
+        
+        try:
+            self.logger.log("cyan", _("Checking for latest updates..."))
+            
+            # Fetch latest changes first
+            self.logger.log("cyan", _("Fetching latest changes from remote..."))
+            try:
+                subprocess.run(["git", "fetch", "--all", "--prune"], check=True)
+            except subprocess.CalledProcessError:
+                self.logger.log("yellow", _("Warning: Failed to fetch latest changes, continuing with local code."))
+            
+            # Get current state
+            current_branch = GitUtils.get_current_branch()
+            has_changes = GitUtils.has_changes()
+            
+            # Find most recent branch
+            most_recent_branch = self.get_most_recent_branch()
+            
+            if most_recent_branch:
+                self.logger.log("green", _("Most recent branch found: {0}").format(self.logger.format_branch_name(most_recent_branch)))
+            else:
+                self.logger.log("yellow", _("No dev branches found, using current branch: {0}").format(self.logger.format_branch_name(current_branch)))
+                most_recent_branch = current_branch
+            
+            # Handle local changes if any
+            stashed = False
+            if has_changes:
+                self.logger.log("cyan", _("Stashing local changes temporarily..."))
+                try:
+                    subprocess.run(["git", "stash", "push", "-m", "auto-stash-before-update"], check=True)
+                    # Verify if anything was actually stashed
+                    stash_list = subprocess.run(
+                        ["git", "stash", "list"],
+                        stdout=subprocess.PIPE,
+                        text=True,
+                        check=True
+                    ).stdout.strip()
+                    stashed = bool(stash_list)
+                except subprocess.CalledProcessError:
+                    self.logger.log("yellow", _("Warning: Could not stash changes."))
+            
+            # Switch to most recent branch if needed
+            if current_branch != most_recent_branch:
+                self.logger.log("cyan", _("Switching to most recent branch: {0}").format(self.logger.format_branch_name(most_recent_branch)))
+                try:
+                    subprocess.run(["git", "checkout", most_recent_branch], check=True)
+                except subprocess.CalledProcessError as e:
+                    self.logger.log("red", _("Error switching to branch {0}: {1}").format(most_recent_branch, e))
+                    # Try to restore stashed changes before returning
+                    if stashed:
+                        try:
+                            subprocess.run(["git", "stash", "pop"], check=True)
+                        except:
+                            pass
+                    return False
+            
+            # Pull latest changes
+            self.logger.log("cyan", _("Pulling latest changes from {0}...").format(self.logger.format_branch_name(most_recent_branch)))
+            try:
+                subprocess.run(["git", "pull", "origin", most_recent_branch, "--no-edit"], check=True)
+                self.logger.log("green", _("Successfully updated to latest code from {0}!").format(self.logger.format_branch_name(most_recent_branch)))
+            except subprocess.CalledProcessError:
+                # Try alternative pull strategies
+                try:
+                    subprocess.run(["git", "fetch", "origin", most_recent_branch], check=True)
+                    subprocess.run(["git", "reset", "--hard", f"origin/{most_recent_branch}"], check=True)
+                    self.logger.log("green", _("Successfully force-updated to latest {0}!").format(self.logger.format_branch_name(most_recent_branch)))
+                except subprocess.CalledProcessError as e:
+                    self.logger.log("red", _("Error pulling latest changes: {0}").format(e))
+                    # Try to restore stashed changes before returning
+                    if stashed:
+                        try:
+                            subprocess.run(["git", "stash", "pop"], check=True)
+                        except:
+                            pass
+                    return False
+            
+            # Restore stashed changes if any
+            if stashed:
+                self.logger.log("cyan", _("Restoring your local changes..."))
+                try:
+                    subprocess.run(["git", "stash", "pop"], check=True)
+                    self.logger.log("green", _("Local changes restored successfully."))
+                except subprocess.CalledProcessError:
+                    self.logger.log("yellow", _("Could not automatically restore local changes. Use 'git stash list' to see them."))
+            
+            # Show completion message
+            self.menu.show_menu(_("Update completed successfully!\n"), [_("Press Enter to return to main menu")])
+            return True
+            
+        except Exception as e:
+            self.logger.log("red", _("Unexpected error during update: {0}").format(str(e)))
+            return False
