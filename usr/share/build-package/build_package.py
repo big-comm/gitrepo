@@ -1079,13 +1079,22 @@ the specific source code used to create this copy."""), style="white")
             self.main_menu()
             
     def pull_latest_code_menu(self):
-        """Pulls the latest code from the most recent branch - ALWAYS succeeds"""
+        """Pulls the latest code from the most recent branch - shows detailed changes"""
         if not self.is_git_repo:
             self.logger.log("red", _("This operation is only available in git repositories."))
             return False
         
         try:
             self.logger.log("cyan", _("Checking for latest updates..."))
+            
+            # Get initial state for comparison
+            try:
+                initial_commit = subprocess.run(
+                    ["git", "rev-parse", "HEAD"], 
+                    stdout=subprocess.PIPE, text=True, check=True
+                ).stdout.strip()
+            except:
+                initial_commit = None
             
             # NUCLEAR CLEANUP - resolve qualquer estado problemático
             try:
@@ -1120,23 +1129,125 @@ the specific source code used to create this copy."""), style="white")
             # Force checkout + reset - SEMPRE funciona
             subprocess.run(["git", "checkout", "-B", most_recent_branch, f"origin/{most_recent_branch}"], check=True)
             
-            self.logger.log("green", _("✅ Successfully updated to latest {0}!").format(self.logger.format_branch_name(most_recent_branch)))
+            # Get final state for comparison
+            try:
+                final_commit = subprocess.run(
+                    ["git", "rev-parse", "HEAD"], 
+                    stdout=subprocess.PIPE, text=True, check=True
+                ).stdout.strip()
+            except:
+                final_commit = None
+            
+            # Show what changed
+            self.show_update_changes(initial_commit, final_commit, most_recent_branch)
             
             # Tentar restaurar mudanças locais
             if has_changes:
                 self.logger.log("cyan", _("Attempting to restore your local changes..."))
                 result = subprocess.run(["git", "stash", "pop"], capture_output=True, text=True, check=False)
                 if result.returncode == 0:
-                    self.logger.log("green", _("✅ Local changes restored successfully."))
+                    self.logger.log("green", _("✓ Local changes restored successfully."))
                 else:
-                    self.logger.log("yellow", _("⚠️  Local changes backed up in stash (some conflicts may exist)."))
+                    self.logger.log("yellow", _("! Local changes backed up in stash (some conflicts may exist)."))
                     self.logger.log("yellow", _("Use 'git stash list' and 'git stash apply' manually if needed."))
             
             # Show completion
-            self.menu.show_menu(_("✅ Update completed successfully!\n"), [_("Press Enter to return to main menu")])
+            self.menu.show_menu(_("✓ Update completed successfully!\n"), [_("Press Enter to return to main menu")])
             return True
             
         except Exception as e:
-            self.logger.log("red", _("Error during update: {0}").format(str(e)))
+            self.logger.log("red", _("✗ Error during update: {0}").format(str(e)))
             self.logger.log("yellow", _("Repository may be in inconsistent state. Check manually."))
             return False
+
+    def show_update_changes(self, initial_commit, final_commit, branch_name):
+        """Shows detailed information about what was updated"""
+        if not initial_commit or not final_commit:
+            self.logger.log("green", _("✓ Successfully updated to latest {0}!").format(self.logger.format_branch_name(branch_name)))
+            return
+        
+        if initial_commit == final_commit:
+            self.logger.log("green", _("✓ Already up to date with {0}").format(self.logger.format_branch_name(branch_name)))
+            return
+        
+        try:
+            # Show new commits
+            self.logger.log("green", _("✓ Successfully updated to latest {0}!").format(self.logger.format_branch_name(branch_name)))
+            
+            # Get commit range info
+            commits_result = subprocess.run(
+                ["git", "log", "--oneline", f"{initial_commit}..{final_commit}"],
+                stdout=subprocess.PIPE, text=True, check=True
+            )
+            
+            if commits_result.stdout.strip():
+                commit_lines = commits_result.stdout.strip().split('\n')
+                commit_count = len(commit_lines)
+                
+                self.logger.log("cyan", _("📄 New commits ({0}):").format(commit_count))
+                for line in commit_lines[:5]:  # Show max 5 commits
+                    self.logger.log("white", f"  • {line}")
+                
+                if commit_count > 5:
+                    self.logger.log("white", f"  ... and {commit_count - 5} more commits")
+            
+            # Show file changes
+            diff_result = subprocess.run(
+                ["git", "diff", "--name-status", initial_commit, final_commit],
+                stdout=subprocess.PIPE, text=True, check=True
+            )
+            
+            if diff_result.stdout.strip():
+                changes = {}
+                for line in diff_result.stdout.strip().split('\n'):
+                    if line:
+                        status = line[0]
+                        filename = line[1:].strip()
+                        if status not in changes:
+                            changes[status] = []
+                        changes[status].append(filename)
+                
+                # Show changes summary
+                total_files = sum(len(files) for files in changes.values())
+                self.logger.log("cyan", _("📁 Files changed ({0}):").format(total_files))
+                
+                # Show by type
+                if 'A' in changes:
+                    self.logger.log("green", f"  ✓ Added: {len(changes['A'])} files")
+                    for f in changes['A'][:3]:
+                        self.logger.log("white", f"    + {f}")
+                    if len(changes['A']) > 3:
+                        self.logger.log("white", f"    + ... and {len(changes['A']) - 3} more")
+                
+                if 'M' in changes:
+                    self.logger.log("yellow", f"  ! Modified: {len(changes['M'])} files")
+                    for f in changes['M'][:3]:
+                        self.logger.log("white", f"    ~ {f}")
+                    if len(changes['M']) > 3:
+                        self.logger.log("white", f"    ~ ... and {len(changes['M']) - 3} more")
+                
+                if 'D' in changes:
+                    self.logger.log("red", f"  ✗ Deleted: {len(changes['D'])} files")
+                    for f in changes['D'][:3]:
+                        self.logger.log("white", f"    - {f}")
+                    if len(changes['D']) > 3:
+                        self.logger.log("white", f"    - ... and {len(changes['D']) - 3} more")
+                
+                if 'R' in changes:
+                    self.logger.log("cyan", f"  → Renamed: {len(changes['R'])} files")
+            
+            # Show stats
+            stats_result = subprocess.run(
+                ["git", "diff", "--stat", initial_commit, final_commit],
+                stdout=subprocess.PIPE, text=True, check=True
+            )
+            
+            if stats_result.stdout.strip():
+                stats_lines = stats_result.stdout.strip().split('\n')
+                if len(stats_lines) > 1:
+                    summary_line = stats_lines[-1]
+                    self.logger.log("cyan", f"📊 {summary_line}")
+                    
+        except Exception as e:
+            self.logger.log("green", _("✓ Successfully updated to latest {0}!").format(self.logger.format_branch_name(branch_name)))
+            self.logger.log("yellow", _("! Could not show detailed changes: {0}").format(str(e)))
