@@ -22,9 +22,8 @@ class MenuSystem:
         self.logger = logger
         self.console = Console()
     
-    def show_menu(self, title: str, options: list, default_index: int = 0) -> Optional[Tuple[int, str]]:
+    def show_menu(self, title: str, options: list, default_index: int = 0, additional_content: str = None) -> Optional[Tuple[int, str]]:
         """Displays an interactive menu using Rich"""
-        import sys
         
         # Function to draw the menu
         def draw_menu(selected_index):
@@ -33,6 +32,11 @@ class MenuSystem:
             
             # Display header
             self.logger.draw_app_header()
+            
+            # Display additional content if provided
+            if additional_content:
+                self.console.print(additional_content)
+                self.console.print()  # Add spacing
             
             # Build menu content
             content = ""

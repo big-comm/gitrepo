@@ -1146,38 +1146,44 @@ the specific source code used to create this copy."""), style="white")
                 self.logger.log("cyan", _("Attempting to restore your local changes..."))
                 result = subprocess.run(["git", "stash", "pop"], capture_output=True, text=True, check=False)
                 if result.returncode == 0:
-                    self.logger.log("green", _("V Local changes restored successfully."))
+                    self.logger.log("green", _("✓ Local changes restored successfully."))
                 else:
-                    self.logger.log("yellow", _("! Local changes backed up in stash (some conflicts may exist)."))
-                    changes_summary += _("\n! Local changes backed up in stash")
+                    self.logger.log("yellow", _("⚠ Local changes backed up in stash (some conflicts may exist)."))
+                    if changes_summary:
+                        changes_summary += _("\n⚠ Local changes backed up in stash")
             
-            # Clear screen and show header
-            os.system('clear' if os.name == 'posix' else 'cls')
-            self.logger.draw_app_header()
-            
-            # Show changes summary
+            # Prepare clean summary for display
+            clean_summary = None
             if changes_summary:
-                self.console.print(changes_summary)
-            
-            # Show completion menu
-            self.menu.show_menu(_("Update completed successfully!"), [_("Press Enter to return to main menu")])
+                # Remove Rich formatting tags for clean text display
+                clean_summary = changes_summary.replace('[green bold]', '').replace('[/green bold]', '').replace('[cyan bold]', '').replace('[/cyan bold]', '')
+
+            # Show completion menu with additional content
+            self.menu.show_menu(
+                _("Update completed successfully!"), 
+                [_("Press Enter to return to main menu")],
+                additional_content=clean_summary
+            )
             return True
             
         except Exception as e:
-            self.logger.log("red", _("X Error during update: {0}").format(str(e)))
+            self.logger.log("red", _("✗ Error during update: {0}").format(str(e)))
             return False
-
+        
     def get_update_changes_summary(self, initial_commit, final_commit, branch_name):
         """Generate a formatted summary of changes"""
+        
         if not initial_commit or not final_commit:
-            return _("V Successfully updated to latest {0}!\n").format(self.logger.format_branch_name(branch_name))
+            result = _("✓ Successfully updated to latest {0}!\n").format(self.logger.format_branch_name(branch_name))
+            return result
         
         if initial_commit == final_commit:
-            return _("V Already up to date with {0}\n").format(self.logger.format_branch_name(branch_name))
+            result = _("✓ Already up to date with {0}\n").format(self.logger.format_branch_name(branch_name))
+            return result
         
         try:
             summary_lines = []
-            summary_lines.append(_("V Successfully updated to latest {0}!\n").format(self.logger.format_branch_name(branch_name)))
+            summary_lines.append(_("✓ Successfully updated to latest {0}!\n").format(self.logger.format_branch_name(branch_name)))
             
             # Get commit range info
             commits_result = subprocess.run(
@@ -1219,28 +1225,28 @@ the specific source code used to create this copy."""), style="white")
                 
                 # Show by type
                 if 'A' in changes:
-                    summary_lines.append(f"  V Added: {len(changes['A'])} files")
+                    summary_lines.append(f"  ✓ Added: {len(changes['A'])} files")
                     for f in changes['A'][:3]:
                         summary_lines.append(f"    + {f}")
                     if len(changes['A']) > 3:
                         summary_lines.append(f"    + ... and {len(changes['A']) - 3} more")
                 
                 if 'M' in changes:
-                    summary_lines.append(f"  ! Modified: {len(changes['M'])} files")
+                    summary_lines.append(f"  ⚠ Modified: {len(changes['M'])} files")
                     for f in changes['M'][:3]:
                         summary_lines.append(f"    ~ {f}")
                     if len(changes['M']) > 3:
                         summary_lines.append(f"    ~ ... and {len(changes['M']) - 3} more")
                 
                 if 'D' in changes:
-                    summary_lines.append(f"  X Deleted: {len(changes['D'])} files")
+                    summary_lines.append(f"  ✗ Deleted: {len(changes['D'])} files")
                     for f in changes['D'][:3]:
                         summary_lines.append(f"    - {f}")
                     if len(changes['D']) > 3:
                         summary_lines.append(f"    - ... and {len(changes['D']) - 3} more")
                 
                 if 'R' in changes:
-                    summary_lines.append(f"  -> Renamed: {len(changes['R'])} files")
+                    summary_lines.append(f"  → Renamed: {len(changes['R'])} files")
                 
                 summary_lines.append("")
             
@@ -1257,8 +1263,9 @@ the specific source code used to create this copy."""), style="white")
                     summary_lines.append(f"📊 {summary_line}")
                     summary_lines.append("")
             
-            return '\n'.join(summary_lines)
+            result = '\n'.join(summary_lines)
+            return result
                     
         except Exception as e:
-            return _("V Successfully updated to latest {0}!\n! Could not show detailed changes: {1}\n").format(
+            return _("✓ Successfully updated to latest {0}!\n⚠ Could not show detailed changes: {1}\n").format(
                 self.logger.format_branch_name(branch_name), str(e))
