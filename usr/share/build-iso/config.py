@@ -16,7 +16,8 @@ DEFAULT_ORGANIZATION = "big-comm"            # Default organization
 VALID_ORGANIZATIONS = [
     "big-comm",                              # Former communitybig
     "biglinux",
-    "talesam"
+    "talesam",
+    "leoberbert"
 ]
 
 # Valid distros with display names
@@ -72,7 +73,7 @@ API_PROFILES = {
     "https://github.com/big-comm/iso-profiles": "https://api.github.com/repos/big-comm/iso-profiles/contents/",
     "https://github.com/biglinux/iso-profiles": "https://api.github.com/repos/biglinux/iso-profiles/contents/",
     # "https://github.com/talesam/iso-profiles": "https://api.github.com/repos/talesam/iso-profiles/contents/",
-    "https://github.com/talesam/iso-profiles": "https://api.github.com/repos/leoberbert/iso-profiles/contents/"
+    "https://github.com/leoberbert/iso-profiles": "https://api.github.com/repos/leoberbert/iso-profiles/contents/"
 }
 
 # Organization mapping
