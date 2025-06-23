@@ -35,7 +35,8 @@ DISTRO_DISPLAY_NAMES = {
 ORG_TO_DISTRO_MAP = {
     "big-comm": "bigcommunity",
     "biglinux": "biglinux",
-    "talesam": "bigcommunity"  # Talesam builds BigCommunity
+    "talesam": "bigcommunity",  # talesam builds BigCommunity
+    "leoberbert": "bigcommunity"  # leoberbert builds BigCommunity
 }
 
 # File containing GitHub token
@@ -54,28 +55,32 @@ LOG_DIR_BASE = "/tmp/build-iso"
 ISO_PROFILES = [
     "https://github.com/big-comm/iso-profiles",
     "https://github.com/biglinux/iso-profiles",
-    # "https://github.com/talesam/iso-profiles"
+    # "https://github.com/talesam/iso-profiles",
+    "https://github.com/leoberbert/iso-profiles"
 ]
 
 # Default ISO profiles by organization
 DEFAULT_ISO_PROFILES = {
     "big-comm": "https://github.com/big-comm/iso-profiles",
     "biglinux": "https://github.com/biglinux/iso-profiles",
-    # "talesam": "https://github.com/big-comm/iso-profiles"
+    # "talesam": "https://github.com/big-comm/iso-profiles",
+    "leoberbert": "https://github.com/leoberbert/iso-profiles"
 }
 
 # API URLs for repositories
 API_PROFILES = {
     "https://github.com/big-comm/iso-profiles": "https://api.github.com/repos/big-comm/iso-profiles/contents/",
     "https://github.com/biglinux/iso-profiles": "https://api.github.com/repos/biglinux/iso-profiles/contents/",
-    # "https://github.com/talesam/iso-profiles": "https://api.github.com/repos/talesam/iso-profiles/contents/"
+    # "https://github.com/talesam/iso-profiles": "https://api.github.com/repos/talesam/iso-profiles/contents/",
+    "https://github.com/talesam/iso-profiles": "https://api.github.com/repos/leoberbert/iso-profiles/contents/"
 }
 
 # Organization mapping
 ORGANIZATION_MAP = {
     "big-comm": "big-comm",       # Former bigcommunity
     "biglinux": "biglinux",
-    "talesam": "talesam"
+    "talesam": "talesam",
+    "leoberbert": "leoberbert"
 }
 
 # Edition options for different distros

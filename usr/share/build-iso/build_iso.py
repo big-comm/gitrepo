@@ -538,6 +538,17 @@ the specific source code used to create this copy."""), style="white")
             self.kernel = "latest"
             self.build_dir = "bigcommunity"
             self.edition = "xfce"
+        elif self.organization == "leoberbert":
+            self.distroname = "bigcommunity"  # Important: when the organization is talesam, the distro is bigcommunity
+            self.iso_profiles_repo = DEFAULT_ISO_PROFILES["leoberbert"]
+            self.branches = {
+                "manjaro": "stable",
+                "community": "stable",
+                "biglinux": "stable"
+            }
+            self.kernel = "latest"
+            self.build_dir = "bigcommunity"
+            self.edition = "gnome"
                 
         # Override com argumentos da linha de comando
         if self.args.distroname:
