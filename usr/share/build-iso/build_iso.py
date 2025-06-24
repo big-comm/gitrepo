@@ -14,11 +14,8 @@ from translation_utils import _
 from config import (
     APP_NAME, APP_DESC, VERSION, DEFAULT_ORGANIZATION, 
     VALID_ORGANIZATIONS, VALID_BRANCHES, VALID_KERNELS,
-    VALID_DISTROS, DISTRO_DISPLAY_NAMES, ORG_TO_DISTRO_MAP,
-    ISO_PROFILES, DEFAULT_ISO_PROFILES, API_PROFILES,
-    BIGCOMM_EDITIONS, BIGLINUX_EDITIONS,
-    TALESAM_EDITIONS, BIGCOMM_BUILD_DIRS,
-    BIGLINUX_BUILD_DIRS, TALESAM_BUILD_DIRS
+    VALID_DISTROS, DISTRO_DISPLAY_NAMES, ISO_PROFILES,
+    DEFAULT_ISO_PROFILES, API_PROFILES, ORG_DEFAULT_CONFIGS
 )
 from logger import RichLogger
 from git_utils import GitUtils
@@ -270,14 +267,9 @@ the specific source code used to create this copy."""), style="white")
                     if item.get("type") == "tree" and item.get("name") not in ["shared", "grub", "temp_repo", ".github"]:
                         build_list.append(item.get("name"))
             
-            # Use predefined build list if the dynamic one fails or is empty
+            # Use generic fallback if the dynamic list fails or is empty
             if not build_list:
-                if self.distroname == "big-comm":
-                    build_list = BIGCOMM_BUILD_DIRS
-                elif self.distroname == "biglinux":
-                    build_list = BIGLINUX_BUILD_DIRS
-                elif self.distroname == "talesam":
-                    build_list = TALESAM_BUILD_DIRS
+                build_list = [self.distroname]
             
             # Show menu with build directories
             result = self.menu.show_menu(
@@ -293,15 +285,8 @@ the specific source code used to create this copy."""), style="white")
             
         except Exception as e:
             self.logger.log("red", _("Error fetching build list: {0}").format(str(e)))
-            # Fallback to default build dirs
-            if self.distroname == "big-comm":
-                build_list = BIGCOMM_BUILD_DIRS
-            elif self.distroname == "biglinux":
-                build_list = BIGLINUX_BUILD_DIRS
-            elif self.distroname == "talesam":
-                build_list = TALESAM_BUILD_DIRS
-            else:
-                build_list = [self.distroname]
+            # Fallback to generic build dir
+            build_list = [self.distroname]
             
             result = self.menu.show_menu(
                 _("Choose a {0} for {1} (from defaults):").format("[yellow]BUILD_DIR[/]", f"[yellow]{self.distroname}[/]"),
@@ -347,16 +332,9 @@ the specific source code used to create this copy."""), style="white")
                         if item.get("type") == "tree":
                             editions.append(item.get("name"))
             
-            # If API call fails or returns empty, use predefined editions
+            # If API call fails or returns empty, use generic editions
             if not editions:
-                if self.distroname == "big-comm":
-                    editions = BIGCOMM_EDITIONS
-                elif self.distroname == "biglinux":
-                    editions = BIGLINUX_EDITIONS
-                elif self.distroname == "talesam":
-                    editions = TALESAM_EDITIONS
-                else:
-                    editions = ["xfce", "kde", "gnome"]
+                editions = ["xfce", "kde", "gnome", "cinnamon"]
             
             # Show menu with editions
             result = self.menu.show_menu(
@@ -372,15 +350,8 @@ the specific source code used to create this copy."""), style="white")
             
         except Exception as e:
             self.logger.log("red", _("Error fetching editions: {0}").format(str(e)))
-            # Fallback to predefined editions
-            if self.distroname == "big-comm":
-                editions = BIGCOMM_EDITIONS
-            elif self.distroname == "biglinux":
-                editions = BIGLINUX_EDITIONS
-            elif self.distroname == "talesam":
-                editions = TALESAM_EDITIONS
-            else:
-                editions = ["xfce", "kde", "gnome"]
+            # Fallback to generic editions
+            editions = ["xfce", "kde", "gnome", "cinnamon"]
             
             result = self.menu.show_menu(
                 _("Choose an {0} for {1} (from defaults):").format("[yellow]EDITION[/]", f"[yellow]{self.distroname}[/]"),
@@ -504,53 +475,23 @@ the specific source code used to create this copy."""), style="white")
     
     def run_automatic_mode(self) -> bool:
         """Run in automatic mode with default settings"""
-        # Set defaults based on organization, usando o mapeamento correto
-        self.distroname = ORG_TO_DISTRO_MAP.get(self.organization, "bigcommunity")
         
-        if self.organization == "big-comm":
-            self.iso_profiles_repo = DEFAULT_ISO_PROFILES["big-comm"]
-            self.branches = {
-                "manjaro": "stable",
-                "community": "stable",
-                "biglinux": "stable"
-            }
-            self.kernel = "latest"
-            self.build_dir = "bigcommunity"  # Nome correto do diretório
-            self.edition = "xfce"
-        elif self.organization == "biglinux":
-            self.iso_profiles_repo = DEFAULT_ISO_PROFILES["biglinux"]
-            self.branches = {
-                "manjaro": "stable",
-                "community": "",
-                "biglinux": "stable"
-            }
-            self.kernel = "latest"
-            self.build_dir = "biglinux"
-            self.edition = "kde"
-        elif self.organization == "talesam":
-            self.distroname = "bigcommunity"  # Important: when the organization is talesam, the distro is bigcommunity
-            self.iso_profiles_repo = DEFAULT_ISO_PROFILES["talesam"]
-            self.branches = {
-                "manjaro": "stable",
-                "community": "stable",
-                "biglinux": "stable"
-            }
-            self.kernel = "latest"
-            self.build_dir = "bigcommunity"
-            self.edition = "xfce"
-        elif self.organization == "leoberbert":
-            self.distroname = "bigcommunity"  # Important: when the organization is talesam, the distro is bigcommunity
-            self.iso_profiles_repo = DEFAULT_ISO_PROFILES["leoberbert"]
-            self.branches = {
-                "manjaro": "stable",
-                "community": "stable",
-                "biglinux": "stable"
-            }
-            self.kernel = "latest"
-            self.build_dir = "bigcommunity"
-            self.edition = "gnome"
-                
-        # Override com argumentos da linha de comando
+        # Get default configuration for the organization
+        org_config = ORG_DEFAULT_CONFIGS.get(self.organization)
+        
+        if not org_config:
+            self.logger.die("red", _("No default configuration found for organization '{0}'.").format(self.organization))
+            return False
+        
+        # Apply organization default settings
+        self.distroname = org_config["distroname"]
+        self.iso_profiles_repo = org_config["iso_profiles_repo"] 
+        self.branches = org_config["branches"].copy()  # Copy to avoid modifying the original
+        self.kernel = org_config["kernel"]
+        self.build_dir = org_config["build_dir"]
+        self.edition = org_config["edition"]
+        
+        # Override with command line arguments (if provided)
         if self.args.distroname:
             self.distroname = self.args.distroname
         if self.args.edition:
