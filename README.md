@@ -1,7 +1,7 @@
 # GitRepo Tools
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Version-3.0.2-blue.svg" alt="Version"/>
+  <img src="https://img.shields.io/badge/Version-3.0.3-blue.svg" alt="Version"/>
   <img src="https://img.shields.io/badge/Arch-Linux-1793D1.svg?logo=arch-linux" alt="Arch Linux"/>
   <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License"/>
 </p>
@@ -56,7 +56,7 @@ Build Package is a specialized tool designed to simplify the package building pr
 Install the package using your package manager:
 
 ```bash
-sudo pacman -U build-package-3.0.0-1-any.pkg.tar.zst
+sudo pacman -U gitrepo-25.05.24-0106-x86_64.pkg.tar.zst
 ```
 
 Or build and install from source:
@@ -96,16 +96,20 @@ Options:
 
 ### Overview
 
-Build ISO is a tool designed to simplify the creation of Linux distribution ISO images. It automates the process of building custom ISOs through GitHub Actions integration, allowing the creation of images for different distributions like BigCommunity and BigLinux.
+Build ISO is a powerful tool designed to simplify the creation of Linux distribution ISO images. It features a **plug-and-play architecture** that allows anyone to easily add their organization and create custom ISOs without modifying the main code. The tool automates the entire process through GitHub Actions integration and dynamically fetches available options from ISO profile repositories.
 
 ### Features
 
+- **Plug-and-Play Configuration** - Add new organizations by simply editing the configuration file
+- **Dynamic Content Discovery** - Automatically detects available build directories and desktop editions from ISO profile repositories via GitHub API
 - **Interactive Menu Interface** - User-friendly navigation with colored terminal menus
-- **GitHub Actions Integration** - Trigger ISO build workflows remotely
-- **Distribution Customization** - Support for various Manjaro-based distributions
-- **Desktop Editions** - Choose from different desktop environments (KDE, XFCE, Gnome, etc.)
+- **GitHub Actions Integration** - Trigger ISO build workflows remotely with comprehensive status monitoring
+- **Multi-Organization Support** - Pre-configured for BigCommunity, BigLinux, and community forks
+- **Distribution Customization** - Support for various Manjaro-based distributions with flexible branching
+- **Desktop Editions** - Automatically discovers available desktop environments from your ISO profiles
 - **Kernel Selection** - Options for different kernel versions (latest, lts, oldlts, xanmod)
-- **Configurable ISO Profiles** - Use different profile repositories for customization
+- **Automatic Mode** - Zero-interaction builds using organization-specific defaults
+- **Real-time Validation** - All options are validated against live repository contents
 
 ### Requirements
 
@@ -133,7 +137,19 @@ Run the command without arguments to enter interactive mode:
 build-iso
 ```
 
-This displays a menu with available options to configure and build an ISO.
+This displays a menu with available options to configure and build an ISO. All build directories and editions are dynamically fetched from your chosen ISO profiles repository.
+
+#### Automatic Mode
+
+Use automatic mode for quick builds with predefined settings:
+
+```bash
+# Build with organization defaults
+build-iso -o big-comm --auto
+
+# Override specific settings
+build-iso -o biglinux --auto -e kde -k latest
+```
 
 #### Command Line Arguments
 
@@ -150,6 +166,86 @@ Options:
   -V, --version              Print application version
   -t, --tmate                Enable tmate for debugging
 ```
+
+### Adding Your Organization
+
+The tool is designed to be **completely plug-and-play**. To add your organization:
+
+1. **Add your organization to the valid list** in `config.py`:
+
+```python
+VALID_ORGANIZATIONS = [
+    "big-comm",
+    "biglinux", 
+    "talesam",
+    "leoberbert",
+    "your-organization"  # Add here
+]
+```
+
+2. **Configure your ISO profiles repository** (if you have one):
+
+```python
+ISO_PROFILES = [
+    "https://github.com/big-comm/iso-profiles",
+    "https://github.com/biglinux/iso-profiles",
+    "https://github.com/leoberbert/iso-profiles",
+    "https://github.com/your-organization/iso-profiles"  # Add here
+]
+
+DEFAULT_ISO_PROFILES = {
+    "big-comm": "https://github.com/big-comm/iso-profiles",
+    "biglinux": "https://github.com/biglinux/iso-profiles", 
+    "leoberbert": "https://github.com/leoberbert/iso-profiles",
+    "your-organization": "https://github.com/your-organization/iso-profiles"
+}
+
+API_PROFILES = {
+    "https://github.com/big-comm/iso-profiles": "https://api.github.com/repos/big-comm/iso-profiles/contents/",
+    "https://github.com/biglinux/iso-profiles": "https://api.github.com/repos/biglinux/iso-profiles/contents/",
+    "https://github.com/leoberbert/iso-profiles": "https://api.github.com/repos/leoberbert/iso-profiles/contents/",
+    "https://github.com/your-organization/iso-profiles": "https://api.github.com/repos/your-organization/iso-profiles/contents/"
+}
+```
+
+3. **Set your default configuration** in the `ORG_DEFAULT_CONFIGS` section:
+
+```python
+ORG_DEFAULT_CONFIGS = {
+    # ... existing configurations ...
+    
+    "your-organization": {
+        "distroname": "bigcommunity",  # or "biglinux" or your own distro
+        "iso_profiles_repo": "https://github.com/your-organization/iso-profiles", 
+        "branches": {
+            "manjaro": "stable",     # stable, testing, unstable
+            "community": "stable",   # stable, testing, unstable (leave "" if not used)
+            "biglinux": "stable"     # stable, testing, unstable (leave "" if not used)
+        },
+        "kernel": "latest",          # latest, lts, oldlts, xanmod
+        "build_dir": "bigcommunity", # directory name in your iso-profiles repository
+        "edition": "xfce"            # your preferred default desktop environment
+    }
+}
+```
+
+**That's it!** Your organization is now fully integrated. The tool will:
+- ✅ Automatically discover your available build directories via GitHub API
+- ✅ Dynamically fetch your available desktop editions
+- ✅ Work in both interactive and automatic modes
+- ✅ Use your custom defaults when running `--auto` mode
+
+### Configuration Fields Explained
+
+- **distroname**: Base distribution (`"bigcommunity"` or `"biglinux"`)
+- **iso_profiles_repo**: URL to your ISO profiles repository
+- **branches**: Version branches for each component:
+  - `manjaro`: Manjaro base system branch (stable/testing/unstable)
+  - `community`: BigCommunity customizations branch (leave `""` if not used)
+  - `biglinux`: BigLinux customizations branch (leave `""` if not used)
+- **kernel**: Default kernel type (`latest`, `lts`, `oldlts`, `xanmod`)
+- **build_dir**: Directory name in your iso-profiles repository (validated via API)
+- **edition**: Default desktop environment (validated via API)
 
 ## GitHub Token Configuration
 
