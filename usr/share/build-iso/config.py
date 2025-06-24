@@ -32,14 +32,6 @@ DISTRO_DISPLAY_NAMES = {
     "biglinux": "BigLinux"
 }
 
-# Organization to distro mapping
-ORG_TO_DISTRO_MAP = {
-    "big-comm": "bigcommunity",
-    "biglinux": "biglinux",
-    "talesam": "bigcommunity",  # talesam builds BigCommunity
-    "leoberbert": "bigcommunity"  # leoberbert builds BigCommunity
-}
-
 # File containing GitHub token
 TOKEN_FILE = "~/.GITHUB_TOKEN"
 
@@ -56,7 +48,6 @@ LOG_DIR_BASE = "/tmp/build-iso"
 ISO_PROFILES = [
     "https://github.com/big-comm/iso-profiles",
     "https://github.com/biglinux/iso-profiles",
-    # "https://github.com/talesam/iso-profiles",
     "https://github.com/leoberbert/iso-profiles"
 ]
 
@@ -64,7 +55,6 @@ ISO_PROFILES = [
 DEFAULT_ISO_PROFILES = {
     "big-comm": "https://github.com/big-comm/iso-profiles",
     "biglinux": "https://github.com/biglinux/iso-profiles",
-    # "talesam": "https://github.com/big-comm/iso-profiles",
     "leoberbert": "https://github.com/leoberbert/iso-profiles"
 }
 
@@ -72,7 +62,6 @@ DEFAULT_ISO_PROFILES = {
 API_PROFILES = {
     "https://github.com/big-comm/iso-profiles": "https://api.github.com/repos/big-comm/iso-profiles/contents/",
     "https://github.com/biglinux/iso-profiles": "https://api.github.com/repos/biglinux/iso-profiles/contents/",
-    # "https://github.com/talesam/iso-profiles": "https://api.github.com/repos/talesam/iso-profiles/contents/",
     "https://github.com/leoberbert/iso-profiles": "https://api.github.com/repos/leoberbert/iso-profiles/contents/"
 }
 
@@ -84,17 +73,87 @@ ORGANIZATION_MAP = {
     "leoberbert": "leoberbert"
 }
 
-# Edition options for different distros
-BIGCOMM_EDITIONS = ["cinnamon", "cosmic", "deepin", "gnome", "kde", "xfce", "wmaker"]
-BIGLINUX_EDITIONS = ["base", "FalaQueEuTeEscuto", "flisol", "kde", "small", "xivastudio"]
-TALESAM_EDITIONS = ["cinnamon", "cosmic", "deepin", "gnome", "kde", "xfce", "wmaker"]
+# =======================================================================================
+# DEFAULT CONFIGURATIONS FOR AUTOMATIC MODE
+# =======================================================================================
+# To add a new organization, simply add an entry here following the same format
+# as the existing ones. No need to modify the main code!
+# 
+# NOTE: Build directories and editions are now fetched dynamically from the 
+# iso-profiles repository API, so no need for hardcoded lists anymore!
+# =======================================================================================
 
-# Build dirs for different distros
-BIGCOMM_BUILD_DIRS = ["bigcommunity"]
-BIGLINUX_BUILD_DIRS = ["biglinux", "biglinux-make-iso-profiles"]
-TALESAM_BUILD_DIRS = ["bigcommunity"]
+ORG_DEFAULT_CONFIGS = {
+    "big-comm": {
+        "distroname": "bigcommunity",
+        "iso_profiles_repo": "https://github.com/big-comm/iso-profiles",
+        "branches": {
+            "manjaro": "stable",
+            "community": "stable", 
+            "biglinux": "stable"
+        },
+        "kernel": "latest",
+        "build_dir": "bigcommunity",
+        "edition": "xfce"
+    },
+    
+    "biglinux": {
+        "distroname": "biglinux",
+        "iso_profiles_repo": "https://github.com/biglinux/iso-profiles",
+        "branches": {
+            "manjaro": "stable",
+            "community": "",
+            "biglinux": "stable"
+        },
+        "kernel": "latest", 
+        "build_dir": "biglinux",
+        "edition": "kde"
+    },
+    
+    "talesam": {
+        "distroname": "bigcommunity",  # talesam builds BigCommunity
+        "iso_profiles_repo": "https://github.com/big-comm/iso-profiles",
+        "branches": {
+            "manjaro": "stable",
+            "community": "stable",
+            "biglinux": "stable"
+        },
+        "kernel": "latest",
+        "build_dir": "bigcommunity", 
+        "edition": "xfce"
+    },
+    
+    "leoberbert": {
+        "distroname": "bigcommunity",  # leoberbert builds BigCommunity
+        "iso_profiles_repo": "https://github.com/leoberbert/iso-profiles",
+        "branches": {
+            "manjaro": "stable",
+            "community": "stable",
+            "biglinux": "stable"
+        },
+        "kernel": "latest",
+        "build_dir": "bigcommunity",
+        "edition": "gnome"
+    }
+    
+    # =======================================================================================
+    # EXAMPLE: To add a new organization, uncomment and configure:
+    # =======================================================================================
+    # "your-organization": {
+    #     "distroname": "bigcommunity",  # or "biglinux" or your own distro
+    #     "iso_profiles_repo": "https://github.com/your-organization/iso-profiles", 
+    #     "branches": {
+    #         "manjaro": "stable",     # stable, testing, unstable
+    #         "community": "stable",   # stable, testing, unstable (leave "" if not used)
+    #         "biglinux": "stable"     # stable, testing, unstable (leave "" if not used)
+    #     },
+    #     "kernel": "latest",          # latest, lts, oldlts, xanmod
+    #     "build_dir": "bigcommunity", # directory name in iso-profiles (will be validated via API)
+    #     "edition": "xfce"            # xfce, kde, gnome, etc. (will be validated via API)
+    # }
+}
 
 # Script version
-VERSION = "3.0.1"
+VERSION = "3.0.3"
 APP_NAME = _("BUILD ISO")
 APP_DESC = _("Wrapper for ISO building using GitHub Actions. Streamlines the process of creating custom Linux distribution ISO images through automation.")
