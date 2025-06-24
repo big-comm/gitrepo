@@ -56,7 +56,7 @@ Build Package is a specialized tool designed to simplify the package building pr
 Install the package using your package manager:
 
 ```bash
-sudo pacman -U gitrepo-25.05.24-0106-x86_64.pkg.tar.zst
+sudo pacman -U gitrepo-*-x86_64.pkg.tar.zst
 ```
 
 Or build and install from source:
@@ -124,7 +124,7 @@ Build ISO is a powerful tool designed to simplify the creation of Linux distribu
 Build ISO is distributed as part of the GitRepo package:
 
 ```bash
-sudo pacman -U gitrepo-1.0.0-1-any.pkg.tar.zst
+sudo pacman -U gitrepo-*-x86_64.pkg.tar.zst
 ```
 
 ### Usage
