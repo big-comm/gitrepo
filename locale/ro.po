@@ -935,16 +935,80 @@ msgstr "Obținerea celor mai recente actualizări de la distanță..."
 msgid "Warning: Failed to fetch latest changes, continuing with local code."
 msgstr "Atenție: Eșec la obținerea celor mai recente modificări, continuând cu codul local."
 # 
-# File: usr/share/build-package/build_package.py, line: 511
+# File: usr/share/build-package/build_package.py, line: 557
 #: NEEDS WORK
 #, python-brace-format
-msgid "Switching to the most recent branch: {0}"
-msgstr "Comutare la cea mai recentă ramură: {0}"
+msgid "Most recent branch available: {0}"
+msgstr "Cea mai recentă ramură disponibilă: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 577
+# File: usr/share/build-package/build_package.py, line: 561
+# File: usr/share/build-package/build_package.py, line: 1142
 #: NEEDS WORK
-msgid "Standard pull failed, trying force strategy..."
-msgstr "Tragere standard eșuată, încercând strategia forțată..."
+msgid "Moving your changes to the most recent branch..."
+msgstr "Mutarea modificărilor tale către cea mai recentă ramură..."
+# 
+# File: usr/share/build-package/build_package.py, line: 565
+# File: usr/share/build-package/build_package.py, line: 1146
+#: NEEDS WORK
+msgid "Step 1/4: Preserving your changes temporarily..."
+msgstr "Pasul 1/4: Păstrarea temporară a modificărilor tale..."
+# 
+# File: usr/share/build-package/build_package.py, line: 572
+# File: usr/share/build-package/build_package.py, line: 1153
+#: NEEDS WORK
+msgid "Failed to stash changes. Cannot proceed safely."
+msgstr "A eșuat stocarea modificărilor. Nu se poate continua în siguranță."
+# 
+# File: usr/share/build-package/build_package.py, line: 576
+# File: usr/share/build-package/build_package.py, line: 1157
+#: NEEDS WORK
+msgid "Step 2/4: Switching to most recent branch..."
+msgstr "Pasul 2/4: Comutare la cea mai recentă ramură..."
+# 
+# File: usr/share/build-package/build_package.py, line: 580
+# File: usr/share/build-package/build_package.py, line: 1161
+#: NEEDS WORK
+msgid "Failed to switch branches. Your changes are safe in stash."
+msgstr "Eșec la schimbarea ramurilor. Modificările tale sunt în siguranță în stash."
+# 
+# File: usr/share/build-package/build_package.py, line: 584
+# File: usr/share/build-package/build_package.py, line: 1165
+#: NEEDS WORK
+msgid "Step 3/4: Applying your changes to the most recent branch..."
+msgstr "Pasul 3/4: Aplicarea modificărilor tale pe cea mai recentă ramură..."
+# 
+# File: usr/share/build-package/build_package.py, line: 588
+# File: usr/share/build-package/build_package.py, line: 1169
+#: NEEDS WORK
+msgid "Conflicts detected while applying changes. Resolving automatically..."
+msgstr "Conflicte detectate în timp ce se aplicau modificările. Se rezolvă automat..."
+# 
+# File: usr/share/build-package/build_package.py, line: 593
+# File: usr/share/build-package/build_package.py, line: 1173
+#: NEEDS WORK
+msgid "Conflicts resolved automatically"
+msgstr "Conflictele au fost rezolvate automat"
+# 
+# File: usr/share/build-package/build_package.py, line: 595
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically. Please check 'git status'"
+msgstr "Nu s-au putut rezolva conflictele automat. Vă rugăm să verificați 'git status'"
+# 
+# File: usr/share/build-package/build_package.py, line: 599
+#: NEEDS WORK
+msgid "Step 4/4: Your changes are now ready to commit in the most recent branch!"
+msgstr "Pasul 4/4: Modificările tale sunt acum pregătite pentru a fi confirmate în cea mai recentă ramură!"
+# 
+# File: usr/share/build-package/build_package.py, line: 604
+#: NEEDS WORK
+#, python-brace-format
+msgid "No local changes detected. Switching to most recent branch: {0}"
+msgstr "Nu au fost detectate modificări locale. Comutare la cea mai recentă ramură: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 598
+#: NEEDS WORK
+msgid "Standard pull failed, trying force update..."
+msgstr "Actualizare standard eșuată, încercând actualizare forțată..."
 # 
 # File: usr/share/build-package/build_package.py, line: 582
 # File: usr/share/build-package/build_package.py, line: 602
@@ -952,29 +1016,6 @@ msgstr "Tragere standard eșuată, încercând strategia forțată..."
 #, python-brace-format
 msgid "Force-updated to latest {0}"
 msgstr "Forțat actualizat la cea mai recentă {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 584
-#: NEEDS WORK
-#, python-brace-format
-msgid "Successfully updated to latest {0}"
-msgstr "Actualizat cu succes la cea mai recentă {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 589
-#: NEEDS WORK
-#, python-brace-format
-msgid "Could not switch branches automatically: {0}"
-msgstr "Nu s-au putut schimba ramurile automat: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 590
-#: NEEDS WORK
-#, python-brace-format
-msgid "Continuing with current branch: {0}"
-msgstr "Continuând cu ramura curentă: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 598
-#: NEEDS WORK
-msgid "Standard pull failed, trying force update..."
-msgstr "Actualizare standard eșuată, încercând actualizare forțată..."
 # 
 # File: usr/share/build-package/build_package.py, line: 604
 #: NEEDS WORK
@@ -1366,38 +1407,40 @@ msgstr "Se preiau cele mai recente modificări de la distanță..."
 msgid "Most recent branch: {0}"
 msgstr "Ramura cea mai recentă: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 1114
+# File: usr/share/build-package/build_package.py, line: 1175
 #: NEEDS WORK
-msgid "Backing up your local changes..."
-msgstr "Salvarea modificărilor locale..."
+msgid "⚠ Some conflicts need manual resolution. Check 'git status'"
+msgstr "⚠ Unele conflicte necesită rezolvare manuală. Verifică 'git status'"
 # 
-# File: usr/share/build-package/build_package.py, line: 1118
+# File: usr/share/build-package/build_package.py, line: 1178
 #: NEEDS WORK
-#, python-brace-format
-msgid "Updating to latest code from {0}..."
-msgstr "Actualizare la cea mai recentă versiune a codului din {0}..."
+msgid "Step 4/4: Your changes are now in the most recent branch!"
+msgstr "Pasul 4/4: Modificările tale sunt acum în cea mai recentă ramură!"
 # 
-# File: usr/share/build-package/build_package.py, line: 1127
+# File: usr/share/build-package/build_package.py, line: 1183
 #: NEEDS WORK
-msgid "Attempting to restore your local changes..."
-msgstr "Încerc să restaurez modificările tale locale..."
+msgid "No local changes detected. Switching to most recent branch..."
+msgstr "Nu au fost detectate modificări locale. Trec la cea mai recentă ramură..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1149
+# File: usr/share/build-package/build_package.py, line: 1188
 #: NEEDS WORK
-msgid "✓ Local changes restored successfully."
-msgstr "✓ Modificările locale au fost restaurate cu succes."
+msgid "Already on most recent branch. Updating to latest version..."
+msgstr "Deja pe cea mai recentă ramură. Se actualizează la cea mai recentă versiune..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1151
+# File: usr/share/build-package/build_package.py, line: 1192
 #: NEEDS WORK
-msgid "⚠ Local changes backed up in stash (some conflicts may exist)."
-msgstr "⚠ Modificările locale sunt salvate în stash (pot exista unele conflicte)."
+msgid "Successfully updated current branch"
+msgstr "Ramura curentă a fost actualizată cu succes"
 # 
-# File: usr/share/build-package/build_package.py, line: 1153
+# File: usr/share/build-package/build_package.py, line: 1197
 #: NEEDS WORK
-msgid ""
-"\n"
-"⚠ Local changes backed up in stash"
-msgstr "⚠ Modificările locale au fost salvate în stash"
+msgid "Force-updated current branch"
+msgstr "Ramură curentă forțat actualizată"
+# 
+# File: usr/share/build-package/build_package.py, line: 1199
+#: NEEDS WORK
+msgid "Could not update branch"
+msgstr "Nu s-a putut actualiza ramura"
 # 
 # File: usr/share/build-package/build_package.py, line: 1163
 #: NEEDS WORK
@@ -1444,6 +1487,23 @@ msgid ""
 msgstr ""
 "✓ Actualizat cu succes la cea mai recentă {0}!\n"
 "⚠ Nu s-au putut afișa modificările detaliate: {1}"
+# 
+# File: usr/share/build-package/build_package.py, line: 577
+#: NEEDS WORK
+msgid "Standard pull failed, trying force strategy..."
+msgstr "Tragere standard eșuată, încercând strategia forțată..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1350
+#: NEEDS WORK
+#, python-brace-format
+msgid "Successfully switched and updated to {0}"
+msgstr "Comutare și actualizare reușită la {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1353
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error switching to branch {0}: {1}"
+msgstr "Eroare la comutarea pe ramura {0}: {1}"
 # 
 # File: usr/share/build-iso/config.py, line: 96
 #: NEEDS WORK

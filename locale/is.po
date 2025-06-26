@@ -934,16 +934,80 @@ msgstr "Sæki nýjustu uppfærslur frá fjarveitu..."
 msgid "Warning: Failed to fetch latest changes, continuing with local code."
 msgstr "Viðvörun: Ekki tókst að sækja nýjustu breytingar, heldur haldið áfram með staðbundin kóða."
 # 
-# File: usr/share/build-package/build_package.py, line: 511
+# File: usr/share/build-package/build_package.py, line: 557
 #: NEEDS WORK
 #, python-brace-format
-msgid "Switching to the most recent branch: {0}"
-msgstr "Breyting í nýjustu grein: {0}"
+msgid "Most recent branch available: {0}"
+msgstr "Nýjasta grein sem er í boði: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 577
+# File: usr/share/build-package/build_package.py, line: 561
+# File: usr/share/build-package/build_package.py, line: 1142
 #: NEEDS WORK
-msgid "Standard pull failed, trying force strategy..."
-msgstr "Staðlaður dráttur mistókst, reyni að nota þvingunarstefnu..."
+msgid "Moving your changes to the most recent branch..."
+msgstr "Færa breytingarnar þínar yfir á nýjustu greinina..."
+# 
+# File: usr/share/build-package/build_package.py, line: 565
+# File: usr/share/build-package/build_package.py, line: 1146
+#: NEEDS WORK
+msgid "Step 1/4: Preserving your changes temporarily..."
+msgstr "Skref 1/4: Að varðveita breytingarnar þínar tímabundið..."
+# 
+# File: usr/share/build-package/build_package.py, line: 572
+# File: usr/share/build-package/build_package.py, line: 1153
+#: NEEDS WORK
+msgid "Failed to stash changes. Cannot proceed safely."
+msgstr "Mistók að geyma breytingar. Getur ekki haldið áfram á öruggan hátt."
+# 
+# File: usr/share/build-package/build_package.py, line: 576
+# File: usr/share/build-package/build_package.py, line: 1157
+#: NEEDS WORK
+msgid "Step 2/4: Switching to most recent branch..."
+msgstr "Skref 2/4: Að skipta yfir í nýjustu greinina..."
+# 
+# File: usr/share/build-package/build_package.py, line: 580
+# File: usr/share/build-package/build_package.py, line: 1161
+#: NEEDS WORK
+msgid "Failed to switch branches. Your changes are safe in stash."
+msgstr "Ekki tókst að skipta um greinar. Þínar breytingar eru öruggar í geymslu."
+# 
+# File: usr/share/build-package/build_package.py, line: 584
+# File: usr/share/build-package/build_package.py, line: 1165
+#: NEEDS WORK
+msgid "Step 3/4: Applying your changes to the most recent branch..."
+msgstr "Skref 3/4: Að beita breytingunum þínum á nýjustu greinina..."
+# 
+# File: usr/share/build-package/build_package.py, line: 588
+# File: usr/share/build-package/build_package.py, line: 1169
+#: NEEDS WORK
+msgid "Conflicts detected while applying changes. Resolving automatically..."
+msgstr "Ágreiningar greindar við að beita breytingum. Leyst sjálfkrafa..."
+# 
+# File: usr/share/build-package/build_package.py, line: 593
+# File: usr/share/build-package/build_package.py, line: 1173
+#: NEEDS WORK
+msgid "Conflicts resolved automatically"
+msgstr "Ágreiningar leystar sjálfkrafa"
+# 
+# File: usr/share/build-package/build_package.py, line: 595
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically. Please check 'git status'"
+msgstr "Gat ekki að leysa árekstra sjálfkrafa. Vinsamlegast athugaðu 'git status'"
+# 
+# File: usr/share/build-package/build_package.py, line: 599
+#: NEEDS WORK
+msgid "Step 4/4: Your changes are now ready to commit in the most recent branch!"
+msgstr "Skref 4/4: Breytingarnar þínar eru nú tilbúnar til að skuldbinda í nýjustu greinina!"
+# 
+# File: usr/share/build-package/build_package.py, line: 604
+#: NEEDS WORK
+#, python-brace-format
+msgid "No local changes detected. Switching to most recent branch: {0}"
+msgstr "Engin staðbundin breytingar greindar ekki. Skipt er yfir í nýjustu grein: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 598
+#: NEEDS WORK
+msgid "Standard pull failed, trying force update..."
+msgstr "Venjuleg niðurhal mistókst, reyni að þvinga uppfærslu..."
 # 
 # File: usr/share/build-package/build_package.py, line: 582
 # File: usr/share/build-package/build_package.py, line: 602
@@ -951,29 +1015,6 @@ msgstr "Staðlaður dráttur mistókst, reyni að nota þvingunarstefnu..."
 #, python-brace-format
 msgid "Force-updated to latest {0}"
 msgstr "Þvingað uppfært í nýjustu {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 584
-#: NEEDS WORK
-#, python-brace-format
-msgid "Successfully updated to latest {0}"
-msgstr "Súgild uppfært í nýjustu {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 589
-#: NEEDS WORK
-#, python-brace-format
-msgid "Could not switch branches automatically: {0}"
-msgstr "Gat ekki að skipta um greinar sjálfkrafa: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 590
-#: NEEDS WORK
-#, python-brace-format
-msgid "Continuing with current branch: {0}"
-msgstr "Halda áfram með núverandi grein: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 598
-#: NEEDS WORK
-msgid "Standard pull failed, trying force update..."
-msgstr "Venjuleg niðurhal mistókst, reyni að þvinga uppfærslu..."
 # 
 # File: usr/share/build-package/build_package.py, line: 604
 #: NEEDS WORK
@@ -1365,38 +1406,40 @@ msgstr "Sæki nýjustu breytingar frá fjarhýsli..."
 msgid "Most recent branch: {0}"
 msgstr "Nýjasta grein: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 1114
+# File: usr/share/build-package/build_package.py, line: 1175
 #: NEEDS WORK
-msgid "Backing up your local changes..."
-msgstr "Að gera öryggisafrit af staðbundnum breytingum..."
+msgid "⚠ Some conflicts need manual resolution. Check 'git status'"
+msgstr "⚠ Nokkur átök krafast handvirkrar lausnar. Athugaðu 'git status'"
 # 
-# File: usr/share/build-package/build_package.py, line: 1118
+# File: usr/share/build-package/build_package.py, line: 1178
 #: NEEDS WORK
-#, python-brace-format
-msgid "Updating to latest code from {0}..."
-msgstr "Uppfærir í nýjustu kóðann frá {0}..."
+msgid "Step 4/4: Your changes are now in the most recent branch!"
+msgstr "Skref 4/4: Breytingarnar þínar eru núna í nýjustu greininni!"
 # 
-# File: usr/share/build-package/build_package.py, line: 1127
+# File: usr/share/build-package/build_package.py, line: 1183
 #: NEEDS WORK
-msgid "Attempting to restore your local changes..."
-msgstr "Reynir að endurheimta staðbundnar breytingar þínar..."
+msgid "No local changes detected. Switching to most recent branch..."
+msgstr "Engin staðbundin breytingar fundust ekki. Skipt er yfir í nýjustu greinina..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1149
+# File: usr/share/build-package/build_package.py, line: 1188
 #: NEEDS WORK
-msgid "✓ Local changes restored successfully."
-msgstr "✓ Staðbundnar breytingar endurheimtar með góðum árangri."
+msgid "Already on most recent branch. Updating to latest version..."
+msgstr "Nú þegar á nýjustu grein. Uppfærir í nýjustu útgáfu..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1151
+# File: usr/share/build-package/build_package.py, line: 1192
 #: NEEDS WORK
-msgid "⚠ Local changes backed up in stash (some conflicts may exist)."
-msgstr "⚠ Staðbundnar breytingar vistaðar í geymslu (sumar deilur kunna að vera til staðar)."
+msgid "Successfully updated current branch"
+msgstr "Súgulega uppfært núverandi grein"
 # 
-# File: usr/share/build-package/build_package.py, line: 1153
+# File: usr/share/build-package/build_package.py, line: 1197
 #: NEEDS WORK
-msgid ""
-"\n"
-"⚠ Local changes backed up in stash"
-msgstr "⚠ Staðbundnar breytingar vistaðar í geymslu"
+msgid "Force-updated current branch"
+msgstr "Þvingað uppfært núverandi grein"
+# 
+# File: usr/share/build-package/build_package.py, line: 1199
+#: NEEDS WORK
+msgid "Could not update branch"
+msgstr "Gat ekki að uppfæra grein"
 # 
 # File: usr/share/build-package/build_package.py, line: 1163
 #: NEEDS WORK
@@ -1443,6 +1486,23 @@ msgid ""
 msgstr ""
 "✓ Uppfært með góðum árangri í nýjustu {0}!  \n"
 "⚠ Gat ekki sýnt nákvæmar breytingar: {1}"
+# 
+# File: usr/share/build-package/build_package.py, line: 577
+#: NEEDS WORK
+msgid "Standard pull failed, trying force strategy..."
+msgstr "Staðlaður dráttur mistókst, reyni að nota þvingunarstefnu..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1350
+#: NEEDS WORK
+#, python-brace-format
+msgid "Successfully switched and updated to {0}"
+msgstr "Sukrandið og uppfært í {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1353
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error switching to branch {0}: {1}"
+msgstr "Villa við að skipta yfir í grein {0}: {1}"
 # 
 # File: usr/share/build-iso/config.py, line: 96
 #: NEEDS WORK

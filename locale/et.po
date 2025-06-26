@@ -933,16 +933,80 @@ msgstr "Laadimine uusimaid uuendusi kaugserverist..."
 msgid "Warning: Failed to fetch latest changes, continuing with local code."
 msgstr "Hoiatus: Viimaste muudatuste hankimine ebaõnnestus, jätkatakse kohaliku koodiga."
 # 
-# File: usr/share/build-package/build_package.py, line: 511
+# File: usr/share/build-package/build_package.py, line: 557
 #: NEEDS WORK
 #, python-brace-format
-msgid "Switching to the most recent branch: {0}"
-msgstr "Viimase haru vahetamine: {0}"
+msgid "Most recent branch available: {0}"
+msgstr "Viimati saadaval haru: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 577
+# File: usr/share/build-package/build_package.py, line: 561
+# File: usr/share/build-package/build_package.py, line: 1142
 #: NEEDS WORK
-msgid "Standard pull failed, trying force strategy..."
-msgstr "Tavaline tõmbamine ebaõnnestus, proovime sundstrateegiat..."
+msgid "Moving your changes to the most recent branch..."
+msgstr "Liigutades oma muudatusi kõige uuemale harule..."
+# 
+# File: usr/share/build-package/build_package.py, line: 565
+# File: usr/share/build-package/build_package.py, line: 1146
+#: NEEDS WORK
+msgid "Step 1/4: Preserving your changes temporarily..."
+msgstr "Samm 1/4: Teie muudatuste ajutine säilitamine..."
+# 
+# File: usr/share/build-package/build_package.py, line: 572
+# File: usr/share/build-package/build_package.py, line: 1153
+#: NEEDS WORK
+msgid "Failed to stash changes. Cannot proceed safely."
+msgstr "Muudatuste salvestamine ebaõnnestus. Ei saa ohutult jätkata."
+# 
+# File: usr/share/build-package/build_package.py, line: 576
+# File: usr/share/build-package/build_package.py, line: 1157
+#: NEEDS WORK
+msgid "Step 2/4: Switching to most recent branch..."
+msgstr "Samm 2/4: Lülitamine kõige uuemale harule..."
+# 
+# File: usr/share/build-package/build_package.py, line: 580
+# File: usr/share/build-package/build_package.py, line: 1161
+#: NEEDS WORK
+msgid "Failed to switch branches. Your changes are safe in stash."
+msgstr "Harudest harude vahetada. Teie muudatused on turvaliselt stash'is."
+# 
+# File: usr/share/build-package/build_package.py, line: 584
+# File: usr/share/build-package/build_package.py, line: 1165
+#: NEEDS WORK
+msgid "Step 3/4: Applying your changes to the most recent branch..."
+msgstr "Samm 3/4: Teie muudatuste rakendamine kõige uuemale harule..."
+# 
+# File: usr/share/build-package/build_package.py, line: 588
+# File: usr/share/build-package/build_package.py, line: 1169
+#: NEEDS WORK
+msgid "Conflicts detected while applying changes. Resolving automatically..."
+msgstr "Muutused rakendamisel tuvastati konfliktid. Lahendatakse automaatselt..."
+# 
+# File: usr/share/build-package/build_package.py, line: 593
+# File: usr/share/build-package/build_package.py, line: 1173
+#: NEEDS WORK
+msgid "Conflicts resolved automatically"
+msgstr "Konfliktid lahendatakse automaatselt"
+# 
+# File: usr/share/build-package/build_package.py, line: 595
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically. Please check 'git status'"
+msgstr "Ei suutnud konflikte automaatselt lahendada. Palun kontrollige 'git status'"
+# 
+# File: usr/share/build-package/build_package.py, line: 599
+#: NEEDS WORK
+msgid "Step 4/4: Your changes are now ready to commit in the most recent branch!"
+msgstr "Samm 4/4: Teie muudatused on nüüd valmis viimases haru salvestamiseks!"
+# 
+# File: usr/share/build-package/build_package.py, line: 604
+#: NEEDS WORK
+#, python-brace-format
+msgid "No local changes detected. Switching to most recent branch: {0}"
+msgstr "Kohalikku muudatusi ei leitud. Lülitamine kõige uuemale harule: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 598
+#: NEEDS WORK
+msgid "Standard pull failed, trying force update..."
+msgstr "Tavaline tõmbamine ebaõnnestus, proovides sunduuendust..."
 # 
 # File: usr/share/build-package/build_package.py, line: 582
 # File: usr/share/build-package/build_package.py, line: 602
@@ -950,29 +1014,6 @@ msgstr "Tavaline tõmbamine ebaõnnestus, proovime sundstrateegiat..."
 #, python-brace-format
 msgid "Force-updated to latest {0}"
 msgstr "Sunnitud värskendamine uusimale {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 584
-#: NEEDS WORK
-#, python-brace-format
-msgid "Successfully updated to latest {0}"
-msgstr "Edu on edukalt uuendatud uusimale {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 589
-#: NEEDS WORK
-#, python-brace-format
-msgid "Could not switch branches automatically: {0}"
-msgstr "Ei saanud harudele automaatselt üle minna: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 590
-#: NEEDS WORK
-#, python-brace-format
-msgid "Continuing with current branch: {0}"
-msgstr "Jätkamine praeguse haruga: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 598
-#: NEEDS WORK
-msgid "Standard pull failed, trying force update..."
-msgstr "Tavaline tõmbamine ebaõnnestus, proovides sunduuendust..."
 # 
 # File: usr/share/build-package/build_package.py, line: 604
 #: NEEDS WORK
@@ -1362,38 +1403,40 @@ msgstr "Laadimine uusimaid muudatusi kaugserverist..."
 msgid "Most recent branch: {0}"
 msgstr "Viimase haru: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 1114
+# File: usr/share/build-package/build_package.py, line: 1175
 #: NEEDS WORK
-msgid "Backing up your local changes..."
-msgstr "Kohalikud muudatused varundatakse..."
+msgid "⚠ Some conflicts need manual resolution. Check 'git status'"
+msgstr "⚠ Mõned konfliktid vajavad käsitsi lahendamist. Kontrolli 'git status'"
 # 
-# File: usr/share/build-package/build_package.py, line: 1118
+# File: usr/share/build-package/build_package.py, line: 1178
 #: NEEDS WORK
-#, python-brace-format
-msgid "Updating to latest code from {0}..."
-msgstr "Uuendamine uusimale koodile {0}..."
+msgid "Step 4/4: Your changes are now in the most recent branch!"
+msgstr "Samm 4/4: Teie muudatused on nüüd kõige uuemas harus!"
 # 
-# File: usr/share/build-package/build_package.py, line: 1127
+# File: usr/share/build-package/build_package.py, line: 1183
 #: NEEDS WORK
-msgid "Attempting to restore your local changes..."
-msgstr "Proovitakse teie kohalikke muudatusi taastada..."
+msgid "No local changes detected. Switching to most recent branch..."
+msgstr "Kohalikku muudatusi ei leitud. Lülitamine kõige uuemale harule..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1149
+# File: usr/share/build-package/build_package.py, line: 1188
 #: NEEDS WORK
-msgid "✓ Local changes restored successfully."
-msgstr "✓ Kohalikud muudatused taastati edukalt."
+msgid "Already on most recent branch. Updating to latest version..."
+msgstr "Juba kõige uuemas haru. Uuendamine uusimale versioonile..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1151
+# File: usr/share/build-package/build_package.py, line: 1192
 #: NEEDS WORK
-msgid "⚠ Local changes backed up in stash (some conflicts may exist)."
-msgstr "⚠ Kohalikud muudatused on varundatud stash'is (mõned konfliktid võivad esineda)."
+msgid "Successfully updated current branch"
+msgstr "Praegust haru on edukalt uuendatud"
 # 
-# File: usr/share/build-package/build_package.py, line: 1153
+# File: usr/share/build-package/build_package.py, line: 1197
 #: NEEDS WORK
-msgid ""
-"\n"
-"⚠ Local changes backed up in stash"
-msgstr "⚠ Kohalikud muudatused on varundatud stash'i"
+msgid "Force-updated current branch"
+msgstr "Sunditud praegune haru"
+# 
+# File: usr/share/build-package/build_package.py, line: 1199
+#: NEEDS WORK
+msgid "Could not update branch"
+msgstr "Harud ei saanud uuendada haru"
 # 
 # File: usr/share/build-package/build_package.py, line: 1163
 #: NEEDS WORK
@@ -1440,6 +1483,23 @@ msgid ""
 msgstr ""
 "✓ Edukalt uusimale {0}!\n"
 "⚠ Üksikasjalikke muudatusi ei saanud näidata: {1}"
+# 
+# File: usr/share/build-package/build_package.py, line: 577
+#: NEEDS WORK
+msgid "Standard pull failed, trying force strategy..."
+msgstr "Tavaline tõmbamine ebaõnnestus, proovime sundstrateegiat..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1350
+#: NEEDS WORK
+#, python-brace-format
+msgid "Successfully switched and updated to {0}"
+msgstr "Edukalt vahetatud ja uuendatud {0} juurde"
+# 
+# File: usr/share/build-package/build_package.py, line: 1353
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error switching to branch {0}: {1}"
+msgstr "Viga haru {0} harule: {1}"
 # 
 # File: usr/share/build-iso/config.py, line: 96
 #: NEEDS WORK

@@ -935,16 +935,80 @@ msgstr "Pobieranie najnowszych aktualizacji z zdalnego źródła..."
 msgid "Warning: Failed to fetch latest changes, continuing with local code."
 msgstr "Ostrzeżenie: Nie udało się pobrać najnowszych zmian, kontynuowanie z lokalnym kodem."
 # 
-# File: usr/share/build-package/build_package.py, line: 511
+# File: usr/share/build-package/build_package.py, line: 557
 #: NEEDS WORK
 #, python-brace-format
-msgid "Switching to the most recent branch: {0}"
-msgstr "Przełączanie na najnowszą gałąź: {0}"
+msgid "Most recent branch available: {0}"
+msgstr "Najbardziej aktualna dostępna gałąź: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 577
+# File: usr/share/build-package/build_package.py, line: 561
+# File: usr/share/build-package/build_package.py, line: 1142
 #: NEEDS WORK
-msgid "Standard pull failed, trying force strategy..."
-msgstr "Standardowe pobieranie nie powiodło się, próbuję strategii wymuszenia..."
+msgid "Moving your changes to the most recent branch..."
+msgstr "Przenoszenie zmian do najnowszej gałęzi..."
+# 
+# File: usr/share/build-package/build_package.py, line: 565
+# File: usr/share/build-package/build_package.py, line: 1146
+#: NEEDS WORK
+msgid "Step 1/4: Preserving your changes temporarily..."
+msgstr "Krok 1/4: Tymczasowe zachowanie zmian..."
+# 
+# File: usr/share/build-package/build_package.py, line: 572
+# File: usr/share/build-package/build_package.py, line: 1153
+#: NEEDS WORK
+msgid "Failed to stash changes. Cannot proceed safely."
+msgstr "Nie udało się zarchiwizować zmian. Nie można kontynuować bezpiecznie."
+# 
+# File: usr/share/build-package/build_package.py, line: 576
+# File: usr/share/build-package/build_package.py, line: 1157
+#: NEEDS WORK
+msgid "Step 2/4: Switching to most recent branch..."
+msgstr "Krok 2/4: Przełączanie na najnowszą gałąź..."
+# 
+# File: usr/share/build-package/build_package.py, line: 580
+# File: usr/share/build-package/build_package.py, line: 1161
+#: NEEDS WORK
+msgid "Failed to switch branches. Your changes are safe in stash."
+msgstr "Nie udało się przełączyć gałęzi. Twoje zmiany są bezpieczne w schowku."
+# 
+# File: usr/share/build-package/build_package.py, line: 584
+# File: usr/share/build-package/build_package.py, line: 1165
+#: NEEDS WORK
+msgid "Step 3/4: Applying your changes to the most recent branch..."
+msgstr "Krok 3/4: Zastosowanie zmian do najnowszej gałęzi..."
+# 
+# File: usr/share/build-package/build_package.py, line: 588
+# File: usr/share/build-package/build_package.py, line: 1169
+#: NEEDS WORK
+msgid "Conflicts detected while applying changes. Resolving automatically..."
+msgstr "Wykryto konflikty podczas stosowania zmian. Rozwiązywanie automatyczne..."
+# 
+# File: usr/share/build-package/build_package.py, line: 593
+# File: usr/share/build-package/build_package.py, line: 1173
+#: NEEDS WORK
+msgid "Conflicts resolved automatically"
+msgstr "Konflikty rozwiązane automatycznie"
+# 
+# File: usr/share/build-package/build_package.py, line: 595
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically. Please check 'git status'"
+msgstr "Nie można automatycznie rozwiązać konfliktów. Proszę sprawdzić 'git status'"
+# 
+# File: usr/share/build-package/build_package.py, line: 599
+#: NEEDS WORK
+msgid "Step 4/4: Your changes are now ready to commit in the most recent branch!"
+msgstr "Krok 4/4: Twoje zmiany są teraz gotowe do zatwierdzenia w najnowszej gałęzi!"
+# 
+# File: usr/share/build-package/build_package.py, line: 604
+#: NEEDS WORK
+#, python-brace-format
+msgid "No local changes detected. Switching to most recent branch: {0}"
+msgstr "Nie wykryto lokalnych zmian. Przełączanie na najnowszą gałąź: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 598
+#: NEEDS WORK
+msgid "Standard pull failed, trying force update..."
+msgstr "Standardowe pobieranie nie powiodło się, próbuję wymusić aktualizację..."
 # 
 # File: usr/share/build-package/build_package.py, line: 582
 # File: usr/share/build-package/build_package.py, line: 602
@@ -952,29 +1016,6 @@ msgstr "Standardowe pobieranie nie powiodło się, próbuję strategii wymuszeni
 #, python-brace-format
 msgid "Force-updated to latest {0}"
 msgstr "Wymuszono aktualizację do najnowszej wersji {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 584
-#: NEEDS WORK
-#, python-brace-format
-msgid "Successfully updated to latest {0}"
-msgstr "Pomyślnie zaktualizowano do najnowszej wersji {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 589
-#: NEEDS WORK
-#, python-brace-format
-msgid "Could not switch branches automatically: {0}"
-msgstr "Nie można było automatycznie przełączyć gałęzi: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 590
-#: NEEDS WORK
-#, python-brace-format
-msgid "Continuing with current branch: {0}"
-msgstr "Kontynuowanie z bieżącą gałęzią: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 598
-#: NEEDS WORK
-msgid "Standard pull failed, trying force update..."
-msgstr "Standardowe pobieranie nie powiodło się, próbuję wymusić aktualizację..."
 # 
 # File: usr/share/build-package/build_package.py, line: 604
 #: NEEDS WORK
@@ -1366,38 +1407,40 @@ msgstr "Pobieranie najnowszych zmian z zdalnego repozytorium..."
 msgid "Most recent branch: {0}"
 msgstr "Najświeższa gałąź: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 1114
+# File: usr/share/build-package/build_package.py, line: 1175
 #: NEEDS WORK
-msgid "Backing up your local changes..."
-msgstr "Tworzenie kopii zapasowej lokalnych zmian..."
+msgid "⚠ Some conflicts need manual resolution. Check 'git status'"
+msgstr "⚠ Niektóre konflikty wymagają ręcznego rozwiązania. Sprawdź 'git status'"
 # 
-# File: usr/share/build-package/build_package.py, line: 1118
+# File: usr/share/build-package/build_package.py, line: 1178
 #: NEEDS WORK
-#, python-brace-format
-msgid "Updating to latest code from {0}..."
-msgstr "Aktualizowanie do najnowszego kodu z {0}..."
+msgid "Step 4/4: Your changes are now in the most recent branch!"
+msgstr "Krok 4/4: Twoje zmiany są teraz w najnowszej gałęzi!"
 # 
-# File: usr/share/build-package/build_package.py, line: 1127
+# File: usr/share/build-package/build_package.py, line: 1183
 #: NEEDS WORK
-msgid "Attempting to restore your local changes..."
-msgstr "Próba przywrócenia lokalnych zmian..."
+msgid "No local changes detected. Switching to most recent branch..."
+msgstr "Nie wykryto lokalnych zmian. Przełączanie na najnowszą gałąź..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1149
+# File: usr/share/build-package/build_package.py, line: 1188
 #: NEEDS WORK
-msgid "✓ Local changes restored successfully."
-msgstr "✓ Lokalne zmiany zostały pomyślnie przywrócone."
+msgid "Already on most recent branch. Updating to latest version..."
+msgstr "Już na najnowszej gałęzi. Aktualizowanie do najnowszej wersji..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1151
+# File: usr/share/build-package/build_package.py, line: 1192
 #: NEEDS WORK
-msgid "⚠ Local changes backed up in stash (some conflicts may exist)."
-msgstr "⚠ Lokalne zmiany zapisane w schowku (mogą występować pewne konflikty)."
+msgid "Successfully updated current branch"
+msgstr "Pomyślnie zaktualizowano bieżącą gałąź"
 # 
-# File: usr/share/build-package/build_package.py, line: 1153
+# File: usr/share/build-package/build_package.py, line: 1197
 #: NEEDS WORK
-msgid ""
-"\n"
-"⚠ Local changes backed up in stash"
-msgstr "⚠ Lokalne zmiany zapisane w schowku"
+msgid "Force-updated current branch"
+msgstr "Wymuszona aktualizacja bieżącej gałęzi"
+# 
+# File: usr/share/build-package/build_package.py, line: 1199
+#: NEEDS WORK
+msgid "Could not update branch"
+msgstr "Nie można zaktualizować gałęzi"
 # 
 # File: usr/share/build-package/build_package.py, line: 1163
 #: NEEDS WORK
@@ -1444,6 +1487,23 @@ msgid ""
 msgstr ""
 "✓ Pomyślnie zaktualizowano do najnowszej wersji {0}!\n"
 "⚠ Nie można wyświetlić szczegółowych zmian: {1}"
+# 
+# File: usr/share/build-package/build_package.py, line: 577
+#: NEEDS WORK
+msgid "Standard pull failed, trying force strategy..."
+msgstr "Standardowe pobieranie nie powiodło się, próbuję strategii wymuszenia..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1350
+#: NEEDS WORK
+#, python-brace-format
+msgid "Successfully switched and updated to {0}"
+msgstr "Pomyślnie przełączono i zaktualizowano do {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1353
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error switching to branch {0}: {1}"
+msgstr "Błąd podczas przełączania na gałąź {0}: {1}"
 # 
 # File: usr/share/build-iso/config.py, line: 96
 #: NEEDS WORK

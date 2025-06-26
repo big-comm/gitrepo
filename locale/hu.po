@@ -937,16 +937,80 @@ msgstr "A távoli legfrissebb frissítések lekérése..."
 msgid "Warning: Failed to fetch latest changes, continuing with local code."
 msgstr "Figyelmeztetés: A legfrissebb változások lekérése nem sikerült, folytatás a helyi kóddal."
 # 
-# File: usr/share/build-package/build_package.py, line: 511
+# File: usr/share/build-package/build_package.py, line: 557
 #: NEEDS WORK
 #, python-brace-format
-msgid "Switching to the most recent branch: {0}"
-msgstr "Átváltás a legújabb ágra: {0}"
+msgid "Most recent branch available: {0}"
+msgstr "Legutolsó elérhető ág: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 577
+# File: usr/share/build-package/build_package.py, line: 561
+# File: usr/share/build-package/build_package.py, line: 1142
 #: NEEDS WORK
-msgid "Standard pull failed, trying force strategy..."
-msgstr "A szabványos letöltés meghiúsult, kényszerített stratégia próbálkozása..."
+msgid "Moving your changes to the most recent branch..."
+msgstr "A változtatásaid áthelyezése a legfrissebb ágra..."
+# 
+# File: usr/share/build-package/build_package.py, line: 565
+# File: usr/share/build-package/build_package.py, line: 1146
+#: NEEDS WORK
+msgid "Step 1/4: Preserving your changes temporarily..."
+msgstr "1/4. lépés: A módosításaid ideiglenes megőrzése..."
+# 
+# File: usr/share/build-package/build_package.py, line: 572
+# File: usr/share/build-package/build_package.py, line: 1153
+#: NEEDS WORK
+msgid "Failed to stash changes. Cannot proceed safely."
+msgstr "A változtatások eltárolása nem sikerült. Nem lehet biztonságosan folytatni."
+# 
+# File: usr/share/build-package/build_package.py, line: 576
+# File: usr/share/build-package/build_package.py, line: 1157
+#: NEEDS WORK
+msgid "Step 2/4: Switching to most recent branch..."
+msgstr "2/4. lépés: Átváltás a legfrissebb ágra..."
+# 
+# File: usr/share/build-package/build_package.py, line: 580
+# File: usr/share/build-package/build_package.py, line: 1161
+#: NEEDS WORK
+msgid "Failed to switch branches. Your changes are safe in stash."
+msgstr "Nem sikerült átváltani az ágak között. A módosításaid biztonságban vannak a stash-ben."
+# 
+# File: usr/share/build-package/build_package.py, line: 584
+# File: usr/share/build-package/build_package.py, line: 1165
+#: NEEDS WORK
+msgid "Step 3/4: Applying your changes to the most recent branch..."
+msgstr "3/4. lépés: A módosításaid alkalmazása a legfrissebb ágon..."
+# 
+# File: usr/share/build-package/build_package.py, line: 588
+# File: usr/share/build-package/build_package.py, line: 1169
+#: NEEDS WORK
+msgid "Conflicts detected while applying changes. Resolving automatically..."
+msgstr "Változtatások alkalmazása közben észlelt konfliktusok. Automatikus megoldás..."
+# 
+# File: usr/share/build-package/build_package.py, line: 593
+# File: usr/share/build-package/build_package.py, line: 1173
+#: NEEDS WORK
+msgid "Conflicts resolved automatically"
+msgstr "A konfliktusok automatikusan megoldódnak"
+# 
+# File: usr/share/build-package/build_package.py, line: 595
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically. Please check 'git status'"
+msgstr "Nem sikerült automatikusan megoldani a konfliktusokat. Kérlek, ellenőrizd a 'git status'-t."
+# 
+# File: usr/share/build-package/build_package.py, line: 599
+#: NEEDS WORK
+msgid "Step 4/4: Your changes are now ready to commit in the most recent branch!"
+msgstr "4/4. lépés: A módosításaid most készen állnak a legfrissebb ágba való elkötelezésre!"
+# 
+# File: usr/share/build-package/build_package.py, line: 604
+#: NEEDS WORK
+#, python-brace-format
+msgid "No local changes detected. Switching to most recent branch: {0}"
+msgstr "Nincsenek helyi változások. Átváltás a legfrissebb ágra: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 598
+#: NEEDS WORK
+msgid "Standard pull failed, trying force update..."
+msgstr "A szabványos letöltés meghiúsult, kényszerített frissítés próbálkozás..."
 # 
 # File: usr/share/build-package/build_package.py, line: 582
 # File: usr/share/build-package/build_package.py, line: 602
@@ -954,29 +1018,6 @@ msgstr "A szabványos letöltés meghiúsult, kényszerített stratégia próbá
 #, python-brace-format
 msgid "Force-updated to latest {0}"
 msgstr "Kényszerítve frissítve a legújabb {0} verzióra"
-# 
-# File: usr/share/build-package/build_package.py, line: 584
-#: NEEDS WORK
-#, python-brace-format
-msgid "Successfully updated to latest {0}"
-msgstr "Sikeresen frissítve a legújabb {0} verzióra"
-# 
-# File: usr/share/build-package/build_package.py, line: 589
-#: NEEDS WORK
-#, python-brace-format
-msgid "Could not switch branches automatically: {0}"
-msgstr "Nem sikerült automatikusan átváltani az ágakat: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 590
-#: NEEDS WORK
-#, python-brace-format
-msgid "Continuing with current branch: {0}"
-msgstr "Folyamatban lévő ágon: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 598
-#: NEEDS WORK
-msgid "Standard pull failed, trying force update..."
-msgstr "A szabványos letöltés meghiúsult, kényszerített frissítés próbálkozás..."
 # 
 # File: usr/share/build-package/build_package.py, line: 604
 #: NEEDS WORK
@@ -1368,38 +1409,40 @@ msgstr "A legfrissebb változások letöltése a távoli szerverről..."
 msgid "Most recent branch: {0}"
 msgstr "Legutolsó ág: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 1114
+# File: usr/share/build-package/build_package.py, line: 1175
 #: NEEDS WORK
-msgid "Backing up your local changes..."
-msgstr "Helyi módosításaid mentése..."
+msgid "⚠ Some conflicts need manual resolution. Check 'git status'"
+msgstr "⚠ Néhány konfliktust manuálisan kell megoldani. Ellenőrizze a 'git status'-t."
 # 
-# File: usr/share/build-package/build_package.py, line: 1118
+# File: usr/share/build-package/build_package.py, line: 1178
 #: NEEDS WORK
-#, python-brace-format
-msgid "Updating to latest code from {0}..."
-msgstr "Frissítés a legújabb kódra innen: {0}..."
+msgid "Step 4/4: Your changes are now in the most recent branch!"
+msgstr "4/4. lépés: A módosításaid most a legfrissebb ágon vannak!"
 # 
-# File: usr/share/build-package/build_package.py, line: 1127
+# File: usr/share/build-package/build_package.py, line: 1183
 #: NEEDS WORK
-msgid "Attempting to restore your local changes..."
-msgstr "A helyi módosításaid visszaállítása..."
+msgid "No local changes detected. Switching to most recent branch..."
+msgstr "Nincsenek helyi változások észlelve. Átváltás a legfrissebb ágra..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1149
+# File: usr/share/build-package/build_package.py, line: 1188
 #: NEEDS WORK
-msgid "✓ Local changes restored successfully."
-msgstr "✓ A helyi módosítások sikeresen visszaállítva."
+msgid "Already on most recent branch. Updating to latest version..."
+msgstr "Már a legfrissebb ágon vagy. Frissítés a legújabb verzióra..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1151
+# File: usr/share/build-package/build_package.py, line: 1192
 #: NEEDS WORK
-msgid "⚠ Local changes backed up in stash (some conflicts may exist)."
-msgstr "⚠ Helyi változtatások mentve a stash-be (előfordulhatnak konfliktusok)."
+msgid "Successfully updated current branch"
+msgstr "Sikeresen frissítve a jelenlegi ágat"
 # 
-# File: usr/share/build-package/build_package.py, line: 1153
+# File: usr/share/build-package/build_package.py, line: 1197
 #: NEEDS WORK
-msgid ""
-"\n"
-"⚠ Local changes backed up in stash"
-msgstr "⚠ Helyi változtatások mentve a stash-ben"
+msgid "Force-updated current branch"
+msgstr "Kényszerített frissítés aktuális ágon"
+# 
+# File: usr/share/build-package/build_package.py, line: 1199
+#: NEEDS WORK
+msgid "Could not update branch"
+msgstr "Nem sikerült frissíteni az ágat"
 # 
 # File: usr/share/build-package/build_package.py, line: 1163
 #: NEEDS WORK
@@ -1446,6 +1489,23 @@ msgid ""
 msgstr ""
 "✓ Sikeresen frissítve a legújabb {0} verzióra!  \n"
 "⚠ Nem sikerült megjeleníteni a részletes változásokat: {1}"
+# 
+# File: usr/share/build-package/build_package.py, line: 577
+#: NEEDS WORK
+msgid "Standard pull failed, trying force strategy..."
+msgstr "A szabványos letöltés meghiúsult, kényszerített stratégia próbálkozása..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1350
+#: NEEDS WORK
+#, python-brace-format
+msgid "Successfully switched and updated to {0}"
+msgstr "Sikeresen váltott és frissített a(z) {0} verzióra."
+# 
+# File: usr/share/build-package/build_package.py, line: 1353
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error switching to branch {0}: {1}"
+msgstr "Hiba a {0} ágra való váltáskor: {1}"
 # 
 # File: usr/share/build-iso/config.py, line: 96
 #: NEEDS WORK

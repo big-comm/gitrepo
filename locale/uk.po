@@ -934,16 +934,80 @@ msgstr "Отримання останніх оновлень з віддален
 msgid "Warning: Failed to fetch latest changes, continuing with local code."
 msgstr "Попередження: Не вдалося отримати останні зміни, продовжуючи з локальним кодом."
 # 
-# File: usr/share/build-package/build_package.py, line: 511
+# File: usr/share/build-package/build_package.py, line: 557
 #: NEEDS WORK
 #, python-brace-format
-msgid "Switching to the most recent branch: {0}"
-msgstr "Переключення на найновішу гілку: {0}"
+msgid "Most recent branch available: {0}"
+msgstr "Найновіша доступна гілка: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 577
+# File: usr/share/build-package/build_package.py, line: 561
+# File: usr/share/build-package/build_package.py, line: 1142
 #: NEEDS WORK
-msgid "Standard pull failed, trying force strategy..."
-msgstr "Стандартне отримання не вдалося, намагаємося застосувати примусову стратегію..."
+msgid "Moving your changes to the most recent branch..."
+msgstr "Переміщення ваших змін до найновішої гілки..."
+# 
+# File: usr/share/build-package/build_package.py, line: 565
+# File: usr/share/build-package/build_package.py, line: 1146
+#: NEEDS WORK
+msgid "Step 1/4: Preserving your changes temporarily..."
+msgstr "Крок 1/4: Тимчасове збереження ваших змін..."
+# 
+# File: usr/share/build-package/build_package.py, line: 572
+# File: usr/share/build-package/build_package.py, line: 1153
+#: NEEDS WORK
+msgid "Failed to stash changes. Cannot proceed safely."
+msgstr "Не вдалося зберегти зміни. Не можна продовжувати безпечно."
+# 
+# File: usr/share/build-package/build_package.py, line: 576
+# File: usr/share/build-package/build_package.py, line: 1157
+#: NEEDS WORK
+msgid "Step 2/4: Switching to most recent branch..."
+msgstr "Крок 2/4: Переключення на найновішу гілку..."
+# 
+# File: usr/share/build-package/build_package.py, line: 580
+# File: usr/share/build-package/build_package.py, line: 1161
+#: NEEDS WORK
+msgid "Failed to switch branches. Your changes are safe in stash."
+msgstr "Не вдалося перемкнути гілки. Ваші зміни в безпечному сховищі."
+# 
+# File: usr/share/build-package/build_package.py, line: 584
+# File: usr/share/build-package/build_package.py, line: 1165
+#: NEEDS WORK
+msgid "Step 3/4: Applying your changes to the most recent branch..."
+msgstr "Step 3/4: Applying your changes to the most recent branch..."
+# 
+# File: usr/share/build-package/build_package.py, line: 588
+# File: usr/share/build-package/build_package.py, line: 1169
+#: NEEDS WORK
+msgid "Conflicts detected while applying changes. Resolving automatically..."
+msgstr "Виявлено конфлікти під час застосування змін. Вирішується автоматично..."
+# 
+# File: usr/share/build-package/build_package.py, line: 593
+# File: usr/share/build-package/build_package.py, line: 1173
+#: NEEDS WORK
+msgid "Conflicts resolved automatically"
+msgstr "Конфлікти вирішено автоматично"
+# 
+# File: usr/share/build-package/build_package.py, line: 595
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically. Please check 'git status'"
+msgstr "Could not resolve conflicts automatically. Please check 'git status'"
+# 
+# File: usr/share/build-package/build_package.py, line: 599
+#: NEEDS WORK
+msgid "Step 4/4: Your changes are now ready to commit in the most recent branch!"
+msgstr "Крок 4/4: Ваші зміни тепер готові до коміту в найновішій гілці!"
+# 
+# File: usr/share/build-package/build_package.py, line: 604
+#: NEEDS WORK
+#, python-brace-format
+msgid "No local changes detected. Switching to most recent branch: {0}"
+msgstr "Немає виявлених локальних змін. Перемикання на найновішу гілку: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 598
+#: NEEDS WORK
+msgid "Standard pull failed, trying force update..."
+msgstr "Стандартне отримання не вдалося, намагаюся примусово оновити..."
 # 
 # File: usr/share/build-package/build_package.py, line: 582
 # File: usr/share/build-package/build_package.py, line: 602
@@ -951,29 +1015,6 @@ msgstr "Стандартне отримання не вдалося, намаг�
 #, python-brace-format
 msgid "Force-updated to latest {0}"
 msgstr "Примусово оновлено до останньої версії {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 584
-#: NEEDS WORK
-#, python-brace-format
-msgid "Successfully updated to latest {0}"
-msgstr "Успішно оновлено до останньої версії {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 589
-#: NEEDS WORK
-#, python-brace-format
-msgid "Could not switch branches automatically: {0}"
-msgstr "Could not switch branches automatically: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 590
-#: NEEDS WORK
-#, python-brace-format
-msgid "Continuing with current branch: {0}"
-msgstr "Продовження з поточної гілки: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 598
-#: NEEDS WORK
-msgid "Standard pull failed, trying force update..."
-msgstr "Стандартне отримання не вдалося, намагаюся примусово оновити..."
 # 
 # File: usr/share/build-package/build_package.py, line: 604
 #: NEEDS WORK
@@ -1363,38 +1404,40 @@ msgstr "Отримання останніх змін з віддаленого..
 msgid "Most recent branch: {0}"
 msgstr "Найновіша гілка: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 1114
+# File: usr/share/build-package/build_package.py, line: 1175
 #: NEEDS WORK
-msgid "Backing up your local changes..."
-msgstr "Резервне копіювання ваших локальних змін..."
+msgid "⚠ Some conflicts need manual resolution. Check 'git status'"
+msgstr "⚠ Деякі конфлікти потребують ручного вирішення. Перевірте 'git status'"
 # 
-# File: usr/share/build-package/build_package.py, line: 1118
+# File: usr/share/build-package/build_package.py, line: 1178
 #: NEEDS WORK
-#, python-brace-format
-msgid "Updating to latest code from {0}..."
-msgstr "Оновлення до останнього коду з {0}..."
+msgid "Step 4/4: Your changes are now in the most recent branch!"
+msgstr "Step 4/4: Ваші зміни тепер у найновішій гілці!"
 # 
-# File: usr/share/build-package/build_package.py, line: 1127
+# File: usr/share/build-package/build_package.py, line: 1183
 #: NEEDS WORK
-msgid "Attempting to restore your local changes..."
-msgstr "Attempting to restore your local changes..."
+msgid "No local changes detected. Switching to most recent branch..."
+msgstr "Немає виявлених локальних змін. Перемикання на найновішу гілку..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1149
+# File: usr/share/build-package/build_package.py, line: 1188
 #: NEEDS WORK
-msgid "✓ Local changes restored successfully."
-msgstr "✓ Локальні зміни успішно відновлено."
+msgid "Already on most recent branch. Updating to latest version..."
+msgstr "Вже на найновішій гілці. Оновлення до останньої версії..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1151
+# File: usr/share/build-package/build_package.py, line: 1192
 #: NEEDS WORK
-msgid "⚠ Local changes backed up in stash (some conflicts may exist)."
-msgstr "⚠ Локальні зміни збережено в сховищі (можливі конфлікти)."
+msgid "Successfully updated current branch"
+msgstr "Успішно оновлено поточну гілку"
 # 
-# File: usr/share/build-package/build_package.py, line: 1153
+# File: usr/share/build-package/build_package.py, line: 1197
 #: NEEDS WORK
-msgid ""
-"\n"
-"⚠ Local changes backed up in stash"
-msgstr "⚠ Локальні зміни збережено в сховищі"
+msgid "Force-updated current branch"
+msgstr "Примусово оновлено поточну гілку"
+# 
+# File: usr/share/build-package/build_package.py, line: 1199
+#: NEEDS WORK
+msgid "Could not update branch"
+msgstr "Не вдалося оновити гілку"
 # 
 # File: usr/share/build-package/build_package.py, line: 1163
 #: NEEDS WORK
@@ -1441,6 +1484,23 @@ msgid ""
 msgstr ""
 "✓ Успішно оновлено до останньої версії {0}!\n"
 "⚠ Не вдалося показати детальні зміни: {1}"
+# 
+# File: usr/share/build-package/build_package.py, line: 577
+#: NEEDS WORK
+msgid "Standard pull failed, trying force strategy..."
+msgstr "Стандартне отримання не вдалося, намагаємося застосувати примусову стратегію..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1350
+#: NEEDS WORK
+#, python-brace-format
+msgid "Successfully switched and updated to {0}"
+msgstr "Успішно перемкнуто та оновлено до {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1353
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error switching to branch {0}: {1}"
+msgstr "Помилка при перемиканні на гілку {0}: {1}"
 # 
 # File: usr/share/build-iso/config.py, line: 96
 #: NEEDS WORK
