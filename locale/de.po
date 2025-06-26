@@ -939,16 +939,80 @@ msgstr "Aktualisiere die neuesten Updates von remote..."
 msgid "Warning: Failed to fetch latest changes, continuing with local code."
 msgstr "Warnung: Abrufen der neuesten Änderungen fehlgeschlagen, fortfahren mit lokalem Code."
 # 
-# File: usr/share/build-package/build_package.py, line: 511
+# File: usr/share/build-package/build_package.py, line: 557
 #: NEEDS WORK
 #, python-brace-format
-msgid "Switching to the most recent branch: {0}"
-msgstr "Wechseln zum neuesten Branch: {0}"
+msgid "Most recent branch available: {0}"
+msgstr "Neuester verfügbarer Branch: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 577
+# File: usr/share/build-package/build_package.py, line: 561
+# File: usr/share/build-package/build_package.py, line: 1142
 #: NEEDS WORK
-msgid "Standard pull failed, trying force strategy..."
-msgstr "Standard-Pull fehlgeschlagen, versuche Zwangsstrategie..."
+msgid "Moving your changes to the most recent branch..."
+msgstr "Ändern Sie Ihre Änderungen zum aktuellsten Branch..."
+# 
+# File: usr/share/build-package/build_package.py, line: 565
+# File: usr/share/build-package/build_package.py, line: 1146
+#: NEEDS WORK
+msgid "Step 1/4: Preserving your changes temporarily..."
+msgstr "Schritt 1/4: Änderungen vorübergehend speichern..."
+# 
+# File: usr/share/build-package/build_package.py, line: 572
+# File: usr/share/build-package/build_package.py, line: 1153
+#: NEEDS WORK
+msgid "Failed to stash changes. Cannot proceed safely."
+msgstr "Änderungen konnten nicht gespeichert werden. Sicheres Fortfahren ist nicht möglich."
+# 
+# File: usr/share/build-package/build_package.py, line: 576
+# File: usr/share/build-package/build_package.py, line: 1157
+#: NEEDS WORK
+msgid "Step 2/4: Switching to most recent branch..."
+msgstr "Schritt 2/4: Wechseln zum aktuellsten Branch..."
+# 
+# File: usr/share/build-package/build_package.py, line: 580
+# File: usr/share/build-package/build_package.py, line: 1161
+#: NEEDS WORK
+msgid "Failed to switch branches. Your changes are safe in stash."
+msgstr "Wechseln der Branches fehlgeschlagen. Ihre Änderungen sind sicher im Stash."
+# 
+# File: usr/share/build-package/build_package.py, line: 584
+# File: usr/share/build-package/build_package.py, line: 1165
+#: NEEDS WORK
+msgid "Step 3/4: Applying your changes to the most recent branch..."
+msgstr "Schritt 3/4: Anwenden Ihrer Änderungen auf den aktuellsten Branch..."
+# 
+# File: usr/share/build-package/build_package.py, line: 588
+# File: usr/share/build-package/build_package.py, line: 1169
+#: NEEDS WORK
+msgid "Conflicts detected while applying changes. Resolving automatically..."
+msgstr "Konflikte erkannt beim Anwenden von Änderungen. Automatische Behebung..."
+# 
+# File: usr/share/build-package/build_package.py, line: 593
+# File: usr/share/build-package/build_package.py, line: 1173
+#: NEEDS WORK
+msgid "Conflicts resolved automatically"
+msgstr "Konflikte automatisch gelöst"
+# 
+# File: usr/share/build-package/build_package.py, line: 595
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically. Please check 'git status'"
+msgstr "Konflikte konnten nicht automatisch gelöst werden. Bitte überprüfen Sie 'git status'"
+# 
+# File: usr/share/build-package/build_package.py, line: 599
+#: NEEDS WORK
+msgid "Step 4/4: Your changes are now ready to commit in the most recent branch!"
+msgstr "Schritt 4/4: Ihre Änderungen sind jetzt bereit, im aktuellsten Branch übernommen zu werden!"
+# 
+# File: usr/share/build-package/build_package.py, line: 604
+#: NEEDS WORK
+#, python-brace-format
+msgid "No local changes detected. Switching to most recent branch: {0}"
+msgstr "Keine lokalen Änderungen erkannt. Wechsle zu dem aktuellsten Branch: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 598
+#: NEEDS WORK
+msgid "Standard pull failed, trying force update..."
+msgstr "Standard-Pull fehlgeschlagen, versuche erzwungenes Update..."
 # 
 # File: usr/share/build-package/build_package.py, line: 582
 # File: usr/share/build-package/build_package.py, line: 602
@@ -956,29 +1020,6 @@ msgstr "Standard-Pull fehlgeschlagen, versuche Zwangsstrategie..."
 #, python-brace-format
 msgid "Force-updated to latest {0}"
 msgstr "Zwangsaktualisiert auf die neueste {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 584
-#: NEEDS WORK
-#, python-brace-format
-msgid "Successfully updated to latest {0}"
-msgstr "Erfolgreich auf die neueste Version {0} aktualisiert."
-# 
-# File: usr/share/build-package/build_package.py, line: 589
-#: NEEDS WORK
-#, python-brace-format
-msgid "Could not switch branches automatically: {0}"
-msgstr "Konnte die Branches nicht automatisch wechseln: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 590
-#: NEEDS WORK
-#, python-brace-format
-msgid "Continuing with current branch: {0}"
-msgstr "Fortfahren mit dem aktuellen Branch: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 598
-#: NEEDS WORK
-msgid "Standard pull failed, trying force update..."
-msgstr "Standard-Pull fehlgeschlagen, versuche erzwungenes Update..."
 # 
 # File: usr/share/build-package/build_package.py, line: 604
 #: NEEDS WORK
@@ -1372,38 +1413,40 @@ msgstr "Aktualisiere die neuesten Änderungen vom Remote..."
 msgid "Most recent branch: {0}"
 msgstr "Neuester Branch: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 1114
+# File: usr/share/build-package/build_package.py, line: 1175
 #: NEEDS WORK
-msgid "Backing up your local changes..."
-msgstr "Sichere deine lokalen Änderungen..."
+msgid "⚠ Some conflicts need manual resolution. Check 'git status'"
+msgstr "⚠ Einige Konflikte erfordern eine manuelle Auflösung. Überprüfen Sie 'git status'"
 # 
-# File: usr/share/build-package/build_package.py, line: 1118
+# File: usr/share/build-package/build_package.py, line: 1178
 #: NEEDS WORK
-#, python-brace-format
-msgid "Updating to latest code from {0}..."
-msgstr "Aktualisiere auf den neuesten Code von {0}..."
+msgid "Step 4/4: Your changes are now in the most recent branch!"
+msgstr "Schritt 4/4: Ihre Änderungen sind jetzt im aktuellsten Branch!"
 # 
-# File: usr/share/build-package/build_package.py, line: 1127
+# File: usr/share/build-package/build_package.py, line: 1183
 #: NEEDS WORK
-msgid "Attempting to restore your local changes..."
-msgstr "Versuche, deine lokalen Änderungen wiederherzustellen..."
+msgid "No local changes detected. Switching to most recent branch..."
+msgstr "Keine lokalen Änderungen erkannt. Wechsle zu dem aktuellsten Branch..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1149
+# File: usr/share/build-package/build_package.py, line: 1188
 #: NEEDS WORK
-msgid "✓ Local changes restored successfully."
-msgstr "✓ Lokale Änderungen wurden erfolgreich wiederhergestellt."
+msgid "Already on most recent branch. Updating to latest version..."
+msgstr "Bereits auf dem neuesten Branch. Aktualisiere auf die neueste Version..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1151
+# File: usr/share/build-package/build_package.py, line: 1192
 #: NEEDS WORK
-msgid "⚠ Local changes backed up in stash (some conflicts may exist)."
-msgstr "⚠ Lokale Änderungen im Stash gesichert (es können Konflikte bestehen)."
+msgid "Successfully updated current branch"
+msgstr "Aktuellen Branch erfolgreich aktualisiert"
 # 
-# File: usr/share/build-package/build_package.py, line: 1153
+# File: usr/share/build-package/build_package.py, line: 1197
 #: NEEDS WORK
-msgid ""
-"\n"
-"⚠ Local changes backed up in stash"
-msgstr "⚠ Lokale Änderungen im Stash gesichert"
+msgid "Force-updated current branch"
+msgstr "Zwangsaktualisierte aktuelle Branch"
+# 
+# File: usr/share/build-package/build_package.py, line: 1199
+#: NEEDS WORK
+msgid "Could not update branch"
+msgstr "Konnte den Branch nicht aktualisieren"
 # 
 # File: usr/share/build-package/build_package.py, line: 1163
 #: NEEDS WORK
@@ -1450,6 +1493,23 @@ msgid ""
 msgstr ""
 "✓ Erfolgreich auf die neueste Version {0} aktualisiert!  \n"
 "⚠ Detaillierte Änderungen konnten nicht angezeigt werden: {1}"
+# 
+# File: usr/share/build-package/build_package.py, line: 577
+#: NEEDS WORK
+msgid "Standard pull failed, trying force strategy..."
+msgstr "Standard-Pull fehlgeschlagen, versuche Zwangsstrategie..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1350
+#: NEEDS WORK
+#, python-brace-format
+msgid "Successfully switched and updated to {0}"
+msgstr "Erfolgreich gewechselt und aktualisiert auf {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1353
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error switching to branch {0}: {1}"
+msgstr "Fehler beim Wechseln zu Branch {0}: {1}"
 # 
 # File: usr/share/build-iso/config.py, line: 96
 #: NEEDS WORK

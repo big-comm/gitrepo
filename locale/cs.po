@@ -934,16 +934,80 @@ msgstr "Načítání nejnovějších aktualizací z vzdáleného..."
 msgid "Warning: Failed to fetch latest changes, continuing with local code."
 msgstr "Upozornění: Nepodařilo se načíst nejnovější změny, pokračuji s místním kódem."
 # 
-# File: usr/share/build-package/build_package.py, line: 511
+# File: usr/share/build-package/build_package.py, line: 557
 #: NEEDS WORK
 #, python-brace-format
-msgid "Switching to the most recent branch: {0}"
-msgstr "Přepínání na nejnovější větev: {0}"
+msgid "Most recent branch available: {0}"
+msgstr "Nejnovější dostupná větev: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 577
+# File: usr/share/build-package/build_package.py, line: 561
+# File: usr/share/build-package/build_package.py, line: 1142
 #: NEEDS WORK
-msgid "Standard pull failed, trying force strategy..."
-msgstr "Standardní stažení selhalo, pokouším se o strategii vynucení..."
+msgid "Moving your changes to the most recent branch..."
+msgstr "Přesouvání vašich změn na nejnovější větev..."
+# 
+# File: usr/share/build-package/build_package.py, line: 565
+# File: usr/share/build-package/build_package.py, line: 1146
+#: NEEDS WORK
+msgid "Step 1/4: Preserving your changes temporarily..."
+msgstr "Krok 1/4: Dočasné uchování vašich změn..."
+# 
+# File: usr/share/build-package/build_package.py, line: 572
+# File: usr/share/build-package/build_package.py, line: 1153
+#: NEEDS WORK
+msgid "Failed to stash changes. Cannot proceed safely."
+msgstr "Nepodařilo se uložit změny. Nelze pokračovat bezpečně."
+# 
+# File: usr/share/build-package/build_package.py, line: 576
+# File: usr/share/build-package/build_package.py, line: 1157
+#: NEEDS WORK
+msgid "Step 2/4: Switching to most recent branch..."
+msgstr "Krok 2/4: Přepínání na nejnovější větev..."
+# 
+# File: usr/share/build-package/build_package.py, line: 580
+# File: usr/share/build-package/build_package.py, line: 1161
+#: NEEDS WORK
+msgid "Failed to switch branches. Your changes are safe in stash."
+msgstr "Nepodařilo se přepnout větve. Vaše změny jsou v bezpečí ve stash."
+# 
+# File: usr/share/build-package/build_package.py, line: 584
+# File: usr/share/build-package/build_package.py, line: 1165
+#: NEEDS WORK
+msgid "Step 3/4: Applying your changes to the most recent branch..."
+msgstr "Krok 3/4: Aplikace vašich změn na nejnovější větev..."
+# 
+# File: usr/share/build-package/build_package.py, line: 588
+# File: usr/share/build-package/build_package.py, line: 1169
+#: NEEDS WORK
+msgid "Conflicts detected while applying changes. Resolving automatically..."
+msgstr "Byly zjištěny konflikty při aplikaci změn. Řešení probíhá automaticky..."
+# 
+# File: usr/share/build-package/build_package.py, line: 593
+# File: usr/share/build-package/build_package.py, line: 1173
+#: NEEDS WORK
+msgid "Conflicts resolved automatically"
+msgstr "Konflikty byly vyřešeny automaticky"
+# 
+# File: usr/share/build-package/build_package.py, line: 595
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically. Please check 'git status'"
+msgstr "Nebylo možné automaticky vyřešit konflikty. Zkontrolujte 'git status'"
+# 
+# File: usr/share/build-package/build_package.py, line: 599
+#: NEEDS WORK
+msgid "Step 4/4: Your changes are now ready to commit in the most recent branch!"
+msgstr "Krok 4/4: Vaše změny jsou nyní připraveny k odeslání v nejnovější větvi!"
+# 
+# File: usr/share/build-package/build_package.py, line: 604
+#: NEEDS WORK
+#, python-brace-format
+msgid "No local changes detected. Switching to most recent branch: {0}"
+msgstr "Žádné místní změny nebyly zjištěny. Přepínám na nejnovější větev: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 598
+#: NEEDS WORK
+msgid "Standard pull failed, trying force update..."
+msgstr "Standardní stažení selhalo, pokouším se o nucenou aktualizaci..."
 # 
 # File: usr/share/build-package/build_package.py, line: 582
 # File: usr/share/build-package/build_package.py, line: 602
@@ -951,29 +1015,6 @@ msgstr "Standardní stažení selhalo, pokouším se o strategii vynucení..."
 #, python-brace-format
 msgid "Force-updated to latest {0}"
 msgstr "Nuceně aktualizováno na nejnovější {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 584
-#: NEEDS WORK
-#, python-brace-format
-msgid "Successfully updated to latest {0}"
-msgstr "Úspěšně aktualizováno na nejnovější {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 589
-#: NEEDS WORK
-#, python-brace-format
-msgid "Could not switch branches automatically: {0}"
-msgstr "Nelze automaticky přepnout větve: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 590
-#: NEEDS WORK
-#, python-brace-format
-msgid "Continuing with current branch: {0}"
-msgstr "Pokračování s aktuální větví: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 598
-#: NEEDS WORK
-msgid "Standard pull failed, trying force update..."
-msgstr "Standardní stažení selhalo, pokouším se o nucenou aktualizaci..."
 # 
 # File: usr/share/build-package/build_package.py, line: 604
 #: NEEDS WORK
@@ -1365,38 +1406,40 @@ msgstr "Načítání nejnovějších změn z vzdáleného..."
 msgid "Most recent branch: {0}"
 msgstr "Nejnovější větev: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 1114
+# File: usr/share/build-package/build_package.py, line: 1175
 #: NEEDS WORK
-msgid "Backing up your local changes..."
-msgstr "Zálohování vašich místních změn..."
+msgid "⚠ Some conflicts need manual resolution. Check 'git status'"
+msgstr "⚠ Některé konflikty vyžadují ruční vyřešení. Zkontrolujte 'git status'"
 # 
-# File: usr/share/build-package/build_package.py, line: 1118
+# File: usr/share/build-package/build_package.py, line: 1178
 #: NEEDS WORK
-#, python-brace-format
-msgid "Updating to latest code from {0}..."
-msgstr "Aktualizace na nejnovější kód z {0}..."
+msgid "Step 4/4: Your changes are now in the most recent branch!"
+msgstr "Krok 4/4: Vaše změny jsou nyní v nejnovější větvi!"
 # 
-# File: usr/share/build-package/build_package.py, line: 1127
+# File: usr/share/build-package/build_package.py, line: 1183
 #: NEEDS WORK
-msgid "Attempting to restore your local changes..."
-msgstr "Snažím se obnovit vaše místní změny..."
+msgid "No local changes detected. Switching to most recent branch..."
+msgstr "Žádné místní změny nebyly zjištěny. Přepínám na nejnovější větev..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1149
+# File: usr/share/build-package/build_package.py, line: 1188
 #: NEEDS WORK
-msgid "✓ Local changes restored successfully."
-msgstr "✓ Místní změny byly úspěšně obnoveny."
+msgid "Already on most recent branch. Updating to latest version..."
+msgstr "Již na nejnovější větvi. Aktualizuji na nejnovější verzi..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1151
+# File: usr/share/build-package/build_package.py, line: 1192
 #: NEEDS WORK
-msgid "⚠ Local changes backed up in stash (some conflicts may exist)."
-msgstr "⚠ Místní změny zálohovány ve stashi (nějaké konflikty mohou existovat)."
+msgid "Successfully updated current branch"
+msgstr "Úspěšně aktualizována aktuální větev"
 # 
-# File: usr/share/build-package/build_package.py, line: 1153
+# File: usr/share/build-package/build_package.py, line: 1197
 #: NEEDS WORK
-msgid ""
-"\n"
-"⚠ Local changes backed up in stash"
-msgstr "⚠ Místní změny zálohovány ve stashi"
+msgid "Force-updated current branch"
+msgstr "Nuceně aktualizovaná aktuální větev"
+# 
+# File: usr/share/build-package/build_package.py, line: 1199
+#: NEEDS WORK
+msgid "Could not update branch"
+msgstr "Nelze aktualizovat větev"
 # 
 # File: usr/share/build-package/build_package.py, line: 1163
 #: NEEDS WORK
@@ -1443,6 +1486,23 @@ msgid ""
 msgstr ""
 "✓ Úspěšně aktualizováno na nejnovější verzi {0}!\n"
 "⚠ Nelze zobrazit podrobné změny: {1}"
+# 
+# File: usr/share/build-package/build_package.py, line: 577
+#: NEEDS WORK
+msgid "Standard pull failed, trying force strategy..."
+msgstr "Standardní stažení selhalo, pokouším se o strategii vynucení..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1350
+#: NEEDS WORK
+#, python-brace-format
+msgid "Successfully switched and updated to {0}"
+msgstr "Úspěšně přepnuto a aktualizováno na {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1353
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error switching to branch {0}: {1}"
+msgstr "Chyba při přepínání na větev {0}: {1}"
 # 
 # File: usr/share/build-iso/config.py, line: 96
 #: NEEDS WORK

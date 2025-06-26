@@ -931,16 +931,80 @@ msgstr "Preuzimanje najnovijih ažuriranja s udaljenog..."
 msgid "Warning: Failed to fetch latest changes, continuing with local code."
 msgstr "Upozorenje: Nije moguće preuzeti najnovije promjene, nastavlja se s lokalnim kodom."
 # 
-# File: usr/share/build-package/build_package.py, line: 511
+# File: usr/share/build-package/build_package.py, line: 557
 #: NEEDS WORK
 #, python-brace-format
-msgid "Switching to the most recent branch: {0}"
-msgstr "Prebacivanje na najnoviju granu: {0}"
+msgid "Most recent branch available: {0}"
+msgstr "Najnovija dostupna grana: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 577
+# File: usr/share/build-package/build_package.py, line: 561
+# File: usr/share/build-package/build_package.py, line: 1142
 #: NEEDS WORK
-msgid "Standard pull failed, trying force strategy..."
-msgstr "Standardno povlačenje nije uspjelo, pokušavam strategiju prisile..."
+msgid "Moving your changes to the most recent branch..."
+msgstr "Premještanje vaših promjena na najnoviju granu..."
+# 
+# File: usr/share/build-package/build_package.py, line: 565
+# File: usr/share/build-package/build_package.py, line: 1146
+#: NEEDS WORK
+msgid "Step 1/4: Preserving your changes temporarily..."
+msgstr "Korak 1/4: Privremeno čuvanje vaših promjena..."
+# 
+# File: usr/share/build-package/build_package.py, line: 572
+# File: usr/share/build-package/build_package.py, line: 1153
+#: NEEDS WORK
+msgid "Failed to stash changes. Cannot proceed safely."
+msgstr "Nije uspjelo spremanje promjena. Ne može se sigurno nastaviti."
+# 
+# File: usr/share/build-package/build_package.py, line: 576
+# File: usr/share/build-package/build_package.py, line: 1157
+#: NEEDS WORK
+msgid "Step 2/4: Switching to most recent branch..."
+msgstr "Korak 2/4: Prebacivanje na najnoviju granu..."
+# 
+# File: usr/share/build-package/build_package.py, line: 580
+# File: usr/share/build-package/build_package.py, line: 1161
+#: NEEDS WORK
+msgid "Failed to switch branches. Your changes are safe in stash."
+msgstr "Nije uspjelo prebacivanje grana. Vaše promjene su sigurne u stashu."
+# 
+# File: usr/share/build-package/build_package.py, line: 584
+# File: usr/share/build-package/build_package.py, line: 1165
+#: NEEDS WORK
+msgid "Step 3/4: Applying your changes to the most recent branch..."
+msgstr "Korak 3/4: Primjena vaših promjena na najnoviju granu..."
+# 
+# File: usr/share/build-package/build_package.py, line: 588
+# File: usr/share/build-package/build_package.py, line: 1169
+#: NEEDS WORK
+msgid "Conflicts detected while applying changes. Resolving automatically..."
+msgstr "Otkriveni sukobi prilikom primjene promjena. Automatsko rješavanje..."
+# 
+# File: usr/share/build-package/build_package.py, line: 593
+# File: usr/share/build-package/build_package.py, line: 1173
+#: NEEDS WORK
+msgid "Conflicts resolved automatically"
+msgstr "Sukobi su automatski riješeni"
+# 
+# File: usr/share/build-package/build_package.py, line: 595
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically. Please check 'git status'"
+msgstr "Nije moguće automatski riješiti sukobe. Molimo provjerite 'git status'"
+# 
+# File: usr/share/build-package/build_package.py, line: 599
+#: NEEDS WORK
+msgid "Step 4/4: Your changes are now ready to commit in the most recent branch!"
+msgstr "Korak 4/4: Vaše promjene su sada spremne za potvrdu u najnovijoj grani!"
+# 
+# File: usr/share/build-package/build_package.py, line: 604
+#: NEEDS WORK
+#, python-brace-format
+msgid "No local changes detected. Switching to most recent branch: {0}"
+msgstr "Nema lokalnih promjena. Prebacivanje na najnoviju granu: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 598
+#: NEEDS WORK
+msgid "Standard pull failed, trying force update..."
+msgstr "Standardno povlačenje nije uspjelo, pokušavam prisilno ažuriranje..."
 # 
 # File: usr/share/build-package/build_package.py, line: 582
 # File: usr/share/build-package/build_package.py, line: 602
@@ -948,29 +1012,6 @@ msgstr "Standardno povlačenje nije uspjelo, pokušavam strategiju prisile..."
 #, python-brace-format
 msgid "Force-updated to latest {0}"
 msgstr "Prisilno ažurirano na najnoviju verziju {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 584
-#: NEEDS WORK
-#, python-brace-format
-msgid "Successfully updated to latest {0}"
-msgstr "Uspješno ažurirano na najnoviju verziju {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 589
-#: NEEDS WORK
-#, python-brace-format
-msgid "Could not switch branches automatically: {0}"
-msgstr "Nije moguće automatski prebaciti grane: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 590
-#: NEEDS WORK
-#, python-brace-format
-msgid "Continuing with current branch: {0}"
-msgstr "Nastavljajući s trenutnom granom: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 598
-#: NEEDS WORK
-msgid "Standard pull failed, trying force update..."
-msgstr "Standardno povlačenje nije uspjelo, pokušavam prisilno ažuriranje..."
 # 
 # File: usr/share/build-package/build_package.py, line: 604
 #: NEEDS WORK
@@ -1362,38 +1403,40 @@ msgstr "Preuzimanje najnovijih promjena s udaljenog..."
 msgid "Most recent branch: {0}"
 msgstr "Najnovija grana: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 1114
+# File: usr/share/build-package/build_package.py, line: 1175
 #: NEEDS WORK
-msgid "Backing up your local changes..."
-msgstr "Sigurnosna kopija vaših lokalnih promjena..."
+msgid "⚠ Some conflicts need manual resolution. Check 'git status'"
+msgstr "⚠ Neki sukobi zahtijevaju ručno rješavanje. Provjerite 'git status'"
 # 
-# File: usr/share/build-package/build_package.py, line: 1118
+# File: usr/share/build-package/build_package.py, line: 1178
 #: NEEDS WORK
-#, python-brace-format
-msgid "Updating to latest code from {0}..."
-msgstr "Ažuriranje na najnoviji kod s {0}..."
+msgid "Step 4/4: Your changes are now in the most recent branch!"
+msgstr "Korak 4/4: Vaše promjene su sada u najnovijoj grani!"
 # 
-# File: usr/share/build-package/build_package.py, line: 1127
+# File: usr/share/build-package/build_package.py, line: 1183
 #: NEEDS WORK
-msgid "Attempting to restore your local changes..."
-msgstr "Pokušavam vratiti vaše lokalne promjene..."
+msgid "No local changes detected. Switching to most recent branch..."
+msgstr "Nema lokalnih promjena. Prebacivanje na najnoviju granu..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1149
+# File: usr/share/build-package/build_package.py, line: 1188
 #: NEEDS WORK
-msgid "✓ Local changes restored successfully."
-msgstr "✓ Lokalne promjene uspješno vraćene."
+msgid "Already on most recent branch. Updating to latest version..."
+msgstr "Već ste na najnovijoj grani. Ažuriranje na najnoviju verziju..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1151
+# File: usr/share/build-package/build_package.py, line: 1192
 #: NEEDS WORK
-msgid "⚠ Local changes backed up in stash (some conflicts may exist)."
-msgstr "⚠ Lokalne promjene su pohranjene u stashu (mogu postojati neki konflikti)."
+msgid "Successfully updated current branch"
+msgstr "Uspješno ažurirana trenutna grana"
 # 
-# File: usr/share/build-package/build_package.py, line: 1153
+# File: usr/share/build-package/build_package.py, line: 1197
 #: NEEDS WORK
-msgid ""
-"\n"
-"⚠ Local changes backed up in stash"
-msgstr "⚠ Lokalni izmjene pohranjene u stash-u"
+msgid "Force-updated current branch"
+msgstr "Prisilno ažurirana trenutna grana"
+# 
+# File: usr/share/build-package/build_package.py, line: 1199
+#: NEEDS WORK
+msgid "Could not update branch"
+msgstr "Nije moguće ažurirati granu"
 # 
 # File: usr/share/build-package/build_package.py, line: 1163
 #: NEEDS WORK
@@ -1440,6 +1483,23 @@ msgid ""
 msgstr ""
 "✓ Uspješno ažurirano na najnoviju verziju {0}!\n"
 "⚠ Nije moguće prikazati detaljne promjene: {1}"
+# 
+# File: usr/share/build-package/build_package.py, line: 577
+#: NEEDS WORK
+msgid "Standard pull failed, trying force strategy..."
+msgstr "Standardno povlačenje nije uspjelo, pokušavam strategiju prisile..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1350
+#: NEEDS WORK
+#, python-brace-format
+msgid "Successfully switched and updated to {0}"
+msgstr "Uspješno prebačeno i ažurirano na {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1353
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error switching to branch {0}: {1}"
+msgstr "Greška pri prebacivanju na granu {0}: {1}"
 # 
 # File: usr/share/build-iso/config.py, line: 96
 #: NEEDS WORK

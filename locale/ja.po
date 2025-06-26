@@ -932,16 +932,80 @@ msgstr "リモートから最新の更新を取得しています..."
 msgid "Warning: Failed to fetch latest changes, continuing with local code."
 msgstr "警告: 最新の変更を取得できませんでした。ローカルコードで続行します。"
 # 
-# File: usr/share/build-package/build_package.py, line: 511
+# File: usr/share/build-package/build_package.py, line: 557
 #: NEEDS WORK
 #, python-brace-format
-msgid "Switching to the most recent branch: {0}"
-msgstr "最新のブランチに切り替えています: {0}"
+msgid "Most recent branch available: {0}"
+msgstr "最新のブランチが利用可能です: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 577
+# File: usr/share/build-package/build_package.py, line: 561
+# File: usr/share/build-package/build_package.py, line: 1142
 #: NEEDS WORK
-msgid "Standard pull failed, trying force strategy..."
-msgstr "標準プルに失敗しました。強制戦略を試みています..."
+msgid "Moving your changes to the most recent branch..."
+msgstr "最新のブランチに変更を移動しています..."
+# 
+# File: usr/share/build-package/build_package.py, line: 565
+# File: usr/share/build-package/build_package.py, line: 1146
+#: NEEDS WORK
+msgid "Step 1/4: Preserving your changes temporarily..."
+msgstr "ステップ 1/4: 変更を一時的に保存しています..."
+# 
+# File: usr/share/build-package/build_package.py, line: 572
+# File: usr/share/build-package/build_package.py, line: 1153
+#: NEEDS WORK
+msgid "Failed to stash changes. Cannot proceed safely."
+msgstr "変更をスタッシュできませんでした。安全に進行できません。"
+# 
+# File: usr/share/build-package/build_package.py, line: 576
+# File: usr/share/build-package/build_package.py, line: 1157
+#: NEEDS WORK
+msgid "Step 2/4: Switching to most recent branch..."
+msgstr "ステップ 2/4: 最新のブランチに切り替えています..."
+# 
+# File: usr/share/build-package/build_package.py, line: 580
+# File: usr/share/build-package/build_package.py, line: 1161
+#: NEEDS WORK
+msgid "Failed to switch branches. Your changes are safe in stash."
+msgstr "ブランチの切り替えに失敗しました。変更はスタッシュに安全に保存されています。"
+# 
+# File: usr/share/build-package/build_package.py, line: 584
+# File: usr/share/build-package/build_package.py, line: 1165
+#: NEEDS WORK
+msgid "Step 3/4: Applying your changes to the most recent branch..."
+msgstr "ステップ 3/4: 最新のブランチに変更を適用しています..."
+# 
+# File: usr/share/build-package/build_package.py, line: 588
+# File: usr/share/build-package/build_package.py, line: 1169
+#: NEEDS WORK
+msgid "Conflicts detected while applying changes. Resolving automatically..."
+msgstr "変更を適用中に競合が検出されました。自動的に解決しています..."
+# 
+# File: usr/share/build-package/build_package.py, line: 593
+# File: usr/share/build-package/build_package.py, line: 1173
+#: NEEDS WORK
+msgid "Conflicts resolved automatically"
+msgstr "競合は自動的に解決されました"
+# 
+# File: usr/share/build-package/build_package.py, line: 595
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically. Please check 'git status'"
+msgstr "自動的に競合を解決できませんでした。'git status'を確認してください。"
+# 
+# File: usr/share/build-package/build_package.py, line: 599
+#: NEEDS WORK
+msgid "Step 4/4: Your changes are now ready to commit in the most recent branch!"
+msgstr "ステップ 4/4: あなたの変更は、最新のブランチにコミットする準備が整いました！"
+# 
+# File: usr/share/build-package/build_package.py, line: 604
+#: NEEDS WORK
+#, python-brace-format
+msgid "No local changes detected. Switching to most recent branch: {0}"
+msgstr "ローカルの変更は検出されませんでした。最新のブランチに切り替えています: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 598
+#: NEEDS WORK
+msgid "Standard pull failed, trying force update..."
+msgstr "標準プルに失敗しました。強制更新を試みています..."
 # 
 # File: usr/share/build-package/build_package.py, line: 582
 # File: usr/share/build-package/build_package.py, line: 602
@@ -949,29 +1013,6 @@ msgstr "標準プルに失敗しました。強制戦略を試みています...
 #, python-brace-format
 msgid "Force-updated to latest {0}"
 msgstr "最新の {0} に強制的に更新されました"
-# 
-# File: usr/share/build-package/build_package.py, line: 584
-#: NEEDS WORK
-#, python-brace-format
-msgid "Successfully updated to latest {0}"
-msgstr "最新の {0} に正常に更新されました。"
-# 
-# File: usr/share/build-package/build_package.py, line: 589
-#: NEEDS WORK
-#, python-brace-format
-msgid "Could not switch branches automatically: {0}"
-msgstr "自動的にブランチを切り替えることができませんでした: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 590
-#: NEEDS WORK
-#, python-brace-format
-msgid "Continuing with current branch: {0}"
-msgstr "現在のブランチを続行中: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 598
-#: NEEDS WORK
-msgid "Standard pull failed, trying force update..."
-msgstr "標準プルに失敗しました。強制更新を試みています..."
 # 
 # File: usr/share/build-package/build_package.py, line: 604
 #: NEEDS WORK
@@ -1361,38 +1402,40 @@ msgstr "リモートから最新の変更を取得中..."
 msgid "Most recent branch: {0}"
 msgstr "最新のブランチ: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 1114
+# File: usr/share/build-package/build_package.py, line: 1175
 #: NEEDS WORK
-msgid "Backing up your local changes..."
-msgstr "ローカルの変更をバックアップ中..."
+msgid "⚠ Some conflicts need manual resolution. Check 'git status'"
+msgstr "⚠ 一部の競合は手動で解決する必要があります。'git status'を確認してください。"
 # 
-# File: usr/share/build-package/build_package.py, line: 1118
+# File: usr/share/build-package/build_package.py, line: 1178
 #: NEEDS WORK
-#, python-brace-format
-msgid "Updating to latest code from {0}..."
-msgstr "{0}から最新のコードに更新中..."
+msgid "Step 4/4: Your changes are now in the most recent branch!"
+msgstr "ステップ 4/4: あなたの変更は最新のブランチにあります!"
 # 
-# File: usr/share/build-package/build_package.py, line: 1127
+# File: usr/share/build-package/build_package.py, line: 1183
 #: NEEDS WORK
-msgid "Attempting to restore your local changes..."
-msgstr "ローカルの変更を復元しようとしています..."
+msgid "No local changes detected. Switching to most recent branch..."
+msgstr "ローカルの変更は検出されませんでした。最新のブランチに切り替えています..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1149
+# File: usr/share/build-package/build_package.py, line: 1188
 #: NEEDS WORK
-msgid "✓ Local changes restored successfully."
-msgstr "✓ ローカル変更が正常に復元されました。"
+msgid "Already on most recent branch. Updating to latest version..."
+msgstr "最新のブランチに既にいます。最新バージョンに更新中..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1151
+# File: usr/share/build-package/build_package.py, line: 1192
 #: NEEDS WORK
-msgid "⚠ Local changes backed up in stash (some conflicts may exist)."
-msgstr "⚠ ローカルの変更がスタッシュにバックアップされました（いくつかの競合が存在する可能性があります）。"
+msgid "Successfully updated current branch"
+msgstr "現在のブランチが正常に更新されました"
 # 
-# File: usr/share/build-package/build_package.py, line: 1153
+# File: usr/share/build-package/build_package.py, line: 1197
 #: NEEDS WORK
-msgid ""
-"\n"
-"⚠ Local changes backed up in stash"
-msgstr "⚠ ローカルの変更がスタッシュにバックアップされました"
+msgid "Force-updated current branch"
+msgstr "強制更新された現在のブランチ"
+# 
+# File: usr/share/build-package/build_package.py, line: 1199
+#: NEEDS WORK
+msgid "Could not update branch"
+msgstr "ブランチを更新できませんでした"
 # 
 # File: usr/share/build-package/build_package.py, line: 1163
 #: NEEDS WORK
@@ -1439,6 +1482,23 @@ msgid ""
 msgstr ""
 "✓ 最新の {0} に正常に更新されました！\n"
 "⚠ 詳細な変更を表示できませんでした: {1}"
+# 
+# File: usr/share/build-package/build_package.py, line: 577
+#: NEEDS WORK
+msgid "Standard pull failed, trying force strategy..."
+msgstr "標準プルに失敗しました。強制戦略を試みています..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1350
+#: NEEDS WORK
+#, python-brace-format
+msgid "Successfully switched and updated to {0}"
+msgstr "{0}に正常に切り替え、更新されました。"
+# 
+# File: usr/share/build-package/build_package.py, line: 1353
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error switching to branch {0}: {1}"
+msgstr "ブランチ {0} への切り替え中にエラーが発生しました: {1}"
 # 
 # File: usr/share/build-iso/config.py, line: 96
 #: NEEDS WORK

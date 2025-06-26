@@ -932,16 +932,80 @@ msgstr "원격에서 최신 업데이트를 가져오는 중..."
 msgid "Warning: Failed to fetch latest changes, continuing with local code."
 msgstr "경고: 최신 변경 사항을 가져오는 데 실패했습니다. 로컬 코드로 계속 진행합니다."
 # 
-# File: usr/share/build-package/build_package.py, line: 511
+# File: usr/share/build-package/build_package.py, line: 557
 #: NEEDS WORK
 #, python-brace-format
-msgid "Switching to the most recent branch: {0}"
-msgstr "가장 최근 브랜치로 전환 중: {0}"
+msgid "Most recent branch available: {0}"
+msgstr "가장 최근에 사용 가능한 브랜치: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 577
+# File: usr/share/build-package/build_package.py, line: 561
+# File: usr/share/build-package/build_package.py, line: 1142
 #: NEEDS WORK
-msgid "Standard pull failed, trying force strategy..."
-msgstr "표준 풀 실패, 강제 전략 시도 중..."
+msgid "Moving your changes to the most recent branch..."
+msgstr "가장 최근 브랜치로 변경 사항을 이동 중입니다..."
+# 
+# File: usr/share/build-package/build_package.py, line: 565
+# File: usr/share/build-package/build_package.py, line: 1146
+#: NEEDS WORK
+msgid "Step 1/4: Preserving your changes temporarily..."
+msgstr "1단계/4: 변경 사항을 임시로 저장하는 중..."
+# 
+# File: usr/share/build-package/build_package.py, line: 572
+# File: usr/share/build-package/build_package.py, line: 1153
+#: NEEDS WORK
+msgid "Failed to stash changes. Cannot proceed safely."
+msgstr "변경 사항을 스태시하는 데 실패했습니다. 안전하게 진행할 수 없습니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 576
+# File: usr/share/build-package/build_package.py, line: 1157
+#: NEEDS WORK
+msgid "Step 2/4: Switching to most recent branch..."
+msgstr "2/4단계: 가장 최근 브랜치로 전환 중..."
+# 
+# File: usr/share/build-package/build_package.py, line: 580
+# File: usr/share/build-package/build_package.py, line: 1161
+#: NEEDS WORK
+msgid "Failed to switch branches. Your changes are safe in stash."
+msgstr "브랜치를 전환하지 못했습니다. 변경 사항은 스태시에 안전하게 보관되어 있습니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 584
+# File: usr/share/build-package/build_package.py, line: 1165
+#: NEEDS WORK
+msgid "Step 3/4: Applying your changes to the most recent branch..."
+msgstr "3/4단계: 가장 최근 브랜치에 변경 사항 적용 중..."
+# 
+# File: usr/share/build-package/build_package.py, line: 588
+# File: usr/share/build-package/build_package.py, line: 1169
+#: NEEDS WORK
+msgid "Conflicts detected while applying changes. Resolving automatically..."
+msgstr "변경 사항을 적용하는 동안 충돌이 감지되었습니다. 자동으로 해결 중..."
+# 
+# File: usr/share/build-package/build_package.py, line: 593
+# File: usr/share/build-package/build_package.py, line: 1173
+#: NEEDS WORK
+msgid "Conflicts resolved automatically"
+msgstr "충돌이 자동으로 해결되었습니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 595
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically. Please check 'git status'"
+msgstr "충돌을 자동으로 해결할 수 없습니다. 'git status'를 확인하세요."
+# 
+# File: usr/share/build-package/build_package.py, line: 599
+#: NEEDS WORK
+msgid "Step 4/4: Your changes are now ready to commit in the most recent branch!"
+msgstr "4단계/4단계: 귀하의 변경 사항이 이제 가장 최근 브랜치에 커밋할 준비가 되었습니다!"
+# 
+# File: usr/share/build-package/build_package.py, line: 604
+#: NEEDS WORK
+#, python-brace-format
+msgid "No local changes detected. Switching to most recent branch: {0}"
+msgstr "로컬 변경 사항이 감지되지 않았습니다. 가장 최근 브랜치로 전환 중: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 598
+#: NEEDS WORK
+msgid "Standard pull failed, trying force update..."
+msgstr "표준 풀 실패, 강제 업데이트 시도 중..."
 # 
 # File: usr/share/build-package/build_package.py, line: 582
 # File: usr/share/build-package/build_package.py, line: 602
@@ -949,29 +1013,6 @@ msgstr "표준 풀 실패, 강제 전략 시도 중..."
 #, python-brace-format
 msgid "Force-updated to latest {0}"
 msgstr "최신 {0}으로 강제 업데이트됨"
-# 
-# File: usr/share/build-package/build_package.py, line: 584
-#: NEEDS WORK
-#, python-brace-format
-msgid "Successfully updated to latest {0}"
-msgstr "최신 {0}으로 성공적으로 업데이트되었습니다."
-# 
-# File: usr/share/build-package/build_package.py, line: 589
-#: NEEDS WORK
-#, python-brace-format
-msgid "Could not switch branches automatically: {0}"
-msgstr "브랜치를 자동으로 전환할 수 없습니다: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 590
-#: NEEDS WORK
-#, python-brace-format
-msgid "Continuing with current branch: {0}"
-msgstr "현재 브랜치 계속 진행 중: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 598
-#: NEEDS WORK
-msgid "Standard pull failed, trying force update..."
-msgstr "표준 풀 실패, 강제 업데이트 시도 중..."
 # 
 # File: usr/share/build-package/build_package.py, line: 604
 #: NEEDS WORK
@@ -1361,38 +1402,40 @@ msgstr "원격에서 최신 변경 사항 가져오는 중..."
 msgid "Most recent branch: {0}"
 msgstr "가장 최근 브랜치: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 1114
+# File: usr/share/build-package/build_package.py, line: 1175
 #: NEEDS WORK
-msgid "Backing up your local changes..."
-msgstr "로컬 변경 사항을 백업하는 중..."
+msgid "⚠ Some conflicts need manual resolution. Check 'git status'"
+msgstr "⚠ 일부 충돌은 수동으로 해결해야 합니다. 'git status'를 확인하세요."
 # 
-# File: usr/share/build-package/build_package.py, line: 1118
+# File: usr/share/build-package/build_package.py, line: 1178
 #: NEEDS WORK
-#, python-brace-format
-msgid "Updating to latest code from {0}..."
-msgstr "{0}에서 최신 코드로 업데이트 중..."
+msgid "Step 4/4: Your changes are now in the most recent branch!"
+msgstr "4단계/4단계: 귀하의 변경 사항이 이제 가장 최근 브랜치에 있습니다!"
 # 
-# File: usr/share/build-package/build_package.py, line: 1127
+# File: usr/share/build-package/build_package.py, line: 1183
 #: NEEDS WORK
-msgid "Attempting to restore your local changes..."
-msgstr "로컬 변경 사항을 복원하는 중..."
+msgid "No local changes detected. Switching to most recent branch..."
+msgstr "로컬 변경 사항이 감지되지 않았습니다. 가장 최근 브랜치로 전환 중입니다..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1149
+# File: usr/share/build-package/build_package.py, line: 1188
 #: NEEDS WORK
-msgid "✓ Local changes restored successfully."
-msgstr "✓ 로컬 변경 사항이 성공적으로 복원되었습니다."
+msgid "Already on most recent branch. Updating to latest version..."
+msgstr "가장 최근 브랜치에 있습니다. 최신 버전으로 업데이트 중..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1151
+# File: usr/share/build-package/build_package.py, line: 1192
 #: NEEDS WORK
-msgid "⚠ Local changes backed up in stash (some conflicts may exist)."
-msgstr "⚠ 로컬 변경 사항이 스태시에 백업되었습니다(일부 충돌이 있을 수 있습니다)."
+msgid "Successfully updated current branch"
+msgstr "현재 브랜치가 성공적으로 업데이트되었습니다."
 # 
-# File: usr/share/build-package/build_package.py, line: 1153
+# File: usr/share/build-package/build_package.py, line: 1197
 #: NEEDS WORK
-msgid ""
-"\n"
-"⚠ Local changes backed up in stash"
-msgstr "⚠ 로컬 변경 사항이 스태시에 백업되었습니다."
+msgid "Force-updated current branch"
+msgstr "강제로 업데이트된 현재 브랜치"
+# 
+# File: usr/share/build-package/build_package.py, line: 1199
+#: NEEDS WORK
+msgid "Could not update branch"
+msgstr "브랜치를 업데이트할 수 없습니다."
 # 
 # File: usr/share/build-package/build_package.py, line: 1163
 #: NEEDS WORK
@@ -1439,6 +1482,23 @@ msgid ""
 msgstr ""
 "✓ 최신 {0}으로 성공적으로 업데이트되었습니다!\n"
 "⚠ 자세한 변경 사항을 표시할 수 없습니다: {1}"
+# 
+# File: usr/share/build-package/build_package.py, line: 577
+#: NEEDS WORK
+msgid "Standard pull failed, trying force strategy..."
+msgstr "표준 풀 실패, 강제 전략 시도 중..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1350
+#: NEEDS WORK
+#, python-brace-format
+msgid "Successfully switched and updated to {0}"
+msgstr "성공적으로 {0}로 전환하고 업데이트했습니다."
+# 
+# File: usr/share/build-package/build_package.py, line: 1353
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error switching to branch {0}: {1}"
+msgstr "브랜치 {0}로 전환하는 중 오류: {1}"
 # 
 # File: usr/share/build-iso/config.py, line: 96
 #: NEEDS WORK

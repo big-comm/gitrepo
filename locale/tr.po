@@ -1037,16 +1037,80 @@ msgstr "Uzak sunucudan en son güncellemeleri alınıyor..."
 msgid "Warning: Failed to fetch latest changes, continuing with local code."
 msgstr "Uyarı: En son değişiklikleri almakta başarısız olundu, yerel kodla devam ediliyor."
 # 
-# File: usr/share/build-package/build_package.py, line: 511
+# File: usr/share/build-package/build_package.py, line: 557
 #: NEEDS WORK
 #, python-brace-format
-msgid "Switching to the most recent branch: {0}"
-msgstr "En son dala geçiliyor: {0}"
+msgid "Most recent branch available: {0}"
+msgstr "En son mevcut dal: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 577
+# File: usr/share/build-package/build_package.py, line: 561
+# File: usr/share/build-package/build_package.py, line: 1142
 #: NEEDS WORK
-msgid "Standard pull failed, trying force strategy..."
-msgstr "Standart çekme başarısız, zorla strateji deniyor..."
+msgid "Moving your changes to the most recent branch..."
+msgstr "Değişikliklerinizi en son dala taşıma..."
+# 
+# File: usr/share/build-package/build_package.py, line: 565
+# File: usr/share/build-package/build_package.py, line: 1146
+#: NEEDS WORK
+msgid "Step 1/4: Preserving your changes temporarily..."
+msgstr "Adım 1/4: Değişikliklerinizi geçici olarak koruma..."
+# 
+# File: usr/share/build-package/build_package.py, line: 572
+# File: usr/share/build-package/build_package.py, line: 1153
+#: NEEDS WORK
+msgid "Failed to stash changes. Cannot proceed safely."
+msgstr "Değişiklikleri saklama işlemi başarısız oldu. Güvenli bir şekilde devam edilemez."
+# 
+# File: usr/share/build-package/build_package.py, line: 576
+# File: usr/share/build-package/build_package.py, line: 1157
+#: NEEDS WORK
+msgid "Step 2/4: Switching to most recent branch..."
+msgstr "Adım 2/4: En son dalda geçiş yapılıyor..."
+# 
+# File: usr/share/build-package/build_package.py, line: 580
+# File: usr/share/build-package/build_package.py, line: 1161
+#: NEEDS WORK
+msgid "Failed to switch branches. Your changes are safe in stash."
+msgstr "Dalları değiştirme başarısız oldu. Değişiklikleriniz stash'te güvende."
+# 
+# File: usr/share/build-package/build_package.py, line: 584
+# File: usr/share/build-package/build_package.py, line: 1165
+#: NEEDS WORK
+msgid "Step 3/4: Applying your changes to the most recent branch..."
+msgstr "Adım 3/4: Değişikliklerinizi en son dalga uygulama..."
+# 
+# File: usr/share/build-package/build_package.py, line: 588
+# File: usr/share/build-package/build_package.py, line: 1169
+#: NEEDS WORK
+msgid "Conflicts detected while applying changes. Resolving automatically..."
+msgstr "Değişiklikler uygulanırken çakışmalar tespit edildi. Otomatik olarak çözülüyor..."
+# 
+# File: usr/share/build-package/build_package.py, line: 593
+# File: usr/share/build-package/build_package.py, line: 1173
+#: NEEDS WORK
+msgid "Conflicts resolved automatically"
+msgstr "Çatışmalar otomatik olarak çözüldü"
+# 
+# File: usr/share/build-package/build_package.py, line: 595
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically. Please check 'git status'"
+msgstr "Çatışmalar otomatik olarak çözülemedi. Lütfen 'git status' kontrol edin."
+# 
+# File: usr/share/build-package/build_package.py, line: 599
+#: NEEDS WORK
+msgid "Step 4/4: Your changes are now ready to commit in the most recent branch!"
+msgstr "Adım 4/4: Değişiklikleriniz artık en son dalda taahhüt edilmeye hazır!"
+# 
+# File: usr/share/build-package/build_package.py, line: 604
+#: NEEDS WORK
+#, python-brace-format
+msgid "No local changes detected. Switching to most recent branch: {0}"
+msgstr "Yerel değişiklik tespit edilmedi. En son dalına geçiliyor: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 598
+#: NEEDS WORK
+msgid "Standard pull failed, trying force update..."
+msgstr "Standart çekme başarısız, zorla güncelleme denemesi..."
 # 
 # File: usr/share/build-package/build_package.py, line: 582
 # File: usr/share/build-package/build_package.py, line: 602
@@ -1054,29 +1118,6 @@ msgstr "Standart çekme başarısız, zorla strateji deniyor..."
 #, python-brace-format
 msgid "Force-updated to latest {0}"
 msgstr "En son {0} sürümüne zorla güncellendi."
-# 
-# File: usr/share/build-package/build_package.py, line: 584
-#: NEEDS WORK
-#, python-brace-format
-msgid "Successfully updated to latest {0}"
-msgstr "Başarıyla en son {0} sürümüne güncellendi."
-# 
-# File: usr/share/build-package/build_package.py, line: 589
-#: NEEDS WORK
-#, python-brace-format
-msgid "Could not switch branches automatically: {0}"
-msgstr "Dalları otomatik olarak değiştiremedik: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 590
-#: NEEDS WORK
-#, python-brace-format
-msgid "Continuing with current branch: {0}"
-msgstr "Mevcut dalda devam ediliyor: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 598
-#: NEEDS WORK
-msgid "Standard pull failed, trying force update..."
-msgstr "Standart çekme başarısız, zorla güncelleme denemesi..."
 # 
 # File: usr/share/build-package/build_package.py, line: 604
 #: NEEDS WORK
@@ -1468,38 +1509,40 @@ msgstr "Uzak sunucudan en son değişiklikler alınıyor..."
 msgid "Most recent branch: {0}"
 msgstr "En son dal: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 1114
+# File: usr/share/build-package/build_package.py, line: 1175
 #: NEEDS WORK
-msgid "Backing up your local changes..."
-msgstr "Yerel değişikliklerinizi yedekliyoruz..."
+msgid "⚠ Some conflicts need manual resolution. Check 'git status'"
+msgstr "⚠ Bazı çatışmaların manuel olarak çözülmesi gerekiyor. 'git status' kontrol edin."
 # 
-# File: usr/share/build-package/build_package.py, line: 1118
+# File: usr/share/build-package/build_package.py, line: 1178
 #: NEEDS WORK
-#, python-brace-format
-msgid "Updating to latest code from {0}..."
-msgstr "{0}... en son koda güncelleniyor..."
+msgid "Step 4/4: Your changes are now in the most recent branch!"
+msgstr "Adım 4/4: Değişiklikleriniz artık en son dalda!"
 # 
-# File: usr/share/build-package/build_package.py, line: 1127
+# File: usr/share/build-package/build_package.py, line: 1183
 #: NEEDS WORK
-msgid "Attempting to restore your local changes..."
-msgstr "Yerel değişikliklerinizi geri yüklemeye çalışılıyor..."
+msgid "No local changes detected. Switching to most recent branch..."
+msgstr "Yerel değişiklik tespit edilmedi. En son dalına geçiliyor..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1149
+# File: usr/share/build-package/build_package.py, line: 1188
 #: NEEDS WORK
-msgid "✓ Local changes restored successfully."
-msgstr "✓ Yerel değişiklikler başarıyla geri yüklendi."
+msgid "Already on most recent branch. Updating to latest version..."
+msgstr "Zaten en son dalda. En son sürüme güncelleniyor..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1151
+# File: usr/share/build-package/build_package.py, line: 1192
 #: NEEDS WORK
-msgid "⚠ Local changes backed up in stash (some conflicts may exist)."
-msgstr "⚠ Yerel değişiklikler yedeklenmiş durumda (bazı çakışmalar mevcut olabilir)."
+msgid "Successfully updated current branch"
+msgstr "Mevcut dal başarıyla güncellendi."
 # 
-# File: usr/share/build-package/build_package.py, line: 1153
+# File: usr/share/build-package/build_package.py, line: 1197
 #: NEEDS WORK
-msgid ""
-"\n"
-"⚠ Local changes backed up in stash"
-msgstr "⚠ Yerel değişiklikler yedeklenmiş durumda"
+msgid "Force-updated current branch"
+msgstr "Zorla güncellenmiş mevcut dal"
+# 
+# File: usr/share/build-package/build_package.py, line: 1199
+#: NEEDS WORK
+msgid "Could not update branch"
+msgstr "Dalayı güncelleyemedim"
 # 
 # File: usr/share/build-package/build_package.py, line: 1163
 #: NEEDS WORK
@@ -1546,6 +1589,23 @@ msgid ""
 msgstr ""
 "✓ En son {0} sürümüne başarıyla güncellendi!  \n"
 "⚠ Ayrıntılı değişiklikler gösterilemedi: {1}"
+# 
+# File: usr/share/build-package/build_package.py, line: 577
+#: NEEDS WORK
+msgid "Standard pull failed, trying force strategy..."
+msgstr "Standart çekme başarısız, zorla strateji deniyor..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1350
+#: NEEDS WORK
+#, python-brace-format
+msgid "Successfully switched and updated to {0}"
+msgstr "Başarıyla {0} olarak değiştirildi ve güncellendi."
+# 
+# File: usr/share/build-package/build_package.py, line: 1353
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error switching to branch {0}: {1}"
+msgstr "Dal {0} dal geçiş yaparken hata: {1}"
 # 
 # File: usr/share/build-iso/config.py, line: 96
 #: NEEDS WORK

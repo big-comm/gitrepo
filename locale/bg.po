@@ -932,16 +932,80 @@ msgstr "Изтегляне на последните актуализации о
 msgid "Warning: Failed to fetch latest changes, continuing with local code."
 msgstr "Предупреждение: Неуспешно извличане на последните промени, продължаване с локалния код."
 # 
-# File: usr/share/build-package/build_package.py, line: 511
+# File: usr/share/build-package/build_package.py, line: 557
 #: NEEDS WORK
 #, python-brace-format
-msgid "Switching to the most recent branch: {0}"
-msgstr "Превключване към най-новия клон: {0}"
+msgid "Most recent branch available: {0}"
+msgstr "Най-новият наличен клон: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 577
+# File: usr/share/build-package/build_package.py, line: 561
+# File: usr/share/build-package/build_package.py, line: 1142
 #: NEEDS WORK
-msgid "Standard pull failed, trying force strategy..."
-msgstr "Стандартното извличане не успя, опитвам стратегия за принуждаване..."
+msgid "Moving your changes to the most recent branch..."
+msgstr "Преместване на вашите промени в най-новия клон..."
+# 
+# File: usr/share/build-package/build_package.py, line: 565
+# File: usr/share/build-package/build_package.py, line: 1146
+#: NEEDS WORK
+msgid "Step 1/4: Preserving your changes temporarily..."
+msgstr "Стъпка 1/4: Временно запазване на промените ви..."
+# 
+# File: usr/share/build-package/build_package.py, line: 572
+# File: usr/share/build-package/build_package.py, line: 1153
+#: NEEDS WORK
+msgid "Failed to stash changes. Cannot proceed safely."
+msgstr "Неуспешно запазване на промените. Не може да се продължи безопасно."
+# 
+# File: usr/share/build-package/build_package.py, line: 576
+# File: usr/share/build-package/build_package.py, line: 1157
+#: NEEDS WORK
+msgid "Step 2/4: Switching to most recent branch..."
+msgstr "Стъпка 2/4: Превключване към най-новия клон..."
+# 
+# File: usr/share/build-package/build_package.py, line: 580
+# File: usr/share/build-package/build_package.py, line: 1161
+#: NEEDS WORK
+msgid "Failed to switch branches. Your changes are safe in stash."
+msgstr "Неуспешно превключване на клонове. Вашите промени са в безопасност в stash."
+# 
+# File: usr/share/build-package/build_package.py, line: 584
+# File: usr/share/build-package/build_package.py, line: 1165
+#: NEEDS WORK
+msgid "Step 3/4: Applying your changes to the most recent branch..."
+msgstr "Стъпка 3/4: Прилагане на вашите промени към най-новия клон..."
+# 
+# File: usr/share/build-package/build_package.py, line: 588
+# File: usr/share/build-package/build_package.py, line: 1169
+#: NEEDS WORK
+msgid "Conflicts detected while applying changes. Resolving automatically..."
+msgstr "Открити конфликти при прилагане на промените. Автоматично разрешаване..."
+# 
+# File: usr/share/build-package/build_package.py, line: 593
+# File: usr/share/build-package/build_package.py, line: 1173
+#: NEEDS WORK
+msgid "Conflicts resolved automatically"
+msgstr "Конфликтите се разрешават автоматично"
+# 
+# File: usr/share/build-package/build_package.py, line: 595
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically. Please check 'git status'"
+msgstr "Не можа да разреши конфликтите автоматично. Моля, проверете 'git status'"
+# 
+# File: usr/share/build-package/build_package.py, line: 599
+#: NEEDS WORK
+msgid "Step 4/4: Your changes are now ready to commit in the most recent branch!"
+msgstr "Стъпка 4/4: Вашите промени са готови за комитване в най-новия клон!"
+# 
+# File: usr/share/build-package/build_package.py, line: 604
+#: NEEDS WORK
+#, python-brace-format
+msgid "No local changes detected. Switching to most recent branch: {0}"
+msgstr "Не са открити локални промени. Превключване към най-новия клон: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 598
+#: NEEDS WORK
+msgid "Standard pull failed, trying force update..."
+msgstr "Стандартното извличане не успя, опитвам принудително обновление..."
 # 
 # File: usr/share/build-package/build_package.py, line: 582
 # File: usr/share/build-package/build_package.py, line: 602
@@ -949,29 +1013,6 @@ msgstr "Стандартното извличане не успя, опитва�
 #, python-brace-format
 msgid "Force-updated to latest {0}"
 msgstr "Принудително актуализирано до най-новата {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 584
-#: NEEDS WORK
-#, python-brace-format
-msgid "Successfully updated to latest {0}"
-msgstr "Успешно актуализирано до най-новата {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 589
-#: NEEDS WORK
-#, python-brace-format
-msgid "Could not switch branches automatically: {0}"
-msgstr "Не можа да превключи клоновете автоматично: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 590
-#: NEEDS WORK
-#, python-brace-format
-msgid "Continuing with current branch: {0}"
-msgstr "Продължаване с текущия клон: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 598
-#: NEEDS WORK
-msgid "Standard pull failed, trying force update..."
-msgstr "Стандартното извличане не успя, опитвам принудително обновление..."
 # 
 # File: usr/share/build-package/build_package.py, line: 604
 #: NEEDS WORK
@@ -1363,38 +1404,40 @@ msgstr "Изтегляне на последните промени от отд�
 msgid "Most recent branch: {0}"
 msgstr "Най-нов клон: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 1114
+# File: usr/share/build-package/build_package.py, line: 1175
 #: NEEDS WORK
-msgid "Backing up your local changes..."
-msgstr "Резервно копиране на локалните ви промени..."
+msgid "⚠ Some conflicts need manual resolution. Check 'git status'"
+msgstr "⚠ Някои конфликти изискват ръчно разрешаване. Проверете 'git status'"
 # 
-# File: usr/share/build-package/build_package.py, line: 1118
+# File: usr/share/build-package/build_package.py, line: 1178
 #: NEEDS WORK
-#, python-brace-format
-msgid "Updating to latest code from {0}..."
-msgstr "Актуализиране до най-новия код от {0}..."
+msgid "Step 4/4: Your changes are now in the most recent branch!"
+msgstr "Стъпка 4/4: Вашите промени сега са в най-новия клон!"
 # 
-# File: usr/share/build-package/build_package.py, line: 1127
+# File: usr/share/build-package/build_package.py, line: 1183
 #: NEEDS WORK
-msgid "Attempting to restore your local changes..."
-msgstr "Опитвам се да възстановя локалните ви промени..."
+msgid "No local changes detected. Switching to most recent branch..."
+msgstr "Не са открити локални промени. Превключване към най-новия клон..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1149
+# File: usr/share/build-package/build_package.py, line: 1188
 #: NEEDS WORK
-msgid "✓ Local changes restored successfully."
-msgstr "✓ Локалните промени бяха възстановени успешно."
+msgid "Already on most recent branch. Updating to latest version..."
+msgstr "Вече сте на най-новия клон. Актуализиране до последната версия..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1151
+# File: usr/share/build-package/build_package.py, line: 1192
 #: NEEDS WORK
-msgid "⚠ Local changes backed up in stash (some conflicts may exist)."
-msgstr "⚠ Локалните промени са архивирани в stash (възможни са конфликти)."
+msgid "Successfully updated current branch"
+msgstr "Успешно актуализиран текущ клон"
 # 
-# File: usr/share/build-package/build_package.py, line: 1153
+# File: usr/share/build-package/build_package.py, line: 1197
 #: NEEDS WORK
-msgid ""
-"\n"
-"⚠ Local changes backed up in stash"
-msgstr "⚠ Локалните промени са архивирани в stash"
+msgid "Force-updated current branch"
+msgstr "Силово актуализиран текущ клон"
+# 
+# File: usr/share/build-package/build_package.py, line: 1199
+#: NEEDS WORK
+msgid "Could not update branch"
+msgstr "Не можа да се актуализира клонът"
 # 
 # File: usr/share/build-package/build_package.py, line: 1163
 #: NEEDS WORK
@@ -1441,6 +1484,23 @@ msgid ""
 msgstr ""
 "✓ Успешно актуализирано до последната версия на {0}!\n"
 "⚠ Не можа да се покажат подробни промени: {1}"
+# 
+# File: usr/share/build-package/build_package.py, line: 577
+#: NEEDS WORK
+msgid "Standard pull failed, trying force strategy..."
+msgstr "Стандартното извличане не успя, опитвам стратегия за принуждаване..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1350
+#: NEEDS WORK
+#, python-brace-format
+msgid "Successfully switched and updated to {0}"
+msgstr "Успешно превключено и актуализирано до {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1353
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error switching to branch {0}: {1}"
+msgstr "Грешка при превключване на клон {0}: {1}"
 # 
 # File: usr/share/build-iso/config.py, line: 96
 #: NEEDS WORK

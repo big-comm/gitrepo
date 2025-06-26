@@ -935,16 +935,80 @@ msgstr "Henter de nyeste opdateringer fra fjernbetjening..."
 msgid "Warning: Failed to fetch latest changes, continuing with local code."
 msgstr "Advarsel: Mislykkedes at hente de seneste ændringer, fortsætter med lokal kode."
 # 
-# File: usr/share/build-package/build_package.py, line: 511
+# File: usr/share/build-package/build_package.py, line: 557
 #: NEEDS WORK
 #, python-brace-format
-msgid "Switching to the most recent branch: {0}"
-msgstr "Skifter til den nyeste gren: {0}"
+msgid "Most recent branch available: {0}"
+msgstr "Seneste tilgængelige gren: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 577
+# File: usr/share/build-package/build_package.py, line: 561
+# File: usr/share/build-package/build_package.py, line: 1142
 #: NEEDS WORK
-msgid "Standard pull failed, trying force strategy..."
-msgstr "Standard træk mislykkedes, forsøger tvangsstrategi..."
+msgid "Moving your changes to the most recent branch..."
+msgstr "Flytter dine ændringer til den nyeste gren..."
+# 
+# File: usr/share/build-package/build_package.py, line: 565
+# File: usr/share/build-package/build_package.py, line: 1146
+#: NEEDS WORK
+msgid "Step 1/4: Preserving your changes temporarily..."
+msgstr "Trin 1/4: Bevarer dine ændringer midlertidigt..."
+# 
+# File: usr/share/build-package/build_package.py, line: 572
+# File: usr/share/build-package/build_package.py, line: 1153
+#: NEEDS WORK
+msgid "Failed to stash changes. Cannot proceed safely."
+msgstr "Mislykkedes at gemme ændringer. Kan ikke fortsætte sikkert."
+# 
+# File: usr/share/build-package/build_package.py, line: 576
+# File: usr/share/build-package/build_package.py, line: 1157
+#: NEEDS WORK
+msgid "Step 2/4: Switching to most recent branch..."
+msgstr "Trin 2/4: Skifter til den nyeste gren..."
+# 
+# File: usr/share/build-package/build_package.py, line: 580
+# File: usr/share/build-package/build_package.py, line: 1161
+#: NEEDS WORK
+msgid "Failed to switch branches. Your changes are safe in stash."
+msgstr "Mislykkedes at skifte grene. Dine ændringer er sikre i stash."
+# 
+# File: usr/share/build-package/build_package.py, line: 584
+# File: usr/share/build-package/build_package.py, line: 1165
+#: NEEDS WORK
+msgid "Step 3/4: Applying your changes to the most recent branch..."
+msgstr "Trin 3/4: Anvender dine ændringer til den nyeste gren..."
+# 
+# File: usr/share/build-package/build_package.py, line: 588
+# File: usr/share/build-package/build_package.py, line: 1169
+#: NEEDS WORK
+msgid "Conflicts detected while applying changes. Resolving automatically..."
+msgstr "Konflikter opdaget under anvendelse af ændringer. Løser automatisk..."
+# 
+# File: usr/share/build-package/build_package.py, line: 593
+# File: usr/share/build-package/build_package.py, line: 1173
+#: NEEDS WORK
+msgid "Conflicts resolved automatically"
+msgstr "Konflikter løst automatisk"
+# 
+# File: usr/share/build-package/build_package.py, line: 595
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically. Please check 'git status'"
+msgstr "Kunne ikke løse konflikter automatisk. Tjek venligst 'git status'"
+# 
+# File: usr/share/build-package/build_package.py, line: 599
+#: NEEDS WORK
+msgid "Step 4/4: Your changes are now ready to commit in the most recent branch!"
+msgstr "Trin 4/4: Dine ændringer er nu klar til at blive committet i den nyeste gren!"
+# 
+# File: usr/share/build-package/build_package.py, line: 604
+#: NEEDS WORK
+#, python-brace-format
+msgid "No local changes detected. Switching to most recent branch: {0}"
+msgstr "Ingen lokale ændringer registreret. Skifter til den seneste gren: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 598
+#: NEEDS WORK
+msgid "Standard pull failed, trying force update..."
+msgstr "Standard træk mislykkedes, forsøger at tvinge opdatering..."
 # 
 # File: usr/share/build-package/build_package.py, line: 582
 # File: usr/share/build-package/build_package.py, line: 602
@@ -952,29 +1016,6 @@ msgstr "Standard træk mislykkedes, forsøger tvangsstrategi..."
 #, python-brace-format
 msgid "Force-updated to latest {0}"
 msgstr "Tvangsopdateret til den nyeste {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 584
-#: NEEDS WORK
-#, python-brace-format
-msgid "Successfully updated to latest {0}"
-msgstr "Opdateret til den nyeste {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 589
-#: NEEDS WORK
-#, python-brace-format
-msgid "Could not switch branches automatically: {0}"
-msgstr "Kunne ikke skifte grene automatisk: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 590
-#: NEEDS WORK
-#, python-brace-format
-msgid "Continuing with current branch: {0}"
-msgstr "Fortsætter med nuværende gren: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 598
-#: NEEDS WORK
-msgid "Standard pull failed, trying force update..."
-msgstr "Standard træk mislykkedes, forsøger at tvinge opdatering..."
 # 
 # File: usr/share/build-package/build_package.py, line: 604
 #: NEEDS WORK
@@ -1366,38 +1407,40 @@ msgstr "Henter de seneste ændringer fra fjernbetjening..."
 msgid "Most recent branch: {0}"
 msgstr "Seneste gren: {0}"
 # 
-# File: usr/share/build-package/build_package.py, line: 1114
+# File: usr/share/build-package/build_package.py, line: 1175
 #: NEEDS WORK
-msgid "Backing up your local changes..."
-msgstr "Sikkerhedskopierer dine lokale ændringer..."
+msgid "⚠ Some conflicts need manual resolution. Check 'git status'"
+msgstr "⚠ Nogle konflikter kræver manuel løsning. Tjek 'git status'"
 # 
-# File: usr/share/build-package/build_package.py, line: 1118
+# File: usr/share/build-package/build_package.py, line: 1178
 #: NEEDS WORK
-#, python-brace-format
-msgid "Updating to latest code from {0}..."
-msgstr "Opdaterer til den nyeste kode fra {0}..."
+msgid "Step 4/4: Your changes are now in the most recent branch!"
+msgstr "Trin 4/4: Dine ændringer er nu i den nyeste gren!"
 # 
-# File: usr/share/build-package/build_package.py, line: 1127
+# File: usr/share/build-package/build_package.py, line: 1183
 #: NEEDS WORK
-msgid "Attempting to restore your local changes..."
-msgstr "Forsøger at gendanne dine lokale ændringer..."
+msgid "No local changes detected. Switching to most recent branch..."
+msgstr "Ingen lokale ændringer registreret. Skifter til den nyeste gren..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1149
+# File: usr/share/build-package/build_package.py, line: 1188
 #: NEEDS WORK
-msgid "✓ Local changes restored successfully."
-msgstr "✓ Lokale ændringer er gendannet med succes."
+msgid "Already on most recent branch. Updating to latest version..."
+msgstr "Allerede på den nyeste gren. Opdaterer til den nyeste version..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1151
+# File: usr/share/build-package/build_package.py, line: 1192
 #: NEEDS WORK
-msgid "⚠ Local changes backed up in stash (some conflicts may exist)."
-msgstr "⚠ Lokale ændringer er sikkerhedskopieret i stash (nogle konflikter kan eksistere)."
+msgid "Successfully updated current branch"
+msgstr "Opdaterede den nuværende gren med succes"
 # 
-# File: usr/share/build-package/build_package.py, line: 1153
+# File: usr/share/build-package/build_package.py, line: 1197
 #: NEEDS WORK
-msgid ""
-"\n"
-"⚠ Local changes backed up in stash"
-msgstr "⚠ Lokale ændringer sikkerhedskopieret i stash"
+msgid "Force-updated current branch"
+msgstr "Tvangsopdateret nuværende gren"
+# 
+# File: usr/share/build-package/build_package.py, line: 1199
+#: NEEDS WORK
+msgid "Could not update branch"
+msgstr "Kunne ikke opdatere gren"
 # 
 # File: usr/share/build-package/build_package.py, line: 1163
 #: NEEDS WORK
@@ -1444,6 +1487,23 @@ msgid ""
 msgstr ""
 "✓ Opdateret til den nyeste {0}!\n"
 "⚠ Kunne ikke vise detaljerede ændringer: {1}"
+# 
+# File: usr/share/build-package/build_package.py, line: 577
+#: NEEDS WORK
+msgid "Standard pull failed, trying force strategy..."
+msgstr "Standard træk mislykkedes, forsøger tvangsstrategi..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1350
+#: NEEDS WORK
+#, python-brace-format
+msgid "Successfully switched and updated to {0}"
+msgstr "Succesful skiftet og opdateret til {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1353
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error switching to branch {0}: {1}"
+msgstr "Fejl ved skift til gren {0}: {1}"
 # 
 # File: usr/share/build-iso/config.py, line: 96
 #: NEEDS WORK
