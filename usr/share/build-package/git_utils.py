@@ -279,9 +279,13 @@ class GitUtils:
             logger.die("red", _("This operation is only available in Git repositories."))
             return ""
         
-        # Generate branch name with timestamp
-        timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
-        new_branch = f"{branch_type}-{timestamp}"
+        # Generate branch name with username (only for AUR, others use different logic)
+        if branch_type == "aur":
+            timestamp = datetime.now().strftime("%y.%m.%d-%H%M") 
+            new_branch = f"{branch_type}-{timestamp}"  # Keep timestamp for AUR
+        else:
+            username = GitUtils.get_github_username() or "unknown"
+            new_branch = f"{branch_type}-{username}"
         
         try:
             # Create new branch

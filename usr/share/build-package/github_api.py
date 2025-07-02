@@ -73,10 +73,10 @@ class GitHubAPI:
                 logger.die("red", _("Could not determine repository name."))
                 return ""
             
-            # Generate a branch name with timestamp
-            from datetime import datetime
-            timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
-            new_branch_name = f"dev-{timestamp}"  # Always use dev- prefix
+            # Generate a branch name with username
+            from git_utils import GitUtils
+            username = GitUtils.get_github_username() or "unknown"
+            new_branch_name = f"dev-{username}"  # Use dev- prefix with username
 
             # Use dev branch as base, or main if dev doesn't exist
             base_branch = self.get_branch_sha("dev", logger) and "dev" or "main"
