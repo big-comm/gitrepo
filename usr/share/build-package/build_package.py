@@ -198,14 +198,14 @@ the specific source code used to create this copy."""), style="white")
             self.menu.show_menu(_("No Changes to Commit\n"), [_("Press Enter to return to main menu")])
             return True
         
-        # ALWAYS create new dev branch with timestamp
-        timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
-        dev_branch = f"dev-{timestamp}"
+        # Create dev branch based on username
+        username = self.github_user_name or "unknown"
+        dev_branch = f"dev-{username}"
         
-        # Create and switch to new dev branch
-        self.logger.log("cyan", _("Creating new branch: {0}").format(dev_branch))
+        # Create/switch to user dev branch
         try:
-            subprocess.run(["git", "checkout", "-b", dev_branch], check=True)
+            if not self.ensure_user_branch_exists(dev_branch):
+                return False
         except subprocess.CalledProcessError as e:
             self.logger.log("red", _("Error creating dev branch: {0}").format(e))
             return False
@@ -227,6 +227,40 @@ the specific source code used to create this copy."""), style="white")
         
         self.logger.log("green", _("Changes committed and pushed to {0} branch successfully!").format(self.logger.format_branch_name(dev_branch)))
         return True
+    
+    def ensure_user_branch_exists(self, branch_name: str):
+        """Creates user branch if it doesn't exist, or switches to it if it does"""
+        try:
+            # Check if branch exists locally
+            local_result = subprocess.run(
+                ["git", "rev-parse", "--verify", branch_name],
+                capture_output=True, check=False
+            )
+            
+            # Check if branch exists remotely  
+            remote_result = subprocess.run(
+                ["git", "rev-parse", "--verify", f"origin/{branch_name}"],
+                capture_output=True, check=False
+            )
+            
+            if remote_result.returncode == 0:
+                # Branch exists remotely, checkout/switch to it
+                self.logger.log("cyan", _("Switching to existing branch: {0}").format(branch_name))
+                subprocess.run(["git", "checkout", branch_name], check=True)
+            elif local_result.returncode == 0:
+                # Branch exists locally only, push it
+                self.logger.log("cyan", _("Using existing local branch: {0}").format(branch_name))
+                subprocess.run(["git", "checkout", branch_name], check=True)
+                subprocess.run(["git", "push", "-u", "origin", branch_name], check=True)
+            else:
+                # Branch doesn't exist, create it
+                self.logger.log("cyan", _("Creating new branch: {0}").format(branch_name))
+                subprocess.run(["git", "checkout", "-b", branch_name], check=True)
+                
+            return True
+        except subprocess.CalledProcessError as e:
+            self.logger.log("red", _("Error with user branch: {0}").format(e))
+            return False
     
     def ensure_dev_branch_exists(self):
         """Creates the dev branch if it doesn't exist yet"""
@@ -644,9 +678,9 @@ the specific source code used to create this copy."""), style="white")
         if branch_type == "testing":
             if has_changes and commit_message:
                 # Create a new dev-* branch for testing packages
-                timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
-                dev_branch = f"dev-{timestamp}"
-                self.logger.log("cyan", _("Creating new testing branch: {0}").format(dev_branch))
+                username = self.github_user_name or "unknown"  
+                dev_branch = f"dev-{username}"
+                self.logger.log("cyan", _("Creating/updating testing branch: {0}").format(dev_branch))
                 try:
                     subprocess.run(["git", "checkout", "-b", dev_branch], check=True)
                     current_branch = dev_branch
@@ -668,9 +702,9 @@ the specific source code used to create this copy."""), style="white")
         else:  # stable/extra packages
             # Create temporary dev-* branch for changes if necessary
             if has_changes and commit_message:
-                timestamp = datetime.now().strftime("%y.%m.%d-%H%M")
-                dev_branch = f"dev-{timestamp}"
-                self.logger.log("cyan", _("Creating temporary branch {0} for your changes").format(dev_branch))
+                username = self.github_user_name or "unknown"
+                dev_branch = f"dev-{username}"
+                self.logger.log("cyan", _("Creating/updating branch {0} for your changes").format(dev_branch))
                 try:
                     subprocess.run(["git", "checkout", "-b", dev_branch], check=True)
                     subprocess.run(["git", "add", "--all"], check=True)
