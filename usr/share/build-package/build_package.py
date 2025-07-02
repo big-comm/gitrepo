@@ -174,14 +174,15 @@ the specific source code used to create this copy."""), style="white")
         if current_branch == "main" or current_branch == "master":
             self.logger.log("yellow", _("WARNING: You are on main branch. Commits should not be made directly on main!"))
         
-        # Pull latest changes first - always try to get most recent code
-        if not GitUtils.git_pull(self.logger):
-            if not self.menu.confirm(_("Failed to pull changes. Do you want to continue anyway?")):
-                self.logger.log("red", _("Operation cancelled by user."))
-                return False
-
-        # Check if there are changes AFTER pulling
+        # Check if there are changes BEFORE trying any pull
         has_changes = GitUtils.has_changes()
+
+        # Only try to pull if there are NO local changes
+        if not has_changes:
+            if not GitUtils.git_pull(self.logger):
+                self.logger.log("yellow", _("Failed to pull latest changes, but continuing since no local changes."))
+        else:
+            self.logger.log("cyan", _("Local changes detected - skipping automatic pull to avoid conflicts."))
 
         # Handle commit message based on if we have changes and args
         if self.args.commit:
