@@ -678,12 +678,14 @@ the specific source code used to create this copy."""), style="white")
         # Different flows based on the package type
         if branch_type == "testing":
             if has_changes and commit_message:
-                # Create a new dev-* branch for testing packages
+                # Create or switch to dev-* branch for testing packages
                 username = self.github_user_name or "unknown"  
                 dev_branch = f"dev-{username}"
                 self.logger.log("cyan", _("Creating/updating testing branch: {0}").format(dev_branch))
                 try:
-                    subprocess.run(["git", "checkout", "-b", dev_branch], check=True)
+                    # Use the existing method that handles branch creation safely
+                    if not self.ensure_user_branch_exists(dev_branch):
+                        return False
                     current_branch = dev_branch
                     
                     subprocess.run(["git", "add", "--all"], check=True)
@@ -701,13 +703,15 @@ the specific source code used to create this copy."""), style="white")
             working_branch = current_branch
             
         else:  # stable/extra packages
-            # Create temporary dev-* branch for changes if necessary
+            # Create or switch to dev-* branch for changes if necessary
             if has_changes and commit_message:
                 username = self.github_user_name or "unknown"
                 dev_branch = f"dev-{username}"
                 self.logger.log("cyan", _("Creating/updating branch {0} for your changes").format(dev_branch))
                 try:
-                    subprocess.run(["git", "checkout", "-b", dev_branch], check=True)
+                    # Use the existing method that handles branch creation safely
+                    if not self.ensure_user_branch_exists(dev_branch):
+                        return False
                     subprocess.run(["git", "add", "--all"], check=True)
                     self.logger.log("cyan", _("Committing changes with message:"))
                     self.logger.log("purple", commit_message)
