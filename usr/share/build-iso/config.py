@@ -18,6 +18,7 @@ VALID_ORGANIZATIONS = [
     "biglinux",
     "talesam",
     "leoberbert"
+    "bigbruno"
 ]
 
 # Valid distros with display names
@@ -70,7 +71,8 @@ ORGANIZATION_MAP = {
     "big-comm": "big-comm",       # Former bigcommunity
     "biglinux": "biglinux",
     "talesam": "talesam",
-    "leoberbert": "leoberbert"
+    "leoberbert": "leoberbert",
+    "bigbruno": "bigbruno"
 }
 
 # =======================================================================================
@@ -134,6 +136,19 @@ ORG_DEFAULT_CONFIGS = {
         "kernel": "latest",
         "build_dir": "bigcommunity",
         "edition": "gnome"
+    },
+    
+    "bigbruno": {
+        "distroname": "bigcommunity",  # bigbruno builds BigLinux
+        "iso_profiles_repo": "https://github.com/biglinux/iso-profiles",
+        "branches": {
+            "manjaro": "stable",
+            "community": "",
+            "biglinux": "stable"
+        },
+        "kernel": "latest",
+        "build_dir": "biglinux",
+        "edition": "kde"
     }
     
     # =======================================================================================
@@ -154,6 +169,6 @@ ORG_DEFAULT_CONFIGS = {
 }
 
 # Script version
-VERSION = "3.0.3"
+VERSION = "3.0.4"
 APP_NAME = _("BUILD ISO")
 APP_DESC = _("Wrapper for ISO building using GitHub Actions. Streamlines the process of creating custom Linux distribution ISO images through automation.")
