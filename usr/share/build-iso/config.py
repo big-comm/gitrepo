@@ -17,7 +17,7 @@ VALID_ORGANIZATIONS = [
     "big-comm",                              # Former communitybig
     "biglinux",
     "talesam",
-    "leoberbert"
+    "leoberbert",
     "bigbruno"
 ]
 
