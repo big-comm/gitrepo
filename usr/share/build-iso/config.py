@@ -14,11 +14,12 @@ from translation_utils import _
 REPO_WORKFLOW = "big-comm/build-iso"        # Repository containing workflows
 DEFAULT_ORGANIZATION = "big-comm"            # Default organization
 VALID_ORGANIZATIONS = [
-    "big-comm",                              # Former communitybig
+    # "big-comm",                              # Former communitybig
     "biglinux",
     "talesam",
     "leoberbert",
-    "bigbruno"
+    "bigbruno",
+    "narayanls"
 ]
 
 # Valid distros with display names
@@ -72,7 +73,8 @@ ORGANIZATION_MAP = {
     "biglinux": "biglinux",
     "talesam": "talesam",
     "leoberbert": "leoberbert",
-    "bigbruno": "bigbruno"
+    "bigbruno": "bigbruno",
+    "narayanls": "narayanls"
 }
 
 # =======================================================================================
@@ -122,7 +124,7 @@ ORG_DEFAULT_CONFIGS = {
         },
         "kernel": "latest",
         "build_dir": "bigcommunity", 
-        "edition": "xfce"
+        "edition": "gnome"
     },
     
     "leoberbert": {
@@ -149,6 +151,19 @@ ORG_DEFAULT_CONFIGS = {
         "kernel": "latest",
         "build_dir": "biglinux",
         "edition": "kde"
+    },
+    
+    "narayanls": {
+        "distroname": "bigcommunity",  # narayanls builds BigLinux
+        "iso_profiles_repo": "https://github.com/big-comm/iso-profiles",
+        "branches": {
+            "manjaro": "stable",
+            "community": "stable",
+            "biglinux": "stable"
+        },
+        "kernel": "latest",
+        "build_dir": "bigcommunity",
+        "edition": "cinnamon"
     }
     
     # =======================================================================================
@@ -169,6 +184,6 @@ ORG_DEFAULT_CONFIGS = {
 }
 
 # Script version
-VERSION = "3.0.4"
+VERSION = "3.0.5"
 APP_NAME = _("BUILD ISO")
 APP_DESC = _("Wrapper for ISO building using GitHub Actions. Streamlines the process of creating custom Linux distribution ISO images through automation.")
