@@ -74,7 +74,6 @@ class GitHubAPI:
                 return ""
             
             # Generate a branch name with username
-            from git_utils import GitUtils
             username = GitUtils.get_github_username() or "unknown"
             new_branch_name = f"dev-{username}"  # Use dev- prefix with username
 
