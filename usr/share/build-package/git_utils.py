@@ -7,6 +7,8 @@
 import os
 import re
 import subprocess
+import requests
+from config import TOKEN_FILE
 from datetime import datetime
 from translation_utils import _
 
@@ -79,34 +81,44 @@ class GitUtils:
     
     @staticmethod
     def get_github_username() -> str:
-        """Gets the real GitHub username from remote URL"""
+        """Gets the real GitHub username from authenticated user"""
         try:
-            # First: try to extract username from remote origin URL
-            result = subprocess.run(
-                ["git", "config", "--get", "remote.origin.url"],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                check=False
-            )
+            # First: try to get authenticated user from GitHub API
             
-            if result.returncode == 0:
-                url = result.stdout.strip()
-                
-                # Extract username from GitHub URLs (HTTPS and SSH)
-                # HTTPS: https://github.com/username/repo.git
-                # SSH: git@github.com:username/repo.git
-                import re
-                
-                # Pattern for HTTPS
-                https_match = re.search(r'https://github\.com/([^/]+)/', url)
-                if https_match:
-                    return https_match.group(1)
-                
-                # Pattern for SSH
-                ssh_match = re.search(r'git@github\.com:([^/]+)/', url)
-                if ssh_match:
-                    return ssh_match.group(1)
+            
+            token_file = os.path.expanduser(TOKEN_FILE)
+            if os.path.exists(token_file):
+                try:
+                    with open(token_file, 'r') as f:
+                        token_lines = f.readlines()
+                    
+                    # Get token (try organization-specific or general token)
+                    token = None
+                    for line in token_lines:
+                        line = line.strip()
+                        if '=' in line:
+                            org, t = line.split('=', 1)
+                            token = t
+                            break
+                        elif line and '=' not in line:
+                            token = line
+                            break
+                    
+                    if token:
+                        # Use GitHub API to get authenticated user
+                        headers = {
+                            "Authorization": f"token {token}",
+                            "Accept": "application/vnd.github.v3+json"
+                        }
+                        
+                        response = requests.get("https://api.github.com/user", headers=headers)
+                        if response.status_code == 200:
+                            user_data = response.json()
+                            username = user_data.get('login', '')
+                            if username:
+                                return username
+                except Exception:
+                    pass
             
             # Second: try git config github.user (if configured)
             result = subprocess.run(
@@ -118,12 +130,31 @@ class GitUtils:
             )
             
             if result.returncode == 0:
-                return result.stdout.strip()
+                username = result.stdout.strip()
+                if username:
+                    return username
             
-            # Third: fallback to "unknown" if no GitHub username can be determined
+            # Third: try to extract from user.email if it's a GitHub email
+            result = subprocess.run(
+                ["git", "config", "user.email"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False
+            )
+            
+            if result.returncode == 0:
+                email = result.stdout.strip()
+                # If email format is username@users.noreply.github.com
+                github_email_match = re.search(r'^(\d+\+)?([^@]+)@users\.noreply\.github\.com$', email)
+                if github_email_match:
+                    return github_email_match.group(2)
+            
+            # Fourth: fallback to "unknown"
             return "unknown"
+            
         except Exception:
-            return ""    
+            return "unknown"
     
     @staticmethod
     def has_changes() -> bool:
