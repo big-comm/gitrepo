@@ -79,10 +79,38 @@ class GitUtils:
     
     @staticmethod
     def get_github_username() -> str:
-        """Gets the GitHub username configured in Git"""
+        """Gets the real GitHub username from remote URL"""
         try:
+            # First: try to extract username from remote origin URL
             result = subprocess.run(
-                ["git", "config", "user.name"],
+                ["git", "config", "--get", "remote.origin.url"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False
+            )
+            
+            if result.returncode == 0:
+                url = result.stdout.strip()
+                
+                # Extract username from GitHub URLs (HTTPS and SSH)
+                # HTTPS: https://github.com/username/repo.git
+                # SSH: git@github.com:username/repo.git
+                import re
+                
+                # Pattern for HTTPS
+                https_match = re.search(r'https://github\.com/([^/]+)/', url)
+                if https_match:
+                    return https_match.group(1)
+                
+                # Pattern for SSH
+                ssh_match = re.search(r'git@github\.com:([^/]+)/', url)
+                if ssh_match:
+                    return ssh_match.group(1)
+            
+            # Second: try git config github.user (if configured)
+            result = subprocess.run(
+                ["git", "config", "github.user"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
@@ -91,9 +119,11 @@ class GitUtils:
             
             if result.returncode == 0:
                 return result.stdout.strip()
-            return ""
+            
+            # Third: fallback to "unknown" if no GitHub username can be determined
+            return "unknown"
         except Exception:
-            return ""
+            return ""    
     
     @staticmethod
     def has_changes() -> bool:
