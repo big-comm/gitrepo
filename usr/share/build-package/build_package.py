@@ -375,7 +375,7 @@ the specific source code used to create this copy."""), style="white")
             return False
     
     def get_most_recent_branch(self):
-        """Determines which branch is most recent based on branch name timestamp, not commit timestamp"""
+        """Determines which branch has the most recent commit by actual commit date"""
         self.logger.log("cyan", _("Determining which branch has the most recent code..."))
         
         # Fetch the latest from remote
@@ -393,30 +393,51 @@ the specific source code used to create this copy."""), style="white")
                 check=True
             )
             
-            dev_branches = []
-            has_main = False
+            candidate_branches = []
             
             for line in result.stdout.strip().split('\n'):
                 branch = line.strip().replace('* ', '').replace('remotes/origin/', '')
-                # Filter for main and dev branches
-                if branch == "main" or branch == "master":
-                    has_main = True
-                elif branch.startswith('dev-') and branch not in dev_branches:
-                    dev_branches.append(branch)
+                # Include main, master, dev, and dev-* branches
+                if branch in ["main", "master", "dev"] or branch.startswith('dev-'):
+                    if branch not in candidate_branches:
+                        candidate_branches.append(branch)
                     
         except subprocess.CalledProcessError:
             self.logger.log("yellow", _("Warning: Failed to get branch list."))
             return "main"
         
-        # If no dev branches, return main
-        if not dev_branches:
-            return "main" if has_main else "master"
+        if not candidate_branches:
+            return "main"
         
-        # Sort dev branches by name (which contains timestamp)
-        # Format: dev-YY.MM.DD-HHMM - newer timestamps will be "greater"
-        dev_branches.sort(reverse=True)  # Most recent first
+        # Get the actual last commit date for each branch
+        branch_dates = {}
+        for branch in candidate_branches:
+            try:
+                # Get the commit date of the latest commit on this branch
+                commit_date_result = subprocess.run(
+                    ["git", "log", "-1", "--format=%ct", f"origin/{branch}"],
+                    stdout=subprocess.PIPE,
+                    text=True,
+                    check=True
+                )
+                # %ct gives timestamp in seconds since epoch
+                branch_dates[branch] = int(commit_date_result.stdout.strip())
+            except subprocess.CalledProcessError:
+                # If branch doesn't exist remotely, try locally
+                try:
+                    commit_date_result = subprocess.run(
+                        ["git", "log", "-1", "--format=%ct", branch],
+                        stdout=subprocess.PIPE,
+                        text=True,
+                        check=True
+                    )
+                    branch_dates[branch] = int(commit_date_result.stdout.strip())
+                except subprocess.CalledProcessError:
+                    # If we can't get the date, assign a very old timestamp
+                    branch_dates[branch] = 0
         
-        most_recent_branch = dev_branches[0]
+        # Find the branch with the most recent commit
+        most_recent_branch = max(branch_dates.keys(), key=lambda b: branch_dates[b])
         
         self.logger.log("green", _("The most recent branch is: {0}").format(most_recent_branch))
         return most_recent_branch
