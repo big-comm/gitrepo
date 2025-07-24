@@ -758,7 +758,7 @@ the specific source code used to create this copy."""), style="white")
                     
                     # Try different merge strategies
                     merge_strategies = [
-                        ["git", "merge", f"origin/{most_recent_branch}", "--strategy-option=theirs", "--no-edit"],
+                        ["git", "merge", f"{most_recent_branch}", "--strategy-option=theirs", "--no-edit"],
                         ["git", "merge", f"origin/{most_recent_branch}", "--strategy=ours", "--no-edit"],
                         ["git", "reset", "--hard", f"origin/{most_recent_branch}"]  # Nuclear option
                     ]
