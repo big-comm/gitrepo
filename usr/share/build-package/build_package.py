@@ -159,7 +159,7 @@ the specific source code used to create this copy."""), style="white")
         return commit_message
     
     def commit_and_push(self):
-        """Performs commit on a new dev branch with timestamp"""
+        """Performs commit on user's own dev branch with proper isolation"""
         if not self.is_git_repo:
             self.logger.die("red", _("This option is only available in git repositories."))
             return False
@@ -167,14 +167,61 @@ the specific source code used to create this copy."""), style="white")
         # Ensure dev branch exists
         self.ensure_dev_branch_exists()
         
-        # Get current branch
+        # Get user info and target branch
+        username = self.github_user_name or "unknown"
+        my_branch = f"dev-{username}"
         current_branch = GitUtils.get_current_branch()
         
-        # If on main branch, we need to be careful
-        if current_branch == "main" or current_branch == "master":
-            self.logger.log("yellow", _("WARNING: You are on main branch. Commits should not be made directly on main!"))
+        self.logger.log("cyan", _("Target branch for commit: {0}").format(self.logger.format_branch_name(my_branch)))
         
-        # Check if there are changes BEFORE trying any pull
+        # ROBUST CHECK: Ensure user is working in their own branch
+        if current_branch != my_branch:
+            self.logger.log("yellow", _("You're in {0} but should commit to {1}. Fixing this...").format(
+                self.logger.format_branch_name(current_branch), self.logger.format_branch_name(my_branch)))
+            
+            # Check if there are changes to preserve
+            has_changes = GitUtils.has_changes()
+            
+            if has_changes:
+                # Stash → Switch → Apply workflow
+                self.logger.log("cyan", _("Preserving your changes while switching to your branch..."))
+                stash_message = f"auto-preserve-changes-commit-to-{my_branch}"
+                stash_result = subprocess.run(
+                    ["git", "stash", "push", "-u", "-m", stash_message], 
+                    capture_output=True, text=True, check=False
+                )
+                
+                if stash_result.returncode != 0:
+                    self.logger.log("red", _("Failed to stash changes. Cannot proceed safely."))
+                    return False
+                
+                # Ensure user's branch exists and switch
+                if not self.ensure_user_branch_exists(my_branch):
+                    return False
+                
+                # Apply stashed changes
+                pop_result = subprocess.run(["git", "stash", "pop"], capture_output=True, text=True, check=False)
+                if pop_result.returncode != 0:
+                    self.logger.log("yellow", _("Conflicts detected while applying changes. Resolving automatically..."))
+                    try:
+                        subprocess.run(["git", "reset", "HEAD"], check=True)
+                        subprocess.run(["git", "add", "."], check=True)
+                        self.logger.log("green", _("Conflicts resolved automatically"))
+                    except subprocess.CalledProcessError:
+                        self.logger.log("red", _("Could not resolve conflicts automatically. Please check 'git status'"))
+                        return False
+                
+                self.logger.log("green", _("Successfully moved your changes to your own branch!"))
+            else:
+                # No changes, just ensure we're on user's branch
+                if not self.ensure_user_branch_exists(my_branch):
+                    return False
+                self.logger.log("cyan", _("Switched to your branch: {0}").format(self.logger.format_branch_name(my_branch)))
+        
+        # Now we're guaranteed to be in user's own branch
+        current_branch = my_branch
+        
+        # Check if there are changes AFTER ensuring we're in the right branch
         has_changes = GitUtils.has_changes()
 
         # Only try to pull if there are NO local changes
@@ -199,19 +246,7 @@ the specific source code used to create this copy."""), style="white")
             self.menu.show_menu(_("No Changes to Commit\n"), [_("Press Enter to return to main menu")])
             return True
         
-        # Create dev branch based on username
-        username = self.github_user_name or "unknown"
-        dev_branch = f"dev-{username}"
-        
-        # Create/switch to user dev branch
-        try:
-            if not self.ensure_user_branch_exists(dev_branch):
-                return False
-        except subprocess.CalledProcessError as e:
-            self.logger.log("red", _("Error creating dev branch: {0}").format(e))
-            return False
-        
-        # Add and commit changes to dev branch
+        # Add and commit changes to user's dev branch
         try:
             subprocess.run(["git", "add", "--all"], check=True)
             subprocess.run(["git", "commit", "-m", commit_message], check=True)
@@ -219,14 +254,14 @@ the specific source code used to create this copy."""), style="white")
             self.logger.log("red", _("Error committing changes: {0}").format(e))
             return False
         
-        # Push dev branch to remote
+        # Push user's dev branch to remote
         try:
-            subprocess.run(["git", "push", "-u", "origin", dev_branch], check=True)
+            subprocess.run(["git", "push", "-u", "origin", my_branch], check=True)
         except subprocess.CalledProcessError as e:
             self.logger.log("red", _("Error pushing to remote: {0}").format(e))
             return False
         
-        self.logger.log("green", _("Changes committed and pushed to {0} branch successfully!").format(self.logger.format_branch_name(dev_branch)))
+        self.logger.log("green", _("Changes committed and pushed to {0} branch successfully!").format(self.logger.format_branch_name(my_branch)))
         return True
     
     def ensure_user_branch_exists(self, branch_name: str):
@@ -262,6 +297,57 @@ the specific source code used to create this copy."""), style="white")
         except subprocess.CalledProcessError as e:
             self.logger.log("red", _("Error with user branch: {0}").format(e))
             return False
+        
+    def ensure_working_in_own_branch(self, preserve_changes=True):
+        """Ensures user is working in their own dev branch, preserving changes if needed"""
+        username = self.github_user_name or "unknown"
+        my_branch = f"dev-{username}"
+        current_branch = GitUtils.get_current_branch()
+        
+        if current_branch == my_branch:
+            return True  # Already in correct branch
+        
+        self.logger.log("yellow", _("Moving from {0} to your own branch {1}...").format(
+            self.logger.format_branch_name(current_branch), self.logger.format_branch_name(my_branch)))
+        
+        has_changes = GitUtils.has_changes()
+        
+        if has_changes and preserve_changes:
+            # Stash → Switch → Apply workflow
+            stash_message = f"auto-preserve-changes-switch-to-{my_branch}"
+            stash_result = subprocess.run(
+                ["git", "stash", "push", "-u", "-m", stash_message], 
+                capture_output=True, text=True, check=False
+            )
+            
+            if stash_result.returncode != 0:
+                self.logger.log("red", _("Failed to stash changes. Cannot proceed safely."))
+                return False
+            
+            # Ensure user's branch exists and switch
+            if not self.ensure_user_branch_exists(my_branch):
+                return False
+            
+            # Apply stashed changes
+            pop_result = subprocess.run(["git", "stash", "pop"], capture_output=True, text=True, check=False)
+            if pop_result.returncode != 0:
+                self.logger.log("yellow", _("Conflicts detected while applying changes. Resolving automatically..."))
+                try:
+                    subprocess.run(["git", "reset", "HEAD"], check=True)
+                    subprocess.run(["git", "add", "."], check=True)
+                    self.logger.log("green", _("Conflicts resolved automatically"))
+                except subprocess.CalledProcessError:
+                    self.logger.log("red", _("Could not resolve conflicts automatically."))
+                    return False
+            
+            self.logger.log("green", _("Successfully moved your changes to your own branch!"))
+        else:
+            # No changes or don't preserve, just switch
+            if not self.ensure_user_branch_exists(my_branch):
+                return False
+            self.logger.log("cyan", _("Switched to your branch: {0}").format(self.logger.format_branch_name(my_branch)))
+        
+        return True
     
     def ensure_dev_branch_exists(self):
         """Creates the dev branch if it doesn't exist yet"""
@@ -1155,7 +1241,7 @@ the specific source code used to create this copy."""), style="white")
             self.main_menu()
             
     def pull_latest_code_menu(self):
-        """Pulls the latest code from the most recent branch using safe workflow"""
+        """Pulls the latest code to user's own branch while maintaining isolation"""
         if not self.is_git_repo:
             self.logger.log("red", _("This operation is only available in git repositories."))
             return False
@@ -1188,22 +1274,29 @@ the specific source code used to create this copy."""), style="white")
             # Get current state
             current_branch = GitUtils.get_current_branch()
             has_changes = GitUtils.has_changes()
+            username = self.github_user_name or "unknown"
+            my_branch = f"dev-{username}"
             
             # Find most recent branch
             most_recent_branch = self.get_most_recent_branch()
             
             self.logger.log("cyan", _("Current branch: {0}").format(self.logger.format_branch_name(current_branch)))
-            self.logger.log("green", _("Most recent branch: {0}").format(self.logger.format_branch_name(most_recent_branch)))
+            self.logger.log("green", _("Most recent branch available: {0}").format(self.logger.format_branch_name(most_recent_branch)))
+            self.logger.log("cyan", _("Your target branch: {0}").format(self.logger.format_branch_name(my_branch)))
             
-            # SAFE WORKFLOW: Apply same logic as commit_and_generate_package
-            if most_recent_branch != current_branch:
+            # ROBUST WORKFLOW: Always ensure user works in their own branch
+            if current_branch != my_branch:
+                self.logger.log("yellow", _("You're not in your own branch. Moving to {0}...").format(my_branch))
+                
+                # Ensure user's branch exists, create if needed
+                if not self.ensure_user_branch_exists(my_branch):
+                    self.logger.log("red", _("Failed to create/access your branch."))
+                    return False
+                
                 if has_changes:
-                    # AUTOMATIC WORKFLOW: Stash → Switch → Apply
-                    self.logger.log("cyan", _("Moving your changes to the most recent branch..."))
-                    
-                    # Step 1: Stash changes
-                    stash_message = f"auto-preserve-changes-pull-from-{current_branch}-to-{most_recent_branch}"
-                    self.logger.log("cyan", _("Step 1/4: Preserving your changes temporarily..."))
+                    # Stash → Switch → Apply workflow
+                    self.logger.log("cyan", _("Preserving your changes while switching to your branch..."))
+                    stash_message = f"auto-preserve-changes-pull-to-{my_branch}"
                     stash_result = subprocess.run(
                         ["git", "stash", "push", "-u", "-m", stash_message], 
                         capture_output=True, text=True, check=False
@@ -1213,18 +1306,11 @@ the specific source code used to create this copy."""), style="white")
                         self.logger.log("red", _("Failed to stash changes. Cannot proceed safely."))
                         return False
                     
-                    # Step 2: Switch to most recent branch
-                    self.logger.log("cyan", _("Step 2/4: Switching to most recent branch..."))
-                    try:
-                        self._switch_to_branch_safely(most_recent_branch)
-                    except subprocess.CalledProcessError as e:
-                        self.logger.log("red", _("Failed to switch branches. Your changes are safe in stash."))
-                        return False
+                    # Switch to user's branch
+                    subprocess.run(["git", "checkout", my_branch], check=True)
                     
-                    # Step 3: Apply stashed changes
-                    self.logger.log("cyan", _("Step 3/4: Applying your changes to the most recent branch..."))
+                    # Apply stashed changes
                     pop_result = subprocess.run(["git", "stash", "pop"], capture_output=True, text=True, check=False)
-                    
                     if pop_result.returncode != 0:
                         self.logger.log("yellow", _("Conflicts detected while applying changes. Resolving automatically..."))
                         try:
@@ -1233,31 +1319,64 @@ the specific source code used to create this copy."""), style="white")
                             self.logger.log("green", _("Conflicts resolved automatically"))
                         except subprocess.CalledProcessError:
                             self.logger.log("yellow", _("⚠ Some conflicts need manual resolution. Check 'git status'"))
-                    
-                    # Step 4: Complete
-                    self.logger.log("green", _("Step 4/4: Your changes are now in the most recent branch!"))
-                    working_branch = most_recent_branch
-                    
                 else:
-                    # No local changes, safe to switch
-                    self.logger.log("cyan", _("No local changes detected. Switching to most recent branch..."))
-                    self._switch_to_branch_safely(most_recent_branch)
-                    working_branch = most_recent_branch
+                    # No changes, safe to switch
+                    subprocess.run(["git", "checkout", my_branch], check=True)
+            
+            # Now we're guaranteed to be in user's own branch
+            current_branch = my_branch
+            
+            # MERGE latest code TO user's branch (not switch FROM user's branch)
+            if most_recent_branch != my_branch:
+                self.logger.log("cyan", _("Merging latest code from {0} into your branch...").format(most_recent_branch))
+                
+                # Try different merge strategies
+                merge_strategies = [
+                    (["git", "merge", f"origin/{most_recent_branch}", "--strategy-option=theirs", "--no-edit"], 
+                    _("Using automatic merge strategy")),
+                    (["git", "rebase", f"origin/{most_recent_branch}"], 
+                    _("Using rebase strategy")),
+                    (["git", "reset", "--hard", f"origin/{most_recent_branch}"], 
+                    _("Using force update strategy"))
+                ]
+                
+                merge_success = False
+                for i, (merge_cmd, strategy_desc) in enumerate(merge_strategies):
+                    try:
+                        if i == 2:  # Force update strategy
+                            self.logger.log("yellow", strategy_desc)
+                        else:
+                            self.logger.log("cyan", strategy_desc)
+                        
+                        subprocess.run(merge_cmd, check=True)
+                        merge_success = True
+                        break
+                    except subprocess.CalledProcessError:
+                        if i < len(merge_strategies) - 1:
+                            self.logger.log("yellow", _("Strategy failed, trying next approach..."))
+                            # Abort any partial operation
+                            subprocess.run(["git", "merge", "--abort"], capture_output=True, check=False)
+                            subprocess.run(["git", "rebase", "--abort"], capture_output=True, check=False)
+                        continue
+                
+                if not merge_success:
+                    self.logger.log("red", _("All merge strategies failed. Manual intervention may be needed."))
+                    return False
+                
+                self.logger.log("green", _("Successfully merged latest code into your branch!"))
             else:
-                # Already on most recent branch, just update it
-                self.logger.log("cyan", _("Already on most recent branch. Updating to latest version..."))
+                # User's branch is already the most recent, just update it
+                self.logger.log("cyan", _("Your branch is the most recent. Updating from remote..."))
                 try:
-                    pull_cmd = ["git", "pull", "origin", current_branch, "--strategy-option=theirs", "--no-edit"]
-                    subprocess.run(pull_cmd, check=True)
-                    self.logger.log("green", _("Successfully updated current branch"))
+                    subprocess.run(["git", "pull", "origin", my_branch, "--strategy-option=theirs", "--no-edit"], check=True)
+                    self.logger.log("green", _("Successfully updated your branch"))
                 except subprocess.CalledProcessError:
                     try:
-                        subprocess.run(["git", "fetch", "origin", current_branch], check=True)
-                        subprocess.run(["git", "reset", "--hard", f"origin/{current_branch}"], check=True)
-                        self.logger.log("green", _("Force-updated current branch"))
+                        subprocess.run(["git", "fetch", "origin", my_branch], check=True)
+                        subprocess.run(["git", "reset", "--hard", f"origin/{my_branch}"], check=True)
+                        self.logger.log("green", _("Force-updated your branch"))
                     except subprocess.CalledProcessError:
                         self.logger.log("yellow", _("Could not update branch"))
-                working_branch = current_branch
             
             # Get final state for comparison
             try:
@@ -1269,7 +1388,7 @@ the specific source code used to create this copy."""), style="white")
                 final_commit = None
             
             # Generate changes summary
-            changes_summary = self.get_update_changes_summary(initial_commit, final_commit, working_branch)
+            changes_summary = self.get_update_changes_summary(initial_commit, final_commit, my_branch)
             
             # Prepare clean summary for display
             clean_summary = None
