@@ -1121,10 +1121,59 @@ msgstr "Syötä sitoutumisviesti:"
 msgid "This option is only available in git repositories."
 msgstr "Tämä vaihtoehto on saatavilla vain git-repositorioissa."
 # 
-# File: usr/share/build-package/build_package.py, line: 174
+# File: usr/share/build-package/build_package.py, line: 175
 #: NEEDS WORK
-msgid "WARNING: You are on main branch. Commits should not be made directly on main!"
-msgstr "VAROITUS: Olet päähaarassa. Muutoksia ei tulisi tehdä suoraan pääharaan!"
+#, python-brace-format
+msgid "Target branch for commit: {0}"
+msgstr "Kohdehaara sitoumukselle: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 179
+#: NEEDS WORK
+#, python-brace-format
+msgid "You're in {0} but should commit to {1}. Fixing this..."
+msgstr "Olet {0}, mutta sinun pitäisi sitoutua {1}. Korjataan tämä..."
+# 
+# File: usr/share/build-package/build_package.py, line: 187
+# File: usr/share/build-package/build_package.py, line: 1298
+#: NEEDS WORK
+msgid "Preserving your changes while switching to your branch..."
+msgstr "Muutoksiesi säilyttäminen siirtyessäsi haaraasi..."
+# 
+# File: usr/share/build-package/build_package.py, line: 572
+# File: usr/share/build-package/build_package.py, line: 1153
+#: NEEDS WORK
+msgid "Failed to stash changes. Cannot proceed safely."
+msgstr "Muuttujien tallentaminen epäonnistui. Ei voida jatkaa turvallisesti."
+# 
+# File: usr/share/build-package/build_package.py, line: 588
+# File: usr/share/build-package/build_package.py, line: 1169
+#: NEEDS WORK
+msgid "Conflicts detected while applying changes. Resolving automatically..."
+msgstr "Muutoksia soveltaessa havaittiin ristiriitoja. Ratkaistaan automaattisesti..."
+# 
+# File: usr/share/build-package/build_package.py, line: 593
+# File: usr/share/build-package/build_package.py, line: 1173
+#: NEEDS WORK
+msgid "Conflicts resolved automatically"
+msgstr "Konfliktit ratkaistu automaattisesti"
+# 
+# File: usr/share/build-package/build_package.py, line: 595
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically. Please check 'git status'"
+msgstr "Ei voitu ratkaista ristiriitoja automaattisesti. Tarkista 'git status'"
+# 
+# File: usr/share/build-package/build_package.py, line: 214
+# File: usr/share/build-package/build_package.py, line: 343
+#: NEEDS WORK
+msgid "Successfully moved your changes to your own branch!"
+msgstr "Muutoksesi on siirretty onnistuneesti omaan haaraasi!"
+# 
+# File: usr/share/build-package/build_package.py, line: 219
+# File: usr/share/build-package/build_package.py, line: 348
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to your branch: {0}"
+msgstr "Vaihdettiin haaraasi: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 183
 #: NEEDS WORK
@@ -1155,14 +1204,6 @@ msgstr "Ei muutoksia sitoutettavaksi"
 #: NEEDS WORK
 msgid "Press Enter to return to main menu"
 msgstr "Paina Enter palataksesi päävalikkoon"
-# 
-# File: usr/share/build-package/build_package.py, line: 205
-# File: usr/share/build-package/build_package.py, line: 334
-# File: usr/share/build-package/build_package.py, line: 410
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error creating dev branch: {0}"
-msgstr "Virhe kehityshaaran luomisessa: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 213
 #: NEEDS WORK
@@ -1199,6 +1240,17 @@ msgstr "Käytetään olemassa olevaa paikallista haaraa: {0}"
 #, python-brace-format
 msgid "Error with user branch: {0}"
 msgstr "Virhe käyttäjähaara: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 310
+#: NEEDS WORK
+#, python-brace-format
+msgid "Moving from {0} to your own branch {1}..."
+msgstr "Siirtyminen {0} omalle haarallesi {1}..."
+# 
+# File: usr/share/build-package/build_package.py, line: 340
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically."
+msgstr "Konflikteja ei voitu ratkaista automaattisesti."
 # 
 # File: usr/share/build-package/build_package.py, line: 229
 # File: usr/share/build-package/build_package.py, line: 340
@@ -1265,6 +1317,14 @@ msgstr "Ei voitu luoda kehityshaaraa: {0}"
 #: NEEDS WORK
 msgid "Could not apply stashed changes. Your changes are in the stash."
 msgstr "Ei voitu soveltaa varastoituja muutoksia. Muutoksesi ovat varastossa."
+# 
+# File: usr/share/build-package/build_package.py, line: 205
+# File: usr/share/build-package/build_package.py, line: 334
+# File: usr/share/build-package/build_package.py, line: 410
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating dev branch: {0}"
+msgstr "Virhe kehityshaaran luomisessa: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 343
 #: NEEDS WORK
@@ -1469,12 +1529,6 @@ msgstr "Siirtämässä muutoksiasi uusimpaan haaraan..."
 msgid "Step 1/4: Preserving your changes temporarily..."
 msgstr "Vaihe 1/4: Muutosten säilyttäminen tilapäisesti..."
 # 
-# File: usr/share/build-package/build_package.py, line: 572
-# File: usr/share/build-package/build_package.py, line: 1153
-#: NEEDS WORK
-msgid "Failed to stash changes. Cannot proceed safely."
-msgstr "Muuttujien tallentaminen epäonnistui. Ei voida jatkaa turvallisesti."
-# 
 # File: usr/share/build-package/build_package.py, line: 576
 # File: usr/share/build-package/build_package.py, line: 1157
 #: NEEDS WORK
@@ -1492,23 +1546,6 @@ msgstr "Haarahtumien vaihtaminen epäonnistui. Muutoksesi ovat turvassa varastos
 #: NEEDS WORK
 msgid "Step 3/4: Applying your changes to the most recent branch..."
 msgstr "Vaihe 3/4: Muutosten soveltaminen uusimpaan haaraan..."
-# 
-# File: usr/share/build-package/build_package.py, line: 588
-# File: usr/share/build-package/build_package.py, line: 1169
-#: NEEDS WORK
-msgid "Conflicts detected while applying changes. Resolving automatically..."
-msgstr "Muutoksia soveltaessa havaittiin ristiriitoja. Ratkaistaan automaattisesti..."
-# 
-# File: usr/share/build-package/build_package.py, line: 593
-# File: usr/share/build-package/build_package.py, line: 1173
-#: NEEDS WORK
-msgid "Conflicts resolved automatically"
-msgstr "Konfliktit ratkaistu automaattisesti"
-# 
-# File: usr/share/build-package/build_package.py, line: 595
-#: NEEDS WORK
-msgid "Could not resolve conflicts automatically. Please check 'git status'"
-msgstr "Ei voitu ratkaista ristiriitoja automaattisesti. Tarkista 'git status'"
 # 
 # File: usr/share/build-package/build_package.py, line: 599
 #: NEEDS WORK
@@ -1882,41 +1919,78 @@ msgstr "Tarkistetaan uusimmat päivitykset..."
 msgid "Fetching latest changes from remote..."
 msgstr "Hakee viimeisimmät muutokset etäpalvelimelta..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1110
+# File: usr/share/build-package/build_package.py, line: 1285
 #: NEEDS WORK
 #, python-brace-format
-msgid "Most recent branch: {0}"
-msgstr "Viimeisin haara: {0}"
+msgid "Your target branch: {0}"
+msgstr "Kohdehaara: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1289
+#: NEEDS WORK
+#, python-brace-format
+msgid "You're not in your own branch. Moving to {0}..."
+msgstr "Et ole omassa haarassasi. Siirrytään {0}..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1293
+#: NEEDS WORK
+msgid "Failed to create/access your branch."
+msgstr "Oksasi luominen/pääsy epäonnistui."
 # 
 # File: usr/share/build-package/build_package.py, line: 1175
 #: NEEDS WORK
 msgid "⚠ Some conflicts need manual resolution. Check 'git status'"
 msgstr "⚠ Jotkut konfliktit vaativat manuaalista ratkaisua. Tarkista 'git status'"
 # 
-# File: usr/share/build-package/build_package.py, line: 1178
+# File: usr/share/build-package/build_package.py, line: 1331
 #: NEEDS WORK
-msgid "Step 4/4: Your changes are now in the most recent branch!"
-msgstr "Vaihe 4/4: Muutoksesi ovat nyt viimeisimmässä haarassa!"
+#, python-brace-format
+msgid "Merging latest code from {0} into your branch..."
+msgstr "Yhdistetään viimeisin koodi kohteesta {0} omaan haaraasi..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1183
+# File: usr/share/build-package/build_package.py, line: 1336
 #: NEEDS WORK
-msgid "No local changes detected. Switching to most recent branch..."
-msgstr "Ei paikallisia muutoksia havaittu. Siirrytään uusimpaan haaraan..."
+msgid "Using automatic merge strategy"
+msgstr "Automaattisen yhdistämisstrategian käyttäminen"
 # 
-# File: usr/share/build-package/build_package.py, line: 1188
+# File: usr/share/build-package/build_package.py, line: 1338
 #: NEEDS WORK
-msgid "Already on most recent branch. Updating to latest version..."
-msgstr "Olet jo viimeisimmällä haaralla. Päivitetään uusimpaan versioon..."
+msgid "Using rebase strategy"
+msgstr "Käyttämällä rebase-strategiaa"
 # 
-# File: usr/share/build-package/build_package.py, line: 1192
+# File: usr/share/build-package/build_package.py, line: 1340
 #: NEEDS WORK
-msgid "Successfully updated current branch"
-msgstr "Nykyinen haara päivitettiin onnistuneesti"
+msgid "Using force update strategy"
+msgstr "Pakotetun päivitysstrategian käyttäminen"
 # 
-# File: usr/share/build-package/build_package.py, line: 1197
+# File: usr/share/build-package/build_package.py, line: 1356
 #: NEEDS WORK
-msgid "Force-updated current branch"
-msgstr "Pakotettu päivitetty nykyinen haara"
+msgid "Strategy failed, trying next approach..."
+msgstr "Strategia epäonnistui, yritetään seuraavaa lähestymistapaa..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1363
+#: NEEDS WORK
+msgid "All merge strategies failed. Manual intervention may be needed."
+msgstr "Kaikki yhdistämisstrategiat epäonnistuivat. Manuaalista väliintuloa saatetaan tarvita."
+# 
+# File: usr/share/build-package/build_package.py, line: 1366
+#: NEEDS WORK
+msgid "Successfully merged latest code into your branch!"
+msgstr "Oletuksena yhdistetty viimeisin koodi haaraasi!"
+# 
+# File: usr/share/build-package/build_package.py, line: 1369
+#: NEEDS WORK
+msgid "Your branch is the most recent. Updating from remote..."
+msgstr "Oksasi on uusin. Päivitetään etäpalvelimelta..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1372
+#: NEEDS WORK
+msgid "Successfully updated your branch"
+msgstr "Oksasti päivitetty haaraasi"
+# 
+# File: usr/share/build-package/build_package.py, line: 1377
+#: NEEDS WORK
+msgid "Force-updated your branch"
+msgstr "Pakotetusti päivitetty haaraasi"
 # 
 # File: usr/share/build-package/build_package.py, line: 1199
 #: NEEDS WORK

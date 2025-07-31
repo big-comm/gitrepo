@@ -1123,10 +1123,59 @@ msgstr "Введіть повідомлення коміту:"
 msgid "This option is only available in git repositories."
 msgstr "Ця опція доступна лише в репозиторіях git."
 # 
-# File: usr/share/build-package/build_package.py, line: 174
+# File: usr/share/build-package/build_package.py, line: 175
 #: NEEDS WORK
-msgid "WARNING: You are on main branch. Commits should not be made directly on main!"
-msgstr "WARNING: You are on the main branch. Commits should not be made directly on main!"
+#, python-brace-format
+msgid "Target branch for commit: {0}"
+msgstr "Цільова гілка для коміту: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 179
+#: NEEDS WORK
+#, python-brace-format
+msgid "You're in {0} but should commit to {1}. Fixing this..."
+msgstr "Ви в {0}, але повинні зафіксувати {1}. Виправляю це..."
+# 
+# File: usr/share/build-package/build_package.py, line: 187
+# File: usr/share/build-package/build_package.py, line: 1298
+#: NEEDS WORK
+msgid "Preserving your changes while switching to your branch..."
+msgstr "Збереження ваших змін під час перемикання на вашу гілку..."
+# 
+# File: usr/share/build-package/build_package.py, line: 572
+# File: usr/share/build-package/build_package.py, line: 1153
+#: NEEDS WORK
+msgid "Failed to stash changes. Cannot proceed safely."
+msgstr "Не вдалося зберегти зміни. Не можна продовжувати безпечно."
+# 
+# File: usr/share/build-package/build_package.py, line: 588
+# File: usr/share/build-package/build_package.py, line: 1169
+#: NEEDS WORK
+msgid "Conflicts detected while applying changes. Resolving automatically..."
+msgstr "Виявлено конфлікти під час застосування змін. Вирішується автоматично..."
+# 
+# File: usr/share/build-package/build_package.py, line: 593
+# File: usr/share/build-package/build_package.py, line: 1173
+#: NEEDS WORK
+msgid "Conflicts resolved automatically"
+msgstr "Конфлікти вирішено автоматично"
+# 
+# File: usr/share/build-package/build_package.py, line: 595
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically. Please check 'git status'"
+msgstr "Could not resolve conflicts automatically. Please check 'git status'"
+# 
+# File: usr/share/build-package/build_package.py, line: 214
+# File: usr/share/build-package/build_package.py, line: 343
+#: NEEDS WORK
+msgid "Successfully moved your changes to your own branch!"
+msgstr "Successfully moved your changes to your own branch!"
+# 
+# File: usr/share/build-package/build_package.py, line: 219
+# File: usr/share/build-package/build_package.py, line: 348
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to your branch: {0}"
+msgstr "Переключено на вашу гілку: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 183
 #: NEEDS WORK
@@ -1157,14 +1206,6 @@ msgstr "No changes to commit"
 #: NEEDS WORK
 msgid "Press Enter to return to main menu"
 msgstr "Натисніть Enter, щоб повернутися до головного меню"
-# 
-# File: usr/share/build-package/build_package.py, line: 205
-# File: usr/share/build-package/build_package.py, line: 334
-# File: usr/share/build-package/build_package.py, line: 410
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error creating dev branch: {0}"
-msgstr "Помилка створення гілки розробки: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 213
 #: NEEDS WORK
@@ -1201,6 +1242,17 @@ msgstr "Використання існуючої локальної гілки:
 #, python-brace-format
 msgid "Error with user branch: {0}"
 msgstr "Помилка з гілкою користувача: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 310
+#: NEEDS WORK
+#, python-brace-format
+msgid "Moving from {0} to your own branch {1}..."
+msgstr "Переміщення з {0} на вашу власну гілку {1}..."
+# 
+# File: usr/share/build-package/build_package.py, line: 340
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically."
+msgstr "Не вдалося автоматично вирішити конфлікти."
 # 
 # File: usr/share/build-package/build_package.py, line: 229
 # File: usr/share/build-package/build_package.py, line: 340
@@ -1267,6 +1319,14 @@ msgstr "Не вдалося створити гілку розробки: {0}"
 #: NEEDS WORK
 msgid "Could not apply stashed changes. Your changes are in the stash."
 msgstr "Не вдалося застосувати збережені зміни. Ваші зміни знаходяться у сховищі."
+# 
+# File: usr/share/build-package/build_package.py, line: 205
+# File: usr/share/build-package/build_package.py, line: 334
+# File: usr/share/build-package/build_package.py, line: 410
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating dev branch: {0}"
+msgstr "Помилка створення гілки розробки: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 343
 #: NEEDS WORK
@@ -1471,12 +1531,6 @@ msgstr "Переміщення ваших змін до найновішої г�
 msgid "Step 1/4: Preserving your changes temporarily..."
 msgstr "Крок 1/4: Тимчасове збереження ваших змін..."
 # 
-# File: usr/share/build-package/build_package.py, line: 572
-# File: usr/share/build-package/build_package.py, line: 1153
-#: NEEDS WORK
-msgid "Failed to stash changes. Cannot proceed safely."
-msgstr "Не вдалося зберегти зміни. Не можна продовжувати безпечно."
-# 
 # File: usr/share/build-package/build_package.py, line: 576
 # File: usr/share/build-package/build_package.py, line: 1157
 #: NEEDS WORK
@@ -1494,23 +1548,6 @@ msgstr "Не вдалося перемкнути гілки. Ваші зміни
 #: NEEDS WORK
 msgid "Step 3/4: Applying your changes to the most recent branch..."
 msgstr "Step 3/4: Applying your changes to the most recent branch..."
-# 
-# File: usr/share/build-package/build_package.py, line: 588
-# File: usr/share/build-package/build_package.py, line: 1169
-#: NEEDS WORK
-msgid "Conflicts detected while applying changes. Resolving automatically..."
-msgstr "Виявлено конфлікти під час застосування змін. Вирішується автоматично..."
-# 
-# File: usr/share/build-package/build_package.py, line: 593
-# File: usr/share/build-package/build_package.py, line: 1173
-#: NEEDS WORK
-msgid "Conflicts resolved automatically"
-msgstr "Конфлікти вирішено автоматично"
-# 
-# File: usr/share/build-package/build_package.py, line: 595
-#: NEEDS WORK
-msgid "Could not resolve conflicts automatically. Please check 'git status'"
-msgstr "Could not resolve conflicts automatically. Please check 'git status'"
 # 
 # File: usr/share/build-package/build_package.py, line: 599
 #: NEEDS WORK
@@ -1884,41 +1921,78 @@ msgstr "Перевірка наявності останніх оновлень.
 msgid "Fetching latest changes from remote..."
 msgstr "Отримання останніх змін з віддаленого..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1110
+# File: usr/share/build-package/build_package.py, line: 1285
 #: NEEDS WORK
 #, python-brace-format
-msgid "Most recent branch: {0}"
-msgstr "Найновіша гілка: {0}"
+msgid "Your target branch: {0}"
+msgstr "Ваш цільовий гілка: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1289
+#: NEEDS WORK
+#, python-brace-format
+msgid "You're not in your own branch. Moving to {0}..."
+msgstr "Ви не в своїй гілці. Переміщення до {0}..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1293
+#: NEEDS WORK
+msgid "Failed to create/access your branch."
+msgstr "Не вдалося створити/отримати доступ до вашої гілки."
 # 
 # File: usr/share/build-package/build_package.py, line: 1175
 #: NEEDS WORK
 msgid "⚠ Some conflicts need manual resolution. Check 'git status'"
 msgstr "⚠ Деякі конфлікти потребують ручного вирішення. Перевірте 'git status'"
 # 
-# File: usr/share/build-package/build_package.py, line: 1178
+# File: usr/share/build-package/build_package.py, line: 1331
 #: NEEDS WORK
-msgid "Step 4/4: Your changes are now in the most recent branch!"
-msgstr "Step 4/4: Ваші зміни тепер у найновішій гілці!"
+#, python-brace-format
+msgid "Merging latest code from {0} into your branch..."
+msgstr "Об'єднання останнього коду з {0} у вашу гілку..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1183
+# File: usr/share/build-package/build_package.py, line: 1336
 #: NEEDS WORK
-msgid "No local changes detected. Switching to most recent branch..."
-msgstr "Немає виявлених локальних змін. Перемикання на найновішу гілку..."
+msgid "Using automatic merge strategy"
+msgstr "Використання автоматичної стратегії злиття"
 # 
-# File: usr/share/build-package/build_package.py, line: 1188
+# File: usr/share/build-package/build_package.py, line: 1338
 #: NEEDS WORK
-msgid "Already on most recent branch. Updating to latest version..."
-msgstr "Вже на найновішій гілці. Оновлення до останньої версії..."
+msgid "Using rebase strategy"
+msgstr "Використання стратегії повторного базування"
 # 
-# File: usr/share/build-package/build_package.py, line: 1192
+# File: usr/share/build-package/build_package.py, line: 1340
 #: NEEDS WORK
-msgid "Successfully updated current branch"
-msgstr "Успішно оновлено поточну гілку"
+msgid "Using force update strategy"
+msgstr "Використання стратегії примусового оновлення"
 # 
-# File: usr/share/build-package/build_package.py, line: 1197
+# File: usr/share/build-package/build_package.py, line: 1356
 #: NEEDS WORK
-msgid "Force-updated current branch"
-msgstr "Примусово оновлено поточну гілку"
+msgid "Strategy failed, trying next approach..."
+msgstr "Стратегія не вдалася, намагаємося наступний підхід..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1363
+#: NEEDS WORK
+msgid "All merge strategies failed. Manual intervention may be needed."
+msgstr "Усі стратегії злиття зазнали невдачі. Може знадобитися ручне втручання."
+# 
+# File: usr/share/build-package/build_package.py, line: 1366
+#: NEEDS WORK
+msgid "Successfully merged latest code into your branch!"
+msgstr "Успішно злитий останній код у вашу гілку!"
+# 
+# File: usr/share/build-package/build_package.py, line: 1369
+#: NEEDS WORK
+msgid "Your branch is the most recent. Updating from remote..."
+msgstr "Ваша гілка є найновішою. Оновлення з віддаленого..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1372
+#: NEEDS WORK
+msgid "Successfully updated your branch"
+msgstr "Успішно оновлено вашу гілку"
+# 
+# File: usr/share/build-package/build_package.py, line: 1377
+#: NEEDS WORK
+msgid "Force-updated your branch"
+msgstr "Примусово оновлено вашу гілку"
 # 
 # File: usr/share/build-package/build_package.py, line: 1199
 #: NEEDS WORK

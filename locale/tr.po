@@ -1224,10 +1224,59 @@ msgstr "Commit mesajını girin:"
 msgid "This option is only available in git repositories."
 msgstr "Bu seçenek yalnızca git depolarında mevcuttur."
 # 
-# File: usr/share/build-package/build_package.py, line: 174
+# File: usr/share/build-package/build_package.py, line: 175
 #: NEEDS WORK
-msgid "WARNING: You are on main branch. Commits should not be made directly on main!"
-msgstr "UYARI: Ana daldasınız. Taahhütler doğrudan ana dalda yapılmamalıdır!"
+#, python-brace-format
+msgid "Target branch for commit: {0}"
+msgstr "Commit için hedef dal: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 179
+#: NEEDS WORK
+#, python-brace-format
+msgid "You're in {0} but should commit to {1}. Fixing this..."
+msgstr "{0}'dasınız ama {1}'ye taahhüt etmelisiniz. Bunu düzeltiyorum..."
+# 
+# File: usr/share/build-package/build_package.py, line: 187
+# File: usr/share/build-package/build_package.py, line: 1298
+#: NEEDS WORK
+msgid "Preserving your changes while switching to your branch..."
+msgstr "Değişikliklerinizi dalınıza geçerken koruma..."
+# 
+# File: usr/share/build-package/build_package.py, line: 572
+# File: usr/share/build-package/build_package.py, line: 1153
+#: NEEDS WORK
+msgid "Failed to stash changes. Cannot proceed safely."
+msgstr "Değişiklikleri saklama işlemi başarısız oldu. Güvenli bir şekilde devam edilemez."
+# 
+# File: usr/share/build-package/build_package.py, line: 588
+# File: usr/share/build-package/build_package.py, line: 1169
+#: NEEDS WORK
+msgid "Conflicts detected while applying changes. Resolving automatically..."
+msgstr "Değişiklikler uygulanırken çakışmalar tespit edildi. Otomatik olarak çözülüyor..."
+# 
+# File: usr/share/build-package/build_package.py, line: 593
+# File: usr/share/build-package/build_package.py, line: 1173
+#: NEEDS WORK
+msgid "Conflicts resolved automatically"
+msgstr "Çatışmalar otomatik olarak çözüldü"
+# 
+# File: usr/share/build-package/build_package.py, line: 595
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically. Please check 'git status'"
+msgstr "Çatışmalar otomatik olarak çözülemedi. Lütfen 'git status' kontrol edin."
+# 
+# File: usr/share/build-package/build_package.py, line: 214
+# File: usr/share/build-package/build_package.py, line: 343
+#: NEEDS WORK
+msgid "Successfully moved your changes to your own branch!"
+msgstr "Değişikliklerinizi kendi dalınıza başarıyla taşıdınız!"
+# 
+# File: usr/share/build-package/build_package.py, line: 219
+# File: usr/share/build-package/build_package.py, line: 348
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to your branch: {0}"
+msgstr "Dalga geçilen dalınıza geçildi: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 183
 #: NEEDS WORK
@@ -1258,14 +1307,6 @@ msgstr "Taahhüt Edilecek Değişiklik Yok"
 #: NEEDS WORK
 msgid "Press Enter to return to main menu"
 msgstr "Ana menüye dönmek için Enter tuşuna basın"
-# 
-# File: usr/share/build-package/build_package.py, line: 205
-# File: usr/share/build-package/build_package.py, line: 334
-# File: usr/share/build-package/build_package.py, line: 410
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error creating dev branch: {0}"
-msgstr "Geliştirici dalı oluşturulurken hata: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 213
 #: NEEDS WORK
@@ -1302,6 +1343,17 @@ msgstr "Mevcut yerel dal kullanılıyor: {0}"
 #, python-brace-format
 msgid "Error with user branch: {0}"
 msgstr "Kullanıcı dalında hata: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 310
+#: NEEDS WORK
+#, python-brace-format
+msgid "Moving from {0} to your own branch {1}..."
+msgstr "{0} konumundan kendi dalınıza {1} geçiş yapılıyor..."
+# 
+# File: usr/share/build-package/build_package.py, line: 340
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically."
+msgstr "Çatışmalar otomatik olarak çözülemedi."
 # 
 # File: usr/share/build-package/build_package.py, line: 229
 # File: usr/share/build-package/build_package.py, line: 340
@@ -1368,6 +1420,14 @@ msgstr "Geliştirici dalı oluşturulamadı: {0}"
 #: NEEDS WORK
 msgid "Could not apply stashed changes. Your changes are in the stash."
 msgstr "Saklanan değişiklikler uygulanamadı. Değişiklikleriniz saklama alanında."
+# 
+# File: usr/share/build-package/build_package.py, line: 205
+# File: usr/share/build-package/build_package.py, line: 334
+# File: usr/share/build-package/build_package.py, line: 410
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating dev branch: {0}"
+msgstr "Geliştirici dalı oluşturulurken hata: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 343
 #: NEEDS WORK
@@ -1572,12 +1632,6 @@ msgstr "Değişikliklerinizi en son dala taşıma..."
 msgid "Step 1/4: Preserving your changes temporarily..."
 msgstr "Adım 1/4: Değişikliklerinizi geçici olarak koruma..."
 # 
-# File: usr/share/build-package/build_package.py, line: 572
-# File: usr/share/build-package/build_package.py, line: 1153
-#: NEEDS WORK
-msgid "Failed to stash changes. Cannot proceed safely."
-msgstr "Değişiklikleri saklama işlemi başarısız oldu. Güvenli bir şekilde devam edilemez."
-# 
 # File: usr/share/build-package/build_package.py, line: 576
 # File: usr/share/build-package/build_package.py, line: 1157
 #: NEEDS WORK
@@ -1595,23 +1649,6 @@ msgstr "Dalları değiştirme başarısız oldu. Değişiklikleriniz stash'te g�
 #: NEEDS WORK
 msgid "Step 3/4: Applying your changes to the most recent branch..."
 msgstr "Adım 3/4: Değişikliklerinizi en son dalga uygulama..."
-# 
-# File: usr/share/build-package/build_package.py, line: 588
-# File: usr/share/build-package/build_package.py, line: 1169
-#: NEEDS WORK
-msgid "Conflicts detected while applying changes. Resolving automatically..."
-msgstr "Değişiklikler uygulanırken çakışmalar tespit edildi. Otomatik olarak çözülüyor..."
-# 
-# File: usr/share/build-package/build_package.py, line: 593
-# File: usr/share/build-package/build_package.py, line: 1173
-#: NEEDS WORK
-msgid "Conflicts resolved automatically"
-msgstr "Çatışmalar otomatik olarak çözüldü"
-# 
-# File: usr/share/build-package/build_package.py, line: 595
-#: NEEDS WORK
-msgid "Could not resolve conflicts automatically. Please check 'git status'"
-msgstr "Çatışmalar otomatik olarak çözülemedi. Lütfen 'git status' kontrol edin."
 # 
 # File: usr/share/build-package/build_package.py, line: 599
 #: NEEDS WORK
@@ -1987,41 +2024,78 @@ msgstr "Son güncellemeleri kontrol ediliyor..."
 msgid "Fetching latest changes from remote..."
 msgstr "Uzak sunucudan en son değişiklikler alınıyor..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1110
+# File: usr/share/build-package/build_package.py, line: 1285
 #: NEEDS WORK
 #, python-brace-format
-msgid "Most recent branch: {0}"
-msgstr "En son dal: {0}"
+msgid "Your target branch: {0}"
+msgstr "Hedef dalınız: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1289
+#: NEEDS WORK
+#, python-brace-format
+msgid "You're not in your own branch. Moving to {0}..."
+msgstr "Kendi dalında değilsin. {0} dalına geçiliyor..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1293
+#: NEEDS WORK
+msgid "Failed to create/access your branch."
+msgstr "Dalınızı oluşturma/erişme başarısız oldu."
 # 
 # File: usr/share/build-package/build_package.py, line: 1175
 #: NEEDS WORK
 msgid "⚠ Some conflicts need manual resolution. Check 'git status'"
 msgstr "⚠ Bazı çatışmaların manuel olarak çözülmesi gerekiyor. 'git status' kontrol edin."
 # 
-# File: usr/share/build-package/build_package.py, line: 1178
+# File: usr/share/build-package/build_package.py, line: 1331
 #: NEEDS WORK
-msgid "Step 4/4: Your changes are now in the most recent branch!"
-msgstr "Adım 4/4: Değişiklikleriniz artık en son dalda!"
+#, python-brace-format
+msgid "Merging latest code from {0} into your branch..."
+msgstr "{0} ile en son kodu dalınıza birleştiriliyor..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1183
+# File: usr/share/build-package/build_package.py, line: 1336
 #: NEEDS WORK
-msgid "No local changes detected. Switching to most recent branch..."
-msgstr "Yerel değişiklik tespit edilmedi. En son dalına geçiliyor..."
+msgid "Using automatic merge strategy"
+msgstr "Otomatik birleştirme stratejisi kullanma"
 # 
-# File: usr/share/build-package/build_package.py, line: 1188
+# File: usr/share/build-package/build_package.py, line: 1338
 #: NEEDS WORK
-msgid "Already on most recent branch. Updating to latest version..."
-msgstr "Zaten en son dalda. En son sürüme güncelleniyor..."
+msgid "Using rebase strategy"
+msgstr "Rebase stratejisi kullanma"
 # 
-# File: usr/share/build-package/build_package.py, line: 1192
+# File: usr/share/build-package/build_package.py, line: 1340
 #: NEEDS WORK
-msgid "Successfully updated current branch"
-msgstr "Mevcut dal başarıyla güncellendi."
+msgid "Using force update strategy"
+msgstr "Zorla güncelleme stratejisi kullanma"
 # 
-# File: usr/share/build-package/build_package.py, line: 1197
+# File: usr/share/build-package/build_package.py, line: 1356
 #: NEEDS WORK
-msgid "Force-updated current branch"
-msgstr "Zorla güncellenmiş mevcut dal"
+msgid "Strategy failed, trying next approach..."
+msgstr "Strateji başarısız oldu, bir sonraki yaklaşımı deniyorum..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1363
+#: NEEDS WORK
+msgid "All merge strategies failed. Manual intervention may be needed."
+msgstr "Tüm birleştirme stratejileri başarısız oldu. Manuel müdahale gerekebilir."
+# 
+# File: usr/share/build-package/build_package.py, line: 1366
+#: NEEDS WORK
+msgid "Successfully merged latest code into your branch!"
+msgstr "Son kodu dalınıza başarıyla birleştirildi!"
+# 
+# File: usr/share/build-package/build_package.py, line: 1369
+#: NEEDS WORK
+msgid "Your branch is the most recent. Updating from remote..."
+msgstr "Dalınız en güncel. Uzak sunucudan güncelleniyor..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1372
+#: NEEDS WORK
+msgid "Successfully updated your branch"
+msgstr "Dalganız başarıyla güncellendi."
+# 
+# File: usr/share/build-package/build_package.py, line: 1377
+#: NEEDS WORK
+msgid "Force-updated your branch"
+msgstr "Dalganızı zorla güncelledim"
 # 
 # File: usr/share/build-package/build_package.py, line: 1199
 #: NEEDS WORK

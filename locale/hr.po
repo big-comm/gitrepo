@@ -1118,10 +1118,59 @@ msgstr "Unesite poruku o potvrdi:"
 msgid "This option is only available in git repositories."
 msgstr "Ova opcija je dostupna samo u git repozitorijima."
 # 
-# File: usr/share/build-package/build_package.py, line: 174
+# File: usr/share/build-package/build_package.py, line: 175
 #: NEEDS WORK
-msgid "WARNING: You are on main branch. Commits should not be made directly on main!"
-msgstr "UPIT: Nalazite se na glavnoj grani. Promjene se ne bi trebale izravno izvršavati na glavnoj!"
+#, python-brace-format
+msgid "Target branch for commit: {0}"
+msgstr "Ciljana grana za commit: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 179
+#: NEEDS WORK
+#, python-brace-format
+msgid "You're in {0} but should commit to {1}. Fixing this..."
+msgstr "Nalazite se u {0}, ali trebate se obvezati na {1}. Ispravljam ovo..."
+# 
+# File: usr/share/build-package/build_package.py, line: 187
+# File: usr/share/build-package/build_package.py, line: 1298
+#: NEEDS WORK
+msgid "Preserving your changes while switching to your branch..."
+msgstr "Očuvanje vaših promjena prilikom prebacivanja na vašu granu..."
+# 
+# File: usr/share/build-package/build_package.py, line: 572
+# File: usr/share/build-package/build_package.py, line: 1153
+#: NEEDS WORK
+msgid "Failed to stash changes. Cannot proceed safely."
+msgstr "Nije uspjelo spremanje promjena. Ne može se sigurno nastaviti."
+# 
+# File: usr/share/build-package/build_package.py, line: 588
+# File: usr/share/build-package/build_package.py, line: 1169
+#: NEEDS WORK
+msgid "Conflicts detected while applying changes. Resolving automatically..."
+msgstr "Otkriveni sukobi prilikom primjene promjena. Automatsko rješavanje..."
+# 
+# File: usr/share/build-package/build_package.py, line: 593
+# File: usr/share/build-package/build_package.py, line: 1173
+#: NEEDS WORK
+msgid "Conflicts resolved automatically"
+msgstr "Sukobi su automatski riješeni"
+# 
+# File: usr/share/build-package/build_package.py, line: 595
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically. Please check 'git status'"
+msgstr "Nije moguće automatski riješiti sukobe. Molimo provjerite 'git status'"
+# 
+# File: usr/share/build-package/build_package.py, line: 214
+# File: usr/share/build-package/build_package.py, line: 343
+#: NEEDS WORK
+msgid "Successfully moved your changes to your own branch!"
+msgstr "Uspješno ste premjestili svoje promjene na vlastitu granu!"
+# 
+# File: usr/share/build-package/build_package.py, line: 219
+# File: usr/share/build-package/build_package.py, line: 348
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to your branch: {0}"
+msgstr "Prebačeno na vašu granu: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 183
 #: NEEDS WORK
@@ -1152,14 +1201,6 @@ msgstr "Nema promjena za potvrdu"
 #: NEEDS WORK
 msgid "Press Enter to return to main menu"
 msgstr "Pritisnite Enter za povratak na glavni izbornik"
-# 
-# File: usr/share/build-package/build_package.py, line: 205
-# File: usr/share/build-package/build_package.py, line: 334
-# File: usr/share/build-package/build_package.py, line: 410
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error creating dev branch: {0}"
-msgstr "Greška prilikom kreiranja dev grane: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 213
 #: NEEDS WORK
@@ -1196,6 +1237,17 @@ msgstr "Koristeći postojeću lokalnu granu: {0}"
 #, python-brace-format
 msgid "Error with user branch: {0}"
 msgstr "Greška s korisničkom granom: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 310
+#: NEEDS WORK
+#, python-brace-format
+msgid "Moving from {0} to your own branch {1}..."
+msgstr "Premještanje s {0} na vlastitu granu {1}..."
+# 
+# File: usr/share/build-package/build_package.py, line: 340
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically."
+msgstr "Nije moguće automatski riješiti sukobe."
 # 
 # File: usr/share/build-package/build_package.py, line: 229
 # File: usr/share/build-package/build_package.py, line: 340
@@ -1262,6 +1314,14 @@ msgstr "Nije moguće stvoriti dev granu: {0}"
 #: NEEDS WORK
 msgid "Could not apply stashed changes. Your changes are in the stash."
 msgstr "Nije moguće primijeniti spremljene promjene. Vaše promjene su u spremištu."
+# 
+# File: usr/share/build-package/build_package.py, line: 205
+# File: usr/share/build-package/build_package.py, line: 334
+# File: usr/share/build-package/build_package.py, line: 410
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating dev branch: {0}"
+msgstr "Greška prilikom kreiranja dev grane: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 343
 #: NEEDS WORK
@@ -1466,12 +1526,6 @@ msgstr "Premještanje vaših promjena na najnoviju granu..."
 msgid "Step 1/4: Preserving your changes temporarily..."
 msgstr "Korak 1/4: Privremeno čuvanje vaših promjena..."
 # 
-# File: usr/share/build-package/build_package.py, line: 572
-# File: usr/share/build-package/build_package.py, line: 1153
-#: NEEDS WORK
-msgid "Failed to stash changes. Cannot proceed safely."
-msgstr "Nije uspjelo spremanje promjena. Ne može se sigurno nastaviti."
-# 
 # File: usr/share/build-package/build_package.py, line: 576
 # File: usr/share/build-package/build_package.py, line: 1157
 #: NEEDS WORK
@@ -1489,23 +1543,6 @@ msgstr "Nije uspjelo prebacivanje grana. Vaše promjene su sigurne u stashu."
 #: NEEDS WORK
 msgid "Step 3/4: Applying your changes to the most recent branch..."
 msgstr "Korak 3/4: Primjena vaših promjena na najnoviju granu..."
-# 
-# File: usr/share/build-package/build_package.py, line: 588
-# File: usr/share/build-package/build_package.py, line: 1169
-#: NEEDS WORK
-msgid "Conflicts detected while applying changes. Resolving automatically..."
-msgstr "Otkriveni sukobi prilikom primjene promjena. Automatsko rješavanje..."
-# 
-# File: usr/share/build-package/build_package.py, line: 593
-# File: usr/share/build-package/build_package.py, line: 1173
-#: NEEDS WORK
-msgid "Conflicts resolved automatically"
-msgstr "Sukobi su automatski riješeni"
-# 
-# File: usr/share/build-package/build_package.py, line: 595
-#: NEEDS WORK
-msgid "Could not resolve conflicts automatically. Please check 'git status'"
-msgstr "Nije moguće automatski riješiti sukobe. Molimo provjerite 'git status'"
 # 
 # File: usr/share/build-package/build_package.py, line: 599
 #: NEEDS WORK
@@ -1881,41 +1918,78 @@ msgstr "Provjera najnovijih ažuriranja..."
 msgid "Fetching latest changes from remote..."
 msgstr "Preuzimanje najnovijih promjena s udaljenog..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1110
+# File: usr/share/build-package/build_package.py, line: 1285
 #: NEEDS WORK
 #, python-brace-format
-msgid "Most recent branch: {0}"
-msgstr "Najnovija grana: {0}"
+msgid "Your target branch: {0}"
+msgstr "Vaša ciljana grana: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1289
+#: NEEDS WORK
+#, python-brace-format
+msgid "You're not in your own branch. Moving to {0}..."
+msgstr "Niste u svojoj grani. Prelazak na {0}..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1293
+#: NEEDS WORK
+msgid "Failed to create/access your branch."
+msgstr "Nije moguće stvoriti/pristupiti vašoj grani."
 # 
 # File: usr/share/build-package/build_package.py, line: 1175
 #: NEEDS WORK
 msgid "⚠ Some conflicts need manual resolution. Check 'git status'"
 msgstr "⚠ Neki sukobi zahtijevaju ručno rješavanje. Provjerite 'git status'"
 # 
-# File: usr/share/build-package/build_package.py, line: 1178
+# File: usr/share/build-package/build_package.py, line: 1331
 #: NEEDS WORK
-msgid "Step 4/4: Your changes are now in the most recent branch!"
-msgstr "Korak 4/4: Vaše promjene su sada u najnovijoj grani!"
+#, python-brace-format
+msgid "Merging latest code from {0} into your branch..."
+msgstr "Spajanje najnovijeg koda iz {0} u vašu granu..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1183
+# File: usr/share/build-package/build_package.py, line: 1336
 #: NEEDS WORK
-msgid "No local changes detected. Switching to most recent branch..."
-msgstr "Nema lokalnih promjena. Prebacivanje na najnoviju granu..."
+msgid "Using automatic merge strategy"
+msgstr "Korištenje automatske strategije spajanja"
 # 
-# File: usr/share/build-package/build_package.py, line: 1188
+# File: usr/share/build-package/build_package.py, line: 1338
 #: NEEDS WORK
-msgid "Already on most recent branch. Updating to latest version..."
-msgstr "Već ste na najnovijoj grani. Ažuriranje na najnoviju verziju..."
+msgid "Using rebase strategy"
+msgstr "Korištenje strategije rebase"
 # 
-# File: usr/share/build-package/build_package.py, line: 1192
+# File: usr/share/build-package/build_package.py, line: 1340
 #: NEEDS WORK
-msgid "Successfully updated current branch"
-msgstr "Uspješno ažurirana trenutna grana"
+msgid "Using force update strategy"
+msgstr "Korištenje strategije prisilnog ažuriranja"
 # 
-# File: usr/share/build-package/build_package.py, line: 1197
+# File: usr/share/build-package/build_package.py, line: 1356
 #: NEEDS WORK
-msgid "Force-updated current branch"
-msgstr "Prisilno ažurirana trenutna grana"
+msgid "Strategy failed, trying next approach..."
+msgstr "Strategija nije uspjela, pokušavam sljedeći pristup..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1363
+#: NEEDS WORK
+msgid "All merge strategies failed. Manual intervention may be needed."
+msgstr "Sve strategije spajanja su neuspjele. Možda će biti potrebna ručna intervencija."
+# 
+# File: usr/share/build-package/build_package.py, line: 1366
+#: NEEDS WORK
+msgid "Successfully merged latest code into your branch!"
+msgstr "Uspješno spojeni najnoviji kod u vašu granu!"
+# 
+# File: usr/share/build-package/build_package.py, line: 1369
+#: NEEDS WORK
+msgid "Your branch is the most recent. Updating from remote..."
+msgstr "Vaša grana je najnovija. Ažuriranje s udaljenog..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1372
+#: NEEDS WORK
+msgid "Successfully updated your branch"
+msgstr "Uspješno ste ažurirali svoju granu"
+# 
+# File: usr/share/build-package/build_package.py, line: 1377
+#: NEEDS WORK
+msgid "Force-updated your branch"
+msgstr "Prisilno ažurirao vašu granu"
 # 
 # File: usr/share/build-package/build_package.py, line: 1199
 #: NEEDS WORK
