@@ -1117,10 +1117,59 @@ msgstr "コミットメッセージを入力してください:"
 msgid "This option is only available in git repositories."
 msgstr "このオプションは、git リポジトリでのみ利用可能です。"
 # 
-# File: usr/share/build-package/build_package.py, line: 174
+# File: usr/share/build-package/build_package.py, line: 175
 #: NEEDS WORK
-msgid "WARNING: You are on main branch. Commits should not be made directly on main!"
-msgstr "警告: あなたはメインブランチにいます。コミットはメインに直接行うべきではありません！"
+#, python-brace-format
+msgid "Target branch for commit: {0}"
+msgstr "コミットのターゲットブランチ: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 179
+#: NEEDS WORK
+#, python-brace-format
+msgid "You're in {0} but should commit to {1}. Fixing this..."
+msgstr "{0}にいますが、{1}にコミットする必要があります。これを修正しています..."
+# 
+# File: usr/share/build-package/build_package.py, line: 187
+# File: usr/share/build-package/build_package.py, line: 1298
+#: NEEDS WORK
+msgid "Preserving your changes while switching to your branch..."
+msgstr "ブランチを切り替える際に変更を保持しています..."
+# 
+# File: usr/share/build-package/build_package.py, line: 572
+# File: usr/share/build-package/build_package.py, line: 1153
+#: NEEDS WORK
+msgid "Failed to stash changes. Cannot proceed safely."
+msgstr "変更をスタッシュできませんでした。安全に進行できません。"
+# 
+# File: usr/share/build-package/build_package.py, line: 588
+# File: usr/share/build-package/build_package.py, line: 1169
+#: NEEDS WORK
+msgid "Conflicts detected while applying changes. Resolving automatically..."
+msgstr "変更を適用中に競合が検出されました。自動的に解決しています..."
+# 
+# File: usr/share/build-package/build_package.py, line: 593
+# File: usr/share/build-package/build_package.py, line: 1173
+#: NEEDS WORK
+msgid "Conflicts resolved automatically"
+msgstr "競合は自動的に解決されました"
+# 
+# File: usr/share/build-package/build_package.py, line: 595
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically. Please check 'git status'"
+msgstr "自動的に競合を解決できませんでした。'git status'を確認してください。"
+# 
+# File: usr/share/build-package/build_package.py, line: 214
+# File: usr/share/build-package/build_package.py, line: 343
+#: NEEDS WORK
+msgid "Successfully moved your changes to your own branch!"
+msgstr "変更を自分のブランチに正常に移動しました！"
+# 
+# File: usr/share/build-package/build_package.py, line: 219
+# File: usr/share/build-package/build_package.py, line: 348
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to your branch: {0}"
+msgstr "ブランチを切り替えました: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 183
 #: NEEDS WORK
@@ -1151,14 +1200,6 @@ msgstr "コミットする変更はありません"
 #: NEEDS WORK
 msgid "Press Enter to return to main menu"
 msgstr "エンターを押してメインメニューに戻る"
-# 
-# File: usr/share/build-package/build_package.py, line: 205
-# File: usr/share/build-package/build_package.py, line: 334
-# File: usr/share/build-package/build_package.py, line: 410
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error creating dev branch: {0}"
-msgstr "開発ブランチの作成エラー: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 213
 #: NEEDS WORK
@@ -1195,6 +1236,17 @@ msgstr "既存のローカルブランチを使用しています: {0}"
 #, python-brace-format
 msgid "Error with user branch: {0}"
 msgstr "ユーザーブランチのエラー: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 310
+#: NEEDS WORK
+#, python-brace-format
+msgid "Moving from {0} to your own branch {1}..."
+msgstr "{0} からあなた自身のブランチ {1} へ移動中..."
+# 
+# File: usr/share/build-package/build_package.py, line: 340
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically."
+msgstr "自動的に競合を解決できませんでした。"
 # 
 # File: usr/share/build-package/build_package.py, line: 229
 # File: usr/share/build-package/build_package.py, line: 340
@@ -1261,6 +1313,14 @@ msgstr "開発ブランチを作成できませんでした: {0}"
 #: NEEDS WORK
 msgid "Could not apply stashed changes. Your changes are in the stash."
 msgstr "スタッシュされた変更を適用できませんでした。あなたの変更はスタッシュにあります。"
+# 
+# File: usr/share/build-package/build_package.py, line: 205
+# File: usr/share/build-package/build_package.py, line: 334
+# File: usr/share/build-package/build_package.py, line: 410
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating dev branch: {0}"
+msgstr "開発ブランチの作成エラー: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 343
 #: NEEDS WORK
@@ -1465,12 +1525,6 @@ msgstr "最新のブランチに変更を移動しています..."
 msgid "Step 1/4: Preserving your changes temporarily..."
 msgstr "ステップ 1/4: 変更を一時的に保存しています..."
 # 
-# File: usr/share/build-package/build_package.py, line: 572
-# File: usr/share/build-package/build_package.py, line: 1153
-#: NEEDS WORK
-msgid "Failed to stash changes. Cannot proceed safely."
-msgstr "変更をスタッシュできませんでした。安全に進行できません。"
-# 
 # File: usr/share/build-package/build_package.py, line: 576
 # File: usr/share/build-package/build_package.py, line: 1157
 #: NEEDS WORK
@@ -1488,23 +1542,6 @@ msgstr "ブランチの切り替えに失敗しました。変更はスタッシ
 #: NEEDS WORK
 msgid "Step 3/4: Applying your changes to the most recent branch..."
 msgstr "ステップ 3/4: 最新のブランチに変更を適用しています..."
-# 
-# File: usr/share/build-package/build_package.py, line: 588
-# File: usr/share/build-package/build_package.py, line: 1169
-#: NEEDS WORK
-msgid "Conflicts detected while applying changes. Resolving automatically..."
-msgstr "変更を適用中に競合が検出されました。自動的に解決しています..."
-# 
-# File: usr/share/build-package/build_package.py, line: 593
-# File: usr/share/build-package/build_package.py, line: 1173
-#: NEEDS WORK
-msgid "Conflicts resolved automatically"
-msgstr "競合は自動的に解決されました"
-# 
-# File: usr/share/build-package/build_package.py, line: 595
-#: NEEDS WORK
-msgid "Could not resolve conflicts automatically. Please check 'git status'"
-msgstr "自動的に競合を解決できませんでした。'git status'を確認してください。"
 # 
 # File: usr/share/build-package/build_package.py, line: 599
 #: NEEDS WORK
@@ -1878,41 +1915,78 @@ msgstr "最新のアップデートを確認しています..."
 msgid "Fetching latest changes from remote..."
 msgstr "リモートから最新の変更を取得中..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1110
+# File: usr/share/build-package/build_package.py, line: 1285
 #: NEEDS WORK
 #, python-brace-format
-msgid "Most recent branch: {0}"
-msgstr "最新のブランチ: {0}"
+msgid "Your target branch: {0}"
+msgstr "あなたのターゲットブランチ: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1289
+#: NEEDS WORK
+#, python-brace-format
+msgid "You're not in your own branch. Moving to {0}..."
+msgstr "自分のブランチにいません。{0}に移動します..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1293
+#: NEEDS WORK
+msgid "Failed to create/access your branch."
+msgstr "ブランチの作成/アクセスに失敗しました。"
 # 
 # File: usr/share/build-package/build_package.py, line: 1175
 #: NEEDS WORK
 msgid "⚠ Some conflicts need manual resolution. Check 'git status'"
 msgstr "⚠ 一部の競合は手動で解決する必要があります。'git status'を確認してください。"
 # 
-# File: usr/share/build-package/build_package.py, line: 1178
+# File: usr/share/build-package/build_package.py, line: 1331
 #: NEEDS WORK
-msgid "Step 4/4: Your changes are now in the most recent branch!"
-msgstr "ステップ 4/4: あなたの変更は最新のブランチにあります!"
+#, python-brace-format
+msgid "Merging latest code from {0} into your branch..."
+msgstr "{0}から最新のコードをあなたのブランチにマージしています..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1183
+# File: usr/share/build-package/build_package.py, line: 1336
 #: NEEDS WORK
-msgid "No local changes detected. Switching to most recent branch..."
-msgstr "ローカルの変更は検出されませんでした。最新のブランチに切り替えています..."
+msgid "Using automatic merge strategy"
+msgstr "自動マージ戦略を使用しています"
 # 
-# File: usr/share/build-package/build_package.py, line: 1188
+# File: usr/share/build-package/build_package.py, line: 1338
 #: NEEDS WORK
-msgid "Already on most recent branch. Updating to latest version..."
-msgstr "最新のブランチに既にいます。最新バージョンに更新中..."
+msgid "Using rebase strategy"
+msgstr "リベース戦略を使用しています"
 # 
-# File: usr/share/build-package/build_package.py, line: 1192
+# File: usr/share/build-package/build_package.py, line: 1340
 #: NEEDS WORK
-msgid "Successfully updated current branch"
-msgstr "現在のブランチが正常に更新されました"
+msgid "Using force update strategy"
+msgstr "強制更新戦略の使用"
 # 
-# File: usr/share/build-package/build_package.py, line: 1197
+# File: usr/share/build-package/build_package.py, line: 1356
 #: NEEDS WORK
-msgid "Force-updated current branch"
-msgstr "強制更新された現在のブランチ"
+msgid "Strategy failed, trying next approach..."
+msgstr "戦略が失敗しました。次のアプローチを試しています..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1363
+#: NEEDS WORK
+msgid "All merge strategies failed. Manual intervention may be needed."
+msgstr "すべてのマージ戦略が失敗しました。手動での介入が必要な場合があります。"
+# 
+# File: usr/share/build-package/build_package.py, line: 1366
+#: NEEDS WORK
+msgid "Successfully merged latest code into your branch!"
+msgstr "最新のコードをあなたのブランチに正常にマージしました！"
+# 
+# File: usr/share/build-package/build_package.py, line: 1369
+#: NEEDS WORK
+msgid "Your branch is the most recent. Updating from remote..."
+msgstr "あなたのブランチは最新です。リモートから更新中..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1372
+#: NEEDS WORK
+msgid "Successfully updated your branch"
+msgstr "ブランチが正常に更新されました"
+# 
+# File: usr/share/build-package/build_package.py, line: 1377
+#: NEEDS WORK
+msgid "Force-updated your branch"
+msgstr "強制的にブランチを更新しました"
 # 
 # File: usr/share/build-package/build_package.py, line: 1199
 #: NEEDS WORK

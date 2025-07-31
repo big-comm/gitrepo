@@ -1130,10 +1130,59 @@ msgstr "Εισάγετε μήνυμα δέσμευσης:"
 msgid "This option is only available in git repositories."
 msgstr "Αυτή η επιλογή είναι διαθέσιμη μόνο σε αποθετήρια git."
 # 
-# File: usr/share/build-package/build_package.py, line: 174
+# File: usr/share/build-package/build_package.py, line: 175
 #: NEEDS WORK
-msgid "WARNING: You are on main branch. Commits should not be made directly on main!"
-msgstr "ΠΡΟΕΙΔΟΠΟΙΗΣΗ: Είστε στο κύριο κλάδο. Οι δεσμεύσεις δεν θα πρέπει να γίνονται απευθείας στο κύριο!"
+#, python-brace-format
+msgid "Target branch for commit: {0}"
+msgstr "Στόχος κλάδου για δέσμευση: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 179
+#: NEEDS WORK
+#, python-brace-format
+msgid "You're in {0} but should commit to {1}. Fixing this..."
+msgstr "Είστε στο {0} αλλά θα πρέπει να δεσμευτείτε στο {1}. Διορθώνοντας αυτό..."
+# 
+# File: usr/share/build-package/build_package.py, line: 187
+# File: usr/share/build-package/build_package.py, line: 1298
+#: NEEDS WORK
+msgid "Preserving your changes while switching to your branch..."
+msgstr "Διατηρώντας τις αλλαγές σας ενώ αλλάζετε στο κλάδο σας..."
+# 
+# File: usr/share/build-package/build_package.py, line: 572
+# File: usr/share/build-package/build_package.py, line: 1153
+#: NEEDS WORK
+msgid "Failed to stash changes. Cannot proceed safely."
+msgstr "Αποτυχία αποθήκευσης αλλαγών. Δεν μπορεί να προχωρήσει με ασφάλεια."
+# 
+# File: usr/share/build-package/build_package.py, line: 588
+# File: usr/share/build-package/build_package.py, line: 1169
+#: NEEDS WORK
+msgid "Conflicts detected while applying changes. Resolving automatically..."
+msgstr "Ανιχνεύθηκαν συγκρούσεις κατά την εφαρμογή αλλαγών. Επίλυση αυτόματα..."
+# 
+# File: usr/share/build-package/build_package.py, line: 593
+# File: usr/share/build-package/build_package.py, line: 1173
+#: NEEDS WORK
+msgid "Conflicts resolved automatically"
+msgstr "Οι συγκρούσεις επιλύθηκαν αυτόματα"
+# 
+# File: usr/share/build-package/build_package.py, line: 595
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically. Please check 'git status'"
+msgstr "Δεν ήταν δυνατή η αυτόματη επίλυση των συγκρούσεων. Παρακαλώ ελέγξτε το 'git status'"
+# 
+# File: usr/share/build-package/build_package.py, line: 214
+# File: usr/share/build-package/build_package.py, line: 343
+#: NEEDS WORK
+msgid "Successfully moved your changes to your own branch!"
+msgstr "Μεταφέρατε επιτυχώς τις αλλαγές σας στο δικό σας κλάδο!"
+# 
+# File: usr/share/build-package/build_package.py, line: 219
+# File: usr/share/build-package/build_package.py, line: 348
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to your branch: {0}"
+msgstr "Εναλλαγή στη διακλάδωσή σας: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 183
 #: NEEDS WORK
@@ -1164,14 +1213,6 @@ msgstr "Δεν υπάρχουν αλλαγές για δέσμευση"
 #: NEEDS WORK
 msgid "Press Enter to return to main menu"
 msgstr "Πατήστε Enter για να επιστρέψετε στο κύριο μενού"
-# 
-# File: usr/share/build-package/build_package.py, line: 205
-# File: usr/share/build-package/build_package.py, line: 334
-# File: usr/share/build-package/build_package.py, line: 410
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error creating dev branch: {0}"
-msgstr "Σφάλμα κατά τη δημιουργία του κλάδου ανάπτυξης: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 213
 #: NEEDS WORK
@@ -1208,6 +1249,17 @@ msgstr "Χρησιμοποιώντας το υπάρχον τοπικό κλάδ
 #, python-brace-format
 msgid "Error with user branch: {0}"
 msgstr "Σφάλμα με τον χρήστη κλάδο: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 310
+#: NEEDS WORK
+#, python-brace-format
+msgid "Moving from {0} to your own branch {1}..."
+msgstr "Μετακίνηση από {0} στο δικό σας κλάδο {1}..."
+# 
+# File: usr/share/build-package/build_package.py, line: 340
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically."
+msgstr "Δεν ήταν δυνατή η αυτόματη επίλυση των συγκρούσεων."
 # 
 # File: usr/share/build-package/build_package.py, line: 229
 # File: usr/share/build-package/build_package.py, line: 340
@@ -1274,6 +1326,14 @@ msgstr "Δεν ήταν δυνατή η δημιουργία του κλάδου
 #: NEEDS WORK
 msgid "Could not apply stashed changes. Your changes are in the stash."
 msgstr "Δεν ήταν δυνατή η εφαρμογή των αποθηκευμένων αλλαγών. Οι αλλαγές σας είναι στο stash."
+# 
+# File: usr/share/build-package/build_package.py, line: 205
+# File: usr/share/build-package/build_package.py, line: 334
+# File: usr/share/build-package/build_package.py, line: 410
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating dev branch: {0}"
+msgstr "Σφάλμα κατά τη δημιουργία του κλάδου ανάπτυξης: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 343
 #: NEEDS WORK
@@ -1480,12 +1540,6 @@ msgstr "Μεταφορά των αλλαγών σας στο πιο πρόσφα
 msgid "Step 1/4: Preserving your changes temporarily..."
 msgstr "Βήμα 1/4: Διατήρηση των αλλαγών σας προσωρινά..."
 # 
-# File: usr/share/build-package/build_package.py, line: 572
-# File: usr/share/build-package/build_package.py, line: 1153
-#: NEEDS WORK
-msgid "Failed to stash changes. Cannot proceed safely."
-msgstr "Αποτυχία αποθήκευσης αλλαγών. Δεν μπορεί να προχωρήσει με ασφάλεια."
-# 
 # File: usr/share/build-package/build_package.py, line: 576
 # File: usr/share/build-package/build_package.py, line: 1157
 #: NEEDS WORK
@@ -1503,23 +1557,6 @@ msgstr "Αποτυχία αλλαγής κλάδων. Οι αλλαγές σας
 #: NEEDS WORK
 msgid "Step 3/4: Applying your changes to the most recent branch..."
 msgstr "Βήμα 3/4: Εφαρμόζοντας τις αλλαγές σας στο πιο πρόσφατο κλάδο..."
-# 
-# File: usr/share/build-package/build_package.py, line: 588
-# File: usr/share/build-package/build_package.py, line: 1169
-#: NEEDS WORK
-msgid "Conflicts detected while applying changes. Resolving automatically..."
-msgstr "Ανιχνεύθηκαν συγκρούσεις κατά την εφαρμογή αλλαγών. Επίλυση αυτόματα..."
-# 
-# File: usr/share/build-package/build_package.py, line: 593
-# File: usr/share/build-package/build_package.py, line: 1173
-#: NEEDS WORK
-msgid "Conflicts resolved automatically"
-msgstr "Οι συγκρούσεις επιλύθηκαν αυτόματα"
-# 
-# File: usr/share/build-package/build_package.py, line: 595
-#: NEEDS WORK
-msgid "Could not resolve conflicts automatically. Please check 'git status'"
-msgstr "Δεν ήταν δυνατή η αυτόματη επίλυση των συγκρούσεων. Παρακαλώ ελέγξτε το 'git status'"
 # 
 # File: usr/share/build-package/build_package.py, line: 599
 #: NEEDS WORK
@@ -1895,41 +1932,78 @@ msgstr "Έλεγχος για τις τελευταίες ενημερώσεις
 msgid "Fetching latest changes from remote..."
 msgstr "Ανάκτηση τελευταίων αλλαγών από απομακρυσμένο..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1110
+# File: usr/share/build-package/build_package.py, line: 1285
 #: NEEDS WORK
 #, python-brace-format
-msgid "Most recent branch: {0}"
-msgstr "Πιο πρόσφατο κλάδος: {0}"
+msgid "Your target branch: {0}"
+msgstr "Η στοχευμένη σας κλάδος: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1289
+#: NEEDS WORK
+#, python-brace-format
+msgid "You're not in your own branch. Moving to {0}..."
+msgstr "Δεν βρίσκεστε στο δικό σας κλάδο. Μεταβαίνετε στο {0}..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1293
+#: NEEDS WORK
+msgid "Failed to create/access your branch."
+msgstr "Αποτυχία στη δημιουργία/πρόσβαση του κλάδου σας."
 # 
 # File: usr/share/build-package/build_package.py, line: 1175
 #: NEEDS WORK
 msgid "⚠ Some conflicts need manual resolution. Check 'git status'"
 msgstr "⚠ Ορισμένες συγκρούσεις χρειάζονται χειροκίνητη επίλυση. Ελέγξτε το 'git status'"
 # 
-# File: usr/share/build-package/build_package.py, line: 1178
+# File: usr/share/build-package/build_package.py, line: 1331
 #: NEEDS WORK
-msgid "Step 4/4: Your changes are now in the most recent branch!"
-msgstr "Βήμα 4/4: Οι αλλαγές σας είναι τώρα στο πιο πρόσφατο κλάδο!"
+#, python-brace-format
+msgid "Merging latest code from {0} into your branch..."
+msgstr "Συγχώνευση της τελευταίας έκδοσης κώδικα από {0} στο κλάδο σας..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1183
+# File: usr/share/build-package/build_package.py, line: 1336
 #: NEEDS WORK
-msgid "No local changes detected. Switching to most recent branch..."
-msgstr "Δεν ανιχνεύθηκαν τοπικές αλλαγές. Μεταβαίνω στην πιο πρόσφατη διακλάδωση..."
+msgid "Using automatic merge strategy"
+msgstr "Χρησιμοποιώντας αυτόματη στρατηγική συγχώνευσης"
 # 
-# File: usr/share/build-package/build_package.py, line: 1188
+# File: usr/share/build-package/build_package.py, line: 1338
 #: NEEDS WORK
-msgid "Already on most recent branch. Updating to latest version..."
-msgstr "Ήδη στην πιο πρόσφατη έκδοση. Ενημέρωση στην τελευταία έκδοση..."
+msgid "Using rebase strategy"
+msgstr "Χρησιμοποιώντας στρατηγική επαναφοράς"
 # 
-# File: usr/share/build-package/build_package.py, line: 1192
+# File: usr/share/build-package/build_package.py, line: 1340
 #: NEEDS WORK
-msgid "Successfully updated current branch"
-msgstr "Επιτυχής ενημέρωση της τρέχουσας διακλάδωσης"
+msgid "Using force update strategy"
+msgstr "Χρησιμοποιώντας στρατηγική αναγκαστικής ενημέρωσης"
 # 
-# File: usr/share/build-package/build_package.py, line: 1197
+# File: usr/share/build-package/build_package.py, line: 1356
 #: NEEDS WORK
-msgid "Force-updated current branch"
-msgstr "Αναγκαστική ενημέρωση τρέχουσας διακλάδωσης"
+msgid "Strategy failed, trying next approach..."
+msgstr "Η στρατηγική απέτυχε, προσπαθώντας την επόμενη προσέγγιση..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1363
+#: NEEDS WORK
+msgid "All merge strategies failed. Manual intervention may be needed."
+msgstr "Όλες οι στρατηγικές συγχώνευσης απέτυχαν. Μπορεί να απαιτείται χειροκίνητη παρέμβαση."
+# 
+# File: usr/share/build-package/build_package.py, line: 1366
+#: NEEDS WORK
+msgid "Successfully merged latest code into your branch!"
+msgstr "Επιτυχώς συγχωνεύτηκε ο τελευταίος κώδικας στο κλάδο σας!"
+# 
+# File: usr/share/build-package/build_package.py, line: 1369
+#: NEEDS WORK
+msgid "Your branch is the most recent. Updating from remote..."
+msgstr "Ο κλάδος σας είναι ο πιο πρόσφατος. Ενημέρωση από απομακρυσμένο..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1372
+#: NEEDS WORK
+msgid "Successfully updated your branch"
+msgstr "Επιτυχώς ενημερώθηκε ο κλάδος σας"
+# 
+# File: usr/share/build-package/build_package.py, line: 1377
+#: NEEDS WORK
+msgid "Force-updated your branch"
+msgstr "Ενημέρωσε βίαια το κλάδο σας"
 # 
 # File: usr/share/build-package/build_package.py, line: 1199
 #: NEEDS WORK

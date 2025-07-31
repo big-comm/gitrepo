@@ -1124,10 +1124,59 @@ msgstr "Írja be a commit üzenetet:"
 msgid "This option is only available in git repositories."
 msgstr "Ez az opció csak git tárolókban érhető el."
 # 
-# File: usr/share/build-package/build_package.py, line: 174
+# File: usr/share/build-package/build_package.py, line: 175
 #: NEEDS WORK
-msgid "WARNING: You are on main branch. Commits should not be made directly on main!"
-msgstr "FIGYELMEZTETÉS: A fő ágon vagy. A módosításokat nem szabad közvetlenül a fő ágra végezni!"
+#, python-brace-format
+msgid "Target branch for commit: {0}"
+msgstr "Célágazat a kötelezéshez: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 179
+#: NEEDS WORK
+#, python-brace-format
+msgid "You're in {0} but should commit to {1}. Fixing this..."
+msgstr "A {0} állapotban vagy, de a {1} állapotba kellene elköteleződnöd. Ezt javítom..."
+# 
+# File: usr/share/build-package/build_package.py, line: 187
+# File: usr/share/build-package/build_package.py, line: 1298
+#: NEEDS WORK
+msgid "Preserving your changes while switching to your branch..."
+msgstr "A változtatásaid megőrzése ágazatra váltás közben..."
+# 
+# File: usr/share/build-package/build_package.py, line: 572
+# File: usr/share/build-package/build_package.py, line: 1153
+#: NEEDS WORK
+msgid "Failed to stash changes. Cannot proceed safely."
+msgstr "A változtatások eltárolása nem sikerült. Nem lehet biztonságosan folytatni."
+# 
+# File: usr/share/build-package/build_package.py, line: 588
+# File: usr/share/build-package/build_package.py, line: 1169
+#: NEEDS WORK
+msgid "Conflicts detected while applying changes. Resolving automatically..."
+msgstr "Változtatások alkalmazása közben észlelt konfliktusok. Automatikus megoldás..."
+# 
+# File: usr/share/build-package/build_package.py, line: 593
+# File: usr/share/build-package/build_package.py, line: 1173
+#: NEEDS WORK
+msgid "Conflicts resolved automatically"
+msgstr "A konfliktusok automatikusan megoldódnak"
+# 
+# File: usr/share/build-package/build_package.py, line: 595
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically. Please check 'git status'"
+msgstr "Nem sikerült automatikusan megoldani a konfliktusokat. Kérlek, ellenőrizd a 'git status'-t."
+# 
+# File: usr/share/build-package/build_package.py, line: 214
+# File: usr/share/build-package/build_package.py, line: 343
+#: NEEDS WORK
+msgid "Successfully moved your changes to your own branch!"
+msgstr "Sikeresen áthelyezted a módosításaidat a saját ágadba!"
+# 
+# File: usr/share/build-package/build_package.py, line: 219
+# File: usr/share/build-package/build_package.py, line: 348
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to your branch: {0}"
+msgstr "Átváltottál a következő ágra: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 183
 #: NEEDS WORK
@@ -1160,14 +1209,6 @@ msgstr "Nincsenek elkötelezett változtatások"
 #: NEEDS WORK
 msgid "Press Enter to return to main menu"
 msgstr "Nyomja meg az Entert a főmenübe való visszatéréshez"
-# 
-# File: usr/share/build-package/build_package.py, line: 205
-# File: usr/share/build-package/build_package.py, line: 334
-# File: usr/share/build-package/build_package.py, line: 410
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error creating dev branch: {0}"
-msgstr "Hiba a fejlesztői ág létrehozásakor: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 213
 #: NEEDS WORK
@@ -1204,6 +1245,17 @@ msgstr "A meglévő helyi ágazat használata: {0}"
 #, python-brace-format
 msgid "Error with user branch: {0}"
 msgstr "Hiba a felhasználói ágon: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 310
+#: NEEDS WORK
+#, python-brace-format
+msgid "Moving from {0} to your own branch {1}..."
+msgstr "Áthelyezés {0} helyről a saját ágadhoz {1}..."
+# 
+# File: usr/share/build-package/build_package.py, line: 340
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically."
+msgstr "Nem sikerült automatikusan megoldani a konfliktusokat."
 # 
 # File: usr/share/build-package/build_package.py, line: 229
 # File: usr/share/build-package/build_package.py, line: 340
@@ -1270,6 +1322,14 @@ msgstr "Nem sikerült létrehozni a dev ágat: {0}"
 #: NEEDS WORK
 msgid "Could not apply stashed changes. Your changes are in the stash."
 msgstr "Nem sikerült alkalmazni a tárolt módosításokat. A módosításai a tárolóban vannak."
+# 
+# File: usr/share/build-package/build_package.py, line: 205
+# File: usr/share/build-package/build_package.py, line: 334
+# File: usr/share/build-package/build_package.py, line: 410
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating dev branch: {0}"
+msgstr "Hiba a fejlesztői ág létrehozásakor: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 343
 #: NEEDS WORK
@@ -1476,12 +1536,6 @@ msgstr "A változtatásaid áthelyezése a legfrissebb ágra..."
 msgid "Step 1/4: Preserving your changes temporarily..."
 msgstr "1/4. lépés: A módosításaid ideiglenes megőrzése..."
 # 
-# File: usr/share/build-package/build_package.py, line: 572
-# File: usr/share/build-package/build_package.py, line: 1153
-#: NEEDS WORK
-msgid "Failed to stash changes. Cannot proceed safely."
-msgstr "A változtatások eltárolása nem sikerült. Nem lehet biztonságosan folytatni."
-# 
 # File: usr/share/build-package/build_package.py, line: 576
 # File: usr/share/build-package/build_package.py, line: 1157
 #: NEEDS WORK
@@ -1499,23 +1553,6 @@ msgstr "Nem sikerült átváltani az ágak között. A módosításaid biztonsá
 #: NEEDS WORK
 msgid "Step 3/4: Applying your changes to the most recent branch..."
 msgstr "3/4. lépés: A módosításaid alkalmazása a legfrissebb ágon..."
-# 
-# File: usr/share/build-package/build_package.py, line: 588
-# File: usr/share/build-package/build_package.py, line: 1169
-#: NEEDS WORK
-msgid "Conflicts detected while applying changes. Resolving automatically..."
-msgstr "Változtatások alkalmazása közben észlelt konfliktusok. Automatikus megoldás..."
-# 
-# File: usr/share/build-package/build_package.py, line: 593
-# File: usr/share/build-package/build_package.py, line: 1173
-#: NEEDS WORK
-msgid "Conflicts resolved automatically"
-msgstr "A konfliktusok automatikusan megoldódnak"
-# 
-# File: usr/share/build-package/build_package.py, line: 595
-#: NEEDS WORK
-msgid "Could not resolve conflicts automatically. Please check 'git status'"
-msgstr "Nem sikerült automatikusan megoldani a konfliktusokat. Kérlek, ellenőrizd a 'git status'-t."
 # 
 # File: usr/share/build-package/build_package.py, line: 599
 #: NEEDS WORK
@@ -1891,41 +1928,78 @@ msgstr "A legfrissebb frissítések ellenőrzése..."
 msgid "Fetching latest changes from remote..."
 msgstr "A legfrissebb változások letöltése a távoli szerverről..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1110
+# File: usr/share/build-package/build_package.py, line: 1285
 #: NEEDS WORK
 #, python-brace-format
-msgid "Most recent branch: {0}"
-msgstr "Legutolsó ág: {0}"
+msgid "Your target branch: {0}"
+msgstr "A célágazatod: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1289
+#: NEEDS WORK
+#, python-brace-format
+msgid "You're not in your own branch. Moving to {0}..."
+msgstr "Nem a saját ágadban vagy. Átlépés a(z) {0}..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1293
+#: NEEDS WORK
+msgid "Failed to create/access your branch."
+msgstr "Nem sikerült létrehozni/hozzáférni az ágadhoz."
 # 
 # File: usr/share/build-package/build_package.py, line: 1175
 #: NEEDS WORK
 msgid "⚠ Some conflicts need manual resolution. Check 'git status'"
 msgstr "⚠ Néhány konfliktust manuálisan kell megoldani. Ellenőrizze a 'git status'-t."
 # 
-# File: usr/share/build-package/build_package.py, line: 1178
+# File: usr/share/build-package/build_package.py, line: 1331
 #: NEEDS WORK
-msgid "Step 4/4: Your changes are now in the most recent branch!"
-msgstr "4/4. lépés: A módosításaid most a legfrissebb ágon vannak!"
+#, python-brace-format
+msgid "Merging latest code from {0} into your branch..."
+msgstr "A legfrissebb kód egyesítése a {0} forrásból az ágába..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1183
+# File: usr/share/build-package/build_package.py, line: 1336
 #: NEEDS WORK
-msgid "No local changes detected. Switching to most recent branch..."
-msgstr "Nincsenek helyi változások észlelve. Átváltás a legfrissebb ágra..."
+msgid "Using automatic merge strategy"
+msgstr "Automatikus egyesítési stratégia használata"
 # 
-# File: usr/share/build-package/build_package.py, line: 1188
+# File: usr/share/build-package/build_package.py, line: 1338
 #: NEEDS WORK
-msgid "Already on most recent branch. Updating to latest version..."
-msgstr "Már a legfrissebb ágon vagy. Frissítés a legújabb verzióra..."
+msgid "Using rebase strategy"
+msgstr "Rebase stratégia használata"
 # 
-# File: usr/share/build-package/build_package.py, line: 1192
+# File: usr/share/build-package/build_package.py, line: 1340
 #: NEEDS WORK
-msgid "Successfully updated current branch"
-msgstr "Sikeresen frissítve a jelenlegi ágat"
+msgid "Using force update strategy"
+msgstr "Kényszerített frissítési stratégia használata"
 # 
-# File: usr/share/build-package/build_package.py, line: 1197
+# File: usr/share/build-package/build_package.py, line: 1356
 #: NEEDS WORK
-msgid "Force-updated current branch"
-msgstr "Kényszerített frissítés aktuális ágon"
+msgid "Strategy failed, trying next approach..."
+msgstr "A stratégia megbukott, a következő megközelítést próbáljuk..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1363
+#: NEEDS WORK
+msgid "All merge strategies failed. Manual intervention may be needed."
+msgstr "Minden egyesítési stratégia meghiúsult. Kézi beavatkozásra lehet szükség."
+# 
+# File: usr/share/build-package/build_package.py, line: 1366
+#: NEEDS WORK
+msgid "Successfully merged latest code into your branch!"
+msgstr "Sikeresen egyesítette a legújabb kódot az ágazatába!"
+# 
+# File: usr/share/build-package/build_package.py, line: 1369
+#: NEEDS WORK
+msgid "Your branch is the most recent. Updating from remote..."
+msgstr "A te ágad a legfrissebb. Frissítés a távoli tárolóból..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1372
+#: NEEDS WORK
+msgid "Successfully updated your branch"
+msgstr "Sikeresen frissítette a branchét"
+# 
+# File: usr/share/build-package/build_package.py, line: 1377
+#: NEEDS WORK
+msgid "Force-updated your branch"
+msgstr "Kényszerített frissítés a branchedhez"
 # 
 # File: usr/share/build-package/build_package.py, line: 1199
 #: NEEDS WORK

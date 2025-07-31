@@ -1128,12 +1128,59 @@ msgstr "Commit-Nachricht eingeben:"
 msgid "This option is only available in git repositories."
 msgstr "Diese Option ist nur in Git-Repositories verfügbar."
 # 
-# File: usr/share/build-package/build_package.py, line: 174
+# File: usr/share/build-package/build_package.py, line: 175
 #: NEEDS WORK
-msgid "WARNING: You are on main branch. Commits should not be made directly on main!"
-msgstr ""
-"WARNUNG: Sie befinden sich im Hauptzweig. Commits sollten nicht direkt im Hauptzweig vorgenommen "
-"werden!"
+#, python-brace-format
+msgid "Target branch for commit: {0}"
+msgstr "Zielbranch für Commit: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 179
+#: NEEDS WORK
+#, python-brace-format
+msgid "You're in {0} but should commit to {1}. Fixing this..."
+msgstr "Du bist in {0}, solltest aber auf {1} committen. Das wird behoben..."
+# 
+# File: usr/share/build-package/build_package.py, line: 187
+# File: usr/share/build-package/build_package.py, line: 1298
+#: NEEDS WORK
+msgid "Preserving your changes while switching to your branch..."
+msgstr "Änderungen beim Wechseln zu Ihrem Branch speichern..."
+# 
+# File: usr/share/build-package/build_package.py, line: 572
+# File: usr/share/build-package/build_package.py, line: 1153
+#: NEEDS WORK
+msgid "Failed to stash changes. Cannot proceed safely."
+msgstr "Änderungen konnten nicht gespeichert werden. Sicheres Fortfahren ist nicht möglich."
+# 
+# File: usr/share/build-package/build_package.py, line: 588
+# File: usr/share/build-package/build_package.py, line: 1169
+#: NEEDS WORK
+msgid "Conflicts detected while applying changes. Resolving automatically..."
+msgstr "Konflikte erkannt beim Anwenden von Änderungen. Automatische Behebung..."
+# 
+# File: usr/share/build-package/build_package.py, line: 593
+# File: usr/share/build-package/build_package.py, line: 1173
+#: NEEDS WORK
+msgid "Conflicts resolved automatically"
+msgstr "Konflikte automatisch gelöst"
+# 
+# File: usr/share/build-package/build_package.py, line: 595
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically. Please check 'git status'"
+msgstr "Konflikte konnten nicht automatisch gelöst werden. Bitte überprüfen Sie 'git status'"
+# 
+# File: usr/share/build-package/build_package.py, line: 214
+# File: usr/share/build-package/build_package.py, line: 343
+#: NEEDS WORK
+msgid "Successfully moved your changes to your own branch!"
+msgstr "Änderungen erfolgreich in Ihren eigenen Branch verschoben!"
+# 
+# File: usr/share/build-package/build_package.py, line: 219
+# File: usr/share/build-package/build_package.py, line: 348
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to your branch: {0}"
+msgstr "Wechselte zu deinem Branch: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 183
 #: NEEDS WORK
@@ -1166,14 +1213,6 @@ msgstr "Keine Änderungen zum Übertragen"
 #: NEEDS WORK
 msgid "Press Enter to return to main menu"
 msgstr "Drücken Sie die Eingabetaste, um zum Hauptmenü zurückzukehren."
-# 
-# File: usr/share/build-package/build_package.py, line: 205
-# File: usr/share/build-package/build_package.py, line: 334
-# File: usr/share/build-package/build_package.py, line: 410
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error creating dev branch: {0}"
-msgstr "Fehler beim Erstellen des Entwicklungszweigs: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 213
 #: NEEDS WORK
@@ -1210,6 +1249,17 @@ msgstr "Verwenden des vorhandenen lokalen Branches: {0}"
 #, python-brace-format
 msgid "Error with user branch: {0}"
 msgstr "Fehler mit Benutzerzweig: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 310
+#: NEEDS WORK
+#, python-brace-format
+msgid "Moving from {0} to your own branch {1}..."
+msgstr "Wechseln von {0} zu Ihrem eigenen Branch {1}..."
+# 
+# File: usr/share/build-package/build_package.py, line: 340
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically."
+msgstr "Konflikte konnten nicht automatisch gelöst werden."
 # 
 # File: usr/share/build-package/build_package.py, line: 229
 # File: usr/share/build-package/build_package.py, line: 340
@@ -1276,6 +1326,14 @@ msgstr "Konnte den Entwicklungszweig nicht erstellen: {0}"
 #: NEEDS WORK
 msgid "Could not apply stashed changes. Your changes are in the stash."
 msgstr "Konnte die gespeicherten Änderungen nicht anwenden. Ihre Änderungen befinden sich im Stash."
+# 
+# File: usr/share/build-package/build_package.py, line: 205
+# File: usr/share/build-package/build_package.py, line: 334
+# File: usr/share/build-package/build_package.py, line: 410
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating dev branch: {0}"
+msgstr "Fehler beim Erstellen des Entwicklungszweigs: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 343
 #: NEEDS WORK
@@ -1482,12 +1540,6 @@ msgstr "Ändern Sie Ihre Änderungen zum aktuellsten Branch..."
 msgid "Step 1/4: Preserving your changes temporarily..."
 msgstr "Schritt 1/4: Änderungen vorübergehend speichern..."
 # 
-# File: usr/share/build-package/build_package.py, line: 572
-# File: usr/share/build-package/build_package.py, line: 1153
-#: NEEDS WORK
-msgid "Failed to stash changes. Cannot proceed safely."
-msgstr "Änderungen konnten nicht gespeichert werden. Sicheres Fortfahren ist nicht möglich."
-# 
 # File: usr/share/build-package/build_package.py, line: 576
 # File: usr/share/build-package/build_package.py, line: 1157
 #: NEEDS WORK
@@ -1505,23 +1557,6 @@ msgstr "Wechseln der Branches fehlgeschlagen. Ihre Änderungen sind sicher im St
 #: NEEDS WORK
 msgid "Step 3/4: Applying your changes to the most recent branch..."
 msgstr "Schritt 3/4: Anwenden Ihrer Änderungen auf den aktuellsten Branch..."
-# 
-# File: usr/share/build-package/build_package.py, line: 588
-# File: usr/share/build-package/build_package.py, line: 1169
-#: NEEDS WORK
-msgid "Conflicts detected while applying changes. Resolving automatically..."
-msgstr "Konflikte erkannt beim Anwenden von Änderungen. Automatische Behebung..."
-# 
-# File: usr/share/build-package/build_package.py, line: 593
-# File: usr/share/build-package/build_package.py, line: 1173
-#: NEEDS WORK
-msgid "Conflicts resolved automatically"
-msgstr "Konflikte automatisch gelöst"
-# 
-# File: usr/share/build-package/build_package.py, line: 595
-#: NEEDS WORK
-msgid "Could not resolve conflicts automatically. Please check 'git status'"
-msgstr "Konflikte konnten nicht automatisch gelöst werden. Bitte überprüfen Sie 'git status'"
 # 
 # File: usr/share/build-package/build_package.py, line: 599
 #: NEEDS WORK
@@ -1899,41 +1934,80 @@ msgstr "Auf der Suche nach den neuesten Updates..."
 msgid "Fetching latest changes from remote..."
 msgstr "Aktualisiere die neuesten Änderungen vom Remote..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1110
+# File: usr/share/build-package/build_package.py, line: 1285
 #: NEEDS WORK
 #, python-brace-format
-msgid "Most recent branch: {0}"
-msgstr "Neuester Branch: {0}"
+msgid "Your target branch: {0}"
+msgstr "Ihr Ziel-Branch: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1289
+#: NEEDS WORK
+#, python-brace-format
+msgid "You're not in your own branch. Moving to {0}..."
+msgstr "Du befindest dich nicht in deinem eigenen Branch. Wechsle zu {0}..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1293
+#: NEEDS WORK
+msgid "Failed to create/access your branch."
+msgstr "Fehler beim Erstellen/Zugreifen auf Ihren Branch."
 # 
 # File: usr/share/build-package/build_package.py, line: 1175
 #: NEEDS WORK
 msgid "⚠ Some conflicts need manual resolution. Check 'git status'"
 msgstr "⚠ Einige Konflikte erfordern eine manuelle Auflösung. Überprüfen Sie 'git status'"
 # 
-# File: usr/share/build-package/build_package.py, line: 1178
+# File: usr/share/build-package/build_package.py, line: 1331
 #: NEEDS WORK
-msgid "Step 4/4: Your changes are now in the most recent branch!"
-msgstr "Schritt 4/4: Ihre Änderungen sind jetzt im aktuellsten Branch!"
+#, python-brace-format
+msgid "Merging latest code from {0} into your branch..."
+msgstr "Die neuesten Codeänderungen von {0} in Ihren Branch zusammenführen..."
 # 
-# File: usr/share/build-package/build_package.py, line: 1183
+# File: usr/share/build-package/build_package.py, line: 1336
 #: NEEDS WORK
-msgid "No local changes detected. Switching to most recent branch..."
-msgstr "Keine lokalen Änderungen erkannt. Wechsle zu dem aktuellsten Branch..."
+msgid "Using automatic merge strategy"
+msgstr "Verwendung der automatischen Zusammenführungsstrategie"
 # 
-# File: usr/share/build-package/build_package.py, line: 1188
+# File: usr/share/build-package/build_package.py, line: 1338
 #: NEEDS WORK
-msgid "Already on most recent branch. Updating to latest version..."
-msgstr "Bereits auf dem neuesten Branch. Aktualisiere auf die neueste Version..."
+msgid "Using rebase strategy"
+msgstr "Verwenden der Rebase-Strategie"
 # 
-# File: usr/share/build-package/build_package.py, line: 1192
+# File: usr/share/build-package/build_package.py, line: 1340
 #: NEEDS WORK
-msgid "Successfully updated current branch"
-msgstr "Aktuellen Branch erfolgreich aktualisiert"
+msgid "Using force update strategy"
+msgstr "Verwenden der Zwangsaktualisierungsstrategie"
 # 
-# File: usr/share/build-package/build_package.py, line: 1197
+# File: usr/share/build-package/build_package.py, line: 1356
 #: NEEDS WORK
-msgid "Force-updated current branch"
-msgstr "Zwangsaktualisierte aktuelle Branch"
+msgid "Strategy failed, trying next approach..."
+msgstr "Strategie fehlgeschlagen, versuche nächsten Ansatz..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1363
+#: NEEDS WORK
+msgid "All merge strategies failed. Manual intervention may be needed."
+msgstr ""
+"Alle Zusammenführungsstrategien sind fehlgeschlagen. Manuelle Eingriffe sind möglicherweise "
+"erforderlich."
+# 
+# File: usr/share/build-package/build_package.py, line: 1366
+#: NEEDS WORK
+msgid "Successfully merged latest code into your branch!"
+msgstr "Erfolgreich den neuesten Code in deinen Branch zusammengeführt!"
+# 
+# File: usr/share/build-package/build_package.py, line: 1369
+#: NEEDS WORK
+msgid "Your branch is the most recent. Updating from remote..."
+msgstr "Ihr Branch ist der aktuellste. Aktualisiere von Remote..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1372
+#: NEEDS WORK
+msgid "Successfully updated your branch"
+msgstr "Ihr Branch wurde erfolgreich aktualisiert."
+# 
+# File: usr/share/build-package/build_package.py, line: 1377
+#: NEEDS WORK
+msgid "Force-updated your branch"
+msgstr "Zwangsaktualisiert Ihren Branch"
 # 
 # File: usr/share/build-package/build_package.py, line: 1199
 #: NEEDS WORK
