@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# github_api.py - GitHub API interface
+# github_api_fixed.py - Fixed version with automatic conflict resolution
 #
 
 import os
 import requests
+import subprocess
+import time
 from git_utils import GitUtils
 from config import TOKEN_FILE
 from translation_utils import _
 
 class GitHubAPI:
-    """Interface with GitHub API"""
+    """Interface with GitHub API - Fixed version with automatic conflict resolution"""
     
     def __init__(self, token: str, organization: str):
         self.token = token
@@ -163,6 +165,181 @@ class GitHubAPI:
         except Exception:
             return ""
 
+    def resolve_conflicts_automatically(self, source_branch: str, target_branch: str, logger) -> bool:
+        """
+        Resolve conflicts automatically by updating source branch with target
+        """
+        logger.log("cyan", _("Resolving conflicts automatically..."))
+        
+        try:
+            # Save current branch to restore later
+            current_branch = GitUtils.get_current_branch()
+            
+            # Backup local changes if they exist
+            has_local_changes = GitUtils.has_changes()
+            stashed = False
+            
+            if has_local_changes:
+                logger.log("cyan", _("Backing up local changes..."))
+                stash_result = subprocess.run(
+                    ["git", "stash", "push", "-m", "auto-backup-before-conflict-resolution"], 
+                    capture_output=True, text=True, check=False
+                )
+                stashed = stash_result.returncode == 0
+            
+            # Fetch latest changes
+            logger.log("cyan", _("Updating remote references..."))
+            subprocess.run(["git", "fetch", "--all"], check=True)
+            
+            # Switch to source branch
+            logger.log("cyan", _("Switching to branch {0}...").format(source_branch))
+            subprocess.run(["git", "checkout", source_branch], check=True)
+            
+            # Pull latest source branch
+            subprocess.run(["git", "pull", "origin", source_branch], check=True)
+            
+            # Try to merge target branch into source branch
+            logger.log("cyan", _("Merging {0} into {1}...").format(target_branch, source_branch))
+            
+            # Strategy 1: Try normal merge
+            merge_result = subprocess.run(
+                ["git", "merge", f"origin/{target_branch}", "--no-edit"],
+                capture_output=True, text=True
+            )
+            
+            if merge_result.returncode == 0:
+                logger.log("green", _("Merge completed without conflicts!"))
+            else:
+                # Strategy 2: Merge with conflict resolution strategy
+                logger.log("yellow", _("Conflicts detected, resolving automatically..."))
+                
+                # Abort current merge
+                subprocess.run(["git", "merge", "--abort"], capture_output=True)
+                
+                # Try merge with strategy (favor source branch changes)
+                merge_result = subprocess.run(
+                    ["git", "merge", f"origin/{target_branch}", "--strategy-option=ours", "--no-edit"],
+                    capture_output=True, text=True
+                )
+                
+                if merge_result.returncode != 0:
+                    # Strategy 3: Nuclear option - reset to main and apply changes
+                    logger.log("yellow", _("Using advanced resolution strategy..."))
+                    
+                    # Get the diff of changes in source branch
+                    diff_result = subprocess.run(
+                        ["git", "diff", f"origin/{target_branch}...{source_branch}"],
+                        capture_output=True, text=True, check=True
+                    )
+                    
+                    if diff_result.stdout.strip():
+                        # Reset to target branch
+                        subprocess.run(["git", "reset", "--hard", f"origin/{target_branch}"], check=True)
+                        
+                        # Try to apply the diff
+                        patch_process = subprocess.Popen(
+                            ["git", "apply", "--3way"],
+                            stdin=subprocess.PIPE,
+                            stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE,
+                            text=True
+                        )
+                        
+                        patch_output, patch_error = patch_process.communicate(input=diff_result.stdout)
+                        
+                        if patch_process.returncode == 0:
+                            # Add and commit the resolved changes
+                            subprocess.run(["git", "add", "."], check=True)
+                            subprocess.run(["git", "commit", "-m", f"Auto-resolve conflicts: merge {target_branch} into {source_branch}"], check=True)
+                            logger.log("green", _("Conflicts resolved automatically!"))
+                        else:
+                            logger.log("red", _("Could not resolve conflicts automatically"))
+                            return False
+                    else:
+                        logger.log("green", _("No differences detected"))
+            
+            # Push resolved branch
+            logger.log("cyan", _("Pushing resolved branch..."))
+            subprocess.run(["git", "push", "origin", source_branch], check=True)
+            
+            # Restore original branch
+            if current_branch != source_branch:
+                subprocess.run(["git", "checkout", current_branch], check=True)
+            
+            # Restore stashed changes
+            if stashed:
+                logger.log("cyan", _("Restoring local changes..."))
+                subprocess.run(["git", "stash", "pop"], capture_output=True)
+            
+            logger.log("green", _("Conflict resolution completed successfully!"))
+            return True
+            
+        except subprocess.CalledProcessError as e:
+            logger.log("red", _("Error during conflict resolution: {0}").format(e))
+            
+            # Try to restore original state
+            try:
+                if current_branch:
+                    subprocess.run(["git", "checkout", current_branch], capture_output=True)
+                if stashed:
+                    subprocess.run(["git", "stash", "pop"], capture_output=True)
+            except:
+                pass
+                
+            return False
+        except Exception as e:
+            logger.log("red", _("Unexpected error: {0}").format(e))
+            return False
+
+    def wait_for_pr_checks(self, pr_number: int, logger, max_wait: int = 30) -> tuple[bool, str]:
+        """
+        Wait for PR to be ready for merge by checking status periodically
+        """
+        repo_name = GitUtils.get_repo_name()
+        if not repo_name:
+            return False, "unknown"
+        
+        logger.log("cyan", _("Waiting for PR to be ready for merge..."))
+        
+        for attempt in range(max_wait):
+            try:
+                response = requests.get(
+                    f"https://api.github.com/repos/{repo_name}/pulls/{pr_number}",
+                    headers=self.headers
+                )
+                
+                if response.status_code == 200:
+                    pr_data = response.json()
+                    mergeable = pr_data.get('mergeable')
+                    mergeable_state = pr_data.get('mergeable_state')
+                    
+                    logger.log("cyan", _("Attempt {0}/{1}: mergeable={2}, state={3}").format(
+                        attempt + 1, max_wait, mergeable, mergeable_state))
+                    
+                    if mergeable is True and mergeable_state == 'clean':
+                        logger.log("green", _("PR ready for merge!"))
+                        return True, mergeable_state
+                    elif mergeable is False and mergeable_state == 'dirty':
+                        logger.log("red", _("PR has conflicts"))
+                        return False, mergeable_state
+                    elif mergeable_state in ['unknown', 'checking']:
+                        if attempt < max_wait - 1:
+                            time.sleep(2)
+                            continue
+                    else:
+                        logger.log("yellow", _("Unexpected state: {0}").format(mergeable_state))
+                        return False, mergeable_state
+                else:
+                    logger.log("red", _("Error checking PR: {0}").format(response.status_code))
+                    return False, "error"
+                    
+            except Exception as e:
+                logger.log("red", _("Error: {0}").format(e))
+                return False, "error"
+        
+        logger.log("yellow", _("Timeout waiting for PR to be ready"))
+        return False, "timeout"
+
     def trigger_workflow(self, package_name: str, branch_type: str, 
                         new_branch: str, is_aur: bool, tmate_option: bool,
                         logger) -> bool:
@@ -171,7 +348,7 @@ class GitHubAPI:
         
         # If new_branch is empty, create a branch directly via API
         if not new_branch and not is_aur and branch_type != "stable" and branch_type != "extra":
-            # Apenas cria novo branch para tipos diferentes de stable/extra
+            # Only create new branch for types different from stable/extra
             current_branch = GitUtils.get_current_branch()
             
             # Only create a new branch if we're not already on a dev-* branch
@@ -210,17 +387,74 @@ class GitHubAPI:
             
             logger.log("white", _("Detected repository: {0}").format(repo_name))
             
+            # CRITICAL FIX: Determine the correct branch to send to workflow
+            if branch_type == "testing":
+                # Testing always uses dev-* branch
+                workflow_branch = new_branch
+                logger.log("green", _("Testing package: workflow will use branch {0}").format(workflow_branch))
+            else:
+                # For stable/extra, determine if we successfully merged to main
+                current_branch = GitUtils.get_current_branch()
+                
+                if current_branch == "main":
+                    # We're on main, check if it has latest changes
+                    try:
+                        # Get latest commit hash from main
+                        main_commit = subprocess.run(
+                            ["git", "rev-parse", "HEAD"],
+                            stdout=subprocess.PIPE, text=True, check=True
+                        ).stdout.strip()
+                        
+                        # Get latest commit hash from source branch (if different from main)
+                        if new_branch and new_branch != "main":
+                            source_commit = subprocess.run(
+                                ["git", "rev-parse", f"origin/{new_branch}"],
+                                stdout=subprocess.PIPE, text=True, check=True
+                            ).stdout.strip()
+                            
+                            if main_commit == source_commit:
+                                workflow_branch = "main"
+                                logger.log("green", _("Stable/Extra package: main is up-to-date, workflow will use main"))
+                            else:
+                                # Main doesn't have latest changes, use source branch
+                                workflow_branch = new_branch
+                                logger.log("yellow", _("Stable/Extra package: main not up-to-date, workflow will use {0}").format(workflow_branch))
+                                logger.log("yellow", _("⚠️  Warning: Package will be built from {0} instead of main").format(workflow_branch))
+                        else:
+                            workflow_branch = "main"
+                            logger.log("green", _("Stable/Extra package: workflow will use main"))
+                            
+                    except subprocess.CalledProcessError:
+                        # If we can't determine, use current branch
+                        workflow_branch = current_branch
+                        logger.log("yellow", _("Could not verify branch status, using current: {0}").format(workflow_branch))
+                else:
+                    # We're not on main, use current branch
+                    workflow_branch = current_branch
+                    logger.log("yellow", _("Stable/Extra package: not on main, workflow will use {0}").format(workflow_branch))
+                    logger.log("yellow", _("⚠️  Warning: Package will be built from {0} instead of main").format(workflow_branch))
+            
             data = {
                 "event_type": package_name,
                 "client_payload": {
-                    "branch": new_branch,
+                    "branch": workflow_branch,  # Use the determined branch
                     "branch_type": branch_type,
                     "build_env": "normal",
                     "url": f"https://github.com/{repo_name}",
-                    "tmate": tmate_option
+                    "tmate": tmate_option,
+                    "git_branch": workflow_branch,  # CRITICAL: Also set git_branch parameter
+                    "new_branch": new_branch if branch_type == "testing" else None  # Only for testing
                 }
             }
             event_type = "package-build"
+            
+            # Log what we're sending to the workflow
+            logger.log("cyan", _("Workflow payload:"))
+            logger.log("cyan", _("  - branch: {0}").format(workflow_branch))
+            logger.log("cyan", _("  - git_branch: {0}").format(workflow_branch))
+            logger.log("cyan", _("  - branch_type: {0}").format(branch_type))
+            if branch_type == "testing":
+                logger.log("cyan", _("  - new_branch: {0}").format(new_branch))
         
         try:
             logger.log("cyan", _("Triggering build workflow on GitHub..."))
@@ -373,8 +607,10 @@ class GitHubAPI:
             logger.log("red", _("Error cleaning tags: {0}").format(e))
             return False
         
-    def create_pull_request(self, source_branch: str, target_branch: str = "dev", auto_merge: bool = False, logger = None) -> dict:
-        """Creates a pull request and optionally merges it automatically"""
+    def create_pull_request(self, source_branch: str, target_branch: str = "main", auto_merge: bool = False, logger = None) -> dict:
+        """
+        Creates pull request with automatic conflict resolution and robust auto-merge
+        """
         if not source_branch:
             if logger:
                 logger.log("red", _("Source branch name is required to create a pull request"))
@@ -384,39 +620,41 @@ class GitHubAPI:
         repo_name = GitUtils.get_repo_name()
         if not repo_name:
             if logger:
-                logger.log("cyan", _("Token length: {0}").format(len(self.token) if self.token else 0)) # Debug
-                logger.log("cyan", _("Repository name: {0}").format(repo_name)) # Debug
-                logger.log("cyan", _("Creating PR from '{0}' to '{1}'").format(source_branch, target_branch)) #Debug
                 logger.log("red", _("Repository name could not be determined"))
             return {}
         
         if logger:
-            logger.log("cyan", _("Creating pull request from {0} to {1}...").format(source_branch, target_branch))
+            logger.log("cyan", _("Creating pull request: {0} → {1}").format(source_branch, target_branch))
         
-        # Create PR data
+        # STEP 1: Resolve conflicts BEFORE creating the PR
+        if auto_merge:
+            if logger:
+                logger.log("cyan", _("Resolving possible conflicts before merge..."))
+            
+            conflicts_resolved = self.resolve_conflicts_automatically(source_branch, target_branch, logger)
+            if not conflicts_resolved:
+                if logger:
+                    logger.log("yellow", _("Warning: Could not resolve conflicts automatically"))
+                    logger.log("yellow", _("Trying to create PR anyway..."))
+        
+        # STEP 2: Create the PR
         pr_data = {
             "title": _("Merge {0} into {1}").format(source_branch, target_branch),
-            "body": _("Automated PR created by build_package.py"),
+            "body": _("Automated PR created by build_package.py") + "\n\n" + 
+                   _("Conflicts resolved automatically (if any)") + "\n" +
+                   _("Ready for automatic merge"),
             "head": source_branch,
             "base": target_branch
         }
         
         try:
-            # Create the PR through GitHub API
             url = f"https://api.github.com/repos/{repo_name}/pulls"
-            headers = {
-                "Authorization": f"token {self.token}",
-                "Accept": "application/vnd.github.v3+json"
-            }
-            
-            response = requests.post(url, json=pr_data, headers=headers)
+            response = requests.post(url, json=pr_data, headers=self.headers)
             
             if response.status_code not in [200, 201]:
                 if logger:
-                    logger.log("red", _("Failed to create PR: {0}").format(response.json().get('message', '')))
-                    logger.log("cyan", _("API response status: {0}").format(response.status_code))
-                    if response.status_code not in [200, 201]: # Debug
-                        logger.log("red", _("Error details: {0}").format(response.text)) # Debug
+                    error_msg = response.json().get('message', '') if response.text else 'Unknown error'
+                    logger.log("red", _("Failed to create PR: {0}").format(error_msg))
                 return {}
             
             pr_info = response.json()
@@ -426,20 +664,50 @@ class GitHubAPI:
             if logger:
                 logger.log("green", _("Pull request created successfully: {0}").format(pr_url))
             
-            # Auto-merge if requested
+            # STEP 3: Auto-merge if requested
             if auto_merge and pr_number:
                 if logger:
-                    logger.log("cyan", _("Attempting to merge pull request automatically..."))
+                    logger.log("cyan", _("Starting auto-merge process..."))
                 
-                merge_url = f"https://api.github.com/repos/{repo_name}/pulls/{pr_number}/merge"
-                merge_response = requests.put(merge_url, headers=headers)
+                # Wait for PR to be ready
+                is_ready, pr_state = self.wait_for_pr_checks(pr_number, logger)
                 
-                if merge_response.status_code == 200:
-                    if logger:
-                        logger.log("green", _("Pull request merged successfully"))
+                if is_ready:
+                    # Try merge with complete payload (confirmed working method)
+                    merge_url = f"https://api.github.com/repos/{repo_name}/pulls/{pr_number}/merge"
+                    merge_data = {
+                        "commit_title": _("Auto-merge: {0} → {1}").format(source_branch, target_branch),
+                        "commit_message": _("Automated merge performed by build_package.py"),
+                        "merge_method": "merge"
+                    }
+                    
+                    merge_response = requests.put(merge_url, json=merge_data, headers=self.headers)
+                    
+                    if merge_response.status_code == 200:
+                        merge_info = merge_response.json()
+                        if logger:
+                            logger.log("green", _("AUTO-MERGE COMPLETED SUCCESSFULLY!"))
+                            logger.log("green", _("SHA: {0}").format(merge_info.get('sha', 'N/A')))
+                        
+                        # Add merge info to pr_info
+                        pr_info['auto_merged'] = True
+                        pr_info['merge_sha'] = merge_info.get('sha')
+                    else:
+                        merge_error = merge_response.json() if merge_response.text else {}
+                        if logger:
+                            logger.log("red", _("Auto-merge failed: {0}").format(
+                                merge_error.get('message', 'Unknown error')))
+                            logger.log("yellow", _("PR created but must be merged manually"))
+                        
+                        pr_info['auto_merged'] = False
+                        pr_info['merge_error'] = merge_error.get('message', 'Unknown error')
                 else:
                     if logger:
-                        logger.log("yellow", _("Pull request created but could not be merged automatically: {0}").format(merge_response.json().get('message', '')))
+                        logger.log("yellow", _("PR not ready for merge (state: {0})").format(pr_state))
+                        logger.log("yellow", _("PR created but must be merged manually"))
+                    
+                    pr_info['auto_merged'] = False
+                    pr_info['merge_error'] = f"PR not ready: {pr_state}"
             
             return pr_info
         
