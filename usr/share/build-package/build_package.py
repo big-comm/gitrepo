@@ -1177,34 +1177,38 @@ the specific source code used to create this copy."""), style="white")
             _("Delete successful Action jobs"),
             _("Delete all tags"),
             _("Merge branch to main"),
+            _("Revert commit"),
             _("Back")
         ]
         
         while True:
             result = self.menu.show_menu(_("Advanced Menu"), options)
-            if result is None or result[0] == 5:  # None ou "Back"
+            if result is None or result[0] == 6:  # None ou "Back"
                 return
-            
+
             choice, ignore = result
-            
+
             if choice == 0:  # Delete branches
                 if self.menu.confirm(_("Are you sure you want to delete branches? This action cannot be undone.")):
                     GitUtils.cleanup_old_branches(self.logger)
-            
+
             elif choice == 1:  # Delete failed Action jobs
                 if self.menu.confirm(_("Are you sure you want to delete all failed Action jobs?")):
                     self.github_api.clean_action_jobs("failure", self.logger)
-            
+
             elif choice == 2:  # Delete successful Action jobs
                 if self.menu.confirm(_("Are you sure you want to delete all successful Action jobs?")):
                     self.github_api.clean_action_jobs("success", self.logger)
-            
+
             elif choice == 3:  # Delete tags
                 if self.menu.confirm(_("Are you sure you want to delete all repository tags?")):
                     self.github_api.clean_all_tags(self.logger)
                     
             elif choice == 4:  # Merge branch to main
                 self.merge_branch_menu()
+
+            elif choice == 5:  # Revert commit
+                self.revert_commit_menu()
     
     def merge_branch_menu(self):
         """Displays menu for merging branches to main"""
@@ -1285,6 +1289,524 @@ the specific source code used to create this copy."""), style="white")
             self.logger.log("red", _("Error getting branches: {0}").format(e.stderr.strip() if hasattr(e, 'stderr') else str(e)))
         except Exception as e:
             self.logger.log("red", _("Unexpected error: {0}").format(str(e)))
+    
+    def revert_commit_menu(self):
+        """Displays menu for reverting commits"""
+        if not self.is_git_repo:
+            self.logger.log("red", _("This operation is only available in git repositories."))
+            return
+        
+        # Get current branch and username
+        current_branch = GitUtils.get_current_branch()
+        username = self.github_user_name or "unknown"
+        my_branch = f"dev-{username}"
+        
+        # Check if user can revert on this branch
+        if current_branch != "main" and current_branch != my_branch:
+            self.logger.log("red", _("You can only revert commits on your own branch ({0}) or main branch.").format(my_branch))
+            return
+        
+        # Determine revert options based on branch
+        revert_options = []
+        if current_branch == my_branch:
+            # Own branch: both options available
+            revert_options = [
+                _("Revert (keep history)"),
+                _("Reset (remove from history)"),
+                _("Back")
+            ]
+            
+            # Ask for revert type
+            revert_result = self.menu.show_menu(
+                _("Branch: {0} - Select revert method").format(current_branch), 
+                revert_options
+            )
+            
+            if revert_result is None or revert_result[0] == 2:  # Back
+                return
+            
+            revert_method = "revert" if revert_result[0] == 0 else "reset"
+        else:
+            # Main branch: only revert available
+            revert_method = "revert"
+            self.logger.log("cyan", _("Main branch detected - only revert method available (safer for shared branch)"))
+        
+        # Get and display commit list
+        commits = self.get_recent_commits(10)
+        if not commits:
+            self.logger.log("yellow", _("No commits found to revert."))
+            return
+        
+        # Show commit selection menu
+        commit_options = []
+        for i, commit in enumerate(commits):
+            short_hash = commit['hash'][:7]
+            author = commit['author']
+            date = commit['date']
+            message = commit['message'][:60] + "..." if len(commit['message']) > 60 else commit['message']
+            
+            commit_options.append(f"{short_hash} - {author} - {date}\n    {message}")
+        
+        commit_options.append(_("Back"))
+        
+        # Show commit selection
+        commit_result = self.menu.show_menu(
+            _("Select commit to revert ({0})").format(revert_method), 
+            commit_options
+        )
+        
+        if commit_result is None or commit_result[0] == len(commits):  # Back
+            return
+        
+        selected_commit = commits[commit_result[0]]
+        
+        # Show preview and confirm
+        self.show_revert_preview(selected_commit, revert_method)
+
+        confirm_result = self.menu.confirm(_("Do you want to proceed with this {0}?").format(revert_method))
+
+        if not confirm_result:
+            self.logger.log("yellow", _("Operation cancelled by user."))
+            return
+
+        # Execute revert/reset
+        success = self.execute_revert(selected_commit, revert_method, current_branch)
+
+        if success:
+            # Get details from executed operation
+            details = getattr(self, 'last_revert_details', {})
+            
+            # Show operation summary
+            self.show_operation_summary(revert_method, selected_commit, details)
+            
+            # Clean up
+            if hasattr(self, 'last_revert_details'):
+                delattr(self, 'last_revert_details')
+        else:
+            self.logger.log("red", _("Failed to {0} commit.").format(revert_method))
+            
+    def get_recent_commits(self, count: int = 10) -> list:
+        """Gets recent commits from current branch"""
+        try:
+            # Get commits with custom format
+            # Format: hash|author|date|message
+            result = subprocess.run(
+                ["git", "log", f"-{count}", "--pretty=format:%H|%an|%ad|%s", "--date=short"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=True
+            )
+            
+            commits = []
+            for line in result.stdout.strip().split('\n'):
+                if line:
+                    parts = line.split('|', 3)
+                    if len(parts) == 4:
+                        commits.append({
+                            'hash': parts[0],
+                            'author': parts[1],
+                            'date': parts[2],
+                            'message': parts[3]
+                        })
+            
+            return commits
+        except subprocess.CalledProcessError as e:
+            self.logger.log("red", _("Error getting commit history: {0}").format(e))
+            return []
+        except Exception as e:
+            self.logger.log("red", _("Unexpected error getting commits: {0}").format(e))
+            return []
+        
+    def show_revert_preview(self, commit: dict, revert_method: str):
+        """Shows preview of what will be reverted"""
+        try:
+            # Get commit details
+            commit_hash = commit['hash']
+            short_hash = commit_hash[:7]
+            
+            # Get current commit for comparison
+            current_commit_result = subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                stdout=subprocess.PIPE,
+                text=True,
+                check=True
+            )
+            current_commit = current_commit_result.stdout.strip()[:7]
+            
+            # Prepare preview data
+            preview_data = [
+                (_("Target Commit Hash"), short_hash),
+                (_("Author"), commit['author']),
+                (_("Date"), commit['date']),
+                (_("Message"), commit['message']),
+                (_("Method"), revert_method.upper()),
+            ]
+            
+            if revert_method == "revert":
+                preview_data.append((_("Result"), _("Code will be restored to this commit's exact state")))
+                preview_data.append((_("New Commit"), _("Will create new commit with restored state")))
+                preview_data.append((_("History"), _("All commits remain in history (non-destructive)")))
+                preview_data.append((_("Current Code"), f"From {current_commit} → To {short_hash}"))
+            else:  # reset
+                preview_data.append((_("Result"), _("Repository will be reset to this commit")))
+                preview_data.append((_("History"), _("Commits after this will be removed from history")))
+            
+            # Show preview summary
+            self.logger.display_summary(_("Revert Preview"), preview_data)
+            
+            # Show what will change (files that differ between current and target)
+            if revert_method == "revert":
+                try:
+                    diff_result = subprocess.run(
+                        ["git", "diff", "--name-status", commit_hash, "HEAD"],
+                        stdout=subprocess.PIPE,
+                        text=True,
+                        check=True
+                    )
+                    
+                    if diff_result.stdout.strip():
+                        self.logger.log("cyan", _("Files that will be restored to target state:"))
+                        diff_lines = diff_result.stdout.strip().split('\n')
+                        for i, line in enumerate(diff_lines[:10]):
+                            if line.strip():
+                                status = line[0] if line else ""
+                                filename = line[2:] if len(line) > 2 else ""
+                                status_text = {"M": "Modified", "A": "Added", "D": "Deleted"}.get(status, status)
+                                self.logger.log("white", f"  {status_text}: {filename}")
+                        
+                        if len(diff_lines) > 10:
+                            self.logger.log("yellow", f"  ... and {len(diff_lines) - 10} more files")
+                    else:
+                        self.logger.log("yellow", _("No differences detected - code is already at target state"))
+                except subprocess.CalledProcessError:
+                    self.logger.log("yellow", _("Could not analyze file differences"))
+            
+        except subprocess.CalledProcessError as e:
+            self.logger.log("yellow", _("Could not show commit details: {0}").format(e))
+        except Exception as e:
+            self.logger.log("yellow", _("Error showing preview: {0}").format(e))
+            
+    def execute_revert(self, commit: dict, revert_method: str, current_branch: str) -> bool:
+        """Executes the revert or reset operation"""
+        try:
+            commit_hash = commit['hash']
+            short_hash = commit_hash[:7]
+            
+            # Check if commit exists in remote
+            remote_exists = self.check_commit_in_remote(commit_hash)
+            
+            self.logger.log("cyan", _("Executing {0} for commit {1}...").format(revert_method, short_hash))
+            
+            if revert_method == "revert":
+                success = self._execute_revert_method(commit_hash, current_branch, remote_exists)
+            else:  # reset
+                success = self._execute_reset_method(commit_hash, current_branch, remote_exists)
+            
+            if success:
+                # Get details if it was a reset operation
+                details = getattr(self, 'last_operation_details', {})
+                
+                # Store details for caller
+                self.last_revert_details = details
+                
+                # Clean up details
+                if hasattr(self, 'last_operation_details'):
+                    delattr(self, 'last_operation_details')
+                
+            return success
+                
+        except subprocess.CalledProcessError as e:
+            error_msg = e.stderr.strip() if hasattr(e, 'stderr') and e.stderr else str(e)
+            self.logger.log("red", _("Error during {0}: {1}").format(revert_method, error_msg))
+            self._cleanup_revert_state()
+            return False
+        except Exception as e:
+            self.logger.log("red", _("Unexpected error during {0}: {1}").format(revert_method, str(e)))
+            return False
+
+    def _execute_revert_method(self, commit_hash: str, current_branch: str, remote_exists: bool) -> bool:
+        """Execute revert by restoring complete state from selected commit"""
+        
+        try:
+            # Step 1: Get commit message for the new commit
+            self.logger.log("cyan", _("Getting commit information..."))
+            commit_message_result = subprocess.run(
+                ["git", "log", "-1", "--pretty=format:%s", commit_hash],
+                stdout=subprocess.PIPE,
+                text=True,
+                check=True
+            )
+            original_message = commit_message_result.stdout.strip()
+            
+            # Step 2: Restore complete state from selected commit
+            self.logger.log("cyan", _("Restoring code state from selected commit..."))
+            subprocess.run(
+                ["git", "checkout", commit_hash, "--", "."],
+                check=True
+            )
+            
+            # Step 3: Stage all changes
+            self.logger.log("cyan", _("Staging restored files..."))
+            subprocess.run(["git", "add", "."], check=True)
+            
+            # Step 4: Check if there are actually changes to commit
+            status_result = subprocess.run(
+                ["git", "status", "--porcelain"],
+                stdout=subprocess.PIPE,
+                text=True,
+                check=True
+            )
+            
+            if not status_result.stdout.strip():
+                self.logger.log("yellow", _("No changes detected - code is already at selected state"))
+                return True
+            
+            # Step 5: Create new commit with restored state
+            new_commit_message = f"Revert to: {original_message}\n\nThis restores the complete state from commit {commit_hash[:7]}."
+            
+            self.logger.log("cyan", _("Creating revert commit..."))
+            subprocess.run(
+                ["git", "commit", "-m", new_commit_message],
+                check=True
+            )
+            
+            self.logger.log("green", _("Revert completed successfully - code restored to selected commit state"))
+            return self._push_revert_changes(current_branch, remote_exists)
+            
+        except subprocess.CalledProcessError as e:
+            self.logger.log("red", _("Error during revert operation: {0}").format(e))
+            self._cleanup_revert_state()
+            return False
+        except Exception as e:
+            self.logger.log("red", _("Unexpected error during revert: {0}").format(e))
+            return False
+
+    def _execute_reset_method(self, commit_hash: str, current_branch: str, remote_exists: bool) -> bool:
+        """Execute git reset"""
+        self.logger.log("cyan", _("Resetting to previous commit..."))
+        
+        # Reset to the target commit itself (user selects where they want to be)
+        reset_target = commit_hash
+        subprocess.run(["git", "reset", "--hard", reset_target], check=True)
+        
+        # Handle push based on remote existence
+        details = {}
+        if remote_exists:
+            self.logger.log("yellow", _("Commit exists in remote - force push required"))
+            if self.menu.confirm(_("This will force push and rewrite remote history. Continue?")):
+                self.logger.log("cyan", _("Force pushing changes..."))
+                subprocess.run(["git", "push", "origin", current_branch, "--force"], check=True)
+                self.logger.log("green", _("Reset completed and force pushed"))
+                details['force_pushed'] = True
+            else:
+                self.logger.log("yellow", _("Reset completed locally only (remote unchanged)"))
+                details['local_only'] = True
+        else:
+            self.logger.log("green", _("Reset completed (commit was only local)"))
+            details['local_only'] = True
+
+        # Store details for summary (will be called by execute_revert)
+        self.last_operation_details = details
+        return True
+
+    def _has_changes_to_commit(self) -> bool:
+        """Check if there are staged changes ready to commit"""
+        status_result = subprocess.run(
+            ["git", "status", "--porcelain"],
+            stdout=subprocess.PIPE,
+            text=True,
+            check=True
+        )
+        return bool(status_result.stdout.strip())
+
+    def _skip_revert(self) -> bool:
+        """Skip the current revert operation"""
+        skip_result = subprocess.run(
+            ["git", "revert", "--skip"],
+            capture_output=True,
+            text=True,
+            check=False
+        )
+        
+        if skip_result.returncode == 0:
+            self.logger.log("green", _("Successfully skipped revert (no effective changes)"))
+            return True
+        else:
+            self.logger.log("red", _("Failed to skip revert: {0}").format(
+                skip_result.stderr.strip() if skip_result.stderr else "Unknown error"))
+            self._cleanup_revert_state()
+            return False
+
+    def _continue_revert(self) -> bool:
+        """Continue the revert after resolving conflicts"""
+        try:
+            continue_result = subprocess.run(
+                ["git", "revert", "--continue"],
+                capture_output=True,
+                text=True,
+                check=False,
+                timeout=30
+            )
+            
+            if continue_result.returncode == 0:
+                self.logger.log("green", _("Revert completed successfully"))
+                return True
+            else:
+                self.logger.log("red", _("Revert continue failed: {0}").format(
+                    continue_result.stderr.strip() if continue_result.stderr else "Unknown error"))
+                self._cleanup_revert_state()
+                return False
+                
+        except subprocess.TimeoutExpired:
+            self.logger.log("red", _("Revert continue timed out - aborting"))
+            self._cleanup_revert_state()
+            return False
+
+    def _push_revert_changes(self, current_branch: str, remote_exists: bool) -> bool:
+        """Push the revert changes if needed"""
+        if remote_exists:
+            self.logger.log("cyan", _("Pushing revert changes..."))
+            push_result = subprocess.run(
+                ["git", "push", "origin", current_branch],
+                capture_output=True,
+                text=True,
+                check=False
+            )
+            
+            if push_result.returncode == 0:
+                self.logger.log("green", _("Revert changes pushed successfully"))
+                return True
+            else:
+                self.logger.log("red", _("Failed to push revert: {0}").format(
+                    push_result.stderr.strip() if push_result.stderr else "Unknown error"))
+                return False
+        else:
+            self.logger.log("green", _("Revert completed (commit was only local)"))
+            return True
+
+    def _cleanup_revert_state(self):
+        """Clean up any ongoing revert operation"""
+        subprocess.run(["git", "revert", "--abort"], capture_output=True, check=False)
+        subprocess.run(["git", "reset", "--abort"], capture_output=True, check=False)
+        
+    def show_operation_summary(self, operation_type: str, commit_info: dict, details: dict = None):
+        """Shows operation summary with emojis and waits for user input"""
+        
+        # Get current commit info for summary
+        try:
+            current_commit = subprocess.run(
+                ["git", "rev-parse", "--short", "HEAD"],
+                stdout=subprocess.PIPE,
+                text=True,
+                check=True
+            ).stdout.strip()
+            
+            current_message = subprocess.run(
+                ["git", "log", "-1", "--pretty=format:%s"],
+                stdout=subprocess.PIPE,
+                text=True,
+                check=True
+            ).stdout.strip()
+        except:
+            current_commit = "unknown"
+            current_message = "unknown"
+        
+        # Get file changes if available
+        try:
+            if operation_type in ["revert", "reset"]:
+                # Show what changed in the last commit (our operation)
+                diff_result = subprocess.run(
+                    ["git", "diff", "--name-status", "HEAD~1", "HEAD"],
+                    stdout=subprocess.PIPE,
+                    text=True,
+                    check=True
+                )
+                
+                changed_files = []
+                if diff_result.stdout.strip():
+                    for line in diff_result.stdout.strip().split('\n'):
+                        if line:
+                            status = line[0]
+                            filename = line[2:] if len(line) > 2 else ""
+                            status_emoji = {"M": "📝", "A": "➕", "D": "❌"}.get(status, "📄")
+                            changed_files.append(f"    {status_emoji} {filename}")
+            else:
+                changed_files = []
+        except:
+            changed_files = []
+        
+        # Build summary message
+        summary_lines = []
+        
+        if operation_type == "revert":
+            summary_lines.extend([
+                f"🔄 **{_('REVERT COMPLETED SUCCESSFULLY!')}**",
+                f"",
+                f"✅ {_('Code restored to commit')}: {commit_info['hash'][:7]}",
+                f"📝 {_('Target commit')}: \"{commit_info['message']}\"",
+                f"🆕 {_('New commit created')}: {current_commit}",
+                f"💬 {_('New commit message')}: \"{current_message}\"",
+            ])
+            
+            if changed_files:
+                summary_lines.extend([
+                    f"",
+                    f"📁 **{_('Files restored')} ({len(changed_files)}):**"
+                ])
+                summary_lines.extend(changed_files[:10])
+                if len(changed_files) > 10:
+                    summary_lines.append(f"    ... {_('and {0} more files').format(len(changed_files) - 10)}")
+        
+        elif operation_type == "reset":
+            summary_lines.extend([
+                f"⚡ **{_('RESET COMPLETED SUCCESSFULLY!')}**",
+                f"",
+                f"🎯 {_('Repository reset to commit')}: {commit_info['hash'][:7]}",
+                f"📝 {_('Target commit')}: \"{commit_info['message']}\"",
+                f"🗑️ {_('History after this commit was removed')}",
+                f"💾 {_('Current HEAD')}: {current_commit}",
+            ])
+            
+            if details and details.get('force_pushed'):
+                summary_lines.append(f"🌐 {_('Changes force-pushed to remote')}")
+            elif details and details.get('local_only'):
+                summary_lines.append(f"🏠 {_('Reset completed locally only')}")
+        
+        # Add final instruction
+        summary_lines.extend([
+            f"",
+            f"📋 **{_('Operation completed successfully!')}**",
+            f"🏠 {_('All changes have been saved to your repository')}"
+        ])
+        
+        # Convert to string and show
+        summary_text = '\n'.join(summary_lines)
+        
+        # Show summary with menu system (waits for Enter)
+        self.menu.show_menu(
+            f"✅ {_(operation_type.upper() + ' COMPLETED')}",
+            [_("Press Enter to return to menu")],
+            additional_content=summary_text
+        )
+
+    def check_commit_in_remote(self, commit_hash: str) -> bool:
+        """Checks if commit exists in remote repository"""
+        try:
+            # Check if commit exists in any remote branch
+            result = subprocess.run(
+                ["git", "branch", "-r", "--contains", commit_hash],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False
+            )
+            
+            # If command succeeds and has output, commit exists in remote
+            return result.returncode == 0 and bool(result.stdout.strip())
+        except Exception:
+            # If we can't determine, assume it exists (safer approach)
+            return True
     
     def run(self):
         """Executes main program flow"""
@@ -1527,28 +2049,28 @@ the specific source code used to create this copy."""), style="white")
                 
                 # Show by type
                 if 'A' in changes:
-                    summary_lines.append(f"  ✓ Added: {len(changes['A'])} files")
+                    summary_lines.append(_("  ✓ Added: {0} files").format(len(changes['A'])))
                     for f in changes['A'][:3]:
                         summary_lines.append(f"    + {f}")
                     if len(changes['A']) > 3:
-                        summary_lines.append(f"    + ... and {len(changes['A']) - 3} more")
-                
+                        summary_lines.append(_("    + ... and {0} more").format(len(changes['A']) - 3))
+
                 if 'M' in changes:
-                    summary_lines.append(f"  ⚠ Modified: {len(changes['M'])} files")
+                    summary_lines.append(_("  ⚠ Modified: {0} files").format(len(changes['M'])))
                     for f in changes['M'][:3]:
                         summary_lines.append(f"    ~ {f}")
                     if len(changes['M']) > 3:
-                        summary_lines.append(f"    ~ ... and {len(changes['M']) - 3} more")
-                
+                        summary_lines.append(_("    ~ ... and {0} more").format(len(changes['M']) - 3))
+
                 if 'D' in changes:
-                    summary_lines.append(f"  ✗ Deleted: {len(changes['D'])} files")
+                    summary_lines.append(_("  ✗ Deleted: {0} files").format(len(changes['D'])))
                     for f in changes['D'][:3]:
                         summary_lines.append(f"    - {f}")
                     if len(changes['D']) > 3:
-                        summary_lines.append(f"    - ... and {len(changes['D']) - 3} more")
-                
+                        summary_lines.append(_("    - ... and {0} more").format(len(changes['D']) - 3))
+
                 if 'R' in changes:
-                    summary_lines.append(f"  → Renamed: {len(changes['R'])} files")
+                    summary_lines.append(_("  → Renamed: {0} files").format(len(changes['R'])))
                 
                 summary_lines.append("")
             
@@ -1562,7 +2084,7 @@ the specific source code used to create this copy."""), style="white")
                 stats_lines = stats_result.stdout.strip().split('\n')
                 if len(stats_lines) > 1:
                     summary_line = stats_lines[-1]
-                    summary_lines.append(f"📊 {summary_line}")
+                    summary_lines.append(_("📊 {0}").format(summary_line))
                     summary_lines.append("")
             
             result = '\n'.join(summary_lines)
