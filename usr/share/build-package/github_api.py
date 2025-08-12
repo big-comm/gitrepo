@@ -79,6 +79,19 @@ class GitHubAPI:
             username = GitUtils.get_github_username() or "unknown"
             new_branch_name = f"dev-{username}"  # Use dev- prefix with username
 
+            # STEP 1: Check if branch already exists
+            logger.log("cyan", _("Checking if branch {0} already exists...").format(new_branch_name))
+            check_response = requests.get(
+                f"https://api.github.com/repos/{repo_name}/branches/{new_branch_name}",
+                headers=self.headers
+            )
+            
+            if check_response.status_code == 200:
+                # Branch already exists, use it
+                logger.log("green", _("Branch {0} already exists - using existing branch").format(new_branch_name))
+                return new_branch_name
+            
+            # STEP 2: Branch doesn't exist, create it
             # Use dev branch as base, or main if dev doesn't exist
             base_branch = self.get_branch_sha("dev", logger) and "dev" or "main"
             
@@ -87,9 +100,9 @@ class GitHubAPI:
                 logger.log("red", _("Could not determine SHA for {0}.").format(base_branch))
                 return ""
             
-            logger.log("cyan", _("Creating branch: {0} based on {1}...").format(new_branch_name, base_branch))
+            logger.log("cyan", _("Creating new branch: {0} based on {1}...").format(new_branch_name, base_branch))
             
-            # First create a Git reference
+            # Create a Git reference
             url = f"https://api.github.com/repos/{repo_name}/git/refs"
             data = {
                 "ref": f"refs/heads/{new_branch_name}",
@@ -434,27 +447,31 @@ class GitHubAPI:
                     logger.log("yellow", _("Stable/Extra package: not on main, workflow will use {0}").format(workflow_branch))
                     logger.log("yellow", _("⚠️  Warning: Package will be built from {0} instead of main").format(workflow_branch))
             
+            # Prepare payload data
+            payload = {
+                "branch": workflow_branch,
+                "branch_type": branch_type,
+                "build_env": "normal",
+                "url": f"https://github.com/{repo_name}",
+                "tmate": tmate_option
+            }
+            
+            # Only add new_branch if it's different from workflow_branch (avoid redundancy)
+            if branch_type == "testing" and new_branch and new_branch != workflow_branch:
+                payload["new_branch"] = new_branch
+            
             data = {
                 "event_type": package_name,
-                "client_payload": {
-                    "branch": workflow_branch,  # Use the determined branch
-                    "branch_type": branch_type,
-                    "build_env": "normal",
-                    "url": f"https://github.com/{repo_name}",
-                    "tmate": tmate_option,
-                    "git_branch": workflow_branch,  # CRITICAL: Also set git_branch parameter
-                    "new_branch": new_branch if branch_type == "testing" else None  # Only for testing
-                }
+                "client_payload": payload
             }
-            event_type = "package-build"
+            event_type = "package-build"  # ← ESTA LINHA ERA NECESSÁRIA!
             
-            # Log what we're sending to the workflow
+            # Log what we're sending to the workflow (clean)
             logger.log("cyan", _("Workflow payload:"))
             logger.log("cyan", _("  - branch: {0}").format(workflow_branch))
-            logger.log("cyan", _("  - git_branch: {0}").format(workflow_branch))
             logger.log("cyan", _("  - branch_type: {0}").format(branch_type))
-            if branch_type == "testing":
-                logger.log("cyan", _("  - new_branch: {0}").format(new_branch))
+            if payload.get("new_branch"):
+                logger.log("cyan", _("  - new_branch: {0}").format(payload["new_branch"]))
         
         try:
             logger.log("cyan", _("Triggering build workflow on GitHub..."))
