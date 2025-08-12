@@ -709,9 +709,57 @@ class GitHubAPI:
                     pr_info['auto_merged'] = False
                     pr_info['merge_error'] = f"PR not ready: {pr_state}"
             
+            # Show operation summary
+            if pr_info and pr_number:
+                self._show_pr_summary(pr_info, source_branch, target_branch, auto_merge, logger)
+            
             return pr_info
         
         except Exception as e:
             if logger:
                 logger.log("red", _("Error creating pull request: {0}").format(str(e)))
             return {}
+
+    def _show_pr_summary(self, pr_info: dict, source_branch: str, target_branch: str, auto_merge: bool, logger):
+        """Show pull request operation summary"""
+        try:
+            from menu_system import MenuSystem
+            menu = MenuSystem(logger)
+            
+            pr_number = pr_info.get('number', 'unknown')
+            pr_url = pr_info.get('html_url', '')
+            
+            summary_lines = [
+                f"🎉 **{_('PULL REQUEST COMPLETED SUCCESSFULLY!')}**",
+                f"",
+                f"🔗 {_('PR #{0} created and processed').format(pr_number)}",
+                f"🌿 {source_branch} → {target_branch}",
+            ]
+            
+            if pr_info.get('auto_merged'):
+                summary_lines.extend([
+                    f"⚡ {_('Auto-merge')}: **{_('SUCCESS')}**",
+                    f"✅ {_('Code automatically merged to target branch')}",
+                    f"🎯 {_('Merge SHA')}: {pr_info.get('merge_sha', 'unknown')[:7]}"
+                ])
+            else:
+                summary_lines.extend([
+                    f"⏳ {_('Manual merge required')}",
+                    f"🌐 {pr_url}"
+                ])
+            
+            summary_lines.extend([
+                f"",
+                f"📋 **{_('Operation completed successfully!')}**"
+            ])
+            
+            summary_text = '\n'.join(summary_lines)
+            
+            menu.show_menu(
+                f"✅ {_('PULL REQUEST COMPLETED')}",
+                [_("Press Enter to return to menu")],
+                additional_content=summary_text
+            )
+        except Exception as e:
+            if logger:
+                logger.log("yellow", f"Could not show PR summary: {e}")
