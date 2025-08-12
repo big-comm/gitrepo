@@ -885,6 +885,29 @@ the specific source code used to create this copy."""), style="white")
                         return False
                     current_branch = dev_branch
                     
+                    # SYNC: Sync local dev branch with remote dev branch before commit
+                    self.logger.log("cyan", _("Syncing local {0} with remote {0}...").format(dev_branch))
+                    try:
+                        # Fetch remote dev branch
+                        subprocess.run(["git", "fetch", "origin", dev_branch], check=True)
+                        
+                        # Pull/merge remote dev branch into local dev branch
+                        pull_result = subprocess.run(
+                            ["git", "pull", "origin", dev_branch, "--no-edit"],
+                            capture_output=True, text=True, check=False
+                        )
+                        
+                        if pull_result.returncode == 0:
+                            self.logger.log("green", _("Successfully synced with remote {0}").format(dev_branch))
+                        else:
+                            self.logger.log("yellow", _("Pull failed, trying rebase..."))
+                            # Try rebase if pull fails
+                            subprocess.run(["git", "rebase", f"origin/{dev_branch}"], check=True)
+                            self.logger.log("green", _("Successfully rebased with remote {0}").format(dev_branch))
+                            
+                    except subprocess.CalledProcessError:
+                        self.logger.log("yellow", _("Could not sync with remote {0}, continuing with local version").format(dev_branch))
+                    
                     subprocess.run(["git", "add", "--all"], check=True)
                     self.logger.log("cyan", _("Committing changes with message:"))
                     self.logger.log("purple", commit_message)
