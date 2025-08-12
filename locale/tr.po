@@ -16,107 +16,162 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: attranslate\n"
 # 
-# File: usr/share/build-package/logger.py, line: 67
-#: NEEDS WORK
-msgid "ERROR"
-msgstr "HATA"
-# 
-# File: usr/share/build-package/logger.py, line: 119
-#: NEEDS WORK
-msgid "Field"
-msgstr "Alan"
-# 
-# File: usr/share/build-package/logger.py, line: 120
-#: NEEDS WORK
-msgid "Value"
-msgstr "Değer"
-# 
-# File: usr/share/build-iso/config.py, line: 96
-#: NEEDS WORK
-msgid "BUILD ISO"
-msgstr "ISO OLUŞTUR"
-# 
-# File: usr/share/build-iso/config.py, line: 97
-#: NEEDS WORK
-msgid ""
-"Wrapper for ISO building using GitHub Actions. Streamlines the process of creating custom Linux "
-"distribution ISO images through automation."
-msgstr ""
-"GitHub Actions kullanarak ISO oluşturma için Wrapper. Otomasyon aracılığıyla özel Linux dağıtım ISO "
-"görüntüleri oluşturma sürecini kolaylaştırır."
-# 
-# File: usr/share/build-package/github_api.py, line: 313
+# File: usr/share/build-package/git_utils.py, line: 111
 #: NEEDS WORK
 #, python-brace-format
-msgid "Token file '{0}' not found."
-msgstr "Token dosyası '{0}' bulunamadı."
+msgid "Git has changes: {0} - {1}"
+msgstr "Git'te değişiklikler var: {0} - {1}"
 # 
-# File: usr/share/build-package/github_api.py, line: 331
+# File: usr/share/build-package/git_utils.py, line: 114
 #: NEEDS WORK
 #, python-brace-format
-msgid "Token for organization '{0}' not found."
-msgstr "'{0}' için organizasyon belirteci bulunamadı."
+msgid "Error checking changes: {0}"
+msgstr "Değişiklikleri kontrol etme hatası: {0}"
 # 
-# File: usr/share/build-package/github_api.py, line: 334
+# File: usr/share/build-package/git_utils.py, line: 122
+# File: usr/share/build-package/git_utils.py, line: 262
+# File: usr/share/build-package/git_utils.py, line: 317
+#: NEEDS WORK
+msgid "This operation is only available in Git repositories."
+msgstr "Bu işlem yalnızca Git depolarında mevcuttur."
+# 
+# File: usr/share/build-package/git_utils.py, line: 130
+#: NEEDS WORK
+msgid "Aborting merge in progress..."
+msgstr "Birleşme işlemi iptal ediliyor..."
+# 
+# File: usr/share/build-package/git_utils.py, line: 140
+#: NEEDS WORK
+msgid "Resolving conflicts automatically..."
+msgstr "Çatışmaları otomatik olarak çözme..."
+# 
+# File: usr/share/build-package/git_utils.py, line: 142
 #: NEEDS WORK
 #, python-brace-format
-msgid "Error reading token: {0}"
-msgstr "Token okunurken hata: {0}"
+msgid "Current branch: {0}"
+msgstr "Geçerli dal: {0}"
 # 
-# File: usr/share/build-iso/github_api.py, line: 87
-#: NEEDS WORK
-msgid "Triggering ISO build workflow on GitHub..."
-msgstr "GitHub'da ISO yapı iş akışını tetikleme..."
-# 
-# File: usr/share/build-iso/github_api.py, line: 91
+# File: usr/share/build-package/git_utils.py, line: 165
 #: NEEDS WORK
 #, python-brace-format
-msgid "Sending request to: {0}"
-msgstr "İstek gönderiliyor: {0}"
+msgid "Most recent branch identified: {0}"
+msgstr "En son tanımlanan dal: {0}"
 # 
-# File: usr/share/build-iso/github_api.py, line: 100
-#: NEEDS WORK
-msgid "Error triggering workflow (code 422). Can't have more than 10 entries in the event."
-msgstr "Hata, iş akışını tetikleme (kod 422). Olayda 10'dan fazla giriş olamaz."
-# 
-# File: usr/share/build-package/github_api.py, line: 294
+# File: usr/share/build-package/git_utils.py, line: 171
 #: NEEDS WORK
 #, python-brace-format
-msgid "Error triggering workflow. Response code: {0}"
-msgstr "Hata, iş akışını tetikleme. Yanıt kodu: {0}"
+msgid "Pulling latest changes from most recent branch: {0}"
+msgstr "En son dalından en son değişiklikleri çekme: {0}"
 # 
-# File: usr/share/build-iso/github_api.py, line: 107
+# File: usr/share/build-package/git_utils.py, line: 182
+# File: usr/share/build-package/git_utils.py, line: 197
 #: NEEDS WORK
 #, python-brace-format
-msgid "ISO build workflow triggered successfully for {0}."
-msgstr "{0} için ISO yapı iş akışı başarıyla tetiklendi."
+msgid "Successfully pulled latest changes from {0}"
+msgstr "{0} en son değişiklikler başarıyla alındı."
 # 
-# File: usr/share/build-iso/github_api.py, line: 108
-#: NEEDS WORK
-msgid "Please check the 'Actions' tab on GitHub to monitor the build progress."
-msgstr "Lütfen derleme ilerlemesini izlemek için GitHub'daki 'Eylemler' sekmesini kontrol edin."
-# 
-# File: usr/share/build-iso/github_api.py, line: 111
-#: NEEDS WORK
-msgid "TMATE session will be enabled. Watch the GitHub Actions logs for connection information."
-msgstr "TMATE oturumu etkinleştirilecektir. Bağlantı bilgileri için GitHub Actions günlüklerini izleyin."
-# 
-# File: usr/share/build-iso/github_api.py, line: 113
-#: NEEDS WORK
-msgid "Waiting 3 seconds for the API to trigger the Action to get the 'id'."
-msgstr "API'nin 'id' almak için Eylemi tetiklemesi için 3 saniye bekleniyor."
-# 
-# File: usr/share/build-package/github_api.py, line: 301
+# File: usr/share/build-package/git_utils.py, line: 188
 #: NEEDS WORK
 #, python-brace-format
-msgid "URL to monitor the build: {0}"
-msgstr "Derleme izlemek için URL: {0}"
+msgid "Failed to pull from {0}, trying current branch: {1}"
+msgstr "{0} adresinden çekme başarısız, mevcut dalı deniyor: {1}"
 # 
-# File: usr/share/build-package/github_api.py, line: 305
+# File: usr/share/build-package/git_utils.py, line: 203
+#: NEEDS WORK
+msgid "Failed to pull from current branch, trying dev branch"
+msgstr "Mevcut dalı çekme başarısız, dev dalını deniyor"
+# 
+# File: usr/share/build-package/git_utils.py, line: 212
+#: NEEDS WORK
+msgid "Successfully pulled latest changes from dev"
+msgstr "Başarıyla dev'den en son değişiklikler alındı."
+# 
+# File: usr/share/build-package/git_utils.py, line: 220
 #: NEEDS WORK
 #, python-brace-format
-msgid "Error triggering workflow: {0}"
-msgstr "İş akışını tetikleme hatası: {0}"
+msgid "Error pulling changes: {0}"
+msgstr "Değişiklikler çekilirken hata: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 225
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected error: {0}"
+msgstr "Beklenmedik hata: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 255
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error finding most recent branch: {0}"
+msgstr "En son dal bulunurken hata: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 271
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating new branch: {0}"
+msgstr "Yeni dal oluşturuluyor: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 275
+#: NEEDS WORK
+msgid "Pushing new branch to remote repository..."
+msgstr "Yeni dalı uzak depoya itiyor..."
+# 
+# File: usr/share/build-package/git_utils.py, line: 278
+#: NEEDS WORK
+#, python-brace-format
+msgid "Branch {0} created and pushed successfully!"
+msgstr "Dal {0} başarıyla oluşturuldu ve gönderildi!"
+# 
+# File: usr/share/build-package/git_utils.py, line: 281
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating or pushing branch: {0}"
+msgstr "Dal oluşturma veya dal itme hatası: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 322
+#: NEEDS WORK
+msgid "Getting branch list..."
+msgstr "Dalga listesi alınıyor..."
+# 
+# File: usr/share/build-package/git_utils.py, line: 368
+#: NEEDS WORK
+#, python-brace-format
+msgid "Keeping only the most recent dev branch: {0}"
+msgstr "Sadece en son geliştirme dalını tutma: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 373
+#: NEEDS WORK
+#, python-brace-format
+msgid "Removing local branch: {0}"
+msgstr "Yerel dal kaldırılıyor: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 393
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error removing local branch {0}: {1}"
+msgstr "Yerel dal {0} silinirken hata: {1}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 398
+#: NEEDS WORK
+#, python-brace-format
+msgid "Removing remote branch: {0}"
+msgstr "Uzak dalı kaldırma: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 402
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error removing remote branch {0}: {1}"
+msgstr "Uzak dal {0} silinirken hata: {1}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 404
+#: NEEDS WORK
+msgid "Branch cleanup completed successfully!"
+msgstr "Dal temizleme başarıyla tamamlandı!"
+# 
+# File: usr/share/build-package/git_utils.py, line: 407
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during branch cleanup: {0}"
+msgstr "Dal temizleme sırasında hata: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 74
 #: NEEDS WORK
@@ -129,25 +184,22 @@ msgstr "Bağımlılık '{0}' bulunamadı. Lütfen devam etmeden önce bunu yükl
 msgid "Configure GitHub organization (default: big-comm)"
 msgstr "GitHub organizasyonunu yapılandır (varsayılan: big-comm)"
 # 
-# File: usr/share/build-iso/build_iso.py, line: 105
+# File: usr/share/build-package/build_package.py, line: 90
 #: NEEDS WORK
-msgid "Set the distribution name"
-msgstr "Dağıtım adını ayarlayın"
+msgid "Commit/push and generate package"
+msgstr "Taahhüt/itme ve paket oluşturma"
 # 
-# File: usr/share/build-iso/build_iso.py, line: 109
+# File: usr/share/build-package/build_package.py, line: 94
 #: NEEDS WORK
-msgid "Set the edition (desktop environment)"
-msgstr "Sürümü ayarlayın (masaüstü ortamı)"
+msgid "Just commit/push with the specified message"
+msgstr "Sadece belirtilen mesajla commit/push yapın."
 # 
-# File: usr/share/build-iso/build_iso.py, line: 112
+# File: usr/share/build-package/build_package.py, line: 97
+# File: usr/share/build-package/build_package.py, line: 537
+# File: usr/share/build-package/build_package.py, line: 543
 #: NEEDS WORK
-msgid "Set the kernel type"
-msgstr "Çekirdek türünü ayarlayın"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 117
-#: NEEDS WORK
-msgid "Automatic mode using default values"
-msgstr "Otomatik mod varsayılan değerleri kullanıyor"
+msgid "Build AUR package"
+msgstr "AUR paketi oluştur"
 # 
 # File: usr/share/build-package/build_package.py, line: 100
 #: NEEDS WORK
@@ -303,916 +355,6 @@ msgstr ""
 #: NEEDS WORK
 msgid "This program comes with absolutely NO warranty."
 msgstr "Bu program kesinlikle HİÇBİR garanti ile birlikte gelmemektedir."
-# 
-# File: usr/share/build-iso/build_iso.py, line: 173
-#: NEEDS WORK
-#, python-brace-format
-msgid "Choose the GitHub {0}:"
-msgstr "GitHub'u seçin {0}:"
-# 
-# File: usr/share/build-package/menu_system.py, line: 45
-# File: usr/share/build-package/menu_system.py, line: 59
-#: NEEDS WORK
-msgid "Exit"
-msgstr "Çıkış"
-# 
-# File: usr/share/build-package/main.py, line: 21
-#: NEEDS WORK
-msgid "Operation cancelled by user."
-msgstr "Kullanıcı tarafından işlem iptal edildi."
-# 
-# File: usr/share/build-iso/build_iso.py, line: 196
-#: NEEDS WORK
-#, python-brace-format
-msgid "Choose the {0}:"
-msgstr "{0}'i Seçin:"
-# 
-# File: usr/share/build-package/menu_system.py, line: 47
-# File: usr/share/build-package/menu_system.py, line: 61
-#: NEEDS WORK
-msgid "Back"
-msgstr "Geri"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 226
-#: NEEDS WORK
-msgid "Choose the ISO profiles repository:"
-msgstr "ISO profilleri deposunu seçin:"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 240
-#: NEEDS WORK
-msgid "No ISO profiles repository selected."
-msgstr "ISO profilleri deposu seçilmedi."
-# 
-# File: usr/share/build-iso/build_iso.py, line: 249
-# File: usr/share/build-iso/build_iso.py, line: 330
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error: Repository API URL not found: {0}"
-msgstr "Hata: Depo API URL'si bulunamadı: {0}"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 252
-#: NEEDS WORK
-#, python-brace-format
-msgid "Fetching from API: {0}"
-msgstr "API'den alınıyor: {0}"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 258
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error: API request failed with status code {0}"
-msgstr "Hata: API isteği {0} durum kodu ile başarısız oldu."
-# 
-# File: usr/share/build-iso/build_iso.py, line: 287
-#: NEEDS WORK
-#, python-brace-format
-msgid "Choose a {0} for {1}:"
-msgstr "{1} için bir {0} seçin:"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 298
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error fetching build list: {0}"
-msgstr "Hata, derleme listesini alırken: {0}"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 310
-#: NEEDS WORK
-#, python-brace-format
-msgid "Choose a {0} for {1} (from defaults):"
-msgstr "{1} için bir {0} seçin (varsayılanlardan):"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 323
-#: NEEDS WORK
-msgid "Repository and build directory must be selected first."
-msgstr "Öncelikle depo ve derleme dizini seçilmelidir."
-# 
-# File: usr/share/build-iso/build_iso.py, line: 366
-#: NEEDS WORK
-#, python-brace-format
-msgid "Choose an {0} for {1}:"
-msgstr "{1} için bir {0} seçin:"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 377
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error fetching editions: {0}"
-msgstr "Sürümler alınırken hata: {0}"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 389
-#: NEEDS WORK
-#, python-brace-format
-msgid "Choose an {0} for {1} (from defaults):"
-msgstr "{1} için bir {0} seçin (varsayılanlardan):"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 402
-# File: usr/share/build-iso/build_iso.py, line: 415
-# File: usr/share/build-iso/build_iso.py, line: 428
-#: NEEDS WORK
-#, python-brace-format
-msgid "Choose the {0} branch for {1}:"
-msgstr "{1} için {0} dalını seçin:"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 441
-#: NEEDS WORK
-#, python-brace-format
-msgid "Choose the {0} version:"
-msgstr "{0} sürümünü seçin:"
-# 
-# File: usr/share/build-package/build_package.py, line: 592
-# File: usr/share/build-package/build_package.py, line: 617
-# File: usr/share/build-package/build_package.py, line: 637
-#: NEEDS WORK
-msgid "Enable TMATE debug session?"
-msgstr "TMATE hata ayıklama oturumunu etkinleştirmek ister misiniz?"
-# 
-# File: usr/share/build-package/build_package.py, line: 592
-# File: usr/share/build-package/build_package.py, line: 617
-# File: usr/share/build-package/build_package.py, line: 637
-# File: usr/share/build-package/build_package.py, line: 747
-#: NEEDS WORK
-msgid "No"
-msgstr "Hayır"
-# 
-# File: usr/share/build-package/build_package.py, line: 592
-# File: usr/share/build-package/build_package.py, line: 617
-# File: usr/share/build-package/build_package.py, line: 637
-# File: usr/share/build-package/build_package.py, line: 747
-#: NEEDS WORK
-msgid "Yes"
-msgstr "Evet"
-# 
-# File: usr/share/build-package/build_package.py, line: 497
-# File: usr/share/build-package/build_package.py, line: 518
-#: NEEDS WORK
-msgid "Organization"
-msgstr "Organizasyon"
-# 
-# File: usr/share/build-package/build_package.py, line: 499
-# File: usr/share/build-package/build_package.py, line: 520
-#: NEEDS WORK
-msgid "User Name"
-msgstr "Kullanıcı Adı"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 473
-#: NEEDS WORK
-msgid "Distribution"
-msgstr "Dağıtım"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 478
-#: NEEDS WORK
-msgid "ISO Profiles Repo"
-msgstr "ISO Profilleri Deposu"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 479
-#: NEEDS WORK
-msgid "Build Dir"
-msgstr "Derleme Dizini"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 480
-#: NEEDS WORK
-msgid "Edition"
-msgstr "Sürüm"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 481
-#: NEEDS WORK
-msgid "Manjaro Branch"
-msgstr "Manjaro Dalı"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 482
-#: NEEDS WORK
-msgid "Community Branch"
-msgstr "Topluluk Dalı"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 483
-#: NEEDS WORK
-msgid "BigLinux Branch"
-msgstr "BigLinux Dallası"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 484
-#: NEEDS WORK
-msgid "Kernel"
-msgstr "Çekirdek"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 485
-#: NEEDS WORK
-msgid "Release Tag"
-msgstr "Sürüm Etiketi"
-# 
-# File: usr/share/build-package/build_package.py, line: 508
-# File: usr/share/build-package/build_package.py, line: 525
-#: NEEDS WORK
-msgid "TMATE Debug"
-msgstr "TMATE Hata Ayıklama"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 490
-#: NEEDS WORK
-msgid "ISO Build Summary"
-msgstr "ISO Derleme Özeti"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 493
-#: NEEDS WORK
-msgid "Do you want to proceed with building the ISO?"
-msgstr "ISO'yu oluşturmak için devam etmek istiyor musunuz?"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 494
-#: NEEDS WORK
-msgid "ISO build cancelled."
-msgstr "ISO yapısı iptal edildi."
-# 
-# File: usr/share/build-iso/build_iso.py, line: 483
-#: NEEDS WORK
-#, python-brace-format
-msgid "No default configuration found for organization '{0}'."
-msgstr "'{0}' için varsayılan yapılandırma bulunamadı."
-# 
-# File: usr/share/build-iso/build_iso.py, line: 614
-#: NEEDS WORK
-#, python-brace-format
-msgid "{0} (version {1})"
-msgstr "{0} (sürüm {1})"
-# 
-# File: usr/share/build-package/menu_system.py, line: 91
-#: NEEDS WORK
-msgid "Use [white]arrow keys ↑↓[/] to navigate, [white]Enter[/] to select, [white]ESC[/] to exit"
-msgstr ""
-"[white]ok tuşları ↑↓[/] ile gezinmek için, [white]Enter[/] ile seçmek için, [white]ESC[/] ile "
-"çıkmak için"
-# 
-# File: usr/share/build-package/main.py, line: 24
-#: NEEDS WORK
-#, python-brace-format
-msgid "Unhandled error: {0}"
-msgstr "Hatalı durum: {0}"
-# 
-# File: usr/share/build-package/config.py, line: 46
-#: NEEDS WORK
-msgid "BUILD PACKAGE"
-msgstr "Paket Oluştur"
-# 
-# File: usr/share/build-package/config.py, line: 47
-#: NEEDS WORK
-msgid ""
-"A comprehensive tool for package building, testing, and deployment. Streamlines Git operations, "
-"automates builds and manages package workflows for BigCommunity repositories and AUR packages."
-msgstr ""
-"Paket oluşturma, test etme ve dağıtım için kapsamlı bir araç. Git işlemlerini kolaylaştırır, "
-"derlemeleri otomatikleştirir ve BigCommunity depoları ile AUR paketleri için paket iş akışlarını "
-"yönetir."
-# 
-# File: usr/share/build-package/github_api.py, line: 29
-# File: usr/share/build-package/github_api.py, line: 73
-# File: usr/share/build-package/github_api.py, line: 342
-# File: usr/share/build-package/github_api.py, line: 391
-#: NEEDS WORK
-msgid "Could not determine repository name."
-msgstr "Depo adı belirlenemedi."
-# 
-# File: usr/share/build-package/github_api.py, line: 35
-#: NEEDS WORK
-msgid "Could not determine current commit SHA."
-msgstr "Geçerli commit SHA'sı belirlenemedi."
-# 
-# File: usr/share/build-package/github_api.py, line: 44
-#: NEEDS WORK
-#, python-brace-format
-msgid "Creating reference: {0}..."
-msgstr "Referans oluşturuluyor: {0}..."
-# 
-# File: usr/share/build-package/github_api.py, line: 59
-# File: usr/share/build-package/github_api.py, line: 65
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error creating reference: {0}"
-msgstr "Referans oluşturulurken hata: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 62
-#: NEEDS WORK
-#, python-brace-format
-msgid "Reference {0} created successfully!"
-msgstr "Referans {0} başarıyla oluşturuldu!"
-# 
-# File: usr/share/build-package/github_api.py, line: 86
-#: NEEDS WORK
-#, python-brace-format
-msgid "Could not determine SHA for {0}."
-msgstr "{0} için SHA belirlenemedi."
-# 
-# File: usr/share/build-package/github_api.py, line: 89
-#: NEEDS WORK
-#, python-brace-format
-msgid "Creating branch: {0} based on {1}..."
-msgstr "Dal oluşturuluyor: {0} {1} temel alınarak..."
-# 
-# File: usr/share/build-package/github_api.py, line: 101
-# File: usr/share/build-package/github_api.py, line: 166
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error creating branch: {0}"
-msgstr "Dal oluşturulurken hata: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 102
-# File: usr/share/build-package/github_api.py, line: 478
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error details: {0}"
-msgstr "Hata ayrıntıları: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 163
-#: NEEDS WORK
-#, python-brace-format
-msgid "Branch {0} created successfully!"
-msgstr "Dal {0} başarıyla oluşturuldu!"
-# 
-# File: usr/share/build-package/git_utils.py, line: 140
-#: NEEDS WORK
-msgid "Resolving conflicts automatically..."
-msgstr "Çatışmaları otomatik olarak çözme..."
-# 
-# File: usr/share/build-package/github_api.py, line: 183
-#: NEEDS WORK
-msgid "Backing up local changes..."
-msgstr "Yerel değişiklikler yedekleniyor..."
-# 
-# File: usr/share/build-package/github_api.py, line: 191
-#: NEEDS WORK
-msgid "Updating remote references..."
-msgstr "Uzak referanslar güncelleniyor..."
-# 
-# File: usr/share/build-package/github_api.py, line: 195
-#: NEEDS WORK
-#, python-brace-format
-msgid "Switching to branch {0}..."
-msgstr "{0} dalına geçiliyor..."
-# 
-# File: usr/share/build-package/github_api.py, line: 202
-#: NEEDS WORK
-#, python-brace-format
-msgid "Merging {0} into {1}..."
-msgstr "{1} içine {0} birleştiriliyor..."
-# 
-# File: usr/share/build-package/github_api.py, line: 211
-#: NEEDS WORK
-msgid "Merge completed without conflicts!"
-msgstr "Birleştirme çakışmasız tamamlandı!"
-# 
-# File: usr/share/build-package/github_api.py, line: 214
-#: NEEDS WORK
-msgid "Conflicts detected, resolving automatically..."
-msgstr "Çatışmalar tespit edildi, otomatik olarak çözülüyor..."
-# 
-# File: usr/share/build-package/github_api.py, line: 227
-#: NEEDS WORK
-msgid "Using advanced resolution strategy..."
-msgstr "Gelişmiş çözümleme stratejisi kullanılıyor..."
-# 
-# File: usr/share/build-package/github_api.py, line: 254
-#: NEEDS WORK
-msgid "Conflicts resolved automatically!"
-msgstr "Çatışmalar otomatik olarak çözüldü!"
-# 
-# File: usr/share/build-package/github_api.py, line: 256
-#: NEEDS WORK
-msgid "Could not resolve conflicts automatically"
-msgstr "Çatışmalar otomatik olarak çözülemedi."
-# 
-# File: usr/share/build-package/github_api.py, line: 259
-#: NEEDS WORK
-msgid "No differences detected"
-msgstr "Farklılık tespit edilmedi"
-# 
-# File: usr/share/build-package/github_api.py, line: 262
-#: NEEDS WORK
-msgid "Pushing resolved branch..."
-msgstr "Çözümlenmiş dal itiliyor..."
-# 
-# File: usr/share/build-package/github_api.py, line: 271
-#: NEEDS WORK
-msgid "Restoring local changes..."
-msgstr "Yerel değişiklikler geri yükleniyor..."
-# 
-# File: usr/share/build-package/github_api.py, line: 274
-#: NEEDS WORK
-msgid "Conflict resolution completed successfully!"
-msgstr "Çatışma çözümü başarıyla tamamlandı!"
-# 
-# File: usr/share/build-package/github_api.py, line: 278
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error during conflict resolution: {0}"
-msgstr "Çatışma çözümü sırasında hata: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 225
-#: NEEDS WORK
-#, python-brace-format
-msgid "Unexpected error: {0}"
-msgstr "Beklenmedik hata: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 302
-#: NEEDS WORK
-msgid "Waiting for PR to be ready for merge..."
-msgstr "Birleştirme için PR'nın hazır olmasını bekliyorum..."
-# 
-# File: usr/share/build-package/github_api.py, line: 316
-#: NEEDS WORK
-#, python-brace-format
-msgid "Attempt {0}/{1}: mergeable={2}, state={3}"
-msgstr "Deneme {0}/{1}: birleştirilebilir={2}, durum={3}"
-# 
-# File: usr/share/build-package/github_api.py, line: 320
-#: NEEDS WORK
-msgid "PR ready for merge!"
-msgstr "PR birleştirmeye hazır!"
-# 
-# File: usr/share/build-package/github_api.py, line: 323
-#: NEEDS WORK
-msgid "PR has conflicts"
-msgstr "PR çatışmaları var"
-# 
-# File: usr/share/build-package/github_api.py, line: 330
-#: NEEDS WORK
-#, python-brace-format
-msgid "Unexpected state: {0}"
-msgstr "Beklenmedik durum: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 333
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error checking PR: {0}"
-msgstr "Hata kontrolü PR: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 337
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error: {0}"
-msgstr "Hata: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 340
-#: NEEDS WORK
-msgid "Timeout waiting for PR to be ready"
-msgstr "PR'nin hazır olması için zaman aşımı bekleniyor"
-# 
-# File: usr/share/build-package/github_api.py, line: 240
-#: NEEDS WORK
-msgid "Failed to create branch for the build."
-msgstr "Yapı için dal oluşturulamadı."
-# 
-# File: usr/share/build-package/github_api.py, line: 245
-#: NEEDS WORK
-#, python-brace-format
-msgid "Using existing branch: {0}"
-msgstr "Mevcut dal kullanılıyor: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 267
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error retrieving remote repository URL for package: {0}"
-msgstr "Paket için uzak depo URL'si alınırken hata: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 270
-#: NEEDS WORK
-#, python-brace-format
-msgid "Detected repository: {0}"
-msgstr "Tespit edilen depo: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 394
-#: NEEDS WORK
-#, python-brace-format
-msgid "Testing package: workflow will use branch {0}"
-msgstr "Test paketi: iş akışı {0} dalını kullanacak"
-# 
-# File: usr/share/build-package/github_api.py, line: 417
-#: NEEDS WORK
-msgid "Stable/Extra package: main is up-to-date, workflow will use main"
-msgstr "Kararlı/Extra paket: ana güncel, iş akışı ana kullanacak"
-# 
-# File: usr/share/build-package/github_api.py, line: 421
-#: NEEDS WORK
-#, python-brace-format
-msgid "Stable/Extra package: main not up-to-date, workflow will use {0}"
-msgstr "Stable/Extra paketi: ana güncel değil, iş akışı {0} kullanacak"
-# 
-# File: usr/share/build-package/github_api.py, line: 422
-# File: usr/share/build-package/github_api.py, line: 435
-#: NEEDS WORK
-#, python-brace-format
-msgid "⚠️  Warning: Package will be built from {0} instead of main"
-msgstr "⚠️  Uyarı: Paket, ana yerine {0} üzerinden oluşturulacak"
-# 
-# File: usr/share/build-package/github_api.py, line: 425
-#: NEEDS WORK
-msgid "Stable/Extra package: workflow will use main"
-msgstr "Stabil/Extra paketi: iş akışı ana kullanacak"
-# 
-# File: usr/share/build-package/github_api.py, line: 430
-#: NEEDS WORK
-#, python-brace-format
-msgid "Could not verify branch status, using current: {0}"
-msgstr "Dalga durumu doğrulanamadı, mevcut olan kullanılıyor: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 434
-#: NEEDS WORK
-#, python-brace-format
-msgid "Stable/Extra package: not on main, workflow will use {0}"
-msgstr "Stabil/Extra paketi: ana dizinde değil, iş akışı {0} kullanacak"
-# 
-# File: usr/share/build-package/github_api.py, line: 452
-#: NEEDS WORK
-msgid "Workflow payload:"
-msgstr "İş akışı yükü:"
-# 
-# File: usr/share/build-package/github_api.py, line: 453
-#: NEEDS WORK
-#, python-brace-format
-msgid "  - branch: {0}"
-msgstr "- dal: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 454
-#: NEEDS WORK
-#, python-brace-format
-msgid "  - git_branch: {0}"
-msgstr "- git_branch: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 455
-#: NEEDS WORK
-#, python-brace-format
-msgid "  - branch_type: {0}"
-msgstr "- dalga_tipi: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 457
-#: NEEDS WORK
-#, python-brace-format
-msgid "  - new_branch: {0}"
-msgstr "- yeni_dal: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 285
-#: NEEDS WORK
-msgid "Triggering build workflow on GitHub..."
-msgstr "GitHub'da derleme iş akışını tetikleme..."
-# 
-# File: usr/share/build-package/github_api.py, line: 297
-#: NEEDS WORK
-#, python-brace-format
-msgid "Build workflow ({0}) triggered successfully."
-msgstr "İş akışı ({0}) başarıyla tetiklendi."
-# 
-# File: usr/share/build-package/github_api.py, line: 345
-#: NEEDS WORK
-#, python-brace-format
-msgid "Cleaning Actions jobs with '{0}' status..."
-msgstr "'{0}' durumundaki Temizlik İşlemleri..."
-# 
-# File: usr/share/build-package/github_api.py, line: 354
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error fetching Actions jobs. Code: {0}"
-msgstr "Eylem işleri alınırken hata. Kod: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 361
-#: NEEDS WORK
-#, python-brace-format
-msgid "No Action jobs with '{0}' status found."
-msgstr "'{0}' durumunda No Action işi bulunamadı."
-# 
-# File: usr/share/build-package/github_api.py, line: 368
-#: NEEDS WORK
-#, python-brace-format
-msgid "Deleting job {0}..."
-msgstr "Görev {0} siliniyor..."
-# 
-# File: usr/share/build-package/github_api.py, line: 378
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error deleting job {0}. Code: {1}"
-msgstr "Görev {0} silinirken hata. Kod: {1}"
-# 
-# File: usr/share/build-package/github_api.py, line: 380
-#: NEEDS WORK
-#, python-brace-format
-msgid "Deleted {0} Actions jobs with '{1}' status."
-msgstr "Silinen {0} Eylem işleri '{1}' durumu ile."
-# 
-# File: usr/share/build-package/github_api.py, line: 383
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error cleaning Actions jobs: {0}"
-msgstr "Hata, Eylem işleri temizleniyor: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 394
-#: NEEDS WORK
-msgid "Getting tag list..."
-msgstr "Etiket listesi alınıyor..."
-# 
-# File: usr/share/build-package/github_api.py, line: 403
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error fetching tags. Code: {0}"
-msgstr "Etiketler alınırken hata. Kod: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 409
-#: NEEDS WORK
-msgid "No tags found."
-msgstr "Etiket bulunamadı."
-# 
-# File: usr/share/build-package/github_api.py, line: 416
-#: NEEDS WORK
-#, python-brace-format
-msgid "Deleting tag {0}..."
-msgstr "Etiket {0} siliniyor..."
-# 
-# File: usr/share/build-package/github_api.py, line: 427
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error deleting tag {0}. Code: {1}"
-msgstr "Etiket silinirken hata {0}. Kod: {1}"
-# 
-# File: usr/share/build-package/github_api.py, line: 429
-#: NEEDS WORK
-#, python-brace-format
-msgid "Deleted {0} tags."
-msgstr "{0} etiketleri silindi."
-# 
-# File: usr/share/build-package/github_api.py, line: 432
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error cleaning tags: {0}"
-msgstr "Etiketler temizlenirken hata: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 439
-#: NEEDS WORK
-msgid "Source branch name is required to create a pull request"
-msgstr "Kaynak dal adı, bir çekme isteği oluşturmak için gereklidir."
-# 
-# File: usr/share/build-package/github_api.py, line: 449
-#: NEEDS WORK
-msgid "Repository name could not be determined"
-msgstr "Depo adı belirlenemedi."
-# 
-# File: usr/share/build-package/github_api.py, line: 627
-#: NEEDS WORK
-#, python-brace-format
-msgid "Creating pull request: {0} → {1}"
-msgstr "Çekme isteği oluşturuluyor: {0} → {1}"
-# 
-# File: usr/share/build-package/github_api.py, line: 632
-#: NEEDS WORK
-msgid "Resolving possible conflicts before merge..."
-msgstr "Birleştirmeden önce olası çatışmaları çözme..."
-# 
-# File: usr/share/build-package/github_api.py, line: 637
-#: NEEDS WORK
-msgid "Warning: Could not resolve conflicts automatically"
-msgstr "Uyarı: Çatışmalar otomatik olarak çözülemedi"
-# 
-# File: usr/share/build-package/github_api.py, line: 638
-#: NEEDS WORK
-msgid "Trying to create PR anyway..."
-msgstr "Yine de PR oluşturmaya çalışıyorum..."
-# 
-# File: usr/share/build-package/github_api.py, line: 457
-#: NEEDS WORK
-#, python-brace-format
-msgid "Merge {0} into {1}"
-msgstr "{0}'ı {1} ile birleştir"
-# 
-# File: usr/share/build-package/github_api.py, line: 458
-#: NEEDS WORK
-msgid "Automated PR created by build_package.py"
-msgstr "Otomatik PR, build_package.py tarafından oluşturuldu."
-# 
-# File: usr/share/build-package/github_api.py, line: 644
-#: NEEDS WORK
-msgid "Conflicts resolved automatically (if any)"
-msgstr "Çatışmalar otomatik olarak çözüldü (varsa)"
-# 
-# File: usr/share/build-package/github_api.py, line: 645
-#: NEEDS WORK
-msgid "Ready for automatic merge"
-msgstr "Otomatik birleştirme için hazır"
-# 
-# File: usr/share/build-package/github_api.py, line: 475
-#: NEEDS WORK
-#, python-brace-format
-msgid "Failed to create PR: {0}"
-msgstr "PR oluşturulamadı: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 486
-#: NEEDS WORK
-#, python-brace-format
-msgid "Pull request created successfully: {0}"
-msgstr "Başvuru başarıyla oluşturuldu: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 670
-#: NEEDS WORK
-msgid "Starting auto-merge process..."
-msgstr "Otomatik birleştirme süreci başlatılıyor..."
-# 
-# File: usr/share/build-package/github_api.py, line: 679
-#: NEEDS WORK
-#, python-brace-format
-msgid "Auto-merge: {0} → {1}"
-msgstr "Otomatik birleştirme: {0} → {1}"
-# 
-# File: usr/share/build-package/github_api.py, line: 680
-#: NEEDS WORK
-msgid "Automated merge performed by build_package.py"
-msgstr "build_package.py tarafından gerçekleştirilen otomatik birleştirme"
-# 
-# File: usr/share/build-package/github_api.py, line: 689
-#: NEEDS WORK
-msgid "AUTO-MERGE COMPLETED SUCCESSFULLY!"
-msgstr "OTOMATİK BİRLEŞTİRME BAŞARIYLA TAMAMLANDI!"
-# 
-# File: usr/share/build-package/github_api.py, line: 690
-#: NEEDS WORK
-#, python-brace-format
-msgid "SHA: {0}"
-msgstr "SHA: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 698
-#: NEEDS WORK
-#, python-brace-format
-msgid "Auto-merge failed: {0}"
-msgstr "Otomatik birleştirme başarısız oldu: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 700
-# File: usr/share/build-package/github_api.py, line: 707
-#: NEEDS WORK
-msgid "PR created but must be merged manually"
-msgstr "PR oluşturuldu ancak manuel olarak birleştirilmesi gerekiyor."
-# 
-# File: usr/share/build-package/github_api.py, line: 706
-#: NEEDS WORK
-#, python-brace-format
-msgid "PR not ready for merge (state: {0})"
-msgstr "PR birleştirme için hazır değil (durum: {0})"
-# 
-# File: usr/share/build-package/github_api.py, line: 507
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error creating pull request: {0}"
-msgstr "Hata oluştu: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 111
-#: NEEDS WORK
-#, python-brace-format
-msgid "Git has changes: {0} - {1}"
-msgstr "Git'te değişiklikler var: {0} - {1}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 114
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error checking changes: {0}"
-msgstr "Değişiklikleri kontrol etme hatası: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 122
-# File: usr/share/build-package/git_utils.py, line: 262
-# File: usr/share/build-package/git_utils.py, line: 317
-#: NEEDS WORK
-msgid "This operation is only available in Git repositories."
-msgstr "Bu işlem yalnızca Git depolarında mevcuttur."
-# 
-# File: usr/share/build-package/git_utils.py, line: 130
-#: NEEDS WORK
-msgid "Aborting merge in progress..."
-msgstr "Birleşme işlemi iptal ediliyor..."
-# 
-# File: usr/share/build-package/git_utils.py, line: 142
-#: NEEDS WORK
-#, python-brace-format
-msgid "Current branch: {0}"
-msgstr "Geçerli dal: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 165
-#: NEEDS WORK
-#, python-brace-format
-msgid "Most recent branch identified: {0}"
-msgstr "En son tanımlanan dal: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 171
-#: NEEDS WORK
-#, python-brace-format
-msgid "Pulling latest changes from most recent branch: {0}"
-msgstr "En son dalından en son değişiklikleri çekme: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 182
-# File: usr/share/build-package/git_utils.py, line: 197
-#: NEEDS WORK
-#, python-brace-format
-msgid "Successfully pulled latest changes from {0}"
-msgstr "{0} en son değişiklikler başarıyla alındı."
-# 
-# File: usr/share/build-package/git_utils.py, line: 188
-#: NEEDS WORK
-#, python-brace-format
-msgid "Failed to pull from {0}, trying current branch: {1}"
-msgstr "{0} adresinden çekme başarısız, mevcut dalı deniyor: {1}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 203
-#: NEEDS WORK
-msgid "Failed to pull from current branch, trying dev branch"
-msgstr "Mevcut dalı çekme başarısız, dev dalını deniyor"
-# 
-# File: usr/share/build-package/git_utils.py, line: 212
-#: NEEDS WORK
-msgid "Successfully pulled latest changes from dev"
-msgstr "Başarıyla dev'den en son değişiklikler alındı."
-# 
-# File: usr/share/build-package/git_utils.py, line: 220
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error pulling changes: {0}"
-msgstr "Değişiklikler çekilirken hata: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 255
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error finding most recent branch: {0}"
-msgstr "En son dal bulunurken hata: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 271
-#: NEEDS WORK
-#, python-brace-format
-msgid "Creating new branch: {0}"
-msgstr "Yeni dal oluşturuluyor: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 275
-#: NEEDS WORK
-msgid "Pushing new branch to remote repository..."
-msgstr "Yeni dalı uzak depoya itiyor..."
-# 
-# File: usr/share/build-package/git_utils.py, line: 278
-#: NEEDS WORK
-#, python-brace-format
-msgid "Branch {0} created and pushed successfully!"
-msgstr "Dal {0} başarıyla oluşturuldu ve gönderildi!"
-# 
-# File: usr/share/build-package/git_utils.py, line: 281
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error creating or pushing branch: {0}"
-msgstr "Dal oluşturma veya dal itme hatası: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 322
-#: NEEDS WORK
-msgid "Getting branch list..."
-msgstr "Dalga listesi alınıyor..."
-# 
-# File: usr/share/build-package/git_utils.py, line: 368
-#: NEEDS WORK
-#, python-brace-format
-msgid "Keeping only the most recent dev branch: {0}"
-msgstr "Sadece en son geliştirme dalını tutma: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 373
-#: NEEDS WORK
-#, python-brace-format
-msgid "Removing local branch: {0}"
-msgstr "Yerel dal kaldırılıyor: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 393
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error removing local branch {0}: {1}"
-msgstr "Yerel dal {0} silinirken hata: {1}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 398
-#: NEEDS WORK
-#, python-brace-format
-msgid "Removing remote branch: {0}"
-msgstr "Uzak dalı kaldırma: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 402
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error removing remote branch {0}: {1}"
-msgstr "Uzak dal {0} silinirken hata: {1}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 404
-#: NEEDS WORK
-msgid "Branch cleanup completed successfully!"
-msgstr "Dal temizleme başarıyla tamamlandı!"
-# 
-# File: usr/share/build-package/git_utils.py, line: 407
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error during branch cleanup: {0}"
-msgstr "Dal temizleme sırasında hata: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 90
-#: NEEDS WORK
-msgid "Commit/push and generate package"
-msgstr "Taahhüt/itme ve paket oluşturma"
-# 
-# File: usr/share/build-package/build_package.py, line: 94
-#: NEEDS WORK
-msgid "Just commit/push with the specified message"
-msgstr "Sadece belirtilen mesajla commit/push yapın."
-# 
-# File: usr/share/build-package/build_package.py, line: 97
-# File: usr/share/build-package/build_package.py, line: 537
-# File: usr/share/build-package/build_package.py, line: 543
-#: NEEDS WORK
-msgid "Build AUR package"
-msgstr "AUR paketi oluştur"
 # 
 # File: usr/share/build-package/build_package.py, line: 154
 #: NEEDS WORK
@@ -1392,6 +534,16 @@ msgstr "Uzak sunucuya itme hatası: {0}"
 msgid "Changes committed and pushed to {0} branch successfully!"
 msgstr "{0} dalına değişiklikler başarıyla işlendi ve gönderildi!"
 # 
+# File: usr/share/build-package/build_package.py, line: 340
+#: NEEDS WORK
+msgid "Stashing local changes before branch switch..."
+msgstr "Dalga değiştirmeden önce yerel değişiklikleri saklama..."
+# 
+# File: usr/share/build-package/build_package.py, line: 348
+#: NEEDS WORK
+msgid "Failed to stash changes before branch switch."
+msgstr "Dalga geçmeden önce değişiklikleri saklayamadı."
+# 
 # File: usr/share/build-package/build_package.py, line: 248
 #: NEEDS WORK
 #, python-brace-format
@@ -1403,6 +555,21 @@ msgstr "Mevcut dalga geçiş yapılıyor: {0}"
 #, python-brace-format
 msgid "Using existing local branch: {0}"
 msgstr "Mevcut yerel dal kullanılıyor: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 379
+#: NEEDS WORK
+msgid "Restoring stashed changes..."
+msgstr "Saklanan değişiklikler geri yükleniyor..."
+# 
+# File: usr/share/build-package/build_package.py, line: 382
+#: NEEDS WORK
+msgid "Could not restore stashed changes automatically. Check 'git stash list'"
+msgstr "Saklanan değişiklikler otomatik olarak geri yüklenemedi. 'git stash list' kontrol edin."
+# 
+# File: usr/share/build-package/build_package.py, line: 384
+#: NEEDS WORK
+msgid "Stashed changes restored successfully"
+msgstr "Saklanan değişiklikler başarıyla geri yüklendi."
 # 
 # File: usr/share/build-package/build_package.py, line: 262
 #: NEEDS WORK
@@ -1558,6 +725,11 @@ msgstr "İşlemi iptal et"
 #: NEEDS WORK
 msgid "How do you want to proceed?"
 msgstr "Nasıl devam etmek istersiniz?"
+# 
+# File: usr/share/build-package/main.py, line: 21
+#: NEEDS WORK
+msgid "Operation cancelled by user."
+msgstr "Kullanıcı tarafından işlem iptal edildi."
 # 
 # File: usr/share/build-package/build_package.py, line: 439
 #: NEEDS WORK
@@ -1764,6 +936,35 @@ msgstr ""
 msgid "Creating/updating testing branch: {0}"
 msgstr "Test dalını oluşturma/güncelleme: {0}"
 # 
+# File: usr/share/build-package/build_package.py, line: 889
+#: NEEDS WORK
+#, python-brace-format
+msgid "Syncing local {0} with remote {0}..."
+msgstr "Yerel {0}'ı uzak {0} ile senkronize ediliyor..."
+# 
+# File: usr/share/build-package/build_package.py, line: 901
+#: NEEDS WORK
+#, python-brace-format
+msgid "Successfully synced with remote {0}"
+msgstr "Uzak {0} ile başarıyla senkronize edildi."
+# 
+# File: usr/share/build-package/build_package.py, line: 903
+#: NEEDS WORK
+msgid "Pull failed, trying rebase..."
+msgstr "Çekme başarısız, yeniden birleştirme denemesi..."
+# 
+# File: usr/share/build-package/build_package.py, line: 906
+#: NEEDS WORK
+#, python-brace-format
+msgid "Successfully rebased with remote {0}"
+msgstr "Başarıyla {0} uzak sunucu ile yeniden tabanlandı."
+# 
+# File: usr/share/build-package/build_package.py, line: 909
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not sync with remote {0}, continuing with local version"
+msgstr "Uzak {0} ile senkronize edilemedi, yerel sürümle devam ediliyor."
+# 
 # File: usr/share/build-package/build_package.py, line: 400
 # File: usr/share/build-package/build_package.py, line: 419
 #: NEEDS WORK
@@ -1873,6 +1074,18 @@ msgstr "Çıkış yapılıyor. Hiçbir işlem gerçekleştirilmedi."
 msgid "Error: No package name was entered."
 msgstr "Hata: Hiçbir paket adı girilmedi."
 # 
+# File: usr/share/build-package/build_package.py, line: 497
+# File: usr/share/build-package/build_package.py, line: 518
+#: NEEDS WORK
+msgid "Organization"
+msgstr "Organizasyon"
+# 
+# File: usr/share/build-package/build_package.py, line: 499
+# File: usr/share/build-package/build_package.py, line: 520
+#: NEEDS WORK
+msgid "User Name"
+msgstr "Kullanıcı Adı"
+# 
 # File: usr/share/build-package/build_package.py, line: 500
 #: NEEDS WORK
 msgid "Package Name"
@@ -1893,6 +1106,12 @@ msgstr "Çalışma Dalı"
 #: NEEDS WORK
 msgid "Url"
 msgstr "Url"
+# 
+# File: usr/share/build-package/build_package.py, line: 508
+# File: usr/share/build-package/build_package.py, line: 525
+#: NEEDS WORK
+msgid "TMATE Debug"
+msgstr "TMATE Hata Ayıklama"
 # 
 # File: usr/share/build-package/build_package.py, line: 510
 #: NEEDS WORK
@@ -1946,6 +1165,12 @@ msgstr "Paket oluştur (commit + dal + derleme)"
 msgid "Advanced menu"
 msgstr "Gelişmiş menü"
 # 
+# File: usr/share/build-package/menu_system.py, line: 45
+# File: usr/share/build-package/menu_system.py, line: 59
+#: NEEDS WORK
+msgid "Exit"
+msgstr "Çıkış"
+# 
 # File: usr/share/build-package/build_package.py, line: 547
 #: NEEDS WORK
 msgid "Main Menu"
@@ -1959,10 +1184,39 @@ msgstr "Ana Menü"
 msgid "Failed to pull changes. Do you want to continue anyway?"
 msgstr "Değişiklikleri çekme başarısız oldu. Yine de devam etmek istiyor musunuz?"
 # 
+# File: usr/share/build-package/menu_system.py, line: 47
+# File: usr/share/build-package/menu_system.py, line: 61
+#: NEEDS WORK
+msgid "Back"
+msgstr "Geri"
+# 
 # File: usr/share/build-package/build_package.py, line: 579
 #: NEEDS WORK
 msgid "Select repository"
 msgstr "Depoyu seçin"
+# 
+# File: usr/share/build-package/build_package.py, line: 592
+# File: usr/share/build-package/build_package.py, line: 617
+# File: usr/share/build-package/build_package.py, line: 637
+#: NEEDS WORK
+msgid "Enable TMATE debug session?"
+msgstr "TMATE hata ayıklama oturumunu etkinleştirmek ister misiniz?"
+# 
+# File: usr/share/build-package/build_package.py, line: 592
+# File: usr/share/build-package/build_package.py, line: 617
+# File: usr/share/build-package/build_package.py, line: 637
+# File: usr/share/build-package/build_package.py, line: 747
+#: NEEDS WORK
+msgid "No"
+msgstr "Hayır"
+# 
+# File: usr/share/build-package/build_package.py, line: 592
+# File: usr/share/build-package/build_package.py, line: 617
+# File: usr/share/build-package/build_package.py, line: 637
+# File: usr/share/build-package/build_package.py, line: 747
+#: NEEDS WORK
+msgid "Yes"
+msgstr "Evet"
 # 
 # File: usr/share/build-package/build_package.py, line: 608
 #: NEEDS WORK
@@ -1993,6 +1247,11 @@ msgstr "Tüm etiketleri sil"
 #: NEEDS WORK
 msgid "Merge branch to main"
 msgstr "Ana dalı birleştir"
+# 
+# File: usr/share/build-package/build_package.py, line: 1228
+#: NEEDS WORK
+msgid "Revert commit"
+msgstr "Commit'i geri al"
 # 
 # File: usr/share/build-package/build_package.py, line: 663
 #: NEEDS WORK
@@ -2079,6 +1338,408 @@ msgstr "Çekme isteği işlemi tamamlandı."
 #, python-brace-format
 msgid "Error getting branches: {0}"
 msgstr "Hatalı dal alınıyor: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1354
+#: NEEDS WORK
+#, python-brace-format
+msgid "You can only revert commits on your own branch ({0}) or main branch."
+msgstr "Sadece kendi dalınızda ({0}) veya ana dalda yapılan commit'leri geri alabilirsiniz."
+# 
+# File: usr/share/build-package/build_package.py, line: 1362
+#: NEEDS WORK
+msgid "Revert (keep history)"
+msgstr "Geri Al (geçmişi koru)"
+# 
+# File: usr/share/build-package/build_package.py, line: 1363
+#: NEEDS WORK
+msgid "Reset (remove from history)"
+msgstr "Sıfırla (geçmişten kaldır)"
+# 
+# File: usr/share/build-package/build_package.py, line: 1369
+#: NEEDS WORK
+#, python-brace-format
+msgid "Branch: {0} - Select revert method"
+msgstr "Dal: {0} - Geri alma yöntemini seçin"
+# 
+# File: usr/share/build-package/build_package.py, line: 1380
+#: NEEDS WORK
+msgid "Main branch detected - only revert method available (safer for shared branch)"
+msgstr "Ana dalga tespit edildi - yalnızca geri alma yöntemi mevcut (paylaşılan dalga için daha güvenli)"
+# 
+# File: usr/share/build-package/build_package.py, line: 1385
+#: NEEDS WORK
+msgid "No commits found to revert."
+msgstr "Geri alınacak hiçbir commit bulunamadı."
+# 
+# File: usr/share/build-package/build_package.py, line: 1402
+#: NEEDS WORK
+#, python-brace-format
+msgid "Select commit to revert ({0})"
+msgstr "Geri almak için commit seçin ({0})"
+# 
+# File: usr/share/build-package/build_package.py, line: 1414
+#: NEEDS WORK
+#, python-brace-format
+msgid "Do you want to proceed with this {0}?"
+msgstr "Bu {0} ile devam etmek istiyor musunuz?"
+# 
+# File: usr/share/build-package/build_package.py, line: 1434
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to {0} commit."
+msgstr "{0} taahhüdü başarısız oldu."
+# 
+# File: usr/share/build-package/build_package.py, line: 1463
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error getting commit history: {0}"
+msgstr "Hata, commit geçmişi alınamadı: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1466
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected error getting commits: {0}"
+msgstr "Beklenmedik hata, commit'leri alırken: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1487
+#: NEEDS WORK
+msgid "Target Commit Hash"
+msgstr "Hedef Taahhüt Hash'ı"
+# 
+# File: usr/share/build-package/build_package.py, line: 1488
+#: NEEDS WORK
+msgid "Author"
+msgstr "Yazar"
+# 
+# File: usr/share/build-package/build_package.py, line: 1489
+#: NEEDS WORK
+msgid "Date"
+msgstr "Tarih"
+# 
+# File: usr/share/build-package/build_package.py, line: 1490
+#: NEEDS WORK
+msgid "Message"
+msgstr "Mesaj"
+# 
+# File: usr/share/build-package/build_package.py, line: 1491
+#: NEEDS WORK
+msgid "Method"
+msgstr "Yöntem"
+# 
+# File: usr/share/build-package/build_package.py, line: 1495
+# File: usr/share/build-package/build_package.py, line: 1500
+#: NEEDS WORK
+msgid "Result"
+msgstr "Sonuç"
+# 
+# File: usr/share/build-package/build_package.py, line: 1495
+#: NEEDS WORK
+msgid "Code will be restored to this commit's exact state"
+msgstr "Kod, bu commit'in tam durumuna geri yüklenecektir."
+# 
+# File: usr/share/build-package/build_package.py, line: 1496
+#: NEEDS WORK
+msgid "New Commit"
+msgstr "Yeni Taahhüt"
+# 
+# File: usr/share/build-package/build_package.py, line: 1496
+#: NEEDS WORK
+msgid "Will create new commit with restored state"
+msgstr "Yeni bir geri yüklenmiş durum ile yeni bir commit oluşturacaktır."
+# 
+# File: usr/share/build-package/build_package.py, line: 1497
+# File: usr/share/build-package/build_package.py, line: 1501
+#: NEEDS WORK
+msgid "History"
+msgstr "Geçmiş"
+# 
+# File: usr/share/build-package/build_package.py, line: 1497
+#: NEEDS WORK
+msgid "All commits remain in history (non-destructive)"
+msgstr "Tüm commitler geçmişte kalır (yıkıcı olmayan)"
+# 
+# File: usr/share/build-package/build_package.py, line: 1498
+#: NEEDS WORK
+msgid "Current Code"
+msgstr "Mevcut Kod"
+# 
+# File: usr/share/build-package/build_package.py, line: 1500
+#: NEEDS WORK
+msgid "Repository will be reset to this commit"
+msgstr "Depo bu commit'e sıfırlanacak."
+# 
+# File: usr/share/build-package/build_package.py, line: 1501
+#: NEEDS WORK
+msgid "Commits after this will be removed from history"
+msgstr "Bundan sonraki commitler geçmişten silinecektir."
+# 
+# File: usr/share/build-package/build_package.py, line: 1504
+#: NEEDS WORK
+msgid "Revert Preview"
+msgstr "Geri Al Önizleme"
+# 
+# File: usr/share/build-package/build_package.py, line: 1517
+#: NEEDS WORK
+msgid "Files that will be restored to target state:"
+msgstr "Hedef duruma geri yüklenecek dosyalar:"
+# 
+# File: usr/share/build-package/build_package.py, line: 1529
+#: NEEDS WORK
+msgid "No differences detected - code is already at target state"
+msgstr "Farklılık tespit edilmedi - kod zaten hedef durumda."
+# 
+# File: usr/share/build-package/build_package.py, line: 1531
+#: NEEDS WORK
+msgid "Could not analyze file differences"
+msgstr "Dosya farklılıklarını analiz edemedik."
+# 
+# File: usr/share/build-package/build_package.py, line: 1534
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not show commit details: {0}"
+msgstr "Commit detayları gösterilemedi: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1536
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error showing preview: {0}"
+msgstr "Önizleme gösterme hatası: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1547
+#: NEEDS WORK
+#, python-brace-format
+msgid "Executing {0} for commit {1}..."
+msgstr "{1} için {0} çalıştırılıyor..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1569
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during {0}: {1}"
+msgstr "{0} sırasında hata: {1}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1573
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected error during {0}: {1}"
+msgstr "Beklenmedik hata {0} sırasında: {1}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1581
+#: NEEDS WORK
+msgid "Getting commit information..."
+msgstr "Taahhüt bilgilerini alıyor..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1591
+#: NEEDS WORK
+msgid "Restoring code state from selected commit..."
+msgstr "Seçilen commit'ten kod durumu geri yükleniyor..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1598
+#: NEEDS WORK
+msgid "Staging restored files..."
+msgstr "Geri yüklenen dosyalar sahneye alınıyor..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1610
+#: NEEDS WORK
+msgid "No changes detected - code is already at selected state"
+msgstr "Değişiklik tespit edilmedi - kod zaten seçilen durumda."
+# 
+# File: usr/share/build-package/build_package.py, line: 1616
+#: NEEDS WORK
+msgid "Creating revert commit..."
+msgstr "Geri alma taahhüdü oluşturuluyor..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1622
+#: NEEDS WORK
+msgid "Revert completed successfully - code restored to selected commit state"
+msgstr "Geri alma başarıyla tamamlandı - kod seçilen commit durumuna geri yüklendi"
+# 
+# File: usr/share/build-package/build_package.py, line: 1626
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during revert operation: {0}"
+msgstr "Geri alma işlemi sırasında hata: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1630
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected error during revert: {0}"
+msgstr "Geri alma sırasında beklenmedik hata: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1635
+#: NEEDS WORK
+msgid "Resetting to previous commit..."
+msgstr "Önceki commit'e sıfırlanıyor..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1644
+#: NEEDS WORK
+msgid "Commit exists in remote - force push required"
+msgstr "Uzakta commit mevcut - zorla itme gerekli"
+# 
+# File: usr/share/build-package/build_package.py, line: 1645
+#: NEEDS WORK
+msgid "This will force push and rewrite remote history. Continue?"
+msgstr "Bu, zorla itme yapacak ve uzak geçmişi yeniden yazacaktır. Devam edilsin mi?"
+# 
+# File: usr/share/build-package/build_package.py, line: 1646
+#: NEEDS WORK
+msgid "Force pushing changes..."
+msgstr "Zorla değişiklikleri itme..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1648
+#: NEEDS WORK
+msgid "Reset completed and force pushed"
+msgstr "Sıfırlama tamamlandı ve zorla itildi."
+# 
+# File: usr/share/build-package/build_package.py, line: 1651
+#: NEEDS WORK
+msgid "Reset completed locally only (remote unchanged)"
+msgstr "Sıfırlama yalnızca yerel olarak tamamlandı (uzaktan değişmedi)"
+# 
+# File: usr/share/build-package/build_package.py, line: 1654
+#: NEEDS WORK
+msgid "Reset completed (commit was only local)"
+msgstr "Sıfırlama tamamlandı (taahhüt yalnızca yerel idi)"
+# 
+# File: usr/share/build-package/build_package.py, line: 1681
+#: NEEDS WORK
+msgid "Successfully skipped revert (no effective changes)"
+msgstr "Başarıyla geri alma atlandı (etkili değişiklik yok)"
+# 
+# File: usr/share/build-package/build_package.py, line: 1684
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to skip revert: {0}"
+msgstr "Geri alma atlanamadı: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1701
+#: NEEDS WORK
+msgid "Revert completed successfully"
+msgstr "Geri alma işlemi başarıyla tamamlandı"
+# 
+# File: usr/share/build-package/build_package.py, line: 1704
+#: NEEDS WORK
+#, python-brace-format
+msgid "Revert continue failed: {0}"
+msgstr "Geri alma devam edilemedi: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1710
+#: NEEDS WORK
+msgid "Revert continue timed out - aborting"
+msgstr "Geri alma devam süresi doldu - iptal ediliyor"
+# 
+# File: usr/share/build-package/build_package.py, line: 1717
+#: NEEDS WORK
+msgid "Pushing revert changes..."
+msgstr "Geri alma değişiklikleri itiliyor..."
+# 
+# File: usr/share/build-package/build_package.py, line: 1726
+#: NEEDS WORK
+msgid "Revert changes pushed successfully"
+msgstr "Değişiklikler başarıyla geri alındı"
+# 
+# File: usr/share/build-package/build_package.py, line: 1729
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to push revert: {0}"
+msgstr "Geri alma itmesi başarısız oldu: {0}"
+# 
+# File: usr/share/build-package/build_package.py, line: 1733
+#: NEEDS WORK
+msgid "Revert completed (commit was only local)"
+msgstr "Geri alma tamamlandı (commit yalnızca yerel idi)"
+# 
+# File: usr/share/build-package/build_package.py, line: 1792
+#: NEEDS WORK
+msgid "REVERT COMPLETED SUCCESSFULLY!"
+msgstr "GERİ ALMA BAŞARIYLA TAMAMLANDI!"
+# 
+# File: usr/share/build-package/build_package.py, line: 1794
+#: NEEDS WORK
+msgid "Code restored to commit"
+msgstr "Kod, taahhüt edilen duruma geri yüklendi."
+# 
+# File: usr/share/build-package/build_package.py, line: 1795
+# File: usr/share/build-package/build_package.py, line: 1814
+#: NEEDS WORK
+msgid "Target commit"
+msgstr "Hedef taahhüt"
+# 
+# File: usr/share/build-package/build_package.py, line: 1796
+#: NEEDS WORK
+msgid "New commit created"
+msgstr "Yeni commit oluşturuldu"
+# 
+# File: usr/share/build-package/build_package.py, line: 1797
+#: NEEDS WORK
+msgid "New commit message"
+msgstr "Yeni commit mesajı"
+# 
+# File: usr/share/build-package/build_package.py, line: 1803
+#: NEEDS WORK
+msgid "Files restored"
+msgstr "Dosyalar geri yüklendi"
+# 
+# File: usr/share/build-package/build_package.py, line: 1807
+#: NEEDS WORK
+#, python-brace-format
+msgid "and {0} more files"
+msgstr "ve {0} daha dosya"
+# 
+# File: usr/share/build-package/build_package.py, line: 1811
+#: NEEDS WORK
+msgid "RESET COMPLETED SUCCESSFULLY!"
+msgstr "SIFIRLAMA BAŞARIYLA TAMAMLANDI!"
+# 
+# File: usr/share/build-package/build_package.py, line: 1813
+#: NEEDS WORK
+msgid "Repository reset to commit"
+msgstr "Depo, taahhüt için sıfırlandı"
+# 
+# File: usr/share/build-package/build_package.py, line: 1815
+#: NEEDS WORK
+msgid "History after this commit was removed"
+msgstr "Bu committen sonraki geçmiş silindi"
+# 
+# File: usr/share/build-package/build_package.py, line: 1816
+#: NEEDS WORK
+msgid "Current HEAD"
+msgstr "Geçerli HEAD"
+# 
+# File: usr/share/build-package/build_package.py, line: 1820
+#: NEEDS WORK
+msgid "Changes force-pushed to remote"
+msgstr "Uzak sunucuya zorla itilen değişiklikler"
+# 
+# File: usr/share/build-package/build_package.py, line: 1822
+#: NEEDS WORK
+msgid "Reset completed locally only"
+msgstr "Sıfırlama yalnızca yerel olarak tamamlandı"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/build_package.py, line: 1827
+# File: usr/share/build-package/github_api.py, line: 770
+#: NEEDS WORK
+msgid "Operation completed successfully!"
+msgstr "İşlem başarıyla tamamlandı!"
+# 
+# File: usr/share/build-package/build_package.py, line: 1828
+#: NEEDS WORK
+msgid "All changes have been saved to your repository"
+msgstr "Tüm değişiklikler deposunuza kaydedildi."
+# 
+# File: usr/share/build-package/build_package.py, line: 1836
+#: NEEDS WORK
+msgid " COMPLETED"
+msgstr "TAMAMLANMIŞ"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/build_package.py, line: 1837
+# File: usr/share/build-package/github_api.py, line: 777
+#: NEEDS WORK
+msgid "Press Enter to return to menu"
+msgstr "Menüye dönmek için Enter tuşuna basın"
 # 
 # File: usr/share/build-package/build_package.py, line: 1088
 #: NEEDS WORK
@@ -2204,6 +1865,54 @@ msgstr "📄 Yeni taahhütler ({0}):"
 msgid "📁 Files changed ({0}):"
 msgstr "📁 Değiştirilen dosyalar ({0}):"
 # 
+# File: usr/share/build-package/build_package.py, line: 2100
+#: NEEDS WORK
+#, python-brace-format
+msgid "  ✓ Added: {0} files"
+msgstr "✓ Eklendi: {0} dosya"
+# 
+# File: usr/share/build-package/build_package.py, line: 2104
+#: NEEDS WORK
+#, python-brace-format
+msgid "    + ... and {0} more"
+msgstr "+ ... ve {0} daha"
+# 
+# File: usr/share/build-package/build_package.py, line: 2107
+#: NEEDS WORK
+#, python-brace-format
+msgid "  ⚠ Modified: {0} files"
+msgstr "⚠ Değiştirilen: {0} dosya"
+# 
+# File: usr/share/build-package/build_package.py, line: 2111
+#: NEEDS WORK
+#, python-brace-format
+msgid "    ~ ... and {0} more"
+msgstr "~ ... ve {0} daha"
+# 
+# File: usr/share/build-package/build_package.py, line: 2114
+#: NEEDS WORK
+#, python-brace-format
+msgid "  ✗ Deleted: {0} files"
+msgstr "✗ Silinen: {0} dosya"
+# 
+# File: usr/share/build-package/build_package.py, line: 2118
+#: NEEDS WORK
+#, python-brace-format
+msgid "    - ... and {0} more"
+msgstr "... ve {0} daha"
+# 
+# File: usr/share/build-package/build_package.py, line: 2121
+#: NEEDS WORK
+#, python-brace-format
+msgid "  → Renamed: {0} files"
+msgstr "Yeniden adlandırıldı: {0} dosya"
+# 
+# File: usr/share/build-package/build_package.py, line: 2135
+#: NEEDS WORK
+#, python-brace-format
+msgid "📊 {0}"
+msgstr "📊 {0}"
+# 
 # File: usr/share/build-package/build_package.py, line: 1270
 #: NEEDS WORK
 #, python-brace-format
@@ -2230,3 +1939,845 @@ msgstr "Başarıyla {0} olarak değiştirildi ve güncellendi."
 #, python-brace-format
 msgid "Error switching to branch {0}: {1}"
 msgstr "Dal {0} dal geçiş yaparken hata: {1}"
+# 
+# File: usr/share/build-package/github_api.py, line: 29
+# File: usr/share/build-package/github_api.py, line: 73
+# File: usr/share/build-package/github_api.py, line: 342
+# File: usr/share/build-package/github_api.py, line: 391
+#: NEEDS WORK
+msgid "Could not determine repository name."
+msgstr "Depo adı belirlenemedi."
+# 
+# File: usr/share/build-package/github_api.py, line: 35
+#: NEEDS WORK
+msgid "Could not determine current commit SHA."
+msgstr "Geçerli commit SHA'sı belirlenemedi."
+# 
+# File: usr/share/build-package/github_api.py, line: 44
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating reference: {0}..."
+msgstr "Referans oluşturuluyor: {0}..."
+# 
+# File: usr/share/build-package/github_api.py, line: 59
+# File: usr/share/build-package/github_api.py, line: 65
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating reference: {0}"
+msgstr "Referans oluşturulurken hata: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 62
+#: NEEDS WORK
+#, python-brace-format
+msgid "Reference {0} created successfully!"
+msgstr "Referans {0} başarıyla oluşturuldu!"
+# 
+# File: usr/share/build-package/github_api.py, line: 83
+#: NEEDS WORK
+#, python-brace-format
+msgid "Checking if branch {0} already exists..."
+msgstr "Dal {0} dalının zaten mevcut olup olmadığını kontrol ediliyor..."
+# 
+# File: usr/share/build-package/github_api.py, line: 91
+#: NEEDS WORK
+#, python-brace-format
+msgid "Branch {0} already exists - using existing branch"
+msgstr "Dal {0} zaten mevcut - mevcut dal kullanılıyor"
+# 
+# File: usr/share/build-package/github_api.py, line: 86
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not determine SHA for {0}."
+msgstr "{0} için SHA belirlenemedi."
+# 
+# File: usr/share/build-package/github_api.py, line: 103
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating new branch: {0} based on {1}..."
+msgstr "Yeni dal oluşturuluyor: {0}, {1} temel alınarak..."
+# 
+# File: usr/share/build-package/github_api.py, line: 101
+# File: usr/share/build-package/github_api.py, line: 166
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating branch: {0}"
+msgstr "Dal oluşturulurken hata: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 102
+# File: usr/share/build-package/github_api.py, line: 478
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error details: {0}"
+msgstr "Hata ayrıntıları: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 163
+#: NEEDS WORK
+#, python-brace-format
+msgid "Branch {0} created successfully!"
+msgstr "Dal {0} başarıyla oluşturuldu!"
+# 
+# File: usr/share/build-package/github_api.py, line: 183
+#: NEEDS WORK
+msgid "Backing up local changes..."
+msgstr "Yerel değişiklikler yedekleniyor..."
+# 
+# File: usr/share/build-package/github_api.py, line: 191
+#: NEEDS WORK
+msgid "Updating remote references..."
+msgstr "Uzak referanslar güncelleniyor..."
+# 
+# File: usr/share/build-package/github_api.py, line: 195
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switching to branch {0}..."
+msgstr "{0} dalına geçiliyor..."
+# 
+# File: usr/share/build-package/github_api.py, line: 202
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} into {1}..."
+msgstr "{1} içine {0} birleştiriliyor..."
+# 
+# File: usr/share/build-package/github_api.py, line: 211
+#: NEEDS WORK
+msgid "Merge completed without conflicts!"
+msgstr "Birleştirme çakışmasız tamamlandı!"
+# 
+# File: usr/share/build-package/github_api.py, line: 214
+#: NEEDS WORK
+msgid "Conflicts detected, resolving automatically..."
+msgstr "Çatışmalar tespit edildi, otomatik olarak çözülüyor..."
+# 
+# File: usr/share/build-package/github_api.py, line: 227
+#: NEEDS WORK
+msgid "Using advanced resolution strategy..."
+msgstr "Gelişmiş çözümleme stratejisi kullanılıyor..."
+# 
+# File: usr/share/build-package/github_api.py, line: 254
+#: NEEDS WORK
+msgid "Conflicts resolved automatically!"
+msgstr "Çatışmalar otomatik olarak çözüldü!"
+# 
+# File: usr/share/build-package/github_api.py, line: 256
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically"
+msgstr "Çatışmalar otomatik olarak çözülemedi."
+# 
+# File: usr/share/build-package/github_api.py, line: 259
+#: NEEDS WORK
+msgid "No differences detected"
+msgstr "Farklılık tespit edilmedi"
+# 
+# File: usr/share/build-package/github_api.py, line: 262
+#: NEEDS WORK
+msgid "Pushing resolved branch..."
+msgstr "Çözümlenmiş dal itiliyor..."
+# 
+# File: usr/share/build-package/github_api.py, line: 271
+#: NEEDS WORK
+msgid "Restoring local changes..."
+msgstr "Yerel değişiklikler geri yükleniyor..."
+# 
+# File: usr/share/build-package/github_api.py, line: 274
+#: NEEDS WORK
+msgid "Conflict resolution completed successfully!"
+msgstr "Çatışma çözümü başarıyla tamamlandı!"
+# 
+# File: usr/share/build-package/github_api.py, line: 278
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during conflict resolution: {0}"
+msgstr "Çatışma çözümü sırasında hata: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 302
+#: NEEDS WORK
+msgid "Waiting for PR to be ready for merge..."
+msgstr "Birleştirme için PR'nın hazır olmasını bekliyorum..."
+# 
+# File: usr/share/build-package/github_api.py, line: 316
+#: NEEDS WORK
+#, python-brace-format
+msgid "Attempt {0}/{1}: mergeable={2}, state={3}"
+msgstr "Deneme {0}/{1}: birleştirilebilir={2}, durum={3}"
+# 
+# File: usr/share/build-package/github_api.py, line: 320
+#: NEEDS WORK
+msgid "PR ready for merge!"
+msgstr "PR birleştirmeye hazır!"
+# 
+# File: usr/share/build-package/github_api.py, line: 323
+#: NEEDS WORK
+msgid "PR has conflicts"
+msgstr "PR çatışmaları var"
+# 
+# File: usr/share/build-package/github_api.py, line: 330
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected state: {0}"
+msgstr "Beklenmedik durum: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 333
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error checking PR: {0}"
+msgstr "Hata kontrolü PR: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 337
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error: {0}"
+msgstr "Hata: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 340
+#: NEEDS WORK
+msgid "Timeout waiting for PR to be ready"
+msgstr "PR'nin hazır olması için zaman aşımı bekleniyor"
+# 
+# File: usr/share/build-package/github_api.py, line: 240
+#: NEEDS WORK
+msgid "Failed to create branch for the build."
+msgstr "Yapı için dal oluşturulamadı."
+# 
+# File: usr/share/build-package/github_api.py, line: 245
+#: NEEDS WORK
+#, python-brace-format
+msgid "Using existing branch: {0}"
+msgstr "Mevcut dal kullanılıyor: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 267
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error retrieving remote repository URL for package: {0}"
+msgstr "Paket için uzak depo URL'si alınırken hata: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 270
+#: NEEDS WORK
+#, python-brace-format
+msgid "Detected repository: {0}"
+msgstr "Tespit edilen depo: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 394
+#: NEEDS WORK
+#, python-brace-format
+msgid "Testing package: workflow will use branch {0}"
+msgstr "Test paketi: iş akışı {0} dalını kullanacak"
+# 
+# File: usr/share/build-package/github_api.py, line: 417
+#: NEEDS WORK
+msgid "Stable/Extra package: main is up-to-date, workflow will use main"
+msgstr "Kararlı/Extra paket: ana güncel, iş akışı ana kullanacak"
+# 
+# File: usr/share/build-package/github_api.py, line: 421
+#: NEEDS WORK
+#, python-brace-format
+msgid "Stable/Extra package: main not up-to-date, workflow will use {0}"
+msgstr "Stable/Extra paketi: ana güncel değil, iş akışı {0} kullanacak"
+# 
+# File: usr/share/build-package/github_api.py, line: 422
+# File: usr/share/build-package/github_api.py, line: 435
+#: NEEDS WORK
+#, python-brace-format
+msgid "⚠️  Warning: Package will be built from {0} instead of main"
+msgstr "⚠️  Uyarı: Paket, ana yerine {0} üzerinden oluşturulacak"
+# 
+# File: usr/share/build-package/github_api.py, line: 425
+#: NEEDS WORK
+msgid "Stable/Extra package: workflow will use main"
+msgstr "Stabil/Extra paketi: iş akışı ana kullanacak"
+# 
+# File: usr/share/build-package/github_api.py, line: 430
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not verify branch status, using current: {0}"
+msgstr "Dalga durumu doğrulanamadı, mevcut olan kullanılıyor: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 434
+#: NEEDS WORK
+#, python-brace-format
+msgid "Stable/Extra package: not on main, workflow will use {0}"
+msgstr "Stabil/Extra paketi: ana dizinde değil, iş akışı {0} kullanacak"
+# 
+# File: usr/share/build-package/github_api.py, line: 452
+#: NEEDS WORK
+msgid "Workflow payload:"
+msgstr "İş akışı yükü:"
+# 
+# File: usr/share/build-package/github_api.py, line: 453
+#: NEEDS WORK
+#, python-brace-format
+msgid "  - branch: {0}"
+msgstr "- dal: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 455
+#: NEEDS WORK
+#, python-brace-format
+msgid "  - branch_type: {0}"
+msgstr "- dalga_tipi: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 457
+#: NEEDS WORK
+#, python-brace-format
+msgid "  - new_branch: {0}"
+msgstr "- yeni_dal: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 285
+#: NEEDS WORK
+msgid "Triggering build workflow on GitHub..."
+msgstr "GitHub'da derleme iş akışını tetikleme..."
+# 
+# File: usr/share/build-package/github_api.py, line: 294
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error triggering workflow. Response code: {0}"
+msgstr "Hata, iş akışını tetikleme. Yanıt kodu: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 297
+#: NEEDS WORK
+#, python-brace-format
+msgid "Build workflow ({0}) triggered successfully."
+msgstr "İş akışı ({0}) başarıyla tetiklendi."
+# 
+# File: usr/share/build-package/github_api.py, line: 301
+#: NEEDS WORK
+#, python-brace-format
+msgid "URL to monitor the build: {0}"
+msgstr "Derleme izlemek için URL: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 305
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error triggering workflow: {0}"
+msgstr "İş akışını tetikleme hatası: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 313
+#: NEEDS WORK
+#, python-brace-format
+msgid "Token file '{0}' not found."
+msgstr "Token dosyası '{0}' bulunamadı."
+# 
+# File: usr/share/build-package/github_api.py, line: 331
+#: NEEDS WORK
+#, python-brace-format
+msgid "Token for organization '{0}' not found."
+msgstr "'{0}' için organizasyon belirteci bulunamadı."
+# 
+# File: usr/share/build-package/github_api.py, line: 334
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error reading token: {0}"
+msgstr "Token okunurken hata: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 345
+#: NEEDS WORK
+#, python-brace-format
+msgid "Cleaning Actions jobs with '{0}' status..."
+msgstr "'{0}' durumundaki Temizlik İşlemleri..."
+# 
+# File: usr/share/build-package/github_api.py, line: 354
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error fetching Actions jobs. Code: {0}"
+msgstr "Eylem işleri alınırken hata. Kod: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 361
+#: NEEDS WORK
+#, python-brace-format
+msgid "No Action jobs with '{0}' status found."
+msgstr "'{0}' durumunda No Action işi bulunamadı."
+# 
+# File: usr/share/build-package/github_api.py, line: 368
+#: NEEDS WORK
+#, python-brace-format
+msgid "Deleting job {0}..."
+msgstr "Görev {0} siliniyor..."
+# 
+# File: usr/share/build-package/github_api.py, line: 378
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error deleting job {0}. Code: {1}"
+msgstr "Görev {0} silinirken hata. Kod: {1}"
+# 
+# File: usr/share/build-package/github_api.py, line: 380
+#: NEEDS WORK
+#, python-brace-format
+msgid "Deleted {0} Actions jobs with '{1}' status."
+msgstr "Silinen {0} Eylem işleri '{1}' durumu ile."
+# 
+# File: usr/share/build-package/github_api.py, line: 383
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error cleaning Actions jobs: {0}"
+msgstr "Hata, Eylem işleri temizleniyor: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 394
+#: NEEDS WORK
+msgid "Getting tag list..."
+msgstr "Etiket listesi alınıyor..."
+# 
+# File: usr/share/build-package/github_api.py, line: 403
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error fetching tags. Code: {0}"
+msgstr "Etiketler alınırken hata. Kod: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 409
+#: NEEDS WORK
+msgid "No tags found."
+msgstr "Etiket bulunamadı."
+# 
+# File: usr/share/build-package/github_api.py, line: 416
+#: NEEDS WORK
+#, python-brace-format
+msgid "Deleting tag {0}..."
+msgstr "Etiket {0} siliniyor..."
+# 
+# File: usr/share/build-package/github_api.py, line: 427
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error deleting tag {0}. Code: {1}"
+msgstr "Etiket silinirken hata {0}. Kod: {1}"
+# 
+# File: usr/share/build-package/github_api.py, line: 429
+#: NEEDS WORK
+#, python-brace-format
+msgid "Deleted {0} tags."
+msgstr "{0} etiketleri silindi."
+# 
+# File: usr/share/build-package/github_api.py, line: 432
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error cleaning tags: {0}"
+msgstr "Etiketler temizlenirken hata: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 439
+#: NEEDS WORK
+msgid "Source branch name is required to create a pull request"
+msgstr "Kaynak dal adı, bir çekme isteği oluşturmak için gereklidir."
+# 
+# File: usr/share/build-package/github_api.py, line: 449
+#: NEEDS WORK
+msgid "Repository name could not be determined"
+msgstr "Depo adı belirlenemedi."
+# 
+# File: usr/share/build-package/github_api.py, line: 627
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating pull request: {0} → {1}"
+msgstr "Çekme isteği oluşturuluyor: {0} → {1}"
+# 
+# File: usr/share/build-package/github_api.py, line: 632
+#: NEEDS WORK
+msgid "Resolving possible conflicts before merge..."
+msgstr "Birleştirmeden önce olası çatışmaları çözme..."
+# 
+# File: usr/share/build-package/github_api.py, line: 637
+#: NEEDS WORK
+msgid "Warning: Could not resolve conflicts automatically"
+msgstr "Uyarı: Çatışmalar otomatik olarak çözülemedi"
+# 
+# File: usr/share/build-package/github_api.py, line: 638
+#: NEEDS WORK
+msgid "Trying to create PR anyway..."
+msgstr "Yine de PR oluşturmaya çalışıyorum..."
+# 
+# File: usr/share/build-package/github_api.py, line: 457
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merge {0} into {1}"
+msgstr "{0}'ı {1} ile birleştir"
+# 
+# File: usr/share/build-package/github_api.py, line: 458
+#: NEEDS WORK
+msgid "Automated PR created by build_package.py"
+msgstr "Otomatik PR, build_package.py tarafından oluşturuldu."
+# 
+# File: usr/share/build-package/github_api.py, line: 644
+#: NEEDS WORK
+msgid "Conflicts resolved automatically (if any)"
+msgstr "Çatışmalar otomatik olarak çözüldü (varsa)"
+# 
+# File: usr/share/build-package/github_api.py, line: 645
+#: NEEDS WORK
+msgid "Ready for automatic merge"
+msgstr "Otomatik birleştirme için hazır"
+# 
+# File: usr/share/build-package/github_api.py, line: 475
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to create PR: {0}"
+msgstr "PR oluşturulamadı: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 486
+#: NEEDS WORK
+#, python-brace-format
+msgid "Pull request created successfully: {0}"
+msgstr "Başvuru başarıyla oluşturuldu: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 670
+#: NEEDS WORK
+msgid "Starting auto-merge process..."
+msgstr "Otomatik birleştirme süreci başlatılıyor..."
+# 
+# File: usr/share/build-package/github_api.py, line: 679
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-merge: {0} → {1}"
+msgstr "Otomatik birleştirme: {0} → {1}"
+# 
+# File: usr/share/build-package/github_api.py, line: 680
+#: NEEDS WORK
+msgid "Automated merge performed by build_package.py"
+msgstr "build_package.py tarafından gerçekleştirilen otomatik birleştirme"
+# 
+# File: usr/share/build-package/github_api.py, line: 689
+#: NEEDS WORK
+msgid "AUTO-MERGE COMPLETED SUCCESSFULLY!"
+msgstr "OTOMATİK BİRLEŞTİRME BAŞARIYLA TAMAMLANDI!"
+# 
+# File: usr/share/build-package/github_api.py, line: 690
+#: NEEDS WORK
+#, python-brace-format
+msgid "SHA: {0}"
+msgstr "SHA: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 698
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-merge failed: {0}"
+msgstr "Otomatik birleştirme başarısız oldu: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 700
+# File: usr/share/build-package/github_api.py, line: 707
+#: NEEDS WORK
+msgid "PR created but must be merged manually"
+msgstr "PR oluşturuldu ancak manuel olarak birleştirilmesi gerekiyor."
+# 
+# File: usr/share/build-package/github_api.py, line: 706
+#: NEEDS WORK
+#, python-brace-format
+msgid "PR not ready for merge (state: {0})"
+msgstr "PR birleştirme için hazır değil (durum: {0})"
+# 
+# File: usr/share/build-package/github_api.py, line: 507
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating pull request: {0}"
+msgstr "Hata oluştu: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 750
+#: NEEDS WORK
+msgid "PULL REQUEST COMPLETED SUCCESSFULLY!"
+msgstr "ÇEKME TALEBİ BAŞARIYLA TAMAMLANDI!"
+# 
+# File: usr/share/build-package/github_api.py, line: 752
+#: NEEDS WORK
+#, python-brace-format
+msgid "PR #{0} created and processed"
+msgstr "PR #{0} oluşturuldu ve işlendi"
+# 
+# File: usr/share/build-package/github_api.py, line: 758
+#: NEEDS WORK
+msgid "SUCCESS"
+msgstr "BAŞARILI"
+# 
+# File: usr/share/build-package/github_api.py, line: 759
+#: NEEDS WORK
+msgid "Code automatically merged to target branch"
+msgstr "Kod otomatik olarak hedef dalga birleştirildi."
+# 
+# File: usr/share/build-package/github_api.py, line: 760
+#: NEEDS WORK
+msgid "Merge SHA"
+msgstr "Birleştir SHA"
+# 
+# File: usr/share/build-package/github_api.py, line: 764
+#: NEEDS WORK
+msgid "Manual merge required"
+msgstr "Manuel birleştirme gereklidir"
+# 
+# File: usr/share/build-package/github_api.py, line: 776
+#: NEEDS WORK
+msgid "PULL REQUEST COMPLETED"
+msgstr "PULL İSTEĞİ TAMAMLANDI"
+# 
+# File: usr/share/build-package/logger.py, line: 67
+#: NEEDS WORK
+msgid "ERROR"
+msgstr "HATA"
+# 
+# File: usr/share/build-package/logger.py, line: 119
+#: NEEDS WORK
+msgid "Field"
+msgstr "Alan"
+# 
+# File: usr/share/build-package/logger.py, line: 120
+#: NEEDS WORK
+msgid "Value"
+msgstr "Değer"
+# 
+# File: usr/share/build-package/menu_system.py, line: 91
+#: NEEDS WORK
+msgid "Use [white]arrow keys ↑↓[/] to navigate, [white]Enter[/] to select, [white]ESC[/] to exit"
+msgstr ""
+"[white]ok tuşları ↑↓[/] ile gezinmek için, [white]Enter[/] ile seçmek için, [white]ESC[/] ile "
+"çıkmak için"
+# 
+# File: usr/share/build-package/main.py, line: 24
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unhandled error: {0}"
+msgstr "Hatalı durum: {0}"
+# 
+# File: usr/share/build-package/config.py, line: 46
+#: NEEDS WORK
+msgid "BUILD PACKAGE"
+msgstr "Paket Oluştur"
+# 
+# File: usr/share/build-package/config.py, line: 47
+#: NEEDS WORK
+msgid ""
+"A comprehensive tool for package building, testing, and deployment. Streamlines Git operations, "
+"automates builds and manages package workflows for BigCommunity repositories and AUR packages."
+msgstr ""
+"Paket oluşturma, test etme ve dağıtım için kapsamlı bir araç. Git işlemlerini kolaylaştırır, "
+"derlemeleri otomatikleştirir ve BigCommunity depoları ile AUR paketleri için paket iş akışlarını "
+"yönetir."
+# 
+# File: usr/share/build-iso/build_iso.py, line: 105
+#: NEEDS WORK
+msgid "Set the distribution name"
+msgstr "Dağıtım adını ayarlayın"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 109
+#: NEEDS WORK
+msgid "Set the edition (desktop environment)"
+msgstr "Sürümü ayarlayın (masaüstü ortamı)"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 112
+#: NEEDS WORK
+msgid "Set the kernel type"
+msgstr "Çekirdek türünü ayarlayın"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 117
+#: NEEDS WORK
+msgid "Automatic mode using default values"
+msgstr "Otomatik mod varsayılan değerleri kullanıyor"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 173
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose the GitHub {0}:"
+msgstr "GitHub'u seçin {0}:"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 196
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose the {0}:"
+msgstr "{0}'i Seçin:"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 226
+#: NEEDS WORK
+msgid "Choose the ISO profiles repository:"
+msgstr "ISO profilleri deposunu seçin:"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 240
+#: NEEDS WORK
+msgid "No ISO profiles repository selected."
+msgstr "ISO profilleri deposu seçilmedi."
+# 
+# File: usr/share/build-iso/build_iso.py, line: 249
+# File: usr/share/build-iso/build_iso.py, line: 330
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error: Repository API URL not found: {0}"
+msgstr "Hata: Depo API URL'si bulunamadı: {0}"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 252
+#: NEEDS WORK
+#, python-brace-format
+msgid "Fetching from API: {0}"
+msgstr "API'den alınıyor: {0}"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 258
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error: API request failed with status code {0}"
+msgstr "Hata: API isteği {0} durum kodu ile başarısız oldu."
+# 
+# File: usr/share/build-iso/build_iso.py, line: 287
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose a {0} for {1}:"
+msgstr "{1} için bir {0} seçin:"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 298
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error fetching build list: {0}"
+msgstr "Hata, derleme listesini alırken: {0}"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 310
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose a {0} for {1} (from defaults):"
+msgstr "{1} için bir {0} seçin (varsayılanlardan):"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 323
+#: NEEDS WORK
+msgid "Repository and build directory must be selected first."
+msgstr "Öncelikle depo ve derleme dizini seçilmelidir."
+# 
+# File: usr/share/build-iso/build_iso.py, line: 366
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose an {0} for {1}:"
+msgstr "{1} için bir {0} seçin:"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 377
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error fetching editions: {0}"
+msgstr "Sürümler alınırken hata: {0}"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 389
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose an {0} for {1} (from defaults):"
+msgstr "{1} için bir {0} seçin (varsayılanlardan):"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 402
+# File: usr/share/build-iso/build_iso.py, line: 415
+# File: usr/share/build-iso/build_iso.py, line: 428
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose the {0} branch for {1}:"
+msgstr "{1} için {0} dalını seçin:"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 441
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose the {0} version:"
+msgstr "{0} sürümünü seçin:"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 473
+#: NEEDS WORK
+msgid "Distribution"
+msgstr "Dağıtım"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 478
+#: NEEDS WORK
+msgid "ISO Profiles Repo"
+msgstr "ISO Profilleri Deposu"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 479
+#: NEEDS WORK
+msgid "Build Dir"
+msgstr "Derleme Dizini"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 480
+#: NEEDS WORK
+msgid "Edition"
+msgstr "Sürüm"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 481
+#: NEEDS WORK
+msgid "Manjaro Branch"
+msgstr "Manjaro Dalı"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 482
+#: NEEDS WORK
+msgid "Community Branch"
+msgstr "Topluluk Dalı"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 483
+#: NEEDS WORK
+msgid "BigLinux Branch"
+msgstr "BigLinux Dallası"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 484
+#: NEEDS WORK
+msgid "Kernel"
+msgstr "Çekirdek"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 485
+#: NEEDS WORK
+msgid "Release Tag"
+msgstr "Sürüm Etiketi"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 490
+#: NEEDS WORK
+msgid "ISO Build Summary"
+msgstr "ISO Derleme Özeti"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 493
+#: NEEDS WORK
+msgid "Do you want to proceed with building the ISO?"
+msgstr "ISO'yu oluşturmak için devam etmek istiyor musunuz?"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 494
+#: NEEDS WORK
+msgid "ISO build cancelled."
+msgstr "ISO yapısı iptal edildi."
+# 
+# File: usr/share/build-iso/build_iso.py, line: 483
+#: NEEDS WORK
+#, python-brace-format
+msgid "No default configuration found for organization '{0}'."
+msgstr "'{0}' için varsayılan yapılandırma bulunamadı."
+# 
+# File: usr/share/build-iso/build_iso.py, line: 614
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} (version {1})"
+msgstr "{0} (sürüm {1})"
+# 
+# File: usr/share/build-iso/github_api.py, line: 87
+#: NEEDS WORK
+msgid "Triggering ISO build workflow on GitHub..."
+msgstr "GitHub'da ISO yapı iş akışını tetikleme..."
+# 
+# File: usr/share/build-iso/github_api.py, line: 91
+#: NEEDS WORK
+#, python-brace-format
+msgid "Sending request to: {0}"
+msgstr "İstek gönderiliyor: {0}"
+# 
+# File: usr/share/build-iso/github_api.py, line: 100
+#: NEEDS WORK
+msgid "Error triggering workflow (code 422). Can't have more than 10 entries in the event."
+msgstr "Hata, iş akışını tetikleme (kod 422). Olayda 10'dan fazla giriş olamaz."
+# 
+# File: usr/share/build-iso/github_api.py, line: 107
+#: NEEDS WORK
+#, python-brace-format
+msgid "ISO build workflow triggered successfully for {0}."
+msgstr "{0} için ISO yapı iş akışı başarıyla tetiklendi."
+# 
+# File: usr/share/build-iso/github_api.py, line: 108
+#: NEEDS WORK
+msgid "Please check the 'Actions' tab on GitHub to monitor the build progress."
+msgstr "Lütfen derleme ilerlemesini izlemek için GitHub'daki 'Eylemler' sekmesini kontrol edin."
+# 
+# File: usr/share/build-iso/github_api.py, line: 111
+#: NEEDS WORK
+msgid "TMATE session will be enabled. Watch the GitHub Actions logs for connection information."
+msgstr "TMATE oturumu etkinleştirilecektir. Bağlantı bilgileri için GitHub Actions günlüklerini izleyin."
+# 
+# File: usr/share/build-iso/github_api.py, line: 113
+#: NEEDS WORK
+msgid "Waiting 3 seconds for the API to trigger the Action to get the 'id'."
+msgstr "API'nin 'id' almak için Eylemi tetiklemesi için 3 saniye bekleniyor."
+# 
+# File: usr/share/build-iso/config.py, line: 96
+#: NEEDS WORK
+msgid "BUILD ISO"
+msgstr "ISO OLUŞTUR"
+# 
+# File: usr/share/build-iso/config.py, line: 97
+#: NEEDS WORK
+msgid ""
+"Wrapper for ISO building using GitHub Actions. Streamlines the process of creating custom Linux "
+"distribution ISO images through automation."
+msgstr ""
+"GitHub Actions kullanarak ISO oluşturma için Wrapper. Otomasyon aracılığıyla özel Linux dağıtım ISO "
+"görüntüleri oluşturma sürecini kolaylaştırır."
