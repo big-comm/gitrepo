@@ -332,6 +332,22 @@ the specific source code used to create this copy."""), style="white")
     def ensure_user_branch_exists(self, branch_name: str):
         """Creates user branch if it doesn't exist, or switches to it if it does"""
         try:
+            # Check if there are local changes that need to be stashed
+            has_changes = GitUtils.has_changes()
+            stashed = False
+            
+            if has_changes:
+                self.logger.log("cyan", _("Stashing local changes before branch switch..."))
+                stash_result = subprocess.run(
+                    ["git", "stash", "push", "-m", f"auto-stash-before-switch-to-{branch_name}"],
+                    capture_output=True, text=True, check=False
+                )
+                stashed = stash_result.returncode == 0
+                
+                if not stashed:
+                    self.logger.log("red", _("Failed to stash changes before branch switch."))
+                    return False
+            
             # Check if branch exists locally
             local_result = subprocess.run(
                 ["git", "rev-parse", "--verify", branch_name],
@@ -357,6 +373,15 @@ the specific source code used to create this copy."""), style="white")
                 # Branch doesn't exist, create it
                 self.logger.log("cyan", _("Creating new branch: {0}").format(branch_name))
                 subprocess.run(["git", "checkout", "-b", branch_name], check=True)
+            
+            # Restore stashed changes if any
+            if stashed:
+                self.logger.log("cyan", _("Restoring stashed changes..."))
+                pop_result = subprocess.run(["git", "stash", "pop"], capture_output=True, text=True, check=False)
+                if pop_result.returncode != 0:
+                    self.logger.log("yellow", _("Could not restore stashed changes automatically. Check 'git stash list'"))
+                else:
+                    self.logger.log("green", _("Stashed changes restored successfully"))
                 
             return True
         except subprocess.CalledProcessError as e:
