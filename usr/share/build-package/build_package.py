@@ -148,15 +148,80 @@ the specific source code used to create this copy."""), style="white")
         
         console.print(panel)
     
+    def get_commit_types(self):
+        """Returns available commit types with emojis and descriptions"""
+        return [
+            ("✨", "feat", _("A new feature")),
+            ("🐛", "fix", _("A bug fix")),
+            ("📚", "docs", _("Documentation only changes")),
+            ("💎", "style", _("Changes that do not affect the meaning of the code")),
+            ("🔨", "refactor", _("A code change that neither fixes a bug nor adds a feature")),
+            ("🚀", "perf", _("A code change that improves performance")),
+            ("🚨", "test", _("Adding missing tests or correcting existing tests")),
+            ("📦", "build", _("Changes that affect the build system or external dependencies")),
+            ("👷", "ci", _("Changes to CI configuration files and scripts")),
+            ("🔧", "chore", _("Other changes that don't modify src or test files")),
+            ("✏️", "custom", _("Custom commit message (free text)"))
+        ]
+
+    def show_commit_type_menu(self):
+        """Shows interactive menu for commit type selection"""
+        commit_types = self.get_commit_types()
+        
+        # Create menu options
+        options = []
+        for emoji, commit_type, description in commit_types:
+            if commit_type == "custom":
+                options.append(f"{emoji} {commit_type}: {description}")
+            else:
+                options.append(f"{emoji} {commit_type}: {description}")
+        
+        # Show menu
+        result = self.menu.show_menu(_("Select commit type"), options)
+        
+        if result is None:
+            return None, None
+        
+        choice_index, selected_option = result
+        emoji, commit_type, description = commit_types[choice_index]
+        
+        return emoji, commit_type
+
+    def get_commit_message_with_type(self):
+        """Gets commit message with type selection"""
+        # Step 1: Select commit type
+        emoji, commit_type = self.show_commit_type_menu()
+        
+        if emoji is None or commit_type is None:
+            return None
+        
+        # Step 2: Get commit description
+        if commit_type == "custom":
+            # For custom, allow free text
+            self.console.print("", style="cyan")
+            self.console.print(_("Enter your custom commit message:"), style="cyan")
+            print("\033[1;36m> \033[0m", end="")
+            description = input()
+            
+            if not description:
+                return None
+            
+            return description
+        else:
+            # For conventional commits, get description
+            self.console.print("", style="cyan")
+            self.console.print(_("{0} {1}: Enter description").format(emoji, commit_type), style="cyan")
+            print(f"\033[1;36m{emoji} {commit_type}: \033[0m", end="")
+            description = input()
+            
+            if not description:
+                return None
+            
+            return f"{emoji} {commit_type}: {description}"
+
     def custom_commit_prompt(self):
-        """Gets commit message from user"""
-        # Show prompt in cyan
-        print("\033[1;36m" + _("Enter commit message: ") + "\033[0m", end="")
-        
-        # Capture user input
-        commit_message = input()
-        
-        return commit_message
+        """Gets commit message from user with type selection"""
+        return self.get_commit_message_with_type()
     
     def commit_and_push(self):
         """Performs commit on user's own dev branch with proper isolation"""
