@@ -31,94 +31,33 @@ msgstr "Поле"
 msgid "Value"
 msgstr "Значение"
 # 
-# File: usr/share/build-iso/config.py, line: 96
+# File: usr/share/build-package/main.py, line: 21
 #: NEEDS WORK
-msgid "BUILD ISO"
-msgstr "СОЗДАТЬ ISO"
+msgid "Operation cancelled by user."
+msgstr "Операция отменена пользователем."
 # 
-# File: usr/share/build-iso/config.py, line: 97
-#: NEEDS WORK
-msgid ""
-"Wrapper for ISO building using GitHub Actions. Streamlines the process of creating custom Linux "
-"distribution ISO images through automation."
-msgstr ""
-"Обертка для создания ISO с использованием GitHub Actions. Упрощает процесс создания "
-"пользовательских ISO-образов дистрибутивов Linux с помощью автоматизации."
-# 
-# File: usr/share/build-package/github_api.py, line: 313
+# File: usr/share/build-package/main.py, line: 24
 #: NEEDS WORK
 #, python-brace-format
-msgid "Token file '{0}' not found."
-msgstr "Файл токена '{0}' не найден."
+msgid "Unhandled error: {0}"
+msgstr "Необработанная ошибка: {0}"
 # 
-# File: usr/share/build-package/github_api.py, line: 331
+# File: usr/share/build-package/menu_system.py, line: 45
+# File: usr/share/build-package/menu_system.py, line: 59
 #: NEEDS WORK
-#, python-brace-format
-msgid "Token for organization '{0}' not found."
-msgstr "Токен для организации '{0}' не найден."
+msgid "Exit"
+msgstr "Выход"
 # 
-# File: usr/share/build-package/github_api.py, line: 334
+# File: usr/share/build-package/menu_system.py, line: 47
+# File: usr/share/build-package/menu_system.py, line: 61
 #: NEEDS WORK
-#, python-brace-format
-msgid "Error reading token: {0}"
-msgstr "Ошибка чтения токена: {0}"
+msgid "Back"
+msgstr "Назад"
 # 
-# File: usr/share/build-iso/github_api.py, line: 87
+# File: usr/share/build-package/menu_system.py, line: 91
 #: NEEDS WORK
-msgid "Triggering ISO build workflow on GitHub..."
-msgstr "Запуск рабочего процесса сборки ISO на GitHub..."
-# 
-# File: usr/share/build-iso/github_api.py, line: 91
-#: NEEDS WORK
-#, python-brace-format
-msgid "Sending request to: {0}"
-msgstr "Отправка запроса на: {0}"
-# 
-# File: usr/share/build-iso/github_api.py, line: 100
-#: NEEDS WORK
-msgid "Error triggering workflow (code 422). Can't have more than 10 entries in the event."
-msgstr "Ошибка при запуске рабочего процесса (код 422). Не может быть более 10 записей в событии."
-# 
-# File: usr/share/build-package/github_api.py, line: 294
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error triggering workflow. Response code: {0}"
-msgstr "Ошибка при запуске рабочего процесса. Код ответа: {0}"
-# 
-# File: usr/share/build-iso/github_api.py, line: 107
-#: NEEDS WORK
-#, python-brace-format
-msgid "ISO build workflow triggered successfully for {0}."
-msgstr "Успешно запущен рабочий процесс сборки ISO для {0}."
-# 
-# File: usr/share/build-iso/github_api.py, line: 108
-#: NEEDS WORK
-msgid "Please check the 'Actions' tab on GitHub to monitor the build progress."
-msgstr "Пожалуйста, проверьте вкладку 'Действия' на GitHub, чтобы отслеживать прогресс сборки."
-# 
-# File: usr/share/build-iso/github_api.py, line: 111
-#: NEEDS WORK
-msgid "TMATE session will be enabled. Watch the GitHub Actions logs for connection information."
-msgstr ""
-"Сессия TMATE будет включена. Следите за журналами GitHub Actions для получения информации о "
-"подключении."
-# 
-# File: usr/share/build-iso/github_api.py, line: 113
-#: NEEDS WORK
-msgid "Waiting 3 seconds for the API to trigger the Action to get the 'id'."
-msgstr "Ожидание 3 секунды для активации API для получения 'id'."
-# 
-# File: usr/share/build-package/github_api.py, line: 301
-#: NEEDS WORK
-#, python-brace-format
-msgid "URL to monitor the build: {0}"
-msgstr "URL для мониторинга сборки: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 305
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error triggering workflow: {0}"
-msgstr "Ошибка при запуске рабочего процесса: {0}"
+msgid "Use [white]arrow keys ↑↓[/] to navigate, [white]Enter[/] to select, [white]ESC[/] to exit"
+msgstr "Используйте [белый]стрелки ↑↓[/] для навигации, [белый]Enter[/] для выбора, [белый]ESC[/] для выхода"
 # 
 # File: usr/share/build-package/build_package.py, line: 74
 #: NEEDS WORK
@@ -126,45 +65,88 @@ msgstr "Ошибка при запуске рабочего процесса: {0
 msgid "Dependency '{0}' not found. Please install it before continuing."
 msgstr "Зависимость '{0}' не найдена. Пожалуйста, установите её перед продолжением."
 # 
-# File: usr/share/build-package/build_package.py, line: 85
+# File: usr/share/build-package/core/build_package.py, line: 120
 #: NEEDS WORK
-msgid "Configure GitHub organization (default: big-comm)"
-msgstr "Настроить организацию GitHub (по умолчанию: big-comm)"
+msgid "Force CLI mode (terminal interface)"
+msgstr "Принудительный режим CLI (интерфейс терминала)"
 # 
-# File: usr/share/build-iso/build_iso.py, line: 105
+# File: usr/share/build-package/core/build_package.py, line: 124
 #: NEEDS WORK
-msgid "Set the distribution name"
-msgstr "Установите имя дистрибутива"
+msgid "Force GUI mode (graphical interface)"
+msgstr "Принудительный режим графического интерфейса"
 # 
-# File: usr/share/build-iso/build_iso.py, line: 109
+# File: usr/share/build-package/core/build_package.py, line: 137
+# File: usr/share/build-package/core/build_package.py, line: 199
 #: NEEDS WORK
-msgid "Set the edition (desktop environment)"
-msgstr "Установите версию (рабочая среда)"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 112
-#: NEEDS WORK
-msgid "Set the kernel type"
-msgstr "Установите тип ядра"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 117
-#: NEEDS WORK
-msgid "Automatic mode using default values"
-msgstr "Автоматический режим с использованием значений по умолчанию"
-# 
-# File: usr/share/build-package/build_package.py, line: 100
-#: NEEDS WORK
-msgid "Suppress color printing"
-msgstr "Подавить цветную печать"
+msgid "Show this help message and exit"
+msgstr "Показать это сообщение помощи и выйти"
 # 
 # File: usr/share/build-package/build_package.py, line: 103
 #: NEEDS WORK
 msgid "Print application version"
 msgstr "Напечатать версию приложения"
 # 
+# File: usr/share/build-package/core/build_package.py, line: 145
+#: NEEDS WORK
+msgid "Configure GitHub organization"
+msgstr "Настроить организацию GitHub"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 146
+#: NEEDS WORK
+msgid "Choices: {big-comm, biglinux}"
+msgstr "Выбор: {big-comm, biglinux}"
+# 
+# File: usr/share/build-package/build_package.py, line: 90
+#: NEEDS WORK
+msgid "Commit/push and generate package"
+msgstr "Коммит/пуш и сгенерировать пакет"
+# 
+# File: usr/share/build-package/build_package.py, line: 94
+#: NEEDS WORK
+msgid "Just commit/push with the specified message"
+msgstr "Просто выполните коммит/пуш с указанным сообщением"
+# 
+# File: usr/share/build-package/build_package.py, line: 97
+# File: usr/share/build-package/build_package.py, line: 537
+# File: usr/share/build-package/build_package.py, line: 543
+#: NEEDS WORK
+msgid "Build AUR package"
+msgstr "Собрать пакет AUR"
+# 
 # File: usr/share/build-package/build_package.py, line: 106
 #: NEEDS WORK
 msgid "Enable tmate for debugging"
 msgstr "Включить tmate для отладки"
+# 
+# File: usr/share/build-package/build_package.py, line: 100
+#: NEEDS WORK
+msgid "Suppress color printing"
+msgstr "Подавить цветную печать"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 175
+#: NEEDS WORK
+msgid "Open in CLI mode"
+msgstr "Открыть в режиме CLI"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 176
+#: NEEDS WORK
+msgid "Open in GUI mode"
+msgstr "Открыть в графическом интерфейсе"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 177
+#: NEEDS WORK
+msgid "Quick commit with message"
+msgstr "Быстрый коммит с сообщением"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 178
+#: NEEDS WORK
+msgid "Build development package"
+msgstr "Собрать пакет разработки"
+# 
+# File: usr/share/build-package/build_package.py, line: 85
+#: NEEDS WORK
+msgid "Configure GitHub organization (default: big-comm)"
+msgstr "Настроить организацию GitHub (по умолчанию: big-comm)"
 # 
 # File: usr/share/build-package/build_package.py, line: 128
 #: NEEDS WORK
@@ -203,916 +185,6 @@ msgstr ""
 #: NEEDS WORK
 msgid "This program comes with absolutely NO warranty."
 msgstr "Эта программа поставляется без каких-либо гарантий."
-# 
-# File: usr/share/build-iso/build_iso.py, line: 173
-#: NEEDS WORK
-#, python-brace-format
-msgid "Choose the GitHub {0}:"
-msgstr "Выберите GitHub {0}:"
-# 
-# File: usr/share/build-package/menu_system.py, line: 45
-# File: usr/share/build-package/menu_system.py, line: 59
-#: NEEDS WORK
-msgid "Exit"
-msgstr "Выход"
-# 
-# File: usr/share/build-package/main.py, line: 21
-#: NEEDS WORK
-msgid "Operation cancelled by user."
-msgstr "Операция отменена пользователем."
-# 
-# File: usr/share/build-iso/build_iso.py, line: 196
-#: NEEDS WORK
-#, python-brace-format
-msgid "Choose the {0}:"
-msgstr "Выберите {0}:"
-# 
-# File: usr/share/build-package/menu_system.py, line: 47
-# File: usr/share/build-package/menu_system.py, line: 61
-#: NEEDS WORK
-msgid "Back"
-msgstr "Назад"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 226
-#: NEEDS WORK
-msgid "Choose the ISO profiles repository:"
-msgstr "Выберите репозиторий профилей ISO:"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 240
-#: NEEDS WORK
-msgid "No ISO profiles repository selected."
-msgstr "Не выбрано репозиторий профилей ISO."
-# 
-# File: usr/share/build-iso/build_iso.py, line: 249
-# File: usr/share/build-iso/build_iso.py, line: 330
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error: Repository API URL not found: {0}"
-msgstr "Ошибка: URL-адрес API репозитория не найден: {0}"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 252
-#: NEEDS WORK
-#, python-brace-format
-msgid "Fetching from API: {0}"
-msgstr "Получение из API: {0}"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 258
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error: API request failed with status code {0}"
-msgstr "Ошибка: Запрос API не удался с кодом статуса {0}"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 287
-#: NEEDS WORK
-#, python-brace-format
-msgid "Choose a {0} for {1}:"
-msgstr "Выберите {0} для {1}:"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 298
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error fetching build list: {0}"
-msgstr "Ошибка при получении списка сборок: {0}"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 310
-#: NEEDS WORK
-#, python-brace-format
-msgid "Choose a {0} for {1} (from defaults):"
-msgstr "Выберите {0} для {1} (из стандартных):"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 323
-#: NEEDS WORK
-msgid "Repository and build directory must be selected first."
-msgstr "Сначала необходимо выбрать репозиторий и каталог сборки."
-# 
-# File: usr/share/build-iso/build_iso.py, line: 366
-#: NEEDS WORK
-#, python-brace-format
-msgid "Choose an {0} for {1}:"
-msgstr "Выберите {0} для {1}:"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 377
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error fetching editions: {0}"
-msgstr "Ошибка при получении изданий: {0}"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 389
-#: NEEDS WORK
-#, python-brace-format
-msgid "Choose an {0} for {1} (from defaults):"
-msgstr "Выберите {0} для {1} (из стандартных):"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 402
-# File: usr/share/build-iso/build_iso.py, line: 415
-# File: usr/share/build-iso/build_iso.py, line: 428
-#: NEEDS WORK
-#, python-brace-format
-msgid "Choose the {0} branch for {1}:"
-msgstr "Выберите ветку {0} для {1}:"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 441
-#: NEEDS WORK
-#, python-brace-format
-msgid "Choose the {0} version:"
-msgstr "Выберите версию {0}:"
-# 
-# File: usr/share/build-package/build_package.py, line: 592
-# File: usr/share/build-package/build_package.py, line: 617
-# File: usr/share/build-package/build_package.py, line: 637
-#: NEEDS WORK
-msgid "Enable TMATE debug session?"
-msgstr "Включить сессию отладки TMATE?"
-# 
-# File: usr/share/build-package/build_package.py, line: 592
-# File: usr/share/build-package/build_package.py, line: 617
-# File: usr/share/build-package/build_package.py, line: 637
-# File: usr/share/build-package/build_package.py, line: 747
-#: NEEDS WORK
-msgid "No"
-msgstr "Нет"
-# 
-# File: usr/share/build-package/build_package.py, line: 592
-# File: usr/share/build-package/build_package.py, line: 617
-# File: usr/share/build-package/build_package.py, line: 637
-# File: usr/share/build-package/build_package.py, line: 747
-#: NEEDS WORK
-msgid "Yes"
-msgstr "Да"
-# 
-# File: usr/share/build-package/build_package.py, line: 497
-# File: usr/share/build-package/build_package.py, line: 518
-#: NEEDS WORK
-msgid "Organization"
-msgstr "Организация"
-# 
-# File: usr/share/build-package/build_package.py, line: 499
-# File: usr/share/build-package/build_package.py, line: 520
-#: NEEDS WORK
-msgid "User Name"
-msgstr "Имя пользователя"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 473
-#: NEEDS WORK
-msgid "Distribution"
-msgstr "Распределение"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 478
-#: NEEDS WORK
-msgid "ISO Profiles Repo"
-msgstr "Репозиторий ISO профилей"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 479
-#: NEEDS WORK
-msgid "Build Dir"
-msgstr "Каталог сборки"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 480
-#: NEEDS WORK
-msgid "Edition"
-msgstr "Редакция"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 481
-#: NEEDS WORK
-msgid "Manjaro Branch"
-msgstr "Ветка Manjaro"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 482
-#: NEEDS WORK
-msgid "Community Branch"
-msgstr "Сообщество ветка"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 483
-#: NEEDS WORK
-msgid "BigLinux Branch"
-msgstr "БольшойLinux Ветка"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 484
-#: NEEDS WORK
-msgid "Kernel"
-msgstr "Ядро"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 485
-#: NEEDS WORK
-msgid "Release Tag"
-msgstr "Тег версии"
-# 
-# File: usr/share/build-package/build_package.py, line: 508
-# File: usr/share/build-package/build_package.py, line: 525
-#: NEEDS WORK
-msgid "TMATE Debug"
-msgstr "TMATE Отладка"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 490
-#: NEEDS WORK
-msgid "ISO Build Summary"
-msgstr "Сводка сборки ISO"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 493
-#: NEEDS WORK
-msgid "Do you want to proceed with building the ISO?"
-msgstr "Вы хотите продолжить создание ISO?"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 494
-#: NEEDS WORK
-msgid "ISO build cancelled."
-msgstr "Сборка ISO отменена."
-# 
-# File: usr/share/build-iso/build_iso.py, line: 483
-#: NEEDS WORK
-#, python-brace-format
-msgid "No default configuration found for organization '{0}'."
-msgstr "Не найдена конфигурация по умолчанию для организации '{0}'."
-# 
-# File: usr/share/build-iso/build_iso.py, line: 614
-#: NEEDS WORK
-#, python-brace-format
-msgid "{0} (version {1})"
-msgstr "{0} (версия {1})"
-# 
-# File: usr/share/build-package/menu_system.py, line: 91
-#: NEEDS WORK
-msgid "Use [white]arrow keys ↑↓[/] to navigate, [white]Enter[/] to select, [white]ESC[/] to exit"
-msgstr "Используйте [белый]стрелки ↑↓[/] для навигации, [белый]Enter[/] для выбора, [белый]ESC[/] для выхода"
-# 
-# File: usr/share/build-package/main.py, line: 24
-#: NEEDS WORK
-#, python-brace-format
-msgid "Unhandled error: {0}"
-msgstr "Необработанная ошибка: {0}"
-# 
-# File: usr/share/build-package/config.py, line: 46
-#: NEEDS WORK
-msgid "BUILD PACKAGE"
-msgstr "СОЗДАТЬ ПАКЕТ"
-# 
-# File: usr/share/build-package/config.py, line: 47
-#: NEEDS WORK
-msgid ""
-"A comprehensive tool for package building, testing, and deployment. Streamlines Git operations, "
-"automates builds and manages package workflows for BigCommunity repositories and AUR packages."
-msgstr ""
-"Комплексный инструмент для сборки, тестирования и развертывания пакетов. Упрощает операции с Git, "
-"автоматизирует сборки и управляет рабочими процессами пакетов для репозиториев BigCommunity и "
-"пакетов AUR."
-# 
-# File: usr/share/build-package/github_api.py, line: 29
-# File: usr/share/build-package/github_api.py, line: 73
-# File: usr/share/build-package/github_api.py, line: 342
-# File: usr/share/build-package/github_api.py, line: 391
-#: NEEDS WORK
-msgid "Could not determine repository name."
-msgstr "Не удалось определить имя репозитория."
-# 
-# File: usr/share/build-package/github_api.py, line: 35
-#: NEEDS WORK
-msgid "Could not determine current commit SHA."
-msgstr "Не удалось определить текущий SHA коммита."
-# 
-# File: usr/share/build-package/github_api.py, line: 44
-#: NEEDS WORK
-#, python-brace-format
-msgid "Creating reference: {0}..."
-msgstr "Создание ссылки: {0}..."
-# 
-# File: usr/share/build-package/github_api.py, line: 59
-# File: usr/share/build-package/github_api.py, line: 65
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error creating reference: {0}"
-msgstr "Ошибка при создании ссылки: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 62
-#: NEEDS WORK
-#, python-brace-format
-msgid "Reference {0} created successfully!"
-msgstr "Ссылка {0} успешно создана!"
-# 
-# File: usr/share/build-package/github_api.py, line: 86
-#: NEEDS WORK
-#, python-brace-format
-msgid "Could not determine SHA for {0}."
-msgstr "Не удалось определить SHA для {0}."
-# 
-# File: usr/share/build-package/github_api.py, line: 89
-#: NEEDS WORK
-#, python-brace-format
-msgid "Creating branch: {0} based on {1}..."
-msgstr "Создание ветки: {0} на основе {1}..."
-# 
-# File: usr/share/build-package/github_api.py, line: 101
-# File: usr/share/build-package/github_api.py, line: 166
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error creating branch: {0}"
-msgstr "Ошибка при создании ветки: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 102
-# File: usr/share/build-package/github_api.py, line: 478
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error details: {0}"
-msgstr "Детали ошибки: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 163
-#: NEEDS WORK
-#, python-brace-format
-msgid "Branch {0} created successfully!"
-msgstr "Ветка {0} успешно создана!"
-# 
-# File: usr/share/build-package/git_utils.py, line: 140
-#: NEEDS WORK
-msgid "Resolving conflicts automatically..."
-msgstr "Автоматическое разрешение конфликтов..."
-# 
-# File: usr/share/build-package/github_api.py, line: 183
-#: NEEDS WORK
-msgid "Backing up local changes..."
-msgstr "Резервное копирование локальных изменений..."
-# 
-# File: usr/share/build-package/github_api.py, line: 191
-#: NEEDS WORK
-msgid "Updating remote references..."
-msgstr "Обновление удалённых ссылок..."
-# 
-# File: usr/share/build-package/github_api.py, line: 195
-#: NEEDS WORK
-#, python-brace-format
-msgid "Switching to branch {0}..."
-msgstr "Переключение на ветку {0}..."
-# 
-# File: usr/share/build-package/github_api.py, line: 202
-#: NEEDS WORK
-#, python-brace-format
-msgid "Merging {0} into {1}..."
-msgstr "Слияние {0} в {1}..."
-# 
-# File: usr/share/build-package/github_api.py, line: 211
-#: NEEDS WORK
-msgid "Merge completed without conflicts!"
-msgstr "Слияние завершено без конфликтов!"
-# 
-# File: usr/share/build-package/github_api.py, line: 214
-#: NEEDS WORK
-msgid "Conflicts detected, resolving automatically..."
-msgstr "Обнаружены конфликты, разрешение автоматически..."
-# 
-# File: usr/share/build-package/github_api.py, line: 227
-#: NEEDS WORK
-msgid "Using advanced resolution strategy..."
-msgstr "Использование стратегии продвинутого разрешения..."
-# 
-# File: usr/share/build-package/github_api.py, line: 254
-#: NEEDS WORK
-msgid "Conflicts resolved automatically!"
-msgstr "Конфликты разрешены автоматически!"
-# 
-# File: usr/share/build-package/github_api.py, line: 256
-#: NEEDS WORK
-msgid "Could not resolve conflicts automatically"
-msgstr "Не удалось автоматически разрешить конфликты"
-# 
-# File: usr/share/build-package/github_api.py, line: 259
-#: NEEDS WORK
-msgid "No differences detected"
-msgstr "Различий не обнаружено"
-# 
-# File: usr/share/build-package/github_api.py, line: 262
-#: NEEDS WORK
-msgid "Pushing resolved branch..."
-msgstr "Отправка разрешенной ветки..."
-# 
-# File: usr/share/build-package/github_api.py, line: 271
-#: NEEDS WORK
-msgid "Restoring local changes..."
-msgstr "Восстановление локальных изменений..."
-# 
-# File: usr/share/build-package/github_api.py, line: 274
-#: NEEDS WORK
-msgid "Conflict resolution completed successfully!"
-msgstr "Разрешение конфликта успешно завершено!"
-# 
-# File: usr/share/build-package/github_api.py, line: 278
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error during conflict resolution: {0}"
-msgstr "Ошибка при разрешении конфликта: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 225
-#: NEEDS WORK
-#, python-brace-format
-msgid "Unexpected error: {0}"
-msgstr "Неожиданная ошибка: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 302
-#: NEEDS WORK
-msgid "Waiting for PR to be ready for merge..."
-msgstr "Ожидание готовности PR для слияния..."
-# 
-# File: usr/share/build-package/github_api.py, line: 316
-#: NEEDS WORK
-#, python-brace-format
-msgid "Attempt {0}/{1}: mergeable={2}, state={3}"
-msgstr "Попытка {0}/{1}: слияние={2}, состояние={3}"
-# 
-# File: usr/share/build-package/github_api.py, line: 320
-#: NEEDS WORK
-msgid "PR ready for merge!"
-msgstr "ПР готов к слиянию!"
-# 
-# File: usr/share/build-package/github_api.py, line: 323
-#: NEEDS WORK
-msgid "PR has conflicts"
-msgstr "У PR есть конфликты"
-# 
-# File: usr/share/build-package/github_api.py, line: 330
-#: NEEDS WORK
-#, python-brace-format
-msgid "Unexpected state: {0}"
-msgstr "Неожиданное состояние: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 333
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error checking PR: {0}"
-msgstr "Проверка ошибок PR: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 337
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error: {0}"
-msgstr "Ошибка: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 340
-#: NEEDS WORK
-msgid "Timeout waiting for PR to be ready"
-msgstr "Время ожидания готовности PR истекло"
-# 
-# File: usr/share/build-package/github_api.py, line: 240
-#: NEEDS WORK
-msgid "Failed to create branch for the build."
-msgstr "Не удалось создать ветку для сборки."
-# 
-# File: usr/share/build-package/github_api.py, line: 245
-#: NEEDS WORK
-#, python-brace-format
-msgid "Using existing branch: {0}"
-msgstr "Использование существующей ветки: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 267
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error retrieving remote repository URL for package: {0}"
-msgstr "Ошибка при получении URL удаленного репозитория для пакета: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 270
-#: NEEDS WORK
-#, python-brace-format
-msgid "Detected repository: {0}"
-msgstr "Обнаруженный репозиторий: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 394
-#: NEEDS WORK
-#, python-brace-format
-msgid "Testing package: workflow will use branch {0}"
-msgstr "Тестирование пакета: рабочий процесс будет использовать ветку {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 417
-#: NEEDS WORK
-msgid "Stable/Extra package: main is up-to-date, workflow will use main"
-msgstr ""
-"Стабильный/Дополнительный пакет: основная версия актуальна, рабочий процесс будет использовать "
-"основную версию"
-# 
-# File: usr/share/build-package/github_api.py, line: 421
-#: NEEDS WORK
-#, python-brace-format
-msgid "Stable/Extra package: main not up-to-date, workflow will use {0}"
-msgstr "Стабильный/Дополнительный пакет: основной не обновлён, рабочий процесс будет использовать {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 422
-# File: usr/share/build-package/github_api.py, line: 435
-#: NEEDS WORK
-#, python-brace-format
-msgid "⚠️  Warning: Package will be built from {0} instead of main"
-msgstr "⚠️  Внимание: Пакет будет собран из {0} вместо основного"
-# 
-# File: usr/share/build-package/github_api.py, line: 425
-#: NEEDS WORK
-msgid "Stable/Extra package: workflow will use main"
-msgstr "Стабильный/Дополнительный пакет: рабочий процесс будет использовать основную ветку"
-# 
-# File: usr/share/build-package/github_api.py, line: 430
-#: NEEDS WORK
-#, python-brace-format
-msgid "Could not verify branch status, using current: {0}"
-msgstr "Не удалось проверить статус ветки, используется текущий: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 434
-#: NEEDS WORK
-#, python-brace-format
-msgid "Stable/Extra package: not on main, workflow will use {0}"
-msgstr "Стабильный/Дополнительный пакет: не в основной ветке, рабочий процесс будет использовать {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 452
-#: NEEDS WORK
-msgid "Workflow payload:"
-msgstr "Нагрузка рабочего процесса:"
-# 
-# File: usr/share/build-package/github_api.py, line: 453
-#: NEEDS WORK
-#, python-brace-format
-msgid "  - branch: {0}"
-msgstr "- ветка: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 454
-#: NEEDS WORK
-#, python-brace-format
-msgid "  - git_branch: {0}"
-msgstr "- ветка_git: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 455
-#: NEEDS WORK
-#, python-brace-format
-msgid "  - branch_type: {0}"
-msgstr "- тип_ветки: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 457
-#: NEEDS WORK
-#, python-brace-format
-msgid "  - new_branch: {0}"
-msgstr "- новая_ветка: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 285
-#: NEEDS WORK
-msgid "Triggering build workflow on GitHub..."
-msgstr "Запуск рабочего процесса сборки на GitHub..."
-# 
-# File: usr/share/build-package/github_api.py, line: 297
-#: NEEDS WORK
-#, python-brace-format
-msgid "Build workflow ({0}) triggered successfully."
-msgstr "Сборка рабочего процесса ({0}) успешно запущена."
-# 
-# File: usr/share/build-package/github_api.py, line: 345
-#: NEEDS WORK
-#, python-brace-format
-msgid "Cleaning Actions jobs with '{0}' status..."
-msgstr "Очистка действий с работами со статусом '{0}'..."
-# 
-# File: usr/share/build-package/github_api.py, line: 354
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error fetching Actions jobs. Code: {0}"
-msgstr "Ошибка при получении задач действий. Код: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 361
-#: NEEDS WORK
-#, python-brace-format
-msgid "No Action jobs with '{0}' status found."
-msgstr "Не найдены задания без действия со статусом '{0}'."
-# 
-# File: usr/share/build-package/github_api.py, line: 368
-#: NEEDS WORK
-#, python-brace-format
-msgid "Deleting job {0}..."
-msgstr "Удаление задания {0}..."
-# 
-# File: usr/share/build-package/github_api.py, line: 378
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error deleting job {0}. Code: {1}"
-msgstr "Ошибка при удалении задания {0}. Код: {1}"
-# 
-# File: usr/share/build-package/github_api.py, line: 380
-#: NEEDS WORK
-#, python-brace-format
-msgid "Deleted {0} Actions jobs with '{1}' status."
-msgstr "Удалены {0} действий с работами со статусом '{1}'."
-# 
-# File: usr/share/build-package/github_api.py, line: 383
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error cleaning Actions jobs: {0}"
-msgstr "Ошибка при очистке задач действий: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 394
-#: NEEDS WORK
-msgid "Getting tag list..."
-msgstr "Получение списка тегов..."
-# 
-# File: usr/share/build-package/github_api.py, line: 403
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error fetching tags. Code: {0}"
-msgstr "Ошибка при получении тегов. Код: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 409
-#: NEEDS WORK
-msgid "No tags found."
-msgstr "Теги не найдены."
-# 
-# File: usr/share/build-package/github_api.py, line: 416
-#: NEEDS WORK
-#, python-brace-format
-msgid "Deleting tag {0}..."
-msgstr "Удаление тега {0}..."
-# 
-# File: usr/share/build-package/github_api.py, line: 427
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error deleting tag {0}. Code: {1}"
-msgstr "Ошибка при удалении тега {0}. Код: {1}"
-# 
-# File: usr/share/build-package/github_api.py, line: 429
-#: NEEDS WORK
-#, python-brace-format
-msgid "Deleted {0} tags."
-msgstr "Удалены теги {0}."
-# 
-# File: usr/share/build-package/github_api.py, line: 432
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error cleaning tags: {0}"
-msgstr "Ошибка очистки тегов: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 439
-#: NEEDS WORK
-msgid "Source branch name is required to create a pull request"
-msgstr "Имя исходной ветки обязательно для создания запроса на слияние."
-# 
-# File: usr/share/build-package/github_api.py, line: 449
-#: NEEDS WORK
-msgid "Repository name could not be determined"
-msgstr "Не удалось определить имя репозитория"
-# 
-# File: usr/share/build-package/github_api.py, line: 627
-#: NEEDS WORK
-#, python-brace-format
-msgid "Creating pull request: {0} → {1}"
-msgstr "Создание запроса на слияние: {0} → {1}"
-# 
-# File: usr/share/build-package/github_api.py, line: 632
-#: NEEDS WORK
-msgid "Resolving possible conflicts before merge..."
-msgstr "Разрешение возможных конфликтов перед слиянием..."
-# 
-# File: usr/share/build-package/github_api.py, line: 637
-#: NEEDS WORK
-msgid "Warning: Could not resolve conflicts automatically"
-msgstr "Предупреждение: Не удалось автоматически разрешить конфликты"
-# 
-# File: usr/share/build-package/github_api.py, line: 638
-#: NEEDS WORK
-msgid "Trying to create PR anyway..."
-msgstr "Все равно пытаюсь создать PR..."
-# 
-# File: usr/share/build-package/github_api.py, line: 457
-#: NEEDS WORK
-#, python-brace-format
-msgid "Merge {0} into {1}"
-msgstr "Слить {0} в {1}"
-# 
-# File: usr/share/build-package/github_api.py, line: 458
-#: NEEDS WORK
-msgid "Automated PR created by build_package.py"
-msgstr "Автоматизированный PR созданный build_package.py"
-# 
-# File: usr/share/build-package/github_api.py, line: 644
-#: NEEDS WORK
-msgid "Conflicts resolved automatically (if any)"
-msgstr "Конфликты разрешены автоматически (если есть)"
-# 
-# File: usr/share/build-package/github_api.py, line: 645
-#: NEEDS WORK
-msgid "Ready for automatic merge"
-msgstr "Готов к автоматическому слиянию"
-# 
-# File: usr/share/build-package/github_api.py, line: 475
-#: NEEDS WORK
-#, python-brace-format
-msgid "Failed to create PR: {0}"
-msgstr "Не удалось создать PR: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 486
-#: NEEDS WORK
-#, python-brace-format
-msgid "Pull request created successfully: {0}"
-msgstr "Запрос на слияние успешно создан: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 670
-#: NEEDS WORK
-msgid "Starting auto-merge process..."
-msgstr "Запуск процесса автоматического слияния..."
-# 
-# File: usr/share/build-package/github_api.py, line: 679
-#: NEEDS WORK
-#, python-brace-format
-msgid "Auto-merge: {0} → {1}"
-msgstr "Авто-слияние: {0} → {1}"
-# 
-# File: usr/share/build-package/github_api.py, line: 680
-#: NEEDS WORK
-msgid "Automated merge performed by build_package.py"
-msgstr "Автоматическое слияние выполнено скриптом build_package.py"
-# 
-# File: usr/share/build-package/github_api.py, line: 689
-#: NEEDS WORK
-msgid "AUTO-MERGE COMPLETED SUCCESSFULLY!"
-msgstr "АВТОСЛИЯНИЕ УСПЕШНО ЗАВЕРШЕНО!"
-# 
-# File: usr/share/build-package/github_api.py, line: 690
-#: NEEDS WORK
-#, python-brace-format
-msgid "SHA: {0}"
-msgstr "SHA: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 698
-#: NEEDS WORK
-#, python-brace-format
-msgid "Auto-merge failed: {0}"
-msgstr "Автообъединение не удалось: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 700
-# File: usr/share/build-package/github_api.py, line: 707
-#: NEEDS WORK
-msgid "PR created but must be merged manually"
-msgstr "PR создан, но должен быть объединен вручную"
-# 
-# File: usr/share/build-package/github_api.py, line: 706
-#: NEEDS WORK
-#, python-brace-format
-msgid "PR not ready for merge (state: {0})"
-msgstr "ПР не готов к слиянию (состояние: {0})"
-# 
-# File: usr/share/build-package/github_api.py, line: 507
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error creating pull request: {0}"
-msgstr "Ошибка при создании запроса на слияние: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 111
-#: NEEDS WORK
-#, python-brace-format
-msgid "Git has changes: {0} - {1}"
-msgstr "В Git есть изменения: {0} - {1}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 114
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error checking changes: {0}"
-msgstr "Ошибка проверки изменений: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 122
-# File: usr/share/build-package/git_utils.py, line: 262
-# File: usr/share/build-package/git_utils.py, line: 317
-#: NEEDS WORK
-msgid "This operation is only available in Git repositories."
-msgstr "Эта операция доступна только в репозиториях Git."
-# 
-# File: usr/share/build-package/git_utils.py, line: 130
-#: NEEDS WORK
-msgid "Aborting merge in progress..."
-msgstr "Отмена слияния в процессе..."
-# 
-# File: usr/share/build-package/git_utils.py, line: 142
-#: NEEDS WORK
-#, python-brace-format
-msgid "Current branch: {0}"
-msgstr "Текущая ветка: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 165
-#: NEEDS WORK
-#, python-brace-format
-msgid "Most recent branch identified: {0}"
-msgstr "Последняя идентифицированная ветка: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 171
-#: NEEDS WORK
-#, python-brace-format
-msgid "Pulling latest changes from most recent branch: {0}"
-msgstr "Получение последних изменений из самой последней ветки: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 182
-# File: usr/share/build-package/git_utils.py, line: 197
-#: NEEDS WORK
-#, python-brace-format
-msgid "Successfully pulled latest changes from {0}"
-msgstr "Успешно извлечены последние изменения из {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 188
-#: NEEDS WORK
-#, python-brace-format
-msgid "Failed to pull from {0}, trying current branch: {1}"
-msgstr "Не удалось получить данные из {0}, пытаюсь текущую ветку: {1}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 203
-#: NEEDS WORK
-msgid "Failed to pull from current branch, trying dev branch"
-msgstr "Не удалось получить данные из текущей ветки, пытаюсь ветку dev."
-# 
-# File: usr/share/build-package/git_utils.py, line: 212
-#: NEEDS WORK
-msgid "Successfully pulled latest changes from dev"
-msgstr "Успешно извлечены последние изменения из dev"
-# 
-# File: usr/share/build-package/git_utils.py, line: 220
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error pulling changes: {0}"
-msgstr "Ошибка при получении изменений: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 255
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error finding most recent branch: {0}"
-msgstr "Ошибка при поиске самой последней ветки: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 271
-#: NEEDS WORK
-#, python-brace-format
-msgid "Creating new branch: {0}"
-msgstr "Создание новой ветки: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 275
-#: NEEDS WORK
-msgid "Pushing new branch to remote repository..."
-msgstr "Отправка новой ветки в удалённый репозиторий..."
-# 
-# File: usr/share/build-package/git_utils.py, line: 278
-#: NEEDS WORK
-#, python-brace-format
-msgid "Branch {0} created and pushed successfully!"
-msgstr "Ветка {0} успешно создана и отправлена!"
-# 
-# File: usr/share/build-package/git_utils.py, line: 281
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error creating or pushing branch: {0}"
-msgstr "Ошибка при создании или отправке ветки: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 322
-#: NEEDS WORK
-msgid "Getting branch list..."
-msgstr "Получение списка веток..."
-# 
-# File: usr/share/build-package/git_utils.py, line: 368
-#: NEEDS WORK
-#, python-brace-format
-msgid "Keeping only the most recent dev branch: {0}"
-msgstr "Сохранение только самой последней ветки разработки: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 373
-#: NEEDS WORK
-#, python-brace-format
-msgid "Removing local branch: {0}"
-msgstr "Удаление локальной ветки: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 393
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error removing local branch {0}: {1}"
-msgstr "Ошибка при удалении локальной ветки {0}: {1}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 398
-#: NEEDS WORK
-#, python-brace-format
-msgid "Removing remote branch: {0}"
-msgstr "Удаление удалённой ветки: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 402
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error removing remote branch {0}: {1}"
-msgstr "Ошибка при удалении удалённой ветки {0}: {1}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 404
-#: NEEDS WORK
-msgid "Branch cleanup completed successfully!"
-msgstr "Очистка ветки завершена успешно!"
-# 
-# File: usr/share/build-package/git_utils.py, line: 407
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error during branch cleanup: {0}"
-msgstr "Ошибка во время очистки ветки: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 90
-#: NEEDS WORK
-msgid "Commit/push and generate package"
-msgstr "Коммит/пуш и сгенерировать пакет"
-# 
-# File: usr/share/build-package/build_package.py, line: 94
-#: NEEDS WORK
-msgid "Just commit/push with the specified message"
-msgstr "Просто выполните коммит/пуш с указанным сообщением"
-# 
-# File: usr/share/build-package/build_package.py, line: 97
-# File: usr/share/build-package/build_package.py, line: 537
-# File: usr/share/build-package/build_package.py, line: 543
-#: NEEDS WORK
-msgid "Build AUR package"
-msgstr "Собрать пакет AUR"
 # 
 # File: usr/share/build-package/build_package.py, line: 154
 #: NEEDS WORK
@@ -1244,6 +316,101 @@ msgstr "Успешно переместили ваши изменения в в�
 msgid "Switched to your branch: {0}"
 msgstr "Переключено на вашу ветку: {0}"
 # 
+# File: usr/share/build-package/core/build_package.py, line: 408
+#: NEEDS WORK
+msgid "Checking if your remote branch needs sync with main..."
+msgstr "Проверка, нуждается ли ваша удалённая ветка в синхронизации с основной..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 413
+#: NEEDS WORK
+msgid "Backing up your local changes temporarily..."
+msgstr "Временное резервное копирование ваших локальных изменений..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 422
+#: NEEDS WORK
+msgid "Local changes safely backed up!"
+msgstr "Локальные изменения успешно сохранены!"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 424
+#: NEEDS WORK
+msgid "Could not backup changes, skipping sync."
+msgstr "Не удалось создать резервную копию изменений, пропускаем синхронизацию."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 426
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not backup changes: {0}"
+msgstr "Не удалось создать резервную копию изменений: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 439
+#: NEEDS WORK
+msgid "Remote branch exists. Checking sync status..."
+msgstr "Удалённая ветка существует. Проверка статуса синхронизации..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 453
+#: NEEDS WORK
+#, python-brace-format
+msgid "Your remote branch is {0} commits behind main. Updating..."
+msgstr "Ваша удалённая ветка отстает на {0} коммитов от основной. Обновление..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 474
+#: NEEDS WORK
+msgid "Remote branch synced with main successfully!"
+msgstr "Удалённая ветка успешно синхронизирована с основной!"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 477
+#: NEEDS WORK
+msgid "Merge conflict detected. Using force-update strategy..."
+msgstr "Обнаружен конфликт слияния. Используется стратегия принудительного обновления..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 481
+#: NEEDS WORK
+msgid "Remote branch force-updated with main!"
+msgstr "Удалённая ветка принудительно обновлена с основной!"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 487
+#: NEEDS WORK
+msgid "Remote branch is already up-to-date with main!"
+msgstr "Удалённая ветка уже актуальна с основной!"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 489
+#: NEEDS WORK
+msgid "Remote branch doesn't exist yet - will be created on first push."
+msgstr "Удалённая ветка ещё не существует - будет создана при первом пуше."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 492
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not sync remote branch: {0}. Continuing..."
+msgstr "Не удалось синхронизировать удалённую ветку: {0}. Продолжаем..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 494
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected sync error: {0}. Continuing..."
+msgstr "Неожиданная ошибка синхронизации: {0}. Продолжаем..."
+# 
+# File: usr/share/build-package/build_package.py, line: 535
+#: NEEDS WORK
+msgid "Restoring your local changes..."
+msgstr "Восстановление ваших локальных изменений..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 505
+#: NEEDS WORK
+msgid "Local changes restored successfully!"
+msgstr "Локальные изменения успешно восстановлены!"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 507
+#: NEEDS WORK
+msgid "Could not restore changes automatically. Check 'git stash list'"
+msgstr "Не удалось автоматически восстановить изменения. Проверьте 'git stash list'"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 509
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error restoring changes: {0}"
+msgstr "Ошибка восстановления изменений: {0}"
+# 
 # File: usr/share/build-package/build_package.py, line: 183
 #: NEEDS WORK
 msgid "Failed to pull latest changes, but continuing since no local changes."
@@ -1292,6 +459,16 @@ msgstr "Ошибка при отправке на удаленный серве�
 msgid "Changes committed and pushed to {0} branch successfully!"
 msgstr "Изменения успешно зафиксированы и отправлены в ветку {0}!"
 # 
+# File: usr/share/build-package/core/build_package.py, line: 562
+#: NEEDS WORK
+msgid "Stashing local changes before branch switch..."
+msgstr "Сохранение локальных изменений перед переключением ветки..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 570
+#: NEEDS WORK
+msgid "Failed to stash changes before branch switch."
+msgstr "Не удалось сохранить изменения перед переключением ветки."
+# 
 # File: usr/share/build-package/build_package.py, line: 248
 #: NEEDS WORK
 #, python-brace-format
@@ -1303,6 +480,27 @@ msgstr "Переключение на существующую ветку: {0}"
 #, python-brace-format
 msgid "Using existing local branch: {0}"
 msgstr "Использование существующей локальной ветки: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 271
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating new branch: {0}"
+msgstr "Создание новой ветки: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 601
+#: NEEDS WORK
+msgid "Restoring stashed changes..."
+msgstr "Восстановление сохранённых изменений..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 604
+#: NEEDS WORK
+msgid "Could not restore stashed changes automatically. Check 'git stash list'"
+msgstr "Не удалось автоматически восстановить сохранённые изменения. Проверьте 'git stash list'"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 606
+#: NEEDS WORK
+msgid "Stashed changes restored successfully"
+msgstr "Успешно восстановлены сохранённые изменения"
 # 
 # File: usr/share/build-package/build_package.py, line: 262
 #: NEEDS WORK
@@ -1544,11 +742,6 @@ msgstr "Обнаружены конфликты. Выполняется авто
 msgid "Repository cleaned to stable state."
 msgstr "Репозиторий очищен до стабильного состояния."
 # 
-# File: usr/share/build-package/build_package.py, line: 535
-#: NEEDS WORK
-msgid "Restoring your local changes..."
-msgstr "Восстановление ваших локальных изменений..."
-# 
 # File: usr/share/build-package/build_package.py, line: 538
 #: NEEDS WORK
 msgid "Local changes restored successfully"
@@ -1579,6 +772,12 @@ msgstr "Получение последних обновлений с удале
 #: NEEDS WORK
 msgid "Warning: Failed to fetch latest changes, continuing with local code."
 msgstr "Предупреждение: Не удалось получить последние изменения, продолжаем с локальным кодом."
+# 
+# File: usr/share/build-package/git_utils.py, line: 142
+#: NEEDS WORK
+#, python-brace-format
+msgid "Current branch: {0}"
+msgstr "Текущая ветка: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 557
 #: NEEDS WORK
@@ -1661,6 +860,35 @@ msgstr "При использовании параметра '-b|--build' и н�
 #, python-brace-format
 msgid "Creating/updating testing branch: {0}"
 msgstr "Создание/обновление тестовой ветки: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1111
+#: NEEDS WORK
+#, python-brace-format
+msgid "Syncing local {0} with remote {0}..."
+msgstr "Синхронизация локального {0} с удалённым {0}..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1123
+#: NEEDS WORK
+#, python-brace-format
+msgid "Successfully synced with remote {0}"
+msgstr "Успешно синхронизировано с удалённым {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1125
+#: NEEDS WORK
+msgid "Pull failed, trying rebase..."
+msgstr "Не удалось выполнить pull, пытаюсь сделать rebase..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1128
+#: NEEDS WORK
+#, python-brace-format
+msgid "Successfully rebased with remote {0}"
+msgstr "Успешно выполнен rebase с удалённым {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1131
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not sync with remote {0}, continuing with local version"
+msgstr "Не удалось синхронизироваться с удалённым {0}, продолжаем с локальной версии."
 # 
 # File: usr/share/build-package/build_package.py, line: 400
 # File: usr/share/build-package/build_package.py, line: 419
@@ -1771,6 +999,18 @@ msgstr "Выход из скрипта. Действие не выполнено
 msgid "Error: No package name was entered."
 msgstr "Ошибка: Не было введено имя пакета."
 # 
+# File: usr/share/build-package/build_package.py, line: 497
+# File: usr/share/build-package/build_package.py, line: 518
+#: NEEDS WORK
+msgid "Organization"
+msgstr "Организация"
+# 
+# File: usr/share/build-package/build_package.py, line: 499
+# File: usr/share/build-package/build_package.py, line: 520
+#: NEEDS WORK
+msgid "User Name"
+msgstr "Имя пользователя"
+# 
 # File: usr/share/build-package/build_package.py, line: 500
 #: NEEDS WORK
 msgid "Package Name"
@@ -1791,6 +1031,12 @@ msgstr "Рабочая ветка"
 #: NEEDS WORK
 msgid "Url"
 msgstr "URL"
+# 
+# File: usr/share/build-package/build_package.py, line: 508
+# File: usr/share/build-package/build_package.py, line: 525
+#: NEEDS WORK
+msgid "TMATE Debug"
+msgstr "TMATE Отладка"
 # 
 # File: usr/share/build-package/build_package.py, line: 510
 #: NEEDS WORK
@@ -1862,6 +1108,29 @@ msgstr "Не удалось получить изменения. Вы хотит
 msgid "Select repository"
 msgstr "Выбрать репозиторий"
 # 
+# File: usr/share/build-package/build_package.py, line: 592
+# File: usr/share/build-package/build_package.py, line: 617
+# File: usr/share/build-package/build_package.py, line: 637
+#: NEEDS WORK
+msgid "Enable TMATE debug session?"
+msgstr "Включить сессию отладки TMATE?"
+# 
+# File: usr/share/build-package/build_package.py, line: 592
+# File: usr/share/build-package/build_package.py, line: 617
+# File: usr/share/build-package/build_package.py, line: 637
+# File: usr/share/build-package/build_package.py, line: 747
+#: NEEDS WORK
+msgid "No"
+msgstr "Нет"
+# 
+# File: usr/share/build-package/build_package.py, line: 592
+# File: usr/share/build-package/build_package.py, line: 617
+# File: usr/share/build-package/build_package.py, line: 637
+# File: usr/share/build-package/build_package.py, line: 747
+#: NEEDS WORK
+msgid "Yes"
+msgstr "Да"
+# 
 # File: usr/share/build-package/build_package.py, line: 608
 #: NEEDS WORK
 msgid "No changes to commit, proceeding with package generation."
@@ -1891,6 +1160,11 @@ msgstr "Удалить все теги"
 #: NEEDS WORK
 msgid "Merge branch to main"
 msgstr "Слить ветку в основную"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1450
+#: NEEDS WORK
+msgid "Revert commit"
+msgstr "Отменить коммит"
 # 
 # File: usr/share/build-package/build_package.py, line: 663
 #: NEEDS WORK
@@ -1977,6 +1251,420 @@ msgstr "Операция запроса на слияние завершена."
 #, python-brace-format
 msgid "Error getting branches: {0}"
 msgstr "Ошибка получения веток: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 225
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected error: {0}"
+msgstr "Неожиданная ошибка: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1576
+#: NEEDS WORK
+#, python-brace-format
+msgid "You can only revert commits on your own branch ({0}) or main branch."
+msgstr "Вы можете отменить коммиты только в своей ветке ({0}) или в основной ветке."
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1584
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 155
+#: NEEDS WORK
+msgid "Revert (keep history)"
+msgstr "Вернуть (сохранить историю)"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1585
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 156
+#: NEEDS WORK
+msgid "Reset (remove from history)"
+msgstr "Сбросить (удалить из истории)"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1591
+#: NEEDS WORK
+#, python-brace-format
+msgid "Branch: {0} - Select revert method"
+msgstr "Ветка: {0} - Выберите метод отката"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1602
+#: NEEDS WORK
+msgid "Main branch detected - only revert method available (safer for shared branch)"
+msgstr "Обнаружена основная ветка - доступен только метод отката (более безопасно для общей ветки)"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1607
+#: NEEDS WORK
+msgid "No commits found to revert."
+msgstr "Не найдено коммитов для отката."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1624
+#: NEEDS WORK
+#, python-brace-format
+msgid "Select commit to revert ({0})"
+msgstr "Выберите коммит для отмены ({0})"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1636
+#: NEEDS WORK
+#, python-brace-format
+msgid "Do you want to proceed with this {0}?"
+msgstr "Вы хотите продолжить с этим {0}?"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1656
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to {0} commit."
+msgstr "Не удалось {0} коммит."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1685
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error getting commit history: {0}"
+msgstr "Ошибка получения истории коммитов: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1688
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected error getting commits: {0}"
+msgstr "Неожиданная ошибка при получении коммитов: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1709
+#: NEEDS WORK
+msgid "Target Commit Hash"
+msgstr "Целевой хэш коммита"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1710
+#: NEEDS WORK
+msgid "Author"
+msgstr "Автор"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1711
+#: NEEDS WORK
+msgid "Date"
+msgstr "Дата"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1712
+#: NEEDS WORK
+msgid "Message"
+msgstr "Сообщение"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1713
+#: NEEDS WORK
+msgid "Method"
+msgstr "Метод"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1717
+# File: usr/share/build-package/core/build_package.py, line: 1722
+#: NEEDS WORK
+msgid "Result"
+msgstr "Результат"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1717
+#: NEEDS WORK
+msgid "Code will be restored to this commit's exact state"
+msgstr "Код будет восстановлен до точного состояния этого коммита."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1718
+#: NEEDS WORK
+msgid "New Commit"
+msgstr "Новый коммит"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1718
+#: NEEDS WORK
+msgid "Will create new commit with restored state"
+msgstr "Создаст новый коммит с восстановленным состоянием"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1719
+# File: usr/share/build-package/core/build_package.py, line: 1723
+#: NEEDS WORK
+msgid "History"
+msgstr "История"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1719
+#: NEEDS WORK
+msgid "All commits remain in history (non-destructive)"
+msgstr "Все коммиты остаются в истории (недеструктивно)"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1720
+#: NEEDS WORK
+msgid "Current Code"
+msgstr "Текущий код"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1722
+#: NEEDS WORK
+msgid "Repository will be reset to this commit"
+msgstr "Репозиторий будет сброшен до этого коммита"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1723
+#: NEEDS WORK
+msgid "Commits after this will be removed from history"
+msgstr "Коммиты после этого будут удалены из истории"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1726
+#: NEEDS WORK
+msgid "Revert Preview"
+msgstr "Вернуть предварительный просмотр"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1739
+#: NEEDS WORK
+msgid "Files that will be restored to target state:"
+msgstr "Файлы, которые будут восстановлены в целевое состояние:"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1751
+#: NEEDS WORK
+msgid "No differences detected - code is already at target state"
+msgstr "Различий не обнаружено - код уже находится в целевом состоянии"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1753
+#: NEEDS WORK
+msgid "Could not analyze file differences"
+msgstr "Не удалось проанализировать различия в файлах"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1756
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not show commit details: {0}"
+msgstr "Не удалось показать детали коммита: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1758
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error showing preview: {0}"
+msgstr "Ошибка при отображении предварительного просмотра: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1769
+#: NEEDS WORK
+#, python-brace-format
+msgid "Executing {0} for commit {1}..."
+msgstr "Выполнение {0} для коммита {1}..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1791
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during {0}: {1}"
+msgstr "Ошибка во время {0}: {1}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1795
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected error during {0}: {1}"
+msgstr "Неожиданная ошибка во время {0}: {1}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1803
+#: NEEDS WORK
+msgid "Getting commit information..."
+msgstr "Получение информации о коммите..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1813
+#: NEEDS WORK
+msgid "Restoring code state from selected commit..."
+msgstr "Восстановление состояния кода из выбранного коммита..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1820
+#: NEEDS WORK
+msgid "Staging restored files..."
+msgstr "Подготовка восстановленных файлов..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1832
+#: NEEDS WORK
+msgid "No changes detected - code is already at selected state"
+msgstr "Изменений не обнаружено - код уже находится в выбранном состоянии"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1838
+#: NEEDS WORK
+msgid "Creating revert commit..."
+msgstr "Создание коммита отката..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1844
+#: NEEDS WORK
+msgid "Revert completed successfully - code restored to selected commit state"
+msgstr "Откат завершен успешно - код восстановлен до состояния выбранного коммита"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1848
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during revert operation: {0}"
+msgstr "Ошибка во время операции отката: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1852
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected error during revert: {0}"
+msgstr "Неожиданная ошибка во время отката: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1857
+#: NEEDS WORK
+msgid "Resetting to previous commit..."
+msgstr "Сброс к предыдущему коммиту..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1866
+#: NEEDS WORK
+msgid "Commit exists in remote - force push required"
+msgstr "Коммит существует в удаленном репозитории - требуется принудительная отправка."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1867
+#: NEEDS WORK
+msgid "This will force push and rewrite remote history. Continue?"
+msgstr "Это приведет к принудительному пушу и переписыванию удаленной истории. Продолжить?"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1868
+#: NEEDS WORK
+msgid "Force pushing changes..."
+msgstr "Принудительная отправка изменений..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1870
+#: NEEDS WORK
+msgid "Reset completed and force pushed"
+msgstr "Сброс завершен и принудительно отправлен"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1873
+#: NEEDS WORK
+msgid "Reset completed locally only (remote unchanged)"
+msgstr "Сброс завершен только локально (удаленный не изменен)"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1876
+#: NEEDS WORK
+msgid "Reset completed (commit was only local)"
+msgstr "Сброс завершен (коммит был только локальным)"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1903
+#: NEEDS WORK
+msgid "Successfully skipped revert (no effective changes)"
+msgstr "Успешно пропущен откат (нет эффективных изменений)"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1906
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to skip revert: {0}"
+msgstr "Не удалось пропустить откат: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1923
+#: NEEDS WORK
+msgid "Revert completed successfully"
+msgstr "Откат завершён успешно"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1926
+#: NEEDS WORK
+#, python-brace-format
+msgid "Revert continue failed: {0}"
+msgstr "Не удалось продолжить откат: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1932
+#: NEEDS WORK
+msgid "Revert continue timed out - aborting"
+msgstr "Возврат продолжения истек времени - прерывание"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1939
+#: NEEDS WORK
+msgid "Pushing revert changes..."
+msgstr "Отмена изменений..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1948
+#: NEEDS WORK
+msgid "Revert changes pushed successfully"
+msgstr "Изменения успешно отменены"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1951
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to push revert: {0}"
+msgstr "Не удалось выполнить откат: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1955
+#: NEEDS WORK
+msgid "Revert completed (commit was only local)"
+msgstr "Откат завершён (коммит был только локальным)"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2014
+#: NEEDS WORK
+msgid "REVERT COMPLETED SUCCESSFULLY!"
+msgstr "ОТМЕНА УСПЕШНО ЗАВЕРШЕНА!"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2016
+#: NEEDS WORK
+msgid "Code restored to commit"
+msgstr "Код восстановлен до коммита"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2017
+# File: usr/share/build-package/core/build_package.py, line: 2036
+#: NEEDS WORK
+msgid "Target commit"
+msgstr "Целевая коммита"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2018
+#: NEEDS WORK
+msgid "New commit created"
+msgstr "Создан новый коммит"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2019
+#: NEEDS WORK
+msgid "New commit message"
+msgstr "Новое сообщение коммита"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2025
+#: NEEDS WORK
+msgid "Files restored"
+msgstr "Файлы восстановлены"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2029
+#: NEEDS WORK
+#, python-brace-format
+msgid "and {0} more files"
+msgstr "и {0} других файлов"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2033
+#: NEEDS WORK
+msgid "RESET COMPLETED SUCCESSFULLY!"
+msgstr "СБРОС УСПЕШНО ЗАВЕРШЕН!"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2035
+#: NEEDS WORK
+msgid "Repository reset to commit"
+msgstr "Репозиторий сброшен до коммита"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2037
+#: NEEDS WORK
+msgid "History after this commit was removed"
+msgstr "История после этого коммита была удалена"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2038
+#: NEEDS WORK
+msgid "Current HEAD"
+msgstr "Текущий HEAD"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2042
+#: NEEDS WORK
+msgid "Changes force-pushed to remote"
+msgstr "Изменения принудительно отправлены в удаленный репозиторий"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2044
+#: NEEDS WORK
+msgid "Reset completed locally only"
+msgstr "Сброс завершен только локально"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2049
+# File: usr/share/build-package/core/github_api.py, line: 770
+#: NEEDS WORK
+msgid "Operation completed successfully!"
+msgstr "Операция выполнена успешно!"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2050
+#: NEEDS WORK
+msgid "All changes have been saved to your repository"
+msgstr "Все изменения были сохранены в вашем репозитории."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2058
+#: NEEDS WORK
+msgid " COMPLETED"
+msgstr "ЗАВЕРШЕНО"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2059
+# File: usr/share/build-package/core/github_api.py, line: 777
+#: NEEDS WORK
+msgid "Press Enter to return to menu"
+msgstr "Нажмите Enter, чтобы вернуться в меню"
 # 
 # File: usr/share/build-package/build_package.py, line: 1088
 #: NEEDS WORK
@@ -2102,6 +1790,54 @@ msgstr "📄 Новые коммиты ({0}):"
 msgid "📁 Files changed ({0}):"
 msgstr "📁 Измененные файлы ({0}):"
 # 
+# File: usr/share/build-package/core/build_package.py, line: 2322
+#: NEEDS WORK
+#, python-brace-format
+msgid "  ✓ Added: {0} files"
+msgstr "✓ Добавлено: {0} файлов"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2326
+#: NEEDS WORK
+#, python-brace-format
+msgid "    + ... and {0} more"
+msgstr "+ ... и {0} еще"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2329
+#: NEEDS WORK
+#, python-brace-format
+msgid "  ⚠ Modified: {0} files"
+msgstr "⚠ Изменено: {0} файлов"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2333
+#: NEEDS WORK
+#, python-brace-format
+msgid "    ~ ... and {0} more"
+msgstr "~ ... и {0} еще"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2336
+#: NEEDS WORK
+#, python-brace-format
+msgid "  ✗ Deleted: {0} files"
+msgstr "✗ Удалено: {0} файлов"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2340
+#: NEEDS WORK
+#, python-brace-format
+msgid "    - ... and {0} more"
+msgstr "... и {0} еще"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2343
+#: NEEDS WORK
+#, python-brace-format
+msgid "  → Renamed: {0} files"
+msgstr "Переименовано: {0} файлов"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2357
+#: NEEDS WORK
+#, python-brace-format
+msgid "📊 {0}"
+msgstr "📊 {0}"
+# 
 # File: usr/share/build-package/build_package.py, line: 1270
 #: NEEDS WORK
 #, python-brace-format
@@ -2128,3 +1864,2069 @@ msgstr "Успешно переключено и обновлено на {0}"
 #, python-brace-format
 msgid "Error switching to branch {0}: {1}"
 msgstr "Ошибка переключения на ветку {0}: {1}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 111
+#: NEEDS WORK
+#, python-brace-format
+msgid "Git has changes: {0} - {1}"
+msgstr "В Git есть изменения: {0} - {1}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 114
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error checking changes: {0}"
+msgstr "Ошибка проверки изменений: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 122
+# File: usr/share/build-package/git_utils.py, line: 262
+# File: usr/share/build-package/git_utils.py, line: 317
+#: NEEDS WORK
+msgid "This operation is only available in Git repositories."
+msgstr "Эта операция доступна только в репозиториях Git."
+# 
+# File: usr/share/build-package/git_utils.py, line: 130
+#: NEEDS WORK
+msgid "Aborting merge in progress..."
+msgstr "Отмена слияния в процессе..."
+# 
+# File: usr/share/build-package/git_utils.py, line: 140
+#: NEEDS WORK
+msgid "Resolving conflicts automatically..."
+msgstr "Автоматическое разрешение конфликтов..."
+# 
+# File: usr/share/build-package/git_utils.py, line: 165
+#: NEEDS WORK
+#, python-brace-format
+msgid "Most recent branch identified: {0}"
+msgstr "Последняя идентифицированная ветка: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 171
+#: NEEDS WORK
+#, python-brace-format
+msgid "Pulling latest changes from most recent branch: {0}"
+msgstr "Получение последних изменений из самой последней ветки: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 182
+# File: usr/share/build-package/git_utils.py, line: 197
+#: NEEDS WORK
+#, python-brace-format
+msgid "Successfully pulled latest changes from {0}"
+msgstr "Успешно извлечены последние изменения из {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 188
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to pull from {0}, trying current branch: {1}"
+msgstr "Не удалось получить данные из {0}, пытаюсь текущую ветку: {1}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 203
+#: NEEDS WORK
+msgid "Failed to pull from current branch, trying dev branch"
+msgstr "Не удалось получить данные из текущей ветки, пытаюсь ветку dev."
+# 
+# File: usr/share/build-package/git_utils.py, line: 212
+#: NEEDS WORK
+msgid "Successfully pulled latest changes from dev"
+msgstr "Успешно извлечены последние изменения из dev"
+# 
+# File: usr/share/build-package/git_utils.py, line: 220
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error pulling changes: {0}"
+msgstr "Ошибка при получении изменений: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 255
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error finding most recent branch: {0}"
+msgstr "Ошибка при поиске самой последней ветки: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 275
+#: NEEDS WORK
+msgid "Pushing new branch to remote repository..."
+msgstr "Отправка новой ветки в удалённый репозиторий..."
+# 
+# File: usr/share/build-package/git_utils.py, line: 278
+#: NEEDS WORK
+#, python-brace-format
+msgid "Branch {0} created and pushed successfully!"
+msgstr "Ветка {0} успешно создана и отправлена!"
+# 
+# File: usr/share/build-package/git_utils.py, line: 281
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating or pushing branch: {0}"
+msgstr "Ошибка при создании или отправке ветки: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 322
+#: NEEDS WORK
+msgid "Getting branch list..."
+msgstr "Получение списка веток..."
+# 
+# File: usr/share/build-package/git_utils.py, line: 368
+#: NEEDS WORK
+#, python-brace-format
+msgid "Keeping only the most recent dev branch: {0}"
+msgstr "Сохранение только самой последней ветки разработки: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 373
+#: NEEDS WORK
+#, python-brace-format
+msgid "Removing local branch: {0}"
+msgstr "Удаление локальной ветки: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 393
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error removing local branch {0}: {1}"
+msgstr "Ошибка при удалении локальной ветки {0}: {1}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 398
+#: NEEDS WORK
+#, python-brace-format
+msgid "Removing remote branch: {0}"
+msgstr "Удаление удалённой ветки: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 402
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error removing remote branch {0}: {1}"
+msgstr "Ошибка при удалении удалённой ветки {0}: {1}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 404
+#: NEEDS WORK
+msgid "Branch cleanup completed successfully!"
+msgstr "Очистка ветки завершена успешно!"
+# 
+# File: usr/share/build-package/git_utils.py, line: 407
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during branch cleanup: {0}"
+msgstr "Ошибка во время очистки ветки: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 29
+# File: usr/share/build-package/github_api.py, line: 73
+# File: usr/share/build-package/github_api.py, line: 342
+# File: usr/share/build-package/github_api.py, line: 391
+#: NEEDS WORK
+msgid "Could not determine repository name."
+msgstr "Не удалось определить имя репозитория."
+# 
+# File: usr/share/build-package/github_api.py, line: 35
+#: NEEDS WORK
+msgid "Could not determine current commit SHA."
+msgstr "Не удалось определить текущий SHA коммита."
+# 
+# File: usr/share/build-package/github_api.py, line: 44
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating reference: {0}..."
+msgstr "Создание ссылки: {0}..."
+# 
+# File: usr/share/build-package/github_api.py, line: 59
+# File: usr/share/build-package/github_api.py, line: 65
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating reference: {0}"
+msgstr "Ошибка при создании ссылки: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 62
+#: NEEDS WORK
+#, python-brace-format
+msgid "Reference {0} created successfully!"
+msgstr "Ссылка {0} успешно создана!"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 83
+#: NEEDS WORK
+#, python-brace-format
+msgid "Checking if branch {0} already exists..."
+msgstr "Проверка, существует ли ветка {0}..."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 91
+#: NEEDS WORK
+#, python-brace-format
+msgid "Branch {0} already exists - using existing branch"
+msgstr "Ветка {0} уже существует - используется существующая ветка"
+# 
+# File: usr/share/build-package/github_api.py, line: 86
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not determine SHA for {0}."
+msgstr "Не удалось определить SHA для {0}."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 103
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating new branch: {0} based on {1}..."
+msgstr "Создание новой ветки: {0} на основе {1}..."
+# 
+# File: usr/share/build-package/github_api.py, line: 101
+# File: usr/share/build-package/github_api.py, line: 166
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating branch: {0}"
+msgstr "Ошибка при создании ветки: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 102
+# File: usr/share/build-package/github_api.py, line: 478
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error details: {0}"
+msgstr "Детали ошибки: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 163
+#: NEEDS WORK
+#, python-brace-format
+msgid "Branch {0} created successfully!"
+msgstr "Ветка {0} успешно создана!"
+# 
+# File: usr/share/build-package/github_api.py, line: 183
+#: NEEDS WORK
+msgid "Backing up local changes..."
+msgstr "Резервное копирование локальных изменений..."
+# 
+# File: usr/share/build-package/github_api.py, line: 191
+#: NEEDS WORK
+msgid "Updating remote references..."
+msgstr "Обновление удалённых ссылок..."
+# 
+# File: usr/share/build-package/github_api.py, line: 195
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switching to branch {0}..."
+msgstr "Переключение на ветку {0}..."
+# 
+# File: usr/share/build-package/github_api.py, line: 202
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} into {1}..."
+msgstr "Слияние {0} в {1}..."
+# 
+# File: usr/share/build-package/github_api.py, line: 211
+#: NEEDS WORK
+msgid "Merge completed without conflicts!"
+msgstr "Слияние завершено без конфликтов!"
+# 
+# File: usr/share/build-package/github_api.py, line: 214
+#: NEEDS WORK
+msgid "Conflicts detected, resolving automatically..."
+msgstr "Обнаружены конфликты, разрешение автоматически..."
+# 
+# File: usr/share/build-package/github_api.py, line: 227
+#: NEEDS WORK
+msgid "Using advanced resolution strategy..."
+msgstr "Использование стратегии продвинутого разрешения..."
+# 
+# File: usr/share/build-package/github_api.py, line: 254
+#: NEEDS WORK
+msgid "Conflicts resolved automatically!"
+msgstr "Конфликты разрешены автоматически!"
+# 
+# File: usr/share/build-package/github_api.py, line: 256
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically"
+msgstr "Не удалось автоматически разрешить конфликты"
+# 
+# File: usr/share/build-package/github_api.py, line: 259
+#: NEEDS WORK
+msgid "No differences detected"
+msgstr "Различий не обнаружено"
+# 
+# File: usr/share/build-package/github_api.py, line: 262
+#: NEEDS WORK
+msgid "Pushing resolved branch..."
+msgstr "Отправка разрешенной ветки..."
+# 
+# File: usr/share/build-package/github_api.py, line: 271
+#: NEEDS WORK
+msgid "Restoring local changes..."
+msgstr "Восстановление локальных изменений..."
+# 
+# File: usr/share/build-package/github_api.py, line: 274
+#: NEEDS WORK
+msgid "Conflict resolution completed successfully!"
+msgstr "Разрешение конфликта успешно завершено!"
+# 
+# File: usr/share/build-package/github_api.py, line: 278
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during conflict resolution: {0}"
+msgstr "Ошибка при разрешении конфликта: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 302
+#: NEEDS WORK
+msgid "Waiting for PR to be ready for merge..."
+msgstr "Ожидание готовности PR для слияния..."
+# 
+# File: usr/share/build-package/github_api.py, line: 316
+#: NEEDS WORK
+#, python-brace-format
+msgid "Attempt {0}/{1}: mergeable={2}, state={3}"
+msgstr "Попытка {0}/{1}: слияние={2}, состояние={3}"
+# 
+# File: usr/share/build-package/github_api.py, line: 320
+#: NEEDS WORK
+msgid "PR ready for merge!"
+msgstr "ПР готов к слиянию!"
+# 
+# File: usr/share/build-package/github_api.py, line: 323
+#: NEEDS WORK
+msgid "PR has conflicts"
+msgstr "У PR есть конфликты"
+# 
+# File: usr/share/build-package/github_api.py, line: 330
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected state: {0}"
+msgstr "Неожиданное состояние: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 333
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error checking PR: {0}"
+msgstr "Проверка ошибок PR: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 337
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error: {0}"
+msgstr "Ошибка: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 340
+#: NEEDS WORK
+msgid "Timeout waiting for PR to be ready"
+msgstr "Время ожидания готовности PR истекло"
+# 
+# File: usr/share/build-package/github_api.py, line: 240
+#: NEEDS WORK
+msgid "Failed to create branch for the build."
+msgstr "Не удалось создать ветку для сборки."
+# 
+# File: usr/share/build-package/github_api.py, line: 245
+#: NEEDS WORK
+#, python-brace-format
+msgid "Using existing branch: {0}"
+msgstr "Использование существующей ветки: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 267
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error retrieving remote repository URL for package: {0}"
+msgstr "Ошибка при получении URL удаленного репозитория для пакета: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 270
+#: NEEDS WORK
+#, python-brace-format
+msgid "Detected repository: {0}"
+msgstr "Обнаруженный репозиторий: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 394
+#: NEEDS WORK
+#, python-brace-format
+msgid "Testing package: workflow will use branch {0}"
+msgstr "Тестирование пакета: рабочий процесс будет использовать ветку {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 417
+#: NEEDS WORK
+msgid "Stable/Extra package: main is up-to-date, workflow will use main"
+msgstr ""
+"Стабильный/Дополнительный пакет: основная версия актуальна, рабочий процесс будет использовать "
+"основную версию"
+# 
+# File: usr/share/build-package/github_api.py, line: 421
+#: NEEDS WORK
+#, python-brace-format
+msgid "Stable/Extra package: main not up-to-date, workflow will use {0}"
+msgstr "Стабильный/Дополнительный пакет: основной не обновлён, рабочий процесс будет использовать {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 422
+# File: usr/share/build-package/github_api.py, line: 435
+#: NEEDS WORK
+#, python-brace-format
+msgid "⚠️  Warning: Package will be built from {0} instead of main"
+msgstr "⚠️  Внимание: Пакет будет собран из {0} вместо основного"
+# 
+# File: usr/share/build-package/github_api.py, line: 425
+#: NEEDS WORK
+msgid "Stable/Extra package: workflow will use main"
+msgstr "Стабильный/Дополнительный пакет: рабочий процесс будет использовать основную ветку"
+# 
+# File: usr/share/build-package/github_api.py, line: 430
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not verify branch status, using current: {0}"
+msgstr "Не удалось проверить статус ветки, используется текущий: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 434
+#: NEEDS WORK
+#, python-brace-format
+msgid "Stable/Extra package: not on main, workflow will use {0}"
+msgstr "Стабильный/Дополнительный пакет: не в основной ветке, рабочий процесс будет использовать {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 452
+#: NEEDS WORK
+msgid "Workflow payload:"
+msgstr "Нагрузка рабочего процесса:"
+# 
+# File: usr/share/build-package/github_api.py, line: 453
+#: NEEDS WORK
+#, python-brace-format
+msgid "  - branch: {0}"
+msgstr "- ветка: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 455
+#: NEEDS WORK
+#, python-brace-format
+msgid "  - branch_type: {0}"
+msgstr "- тип_ветки: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 457
+#: NEEDS WORK
+#, python-brace-format
+msgid "  - new_branch: {0}"
+msgstr "- новая_ветка: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 285
+#: NEEDS WORK
+msgid "Triggering build workflow on GitHub..."
+msgstr "Запуск рабочего процесса сборки на GitHub..."
+# 
+# File: usr/share/build-package/github_api.py, line: 294
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error triggering workflow. Response code: {0}"
+msgstr "Ошибка при запуске рабочего процесса. Код ответа: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 297
+#: NEEDS WORK
+#, python-brace-format
+msgid "Build workflow ({0}) triggered successfully."
+msgstr "Сборка рабочего процесса ({0}) успешно запущена."
+# 
+# File: usr/share/build-package/github_api.py, line: 301
+#: NEEDS WORK
+#, python-brace-format
+msgid "URL to monitor the build: {0}"
+msgstr "URL для мониторинга сборки: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 305
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error triggering workflow: {0}"
+msgstr "Ошибка при запуске рабочего процесса: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 313
+#: NEEDS WORK
+#, python-brace-format
+msgid "Token file '{0}' not found."
+msgstr "Файл токена '{0}' не найден."
+# 
+# File: usr/share/build-package/github_api.py, line: 331
+#: NEEDS WORK
+#, python-brace-format
+msgid "Token for organization '{0}' not found."
+msgstr "Токен для организации '{0}' не найден."
+# 
+# File: usr/share/build-package/github_api.py, line: 334
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error reading token: {0}"
+msgstr "Ошибка чтения токена: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 345
+#: NEEDS WORK
+#, python-brace-format
+msgid "Cleaning Actions jobs with '{0}' status..."
+msgstr "Очистка действий с работами со статусом '{0}'..."
+# 
+# File: usr/share/build-package/github_api.py, line: 354
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error fetching Actions jobs. Code: {0}"
+msgstr "Ошибка при получении задач действий. Код: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 361
+#: NEEDS WORK
+#, python-brace-format
+msgid "No Action jobs with '{0}' status found."
+msgstr "Не найдены задания без действия со статусом '{0}'."
+# 
+# File: usr/share/build-package/github_api.py, line: 368
+#: NEEDS WORK
+#, python-brace-format
+msgid "Deleting job {0}..."
+msgstr "Удаление задания {0}..."
+# 
+# File: usr/share/build-package/github_api.py, line: 378
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error deleting job {0}. Code: {1}"
+msgstr "Ошибка при удалении задания {0}. Код: {1}"
+# 
+# File: usr/share/build-package/github_api.py, line: 380
+#: NEEDS WORK
+#, python-brace-format
+msgid "Deleted {0} Actions jobs with '{1}' status."
+msgstr "Удалены {0} действий с работами со статусом '{1}'."
+# 
+# File: usr/share/build-package/github_api.py, line: 383
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error cleaning Actions jobs: {0}"
+msgstr "Ошибка при очистке задач действий: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 394
+#: NEEDS WORK
+msgid "Getting tag list..."
+msgstr "Получение списка тегов..."
+# 
+# File: usr/share/build-package/github_api.py, line: 403
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error fetching tags. Code: {0}"
+msgstr "Ошибка при получении тегов. Код: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 409
+#: NEEDS WORK
+msgid "No tags found."
+msgstr "Теги не найдены."
+# 
+# File: usr/share/build-package/github_api.py, line: 416
+#: NEEDS WORK
+#, python-brace-format
+msgid "Deleting tag {0}..."
+msgstr "Удаление тега {0}..."
+# 
+# File: usr/share/build-package/github_api.py, line: 427
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error deleting tag {0}. Code: {1}"
+msgstr "Ошибка при удалении тега {0}. Код: {1}"
+# 
+# File: usr/share/build-package/github_api.py, line: 429
+#: NEEDS WORK
+#, python-brace-format
+msgid "Deleted {0} tags."
+msgstr "Удалены теги {0}."
+# 
+# File: usr/share/build-package/github_api.py, line: 432
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error cleaning tags: {0}"
+msgstr "Ошибка очистки тегов: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 439
+#: NEEDS WORK
+msgid "Source branch name is required to create a pull request"
+msgstr "Имя исходной ветки обязательно для создания запроса на слияние."
+# 
+# File: usr/share/build-package/github_api.py, line: 449
+#: NEEDS WORK
+msgid "Repository name could not be determined"
+msgstr "Не удалось определить имя репозитория"
+# 
+# File: usr/share/build-package/github_api.py, line: 627
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating pull request: {0} → {1}"
+msgstr "Создание запроса на слияние: {0} → {1}"
+# 
+# File: usr/share/build-package/github_api.py, line: 632
+#: NEEDS WORK
+msgid "Resolving possible conflicts before merge..."
+msgstr "Разрешение возможных конфликтов перед слиянием..."
+# 
+# File: usr/share/build-package/github_api.py, line: 637
+#: NEEDS WORK
+msgid "Warning: Could not resolve conflicts automatically"
+msgstr "Предупреждение: Не удалось автоматически разрешить конфликты"
+# 
+# File: usr/share/build-package/github_api.py, line: 638
+#: NEEDS WORK
+msgid "Trying to create PR anyway..."
+msgstr "Все равно пытаюсь создать PR..."
+# 
+# File: usr/share/build-package/github_api.py, line: 457
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merge {0} into {1}"
+msgstr "Слить {0} в {1}"
+# 
+# File: usr/share/build-package/github_api.py, line: 458
+#: NEEDS WORK
+msgid "Automated PR created by build_package.py"
+msgstr "Автоматизированный PR созданный build_package.py"
+# 
+# File: usr/share/build-package/github_api.py, line: 644
+#: NEEDS WORK
+msgid "Conflicts resolved automatically (if any)"
+msgstr "Конфликты разрешены автоматически (если есть)"
+# 
+# File: usr/share/build-package/github_api.py, line: 645
+#: NEEDS WORK
+msgid "Ready for automatic merge"
+msgstr "Готов к автоматическому слиянию"
+# 
+# File: usr/share/build-package/github_api.py, line: 475
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to create PR: {0}"
+msgstr "Не удалось создать PR: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 486
+#: NEEDS WORK
+#, python-brace-format
+msgid "Pull request created successfully: {0}"
+msgstr "Запрос на слияние успешно создан: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 670
+#: NEEDS WORK
+msgid "Starting auto-merge process..."
+msgstr "Запуск процесса автоматического слияния..."
+# 
+# File: usr/share/build-package/github_api.py, line: 679
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-merge: {0} → {1}"
+msgstr "Авто-слияние: {0} → {1}"
+# 
+# File: usr/share/build-package/github_api.py, line: 680
+#: NEEDS WORK
+msgid "Automated merge performed by build_package.py"
+msgstr "Автоматическое слияние выполнено скриптом build_package.py"
+# 
+# File: usr/share/build-package/github_api.py, line: 689
+#: NEEDS WORK
+msgid "AUTO-MERGE COMPLETED SUCCESSFULLY!"
+msgstr "АВТОСЛИЯНИЕ УСПЕШНО ЗАВЕРШЕНО!"
+# 
+# File: usr/share/build-package/github_api.py, line: 690
+#: NEEDS WORK
+#, python-brace-format
+msgid "SHA: {0}"
+msgstr "SHA: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 698
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-merge failed: {0}"
+msgstr "Автообъединение не удалось: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 700
+# File: usr/share/build-package/github_api.py, line: 707
+#: NEEDS WORK
+msgid "PR created but must be merged manually"
+msgstr "PR создан, но должен быть объединен вручную"
+# 
+# File: usr/share/build-package/github_api.py, line: 706
+#: NEEDS WORK
+#, python-brace-format
+msgid "PR not ready for merge (state: {0})"
+msgstr "ПР не готов к слиянию (состояние: {0})"
+# 
+# File: usr/share/build-package/github_api.py, line: 507
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating pull request: {0}"
+msgstr "Ошибка при создании запроса на слияние: {0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 750
+#: NEEDS WORK
+msgid "PULL REQUEST COMPLETED SUCCESSFULLY!"
+msgstr "ПУЛЛ-ЗАПРОС УСПЕШНО ЗАВЕРШЕН!"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 752
+#: NEEDS WORK
+#, python-brace-format
+msgid "PR #{0} created and processed"
+msgstr "PR #{0} создан и обработан"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 758
+#: NEEDS WORK
+msgid "SUCCESS"
+msgstr "УСПЕХ"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 759
+#: NEEDS WORK
+msgid "Code automatically merged to target branch"
+msgstr "Код автоматически слит в целевую ветку"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 760
+#: NEEDS WORK
+msgid "Merge SHA"
+msgstr "Слияние SHA"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 764
+#: NEEDS WORK
+msgid "Manual merge required"
+msgstr "Требуется ручное слияние"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 776
+#: NEEDS WORK
+msgid "PULL REQUEST COMPLETED"
+msgstr "ПУЛЛ-ЗАПРОС ЗАВЕРШЕН"
+# 
+# File: usr/share/build-package/config.py, line: 46
+#: NEEDS WORK
+msgid "BUILD PACKAGE"
+msgstr "СОЗДАТЬ ПАКЕТ"
+# 
+# File: usr/share/build-package/config.py, line: 47
+#: NEEDS WORK
+msgid ""
+"A comprehensive tool for package building, testing, and deployment. Streamlines Git operations, "
+"automates builds and manages package workflows for BigCommunity repositories and AUR packages."
+msgstr ""
+"Комплексный инструмент для сборки, тестирования и развертывания пакетов. Упрощает операции с Git, "
+"автоматизирует сборки и управляет рабочими процессами пакетов для репозиториев BigCommunity и "
+"пакетов AUR."
+# 
+# File: usr/share/build-package/gui/main_gui.py, line: 82
+# File: usr/share/build-package/gui/main_gui.py, line: 145
+#: NEEDS WORK
+msgid "Preferences"
+msgstr "Настройки"
+# 
+# File: usr/share/build-package/gui/main_gui.py, line: 83
+# File: usr/share/build-package/gui/main_gui.py, line: 146
+#: NEEDS WORK
+msgid "Keyboard Shortcuts"
+msgstr "Сочетания клавиш"
+# 
+# File: usr/share/build-package/gui/main_gui.py, line: 84
+#: NEEDS WORK
+msgid "About Build Package"
+msgstr "О пакете сборки"
+# 
+# File: usr/share/build-package/gui/main_gui.py, line: 117
+#: NEEDS WORK
+msgid "translator-credits"
+msgstr "кредиты переводчика"
+# 
+# File: usr/share/build-package/gui/main_gui.py, line: 125
+#: NEEDS WORK
+msgid "Preferences - Coming soon"
+msgstr "Настройки - Скоро будет"
+# 
+# File: usr/share/build-package/gui/main_gui.py, line: 140
+#: NEEDS WORK
+msgid "General"
+msgstr "Общий"
+# 
+# File: usr/share/build-package/gui/main_gui.py, line: 144
+#: NEEDS WORK
+msgid "Quit"
+msgstr "Выйти"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/main_gui.py, line: 147
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 219
+#: NEEDS WORK
+msgid "Refresh Status"
+msgstr "Обновить статус"
+# 
+# File: usr/share/build-package/gui/main_gui.py, line: 148
+#: NEEDS WORK
+msgid "Pull Latest Changes"
+msgstr "Получить последние изменения"
+# 
+# File: usr/share/build-package/gui/main_gui.py, line: 152
+#: NEEDS WORK
+msgid "Application"
+msgstr "Приложение"
+# 
+# File: usr/share/build-package/gui/main_gui.py, line: 185
+#: NEEDS WORK
+msgid "Failed to start GUI interface"
+msgstr "Не удалось запустить графический интерфейс пользователя"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 52
+# File: usr/share/build-package/gui/main_window.py, line: 73
+# File: usr/share/build-package/gui/main_window.py, line: 94
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 258
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 175
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 269
+#: NEEDS WORK
+msgid "Build Package"
+msgstr "Собрать пакет"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 134
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to initialize: {0}"
+msgstr "Не удалось инициализировать: {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 152
+#: NEEDS WORK
+msgid "Overview"
+msgstr "Обзор"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 153
+#: NEEDS WORK
+msgid "Commit & Push"
+msgstr "Коммит и отправка"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 154
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 70
+#: NEEDS WORK
+msgid "Generate Package"
+msgstr "Сгенерировать пакет"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 155
+#: NEEDS WORK
+msgid "AUR Package"
+msgstr "AUR пакет"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 156
+#: NEEDS WORK
+msgid "Branches"
+msgstr "Ветки"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 157
+#: NEEDS WORK
+msgid "Advanced"
+msgstr "Расширенный"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 228
+#: NEEDS WORK
+msgid "Git Repository"
+msgstr "Гит-репозиторий"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 231
+#: NEEDS WORK
+msgid "Not a Git repository"
+msgstr "Не является репозиторием Git"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 239
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 271
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 284
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 310
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 169
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 208
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 270
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 199
+#: NEEDS WORK
+msgid "Unknown"
+msgstr "Неизвестно"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 243
+#: NEEDS WORK
+msgid "Uncommitted changes"
+msgstr "Незавершенные изменения"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 246
+#: NEEDS WORK
+msgid "Clean working tree"
+msgstr "Чистое рабочее дерево"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 277
+#: NEEDS WORK
+msgid "Committing Changes"
+msgstr "Фиксация изменений"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 278
+#: NEEDS WORK
+msgid "Committing and pushing changes to repository..."
+msgstr "Коммит и отправка изменений в репозиторий..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 288
+#: NEEDS WORK
+msgid "Pulling Changes"
+msgstr "Получение изменений"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 289
+#: NEEDS WORK
+msgid "Pulling latest changes from remote repository..."
+msgstr "Получение последних изменений из удаленного репозитория..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 301
+#: NEEDS WORK
+msgid "Building Package"
+msgstr "Создание пакета"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 302
+#: NEEDS WORK
+#, python-brace-format
+msgid "Building {0} package..."
+msgstr "Сборка пакета {0}..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 315
+#: NEEDS WORK
+msgid "Commit and Build"
+msgstr "Коммит и сборка"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 316
+#: NEEDS WORK
+#, python-brace-format
+msgid "Committing changes and building {0} package..."
+msgstr "Фиксация изменений и сборка пакета {0}..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 328
+#: NEEDS WORK
+msgid "Building AUR Package"
+msgstr "Сборка пакета AUR"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 329
+#: NEEDS WORK
+#, python-brace-format
+msgid "Building AUR package: {0}"
+msgstr "Сборка пакета AUR: {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 334
+#: NEEDS WORK
+#, python-brace-format
+msgid "Selected branch: {0}"
+msgstr "Выбранная ветка: {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 345
+#: NEEDS WORK
+msgid "Creating Merge Request"
+msgstr "Создание запроса на слияние"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 346
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating merge request: {0} → {1}"
+msgstr "Создание запроса на слияние: {0} → {1}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 360
+#: NEEDS WORK
+msgid "Cleaning Up Branches"
+msgstr "Очистка веток"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 361
+#: NEEDS WORK
+msgid "Removing old development branches..."
+msgstr "Удаление старых веток разработки..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 373
+#: NEEDS WORK
+msgid "Cleaning Up Actions"
+msgstr "Очистка действий"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 374
+#: NEEDS WORK
+#, python-brace-format
+msgid "Removing {0} GitHub Actions..."
+msgstr "Удаление {0} GitHub Actions..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 386
+#: NEEDS WORK
+msgid "Cleaning Up Tags"
+msgstr "Очистка тегов"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 387
+#: NEEDS WORK
+msgid "Removing all repository tags..."
+msgstr "Удаление всех тегов репозитория..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 399
+#: NEEDS WORK
+msgid "Reverting Commit"
+msgstr "Отмена коммита"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 400
+#: NEEDS WORK
+#, python-brace-format
+msgid "Reverting commit {0} using {1} method..."
+msgstr "Возврат коммита {0} с использованием метода {1}..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 406
+#: NEEDS WORK
+msgid "Status refreshed"
+msgstr "Статус обновлён"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 411
+#: NEEDS WORK
+msgid "Not in a Git repository"
+msgstr "Не в репозитории Git"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 419
+#: NEEDS WORK
+msgid "Failed to pull changes"
+msgstr "Не удалось получить изменения"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 436
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 254
+#: NEEDS WORK
+#, python-brace-format
+msgid "Operation failed: {0}"
+msgstr "Операция не удалась: {0}"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/gtk_menu.py, line: 54
+# File: usr/share/build-package/gui/gtk_menu.py, line: 96
+# File: usr/share/build-package/gui/gtk_menu.py, line: 133
+# File: usr/share/build-package/gui/gtk_menu.py, line: 184
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 330
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 392
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 257
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 94
+#: NEEDS WORK
+msgid "Cancel"
+msgstr "Отмена"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/gtk_menu.py, line: 97
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 331
+#: NEEDS WORK
+msgid "Confirm"
+msgstr "Подтвердить"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/gtk_menu.py, line: 134
+# File: usr/share/build-package/gui/gtk_menu.py, line: 185
+# File: usr/share/build-package/gui/gtk_logger.py, line: 128
+#: NEEDS WORK
+msgid "OK"
+msgstr "Хорошо"
+# 
+# File: usr/share/build-package/gui/gtk_menu.py, line: 242
+#: NEEDS WORK
+msgid "Please wait..."
+msgstr "Пожалуйста, подождите..."
+# 
+# File: usr/share/build-package/gui/gtk_logger.py, line: 91
+#: NEEDS WORK
+msgid "Build Package initialized successfully"
+msgstr "Пакет сборки инициализирован успешно"
+# 
+# File: usr/share/build-package/gui/gtk_logger.py, line: 107
+#: NEEDS WORK
+#, python-brace-format
+msgid "Summary: {0}"
+msgstr "Сводка: {0}"
+# 
+# File: usr/share/build-package/gui/gtk_logger.py, line: 125
+#: NEEDS WORK
+msgid "Fatal Error"
+msgstr "Фатальная ошибка"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 32
+#: NEEDS WORK
+msgid "Current branch"
+msgstr "Текущая ветка"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 75
+#: NEEDS WORK
+msgid "Branch Management"
+msgstr "Управление ветвями"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 80
+#: NEEDS WORK
+msgid "Manage Git branches and merge operations"
+msgstr "Управление ветками Git и операциями слияния"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 88
+#: NEEDS WORK
+msgid "Current Status"
+msgstr "Текущий статус"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 91
+#: NEEDS WORK
+msgid "Active Branch"
+msgstr "Активная ветка"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 95
+#: NEEDS WORK
+msgid "Most Recent Branch"
+msgstr "Последняя ветка"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 96
+#: NEEDS WORK
+msgid "Branch with latest commits"
+msgstr "Ветка с последними коммитами"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 103
+#: NEEDS WORK
+msgid "Available Branches"
+msgstr "Доступные ветки"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 122
+#: NEEDS WORK
+msgid "Merge Operations"
+msgstr "Слияние операций"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 127
+#: NEEDS WORK
+msgid "Branch to merge from"
+msgstr "Ветка для слияния"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 133
+#: NEEDS WORK
+msgid "Branch to merge into"
+msgstr "Ветка для слияния"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 139
+#: NEEDS WORK
+msgid "Automatically merge if no conflicts"
+msgstr "Автоматически объединять, если нет конфликтов"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 151
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 189
+#: NEEDS WORK
+msgid "Refresh"
+msgstr "Обновить"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 152
+#: NEEDS WORK
+msgid "Refresh branch list"
+msgstr "Обновить список веток"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 158
+#: NEEDS WORK
+msgid "Cleanup Branches"
+msgstr "Очистка веток"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 159
+#: NEEDS WORK
+msgid "Remove old development branches"
+msgstr "Удалить старые ветки разработки"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 166
+#: NEEDS WORK
+msgid "Create Merge Request"
+msgstr "Создать запрос на слияние"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 87
+#: NEEDS WORK
+msgid "Advanced Operations"
+msgstr "Расширенные операции"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 92
+#: NEEDS WORK
+msgid "Advanced Git operations and maintenance"
+msgstr "Расширенные операции и обслуживание Git"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 100
+#: NEEDS WORK
+msgid "Warning: These operations can be destructive"
+msgstr "Предупреждение: Эти операции могут быть разрушительными"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 106
+#: NEEDS WORK
+msgid "Cleanup Operations"
+msgstr "Операции очистки"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 107
+#: NEEDS WORK
+msgid "Remove old branches, actions, and tags"
+msgstr "Удалить старые ветки, действия и теги"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 110
+#: NEEDS WORK
+msgid "Delete Old Branches"
+msgstr "Удалить старые ветки"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 110
+#: NEEDS WORK
+msgid "Remove development branches except main and latest"
+msgstr "Удалить ветки разработки, кроме основной и последней"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 112
+#: NEEDS WORK
+msgid "Delete Failed Actions"
+msgstr "Удалить неудачные действия"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 112
+#: NEEDS WORK
+msgid "Remove failed GitHub Action jobs"
+msgstr "Удалить неудачные задания GitHub Action"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 114
+#: NEEDS WORK
+msgid "Delete Successful Actions"
+msgstr "Удалить успешные действия"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 114
+#: NEEDS WORK
+msgid "Remove successful GitHub Action jobs"
+msgstr "Удалить успешные задания GitHub Action"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 116
+#: NEEDS WORK
+msgid "Delete All Tags"
+msgstr "Удалить все теги"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 116
+#: NEEDS WORK
+msgid "Remove all repository tags"
+msgstr "Удалить все теги репозитория"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 134
+#: NEEDS WORK
+msgid "Commit History"
+msgstr "История коммитов"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 135
+#: NEEDS WORK
+msgid "View and revert recent commits"
+msgstr "Просмотреть и отменить недавние коммиты"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 151
+#: NEEDS WORK
+msgid "Revert Method"
+msgstr "Метод отката"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 152
+#: NEEDS WORK
+msgid "Choose how to undo the commit"
+msgstr "Выберите способ отмены коммита"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 166
+#: NEEDS WORK
+msgid "Repository Statistics"
+msgstr "Статистика репозитория"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 169
+#: NEEDS WORK
+msgid "Total Branches"
+msgstr "Всего веток"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 173
+#: NEEDS WORK
+msgid "Commits in Current Branch"
+msgstr "Коммиты в текущей ветке"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 177
+#: NEEDS WORK
+msgid "Repository Size"
+msgstr "Размер репозитория"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 195
+#: NEEDS WORK
+msgid "Revert Selected"
+msgstr "Вернуть выбранное"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 326
+#: NEEDS WORK
+msgid "Confirm Cleanup Operation"
+msgstr "Подтвердите операцию очистки"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 327
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Are you sure you want to perform '{0}'?\n"
+"\n"
+"This operation cannot be undone."
+msgstr ""
+"Вы уверены, что хотите выполнить '{0}'?\n"
+"\n"
+"Это действие нельзя отменить."
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 382
+#: NEEDS WORK
+msgid "revert"
+msgstr "вернуть"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 382
+#: NEEDS WORK
+msgid "reset"
+msgstr "сброс"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 386
+#: NEEDS WORK
+#, python-brace-format
+msgid "Confirm Commit {0}"
+msgstr "Подтвердить коммит {0}"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 387
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Are you sure you want to {0} this commit?\n"
+"\n"
+"{1}\n"
+"\n"
+"Commit: {2}"
+msgstr ""
+"Вы уверены, что хотите {0} этот коммит?\n"
+"\n"
+"{1}\n"
+"\n"
+"Коммит: {2}"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 69
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 140
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 162
+#: NEEDS WORK
+msgid "Commit and Push"
+msgstr "Коммит и Пуш"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 74
+#: NEEDS WORK
+msgid "Stage changes and push to your development branch"
+msgstr "Стадия изменений и отправка в вашу ветку разработки"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 82
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 127
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 83
+#: NEEDS WORK
+msgid "Repository Status"
+msgstr "Статус репозитория"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 85
+#: NEEDS WORK
+msgid "Working Directory"
+msgstr "Рабочая директория"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 89
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 138
+#: NEEDS WORK
+msgid "Current Branch"
+msgstr "Текущая ветка"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 96
+#: NEEDS WORK
+msgid "Commit Type"
+msgstr "Тип коммита"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 97
+#: NEEDS WORK
+msgid "Select the type of changes you are committing"
+msgstr "Выберите тип изменений, которые вы коммитите"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 116
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 129
+#: NEEDS WORK
+msgid "Commit Message"
+msgstr "Сообщение коммита"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 119
+#: NEEDS WORK
+msgid "Description"
+msgstr "Описание"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 133
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 164
+#: NEEDS WORK
+msgid "Pull Latest"
+msgstr "Получить последние обновления"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 134
+#: NEEDS WORK
+msgid "Pull latest changes from remote"
+msgstr "Получить последние изменения с удаленного репозитория"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 156
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 204
+#: NEEDS WORK
+msgid "Uncommitted changes present"
+msgstr "Незавершенные изменения присутствуют"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 160
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 209
+#: NEEDS WORK
+msgid "Working directory clean"
+msgstr "Рабочая директория чиста"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 184
+#: NEEDS WORK
+msgid "Custom message"
+msgstr "Пользовательское сообщение"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 187
+#: NEEDS WORK
+#, python-brace-format
+msgid "Description for {0}"
+msgstr "Описание для {0}"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 44
+#: NEEDS WORK
+msgid "AUR Package Builder"
+msgstr "AUR Пакетный Строитель"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 49
+#: NEEDS WORK
+msgid "Build packages from Arch User Repository"
+msgstr "Сборка пакетов из Arch User Repository"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 57
+#: NEEDS WORK
+msgid "AUR packages are built from community-maintained sources"
+msgstr "Пакеты AUR создаются из источников, поддерживаемых сообществом."
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 58
+#: NEEDS WORK
+msgid "Learn More"
+msgstr "Узнать больше"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 64
+#: NEEDS WORK
+msgid "Package Information"
+msgstr "Информация о пакете"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 65
+#: NEEDS WORK
+msgid "Enter the AUR package name to build"
+msgstr "Введите имя пакета AUR для сборки"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 68
+#: NEEDS WORK
+msgid "AUR Package Name"
+msgstr "Имя пакета AUR"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 76
+#: NEEDS WORK
+msgid "AUR URL"
+msgstr "AUR URL"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 85
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 137
+#: NEEDS WORK
+msgid "Build Options"
+msgstr "Параметры сборки"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 88
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 140
+#: NEEDS WORK
+msgid "Enable TMATE Debug"
+msgstr "Включить отладку TMATE"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 89
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 141
+#: NEEDS WORK
+msgid "Enable terminal access for debugging build issues"
+msgstr "Включить доступ к терминалу для отладки проблем сборки"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 96
+#: NEEDS WORK
+msgid "Quick Access"
+msgstr "Быстрый доступ"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 100
+#: NEEDS WORK
+msgid "AUR helper written in Go"
+msgstr "AUR помощник, написанный на Go"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 101
+#: NEEDS WORK
+msgid "Visual Studio Code editor"
+msgstr "Редактор Visual Studio Code"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 102
+#: NEEDS WORK
+msgid "Google Chrome browser"
+msgstr "Браузер Google Chrome"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 103
+#: NEEDS WORK
+msgid "Discord chat application"
+msgstr "Приложение для чата Discord"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 123
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 148
+#: NEEDS WORK
+msgid "Build Summary"
+msgstr "Сводка сборки"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 131
+#: NEEDS WORK
+msgid "Branch Timestamp"
+msgstr "Временная метка ветки"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 132
+#: NEEDS WORK
+msgid "Will be generated automatically"
+msgstr "Будет сгенерировано автоматически"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 149
+#: NEEDS WORK
+msgid "Clear"
+msgstr "Очистить"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 155
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 170
+#: NEEDS WORK
+msgid "Build AUR Package"
+msgstr "Собрать пакет AUR"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 193
+#: NEEDS WORK
+msgid "Enter package name above"
+msgstr "Введите имя пакета выше"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 251
+#: NEEDS WORK
+msgid "Confirm AUR Build"
+msgstr "Подтвердить сборку AUR"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 252
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Build AUR package '{0}'?\n"
+"\n"
+"This will:\n"
+"• Create branch: {1}\n"
+"• Download from: https://aur.archlinux.org/{0}.git\n"
+"• Build package in BigCommunity infrastructure"
+msgstr ""
+"Собрать AUR пакет '{0}'?\n"
+"\n"
+"Это приведет к:\n"
+"• Созданию ветки: {1}\n"
+"• Загрузке с: https://aur.archlinux.org/{0}.git\n"
+"• Сборке пакета в инфраструктуре BigCommunity"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 103
+#: NEEDS WORK
+#, python-brace-format
+msgid "Welcome to {0}"
+msgstr "Добро пожаловать в {0}"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 108
+#: NEEDS WORK
+#, python-brace-format
+msgid "Version {0}"
+msgstr "Версия {0}"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 137
+#: NEEDS WORK
+msgid "Repository"
+msgstr "Репозиторий"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 139
+#: NEEDS WORK
+msgid "Changes"
+msgstr "Изменения"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 140
+#: NEEDS WORK
+msgid "Commits"
+msgstr "Коммиты"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 152
+#: NEEDS WORK
+msgid "Quick Actions"
+msgstr "Быстрые действия"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 153
+#: NEEDS WORK
+msgid "Common operations for package development"
+msgstr "Общие операции для разработки пакетов"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 162
+#: NEEDS WORK
+msgid "Stage changes and push to development branch"
+msgstr "Подготовьте изменения и отправьте в ветку разработки"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 164
+#: NEEDS WORK
+msgid "Pull latest changes from remote repository"
+msgstr "Получить последние изменения из удаленного репозитория"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 166
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 225
+#: NEEDS WORK
+msgid "Build Testing Package"
+msgstr "Пакет тестирования сборки"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 166
+#: NEEDS WORK
+msgid "Build and deploy to testing repository"
+msgstr "Собрать и развернуть в тестовом репозитории"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 168
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 226
+#: NEEDS WORK
+msgid "Build Stable Package"
+msgstr "Собрать стабильный пакет"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 168
+#: NEEDS WORK
+msgid "Build and deploy to stable repository"
+msgstr "Собрать и развернуть в стабильный репозиторий"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 170
+#: NEEDS WORK
+msgid "Build package from Arch User Repository"
+msgstr "Собрать пакет из Arch User Repository"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 183
+#: NEEDS WORK
+msgid "Recent Activity"
+msgstr "Недавняя активность"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 186
+#: NEEDS WORK
+msgid "No recent activity"
+msgstr "Нет недавней активности"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 187
+#: NEEDS WORK
+msgid "Activity will appear here after operations"
+msgstr "Деятельность появится здесь после операций"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 194
+#: NEEDS WORK
+msgid "System Information"
+msgstr "Системная информация"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 202
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 156
+#: NEEDS WORK
+msgid "Workflow Repository"
+msgstr "Репозиторий рабочих процессов"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 207
+#: NEEDS WORK
+msgid "GitHub User"
+msgstr "Пользователь GitHub"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 220
+#: NEEDS WORK
+msgid "Refresh repository status and information"
+msgstr "Обновить статус и информацию репозитория"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 232
+#: NEEDS WORK
+#, python-brace-format
+msgid "Connected to repository: {0}"
+msgstr "Подключено к репозиторию: {0}"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 235
+#: NEEDS WORK
+msgid "Git repository detected"
+msgstr "Обнаружен репозиторий Git"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 238
+#: NEEDS WORK
+msgid "Not in a Git repository - some features will be limited"
+msgstr "Не в репозитории Git - некоторые функции будут ограничены"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 253
+#: NEEDS WORK
+msgid "Not a Git repo"
+msgstr "Не репозиторий Git"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 263
+#: NEEDS WORK
+msgid "Local repo"
+msgstr "Локальный репозиторий"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 274
+#: NEEDS WORK
+msgid "Modified"
+msgstr "Изменённый"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 277
+#: NEEDS WORK
+msgid "Clean"
+msgstr "Чистый"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 311
+#: NEEDS WORK
+msgid "Last commit"
+msgstr "Последний коммит"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 75
+#: NEEDS WORK
+msgid "Build and deploy packages to repositories"
+msgstr "Создавайте и развертывайте пакеты в репозитории"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 94
+#: NEEDS WORK
+msgid "Changes Status"
+msgstr "Изменяет статус"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 101
+#: NEEDS WORK
+msgid "Package Type"
+msgstr "Тип пакета"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 102
+#: NEEDS WORK
+msgid "Select the repository type for package deployment"
+msgstr "Выберите тип репозитория для развертывания пакета"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 111
+#: NEEDS WORK
+msgid "Testing Repository"
+msgstr "Репозиторий тестирования"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 111
+#: NEEDS WORK
+msgid "Deploy to testing repo for beta users"
+msgstr "Развернуть в тестовом репозитории для бета-пользователей"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 112
+#: NEEDS WORK
+msgid "Stable Repository"
+msgstr "Стабильный репозиторий"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 112
+#: NEEDS WORK
+msgid "Deploy to stable repo for all users"
+msgstr "Развернуть в стабильный репозиторий для всех пользователей"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 113
+#: NEEDS WORK
+msgid "Extra Repository"
+msgstr "Дополнительный репозиторий"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 113
+#: NEEDS WORK
+msgid "Deploy to extra repo for additional packages"
+msgstr "Развернуть в дополнительном репозитории для дополнительных пакетов"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 125
+#: NEEDS WORK
+msgid "Commit Changes"
+msgstr "Зафиксировать изменения"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 126
+#: NEEDS WORK
+msgid "Required when uncommitted changes are present"
+msgstr "Обязательно, когда есть незавершенные изменения"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 169
+#: NEEDS WORK
+msgid "Reset"
+msgstr "Сбросить"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 188
+#: NEEDS WORK
+msgid "Error: PKGBUILD not found"
+msgstr "Ошибка: PKGBUILD не найден"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 227
+#: NEEDS WORK
+msgid "Build Extra Package"
+msgstr "Собрать дополнительный пакет"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 295
+#: NEEDS WORK
+msgid "Testing"
+msgstr "Тестирование"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 296
+#: NEEDS WORK
+msgid "Stable"
+msgstr "Стабильный"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 297
+#: NEEDS WORK
+msgid "Extra"
+msgstr "Дополнительно"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 309
+#: NEEDS WORK
+#, python-brace-format
+msgid "Ready to build {0} package '{1}' from branch '{2}'"
+msgstr "Готов к сборке {0} пакета '{1}' из ветки '{2}'"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 57
+#: NEEDS WORK
+msgid "Preparing..."
+msgstr "Подготовка..."
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 65
+#: NEEDS WORK
+msgid "Details"
+msgstr "Детали"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 263
+#: NEEDS WORK
+msgid "Operation cancelled"
+msgstr "Операция отменена"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 105
+#: NEEDS WORK
+msgid "Set the distribution name"
+msgstr "Установите имя дистрибутива"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 109
+#: NEEDS WORK
+msgid "Set the edition (desktop environment)"
+msgstr "Установите версию (рабочая среда)"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 112
+#: NEEDS WORK
+msgid "Set the kernel type"
+msgstr "Установите тип ядра"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 117
+#: NEEDS WORK
+msgid "Automatic mode using default values"
+msgstr "Автоматический режим с использованием значений по умолчанию"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 173
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose the GitHub {0}:"
+msgstr "Выберите GitHub {0}:"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 196
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose the {0}:"
+msgstr "Выберите {0}:"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 226
+#: NEEDS WORK
+msgid "Choose the ISO profiles repository:"
+msgstr "Выберите репозиторий профилей ISO:"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 240
+#: NEEDS WORK
+msgid "No ISO profiles repository selected."
+msgstr "Не выбрано репозиторий профилей ISO."
+# 
+# File: usr/share/build-iso/build_iso.py, line: 249
+# File: usr/share/build-iso/build_iso.py, line: 330
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error: Repository API URL not found: {0}"
+msgstr "Ошибка: URL-адрес API репозитория не найден: {0}"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 252
+#: NEEDS WORK
+#, python-brace-format
+msgid "Fetching from API: {0}"
+msgstr "Получение из API: {0}"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 258
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error: API request failed with status code {0}"
+msgstr "Ошибка: Запрос API не удался с кодом статуса {0}"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 287
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose a {0} for {1}:"
+msgstr "Выберите {0} для {1}:"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 298
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error fetching build list: {0}"
+msgstr "Ошибка при получении списка сборок: {0}"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 310
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose a {0} for {1} (from defaults):"
+msgstr "Выберите {0} для {1} (из стандартных):"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 323
+#: NEEDS WORK
+msgid "Repository and build directory must be selected first."
+msgstr "Сначала необходимо выбрать репозиторий и каталог сборки."
+# 
+# File: usr/share/build-iso/build_iso.py, line: 366
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose an {0} for {1}:"
+msgstr "Выберите {0} для {1}:"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 377
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error fetching editions: {0}"
+msgstr "Ошибка при получении изданий: {0}"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 389
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose an {0} for {1} (from defaults):"
+msgstr "Выберите {0} для {1} (из стандартных):"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 402
+# File: usr/share/build-iso/build_iso.py, line: 415
+# File: usr/share/build-iso/build_iso.py, line: 428
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose the {0} branch for {1}:"
+msgstr "Выберите ветку {0} для {1}:"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 441
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose the {0} version:"
+msgstr "Выберите версию {0}:"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 473
+#: NEEDS WORK
+msgid "Distribution"
+msgstr "Распределение"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 478
+#: NEEDS WORK
+msgid "ISO Profiles Repo"
+msgstr "Репозиторий ISO профилей"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 479
+#: NEEDS WORK
+msgid "Build Dir"
+msgstr "Каталог сборки"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 480
+#: NEEDS WORK
+msgid "Edition"
+msgstr "Редакция"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 481
+#: NEEDS WORK
+msgid "Manjaro Branch"
+msgstr "Ветка Manjaro"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 482
+#: NEEDS WORK
+msgid "Community Branch"
+msgstr "Сообщество ветка"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 483
+#: NEEDS WORK
+msgid "BigLinux Branch"
+msgstr "БольшойLinux Ветка"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 484
+#: NEEDS WORK
+msgid "Kernel"
+msgstr "Ядро"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 485
+#: NEEDS WORK
+msgid "Release Tag"
+msgstr "Тег версии"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 490
+#: NEEDS WORK
+msgid "ISO Build Summary"
+msgstr "Сводка сборки ISO"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 493
+#: NEEDS WORK
+msgid "Do you want to proceed with building the ISO?"
+msgstr "Вы хотите продолжить создание ISO?"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 494
+#: NEEDS WORK
+msgid "ISO build cancelled."
+msgstr "Сборка ISO отменена."
+# 
+# File: usr/share/build-iso/build_iso.py, line: 483
+#: NEEDS WORK
+#, python-brace-format
+msgid "No default configuration found for organization '{0}'."
+msgstr "Не найдена конфигурация по умолчанию для организации '{0}'."
+# 
+# File: usr/share/build-iso/build_iso.py, line: 614
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} (version {1})"
+msgstr "{0} (версия {1})"
+# 
+# File: usr/share/build-iso/github_api.py, line: 87
+#: NEEDS WORK
+msgid "Triggering ISO build workflow on GitHub..."
+msgstr "Запуск рабочего процесса сборки ISO на GitHub..."
+# 
+# File: usr/share/build-iso/github_api.py, line: 91
+#: NEEDS WORK
+#, python-brace-format
+msgid "Sending request to: {0}"
+msgstr "Отправка запроса на: {0}"
+# 
+# File: usr/share/build-iso/github_api.py, line: 100
+#: NEEDS WORK
+msgid "Error triggering workflow (code 422). Can't have more than 10 entries in the event."
+msgstr "Ошибка при запуске рабочего процесса (код 422). Не может быть более 10 записей в событии."
+# 
+# File: usr/share/build-iso/github_api.py, line: 107
+#: NEEDS WORK
+#, python-brace-format
+msgid "ISO build workflow triggered successfully for {0}."
+msgstr "Успешно запущен рабочий процесс сборки ISO для {0}."
+# 
+# File: usr/share/build-iso/github_api.py, line: 108
+#: NEEDS WORK
+msgid "Please check the 'Actions' tab on GitHub to monitor the build progress."
+msgstr "Пожалуйста, проверьте вкладку 'Действия' на GitHub, чтобы отслеживать прогресс сборки."
+# 
+# File: usr/share/build-iso/github_api.py, line: 111
+#: NEEDS WORK
+msgid "TMATE session will be enabled. Watch the GitHub Actions logs for connection information."
+msgstr ""
+"Сессия TMATE будет включена. Следите за журналами GitHub Actions для получения информации о "
+"подключении."
+# 
+# File: usr/share/build-iso/github_api.py, line: 113
+#: NEEDS WORK
+msgid "Waiting 3 seconds for the API to trigger the Action to get the 'id'."
+msgstr "Ожидание 3 секунды для активации API для получения 'id'."
+# 
+# File: usr/share/build-iso/config.py, line: 96
+#: NEEDS WORK
+msgid "BUILD ISO"
+msgstr "СОЗДАТЬ ISO"
+# 
+# File: usr/share/build-iso/config.py, line: 97
+#: NEEDS WORK
+msgid ""
+"Wrapper for ISO building using GitHub Actions. Streamlines the process of creating custom Linux "
+"distribution ISO images through automation."
+msgstr ""
+"Обертка для создания ISO с использованием GitHub Actions. Упрощает процесс создания "
+"пользовательских ISO-образов дистрибутивов Linux с помощью автоматизации."
