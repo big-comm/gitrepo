@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# config.py - Configuration file for build_package.py
+# core/config.py - Configuration file for build_package.py
 #
 # Copyright (c) 2025, BigCommunity Team
 # All rights reserved.
 #
 
 # Import translation function
-from translation_utils import _
+from .translation_utils import _
 
 # Repository settings
 REPO_WORKFLOW = "big-comm/build-package"        # Repository containing workflows
@@ -42,6 +42,6 @@ COLORS = {
 }
 
 # Script version
-VERSION = "3.1.3"
+VERSION = "3.1.4"
 APP_NAME = _("BUILD PACKAGE")
 APP_DESC = _("A comprehensive tool for package building, testing, and deployment. Streamlines Git operations, automates builds and manages package workflows for BigCommunity repositories and AUR packages.")

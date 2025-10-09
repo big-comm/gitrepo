@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# logger.py - Logging management for build_package
+# cli/logger.py - Logging management for build_package CLI
 #
 
 import os
@@ -11,12 +11,10 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
 from rich.table import Table
-from translation_utils import _
-
 from rich.box import ROUNDED
 
-from config import APP_NAME, APP_DESC, LOG_DIR_BASE
-# from translation_utils import _
+from core.translation_utils import _
+from core.config import APP_NAME, APP_DESC, LOG_DIR_BASE
 
 class RichLogger:
     """Manages logs and formatted messages using the Rich library"""
