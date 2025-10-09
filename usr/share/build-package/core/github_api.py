@@ -8,9 +8,9 @@ import os
 import requests
 import subprocess
 import time
-from git_utils import GitUtils
-from config import TOKEN_FILE
-from translation_utils import _
+from .git_utils import GitUtils
+from .config import TOKEN_FILE
+from .translation_utils import _
 
 class GitHubAPI:
     """Interface with GitHub API - Fixed version with automatic conflict resolution"""

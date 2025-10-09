@@ -10,24 +10,22 @@ import subprocess
 from rich.console import Console
 from rich.prompt import Prompt
 from datetime import datetime
-from translation_utils import _
+from .translation_utils import _
 
-from config import (
+from .config import (
     APP_NAME, APP_DESC, VERSION, DEFAULT_ORGANIZATION, 
     VALID_ORGANIZATIONS, VALID_BRANCHES
 )
-from logger import RichLogger
-from git_utils import GitUtils
-from github_api import GitHubAPI
-from menu_system import MenuSystem
+from .git_utils import GitUtils
+from .github_api import GitHubAPI
 
 class BuildPackage:
     """Main class for package management"""
     
-    def __init__(self):
+    def __init__(self, logger=None, menu_system=None):
         self.args = self.parse_arguments()
-        self.logger = RichLogger(not self.args.nocolor)
-        self.menu = MenuSystem(self.logger)
+        self.logger = logger
+        self.menu = menu_system
         self.organization = self.args.organization or DEFAULT_ORGANIZATION
         self.repo_workflow = f"{self.organization}/build-package"
         self.console = Console()  # Add console object for colorful prompts
@@ -35,11 +33,10 @@ class BuildPackage:
         # Check if it's a Git repository
         self.is_git_repo = GitUtils.is_git_repo()
         
-        # Setup logger
-        self.logger.setup_log_file(GitUtils.get_repo_name)
-        
-        # Configure program header
-        self.logger.draw_app_header()
+        # Setup logger if provided
+        if self.logger:
+            self.logger.setup_log_file(GitUtils.get_repo_name)
+            self.logger.draw_app_header()
         
         # Configure environment
         self.setup_environment()
@@ -76,38 +73,155 @@ class BuildPackage:
                 self.logger.die("red", _("Dependency '{0}' not found. Please install it before continuing.").format(dep))
     
     def parse_arguments(self) -> argparse.Namespace:
-        """Parses command line arguments"""
+        """Parses command line arguments with colored help"""
+        
+        # Custom help action that shows colored help
+        class ColoredHelpAction(argparse.Action):
+            def __init__(self, option_strings, dest=argparse.SUPPRESS, default=argparse.SUPPRESS, help=None):
+                super().__init__(option_strings=option_strings, dest=dest, default=default, nargs=0, help=help)
+            
+            def __call__(self, parser, namespace, values, option_string=None):
+                from rich.console import Console
+                from rich.panel import Panel
+                from rich.text import Text
+                from rich.table import Table
+                from rich.box import ROUNDED
+                
+                console = Console()
+                
+                # Header - compact version like main menu
+                header = Text()
+                header.append(f"{APP_NAME} ", style="bold cyan")
+                header.append(f"v{VERSION}\n", style="bold white")
+                header.append(f"{APP_DESC}", style="white")
+
+                console.print(Panel(
+                    header, 
+                    border_style="cyan", 
+                    box=ROUNDED, 
+                    padding=(0, 1),
+                    title="BigCommunity",
+                    width=70  # Fixed width like other menus
+                ))
+                console.print()
+                
+                # Usage
+                console.print("[bold yellow]USAGE:[/]")
+                console.print(f"  [cyan]python main.py[/] [dim]\\[OPTIONS][/]\n")
+                
+                # Interface Mode Flags (special flags processed before argparse)
+                console.print("[bold yellow]INTERFACE MODE:[/]")
+                table_interface = Table(show_header=False, box=None, padding=(0, 2))
+                table_interface.add_column(style="green bold", no_wrap=True)
+                table_interface.add_column(style="white")
+                
+                table_interface.add_row(
+                    "--cli, --no-gui",
+                    _("Force CLI mode (terminal interface)")
+                )
+                table_interface.add_row(
+                    "--gui",
+                    _("Force GUI mode (graphical interface)")
+                )
+                console.print(table_interface)
+                console.print()
+                
+                # Main Options
+                console.print("[bold yellow]OPTIONS:[/]")
+                table = Table(show_header=False, box=None, padding=(0, 2))
+                table.add_column(style="green bold", no_wrap=True)
+                table.add_column(style="white")
+                
+                table.add_row(
+                    "-h, --help",
+                    _("Show this help message and exit")
+                )
+                table.add_row(
+                    "-V, --version",
+                    _("Print application version")
+                )
+                table.add_row(
+                    "-o, --org, --organization",
+                    _("Configure GitHub organization") + " [dim](default: big-comm)[/]\n" +
+                    _("Choices: {big-comm, biglinux}")
+                )
+                table.add_row(
+                    "-b, --build {dev}",
+                    _("Commit/push and generate package")
+                )
+                table.add_row(
+                    "-c, --commit MSG",
+                    _("Just commit/push with the specified message")
+                )
+                table.add_row(
+                    "-a, --aur PACKAGE",
+                    _("Build AUR package")
+                )
+                table.add_row(
+                    "-t, --tmate",
+                    _("Enable tmate for debugging")
+                )
+                table.add_row(
+                    "-n, --nocolor",
+                    _("Suppress color printing")
+                )
+                
+                console.print(table)
+                console.print()
+                
+                # Examples
+                console.print("[bold yellow]EXAMPLES:[/]")
+                examples = [
+                    ("python main.py --cli", _("Open in CLI mode")),
+                    ("python main.py --gui", _("Open in GUI mode")),
+                    ("python main.py -c \"fix: bug fix\"", _("Quick commit with message")),
+                    ("python main.py -b dev -c \"feat: new feature\"", _("Build development package")),
+                    ("python main.py -a package-name", _("Build AUR package")),
+                ]
+                
+                for cmd, desc in examples:
+                    console.print(f"  [cyan]{cmd}[/]")
+                    console.print(f"    [dim]{desc}[/]\n")
+                
+                # Footer
+                console.print(f"[dim]For more information, visit: https://github.com/big-comm[/]")
+                
+                parser.exit()
+        
         parser = argparse.ArgumentParser(
             description=f"{APP_NAME} v{VERSION} - {APP_DESC}",
-            formatter_class=argparse.RawDescriptionHelpFormatter
+            formatter_class=argparse.RawDescriptionHelpFormatter,
+            add_help=False  # Disable default help to use custom one
         )
         
+        # Add custom help
+        parser.add_argument("-h", "--help", action=ColoredHelpAction,
+                        help=_("Show this help message and exit"))
+        
         parser.add_argument("-o", "--org", "--organization", 
-                           dest="organization", 
-                           help=_("Configure GitHub organization (default: big-comm)"),
-                           choices=VALID_ORGANIZATIONS,
-                           default=DEFAULT_ORGANIZATION)
+                        dest="organization", 
+                        help=_("Configure GitHub organization (default: big-comm)"),
+                        choices=VALID_ORGANIZATIONS,
+                        default=DEFAULT_ORGANIZATION)
         
         parser.add_argument("-b", "--build",
-                           help=_("Commit/push and generate package"),
-                           choices=VALID_BRANCHES)
+                        help=_("Commit/push and generate package"),
+                        choices=VALID_BRANCHES)
         
         parser.add_argument("-c", "--commit",
-                           help=_("Just commit/push with the specified message"))
+                        help=_("Just commit/push with the specified message"))
         
         parser.add_argument("-a", "--aur",
-                           help=_("Build AUR package"))
+                        help=_("Build AUR package"))
         
         parser.add_argument("-n", "--nocolor", action="store_true",
-                           help=_("Suppress color printing"))
+                        help=_("Suppress color printing"))
         
         parser.add_argument("-V", "--version", action="store_true",
-                           help=_("Print application version"))
+                        help=_("Print application version"))
         
         parser.add_argument("-t", "--tmate", action="store_true",
-                           help=_("Enable tmate for debugging"))
-        
-        # Don't manually add "-h/--help" argument as argparse already adds it
+                        help=_("Enable tmate for debugging"))
         
         args = parser.parse_args()
         
@@ -289,7 +403,115 @@ the specific source code used to create this copy."""), style="white")
         # Check if there are changes AFTER ensuring we're in the right branch
         has_changes = GitUtils.has_changes()
 
-        # Only try to pull if there are NO local changes
+        # SYNC REMOTE BRANCH: Update remote dev-username branch with latest main BEFORE pulling
+        # BUT PRESERVE LOCAL CHANGES!
+        self.logger.log("cyan", _("Checking if your remote branch needs sync with main..."))
+
+        # CRITICAL: Save local changes first!
+        local_changes_backup = None
+        if has_changes:
+            self.logger.log("cyan", _("Backing up your local changes temporarily..."))
+            try:
+                # Create a temporary stash with all changes
+                stash_result = subprocess.run(
+                    ["git", "stash", "push", "-u", "-m", "auto-backup-before-sync"],
+                    capture_output=True, text=True, check=False
+                )
+                if stash_result.returncode == 0:
+                    local_changes_backup = True
+                    self.logger.log("green", _("Local changes safely backed up!"))
+                else:
+                    self.logger.log("yellow", _("Could not backup changes, skipping sync."))
+            except Exception as e:
+                self.logger.log("yellow", _("Could not backup changes: {0}").format(e))
+
+        try:
+            # Check if remote branch exists
+            remote_check = subprocess.run(
+                ["git", "ls-remote", "--heads", "origin", my_branch],
+                capture_output=True, text=True, check=False
+            )
+            
+            remote_branch_exists = bool(remote_check.stdout.strip())
+            
+            if remote_branch_exists:
+                # Remote branch exists - check if it needs sync with main
+                self.logger.log("cyan", _("Remote branch exists. Checking sync status..."))
+                
+                # Fetch latest main
+                subprocess.run(["git", "fetch", "origin", "main"], check=True)
+                
+                # Check if remote branch is behind main
+                behind_check = subprocess.run(
+                    ["git", "rev-list", "--count", f"origin/{my_branch}..origin/main"],
+                    capture_output=True, text=True, check=False
+                )
+                
+                commits_behind = int(behind_check.stdout.strip()) if behind_check.returncode == 0 and behind_check.stdout.strip() else 0
+                
+                if commits_behind > 0:
+                    self.logger.log("yellow", _("Your remote branch is {0} commits behind main. Updating...").format(commits_behind))
+                    
+                    # Save current branch
+                    original_branch = GitUtils.get_current_branch()
+                    
+                    # Switch to user's branch if not already there
+                    if original_branch != my_branch:
+                        subprocess.run(["git", "checkout", my_branch], check=True)
+                    
+                    # Pull latest from remote user branch first
+                    subprocess.run(["git", "pull", "origin", my_branch, "--no-edit"], check=False)
+                    
+                    # Try to merge main into user branch
+                    merge_result = subprocess.run(
+                        ["git", "merge", "origin/main", "--no-edit"],
+                        capture_output=True, text=True, check=False
+                    )
+                    
+                    if merge_result.returncode == 0:
+                        # Merge successful, push updated branch
+                        subprocess.run(["git", "push", "origin", my_branch], check=True)
+                        self.logger.log("green", _("Remote branch synced with main successfully!"))
+                    else:
+                        # Merge failed, use force update strategy
+                        self.logger.log("yellow", _("Merge conflict detected. Using force-update strategy..."))
+                        subprocess.run(["git", "merge", "--abort"], check=False)
+                        subprocess.run(["git", "reset", "--hard", "origin/main"], check=True)
+                        subprocess.run(["git", "push", "origin", my_branch, "--force"], check=True)
+                        self.logger.log("green", _("Remote branch force-updated with main!"))
+                    
+                    # Return to original branch if needed
+                    if original_branch != my_branch:
+                        subprocess.run(["git", "checkout", original_branch], check=True)
+                else:
+                    self.logger.log("green", _("Remote branch is already up-to-date with main!"))
+            else:
+                self.logger.log("cyan", _("Remote branch doesn't exist yet - will be created on first push."))
+                
+        except subprocess.CalledProcessError as e:
+            self.logger.log("yellow", _("Could not sync remote branch: {0}. Continuing...").format(e))
+        except Exception as e:
+            self.logger.log("yellow", _("Unexpected sync error: {0}. Continuing...").format(e))
+        finally:
+            # CRITICAL: Restore local changes!
+            if local_changes_backup:
+                self.logger.log("cyan", _("Restoring your local changes..."))
+                try:
+                    restore_result = subprocess.run(
+                        ["git", "stash", "pop"],
+                        capture_output=True, text=True, check=False
+                    )
+                    if restore_result.returncode == 0:
+                        self.logger.log("green", _("Local changes restored successfully!"))
+                    else:
+                        self.logger.log("yellow", _("Could not restore changes automatically. Check 'git stash list'"))
+                except Exception as e:
+                    self.logger.log("yellow", _("Error restoring changes: {0}").format(e))
+
+        # Recheck changes after sync (they should be back now)
+        has_changes = GitUtils.has_changes()
+
+        # NOW pull is safe because remote branch is synced with main
         if not has_changes:
             if not GitUtils.git_pull(self.logger):
                 self.logger.log("yellow", _("Failed to pull latest changes, but continuing since no local changes."))
