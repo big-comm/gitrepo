@@ -31,92 +31,33 @@ msgstr "Поле"
 msgid "Value"
 msgstr "Стойност"
 # 
-# File: usr/share/build-iso/config.py, line: 96
+# File: usr/share/build-package/main.py, line: 21
 #: NEEDS WORK
-msgid "BUILD ISO"
-msgstr "Създаване на ISO"
+msgid "Operation cancelled by user."
+msgstr "Операцията е отменена от потребителя."
 # 
-# File: usr/share/build-iso/config.py, line: 97
-#: NEEDS WORK
-msgid ""
-"Wrapper for ISO building using GitHub Actions. Streamlines the process of creating custom Linux "
-"distribution ISO images through automation."
-msgstr ""
-"Обвивка за изграждане на ISO с помощта на GitHub Actions. Оптимизира процеса на създаване на "
-"персонализирани ISO изображения на Linux дистрибуции чрез автоматизация."
-# 
-# File: usr/share/build-package/github_api.py, line: 313
+# File: usr/share/build-package/main.py, line: 24
 #: NEEDS WORK
 #, python-brace-format
-msgid "Token file '{0}' not found."
-msgstr "Файл с токен '{0}' не е намерен."
+msgid "Unhandled error: {0}"
+msgstr "Необработена грешка: {0}"
 # 
-# File: usr/share/build-package/github_api.py, line: 331
+# File: usr/share/build-package/menu_system.py, line: 45
+# File: usr/share/build-package/menu_system.py, line: 59
 #: NEEDS WORK
-#, python-brace-format
-msgid "Token for organization '{0}' not found."
-msgstr "Токенът за организация '{0}' не е намерен."
+msgid "Exit"
+msgstr "Изход"
 # 
-# File: usr/share/build-package/github_api.py, line: 334
+# File: usr/share/build-package/menu_system.py, line: 47
+# File: usr/share/build-package/menu_system.py, line: 61
 #: NEEDS WORK
-#, python-brace-format
-msgid "Error reading token: {0}"
-msgstr "Грешка при четене на токен: {0}"
+msgid "Back"
+msgstr "Назад"
 # 
-# File: usr/share/build-iso/github_api.py, line: 87
+# File: usr/share/build-package/menu_system.py, line: 91
 #: NEEDS WORK
-msgid "Triggering ISO build workflow on GitHub..."
-msgstr "Стартиране на ISO билд работен процес в GitHub..."
-# 
-# File: usr/share/build-iso/github_api.py, line: 91
-#: NEEDS WORK
-#, python-brace-format
-msgid "Sending request to: {0}"
-msgstr "Изпращане на заявка до: {0}"
-# 
-# File: usr/share/build-iso/github_api.py, line: 100
-#: NEEDS WORK
-msgid "Error triggering workflow (code 422). Can't have more than 10 entries in the event."
-msgstr "Грешка при задействане на работен поток (код 422). Не може да има повече от 10 записа в събитието."
-# 
-# File: usr/share/build-package/github_api.py, line: 294
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error triggering workflow. Response code: {0}"
-msgstr "Грешка при задействане на работен поток. Код на отговор: {0}"
-# 
-# File: usr/share/build-iso/github_api.py, line: 107
-#: NEEDS WORK
-#, python-brace-format
-msgid "ISO build workflow triggered successfully for {0}."
-msgstr "ISO изграждане на работен процес успешно задействан за {0}."
-# 
-# File: usr/share/build-iso/github_api.py, line: 108
-#: NEEDS WORK
-msgid "Please check the 'Actions' tab on GitHub to monitor the build progress."
-msgstr "Моля, проверете раздела 'Действия' в GitHub, за да следите напредъка на изграждането."
-# 
-# File: usr/share/build-iso/github_api.py, line: 111
-#: NEEDS WORK
-msgid "TMATE session will be enabled. Watch the GitHub Actions logs for connection information."
-msgstr "TMATE сесията ще бъде активирана. Следете логовете на GitHub Actions за информация за връзката."
-# 
-# File: usr/share/build-iso/github_api.py, line: 113
-#: NEEDS WORK
-msgid "Waiting 3 seconds for the API to trigger the Action to get the 'id'."
-msgstr "Изчакване 3 секунди за API-то да задейства действието за получаване на 'id'."
-# 
-# File: usr/share/build-package/github_api.py, line: 301
-#: NEEDS WORK
-#, python-brace-format
-msgid "URL to monitor the build: {0}"
-msgstr "URL за наблюдение на изграждането: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 305
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error triggering workflow: {0}"
-msgstr "Грешка при задействане на работен поток: {0}"
+msgid "Use [white]arrow keys ↑↓[/] to navigate, [white]Enter[/] to select, [white]ESC[/] to exit"
+msgstr "Използвайте [бял]стрелки ↑↓[/] за навигация, [бял]Enter[/] за избор, [бял]ESC[/] за изход"
 # 
 # File: usr/share/build-package/build_package.py, line: 74
 #: NEEDS WORK
@@ -124,45 +65,88 @@ msgstr "Грешка при задействане на работен пото�
 msgid "Dependency '{0}' not found. Please install it before continuing."
 msgstr "Зависимост '{0}' не е намерена. Моля, инсталирайте я преди да продължите."
 # 
-# File: usr/share/build-package/build_package.py, line: 85
+# File: usr/share/build-package/core/build_package.py, line: 120
 #: NEEDS WORK
-msgid "Configure GitHub organization (default: big-comm)"
-msgstr "Конфигурирайте GitHub организация (по подразбиране: big-comm)"
+msgid "Force CLI mode (terminal interface)"
+msgstr "Принудителен режим на CLI (терминален интерфейс)"
 # 
-# File: usr/share/build-iso/build_iso.py, line: 105
+# File: usr/share/build-package/core/build_package.py, line: 124
 #: NEEDS WORK
-msgid "Set the distribution name"
-msgstr "Задайте името на разпространението"
+msgid "Force GUI mode (graphical interface)"
+msgstr "Принудителен GUI режим (графичен интерфейс)"
 # 
-# File: usr/share/build-iso/build_iso.py, line: 109
+# File: usr/share/build-package/core/build_package.py, line: 137
+# File: usr/share/build-package/core/build_package.py, line: 199
 #: NEEDS WORK
-msgid "Set the edition (desktop environment)"
-msgstr "Настройте изданието (десктоп среда)"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 112
-#: NEEDS WORK
-msgid "Set the kernel type"
-msgstr "Настройте типа на ядрото"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 117
-#: NEEDS WORK
-msgid "Automatic mode using default values"
-msgstr "Автоматичен режим с използване на стойности по подразбиране"
-# 
-# File: usr/share/build-package/build_package.py, line: 100
-#: NEEDS WORK
-msgid "Suppress color printing"
-msgstr "Потисни цветен печат"
+msgid "Show this help message and exit"
+msgstr "Покажи това съобщение за помощ и излез"
 # 
 # File: usr/share/build-package/build_package.py, line: 103
 #: NEEDS WORK
 msgid "Print application version"
 msgstr "Отпечатайте версията на приложението"
 # 
+# File: usr/share/build-package/core/build_package.py, line: 145
+#: NEEDS WORK
+msgid "Configure GitHub organization"
+msgstr "Конфигуриране на GitHub организация"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 146
+#: NEEDS WORK
+msgid "Choices: {big-comm, biglinux}"
+msgstr "Избори: {big-comm, biglinux}"
+# 
+# File: usr/share/build-package/build_package.py, line: 90
+#: NEEDS WORK
+msgid "Commit/push and generate package"
+msgstr "Комит/изпрати и генерирай пакет"
+# 
+# File: usr/share/build-package/build_package.py, line: 94
+#: NEEDS WORK
+msgid "Just commit/push with the specified message"
+msgstr "Просто направете commit/push с указаното съобщение"
+# 
+# File: usr/share/build-package/build_package.py, line: 97
+# File: usr/share/build-package/build_package.py, line: 537
+# File: usr/share/build-package/build_package.py, line: 543
+#: NEEDS WORK
+msgid "Build AUR package"
+msgstr "Създайте AUR пакет"
+# 
 # File: usr/share/build-package/build_package.py, line: 106
 #: NEEDS WORK
 msgid "Enable tmate for debugging"
 msgstr "Активирайте tmate за отстраняване на грешки"
+# 
+# File: usr/share/build-package/build_package.py, line: 100
+#: NEEDS WORK
+msgid "Suppress color printing"
+msgstr "Потисни цветен печат"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 175
+#: NEEDS WORK
+msgid "Open in CLI mode"
+msgstr "Отворете в режим CLI"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 176
+#: NEEDS WORK
+msgid "Open in GUI mode"
+msgstr "Отворете в графичен режим"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 177
+#: NEEDS WORK
+msgid "Quick commit with message"
+msgstr "Бързо комитване с съобщение"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 178
+#: NEEDS WORK
+msgid "Build development package"
+msgstr "Създаване на пакет за разработка"
+# 
+# File: usr/share/build-package/build_package.py, line: 85
+#: NEEDS WORK
+msgid "Configure GitHub organization (default: big-comm)"
+msgstr "Конфигурирайте GitHub организация (по подразбиране: big-comm)"
 # 
 # File: usr/share/build-package/build_package.py, line: 128
 #: NEEDS WORK
@@ -200,914 +184,6 @@ msgstr ""
 #: NEEDS WORK
 msgid "This program comes with absolutely NO warranty."
 msgstr "Тази програма идва с абсолютно НИКАКВА гаранция."
-# 
-# File: usr/share/build-iso/build_iso.py, line: 173
-#: NEEDS WORK
-#, python-brace-format
-msgid "Choose the GitHub {0}:"
-msgstr "Изберете GitHub {0}:"
-# 
-# File: usr/share/build-package/menu_system.py, line: 45
-# File: usr/share/build-package/menu_system.py, line: 59
-#: NEEDS WORK
-msgid "Exit"
-msgstr "Изход"
-# 
-# File: usr/share/build-package/main.py, line: 21
-#: NEEDS WORK
-msgid "Operation cancelled by user."
-msgstr "Операцията е отменена от потребителя."
-# 
-# File: usr/share/build-iso/build_iso.py, line: 196
-#: NEEDS WORK
-#, python-brace-format
-msgid "Choose the {0}:"
-msgstr "Изберете {0}:"
-# 
-# File: usr/share/build-package/menu_system.py, line: 47
-# File: usr/share/build-package/menu_system.py, line: 61
-#: NEEDS WORK
-msgid "Back"
-msgstr "Назад"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 226
-#: NEEDS WORK
-msgid "Choose the ISO profiles repository:"
-msgstr "Изберете хранилището на ISO профили:"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 240
-#: NEEDS WORK
-msgid "No ISO profiles repository selected."
-msgstr "Не е избран репозиторий за ISO профили."
-# 
-# File: usr/share/build-iso/build_iso.py, line: 249
-# File: usr/share/build-iso/build_iso.py, line: 330
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error: Repository API URL not found: {0}"
-msgstr "Грешка: URL адреса на репозитория API не е намерена: {0}"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 252
-#: NEEDS WORK
-#, python-brace-format
-msgid "Fetching from API: {0}"
-msgstr "Извличане от API: {0}"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 258
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error: API request failed with status code {0}"
-msgstr "Грешка: Заявката към API не успя с код на статуса {0}"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 287
-#: NEEDS WORK
-#, python-brace-format
-msgid "Choose a {0} for {1}:"
-msgstr "Изберете {0} за {1}:"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 298
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error fetching build list: {0}"
-msgstr "Грешка при извличане на списъка с версии: {0}"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 310
-#: NEEDS WORK
-#, python-brace-format
-msgid "Choose a {0} for {1} (from defaults):"
-msgstr "Изберете {0} за {1} (от подразбирания):"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 323
-#: NEEDS WORK
-msgid "Repository and build directory must be selected first."
-msgstr "Репозиториумът и директорията за изграждане трябва да бъдат избрани първо."
-# 
-# File: usr/share/build-iso/build_iso.py, line: 366
-#: NEEDS WORK
-#, python-brace-format
-msgid "Choose an {0} for {1}:"
-msgstr "Изберете {0} за {1}:"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 377
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error fetching editions: {0}"
-msgstr "Грешка при извличане на издания: {0}"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 389
-#: NEEDS WORK
-#, python-brace-format
-msgid "Choose an {0} for {1} (from defaults):"
-msgstr "Изберете {0} за {1} (от подразбирания):"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 402
-# File: usr/share/build-iso/build_iso.py, line: 415
-# File: usr/share/build-iso/build_iso.py, line: 428
-#: NEEDS WORK
-#, python-brace-format
-msgid "Choose the {0} branch for {1}:"
-msgstr "Изберете клона {0} за {1}:"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 441
-#: NEEDS WORK
-#, python-brace-format
-msgid "Choose the {0} version:"
-msgstr "Изберете версията {0}:"
-# 
-# File: usr/share/build-package/build_package.py, line: 592
-# File: usr/share/build-package/build_package.py, line: 617
-# File: usr/share/build-package/build_package.py, line: 637
-#: NEEDS WORK
-msgid "Enable TMATE debug session?"
-msgstr "Активиране на TMATE отстраняване на грешки?"
-# 
-# File: usr/share/build-package/build_package.py, line: 592
-# File: usr/share/build-package/build_package.py, line: 617
-# File: usr/share/build-package/build_package.py, line: 637
-# File: usr/share/build-package/build_package.py, line: 747
-#: NEEDS WORK
-msgid "No"
-msgstr "Не"
-# 
-# File: usr/share/build-package/build_package.py, line: 592
-# File: usr/share/build-package/build_package.py, line: 617
-# File: usr/share/build-package/build_package.py, line: 637
-# File: usr/share/build-package/build_package.py, line: 747
-#: NEEDS WORK
-msgid "Yes"
-msgstr "Да"
-# 
-# File: usr/share/build-package/build_package.py, line: 497
-# File: usr/share/build-package/build_package.py, line: 518
-#: NEEDS WORK
-msgid "Organization"
-msgstr "Организация"
-# 
-# File: usr/share/build-package/build_package.py, line: 499
-# File: usr/share/build-package/build_package.py, line: 520
-#: NEEDS WORK
-msgid "User Name"
-msgstr "Потребителско име"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 473
-#: NEEDS WORK
-msgid "Distribution"
-msgstr "Разпространение"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 478
-#: NEEDS WORK
-msgid "ISO Profiles Repo"
-msgstr "ISO профили хранилище"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 479
-#: NEEDS WORK
-msgid "Build Dir"
-msgstr "Директория за изграждане"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 480
-#: NEEDS WORK
-msgid "Edition"
-msgstr "Издание"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 481
-#: NEEDS WORK
-msgid "Manjaro Branch"
-msgstr "Клон на Manjaro"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 482
-#: NEEDS WORK
-msgid "Community Branch"
-msgstr "Обществена клонка"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 483
-#: NEEDS WORK
-msgid "BigLinux Branch"
-msgstr "BigLinux Клон"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 484
-#: NEEDS WORK
-msgid "Kernel"
-msgstr "Ядро"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 485
-#: NEEDS WORK
-msgid "Release Tag"
-msgstr "Таг на версията"
-# 
-# File: usr/share/build-package/build_package.py, line: 508
-# File: usr/share/build-package/build_package.py, line: 525
-#: NEEDS WORK
-msgid "TMATE Debug"
-msgstr "TMATE Отстраняване на грешки"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 490
-#: NEEDS WORK
-msgid "ISO Build Summary"
-msgstr "ISO изграждане Резюме"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 493
-#: NEEDS WORK
-msgid "Do you want to proceed with building the ISO?"
-msgstr "Искате ли да продължите с изграждането на ISO?"
-# 
-# File: usr/share/build-iso/build_iso.py, line: 494
-#: NEEDS WORK
-msgid "ISO build cancelled."
-msgstr "ISO изграждането е отменено."
-# 
-# File: usr/share/build-iso/build_iso.py, line: 483
-#: NEEDS WORK
-#, python-brace-format
-msgid "No default configuration found for organization '{0}'."
-msgstr "Не е намерена стандартна конфигурация за организация '{0}'."
-# 
-# File: usr/share/build-iso/build_iso.py, line: 614
-#: NEEDS WORK
-#, python-brace-format
-msgid "{0} (version {1})"
-msgstr "{0} (версия {1})"
-# 
-# File: usr/share/build-package/menu_system.py, line: 91
-#: NEEDS WORK
-msgid "Use [white]arrow keys ↑↓[/] to navigate, [white]Enter[/] to select, [white]ESC[/] to exit"
-msgstr "Използвайте [бял]стрелки ↑↓[/] за навигация, [бял]Enter[/] за избор, [бял]ESC[/] за изход"
-# 
-# File: usr/share/build-package/main.py, line: 24
-#: NEEDS WORK
-#, python-brace-format
-msgid "Unhandled error: {0}"
-msgstr "Необработена грешка: {0}"
-# 
-# File: usr/share/build-package/config.py, line: 46
-#: NEEDS WORK
-msgid "BUILD PACKAGE"
-msgstr "СЪЗДАЙ ПАКЕТ"
-# 
-# File: usr/share/build-package/config.py, line: 47
-#: NEEDS WORK
-msgid ""
-"A comprehensive tool for package building, testing, and deployment. Streamlines Git operations, "
-"automates builds and manages package workflows for BigCommunity repositories and AUR packages."
-msgstr ""
-"Всеобхватен инструмент за изграждане на пакети, тестване и разгръщане. Оптимизира операциите с Git, "
-"автоматизира изграждането и управлява работните потоци на пакети за хранилища на BigCommunity и "
-"пакети от AUR."
-# 
-# File: usr/share/build-package/github_api.py, line: 29
-# File: usr/share/build-package/github_api.py, line: 73
-# File: usr/share/build-package/github_api.py, line: 342
-# File: usr/share/build-package/github_api.py, line: 391
-#: NEEDS WORK
-msgid "Could not determine repository name."
-msgstr "Не можа да се определи името на хранилището."
-# 
-# File: usr/share/build-package/github_api.py, line: 35
-#: NEEDS WORK
-msgid "Could not determine current commit SHA."
-msgstr "Не можа да се определи текущият SHA на комита."
-# 
-# File: usr/share/build-package/github_api.py, line: 44
-#: NEEDS WORK
-#, python-brace-format
-msgid "Creating reference: {0}..."
-msgstr "Създаване на справка: {0}..."
-# 
-# File: usr/share/build-package/github_api.py, line: 59
-# File: usr/share/build-package/github_api.py, line: 65
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error creating reference: {0}"
-msgstr "Грешка при създаване на референция: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 62
-#: NEEDS WORK
-#, python-brace-format
-msgid "Reference {0} created successfully!"
-msgstr "Справка {0} е създадена успешно!"
-# 
-# File: usr/share/build-package/github_api.py, line: 86
-#: NEEDS WORK
-#, python-brace-format
-msgid "Could not determine SHA for {0}."
-msgstr "Не можа да се определи SHA за {0}."
-# 
-# File: usr/share/build-package/github_api.py, line: 89
-#: NEEDS WORK
-#, python-brace-format
-msgid "Creating branch: {0} based on {1}..."
-msgstr "Създаване на клон: {0} на базата на {1}..."
-# 
-# File: usr/share/build-package/github_api.py, line: 101
-# File: usr/share/build-package/github_api.py, line: 166
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error creating branch: {0}"
-msgstr "Грешка при създаване на клон: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 102
-# File: usr/share/build-package/github_api.py, line: 478
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error details: {0}"
-msgstr "Детайли за грешка: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 163
-#: NEEDS WORK
-#, python-brace-format
-msgid "Branch {0} created successfully!"
-msgstr "Клон {0} е създаден успешно!"
-# 
-# File: usr/share/build-package/git_utils.py, line: 140
-#: NEEDS WORK
-msgid "Resolving conflicts automatically..."
-msgstr "Автоматично разрешаване на конфликти..."
-# 
-# File: usr/share/build-package/github_api.py, line: 183
-#: NEEDS WORK
-msgid "Backing up local changes..."
-msgstr "Резервно копиране на локални промени..."
-# 
-# File: usr/share/build-package/github_api.py, line: 191
-#: NEEDS WORK
-msgid "Updating remote references..."
-msgstr "Актуализиране на отдалечени референции..."
-# 
-# File: usr/share/build-package/github_api.py, line: 195
-#: NEEDS WORK
-#, python-brace-format
-msgid "Switching to branch {0}..."
-msgstr "Превключване към клон {0}..."
-# 
-# File: usr/share/build-package/github_api.py, line: 202
-#: NEEDS WORK
-#, python-brace-format
-msgid "Merging {0} into {1}..."
-msgstr "Сливане на {0} в {1}..."
-# 
-# File: usr/share/build-package/github_api.py, line: 211
-#: NEEDS WORK
-msgid "Merge completed without conflicts!"
-msgstr "Сливането е завършено без конфликти!"
-# 
-# File: usr/share/build-package/github_api.py, line: 214
-#: NEEDS WORK
-msgid "Conflicts detected, resolving automatically..."
-msgstr "Открити конфликти, разрешаване автоматично..."
-# 
-# File: usr/share/build-package/github_api.py, line: 227
-#: NEEDS WORK
-msgid "Using advanced resolution strategy..."
-msgstr "Използване на напреднала стратегия за разрешаване..."
-# 
-# File: usr/share/build-package/github_api.py, line: 254
-#: NEEDS WORK
-msgid "Conflicts resolved automatically!"
-msgstr "Конфликтите са разрешени автоматично!"
-# 
-# File: usr/share/build-package/github_api.py, line: 256
-#: NEEDS WORK
-msgid "Could not resolve conflicts automatically"
-msgstr "Не можа да разреши конфликтите автоматично"
-# 
-# File: usr/share/build-package/github_api.py, line: 259
-#: NEEDS WORK
-msgid "No differences detected"
-msgstr "Няма открити разлики"
-# 
-# File: usr/share/build-package/github_api.py, line: 262
-#: NEEDS WORK
-msgid "Pushing resolved branch..."
-msgstr "Изпращане на разрешен клон..."
-# 
-# File: usr/share/build-package/github_api.py, line: 271
-#: NEEDS WORK
-msgid "Restoring local changes..."
-msgstr "Възстановяване на локални промени..."
-# 
-# File: usr/share/build-package/github_api.py, line: 274
-#: NEEDS WORK
-msgid "Conflict resolution completed successfully!"
-msgstr "Разрешаването на конфликта е завършено успешно!"
-# 
-# File: usr/share/build-package/github_api.py, line: 278
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error during conflict resolution: {0}"
-msgstr "Грешка по време на разрешаване на конфликт: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 225
-#: NEEDS WORK
-#, python-brace-format
-msgid "Unexpected error: {0}"
-msgstr "Неочаквана грешка: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 302
-#: NEEDS WORK
-msgid "Waiting for PR to be ready for merge..."
-msgstr "Изчакване PR да бъде готов за сливане..."
-# 
-# File: usr/share/build-package/github_api.py, line: 316
-#: NEEDS WORK
-#, python-brace-format
-msgid "Attempt {0}/{1}: mergeable={2}, state={3}"
-msgstr "Опит {0}/{1}: сливаемо={2}, състояние={3}"
-# 
-# File: usr/share/build-package/github_api.py, line: 320
-#: NEEDS WORK
-msgid "PR ready for merge!"
-msgstr "PR готов за сливане!"
-# 
-# File: usr/share/build-package/github_api.py, line: 323
-#: NEEDS WORK
-msgid "PR has conflicts"
-msgstr "PR има конфликти"
-# 
-# File: usr/share/build-package/github_api.py, line: 330
-#: NEEDS WORK
-#, python-brace-format
-msgid "Unexpected state: {0}"
-msgstr "Неочаквано състояние: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 333
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error checking PR: {0}"
-msgstr "Проверка на грешки PR: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 337
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error: {0}"
-msgstr "Грешка: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 340
-#: NEEDS WORK
-msgid "Timeout waiting for PR to be ready"
-msgstr "Изчакване на времето за готовност на PR"
-# 
-# File: usr/share/build-package/github_api.py, line: 240
-#: NEEDS WORK
-msgid "Failed to create branch for the build."
-msgstr "Неуспешно създаване на клон за изграждането."
-# 
-# File: usr/share/build-package/github_api.py, line: 245
-#: NEEDS WORK
-#, python-brace-format
-msgid "Using existing branch: {0}"
-msgstr "Използване на съществуващ клон: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 267
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error retrieving remote repository URL for package: {0}"
-msgstr "Грешка при извличане на URL адреса на отдалеченото хранилище за пакет: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 270
-#: NEEDS WORK
-#, python-brace-format
-msgid "Detected repository: {0}"
-msgstr "Открито хранилище: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 394
-#: NEEDS WORK
-#, python-brace-format
-msgid "Testing package: workflow will use branch {0}"
-msgstr "Тестов пакет: работният процес ще използва клон {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 417
-#: NEEDS WORK
-msgid "Stable/Extra package: main is up-to-date, workflow will use main"
-msgstr "Стабилен/Допълнителен пакет: основният е актуален, работният процес ще използва основния"
-# 
-# File: usr/share/build-package/github_api.py, line: 421
-#: NEEDS WORK
-#, python-brace-format
-msgid "Stable/Extra package: main not up-to-date, workflow will use {0}"
-msgstr "Стабилен/Допълнителен пакет: основният не е актуален, работният процес ще използва {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 422
-# File: usr/share/build-package/github_api.py, line: 435
-#: NEEDS WORK
-#, python-brace-format
-msgid "⚠️  Warning: Package will be built from {0} instead of main"
-msgstr "⚠️  Внимание: Пакетът ще бъде изграждан от {0} вместо основния"
-# 
-# File: usr/share/build-package/github_api.py, line: 425
-#: NEEDS WORK
-msgid "Stable/Extra package: workflow will use main"
-msgstr "Стабилен/Допълнителен пакет: работният процес ще използва основния"
-# 
-# File: usr/share/build-package/github_api.py, line: 430
-#: NEEDS WORK
-#, python-brace-format
-msgid "Could not verify branch status, using current: {0}"
-msgstr "Не можа да се провери статусът на клона, използвайки текущия: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 434
-#: NEEDS WORK
-#, python-brace-format
-msgid "Stable/Extra package: not on main, workflow will use {0}"
-msgstr "Стабилен/Допълнителен пакет: не е на основния, работният процес ще използва {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 452
-#: NEEDS WORK
-msgid "Workflow payload:"
-msgstr "Работен поток полезен товар:"
-# 
-# File: usr/share/build-package/github_api.py, line: 453
-#: NEEDS WORK
-#, python-brace-format
-msgid "  - branch: {0}"
-msgstr "- клон: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 454
-#: NEEDS WORK
-#, python-brace-format
-msgid "  - git_branch: {0}"
-msgstr "- git_branch: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 455
-#: NEEDS WORK
-#, python-brace-format
-msgid "  - branch_type: {0}"
-msgstr "- тип_клон: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 457
-#: NEEDS WORK
-#, python-brace-format
-msgid "  - new_branch: {0}"
-msgstr "- нова_клон: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 285
-#: NEEDS WORK
-msgid "Triggering build workflow on GitHub..."
-msgstr "Стартиране на работен процес за изграждане в GitHub..."
-# 
-# File: usr/share/build-package/github_api.py, line: 297
-#: NEEDS WORK
-#, python-brace-format
-msgid "Build workflow ({0}) triggered successfully."
-msgstr "Изграждането на работен поток ({0}) беше задействано успешно."
-# 
-# File: usr/share/build-package/github_api.py, line: 345
-#: NEEDS WORK
-#, python-brace-format
-msgid "Cleaning Actions jobs with '{0}' status..."
-msgstr "Почистване на действия с работни места със статус '{0}'..."
-# 
-# File: usr/share/build-package/github_api.py, line: 354
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error fetching Actions jobs. Code: {0}"
-msgstr "Грешка при извличане на действията. Код: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 361
-#: NEEDS WORK
-#, python-brace-format
-msgid "No Action jobs with '{0}' status found."
-msgstr "Не са намерени действия с работни места със статус '{0}'."
-# 
-# File: usr/share/build-package/github_api.py, line: 368
-#: NEEDS WORK
-#, python-brace-format
-msgid "Deleting job {0}..."
-msgstr "Изтриване на задача {0}..."
-# 
-# File: usr/share/build-package/github_api.py, line: 378
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error deleting job {0}. Code: {1}"
-msgstr "Грешка при изтриване на задача {0}. Код: {1}"
-# 
-# File: usr/share/build-package/github_api.py, line: 380
-#: NEEDS WORK
-#, python-brace-format
-msgid "Deleted {0} Actions jobs with '{1}' status."
-msgstr "Изтрито {0} действия с '{1}' статус."
-# 
-# File: usr/share/build-package/github_api.py, line: 383
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error cleaning Actions jobs: {0}"
-msgstr "Грешка при почистване на действията: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 394
-#: NEEDS WORK
-msgid "Getting tag list..."
-msgstr "Получаване на списък с тагове..."
-# 
-# File: usr/share/build-package/github_api.py, line: 403
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error fetching tags. Code: {0}"
-msgstr "Грешка при извличане на тагове. Код: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 409
-#: NEEDS WORK
-msgid "No tags found."
-msgstr "Няма намерени тагове."
-# 
-# File: usr/share/build-package/github_api.py, line: 416
-#: NEEDS WORK
-#, python-brace-format
-msgid "Deleting tag {0}..."
-msgstr "Изтриване на етикет {0}..."
-# 
-# File: usr/share/build-package/github_api.py, line: 427
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error deleting tag {0}. Code: {1}"
-msgstr "Грешка при изтриване на етикет {0}. Код: {1}"
-# 
-# File: usr/share/build-package/github_api.py, line: 429
-#: NEEDS WORK
-#, python-brace-format
-msgid "Deleted {0} tags."
-msgstr "Изтрито {0} тагове."
-# 
-# File: usr/share/build-package/github_api.py, line: 432
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error cleaning tags: {0}"
-msgstr "Грешка при почистване на тагове: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 439
-#: NEEDS WORK
-msgid "Source branch name is required to create a pull request"
-msgstr "Изисква се име на източната клонка, за да се създаде искане за сливане."
-# 
-# File: usr/share/build-package/github_api.py, line: 449
-#: NEEDS WORK
-msgid "Repository name could not be determined"
-msgstr "Не можа да бъде определено името на хранилището."
-# 
-# File: usr/share/build-package/github_api.py, line: 627
-#: NEEDS WORK
-#, python-brace-format
-msgid "Creating pull request: {0} → {1}"
-msgstr "Създаване на искане за изтегляне: {0} → {1}"
-# 
-# File: usr/share/build-package/github_api.py, line: 632
-#: NEEDS WORK
-msgid "Resolving possible conflicts before merge..."
-msgstr "Разрешаване на възможни конфликти преди сливане..."
-# 
-# File: usr/share/build-package/github_api.py, line: 637
-#: NEEDS WORK
-msgid "Warning: Could not resolve conflicts automatically"
-msgstr "Предупреждение: Не можа да разреши конфликтите автоматично"
-# 
-# File: usr/share/build-package/github_api.py, line: 638
-#: NEEDS WORK
-msgid "Trying to create PR anyway..."
-msgstr "Опитвам се да създам PR все пак..."
-# 
-# File: usr/share/build-package/github_api.py, line: 457
-#: NEEDS WORK
-#, python-brace-format
-msgid "Merge {0} into {1}"
-msgstr "Сливане на {0} в {1}"
-# 
-# File: usr/share/build-package/github_api.py, line: 458
-#: NEEDS WORK
-msgid "Automated PR created by build_package.py"
-msgstr "Автоматизирано PR, създадено от build_package.py"
-# 
-# File: usr/share/build-package/github_api.py, line: 644
-#: NEEDS WORK
-msgid "Conflicts resolved automatically (if any)"
-msgstr "Конфликтите се разрешават автоматично (ако има такива)"
-# 
-# File: usr/share/build-package/github_api.py, line: 645
-#: NEEDS WORK
-msgid "Ready for automatic merge"
-msgstr "Готов за автоматично сливане"
-# 
-# File: usr/share/build-package/github_api.py, line: 475
-#: NEEDS WORK
-#, python-brace-format
-msgid "Failed to create PR: {0}"
-msgstr "Неуспешно създаване на PR: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 486
-#: NEEDS WORK
-#, python-brace-format
-msgid "Pull request created successfully: {0}"
-msgstr "Успешно създадено искане за преглед: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 670
-#: NEEDS WORK
-msgid "Starting auto-merge process..."
-msgstr "Започване на автоматичен процес на сливане..."
-# 
-# File: usr/share/build-package/github_api.py, line: 679
-#: NEEDS WORK
-#, python-brace-format
-msgid "Auto-merge: {0} → {1}"
-msgstr "Автоматично сливане: {0} → {1}"
-# 
-# File: usr/share/build-package/github_api.py, line: 680
-#: NEEDS WORK
-msgid "Automated merge performed by build_package.py"
-msgstr "Автоматично сливане, извършено от build_package.py"
-# 
-# File: usr/share/build-package/github_api.py, line: 689
-#: NEEDS WORK
-msgid "AUTO-MERGE COMPLETED SUCCESSFULLY!"
-msgstr "АВТОМАТИЧНО СЛЕПВАНЕ ЗАВЪРШЕНО УСПЕШНО!"
-# 
-# File: usr/share/build-package/github_api.py, line: 690
-#: NEEDS WORK
-#, python-brace-format
-msgid "SHA: {0}"
-msgstr "SHA: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 698
-#: NEEDS WORK
-#, python-brace-format
-msgid "Auto-merge failed: {0}"
-msgstr "Автоматичното сливане не успя: {0}"
-# 
-# File: usr/share/build-package/github_api.py, line: 700
-# File: usr/share/build-package/github_api.py, line: 707
-#: NEEDS WORK
-msgid "PR created but must be merged manually"
-msgstr "PR е създаден, но трябва да бъде обединен ръчно."
-# 
-# File: usr/share/build-package/github_api.py, line: 706
-#: NEEDS WORK
-#, python-brace-format
-msgid "PR not ready for merge (state: {0})"
-msgstr "PR не е готов за сливане (състояние: {0})"
-# 
-# File: usr/share/build-package/github_api.py, line: 507
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error creating pull request: {0}"
-msgstr "Грешка при създаване на заявка за изтегляне: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 111
-#: NEEDS WORK
-#, python-brace-format
-msgid "Git has changes: {0} - {1}"
-msgstr "Git има промени: {0} - {1}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 114
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error checking changes: {0}"
-msgstr "Грешка при проверка на промените: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 122
-# File: usr/share/build-package/git_utils.py, line: 262
-# File: usr/share/build-package/git_utils.py, line: 317
-#: NEEDS WORK
-msgid "This operation is only available in Git repositories."
-msgstr "Тази операция е налична само в Git хранилища."
-# 
-# File: usr/share/build-package/git_utils.py, line: 130
-#: NEEDS WORK
-msgid "Aborting merge in progress..."
-msgstr "Прекратено сливане в процес..."
-# 
-# File: usr/share/build-package/git_utils.py, line: 142
-#: NEEDS WORK
-#, python-brace-format
-msgid "Current branch: {0}"
-msgstr "Текуща клон: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 165
-#: NEEDS WORK
-#, python-brace-format
-msgid "Most recent branch identified: {0}"
-msgstr "Най-новият идентифициран клон: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 171
-#: NEEDS WORK
-#, python-brace-format
-msgid "Pulling latest changes from most recent branch: {0}"
-msgstr "Изтегляне на последните промени от най-новия клон: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 182
-# File: usr/share/build-package/git_utils.py, line: 197
-#: NEEDS WORK
-#, python-brace-format
-msgid "Successfully pulled latest changes from {0}"
-msgstr "Успешно изтеглени последни промени от {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 188
-#: NEEDS WORK
-#, python-brace-format
-msgid "Failed to pull from {0}, trying current branch: {1}"
-msgstr "Неуспешно изтегляне от {0}, опитвам текущия клон: {1}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 203
-#: NEEDS WORK
-msgid "Failed to pull from current branch, trying dev branch"
-msgstr "Неуспешно изтегляне от текущия клон, опитвам клон dev"
-# 
-# File: usr/share/build-package/git_utils.py, line: 212
-#: NEEDS WORK
-msgid "Successfully pulled latest changes from dev"
-msgstr "Успешно изтеглени последни промени от dev"
-# 
-# File: usr/share/build-package/git_utils.py, line: 220
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error pulling changes: {0}"
-msgstr "Грешка при изтегляне на промени: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 255
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error finding most recent branch: {0}"
-msgstr "Грешка при намиране на най-новия клон: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 271
-#: NEEDS WORK
-#, python-brace-format
-msgid "Creating new branch: {0}"
-msgstr "Създаване на нов клон: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 275
-#: NEEDS WORK
-msgid "Pushing new branch to remote repository..."
-msgstr "Изпращане на нов клон в отдалечено хранилище..."
-# 
-# File: usr/share/build-package/git_utils.py, line: 278
-#: NEEDS WORK
-#, python-brace-format
-msgid "Branch {0} created and pushed successfully!"
-msgstr "Клон {0} успешно създаден и изпратен!"
-# 
-# File: usr/share/build-package/git_utils.py, line: 281
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error creating or pushing branch: {0}"
-msgstr "Грешка при създаване или изпращане на клон: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 322
-#: NEEDS WORK
-msgid "Getting branch list..."
-msgstr "Получаване на списък с клонове..."
-# 
-# File: usr/share/build-package/git_utils.py, line: 368
-#: NEEDS WORK
-#, python-brace-format
-msgid "Keeping only the most recent dev branch: {0}"
-msgstr "Запазване само на най-новия dev клон: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 373
-#: NEEDS WORK
-#, python-brace-format
-msgid "Removing local branch: {0}"
-msgstr "Премахване на локален клон: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 393
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error removing local branch {0}: {1}"
-msgstr "Грешка при премахване на локален клон {0}: {1}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 398
-#: NEEDS WORK
-#, python-brace-format
-msgid "Removing remote branch: {0}"
-msgstr "Премахване на отдалечен клон: {0}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 402
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error removing remote branch {0}: {1}"
-msgstr "Грешка при премахване на отдалечен клон {0}: {1}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 404
-#: NEEDS WORK
-msgid "Branch cleanup completed successfully!"
-msgstr "Почистването на клон завърши успешно!"
-# 
-# File: usr/share/build-package/git_utils.py, line: 407
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error during branch cleanup: {0}"
-msgstr "Грешка по време на почистване на клон: {0}"
-# 
-# File: usr/share/build-package/build_package.py, line: 90
-#: NEEDS WORK
-msgid "Commit/push and generate package"
-msgstr "Комит/изпрати и генерирай пакет"
-# 
-# File: usr/share/build-package/build_package.py, line: 94
-#: NEEDS WORK
-msgid "Just commit/push with the specified message"
-msgstr "Просто направете commit/push с указаното съобщение"
-# 
-# File: usr/share/build-package/build_package.py, line: 97
-# File: usr/share/build-package/build_package.py, line: 537
-# File: usr/share/build-package/build_package.py, line: 543
-#: NEEDS WORK
-msgid "Build AUR package"
-msgstr "Създайте AUR пакет"
 # 
 # File: usr/share/build-package/build_package.py, line: 154
 #: NEEDS WORK
@@ -1239,6 +315,101 @@ msgstr "Успешно преместихте промените си в соб�
 msgid "Switched to your branch: {0}"
 msgstr "Превключено към вашия клон: {0}"
 # 
+# File: usr/share/build-package/core/build_package.py, line: 408
+#: NEEDS WORK
+msgid "Checking if your remote branch needs sync with main..."
+msgstr "Проверка дали вашето отдалечено клонче се нуждае от синхронизация с основния..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 413
+#: NEEDS WORK
+msgid "Backing up your local changes temporarily..."
+msgstr "Временно архивиране на локалните ви промени..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 422
+#: NEEDS WORK
+msgid "Local changes safely backed up!"
+msgstr "Локалните промени са безопасно архивирани!"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 424
+#: NEEDS WORK
+msgid "Could not backup changes, skipping sync."
+msgstr "Неуспешно архивиране на промените, пропускане на синхронизация."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 426
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not backup changes: {0}"
+msgstr "Не можа да се архивират промените: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 439
+#: NEEDS WORK
+msgid "Remote branch exists. Checking sync status..."
+msgstr "Съществува отдалечен клон. Проверка на статуса на синхронизацията..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 453
+#: NEEDS WORK
+#, python-brace-format
+msgid "Your remote branch is {0} commits behind main. Updating..."
+msgstr "Вашият отдалечен клон е с {0} комита зад main. Актуализиране..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 474
+#: NEEDS WORK
+msgid "Remote branch synced with main successfully!"
+msgstr "Отдалечен клон успешно синхронизиран с главния!"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 477
+#: NEEDS WORK
+msgid "Merge conflict detected. Using force-update strategy..."
+msgstr "Открит конфликт при сливане. Използване на стратегия за принудително актуализиране..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 481
+#: NEEDS WORK
+msgid "Remote branch force-updated with main!"
+msgstr "Отдалечен клон е принудително актуализиран с основния!"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 487
+#: NEEDS WORK
+msgid "Remote branch is already up-to-date with main!"
+msgstr "Отдалечен клон вече е актуален с основния!"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 489
+#: NEEDS WORK
+msgid "Remote branch doesn't exist yet - will be created on first push."
+msgstr "Отдалечен клон все още не съществува - ще бъде създаден при първото изпращане."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 492
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not sync remote branch: {0}. Continuing..."
+msgstr "Неуспешна синхронизация на отдален клон: {0}. Продължаване..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 494
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected sync error: {0}. Continuing..."
+msgstr "Неочаквана грешка при синхронизация: {0}. Продължаване..."
+# 
+# File: usr/share/build-package/build_package.py, line: 535
+#: NEEDS WORK
+msgid "Restoring your local changes..."
+msgstr "Възстановяване на локалните ви промени..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 505
+#: NEEDS WORK
+msgid "Local changes restored successfully!"
+msgstr "Локалните промени бяха възстановени успешно!"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 507
+#: NEEDS WORK
+msgid "Could not restore changes automatically. Check 'git stash list'"
+msgstr "Не можа да възстанови промените автоматично. Проверете 'git stash list'"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 509
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error restoring changes: {0}"
+msgstr "Грешка при възстановяване на промените: {0}"
+# 
 # File: usr/share/build-package/build_package.py, line: 183
 #: NEEDS WORK
 msgid "Failed to pull latest changes, but continuing since no local changes."
@@ -1287,6 +458,16 @@ msgstr "Грешка при изпращане към отдалечен: {0}"
 msgid "Changes committed and pushed to {0} branch successfully!"
 msgstr "Промените са успешно записани и изпратени към клон {0}!"
 # 
+# File: usr/share/build-package/core/build_package.py, line: 562
+#: NEEDS WORK
+msgid "Stashing local changes before branch switch..."
+msgstr "Запазване на локални промени преди смяна на клон..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 570
+#: NEEDS WORK
+msgid "Failed to stash changes before branch switch."
+msgstr "Неуспешно запазване на промените преди смяна на клон."
+# 
 # File: usr/share/build-package/build_package.py, line: 248
 #: NEEDS WORK
 #, python-brace-format
@@ -1298,6 +479,27 @@ msgstr "Превключване към съществуващ клон: {0}"
 #, python-brace-format
 msgid "Using existing local branch: {0}"
 msgstr "Използване на съществуващ локален клон: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 271
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating new branch: {0}"
+msgstr "Създаване на нов клон: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 601
+#: NEEDS WORK
+msgid "Restoring stashed changes..."
+msgstr "Възстановяване на запазени промени..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 604
+#: NEEDS WORK
+msgid "Could not restore stashed changes automatically. Check 'git stash list'"
+msgstr "Не можа да възстанови временно съхранените промени автоматично. Проверете 'git stash list'"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 606
+#: NEEDS WORK
+msgid "Stashed changes restored successfully"
+msgstr "Успешно възстановени запазени промени"
 # 
 # File: usr/share/build-package/build_package.py, line: 262
 #: NEEDS WORK
@@ -1539,11 +741,6 @@ msgstr "Открити конфликти. Извършва се автомат�
 msgid "Repository cleaned to stable state."
 msgstr "Репозиториът е почистен до стабилно състояние."
 # 
-# File: usr/share/build-package/build_package.py, line: 535
-#: NEEDS WORK
-msgid "Restoring your local changes..."
-msgstr "Възстановяване на локалните ви промени..."
-# 
 # File: usr/share/build-package/build_package.py, line: 538
 #: NEEDS WORK
 msgid "Local changes restored successfully"
@@ -1574,6 +771,12 @@ msgstr "Изтегляне на последните актуализации о
 #: NEEDS WORK
 msgid "Warning: Failed to fetch latest changes, continuing with local code."
 msgstr "Предупреждение: Неуспешно извличане на последните промени, продължаване с локалния код."
+# 
+# File: usr/share/build-package/git_utils.py, line: 142
+#: NEEDS WORK
+#, python-brace-format
+msgid "Current branch: {0}"
+msgstr "Текуща клон: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 557
 #: NEEDS WORK
@@ -1658,6 +861,35 @@ msgstr ""
 #, python-brace-format
 msgid "Creating/updating testing branch: {0}"
 msgstr "Създаване/актуализиране на тестов клон: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1111
+#: NEEDS WORK
+#, python-brace-format
+msgid "Syncing local {0} with remote {0}..."
+msgstr "Синхронизиране на локалния {0} с дистанционния {0}..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1123
+#: NEEDS WORK
+#, python-brace-format
+msgid "Successfully synced with remote {0}"
+msgstr "Успешно синхронизирано с отдалечен {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1125
+#: NEEDS WORK
+msgid "Pull failed, trying rebase..."
+msgstr "Неуспешно изтегляне, опитвам повторно базиране..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1128
+#: NEEDS WORK
+#, python-brace-format
+msgid "Successfully rebased with remote {0}"
+msgstr "Успешно ребейзнато с отдален {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1131
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not sync with remote {0}, continuing with local version"
+msgstr "Не можа да синхронизира с отдалечен {0}, продължава с локалната версия."
 # 
 # File: usr/share/build-package/build_package.py, line: 400
 # File: usr/share/build-package/build_package.py, line: 419
@@ -1768,6 +1000,18 @@ msgstr "Изход от скрипта. Не беше извършено дей�
 msgid "Error: No package name was entered."
 msgstr "Грешка: Не е въведено име на пакет."
 # 
+# File: usr/share/build-package/build_package.py, line: 497
+# File: usr/share/build-package/build_package.py, line: 518
+#: NEEDS WORK
+msgid "Organization"
+msgstr "Организация"
+# 
+# File: usr/share/build-package/build_package.py, line: 499
+# File: usr/share/build-package/build_package.py, line: 520
+#: NEEDS WORK
+msgid "User Name"
+msgstr "Потребителско име"
+# 
 # File: usr/share/build-package/build_package.py, line: 500
 #: NEEDS WORK
 msgid "Package Name"
@@ -1788,6 +1032,12 @@ msgstr "Работен клон"
 #: NEEDS WORK
 msgid "Url"
 msgstr "Уеб адрес"
+# 
+# File: usr/share/build-package/build_package.py, line: 508
+# File: usr/share/build-package/build_package.py, line: 525
+#: NEEDS WORK
+msgid "TMATE Debug"
+msgstr "TMATE Отстраняване на грешки"
 # 
 # File: usr/share/build-package/build_package.py, line: 510
 #: NEEDS WORK
@@ -1859,6 +1109,29 @@ msgstr "Неуспешно изтегляне на промени. Искате 
 msgid "Select repository"
 msgstr "Изберете хранилище"
 # 
+# File: usr/share/build-package/build_package.py, line: 592
+# File: usr/share/build-package/build_package.py, line: 617
+# File: usr/share/build-package/build_package.py, line: 637
+#: NEEDS WORK
+msgid "Enable TMATE debug session?"
+msgstr "Активиране на TMATE отстраняване на грешки?"
+# 
+# File: usr/share/build-package/build_package.py, line: 592
+# File: usr/share/build-package/build_package.py, line: 617
+# File: usr/share/build-package/build_package.py, line: 637
+# File: usr/share/build-package/build_package.py, line: 747
+#: NEEDS WORK
+msgid "No"
+msgstr "Не"
+# 
+# File: usr/share/build-package/build_package.py, line: 592
+# File: usr/share/build-package/build_package.py, line: 617
+# File: usr/share/build-package/build_package.py, line: 637
+# File: usr/share/build-package/build_package.py, line: 747
+#: NEEDS WORK
+msgid "Yes"
+msgstr "Да"
+# 
 # File: usr/share/build-package/build_package.py, line: 608
 #: NEEDS WORK
 msgid "No changes to commit, proceeding with package generation."
@@ -1888,6 +1161,11 @@ msgstr "Изтрийте всички тагове"
 #: NEEDS WORK
 msgid "Merge branch to main"
 msgstr "Сливане на клон в главния"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1450
+#: NEEDS WORK
+msgid "Revert commit"
+msgstr "Върни комит"
 # 
 # File: usr/share/build-package/build_package.py, line: 663
 #: NEEDS WORK
@@ -1974,6 +1252,420 @@ msgstr "Операцията по изтегляне на заявка е зав
 #, python-brace-format
 msgid "Error getting branches: {0}"
 msgstr "Грешка при получаване на клонове: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 225
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected error: {0}"
+msgstr "Неочаквана грешка: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1576
+#: NEEDS WORK
+#, python-brace-format
+msgid "You can only revert commits on your own branch ({0}) or main branch."
+msgstr "Можете да отменяте комити само в собствената си клонка ({0}) или в основната клонка."
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1584
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 155
+#: NEEDS WORK
+msgid "Revert (keep history)"
+msgstr "Върни (запазване на историята)"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1585
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 156
+#: NEEDS WORK
+msgid "Reset (remove from history)"
+msgstr "Нулиране (премахване от историята)"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1591
+#: NEEDS WORK
+#, python-brace-format
+msgid "Branch: {0} - Select revert method"
+msgstr "Клон: {0} - Изберете метод за възстановяване"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1602
+#: NEEDS WORK
+msgid "Main branch detected - only revert method available (safer for shared branch)"
+msgstr "Открит основен клон - наличен е само метод за възстановяване (по-безопасен за споделен клон)"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1607
+#: NEEDS WORK
+msgid "No commits found to revert."
+msgstr "Не са намерени комити за възстановяване."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1624
+#: NEEDS WORK
+#, python-brace-format
+msgid "Select commit to revert ({0})"
+msgstr "Изберете комит за възстановяване ({0})"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1636
+#: NEEDS WORK
+#, python-brace-format
+msgid "Do you want to proceed with this {0}?"
+msgstr "Искате ли да продължите с това {0}?"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1656
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to {0} commit."
+msgstr "Неуспешно {0} комит."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1685
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error getting commit history: {0}"
+msgstr "Грешка при получаване на история на комитите: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1688
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected error getting commits: {0}"
+msgstr "Неочаквана грешка при получаване на комити: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1709
+#: NEEDS WORK
+msgid "Target Commit Hash"
+msgstr "Целеви хеш на комита"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1710
+#: NEEDS WORK
+msgid "Author"
+msgstr "Автор"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1711
+#: NEEDS WORK
+msgid "Date"
+msgstr "Дата"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1712
+#: NEEDS WORK
+msgid "Message"
+msgstr "Съобщение"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1713
+#: NEEDS WORK
+msgid "Method"
+msgstr "Метод"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1717
+# File: usr/share/build-package/core/build_package.py, line: 1722
+#: NEEDS WORK
+msgid "Result"
+msgstr "Резултат"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1717
+#: NEEDS WORK
+msgid "Code will be restored to this commit's exact state"
+msgstr "Кодът ще бъде възстановен в точното състояние на този комит."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1718
+#: NEEDS WORK
+msgid "New Commit"
+msgstr "Нов Комит"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1718
+#: NEEDS WORK
+msgid "Will create new commit with restored state"
+msgstr "Ще създаде нов комит с възстановено състояние"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1719
+# File: usr/share/build-package/core/build_package.py, line: 1723
+#: NEEDS WORK
+msgid "History"
+msgstr "История"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1719
+#: NEEDS WORK
+msgid "All commits remain in history (non-destructive)"
+msgstr "Всички комити остават в историята (недеструктивно)"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1720
+#: NEEDS WORK
+msgid "Current Code"
+msgstr "Текущ код"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1722
+#: NEEDS WORK
+msgid "Repository will be reset to this commit"
+msgstr "Репозиториът ще бъде нулиран до този комит."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1723
+#: NEEDS WORK
+msgid "Commits after this will be removed from history"
+msgstr "Комитите след това ще бъдат премахнати от историята."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1726
+#: NEEDS WORK
+msgid "Revert Preview"
+msgstr "Върни прегледа"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1739
+#: NEEDS WORK
+msgid "Files that will be restored to target state:"
+msgstr "Файлове, които ще бъдат възстановени в целевото състояние:"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1751
+#: NEEDS WORK
+msgid "No differences detected - code is already at target state"
+msgstr "Не са открити разлики - кодът вече е в целевото състояние."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1753
+#: NEEDS WORK
+msgid "Could not analyze file differences"
+msgstr "Не можа да анализира разликите в файловете"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1756
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not show commit details: {0}"
+msgstr "Не можа да покаже детайлите на комита: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1758
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error showing preview: {0}"
+msgstr "Грешка при показване на преглед: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1769
+#: NEEDS WORK
+#, python-brace-format
+msgid "Executing {0} for commit {1}..."
+msgstr "Изпълняване на {0} за комит {1}..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1791
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during {0}: {1}"
+msgstr "Грешка по време на {0}: {1}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1795
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected error during {0}: {1}"
+msgstr "Неочаквана грешка по време на {0}: {1}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1803
+#: NEEDS WORK
+msgid "Getting commit information..."
+msgstr "Получаване на информация за комит..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1813
+#: NEEDS WORK
+msgid "Restoring code state from selected commit..."
+msgstr "Възстановяване на състоянието на кода от избрания комит..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1820
+#: NEEDS WORK
+msgid "Staging restored files..."
+msgstr "Подготовка на възстановени файлове..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1832
+#: NEEDS WORK
+msgid "No changes detected - code is already at selected state"
+msgstr "Не са открити промени - кодът вече е в избрано състояние"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1838
+#: NEEDS WORK
+msgid "Creating revert commit..."
+msgstr "Създаване на комит за възстановяване..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1844
+#: NEEDS WORK
+msgid "Revert completed successfully - code restored to selected commit state"
+msgstr "Възстановяването завърши успешно - кодът е възстановен до избраното състояние на комита."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1848
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during revert operation: {0}"
+msgstr "Грешка по време на операцията за възстановяване: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1852
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected error during revert: {0}"
+msgstr "Неочаквана грешка по време на възстановяване: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1857
+#: NEEDS WORK
+msgid "Resetting to previous commit..."
+msgstr "Връщане към предишен комит..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1866
+#: NEEDS WORK
+msgid "Commit exists in remote - force push required"
+msgstr "Комитът съществува в отдалеченото хранилище - необходима е принудителна изпращане."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1867
+#: NEEDS WORK
+msgid "This will force push and rewrite remote history. Continue?"
+msgstr "Това ще принуди пушването и ще презапише отдалечената история. Продължавате ли?"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1868
+#: NEEDS WORK
+msgid "Force pushing changes..."
+msgstr "Принудително изпращане на промени..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1870
+#: NEEDS WORK
+msgid "Reset completed and force pushed"
+msgstr "Нулирането е завършено и е извършено принудително изпращане."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1873
+#: NEEDS WORK
+msgid "Reset completed locally only (remote unchanged)"
+msgstr "Нулирането е завършено локално само (отдалеченото не е променено)"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1876
+#: NEEDS WORK
+msgid "Reset completed (commit was only local)"
+msgstr "Нулирането е завършено (комитът беше само локален)"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1903
+#: NEEDS WORK
+msgid "Successfully skipped revert (no effective changes)"
+msgstr "Успешно пропуснато възстановяване (няма ефективни промени)"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1906
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to skip revert: {0}"
+msgstr "Неуспешно пропуснато възстановяване: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1923
+#: NEEDS WORK
+msgid "Revert completed successfully"
+msgstr "Възстановяването е завършено успешно"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1926
+#: NEEDS WORK
+#, python-brace-format
+msgid "Revert continue failed: {0}"
+msgstr "Възстановяването на продължаването не успя: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1932
+#: NEEDS WORK
+msgid "Revert continue timed out - aborting"
+msgstr "Възстановяване на продължаване - изтекло време - прекратяване"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1939
+#: NEEDS WORK
+msgid "Pushing revert changes..."
+msgstr "Изтласкване на възстановяване на промените..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1948
+#: NEEDS WORK
+msgid "Revert changes pushed successfully"
+msgstr "Възстановяване на промените, успешно изпратени"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1951
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to push revert: {0}"
+msgstr "Неуспешно изпращане на възстановяване: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1955
+#: NEEDS WORK
+msgid "Revert completed (commit was only local)"
+msgstr "Възстановяването е завършено (комитът беше само локален)"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2014
+#: NEEDS WORK
+msgid "REVERT COMPLETED SUCCESSFULLY!"
+msgstr "ВРЪЩАНЕТО ЗАВЪРШИ УСПЕШНО!"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2016
+#: NEEDS WORK
+msgid "Code restored to commit"
+msgstr "Кодът е възстановен до комит"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2017
+# File: usr/share/build-package/core/build_package.py, line: 2036
+#: NEEDS WORK
+msgid "Target commit"
+msgstr "Целеви комит"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2018
+#: NEEDS WORK
+msgid "New commit created"
+msgstr "Създадено ново комитване"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2019
+#: NEEDS WORK
+msgid "New commit message"
+msgstr "Ново съобщение за комит"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2025
+#: NEEDS WORK
+msgid "Files restored"
+msgstr "Възстановени файлове"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2029
+#: NEEDS WORK
+#, python-brace-format
+msgid "and {0} more files"
+msgstr "и {0} допълнителни файла"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2033
+#: NEEDS WORK
+msgid "RESET COMPLETED SUCCESSFULLY!"
+msgstr "НУЛИРАНЕТО Е ЗАВЪРШЕНО УСПЕШНО!"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2035
+#: NEEDS WORK
+msgid "Repository reset to commit"
+msgstr "Репозиториът е нулиран до комит"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2037
+#: NEEDS WORK
+msgid "History after this commit was removed"
+msgstr "История след този комит беше премахната"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2038
+#: NEEDS WORK
+msgid "Current HEAD"
+msgstr "Текуща HEAD"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2042
+#: NEEDS WORK
+msgid "Changes force-pushed to remote"
+msgstr "Промени, принудително изпратени към отдалеченото хранилище"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2044
+#: NEEDS WORK
+msgid "Reset completed locally only"
+msgstr "Нулирането е завършено само локално"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2049
+# File: usr/share/build-package/core/github_api.py, line: 770
+#: NEEDS WORK
+msgid "Operation completed successfully!"
+msgstr "Операцията беше завършена успешно!"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2050
+#: NEEDS WORK
+msgid "All changes have been saved to your repository"
+msgstr "Всички промени са запазени в хранилището ви."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2058
+#: NEEDS WORK
+msgid " COMPLETED"
+msgstr "ЗАВЪРШЕН"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2059
+# File: usr/share/build-package/core/github_api.py, line: 777
+#: NEEDS WORK
+msgid "Press Enter to return to menu"
+msgstr "Натиснете Enter, за да се върнете в менюто"
 # 
 # File: usr/share/build-package/build_package.py, line: 1088
 #: NEEDS WORK
@@ -2099,6 +1791,54 @@ msgstr "📄 Нови комити ({0}):"
 msgid "📁 Files changed ({0}):"
 msgstr "📁 Променени файлове ({0}):"
 # 
+# File: usr/share/build-package/core/build_package.py, line: 2322
+#: NEEDS WORK
+#, python-brace-format
+msgid "  ✓ Added: {0} files"
+msgstr "✓ Добавени: {0} файлове"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2326
+#: NEEDS WORK
+#, python-brace-format
+msgid "    + ... and {0} more"
+msgstr "+ ... и {0} още"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2329
+#: NEEDS WORK
+#, python-brace-format
+msgid "  ⚠ Modified: {0} files"
+msgstr "⚠ Модифицирани: {0} файла"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2333
+#: NEEDS WORK
+#, python-brace-format
+msgid "    ~ ... and {0} more"
+msgstr "~ ... и {0} още"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2336
+#: NEEDS WORK
+#, python-brace-format
+msgid "  ✗ Deleted: {0} files"
+msgstr "✗ Изтрито: {0} файла"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2340
+#: NEEDS WORK
+#, python-brace-format
+msgid "    - ... and {0} more"
+msgstr "... и {0} още"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2343
+#: NEEDS WORK
+#, python-brace-format
+msgid "  → Renamed: {0} files"
+msgstr "Преименувани: {0} файлове"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2357
+#: NEEDS WORK
+#, python-brace-format
+msgid "📊 {0}"
+msgstr "📊 {0}"
+# 
 # File: usr/share/build-package/build_package.py, line: 1270
 #: NEEDS WORK
 #, python-brace-format
@@ -2125,3 +1865,2065 @@ msgstr "Успешно превключено и актуализирано до
 #, python-brace-format
 msgid "Error switching to branch {0}: {1}"
 msgstr "Грешка при превключване на клон {0}: {1}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 111
+#: NEEDS WORK
+#, python-brace-format
+msgid "Git has changes: {0} - {1}"
+msgstr "Git има промени: {0} - {1}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 114
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error checking changes: {0}"
+msgstr "Грешка при проверка на промените: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 122
+# File: usr/share/build-package/git_utils.py, line: 262
+# File: usr/share/build-package/git_utils.py, line: 317
+#: NEEDS WORK
+msgid "This operation is only available in Git repositories."
+msgstr "Тази операция е налична само в Git хранилища."
+# 
+# File: usr/share/build-package/git_utils.py, line: 130
+#: NEEDS WORK
+msgid "Aborting merge in progress..."
+msgstr "Прекратено сливане в процес..."
+# 
+# File: usr/share/build-package/git_utils.py, line: 140
+#: NEEDS WORK
+msgid "Resolving conflicts automatically..."
+msgstr "Автоматично разрешаване на конфликти..."
+# 
+# File: usr/share/build-package/git_utils.py, line: 165
+#: NEEDS WORK
+#, python-brace-format
+msgid "Most recent branch identified: {0}"
+msgstr "Най-новият идентифициран клон: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 171
+#: NEEDS WORK
+#, python-brace-format
+msgid "Pulling latest changes from most recent branch: {0}"
+msgstr "Изтегляне на последните промени от най-новия клон: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 182
+# File: usr/share/build-package/git_utils.py, line: 197
+#: NEEDS WORK
+#, python-brace-format
+msgid "Successfully pulled latest changes from {0}"
+msgstr "Успешно изтеглени последни промени от {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 188
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to pull from {0}, trying current branch: {1}"
+msgstr "Неуспешно изтегляне от {0}, опитвам текущия клон: {1}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 203
+#: NEEDS WORK
+msgid "Failed to pull from current branch, trying dev branch"
+msgstr "Неуспешно изтегляне от текущия клон, опитвам клон dev"
+# 
+# File: usr/share/build-package/git_utils.py, line: 212
+#: NEEDS WORK
+msgid "Successfully pulled latest changes from dev"
+msgstr "Успешно изтеглени последни промени от dev"
+# 
+# File: usr/share/build-package/git_utils.py, line: 220
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error pulling changes: {0}"
+msgstr "Грешка при изтегляне на промени: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 255
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error finding most recent branch: {0}"
+msgstr "Грешка при намиране на най-новия клон: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 275
+#: NEEDS WORK
+msgid "Pushing new branch to remote repository..."
+msgstr "Изпращане на нов клон в отдалечено хранилище..."
+# 
+# File: usr/share/build-package/git_utils.py, line: 278
+#: NEEDS WORK
+#, python-brace-format
+msgid "Branch {0} created and pushed successfully!"
+msgstr "Клон {0} успешно създаден и изпратен!"
+# 
+# File: usr/share/build-package/git_utils.py, line: 281
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating or pushing branch: {0}"
+msgstr "Грешка при създаване или изпращане на клон: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 322
+#: NEEDS WORK
+msgid "Getting branch list..."
+msgstr "Получаване на списък с клонове..."
+# 
+# File: usr/share/build-package/git_utils.py, line: 368
+#: NEEDS WORK
+#, python-brace-format
+msgid "Keeping only the most recent dev branch: {0}"
+msgstr "Запазване само на най-новия dev клон: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 373
+#: NEEDS WORK
+#, python-brace-format
+msgid "Removing local branch: {0}"
+msgstr "Премахване на локален клон: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 393
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error removing local branch {0}: {1}"
+msgstr "Грешка при премахване на локален клон {0}: {1}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 398
+#: NEEDS WORK
+#, python-brace-format
+msgid "Removing remote branch: {0}"
+msgstr "Премахване на отдалечен клон: {0}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 402
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error removing remote branch {0}: {1}"
+msgstr "Грешка при премахване на отдалечен клон {0}: {1}"
+# 
+# File: usr/share/build-package/git_utils.py, line: 404
+#: NEEDS WORK
+msgid "Branch cleanup completed successfully!"
+msgstr "Почистването на клон завърши успешно!"
+# 
+# File: usr/share/build-package/git_utils.py, line: 407
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during branch cleanup: {0}"
+msgstr "Грешка по време на почистване на клон: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 29
+# File: usr/share/build-package/github_api.py, line: 73
+# File: usr/share/build-package/github_api.py, line: 342
+# File: usr/share/build-package/github_api.py, line: 391
+#: NEEDS WORK
+msgid "Could not determine repository name."
+msgstr "Не можа да се определи името на хранилището."
+# 
+# File: usr/share/build-package/github_api.py, line: 35
+#: NEEDS WORK
+msgid "Could not determine current commit SHA."
+msgstr "Не можа да се определи текущият SHA на комита."
+# 
+# File: usr/share/build-package/github_api.py, line: 44
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating reference: {0}..."
+msgstr "Създаване на справка: {0}..."
+# 
+# File: usr/share/build-package/github_api.py, line: 59
+# File: usr/share/build-package/github_api.py, line: 65
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating reference: {0}"
+msgstr "Грешка при създаване на референция: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 62
+#: NEEDS WORK
+#, python-brace-format
+msgid "Reference {0} created successfully!"
+msgstr "Справка {0} е създадена успешно!"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 83
+#: NEEDS WORK
+#, python-brace-format
+msgid "Checking if branch {0} already exists..."
+msgstr "Проверка дали клон {0} вече съществува..."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 91
+#: NEEDS WORK
+#, python-brace-format
+msgid "Branch {0} already exists - using existing branch"
+msgstr "Клон {0} вече съществува - използване на съществуващия клон"
+# 
+# File: usr/share/build-package/github_api.py, line: 86
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not determine SHA for {0}."
+msgstr "Не можа да се определи SHA за {0}."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 103
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating new branch: {0} based on {1}..."
+msgstr "Създаване на нов клон: {0} на базата на {1}..."
+# 
+# File: usr/share/build-package/github_api.py, line: 101
+# File: usr/share/build-package/github_api.py, line: 166
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating branch: {0}"
+msgstr "Грешка при създаване на клон: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 102
+# File: usr/share/build-package/github_api.py, line: 478
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error details: {0}"
+msgstr "Детайли за грешка: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 163
+#: NEEDS WORK
+#, python-brace-format
+msgid "Branch {0} created successfully!"
+msgstr "Клон {0} е създаден успешно!"
+# 
+# File: usr/share/build-package/github_api.py, line: 183
+#: NEEDS WORK
+msgid "Backing up local changes..."
+msgstr "Резервно копиране на локални промени..."
+# 
+# File: usr/share/build-package/github_api.py, line: 191
+#: NEEDS WORK
+msgid "Updating remote references..."
+msgstr "Актуализиране на отдалечени референции..."
+# 
+# File: usr/share/build-package/github_api.py, line: 195
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switching to branch {0}..."
+msgstr "Превключване към клон {0}..."
+# 
+# File: usr/share/build-package/github_api.py, line: 202
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} into {1}..."
+msgstr "Сливане на {0} в {1}..."
+# 
+# File: usr/share/build-package/github_api.py, line: 211
+#: NEEDS WORK
+msgid "Merge completed without conflicts!"
+msgstr "Сливането е завършено без конфликти!"
+# 
+# File: usr/share/build-package/github_api.py, line: 214
+#: NEEDS WORK
+msgid "Conflicts detected, resolving automatically..."
+msgstr "Открити конфликти, разрешаване автоматично..."
+# 
+# File: usr/share/build-package/github_api.py, line: 227
+#: NEEDS WORK
+msgid "Using advanced resolution strategy..."
+msgstr "Използване на напреднала стратегия за разрешаване..."
+# 
+# File: usr/share/build-package/github_api.py, line: 254
+#: NEEDS WORK
+msgid "Conflicts resolved automatically!"
+msgstr "Конфликтите са разрешени автоматично!"
+# 
+# File: usr/share/build-package/github_api.py, line: 256
+#: NEEDS WORK
+msgid "Could not resolve conflicts automatically"
+msgstr "Не можа да разреши конфликтите автоматично"
+# 
+# File: usr/share/build-package/github_api.py, line: 259
+#: NEEDS WORK
+msgid "No differences detected"
+msgstr "Няма открити разлики"
+# 
+# File: usr/share/build-package/github_api.py, line: 262
+#: NEEDS WORK
+msgid "Pushing resolved branch..."
+msgstr "Изпращане на разрешен клон..."
+# 
+# File: usr/share/build-package/github_api.py, line: 271
+#: NEEDS WORK
+msgid "Restoring local changes..."
+msgstr "Възстановяване на локални промени..."
+# 
+# File: usr/share/build-package/github_api.py, line: 274
+#: NEEDS WORK
+msgid "Conflict resolution completed successfully!"
+msgstr "Разрешаването на конфликта е завършено успешно!"
+# 
+# File: usr/share/build-package/github_api.py, line: 278
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during conflict resolution: {0}"
+msgstr "Грешка по време на разрешаване на конфликт: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 302
+#: NEEDS WORK
+msgid "Waiting for PR to be ready for merge..."
+msgstr "Изчакване PR да бъде готов за сливане..."
+# 
+# File: usr/share/build-package/github_api.py, line: 316
+#: NEEDS WORK
+#, python-brace-format
+msgid "Attempt {0}/{1}: mergeable={2}, state={3}"
+msgstr "Опит {0}/{1}: сливаемо={2}, състояние={3}"
+# 
+# File: usr/share/build-package/github_api.py, line: 320
+#: NEEDS WORK
+msgid "PR ready for merge!"
+msgstr "PR готов за сливане!"
+# 
+# File: usr/share/build-package/github_api.py, line: 323
+#: NEEDS WORK
+msgid "PR has conflicts"
+msgstr "PR има конфликти"
+# 
+# File: usr/share/build-package/github_api.py, line: 330
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected state: {0}"
+msgstr "Неочаквано състояние: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 333
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error checking PR: {0}"
+msgstr "Проверка на грешки PR: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 337
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error: {0}"
+msgstr "Грешка: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 340
+#: NEEDS WORK
+msgid "Timeout waiting for PR to be ready"
+msgstr "Изчакване на времето за готовност на PR"
+# 
+# File: usr/share/build-package/github_api.py, line: 240
+#: NEEDS WORK
+msgid "Failed to create branch for the build."
+msgstr "Неуспешно създаване на клон за изграждането."
+# 
+# File: usr/share/build-package/github_api.py, line: 245
+#: NEEDS WORK
+#, python-brace-format
+msgid "Using existing branch: {0}"
+msgstr "Използване на съществуващ клон: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 267
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error retrieving remote repository URL for package: {0}"
+msgstr "Грешка при извличане на URL адреса на отдалеченото хранилище за пакет: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 270
+#: NEEDS WORK
+#, python-brace-format
+msgid "Detected repository: {0}"
+msgstr "Открито хранилище: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 394
+#: NEEDS WORK
+#, python-brace-format
+msgid "Testing package: workflow will use branch {0}"
+msgstr "Тестов пакет: работният процес ще използва клон {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 417
+#: NEEDS WORK
+msgid "Stable/Extra package: main is up-to-date, workflow will use main"
+msgstr "Стабилен/Допълнителен пакет: основният е актуален, работният процес ще използва основния"
+# 
+# File: usr/share/build-package/github_api.py, line: 421
+#: NEEDS WORK
+#, python-brace-format
+msgid "Stable/Extra package: main not up-to-date, workflow will use {0}"
+msgstr "Стабилен/Допълнителен пакет: основният не е актуален, работният процес ще използва {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 422
+# File: usr/share/build-package/github_api.py, line: 435
+#: NEEDS WORK
+#, python-brace-format
+msgid "⚠️  Warning: Package will be built from {0} instead of main"
+msgstr "⚠️  Внимание: Пакетът ще бъде изграждан от {0} вместо основния"
+# 
+# File: usr/share/build-package/github_api.py, line: 425
+#: NEEDS WORK
+msgid "Stable/Extra package: workflow will use main"
+msgstr "Стабилен/Допълнителен пакет: работният процес ще използва основния"
+# 
+# File: usr/share/build-package/github_api.py, line: 430
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not verify branch status, using current: {0}"
+msgstr "Не можа да се провери статусът на клона, използвайки текущия: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 434
+#: NEEDS WORK
+#, python-brace-format
+msgid "Stable/Extra package: not on main, workflow will use {0}"
+msgstr "Стабилен/Допълнителен пакет: не е на основния, работният процес ще използва {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 452
+#: NEEDS WORK
+msgid "Workflow payload:"
+msgstr "Работен поток полезен товар:"
+# 
+# File: usr/share/build-package/github_api.py, line: 453
+#: NEEDS WORK
+#, python-brace-format
+msgid "  - branch: {0}"
+msgstr "- клон: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 455
+#: NEEDS WORK
+#, python-brace-format
+msgid "  - branch_type: {0}"
+msgstr "- тип_клон: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 457
+#: NEEDS WORK
+#, python-brace-format
+msgid "  - new_branch: {0}"
+msgstr "- нова_клон: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 285
+#: NEEDS WORK
+msgid "Triggering build workflow on GitHub..."
+msgstr "Стартиране на работен процес за изграждане в GitHub..."
+# 
+# File: usr/share/build-package/github_api.py, line: 294
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error triggering workflow. Response code: {0}"
+msgstr "Грешка при задействане на работен поток. Код на отговор: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 297
+#: NEEDS WORK
+#, python-brace-format
+msgid "Build workflow ({0}) triggered successfully."
+msgstr "Изграждането на работен поток ({0}) беше задействано успешно."
+# 
+# File: usr/share/build-package/github_api.py, line: 301
+#: NEEDS WORK
+#, python-brace-format
+msgid "URL to monitor the build: {0}"
+msgstr "URL за наблюдение на изграждането: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 305
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error triggering workflow: {0}"
+msgstr "Грешка при задействане на работен поток: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 313
+#: NEEDS WORK
+#, python-brace-format
+msgid "Token file '{0}' not found."
+msgstr "Файл с токен '{0}' не е намерен."
+# 
+# File: usr/share/build-package/github_api.py, line: 331
+#: NEEDS WORK
+#, python-brace-format
+msgid "Token for organization '{0}' not found."
+msgstr "Токенът за организация '{0}' не е намерен."
+# 
+# File: usr/share/build-package/github_api.py, line: 334
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error reading token: {0}"
+msgstr "Грешка при четене на токен: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 345
+#: NEEDS WORK
+#, python-brace-format
+msgid "Cleaning Actions jobs with '{0}' status..."
+msgstr "Почистване на действия с работни места със статус '{0}'..."
+# 
+# File: usr/share/build-package/github_api.py, line: 354
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error fetching Actions jobs. Code: {0}"
+msgstr "Грешка при извличане на действията. Код: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 361
+#: NEEDS WORK
+#, python-brace-format
+msgid "No Action jobs with '{0}' status found."
+msgstr "Не са намерени действия с работни места със статус '{0}'."
+# 
+# File: usr/share/build-package/github_api.py, line: 368
+#: NEEDS WORK
+#, python-brace-format
+msgid "Deleting job {0}..."
+msgstr "Изтриване на задача {0}..."
+# 
+# File: usr/share/build-package/github_api.py, line: 378
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error deleting job {0}. Code: {1}"
+msgstr "Грешка при изтриване на задача {0}. Код: {1}"
+# 
+# File: usr/share/build-package/github_api.py, line: 380
+#: NEEDS WORK
+#, python-brace-format
+msgid "Deleted {0} Actions jobs with '{1}' status."
+msgstr "Изтрито {0} действия с '{1}' статус."
+# 
+# File: usr/share/build-package/github_api.py, line: 383
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error cleaning Actions jobs: {0}"
+msgstr "Грешка при почистване на действията: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 394
+#: NEEDS WORK
+msgid "Getting tag list..."
+msgstr "Получаване на списък с тагове..."
+# 
+# File: usr/share/build-package/github_api.py, line: 403
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error fetching tags. Code: {0}"
+msgstr "Грешка при извличане на тагове. Код: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 409
+#: NEEDS WORK
+msgid "No tags found."
+msgstr "Няма намерени тагове."
+# 
+# File: usr/share/build-package/github_api.py, line: 416
+#: NEEDS WORK
+#, python-brace-format
+msgid "Deleting tag {0}..."
+msgstr "Изтриване на етикет {0}..."
+# 
+# File: usr/share/build-package/github_api.py, line: 427
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error deleting tag {0}. Code: {1}"
+msgstr "Грешка при изтриване на етикет {0}. Код: {1}"
+# 
+# File: usr/share/build-package/github_api.py, line: 429
+#: NEEDS WORK
+#, python-brace-format
+msgid "Deleted {0} tags."
+msgstr "Изтрито {0} тагове."
+# 
+# File: usr/share/build-package/github_api.py, line: 432
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error cleaning tags: {0}"
+msgstr "Грешка при почистване на тагове: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 439
+#: NEEDS WORK
+msgid "Source branch name is required to create a pull request"
+msgstr "Изисква се име на източната клонка, за да се създаде искане за сливане."
+# 
+# File: usr/share/build-package/github_api.py, line: 449
+#: NEEDS WORK
+msgid "Repository name could not be determined"
+msgstr "Не можа да бъде определено името на хранилището."
+# 
+# File: usr/share/build-package/github_api.py, line: 627
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating pull request: {0} → {1}"
+msgstr "Създаване на искане за изтегляне: {0} → {1}"
+# 
+# File: usr/share/build-package/github_api.py, line: 632
+#: NEEDS WORK
+msgid "Resolving possible conflicts before merge..."
+msgstr "Разрешаване на възможни конфликти преди сливане..."
+# 
+# File: usr/share/build-package/github_api.py, line: 637
+#: NEEDS WORK
+msgid "Warning: Could not resolve conflicts automatically"
+msgstr "Предупреждение: Не можа да разреши конфликтите автоматично"
+# 
+# File: usr/share/build-package/github_api.py, line: 638
+#: NEEDS WORK
+msgid "Trying to create PR anyway..."
+msgstr "Опитвам се да създам PR все пак..."
+# 
+# File: usr/share/build-package/github_api.py, line: 457
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merge {0} into {1}"
+msgstr "Сливане на {0} в {1}"
+# 
+# File: usr/share/build-package/github_api.py, line: 458
+#: NEEDS WORK
+msgid "Automated PR created by build_package.py"
+msgstr "Автоматизирано PR, създадено от build_package.py"
+# 
+# File: usr/share/build-package/github_api.py, line: 644
+#: NEEDS WORK
+msgid "Conflicts resolved automatically (if any)"
+msgstr "Конфликтите се разрешават автоматично (ако има такива)"
+# 
+# File: usr/share/build-package/github_api.py, line: 645
+#: NEEDS WORK
+msgid "Ready for automatic merge"
+msgstr "Готов за автоматично сливане"
+# 
+# File: usr/share/build-package/github_api.py, line: 475
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to create PR: {0}"
+msgstr "Неуспешно създаване на PR: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 486
+#: NEEDS WORK
+#, python-brace-format
+msgid "Pull request created successfully: {0}"
+msgstr "Успешно създадено искане за преглед: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 670
+#: NEEDS WORK
+msgid "Starting auto-merge process..."
+msgstr "Започване на автоматичен процес на сливане..."
+# 
+# File: usr/share/build-package/github_api.py, line: 679
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-merge: {0} → {1}"
+msgstr "Автоматично сливане: {0} → {1}"
+# 
+# File: usr/share/build-package/github_api.py, line: 680
+#: NEEDS WORK
+msgid "Automated merge performed by build_package.py"
+msgstr "Автоматично сливане, извършено от build_package.py"
+# 
+# File: usr/share/build-package/github_api.py, line: 689
+#: NEEDS WORK
+msgid "AUTO-MERGE COMPLETED SUCCESSFULLY!"
+msgstr "АВТОМАТИЧНО СЛЕПВАНЕ ЗАВЪРШЕНО УСПЕШНО!"
+# 
+# File: usr/share/build-package/github_api.py, line: 690
+#: NEEDS WORK
+#, python-brace-format
+msgid "SHA: {0}"
+msgstr "SHA: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 698
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-merge failed: {0}"
+msgstr "Автоматичното сливане не успя: {0}"
+# 
+# File: usr/share/build-package/github_api.py, line: 700
+# File: usr/share/build-package/github_api.py, line: 707
+#: NEEDS WORK
+msgid "PR created but must be merged manually"
+msgstr "PR е създаден, но трябва да бъде обединен ръчно."
+# 
+# File: usr/share/build-package/github_api.py, line: 706
+#: NEEDS WORK
+#, python-brace-format
+msgid "PR not ready for merge (state: {0})"
+msgstr "PR не е готов за сливане (състояние: {0})"
+# 
+# File: usr/share/build-package/github_api.py, line: 507
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating pull request: {0}"
+msgstr "Грешка при създаване на заявка за изтегляне: {0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 750
+#: NEEDS WORK
+msgid "PULL REQUEST COMPLETED SUCCESSFULLY!"
+msgstr "ЗАЯВКА ЗА ИЗТЕГЛЯНЕТО УСПЕШНО ЗАВЪРШЕНА!"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 752
+#: NEEDS WORK
+#, python-brace-format
+msgid "PR #{0} created and processed"
+msgstr "PR #{0} създаден и обработен"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 758
+#: NEEDS WORK
+msgid "SUCCESS"
+msgstr "УСПЕХ"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 759
+#: NEEDS WORK
+msgid "Code automatically merged to target branch"
+msgstr "Кодът автоматично е слетен с целевия клон"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 760
+#: NEEDS WORK
+msgid "Merge SHA"
+msgstr "Сливане на SHA"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 764
+#: NEEDS WORK
+msgid "Manual merge required"
+msgstr "Необходимо ръчно сливане"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 776
+#: NEEDS WORK
+msgid "PULL REQUEST COMPLETED"
+msgstr "ЗАЯВКА ЗА ИЗТЕГЛЯНЕ ЗАВЪРШЕНА"
+# 
+# File: usr/share/build-package/config.py, line: 46
+#: NEEDS WORK
+msgid "BUILD PACKAGE"
+msgstr "СЪЗДАЙ ПАКЕТ"
+# 
+# File: usr/share/build-package/config.py, line: 47
+#: NEEDS WORK
+msgid ""
+"A comprehensive tool for package building, testing, and deployment. Streamlines Git operations, "
+"automates builds and manages package workflows for BigCommunity repositories and AUR packages."
+msgstr ""
+"Всеобхватен инструмент за изграждане на пакети, тестване и разгръщане. Оптимизира операциите с Git, "
+"автоматизира изграждането и управлява работните потоци на пакети за хранилища на BigCommunity и "
+"пакети от AUR."
+# 
+# File: usr/share/build-package/gui/main_gui.py, line: 82
+# File: usr/share/build-package/gui/main_gui.py, line: 145
+#: NEEDS WORK
+msgid "Preferences"
+msgstr "Настройки"
+# 
+# File: usr/share/build-package/gui/main_gui.py, line: 83
+# File: usr/share/build-package/gui/main_gui.py, line: 146
+#: NEEDS WORK
+msgid "Keyboard Shortcuts"
+msgstr "Клавишни комбинации"
+# 
+# File: usr/share/build-package/gui/main_gui.py, line: 84
+#: NEEDS WORK
+msgid "About Build Package"
+msgstr "За пакета на изграждане"
+# 
+# File: usr/share/build-package/gui/main_gui.py, line: 117
+#: NEEDS WORK
+msgid "translator-credits"
+msgstr "кредити на преводача"
+# 
+# File: usr/share/build-package/gui/main_gui.py, line: 125
+#: NEEDS WORK
+msgid "Preferences - Coming soon"
+msgstr "Настройки - Скоро ще бъде налично"
+# 
+# File: usr/share/build-package/gui/main_gui.py, line: 140
+#: NEEDS WORK
+msgid "General"
+msgstr "Общи"
+# 
+# File: usr/share/build-package/gui/main_gui.py, line: 144
+#: NEEDS WORK
+msgid "Quit"
+msgstr "Изход"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/main_gui.py, line: 147
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 219
+#: NEEDS WORK
+msgid "Refresh Status"
+msgstr "Обнови статус"
+# 
+# File: usr/share/build-package/gui/main_gui.py, line: 148
+#: NEEDS WORK
+msgid "Pull Latest Changes"
+msgstr "Изтегли последните промени"
+# 
+# File: usr/share/build-package/gui/main_gui.py, line: 152
+#: NEEDS WORK
+msgid "Application"
+msgstr "Приложение"
+# 
+# File: usr/share/build-package/gui/main_gui.py, line: 185
+#: NEEDS WORK
+msgid "Failed to start GUI interface"
+msgstr "Неуспешно стартиране на графичния интерфейс"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 52
+# File: usr/share/build-package/gui/main_window.py, line: 73
+# File: usr/share/build-package/gui/main_window.py, line: 94
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 258
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 175
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 269
+#: NEEDS WORK
+msgid "Build Package"
+msgstr "Създаване на пакет"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 134
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to initialize: {0}"
+msgstr "Неуспешна инициализация: {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 152
+#: NEEDS WORK
+msgid "Overview"
+msgstr "Обзор"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 153
+#: NEEDS WORK
+msgid "Commit & Push"
+msgstr "Комитиране и изпращане"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 154
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 70
+#: NEEDS WORK
+msgid "Generate Package"
+msgstr "Генерирай пакет"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 155
+#: NEEDS WORK
+msgid "AUR Package"
+msgstr "AUR пакет"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 156
+#: NEEDS WORK
+msgid "Branches"
+msgstr "Клонове"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 157
+#: NEEDS WORK
+msgid "Advanced"
+msgstr "Разширен"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 228
+#: NEEDS WORK
+msgid "Git Repository"
+msgstr "Гит хранилище"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 231
+#: NEEDS WORK
+msgid "Not a Git repository"
+msgstr "Не е Git хранилище"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 239
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 271
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 284
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 310
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 169
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 208
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 270
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 199
+#: NEEDS WORK
+msgid "Unknown"
+msgstr "Неизвестен"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 243
+#: NEEDS WORK
+msgid "Uncommitted changes"
+msgstr "Непотвърдени промени"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 246
+#: NEEDS WORK
+msgid "Clean working tree"
+msgstr "Чиста работна дърво"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 277
+#: NEEDS WORK
+msgid "Committing Changes"
+msgstr "Комитиране на промени"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 278
+#: NEEDS WORK
+msgid "Committing and pushing changes to repository..."
+msgstr "Комитиране и изпращане на промени в хранилището..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 288
+#: NEEDS WORK
+msgid "Pulling Changes"
+msgstr "Изтегляне на промени"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 289
+#: NEEDS WORK
+msgid "Pulling latest changes from remote repository..."
+msgstr "Изтегляне на последните промени от отдалечено хранилище..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 301
+#: NEEDS WORK
+msgid "Building Package"
+msgstr "Създаване на пакет"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 302
+#: NEEDS WORK
+#, python-brace-format
+msgid "Building {0} package..."
+msgstr "Създаване на пакет {0}..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 315
+#: NEEDS WORK
+msgid "Commit and Build"
+msgstr "Комитиране и изграждане"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 316
+#: NEEDS WORK
+#, python-brace-format
+msgid "Committing changes and building {0} package..."
+msgstr "Комитиране на промени и изграждане на {0} пакет..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 328
+#: NEEDS WORK
+msgid "Building AUR Package"
+msgstr "Създаване на AUR пакет"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 329
+#: NEEDS WORK
+#, python-brace-format
+msgid "Building AUR package: {0}"
+msgstr "Създаване на AUR пакет: {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 334
+#: NEEDS WORK
+#, python-brace-format
+msgid "Selected branch: {0}"
+msgstr "Избран клон: {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 345
+#: NEEDS WORK
+msgid "Creating Merge Request"
+msgstr "Създаване на заявка за сливане"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 346
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating merge request: {0} → {1}"
+msgstr "Създаване на заявка за сливане: {0} → {1}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 360
+#: NEEDS WORK
+msgid "Cleaning Up Branches"
+msgstr "Почистване на клонове"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 361
+#: NEEDS WORK
+msgid "Removing old development branches..."
+msgstr "Премахване на стари разработки..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 373
+#: NEEDS WORK
+msgid "Cleaning Up Actions"
+msgstr "Почистване на действия"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 374
+#: NEEDS WORK
+#, python-brace-format
+msgid "Removing {0} GitHub Actions..."
+msgstr "Премахване на {0} GitHub действия..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 386
+#: NEEDS WORK
+msgid "Cleaning Up Tags"
+msgstr "Почистване на тагове"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 387
+#: NEEDS WORK
+msgid "Removing all repository tags..."
+msgstr "Премахване на всички тагове на хранилището..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 399
+#: NEEDS WORK
+msgid "Reverting Commit"
+msgstr "Връщане на комит"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 400
+#: NEEDS WORK
+#, python-brace-format
+msgid "Reverting commit {0} using {1} method..."
+msgstr "Връщане на комит {0} с метода {1}..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 406
+#: NEEDS WORK
+msgid "Status refreshed"
+msgstr "Статус обновен"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 411
+#: NEEDS WORK
+msgid "Not in a Git repository"
+msgstr "Не е в Git хранилище"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 419
+#: NEEDS WORK
+msgid "Failed to pull changes"
+msgstr "Неуспешно изтегляне на промени"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 436
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 254
+#: NEEDS WORK
+#, python-brace-format
+msgid "Operation failed: {0}"
+msgstr "Операцията неуспешна: {0}"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/gtk_menu.py, line: 54
+# File: usr/share/build-package/gui/gtk_menu.py, line: 96
+# File: usr/share/build-package/gui/gtk_menu.py, line: 133
+# File: usr/share/build-package/gui/gtk_menu.py, line: 184
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 330
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 392
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 257
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 94
+#: NEEDS WORK
+msgid "Cancel"
+msgstr "Отмяна"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/gtk_menu.py, line: 97
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 331
+#: NEEDS WORK
+msgid "Confirm"
+msgstr "Потвърдете"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/gtk_menu.py, line: 134
+# File: usr/share/build-package/gui/gtk_menu.py, line: 185
+# File: usr/share/build-package/gui/gtk_logger.py, line: 128
+#: NEEDS WORK
+msgid "OK"
+msgstr "Добре"
+# 
+# File: usr/share/build-package/gui/gtk_menu.py, line: 242
+#: NEEDS WORK
+msgid "Please wait..."
+msgstr "Моля, изчакайте..."
+# 
+# File: usr/share/build-package/gui/gtk_logger.py, line: 91
+#: NEEDS WORK
+msgid "Build Package initialized successfully"
+msgstr "Пакетът за изграждане е инициализиран успешно"
+# 
+# File: usr/share/build-package/gui/gtk_logger.py, line: 107
+#: NEEDS WORK
+#, python-brace-format
+msgid "Summary: {0}"
+msgstr "Резюме: {0}"
+# 
+# File: usr/share/build-package/gui/gtk_logger.py, line: 125
+#: NEEDS WORK
+msgid "Fatal Error"
+msgstr "Фатална грешка"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 32
+#: NEEDS WORK
+msgid "Current branch"
+msgstr "Текуща клон"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 75
+#: NEEDS WORK
+msgid "Branch Management"
+msgstr "Управление на клонове"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 80
+#: NEEDS WORK
+msgid "Manage Git branches and merge operations"
+msgstr "Управление на Git клонове и операции по сливане"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 88
+#: NEEDS WORK
+msgid "Current Status"
+msgstr "Текущо състояние"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 91
+#: NEEDS WORK
+msgid "Active Branch"
+msgstr "Активен клон"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 95
+#: NEEDS WORK
+msgid "Most Recent Branch"
+msgstr "Най-нов клон"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 96
+#: NEEDS WORK
+msgid "Branch with latest commits"
+msgstr "Клон с последните комити"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 103
+#: NEEDS WORK
+msgid "Available Branches"
+msgstr "Налични клонове"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 122
+#: NEEDS WORK
+msgid "Merge Operations"
+msgstr "Обединяване на операции"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 127
+#: NEEDS WORK
+msgid "Branch to merge from"
+msgstr "Клон за сливане от"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 133
+#: NEEDS WORK
+msgid "Branch to merge into"
+msgstr "Клон за сливане в"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 139
+#: NEEDS WORK
+msgid "Automatically merge if no conflicts"
+msgstr "Автоматично обединявай, ако няма конфликти"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 151
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 189
+#: NEEDS WORK
+msgid "Refresh"
+msgstr "Обнови"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 152
+#: NEEDS WORK
+msgid "Refresh branch list"
+msgstr "Обнови списъка с клонове"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 158
+#: NEEDS WORK
+msgid "Cleanup Branches"
+msgstr "Почистване на клонове"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 159
+#: NEEDS WORK
+msgid "Remove old development branches"
+msgstr "Премахнете стари разработки на клонове"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 166
+#: NEEDS WORK
+msgid "Create Merge Request"
+msgstr "Създаване на заявка за сливане"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 87
+#: NEEDS WORK
+msgid "Advanced Operations"
+msgstr "Разширени операции"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 92
+#: NEEDS WORK
+msgid "Advanced Git operations and maintenance"
+msgstr "Разширени Git операции и поддръжка"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 100
+#: NEEDS WORK
+msgid "Warning: These operations can be destructive"
+msgstr "Внимание: Тези операции могат да бъдат разрушителни"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 106
+#: NEEDS WORK
+msgid "Cleanup Operations"
+msgstr "Операции по почистване"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 107
+#: NEEDS WORK
+msgid "Remove old branches, actions, and tags"
+msgstr "Премахнете стари клонове, действия и етикети"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 110
+#: NEEDS WORK
+msgid "Delete Old Branches"
+msgstr "Изтрийте стари клонове"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 110
+#: NEEDS WORK
+msgid "Remove development branches except main and latest"
+msgstr "Премахнете клоновете за разработка, с изключение на основния и последния."
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 112
+#: NEEDS WORK
+msgid "Delete Failed Actions"
+msgstr "Изтрийте неуспешни действия"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 112
+#: NEEDS WORK
+msgid "Remove failed GitHub Action jobs"
+msgstr "Премахнете неуспешните GitHub Action задачи"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 114
+#: NEEDS WORK
+msgid "Delete Successful Actions"
+msgstr "Изтриване на успешни действия"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 114
+#: NEEDS WORK
+msgid "Remove successful GitHub Action jobs"
+msgstr "Премахнете успешните GitHub Action задачи"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 116
+#: NEEDS WORK
+msgid "Delete All Tags"
+msgstr "Изтрий всички тагове"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 116
+#: NEEDS WORK
+msgid "Remove all repository tags"
+msgstr "Премахнете всички етикети на хранилището"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 134
+#: NEEDS WORK
+msgid "Commit History"
+msgstr "История на комитите"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 135
+#: NEEDS WORK
+msgid "View and revert recent commits"
+msgstr "Прегледайте и възстановете последните комити"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 151
+#: NEEDS WORK
+msgid "Revert Method"
+msgstr "Метод за възстановяване"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 152
+#: NEEDS WORK
+msgid "Choose how to undo the commit"
+msgstr "Изберете как да отмените комита"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 166
+#: NEEDS WORK
+msgid "Repository Statistics"
+msgstr "Статистика на хранилището"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 169
+#: NEEDS WORK
+msgid "Total Branches"
+msgstr "Общо клонове"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 173
+#: NEEDS WORK
+msgid "Commits in Current Branch"
+msgstr "Комити в текущия клон"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 177
+#: NEEDS WORK
+msgid "Repository Size"
+msgstr "Размер на хранилището"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 195
+#: NEEDS WORK
+msgid "Revert Selected"
+msgstr "Върни избраното"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 326
+#: NEEDS WORK
+msgid "Confirm Cleanup Operation"
+msgstr "Потвърдете операцията по почистване"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 327
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Are you sure you want to perform '{0}'?\n"
+"\n"
+"This operation cannot be undone."
+msgstr ""
+"Сигурни ли сте, че искате да извършите '{0}'?\n"
+"\n"
+"Тази операция не може да бъде отменена."
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 382
+#: NEEDS WORK
+msgid "revert"
+msgstr "върни обратно"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 382
+#: NEEDS WORK
+msgid "reset"
+msgstr "нулиране"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 386
+#: NEEDS WORK
+#, python-brace-format
+msgid "Confirm Commit {0}"
+msgstr "Потвърдете ангажимента {0}"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 387
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Are you sure you want to {0} this commit?\n"
+"\n"
+"{1}\n"
+"\n"
+"Commit: {2}"
+msgstr ""
+"Сигурни ли сте, че искате да {0} този комит?\n"
+"\n"
+"{1}\n"
+"\n"
+"Комит: {2}"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 69
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 140
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 162
+#: NEEDS WORK
+msgid "Commit and Push"
+msgstr "Комитиране и Изпращане"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 74
+#: NEEDS WORK
+msgid "Stage changes and push to your development branch"
+msgstr "Подгответе промените и ги изпратете към вашия клон за разработка"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 82
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 127
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 83
+#: NEEDS WORK
+msgid "Repository Status"
+msgstr "Статус на хранилището"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 85
+#: NEEDS WORK
+msgid "Working Directory"
+msgstr "Работна директория"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 89
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 138
+#: NEEDS WORK
+msgid "Current Branch"
+msgstr "Текуща клон"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 96
+#: NEEDS WORK
+msgid "Commit Type"
+msgstr "Тип на комита"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 97
+#: NEEDS WORK
+msgid "Select the type of changes you are committing"
+msgstr "Изберете типа на промените, които извършвате"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 116
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 129
+#: NEEDS WORK
+msgid "Commit Message"
+msgstr "Съобщение за комит"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 119
+#: NEEDS WORK
+msgid "Description"
+msgstr "Описание"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 133
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 164
+#: NEEDS WORK
+msgid "Pull Latest"
+msgstr "Изтегли последното"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 134
+#: NEEDS WORK
+msgid "Pull latest changes from remote"
+msgstr "Изтеглете последните промени от отдалеченото хранилище"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 156
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 204
+#: NEEDS WORK
+msgid "Uncommitted changes present"
+msgstr "Непотвърдени промени налични"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 160
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 209
+#: NEEDS WORK
+msgid "Working directory clean"
+msgstr "Работна директория чиста"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 184
+#: NEEDS WORK
+msgid "Custom message"
+msgstr "Персонализирано съобщение"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 187
+#: NEEDS WORK
+#, python-brace-format
+msgid "Description for {0}"
+msgstr "Описание за {0}"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 44
+#: NEEDS WORK
+msgid "AUR Package Builder"
+msgstr "AUR пакетен строител"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 49
+#: NEEDS WORK
+msgid "Build packages from Arch User Repository"
+msgstr "Създайте пакети от Arch User Repository"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 57
+#: NEEDS WORK
+msgid "AUR packages are built from community-maintained sources"
+msgstr "AUR пакетите се изграждат от източници, поддържани от общността."
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 58
+#: NEEDS WORK
+msgid "Learn More"
+msgstr "Научете повече"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 64
+#: NEEDS WORK
+msgid "Package Information"
+msgstr "Информация за пакета"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 65
+#: NEEDS WORK
+msgid "Enter the AUR package name to build"
+msgstr "Въведете името на AUR пакета за изграждане"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 68
+#: NEEDS WORK
+msgid "AUR Package Name"
+msgstr "Име на AUR пакет"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 76
+#: NEEDS WORK
+msgid "AUR URL"
+msgstr "AUR URL"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 85
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 137
+#: NEEDS WORK
+msgid "Build Options"
+msgstr "Опции за изграждане"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 88
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 140
+#: NEEDS WORK
+msgid "Enable TMATE Debug"
+msgstr "Активиране на TMATE отстраняване на грешки"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 89
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 141
+#: NEEDS WORK
+msgid "Enable terminal access for debugging build issues"
+msgstr "Активирайте достъпа до терминала за отстраняване на проблеми с компилацията"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 96
+#: NEEDS WORK
+msgid "Quick Access"
+msgstr "Бърз достъп"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 100
+#: NEEDS WORK
+msgid "AUR helper written in Go"
+msgstr "AUR помощник, написан на Go"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 101
+#: NEEDS WORK
+msgid "Visual Studio Code editor"
+msgstr "Visual Studio Code редактор"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 102
+#: NEEDS WORK
+msgid "Google Chrome browser"
+msgstr "Браузър Google Chrome"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 103
+#: NEEDS WORK
+msgid "Discord chat application"
+msgstr "Приложение за чат Discord"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 123
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 148
+#: NEEDS WORK
+msgid "Build Summary"
+msgstr "Резюме на изграждането"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 131
+#: NEEDS WORK
+msgid "Branch Timestamp"
+msgstr "Клон Времева маркировка"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 132
+#: NEEDS WORK
+msgid "Will be generated automatically"
+msgstr "Ще бъде генерирано автоматично"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 149
+#: NEEDS WORK
+msgid "Clear"
+msgstr "Изчисти"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 155
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 170
+#: NEEDS WORK
+msgid "Build AUR Package"
+msgstr "Създаване на AUR пакет"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 193
+#: NEEDS WORK
+msgid "Enter package name above"
+msgstr "Въведете името на пакета по-горе"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 251
+#: NEEDS WORK
+msgid "Confirm AUR Build"
+msgstr "Потвърдете AUR изграждане"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 252
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Build AUR package '{0}'?\n"
+"\n"
+"This will:\n"
+"• Create branch: {1}\n"
+"• Download from: https://aur.archlinux.org/{0}.git\n"
+"• Build package in BigCommunity infrastructure"
+msgstr ""
+"Създаване на AUR пакет '{0}'?\n"
+"\n"
+"Това ще:\n"
+"• Създаде клон: {1}\n"
+"• Изтегли от: https://aur.archlinux.org/{0}.git\n"
+"• Създаде пакет в инфраструктурата на BigCommunity"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 103
+#: NEEDS WORK
+#, python-brace-format
+msgid "Welcome to {0}"
+msgstr "Добре дошли в {0}"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 108
+#: NEEDS WORK
+#, python-brace-format
+msgid "Version {0}"
+msgstr "Версия {0}"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 137
+#: NEEDS WORK
+msgid "Repository"
+msgstr "Репозиториум"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 139
+#: NEEDS WORK
+msgid "Changes"
+msgstr "Промени"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 140
+#: NEEDS WORK
+msgid "Commits"
+msgstr "Комити"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 152
+#: NEEDS WORK
+msgid "Quick Actions"
+msgstr "Бързи действия"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 153
+#: NEEDS WORK
+msgid "Common operations for package development"
+msgstr "Общи операции за разработка на пакети"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 162
+#: NEEDS WORK
+msgid "Stage changes and push to development branch"
+msgstr "Подгответе промените и ги изпратете в клон за разработка"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 164
+#: NEEDS WORK
+msgid "Pull latest changes from remote repository"
+msgstr "Изтеглете последните промени от отдалеченото хранилище"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 166
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 225
+#: NEEDS WORK
+msgid "Build Testing Package"
+msgstr "Пакет за тестване на изграждане"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 166
+#: NEEDS WORK
+msgid "Build and deploy to testing repository"
+msgstr "Създаване и разгръщане в тестов репозиторий"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 168
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 226
+#: NEEDS WORK
+msgid "Build Stable Package"
+msgstr "Създаване на стабилен пакет"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 168
+#: NEEDS WORK
+msgid "Build and deploy to stable repository"
+msgstr "Създаване и разгръщане в стабилно хранилище"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 170
+#: NEEDS WORK
+msgid "Build package from Arch User Repository"
+msgstr "Създаване на пакет от Arch User Repository"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 183
+#: NEEDS WORK
+msgid "Recent Activity"
+msgstr "Наскоро дейности"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 186
+#: NEEDS WORK
+msgid "No recent activity"
+msgstr "Няма скорошна активност"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 187
+#: NEEDS WORK
+msgid "Activity will appear here after operations"
+msgstr "Дейността ще се появи тук след операциите."
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 194
+#: NEEDS WORK
+msgid "System Information"
+msgstr "Информация за системата"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 202
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 156
+#: NEEDS WORK
+msgid "Workflow Repository"
+msgstr "Работно протичане Репозиториум"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 207
+#: NEEDS WORK
+msgid "GitHub User"
+msgstr "Потребител на GitHub"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 220
+#: NEEDS WORK
+msgid "Refresh repository status and information"
+msgstr "Обнови статуса и информацията на хранилището"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 232
+#: NEEDS WORK
+#, python-brace-format
+msgid "Connected to repository: {0}"
+msgstr "Свързано с хранилище: {0}"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 235
+#: NEEDS WORK
+msgid "Git repository detected"
+msgstr "Открит Git хранилище"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 238
+#: NEEDS WORK
+msgid "Not in a Git repository - some features will be limited"
+msgstr "Не е в Git хранилище - някои функции ще бъдат ограничени"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 253
+#: NEEDS WORK
+msgid "Not a Git repo"
+msgstr "Не е Git хранилище"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 263
+#: NEEDS WORK
+msgid "Local repo"
+msgstr "Локално хранилище"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 274
+#: NEEDS WORK
+msgid "Modified"
+msgstr "Променен"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 277
+#: NEEDS WORK
+msgid "Clean"
+msgstr "Почисти"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 311
+#: NEEDS WORK
+msgid "Last commit"
+msgstr "Последно комитиране"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 75
+#: NEEDS WORK
+msgid "Build and deploy packages to repositories"
+msgstr "Създаване и разгръщане на пакети в хранилища"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 94
+#: NEEDS WORK
+msgid "Changes Status"
+msgstr "Промяна на статус"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 101
+#: NEEDS WORK
+msgid "Package Type"
+msgstr "Тип пакет"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 102
+#: NEEDS WORK
+msgid "Select the repository type for package deployment"
+msgstr "Изберете типа хранилище за разгръщане на пакета"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 111
+#: NEEDS WORK
+msgid "Testing Repository"
+msgstr "Тестова хранилище"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 111
+#: NEEDS WORK
+msgid "Deploy to testing repo for beta users"
+msgstr "Разгърни в тестовото хранилище за бета потребители"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 112
+#: NEEDS WORK
+msgid "Stable Repository"
+msgstr "Стабилно хранилище"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 112
+#: NEEDS WORK
+msgid "Deploy to stable repo for all users"
+msgstr "Разгърни в стабилно хранилище за всички потребители"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 113
+#: NEEDS WORK
+msgid "Extra Repository"
+msgstr "Допълнителен репозиторий"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 113
+#: NEEDS WORK
+msgid "Deploy to extra repo for additional packages"
+msgstr "Разгърни в допълнителен репозиторий за допълнителни пакети"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 125
+#: NEEDS WORK
+msgid "Commit Changes"
+msgstr "Запази промените"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 126
+#: NEEDS WORK
+msgid "Required when uncommitted changes are present"
+msgstr "Изисква се, когато има непотвърдени промени."
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 169
+#: NEEDS WORK
+msgid "Reset"
+msgstr "Нулиране"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 188
+#: NEEDS WORK
+msgid "Error: PKGBUILD not found"
+msgstr "Грешка: PKGBUILD не е намерен"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 227
+#: NEEDS WORK
+msgid "Build Extra Package"
+msgstr "Създаване на допълнителен пакет"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 295
+#: NEEDS WORK
+msgid "Testing"
+msgstr "Тестване"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 296
+#: NEEDS WORK
+msgid "Stable"
+msgstr "Стабилен"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 297
+#: NEEDS WORK
+msgid "Extra"
+msgstr "Допълнителен"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 309
+#: NEEDS WORK
+#, python-brace-format
+msgid "Ready to build {0} package '{1}' from branch '{2}'"
+msgstr "Готов за изграждане на {0} пакет '{1}' от клон '{2}'"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 57
+#: NEEDS WORK
+msgid "Preparing..."
+msgstr "Подготовка..."
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 65
+#: NEEDS WORK
+msgid "Details"
+msgstr "Детайли"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 263
+#: NEEDS WORK
+msgid "Operation cancelled"
+msgstr "Операцията е отменена"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 105
+#: NEEDS WORK
+msgid "Set the distribution name"
+msgstr "Задайте името на разпространението"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 109
+#: NEEDS WORK
+msgid "Set the edition (desktop environment)"
+msgstr "Настройте изданието (десктоп среда)"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 112
+#: NEEDS WORK
+msgid "Set the kernel type"
+msgstr "Настройте типа на ядрото"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 117
+#: NEEDS WORK
+msgid "Automatic mode using default values"
+msgstr "Автоматичен режим с използване на стойности по подразбиране"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 173
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose the GitHub {0}:"
+msgstr "Изберете GitHub {0}:"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 196
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose the {0}:"
+msgstr "Изберете {0}:"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 226
+#: NEEDS WORK
+msgid "Choose the ISO profiles repository:"
+msgstr "Изберете хранилището на ISO профили:"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 240
+#: NEEDS WORK
+msgid "No ISO profiles repository selected."
+msgstr "Не е избран репозиторий за ISO профили."
+# 
+# File: usr/share/build-iso/build_iso.py, line: 249
+# File: usr/share/build-iso/build_iso.py, line: 330
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error: Repository API URL not found: {0}"
+msgstr "Грешка: URL адреса на репозитория API не е намерена: {0}"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 252
+#: NEEDS WORK
+#, python-brace-format
+msgid "Fetching from API: {0}"
+msgstr "Извличане от API: {0}"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 258
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error: API request failed with status code {0}"
+msgstr "Грешка: Заявката към API не успя с код на статуса {0}"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 287
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose a {0} for {1}:"
+msgstr "Изберете {0} за {1}:"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 298
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error fetching build list: {0}"
+msgstr "Грешка при извличане на списъка с версии: {0}"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 310
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose a {0} for {1} (from defaults):"
+msgstr "Изберете {0} за {1} (от подразбирания):"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 323
+#: NEEDS WORK
+msgid "Repository and build directory must be selected first."
+msgstr "Репозиториумът и директорията за изграждане трябва да бъдат избрани първо."
+# 
+# File: usr/share/build-iso/build_iso.py, line: 366
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose an {0} for {1}:"
+msgstr "Изберете {0} за {1}:"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 377
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error fetching editions: {0}"
+msgstr "Грешка при извличане на издания: {0}"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 389
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose an {0} for {1} (from defaults):"
+msgstr "Изберете {0} за {1} (от подразбирания):"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 402
+# File: usr/share/build-iso/build_iso.py, line: 415
+# File: usr/share/build-iso/build_iso.py, line: 428
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose the {0} branch for {1}:"
+msgstr "Изберете клона {0} за {1}:"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 441
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose the {0} version:"
+msgstr "Изберете версията {0}:"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 473
+#: NEEDS WORK
+msgid "Distribution"
+msgstr "Разпространение"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 478
+#: NEEDS WORK
+msgid "ISO Profiles Repo"
+msgstr "ISO профили хранилище"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 479
+#: NEEDS WORK
+msgid "Build Dir"
+msgstr "Директория за изграждане"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 480
+#: NEEDS WORK
+msgid "Edition"
+msgstr "Издание"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 481
+#: NEEDS WORK
+msgid "Manjaro Branch"
+msgstr "Клон на Manjaro"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 482
+#: NEEDS WORK
+msgid "Community Branch"
+msgstr "Обществена клонка"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 483
+#: NEEDS WORK
+msgid "BigLinux Branch"
+msgstr "BigLinux Клон"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 484
+#: NEEDS WORK
+msgid "Kernel"
+msgstr "Ядро"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 485
+#: NEEDS WORK
+msgid "Release Tag"
+msgstr "Таг на версията"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 490
+#: NEEDS WORK
+msgid "ISO Build Summary"
+msgstr "ISO изграждане Резюме"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 493
+#: NEEDS WORK
+msgid "Do you want to proceed with building the ISO?"
+msgstr "Искате ли да продължите с изграждането на ISO?"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 494
+#: NEEDS WORK
+msgid "ISO build cancelled."
+msgstr "ISO изграждането е отменено."
+# 
+# File: usr/share/build-iso/build_iso.py, line: 483
+#: NEEDS WORK
+#, python-brace-format
+msgid "No default configuration found for organization '{0}'."
+msgstr "Не е намерена стандартна конфигурация за организация '{0}'."
+# 
+# File: usr/share/build-iso/build_iso.py, line: 614
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} (version {1})"
+msgstr "{0} (версия {1})"
+# 
+# File: usr/share/build-iso/github_api.py, line: 87
+#: NEEDS WORK
+msgid "Triggering ISO build workflow on GitHub..."
+msgstr "Стартиране на ISO билд работен процес в GitHub..."
+# 
+# File: usr/share/build-iso/github_api.py, line: 91
+#: NEEDS WORK
+#, python-brace-format
+msgid "Sending request to: {0}"
+msgstr "Изпращане на заявка до: {0}"
+# 
+# File: usr/share/build-iso/github_api.py, line: 100
+#: NEEDS WORK
+msgid "Error triggering workflow (code 422). Can't have more than 10 entries in the event."
+msgstr "Грешка при задействане на работен поток (код 422). Не може да има повече от 10 записа в събитието."
+# 
+# File: usr/share/build-iso/github_api.py, line: 107
+#: NEEDS WORK
+#, python-brace-format
+msgid "ISO build workflow triggered successfully for {0}."
+msgstr "ISO изграждане на работен процес успешно задействан за {0}."
+# 
+# File: usr/share/build-iso/github_api.py, line: 108
+#: NEEDS WORK
+msgid "Please check the 'Actions' tab on GitHub to monitor the build progress."
+msgstr "Моля, проверете раздела 'Действия' в GitHub, за да следите напредъка на изграждането."
+# 
+# File: usr/share/build-iso/github_api.py, line: 111
+#: NEEDS WORK
+msgid "TMATE session will be enabled. Watch the GitHub Actions logs for connection information."
+msgstr "TMATE сесията ще бъде активирана. Следете логовете на GitHub Actions за информация за връзката."
+# 
+# File: usr/share/build-iso/github_api.py, line: 113
+#: NEEDS WORK
+msgid "Waiting 3 seconds for the API to trigger the Action to get the 'id'."
+msgstr "Изчакване 3 секунди за API-то да задейства действието за получаване на 'id'."
+# 
+# File: usr/share/build-iso/config.py, line: 96
+#: NEEDS WORK
+msgid "BUILD ISO"
+msgstr "Създаване на ISO"
+# 
+# File: usr/share/build-iso/config.py, line: 97
+#: NEEDS WORK
+msgid ""
+"Wrapper for ISO building using GitHub Actions. Streamlines the process of creating custom Linux "
+"distribution ISO images through automation."
+msgstr ""
+"Обвивка за изграждане на ISO с помощта на GitHub Actions. Оптимизира процеса на създаване на "
+"персонализирани ISO изображения на Linux дистрибуции чрез автоматизация."
