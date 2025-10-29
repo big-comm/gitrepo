@@ -8,9 +8,9 @@ import os
 import re
 import subprocess
 import requests
-from config import TOKEN_FILE
+from .config import TOKEN_FILE
 from datetime import datetime
-from translation_utils import _
+from .translation_utils import _
 
 class GitUtils:
     """Utilities for Git repository operations"""

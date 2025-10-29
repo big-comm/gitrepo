@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# translation_utils.py - Utilities for translation support
+# core/translation_utils.py - Utilities for translation support
 #
 import gettext
 

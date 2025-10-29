@@ -1,0 +1,145 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+# gui/gtk_logger.py - GTK Logger implementation for GUI interface
+#
+
+import os
+import sys
+from datetime import datetime
+
+from core.translation_utils import _
+from core.config import APP_NAME, APP_DESC, LOG_DIR_BASE
+
+class GTKLogger:
+    """Logger implementation for GTK4 GUI interface"""
+    
+    def __init__(self, main_window):
+        self.main_window = main_window
+        self.log_file = None
+        self.use_colors = True  # GUI always supports "colors" via styling
+        
+    def setup_log_file(self, get_repo_name_func):
+        """Sets up the log file"""
+        repo_name = get_repo_name_func()
+        if repo_name:
+            log_dir = os.path.join(LOG_DIR_BASE, repo_name)
+            os.makedirs(log_dir, exist_ok=True)
+            self.log_file = os.path.join(log_dir, f"{APP_NAME}.log")
+    
+    def log(self, style: str, message: str):
+        """Displays message in GUI and saves to log"""
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        
+        # Map styles to toast types and terminal output
+        style_map = {
+            "cyan": "info",
+            "blue_dark": "info", 
+            "medium_blue": "info",
+            "light_blue": "info",
+            "white": "info",
+            "red": "error",
+            "yellow": "warning",
+            "green": "success",
+            "orange": "warning",
+            "purple": "info",
+            "black": "info",
+            "bold": "info"
+        }
+        
+        toast_type = style_map.get(style, "info")
+        
+        # Show message in GUI
+        if toast_type == "error":
+            self.main_window.show_error_toast(message)
+        elif toast_type == "warning":
+            self.main_window.show_info_toast(message)  # Use info toast with warning styling
+        elif toast_type == "success":
+            self.main_window.show_toast(message)
+        else:
+            self.main_window.show_info_toast(message)
+        
+        # Also print to console for debugging
+        print(f"[{style.upper()}] {message}")
+        
+        # Save to log file (without colors)
+        if self.log_file:
+            with open(self.log_file, 'a') as f:
+                f.write(f"[{timestamp}] [{style.upper()}] {message}\n")
+    
+    def die(self, style: str, message: str, exit_code: int = 1):
+        """Displays error message in GUI and exits"""
+        error_msg = f"{_('ERROR')}: {message}"
+        self.main_window.show_error_toast(error_msg)
+        
+        # Also show in console for debugging
+        print(f"[FATAL] {error_msg}")
+        
+        # For GUI, we might want to show a modal dialog instead of exiting immediately
+        self._show_fatal_error_dialog(error_msg, exit_code)
+    
+    def draw_app_header(self):
+        """For GUI, this updates the window title instead of drawing terminal header"""
+        # Set window title and subtitle
+        self.main_window.set_title(APP_NAME)
+        
+        # Could also update a status or info bar if present
+        if hasattr(self.main_window, 'window_title'):
+            self.main_window.window_title.set_subtitle(APP_DESC)
+        
+        # Show a welcome toast
+        self.main_window.show_toast(_("Build Package initialized successfully"))
+    
+    def display_summary(self, title: str, data: list):
+        """Display summary information in GUI format"""
+        # For now, show as info toast with title
+        # Later this could be a proper dialog or info panel
+        summary_text = f"{title}:\n"
+        for key, value in data:
+            summary_text += f"• {key}: {value}\n"
+        
+        # Show in console for now (later could be a proper dialog)
+        print(f"=== {title} ===")
+        for key, value in data:
+            print(f"{key}: {value}")
+        
+        # Show notification
+        self.main_window.show_info_toast(_("Summary: {0}").format(title))
+    
+    def format_branch_name(self, branch_name: str) -> str:
+        """Format branch names for display (GUI doesn't need markup)"""
+        # Return plain text since GUI will handle styling differently
+        return branch_name
+    
+    def _show_fatal_error_dialog(self, message: str, exit_code: int):
+        """Show fatal error dialog and handle application exit"""
+        try:
+            import gi
+            gi.require_version('Gtk', '4.0')
+            gi.require_version('Adw', '1')
+            from gi.repository import Gtk, Adw
+            
+            # Create error dialog
+            dialog = Adw.MessageDialog.new(
+                self.main_window,
+                _("Fatal Error"),
+                message
+            )
+            dialog.add_response("ok", _("OK"))
+            dialog.set_response_appearance("ok", Adw.ResponseAppearance.DESTRUCTIVE)
+            dialog.set_default_response("ok")
+            
+            def on_response(dialog, response):
+                if response == "ok":
+                    dialog.close()
+                    # Exit application
+                    self.main_window.get_application().quit()
+            
+            dialog.connect("response", on_response)
+            dialog.present()
+            
+        except Exception as e:
+            # Fallback to console exit if dialog fails
+            print(f"Dialog error: {e}")
+            print(f"Fatal error: {message}")
+            sys.exit(exit_code)
