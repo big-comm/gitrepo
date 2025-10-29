@@ -5,6 +5,7 @@
 
 import sys
 import os
+import re
 import argparse
 import subprocess
 from rich.console import Console
@@ -29,6 +30,9 @@ class BuildPackage:
         self.organization = self.args.organization or DEFAULT_ORGANIZATION
         self.repo_workflow = f"{self.organization}/build-package"
         self.console = Console()  # Add console object for colorful prompts
+        self.last_commit_type = None
+        self._app_version_cache = None
+        self._app_version_warning_shown = False
         
         # Check if it's a Git repository
         self.is_git_repo = GitUtils.is_git_repo()
@@ -307,6 +311,7 @@ the specific source code used to create this copy."""), style="white")
         emoji, commit_type = self.show_commit_type_menu()
         
         if emoji is None or commit_type is None:
+            self.last_commit_type = None
             return None
         
         # Step 2: Get commit description
@@ -318,8 +323,10 @@ the specific source code used to create this copy."""), style="white")
             description = input()
             
             if not description:
+                self.last_commit_type = None
                 return None
             
+            self.last_commit_type = None
             return description
         else:
             # For conventional commits, get description
@@ -329,13 +336,186 @@ the specific source code used to create this copy."""), style="white")
             description = input()
             
             if not description:
+                self.last_commit_type = None
                 return None
             
+            self.last_commit_type = commit_type
             return f"{emoji} {commit_type}: {description}"
 
     def custom_commit_prompt(self):
         """Gets commit message from user with type selection"""
         return self.get_commit_message_with_type()
+
+    def _extract_commit_metadata(self, commit_message, explicit_type=None):
+        """Extracts commit type and breaking change info from message"""
+        commit_type = explicit_type if explicit_type not in (None, "custom") else None
+        breaking_change = False
+        message = (commit_message or "").strip()
+        
+        if message:
+            first_line = message.splitlines()[0].strip()
+            # Remove leading emojis/symbols before analysing the commit header
+            cleaned_header = re.sub(r'^[^\w]+', '', first_line)
+            match = re.match(r'(?P<type>[a-zA-Z]+)(?:\([^\)]*\))?(?P<breaking>!?):', cleaned_header)
+            if match:
+                if not commit_type:
+                    commit_type = match.group('type').lower()
+                if match.group('breaking'):
+                    breaking_change = True
+            if not breaking_change and "BREAKING CHANGE" in message.upper():
+                breaking_change = True
+        
+        return commit_type.lower() if commit_type else None, breaking_change
+
+    def _infer_bump_level(self, commit_type, breaking_change):
+        """Maps commit metadata to semantic version bump level"""
+        if breaking_change:
+            return "major"
+        
+        if not commit_type:
+            return None
+        
+        commit_type = commit_type.lower()
+        if commit_type == "feat":
+            return "minor"
+        
+        patch_types = {"fix", "perf", "docs", "style", "refactor", "test", "build", "ci", "chore"}
+        if commit_type in patch_types:
+            return "patch"
+        
+        return None
+
+    def _locate_app_version_entry(self):
+        """Finds the file and match object for APP_VERSION assignment"""
+        pattern = re.compile(r'(APP_VERSION\s*=\s*)(["\'])(\d+\.\d+\.\d+)(["\'])')
+        repo_path = self.repo_path or GitUtils.get_repo_root_path()
+        
+        # Try cached path first
+        if self._app_version_cache:
+            try:
+                with open(self._app_version_cache, 'r', encoding='utf-8') as cached_file:
+                    cached_content = cached_file.read()
+                cached_match = pattern.search(cached_content)
+                if cached_match:
+                    return self._app_version_cache, cached_content, cached_match
+            except (OSError, UnicodeDecodeError):
+                self._app_version_cache = None
+        
+        if not repo_path or not os.path.isdir(repo_path):
+            return None, None, None
+        
+        ignore_dirs = {
+            '.git', '__pycache__', 'node_modules', 'vendor', 'venv', '.venv', 'env',
+            'build', 'dist', '.idea', '.vscode'
+        }
+        allowed_extensions = {
+            "", ".py", ".cfg", ".conf", ".ini", ".json", ".toml", ".yaml", ".yml",
+            ".txt", ".sh", ".bash", ".zsh", ".fish"
+        }
+        
+        for root, dirs, files in os.walk(repo_path):
+            dirs[:] = [d for d in dirs if d not in ignore_dirs]
+            dirs.sort()
+            for filename in sorted(files):
+                ext = os.path.splitext(filename)[1].lower()
+                if ext not in allowed_extensions:
+                    continue
+                
+                file_path = os.path.join(root, filename)
+                
+                try:
+                    if os.path.getsize(file_path) > 1_000_000:  # Skip files larger than ~1MB
+                        continue
+                except OSError:
+                    continue
+                
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as file_handle:
+                        content = file_handle.read()
+                except (OSError, UnicodeDecodeError):
+                    continue
+                
+                for match in pattern.finditer(content):
+                    line_start = content.rfind('\n', 0, match.start()) + 1
+                    line_prefix = content[line_start:match.start()]
+                    stripped_prefix = line_prefix.strip()
+                    
+                    if stripped_prefix.startswith(("#", "//", ";", "/*")):
+                        continue
+                    
+                    prefix_no_trailing = line_prefix.rstrip()
+                    if prefix_no_trailing and prefix_no_trailing[-1] in ("'", '"'):
+                        continue
+                    
+                    self._app_version_cache = file_path
+                    return file_path, content, match
+        
+        return None, None, None
+
+    def _bump_semver(self, current_version, bump_level):
+        """Returns bumped semantic version string"""
+        try:
+            major, minor, patch = [int(part) for part in current_version.split('.')]
+        except (ValueError, AttributeError):
+            return current_version
+        
+        if bump_level == "major":
+            major += 1
+            minor = 0
+            patch = 0
+        elif bump_level == "minor":
+            minor += 1
+            patch = 0
+        else:  # patch
+            patch += 1
+        
+        return f"{major}.{minor}.{patch}"
+
+    def apply_auto_version_bump(self, commit_message, explicit_type=None):
+        """Automatically bumps APP_VERSION based on commit metadata"""
+        commit_type, breaking_change = self._extract_commit_metadata(commit_message, explicit_type)
+        bump_level = self._infer_bump_level(commit_type, breaking_change)
+        
+        if not bump_level:
+            return None
+        
+        file_path, content, match = self._locate_app_version_entry()
+        if not file_path or not match:
+            if not self._app_version_warning_shown and self.logger:
+                self.logger.log("yellow", _("APP_VERSION constant not found. Skipping automatic version bump."))
+                self._app_version_warning_shown = True
+            return None
+        
+        current_version = match.group(3)
+        new_version = self._bump_semver(current_version, bump_level)
+        
+        if current_version == new_version:
+            return None
+        
+        new_assignment = f"{match.group(1)}{match.group(2)}{new_version}{match.group(4)}"
+        updated_content = content[:match.start()] + new_assignment + content[match.end():]
+        
+        try:
+            with open(file_path, 'w', encoding='utf-8') as file_handle:
+                file_handle.write(updated_content)
+        except OSError as exc:
+            if self.logger:
+                self.logger.log(
+                    "yellow",
+                    _("Could not update APP_VERSION ({0}). Reason: {1}").format(file_path, exc)
+                )
+            return None
+        
+        relative_path = os.path.relpath(file_path, self.repo_path or GitUtils.get_repo_root_path())
+        if self.logger:
+            self.logger.log(
+                "green",
+                _("APP_VERSION bumped from {0} to {1} ({2} bump) in {3}").format(
+                    current_version, new_version, bump_level, relative_path
+                )
+            )
+        
+        return new_version
     
     def commit_and_push(self):
         """Performs commit on user's own dev branch with proper isolation"""
@@ -519,6 +699,7 @@ the specific source code used to create this copy."""), style="white")
             self.logger.log("cyan", _("Local changes detected - skipping automatic pull to avoid conflicts."))
 
         # Handle commit message based on if we have changes and args
+        self.last_commit_type = None
         if self.args.commit:
             # User already provided commit message via argument
             commit_message = self.args.commit
@@ -532,6 +713,9 @@ the specific source code used to create this copy."""), style="white")
             # No changes to commit
             self.menu.show_menu(_("No Changes to Commit\n"), [_("Press Enter to return to main menu")])
             return True
+        
+        if has_changes and commit_message:
+            self.apply_auto_version_bump(commit_message, self.last_commit_type)
         
         # Add and commit changes to user's dev branch
         try:
@@ -1079,6 +1263,7 @@ the specific source code used to create this copy."""), style="white")
         has_changes = GitUtils.has_changes()
 
         # Handle commit message
+        self.last_commit_type = None
         if self.args.commit:
             commit_message = self.args.commit
         elif has_changes:
@@ -1093,6 +1278,9 @@ the specific source code used to create this copy."""), style="white")
         if has_changes and not commit_message:
             self.logger.die("red", _("When using the '-b|--build' parameter and there are changes, the '-c|--commit' parameter is also required."))
             return False
+
+        if has_changes and commit_message:
+            self.apply_auto_version_bump(commit_message, self.last_commit_type)
 
         # Different flows based on the package type
         if branch_type == "testing":
