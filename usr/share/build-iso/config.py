@@ -50,21 +50,24 @@ LOG_DIR_BASE = "/tmp/build-iso"
 ISO_PROFILES = [
     "https://github.com/big-comm/iso-profiles",
     "https://github.com/biglinux/iso-profiles",
-    "https://github.com/leoberbert/iso-profiles"
+    "https://github.com/leoberbert/iso-profiles",
+    "https://github.com/narayanls/iso-profiles"
 ]
 
 # Default ISO profiles by organization
 DEFAULT_ISO_PROFILES = {
     "big-comm": "https://github.com/big-comm/iso-profiles",
     "biglinux": "https://github.com/biglinux/iso-profiles",
-    "leoberbert": "https://github.com/leoberbert/iso-profiles"
+    "leoberbert": "https://github.com/leoberbert/iso-profiles",
+    "narayanls": "https://github.com/narayanls/iso-profiles"
 }
 
 # API URLs for repositories
 API_PROFILES = {
     "https://github.com/big-comm/iso-profiles": "https://api.github.com/repos/big-comm/iso-profiles/contents/",
     "https://github.com/biglinux/iso-profiles": "https://api.github.com/repos/biglinux/iso-profiles/contents/",
-    "https://github.com/leoberbert/iso-profiles": "https://api.github.com/repos/leoberbert/iso-profiles/contents/"
+    "https://github.com/leoberbert/iso-profiles": "https://api.github.com/repos/leoberbert/iso-profiles/contents/",
+    "https://github.com/narayanls/iso-profiles": "https://api.github.com/repos/narayanls/iso-profiles/contents/"
 }
 
 # Organization mapping
@@ -155,7 +158,7 @@ ORG_DEFAULT_CONFIGS = {
     
     "narayanls": {
         "distroname": "bigcommunity",  # narayanls builds BigLinux
-        "iso_profiles_repo": "https://github.com/big-comm/iso-profiles",
+        "iso_profiles_repo": "https://github.com/narayanls/iso-profiles",
         "branches": {
             "manjaro": "stable",
             "community": "stable",
@@ -163,7 +166,7 @@ ORG_DEFAULT_CONFIGS = {
         },
         "kernel": "latest",
         "build_dir": "bigcommunity",
-        "edition": "cinnamon"
+        "edition": "gnome"
     }
     
     # =======================================================================================
@@ -184,6 +187,6 @@ ORG_DEFAULT_CONFIGS = {
 }
 
 # Script version
-VERSION = "3.0.5"
+VERSION = "3.0.6"
 APP_NAME = _("BUILD ISO")
 APP_DESC = _("Wrapper for ISO building using GitHub Actions. Streamlines the process of creating custom Linux distribution ISO images through automation.")
