@@ -59,6 +59,17 @@ msgstr "Назад"
 msgid "Use [white]arrow keys ↑↓[/] to navigate, [white]Enter[/] to select, [white]ESC[/] to exit"
 msgstr "Используйте [белый]стрелки ↑↓[/] для навигации, [белый]Enter[/] для выбора, [белый]ESC[/] для выхода"
 # 
+# File: usr/share/build-package/core/build_package.py, line: 58
+#: NEEDS WORK
+#, python-brace-format
+msgid "Operation mode set to: {0}"
+msgstr "Режим работы установлен на: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 64
+#: NEEDS WORK
+msgid "🔍 DRY-RUN MODE: No operations will be executed"
+msgstr "🔍 РЕЖИМ ПРОБНОГО ЗАПУСКА: Операции не будут выполнены"
+# 
 # File: usr/share/build-package/build_package.py, line: 74
 #: NEEDS WORK
 #, python-brace-format
@@ -147,6 +158,16 @@ msgstr "Собрать пакет разработки"
 #: NEEDS WORK
 msgid "Configure GitHub organization (default: big-comm)"
 msgstr "Настроить организацию GitHub (по умолчанию: big-comm)"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 260
+#: NEEDS WORK
+msgid "Operation mode: safe (default), quick (fast), expert (max automation)"
+msgstr "Режим работы: безопасный (по умолчанию), быстрый (быстро), экспертный (максимальная автоматизация)"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 263
+#: NEEDS WORK
+msgid "Simulate operations without executing"
+msgstr "Симулировать операции без выполнения"
 # 
 # File: usr/share/build-package/build_package.py, line: 128
 #: NEEDS WORK
@@ -1087,20 +1108,22 @@ msgstr "Новая ветка"
 msgid "AUR - Summary of Choices"
 msgstr "AUR - Сводка Выборов"
 # 
-# File: usr/share/build-package/build_package.py, line: 535
-#: NEEDS WORK
-msgid "Commit and push"
-msgstr "Коммит и пуш"
-# 
-# File: usr/share/build-package/build_package.py, line: 829
-#: NEEDS WORK
-msgid "Pull latest"
-msgstr "Получить последние изменения"
-# 
 # File: usr/share/build-package/build_package.py, line: 536
 #: NEEDS WORK
 msgid "Generate package (commit + branch + build)"
 msgstr "Сгенерировать пакет (коммит + ветка + сборка)"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1552
+# File: usr/share/build-package/core/build_package.py, line: 1559
+# File: usr/share/build-package/core/settings_menu.py, line: 40
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 29
+#: NEEDS WORK
+msgid "Settings"
+msgstr "Настройки"
 # 
 # File: usr/share/build-package/build_package.py, line: 538
 #: NEEDS WORK
@@ -1112,13 +1135,15 @@ msgstr "Расширенное меню"
 msgid "Main Menu"
 msgstr "Главное меню"
 # 
-# File: usr/share/build-package/build_package.py, line: 175
-# File: usr/share/build-package/build_package.py, line: 353
-# File: usr/share/build-package/build_package.py, line: 563
-# File: usr/share/build-package/build_package.py, line: 588
+# File: usr/share/build-package/core/build_package.py, line: 1582
 #: NEEDS WORK
-msgid "Failed to pull changes. Do you want to continue anyway?"
-msgstr "Не удалось получить изменения. Вы хотите продолжить в любом случае?"
+msgid "Pull completed"
+msgstr "Загрузка завершена"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1582
+#: NEEDS WORK
+msgid "Press Enter to continue"
+msgstr "Нажмите Enter, чтобы продолжить"
 # 
 # File: usr/share/build-package/build_package.py, line: 579
 #: NEEDS WORK
@@ -1147,11 +1172,6 @@ msgstr "Нет"
 #: NEEDS WORK
 msgid "Yes"
 msgstr "Да"
-# 
-# File: usr/share/build-package/build_package.py, line: 608
-#: NEEDS WORK
-msgid "No changes to commit, proceeding with package generation."
-msgstr "Нет изменений для коммита, продолжаем с генерацией пакета."
 # 
 # File: usr/share/build-package/build_package.py, line: 654
 #: NEEDS WORK
@@ -2583,6 +2603,335 @@ msgstr "Требуется ручное слияние"
 msgid "PULL REQUEST COMPLETED"
 msgstr "ПУЛЛ-ЗАПРОС ЗАВЕРШЕН"
 # 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 44
+# File: usr/share/build-package/core/pull_operations.py, line: 44
+#: NEEDS WORK
+msgid "Analyzing repository state..."
+msgstr "Анализ состояния репозитория..."
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 53
+# File: usr/share/build-package/core/pull_operations.py, line: 52
+#: NEEDS WORK
+#, python-brace-format
+msgid "Your branch: {0}"
+msgstr "Ваша ветка: {0}"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 54
+#: NEEDS WORK
+#, python-brace-format
+msgid "Changes: {0}"
+msgstr "Изменения: {0}"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 58
+#: NEEDS WORK
+msgid "⚠️  Conflicts detected!"
+msgstr "⚠️  Обнаружены конфликты!"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 61
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-resolving conflicts ({0} mode)..."
+msgstr "Авторазрешение конфликтов ({0} режим)..."
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 63
+#: NEEDS WORK
+msgid "Failed to resolve conflicts. Please fix manually."
+msgstr "Не удалось разрешить конфликты. Пожалуйста, исправьте вручную."
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 66
+#: NEEDS WORK
+msgid "Conflict resolution required."
+msgstr "Требуется разрешение конфликта."
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 74
+# File: usr/share/build-package/core/pull_operations.py, line: 58
+#: NEEDS WORK
+msgid "Auto-switching to your branch..."
+msgstr "Автоматическое переключение на вашу ветку..."
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 78
+#: NEEDS WORK
+msgid "Stash changes before switching"
+msgstr "Сохранить изменения перед переключением"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 84
+# File: usr/share/build-package/core/pull_operations.py, line: 68
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switch to your branch: {0}"
+msgstr "Переключиться на вашу ветку: {0}"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 103
+# File: usr/share/build-package/core/pull_operations.py, line: 117
+#: NEEDS WORK
+msgid "⚠️  Conflicts while restoring changes"
+msgstr "⚠️  Конфликты при восстановлении изменений"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 105
+#: NEEDS WORK
+msgid "Failed to resolve conflicts"
+msgstr "Не удалось разрешить конфликты"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 107
+#: NEEDS WORK
+msgid "Failed to restore stashed changes"
+msgstr "Не удалось восстановить сохранённые изменения"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 110
+#: NEEDS WORK
+msgid "Restore stashed changes"
+msgstr "Восстановить сохранённые изменения"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 118
+#: NEEDS WORK
+#, python-brace-format
+msgid "You're in {0}, but should commit to {1}"
+msgstr "Вы находитесь в {0}, но должны зафиксировать изменения в {1}"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 123
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switch to my branch ({0})"
+msgstr "Переключиться на мою ветку ({0})"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 124
+#: NEEDS WORK
+#, python-brace-format
+msgid "Continue in current branch ({0})"
+msgstr "Продолжить в текущей ветке ({0})"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/gtk_menu.py, line: 54
+# File: usr/share/build-package/gui/gtk_menu.py, line: 96
+# File: usr/share/build-package/gui/gtk_menu.py, line: 133
+# File: usr/share/build-package/gui/gtk_menu.py, line: 184
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 330
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 392
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 257
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 94
+#: NEEDS WORK
+msgid "Cancel"
+msgstr "Отмена"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 263
+#: NEEDS WORK
+msgid "Operation cancelled"
+msgstr "Операция отменена"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 136
+#: NEEDS WORK
+msgid "Stashing changes before switching branches..."
+msgstr "Сохранение изменений перед переключением веток..."
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 144
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to stash changes: {0}"
+msgstr "Не удалось сохранить изменения: {0}"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 153
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to switch branches: {0}"
+msgstr "Не удалось переключить ветки: {0}"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 171
+#: NEEDS WORK
+msgid "⚠️  Conflicts detected while restoring changes"
+msgstr "⚠️  Обнаружены конфликты при восстановлении изменений"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 175
+#: NEEDS WORK
+msgid "Attempting to resolve conflicts..."
+msgstr "Попытка разрешить конфликты..."
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 178
+#: NEEDS WORK
+msgid "✗ Could not resolve conflicts automatically"
+msgstr "✗ Не удалось автоматически разрешить конфликты"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 179
+#: NEEDS WORK
+msgid "Please resolve conflicts manually and run again"
+msgstr "Пожалуйста, разрешите конфликты вручную и запустите снова."
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 182
+#: NEEDS WORK
+msgid "Could not restore changes. Check 'git stash list'"
+msgstr "Не удалось восстановить изменения. Проверьте 'git stash list'"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 185
+#: NEEDS WORK
+msgid "✓ Changes restored successfully"
+msgstr "✓ Изменения успешно восстановлены"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 193
+#: NEEDS WORK
+msgid "Fetch latest from remote"
+msgstr "Получить последние данные с удаленного сервера"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 218
+#: NEEDS WORK
+#, python-brace-format
+msgid "Your branch is {0} commits behind remote"
+msgstr "Ваша ветка отстает на {0} коммитов от удаленного репозитория"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 233
+#: NEEDS WORK
+msgid "No changes to commit"
+msgstr "Нет изменений для коммита"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 254
+#: NEEDS WORK
+msgid "✗ Unresolved conflicts detected!"
+msgstr "✗ Обнаружены неразрешенные конфликты!"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 255
+#: NEEDS WORK
+msgid "Cannot commit with conflict markers in files"
+msgstr "Невозможно выполнить коммит с маркерами конфликтов в файлах"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 258
+# File: usr/share/build-package/core/pull_operations.py, line: 190
+#: NEEDS WORK
+msgid "✗ Failed to resolve conflicts"
+msgstr "✗ Не удалось разрешить конфликты"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 259
+#: NEEDS WORK
+msgid "Please resolve manually:"
+msgstr "Пожалуйста, разрешите вручную:"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 260
+#: NEEDS WORK
+msgid "1. Edit conflicted files"
+msgstr "1. Редактировать конфликтующие файлы"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 261
+#: NEEDS WORK
+msgid "2. Remove <<<<<<, =======, >>>>>>> markers"
+msgstr "2. Удалите маркеры <<<<<<, =======, >>>>>>>"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 262
+#: NEEDS WORK
+msgid "3. Run 'git add <file>'"
+msgstr "3. Выполните 'git add <file>'"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 263
+#: NEEDS WORK
+msgid "4. Run this command again"
+msgstr "4. Запустите эту команду снова"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 266
+#: NEEDS WORK
+msgid "✓ Conflicts resolved, continuing..."
+msgstr "✓ Конфликты разрешены, продолжаем..."
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 270
+#: NEEDS WORK
+msgid "Stage all changes"
+msgstr "Подготовить все изменения"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 276
+#: NEEDS WORK
+#, python-brace-format
+msgid "Commit: {0}"
+msgstr "Коммит: {0}"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 291
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Successfully committed and pushed to {0}!"
+msgstr "✓ Успешно зафиксировано и отправлено в {0}!"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 329
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error ensuring branch exists: {0}"
+msgstr "Ошибка при обеспечении существования ветки: {0}"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 40
+#: NEEDS WORK
+#, python-brace-format
+msgid "✗ Failed: {0}"
+msgstr "✗ Не удалось: {0}"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 56
+#: NEEDS WORK
+#, python-brace-format
+msgid "✗ Command failed: {0}"
+msgstr "✗ Команда не выполнена: {0}"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 107
+#: NEEDS WORK
+msgid "No operations planned"
+msgstr "Нет запланированных операций"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 112
+#: NEEDS WORK
+msgid "OPERATION PLAN"
+msgstr "ПЛАН ОПЕРАЦИЙ"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 139
+#: NEEDS WORK
+#, python-brace-format
+msgid "⚠️  {0} destructive operation(s) out of {1} total"
+msgstr "⚠️  {0} разрушительная операция(ий) из {1} всего"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 141
+#: NEEDS WORK
+#, python-brace-format
+msgid "ℹ️  {0} safe operation(s)"
+msgstr "ℹ️  {0} безопасная операция(и)"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 154
+#: NEEDS WORK
+msgid "⚠️  Proceed with these operations? (includes destructive actions)"
+msgstr "⚠️  Продолжить выполнение этих операций? (включает разрушительные действия)"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 156
+#: NEEDS WORK
+msgid "Proceed with these operations?"
+msgstr "Продолжить с этими операциями?"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 187
+#: NEEDS WORK
+#, python-brace-format
+msgid "Executing {0} operation(s)..."
+msgstr "Выполнение {0} операции(й)..."
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 197
+#: NEEDS WORK
+msgid "✗ Operation failed. Stopping execution."
+msgstr "✗ Операция не удалась. Остановка выполнения."
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 201
+#: NEEDS WORK
+msgid "✓ Completed"
+msgstr "✓ Завершено"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 209
+#: NEEDS WORK
+msgid "Operation cancelled by user"
+msgstr "Операция отменена пользователем"
+# 
 # File: usr/share/build-package/config.py, line: 46
 #: NEEDS WORK
 msgid "BUILD PACKAGE"
@@ -2597,6 +2946,576 @@ msgstr ""
 "Комплексный инструмент для сборки, тестирования и развертывания пакетов. Упрощает операции с Git, "
 "автоматизирует сборки и управляет рабочими процессами пакетов для репозиториев BigCommunity и "
 "пакетов AUR."
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 62
+# File: usr/share/build-package/core/package_operations.py, line: 64
+# File: usr/share/build-package/core/package_operations.py, line: 88
+# File: usr/share/build-package/core/package_operations.py, line: 90
+# File: usr/share/build-package/core/package_operations.py, line: 117
+# File: usr/share/build-package/core/package_operations.py, line: 119
+# File: usr/share/build-package/core/package_operations.py, line: 130
+# File: usr/share/build-package/core/package_operations.py, line: 132
+#: NEEDS WORK
+msgid "═"
+msgstr "═"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 63
+#: NEEDS WORK
+msgid "STEP 1: Commit Changes"
+msgstr "ШАГ 1: Зафиксировать изменения"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 68
+#: NEEDS WORK
+msgid "✗ Commit failed, cannot proceed with package generation"
+msgstr "✗ Ошибка коммита, невозможно продолжить генерацию пакета"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 71
+#: NEEDS WORK
+msgid "✓ Commit completed successfully"
+msgstr "✓ Коммит успешно завершен"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 73
+#: NEEDS WORK
+msgid "No changes to commit, proceeding with package generation"
+msgstr "Нет изменений для коммита, продолжаем с генерацией пакета"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 89
+#: NEEDS WORK
+msgid "STEP 2: Merge to Main"
+msgstr "ШАГ 2: Слияние с основной веткой"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 93
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-merging {0} to main..."
+msgstr "Автоматическое слияние {0} в основную ветку..."
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 95
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merge {0} to main for {1} package?"
+msgstr "Слить {0} в основную ветку для пакета {1}?"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 96
+#: NEEDS WORK
+msgid "Cancelled merge to main"
+msgstr "Отменённое слияние в основную ветку"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 103
+#: NEEDS WORK
+msgid "✗ Failed to merge to main"
+msgstr "✗ Не удалось слить в основную ветку"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 106
+#: NEEDS WORK
+msgid "✓ Successfully merged to main"
+msgstr "✓ Успешно слито в основную ветку"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 118
+#: NEEDS WORK
+msgid "STEP 3: Package Build Summary"
+msgstr "ШАГ 3: Резюме сборки пакета"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 125
+#: NEEDS WORK
+msgid "🚀 Trigger package build on GitHub Actions?"
+msgstr "🚀 Запустить сборку пакета в GitHub Actions?"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 126
+#: NEEDS WORK
+msgid "Package build cancelled"
+msgstr "Сборка пакета отменена"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 131
+#: NEEDS WORK
+msgid "STEP 4: Triggering GitHub Actions Workflow"
+msgstr "ШАГ 4: Запуск рабочего процесса GitHub Actions"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 142
+#: NEEDS WORK
+msgid "✓ Package build triggered successfully!"
+msgstr "✓ Сборка пакета успешно запущена!"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 143
+#: NEEDS WORK
+#, python-brace-format
+msgid "Monitor build at: https://github.com/{0}/build-package/actions"
+msgstr "Монитор сборки по адресу: https://github.com/{0}/build-package/actions"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 145
+#: NEEDS WORK
+msgid "✗ Failed to trigger package build"
+msgstr "✗ Не удалось запустить сборку пакета"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 172
+#: NEEDS WORK
+msgid "Merge conflict, using automatic resolution..."
+msgstr "Конфликт слияния, используется автоматическое разрешение..."
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 184
+#: NEEDS WORK
+msgid "Using force merge strategy..."
+msgstr "Использование стратегии принудительного слияния..."
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 189
+#: NEEDS WORK
+msgid "Push merged main to remote?"
+msgstr "Запушить объединённую основную ветку в удалённый репозиторий?"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 197
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during merge: {0}"
+msgstr "Ошибка при слиянии: {0}"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 137
+#: NEEDS WORK
+msgid "Repository"
+msgstr "Репозиторий"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 218
+#: NEEDS WORK
+msgid "📦 Package Build Configuration"
+msgstr "📦 Конфигурация сборки пакета"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 55
+#: NEEDS WORK
+#, python-brace-format
+msgid "⚠️  Detected {0} file(s) with conflicts"
+msgstr "⚠️  Обнаружено {0} файл(ов) с конфликтами"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 73
+#: NEEDS WORK
+msgid "Resolving conflicts: keeping our changes..."
+msgstr "Разрешение конфликтов: сохранение наших изменений..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 79
+#: NEEDS WORK
+msgid "✓ Conflicts resolved (kept our changes)"
+msgstr "✓ Конфликты разрешены (сохранены наши изменения)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 82
+# File: usr/share/build-package/core/conflict_resolver.py, line: 97
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to auto-resolve: {0}"
+msgstr "Не удалось автоматически разрешить: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 88
+#: NEEDS WORK
+msgid "Resolving conflicts: accepting remote changes..."
+msgstr "Разрешение конфликтов: принятие удалённых изменений..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 94
+#: NEEDS WORK
+msgid "✓ Conflicts resolved (accepted remote)"
+msgstr "✓ Конфликты разрешены (принято удаленно)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 102
+#: NEEDS WORK
+msgid "Interactive conflict resolution..."
+msgstr "Интерактивное разрешение конфликтов..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 110
+#: NEEDS WORK
+msgid "Keep our version"
+msgstr "Сохраняйте нашу версию"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 111
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 44
+#: NEEDS WORK
+msgid "Accept remote version"
+msgstr "Принять удалённую версию"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 112
+#: NEEDS WORK
+msgid "Keep both (create .ours and .theirs files)"
+msgstr "Сохранить оба (создать файлы .ours и .theirs)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 113
+#: NEEDS WORK
+msgid "Edit manually (abort and fix)"
+msgstr "Редактировать вручную (отменить и исправить)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 114
+#: NEEDS WORK
+msgid "Show diff"
+msgstr "Показать различия"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 118
+#: NEEDS WORK
+#, python-brace-format
+msgid "How to resolve: {0}"
+msgstr "Как решить: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 130
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Kept our version of {0}"
+msgstr "✓ Сохранили нашу версию {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 135
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Accepted remote version of {0}"
+msgstr "✓ Принята удаленная версия {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 139
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Created both versions of {0}"
+msgstr "✓ Созданы обе версии {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 142
+#: NEEDS WORK
+#, python-brace-format
+msgid "Manual resolution required for {0}"
+msgstr "Требуется ручное разрешение для {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 143
+#: NEEDS WORK
+msgid "Use 'git status' to see conflicted files"
+msgstr "Используйте 'git status', чтобы увидеть конфликтующие файлы"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 144
+#: NEEDS WORK
+msgid "Edit files, then 'git add' and run this again"
+msgstr "Отредактируйте файлы, затем выполните 'git add' и запустите это снова"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 152
+#: NEEDS WORK
+msgid "✓ All conflicts resolved!"
+msgstr "✓ Все конфликты разрешены!"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 157
+#: NEEDS WORK
+msgid "Manual conflict resolution needed"
+msgstr "Необходима ручная разрешение конфликта"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 158
+#: NEEDS WORK
+msgid "Conflicted files:"
+msgstr "Конфликтующие файлы:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 163
+#: NEEDS WORK
+msgid "Steps to resolve:"
+msgstr "Шаги для решения:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 164
+#: NEEDS WORK
+msgid "1. Edit the files above and fix conflicts"
+msgstr "1. Отредактируйте файлы выше и исправьте конфликты"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 165
+#: NEEDS WORK
+msgid "2. Run: git add <file>"
+msgstr "2. Запустите: git add <файл>"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 166
+#: NEEDS WORK
+msgid "3. Run this command again"
+msgstr "3. Запустите эту команду снова"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 179
+#: NEEDS WORK
+#, python-brace-format
+msgid "File: {0}"
+msgstr "Файл: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 180
+#: NEEDS WORK
+#, python-brace-format
+msgid "Conflicts: {0}"
+msgstr "Конфликты: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 206
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not preview file: {0}"
+msgstr "Не удалось предварительно просмотреть файл: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 228
+#: NEEDS WORK
+msgid "OUR VERSION:"
+msgstr "НАША ВЕРСИЯ:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 234
+#: NEEDS WORK
+msgid "THEIR VERSION:"
+msgstr "ИХ ВЕРСИЯ:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 242
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not show diff: {0}"
+msgstr "Не удалось показать разницу: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 260
+#: NEEDS WORK
+msgid "Created files:"
+msgstr "Созданные файлы:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 266
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating versions: {0}"
+msgstr "Ошибка при создании версий: {0}"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 36
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 169
+#: NEEDS WORK
+msgid "Reset to defaults"
+msgstr "Сбросить на значения по умолчанию"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 58
+#: NEEDS WORK
+msgid "Reset all settings to defaults?"
+msgstr "Сбросить все настройки к значениям по умолчанию?"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 60
+#: NEEDS WORK
+msgid "✓ Settings reset to defaults"
+msgstr "✓ Настройки сброшены к умолчаниям"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 67
+# File: usr/share/build-package/core/settings_menu.py, line: 130
+#: NEEDS WORK
+msgid "Safe Mode"
+msgstr "Безопасный режим"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 67
+# File: usr/share/build-package/core/settings_menu.py, line: 136
+#: NEEDS WORK
+msgid "More control, confirm important actions"
+msgstr "Больше контроля, подтвердите важные действия"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 68
+# File: usr/share/build-package/core/settings_menu.py, line: 131
+#: NEEDS WORK
+msgid "Quick Mode"
+msgstr "Быстрый режим"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 68
+# File: usr/share/build-package/core/settings_menu.py, line: 137
+#: NEEDS WORK
+msgid "Fast automation, minimal confirmations"
+msgstr "Быстрая автоматизация, минимальные подтверждения"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 69
+# File: usr/share/build-package/core/settings_menu.py, line: 132
+#: NEEDS WORK
+msgid "Expert Mode"
+msgstr "Режим эксперта"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 69
+# File: usr/share/build-package/core/settings_menu.py, line: 138
+#: NEEDS WORK
+msgid "Maximum automation, for experienced users"
+msgstr "Максимальная автоматизация для опытных пользователей"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 79
+#: NEEDS WORK
+msgid "Select Operation Mode"
+msgstr "Выберите режим работы"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 86
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Operation mode changed to: {0}"
+msgstr "✓ Режим работы изменен на: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 93
+#: NEEDS WORK
+msgid "Interactive"
+msgstr "Интерактивный"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 93
+#: NEEDS WORK
+msgid "Ask for each conflict file"
+msgstr "Запрашивать для каждого файла конфликта"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 94
+#: NEEDS WORK
+msgid "Auto Keep Ours"
+msgstr "Авто Сохранить Наши"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 94
+#: NEEDS WORK
+msgid "Always keep our changes"
+msgstr "Всегда сохранять наши изменения"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 95
+#: NEEDS WORK
+msgid "Auto Accept Remote"
+msgstr "Авто Принятие Удаленного"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 95
+#: NEEDS WORK
+msgid "Always accept remote changes"
+msgstr "Всегда принимать удалённые изменения"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 96
+#: NEEDS WORK
+msgid "Manual"
+msgstr "Руководство"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 96
+#: NEEDS WORK
+msgid "Stop and let me resolve manually"
+msgstr "Остановитесь и позвольте мне решить это вручную"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 106
+#: NEEDS WORK
+msgid "Select Conflict Strategy"
+msgstr "Выберите стратегию разрешения конфликтов"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 113
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Conflict strategy changed to: {0}"
+msgstr "✓ Стратегия конфликта изменена на: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 121
+#: NEEDS WORK
+msgid "enabled"
+msgstr "включено"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 121
+#: NEEDS WORK
+msgid "disabled"
+msgstr "отключен"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 122
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ {0} {1}"
+msgstr "✓ {0} {1}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 142
+#: NEEDS WORK
+#, python-brace-format
+msgid "Current Mode: {0}"
+msgstr "Текущий режим: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 145
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-resolve conflicts: {0}"
+msgstr "Авторазрешение конфликтов: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 147
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-switch branches: {0}"
+msgstr "Автоматическое переключение веток: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 149
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-merge: {0}"
+msgstr "Авто-слияние: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 151
+#: NEEDS WORK
+#, python-brace-format
+msgid "Show preview: {0}"
+msgstr "Показать предварительный просмотр: {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 53
+#: NEEDS WORK
+#, python-brace-format
+msgid "Local changes: {0}"
+msgstr "Локальные изменения: {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 62
+#: NEEDS WORK
+msgid "Stash local changes"
+msgstr "Сохранить локальные изменения"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 75
+#: NEEDS WORK
+msgid "Restore local changes"
+msgstr "Восстановить локальные изменения"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 82
+#: NEEDS WORK
+#, python-brace-format
+msgid "You're in {0}, but your branch is {1}"
+msgstr "Вы находитесь в {0}, но ваша ветка {1}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 87
+#: NEEDS WORK
+msgid "Switch to my branch and pull there"
+msgstr "Переключитесь на мою ветку и выполните там извлечение."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 88
+#: NEEDS WORK
+msgid "Pull to current branch"
+msgstr "Перейти на текущую ветку"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 130
+#: NEEDS WORK
+msgid "Finding most recent code..."
+msgstr "Поиск самого последнего кода..."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 139
+#: NEEDS WORK
+#, python-brace-format
+msgid "Most recent branch: {0}"
+msgstr "Самая последняя ветка: {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 155
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging latest code from {0}"
+msgstr "Слияние последнего кода из {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 166
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merge {0} into your branch?"
+msgstr "Слить {0} в вашу ветку?"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 173
+#: NEEDS WORK
+msgid "Skipping merge"
+msgstr "Пропуск слияния"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 177
+#: NEEDS WORK
+msgid "✓ Already up to date"
+msgstr "✓ Уже актуально"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 187
+#: NEEDS WORK
+msgid "⚠️  Conflicts detected after pull"
+msgstr "⚠️  Обнаружены конфликты после извлечения"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 193
+#: NEEDS WORK
+msgid "✓ Conflicts resolved"
+msgstr "✓ Конфликты разрешены"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 206
+#: NEEDS WORK
+msgid "✓ Successfully updated to latest code"
+msgstr "✓ Успешно обновлено до последнего кода"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 207
+#: NEEDS WORK
+#, python-brace-format
+msgid "Latest commit: {0}"
+msgstr "Последний коммит: {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 209
+#: NEEDS WORK
+msgid "✓ Pull completed"
+msgstr "✓ Загрузка завершена"
 # 
 # File: usr/share/build-package/gui/main_gui.py, line: 82
 # File: usr/share/build-package/gui/main_gui.py, line: 145
@@ -2620,10 +3539,15 @@ msgstr "О пакете сборки"
 msgid "translator-credits"
 msgstr "кредиты переводчика"
 # 
-# File: usr/share/build-package/gui/main_gui.py, line: 125
+# File: usr/share/build-package/gui/main_gui.py, line: 141
 #: NEEDS WORK
-msgid "Preferences - Coming soon"
-msgstr "Настройки - Скоро будет"
+msgid "Settings updated"
+msgstr "Настройки обновлены"
+# 
+# File: usr/share/build-package/gui/main_gui.py, line: 148
+#: NEEDS WORK
+msgid "Settings not available"
+msgstr "Настройки недоступны"
 # 
 # File: usr/share/build-package/gui/main_gui.py, line: 140
 #: NEEDS WORK
@@ -2889,24 +3813,6 @@ msgstr "Операция не удалась: {0}"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-package/gui/gtk_menu.py, line: 54
-# File: usr/share/build-package/gui/gtk_menu.py, line: 96
-# File: usr/share/build-package/gui/gtk_menu.py, line: 133
-# File: usr/share/build-package/gui/gtk_menu.py, line: 184
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 330
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 392
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 257
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 94
-#: NEEDS WORK
-msgid "Cancel"
-msgstr "Отмена"
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
 # File: usr/share/build-package/gui/gtk_menu.py, line: 97
 # File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 331
 #: NEEDS WORK
@@ -2927,10 +3833,18 @@ msgstr "Хорошо"
 msgid "Please wait..."
 msgstr "Пожалуйста, подождите..."
 # 
-# File: usr/share/build-package/gui/gtk_logger.py, line: 91
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 50
 #: NEEDS WORK
-msgid "Build Package initialized successfully"
-msgstr "Пакет сборки инициализирован успешно"
+#, python-brace-format
+msgid ""
+"Found {0} conflicted files:\n"
+"\n"
+msgstr "Найдено {0} конфликтующих файлов:"
+# 
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 75
+#: NEEDS WORK
+msgid "Select an option:"
+msgstr "Выберите вариант:"
 # 
 # File: usr/share/build-package/gui/gtk_logger.py, line: 107
 #: NEEDS WORK
@@ -3451,11 +4365,6 @@ msgstr "Добро пожаловать в {0}"
 msgid "Version {0}"
 msgstr "Версия {0}"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 137
-#: NEEDS WORK
-msgid "Repository"
-msgstr "Репозиторий"
-# 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 139
 #: NEEDS WORK
 msgid "Changes"
@@ -3692,6 +4601,290 @@ msgstr "Дополнительно"
 msgid "Ready to build {0} package '{1}' from branch '{2}'"
 msgstr "Готов к сборке {0} пакета '{1}' из ветки '{2}'"
 # 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 40
+#: NEEDS WORK
+msgid "Operation"
+msgstr "Операция"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 45
+#: NEEDS WORK
+msgid "Operation Mode"
+msgstr "Режим работы"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 46
+#: NEEDS WORK
+msgid "Choose how the application should operate"
+msgstr "Выберите, как должно работать приложение"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 50
+#: NEEDS WORK
+msgid "Mode"
+msgstr "Режим"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 51
+#: NEEDS WORK
+msgid "Select your preferred operation mode"
+msgstr "Выберите предпочитаемый режим работы"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 55
+#: NEEDS WORK
+msgid "Safe - Show previews and confirmations"
+msgstr "Безопасный - Показать предварительные просмотры и подтверждения"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 56
+#: NEEDS WORK
+msgid "Quick - Fast with minimal confirmations"
+msgstr "Быстрый - Быстро с минимальными подтверждениями"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 57
+#: NEEDS WORK
+msgid "Expert - Maximum automation, no confirmations"
+msgstr "Эксперт - Максимальная автоматизация, без подтверждений"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 67
+#: NEEDS WORK
+msgid "Conflicts"
+msgstr "Конфликты"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 72
+#: NEEDS WORK
+msgid "Conflict Resolution"
+msgstr "Разрешение конфликтов"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 73
+#: NEEDS WORK
+msgid "How to handle merge conflicts"
+msgstr "Как обрабатывать конфликты слияния"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 77
+#: NEEDS WORK
+msgid "Strategy"
+msgstr "Стратегия"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 78
+#: NEEDS WORK
+msgid "Select conflict resolution strategy"
+msgstr "Выберите стратегию разрешения конфликтов"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 81
+#: NEEDS WORK
+msgid "Interactive - Ask for each file"
+msgstr "Интерактивный - Запрашивать для каждого файла"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 82
+#: NEEDS WORK
+msgid "Auto-ours - Always keep local changes"
+msgstr "Авто-наш - Всегда сохранять локальные изменения"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 83
+#: NEEDS WORK
+msgid "Auto-theirs - Always accept remote changes"
+msgstr "Авто-их - Всегда принимать удалённые изменения"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 84
+#: NEEDS WORK
+msgid "Manual - Stop and let me resolve"
+msgstr "Руководство - Остановитесь и позвольте мне решить"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 94
+#: NEEDS WORK
+msgid "Automation"
+msgstr "Автоматизация"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 99
+#: NEEDS WORK
+msgid "Git Operations"
+msgstr "Операции Git"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 100
+#: NEEDS WORK
+msgid "Automatic git operations"
+msgstr "Автоматические операции git"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 104
+#: NEEDS WORK
+msgid "Auto-fetch"
+msgstr "Автоизвлечение"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 105
+#: NEEDS WORK
+msgid "Automatically fetch from remote before operations"
+msgstr "Автоматически загружать с удаленного сервера перед операциями"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 111
+#: NEEDS WORK
+msgid "Auto-switch branch"
+msgstr "Автоматическое переключение ветки"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 112
+#: NEEDS WORK
+msgid "Automatically switch to your development branch"
+msgstr "Автоматически переключиться на вашу ветку разработки"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 118
+#: NEEDS WORK
+msgid "Auto-pull"
+msgstr "Авто-подтягивание"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 119
+#: NEEDS WORK
+msgid "Automatically pull latest changes"
+msgstr "Автоматически загружать последние изменения"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 127
+#: NEEDS WORK
+msgid "Version Management"
+msgstr "Управление версиями"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 131
+#: NEEDS WORK
+msgid "Auto-version bump"
+msgstr "Автоматическое обновление версии"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 132
+#: NEEDS WORK
+msgid "Automatically increment version based on commit type"
+msgstr "Автоматически увеличивать версию в зависимости от типа коммита"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 145
+#: NEEDS WORK
+msgid "Display"
+msgstr "Дисплей"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 149
+#: NEEDS WORK
+msgid "Show git commands"
+msgstr "Показать команды git"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 150
+#: NEEDS WORK
+msgid "Display git commands being executed"
+msgstr "Отображать выполняемые команды git"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 156
+#: NEEDS WORK
+msgid "Confirm destructive operations"
+msgstr "Подтвердите разрушительные операции"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 157
+#: NEEDS WORK
+msgid "Always confirm potentially destructive operations"
+msgstr "Всегда подтверждайте потенциально разрушительные операции"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 170
+#: NEEDS WORK
+msgid "Restore all settings to their default values"
+msgstr "Восстановить все настройки до значений по умолчанию"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 264
+#: NEEDS WORK
+msgid "Reset Settings?"
+msgstr "Сбросить настройки?"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 265
+#: NEEDS WORK
+msgid "All settings will be restored to their default values. This cannot be undone."
+msgstr "Все настройки будут восстановлены до значений по умолчанию. Это действие нельзя отменить."
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 35
+#: NEEDS WORK
+msgid "Keep Local"
+msgstr "Сохранить локально"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 36
+#: NEEDS WORK
+msgid "Keep local version"
+msgstr "Сохранить локальную версию"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 43
+#: NEEDS WORK
+msgid "Accept Remote"
+msgstr "Принять удаленное подключение"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 51
+#: NEEDS WORK
+msgid "Keep Both"
+msgstr "Сохранить оба"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 52
+#: NEEDS WORK
+msgid "Keep both versions"
+msgstr "Сохраните обе версии"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 60
+#: NEEDS WORK
+msgid "Show differences"
+msgstr "Показать различия"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 96
+#: NEEDS WORK
+msgid "Resolve Conflicts"
+msgstr "Разрешить конфликты"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 128
+#: NEEDS WORK
+#, python-brace-format
+msgid "Found {0} conflicted files"
+msgstr "Найдено {0} конфликтующих файлов"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 136
+#: NEEDS WORK
+msgid "Apply to all remaining conflicts"
+msgstr "Применить ко всем оставшимся конфликтам"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 145
+#: NEEDS WORK
+msgid "Keep All Local"
+msgstr "Сохранить все локально"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 151
+#: NEEDS WORK
+msgid "Accept All Remote"
+msgstr "Принять все удаленные"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 160
+#: NEEDS WORK
+msgid "Conflicted Files"
+msgstr "Конфликтующие файлы"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 197
+#: NEEDS WORK
+msgid "Apply Resolutions"
+msgstr "Применить разрешения"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 214
+#: NEEDS WORK
+#, python-brace-format
+msgid "Resolved {0} of {1} conflicts"
+msgstr "Разрешено {0} из {1} конфликтов"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 236
+#: NEEDS WORK
+msgid "No diff available"
+msgstr "Нет доступных различий"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 239
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error getting diff: {0}"
+msgstr "Ошибка получения разницы: {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 245
+#: NEEDS WORK
+#, python-brace-format
+msgid "Diff: {0}"
+msgstr "Разница: {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 288
+#: NEEDS WORK
+msgid "All conflicts resolved (kept local versions)"
+msgstr "Все конфликты разрешены (сохранены локальные версии)"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 300
+#: NEEDS WORK
+msgid "All conflicts resolved (accepted remote versions)"
+msgstr "Все конфликты разрешены (приняты удаленные версии)"
+# 
 # File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 57
 #: NEEDS WORK
 msgid "Preparing..."
@@ -3702,10 +4895,35 @@ msgstr "Подготовка..."
 msgid "Details"
 msgstr "Детали"
 # 
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 263
+# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 76
 #: NEEDS WORK
-msgid "Operation cancelled"
-msgstr "Операция отменена"
+msgid "🔍 Dry-Run Mode"
+msgstr "🔍 Режим пробного запуска"
+# 
+# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 77
+#: NEEDS WORK
+msgid "Simulating operations (nothing will be executed):"
+msgstr "Симуляция операций (ничего не будет выполнено):"
+# 
+# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 79
+#: NEEDS WORK
+msgid "Operation Preview"
+msgstr "Предварительный просмотр операции"
+# 
+# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 80
+#: NEEDS WORK
+msgid "The following operations will be executed:"
+msgstr "Будут выполнены следующие операции:"
+# 
+# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 149
+#: NEEDS WORK
+msgid "Close"
+msgstr "Закрыть"
+# 
+# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 154
+#: NEEDS WORK
+msgid "Proceed"
+msgstr "Продолжить"
 # 
 # File: usr/share/build-iso/build_iso.py, line: 105
 #: NEEDS WORK

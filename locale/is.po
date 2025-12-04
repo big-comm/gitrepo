@@ -61,6 +61,17 @@ msgstr ""
 "Notaðu [white]örvatakkana ↑↓[/] til að fletta, [white]Enter[/] til að velja, [white]ESC[/] til að "
 "hætta."
 # 
+# File: usr/share/build-package/core/build_package.py, line: 58
+#: NEEDS WORK
+#, python-brace-format
+msgid "Operation mode set to: {0}"
+msgstr "Aðgerðastilling stillt á: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 64
+#: NEEDS WORK
+msgid "🔍 DRY-RUN MODE: No operations will be executed"
+msgstr "🔍 ÞURR-REKSTRARHAMUR: Engar aðgerðir verða framkvæmdar"
+# 
 # File: usr/share/build-package/build_package.py, line: 74
 #: NEEDS WORK
 #, python-brace-format
@@ -149,6 +160,16 @@ msgstr "Bygg þróunarpakka"
 #: NEEDS WORK
 msgid "Configure GitHub organization (default: big-comm)"
 msgstr "Stillir GitHub stofnun (sjálfgefið: big-comm)"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 260
+#: NEEDS WORK
+msgid "Operation mode: safe (default), quick (fast), expert (max automation)"
+msgstr "Aðgerðarhamur: öruggur (sjálfgefið), hraður (fljótur), sérfræðingur (max sjálfvirkni)"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 263
+#: NEEDS WORK
+msgid "Simulate operations without executing"
+msgstr "Simulera operationer utan att köra"
 # 
 # File: usr/share/build-package/build_package.py, line: 128
 #: NEEDS WORK
@@ -1091,20 +1112,22 @@ msgstr "Nýr grein"
 msgid "AUR - Summary of Choices"
 msgstr "AUR - Samantekt valkosta"
 # 
-# File: usr/share/build-package/build_package.py, line: 535
-#: NEEDS WORK
-msgid "Commit and push"
-msgstr "Skrá og ýta"
-# 
-# File: usr/share/build-package/build_package.py, line: 829
-#: NEEDS WORK
-msgid "Pull latest"
-msgstr "Sækja nýjustu"
-# 
 # File: usr/share/build-package/build_package.py, line: 536
 #: NEEDS WORK
 msgid "Generate package (commit + branch + build)"
 msgstr "Búa til pakka (commit + grein + bygging)"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1552
+# File: usr/share/build-package/core/build_package.py, line: 1559
+# File: usr/share/build-package/core/settings_menu.py, line: 40
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 29
+#: NEEDS WORK
+msgid "Settings"
+msgstr "Stillingar"
 # 
 # File: usr/share/build-package/build_package.py, line: 538
 #: NEEDS WORK
@@ -1116,13 +1139,15 @@ msgstr "Fyrirlestrarvalkostur"
 msgid "Main Menu"
 msgstr "Aðalvalmynd"
 # 
-# File: usr/share/build-package/build_package.py, line: 175
-# File: usr/share/build-package/build_package.py, line: 353
-# File: usr/share/build-package/build_package.py, line: 563
-# File: usr/share/build-package/build_package.py, line: 588
+# File: usr/share/build-package/core/build_package.py, line: 1582
 #: NEEDS WORK
-msgid "Failed to pull changes. Do you want to continue anyway?"
-msgstr "Mistók að draga breytingar. Viltu halda áfram samt?"
+msgid "Pull completed"
+msgstr "Dregið lokið"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1582
+#: NEEDS WORK
+msgid "Press Enter to continue"
+msgstr "Pressa Enter til að halda áfram"
 # 
 # File: usr/share/build-package/build_package.py, line: 579
 #: NEEDS WORK
@@ -1151,11 +1176,6 @@ msgstr "Nei"
 #: NEEDS WORK
 msgid "Yes"
 msgstr "Já"
-# 
-# File: usr/share/build-package/build_package.py, line: 608
-#: NEEDS WORK
-msgid "No changes to commit, proceeding with package generation."
-msgstr "Engin engin breytingar, heldur áfram með pakkagerð."
 # 
 # File: usr/share/build-package/build_package.py, line: 654
 #: NEEDS WORK
@@ -2579,6 +2599,335 @@ msgstr "Handvirk samruni nauðsynlegur"
 msgid "PULL REQUEST COMPLETED"
 msgstr "PULL BEiðNI LOKIÐ"
 # 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 44
+# File: usr/share/build-package/core/pull_operations.py, line: 44
+#: NEEDS WORK
+msgid "Analyzing repository state..."
+msgstr "Greining á ástandi geymslu..."
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 53
+# File: usr/share/build-package/core/pull_operations.py, line: 52
+#: NEEDS WORK
+#, python-brace-format
+msgid "Your branch: {0}"
+msgstr "Þín grein: {0}"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 54
+#: NEEDS WORK
+#, python-brace-format
+msgid "Changes: {0}"
+msgstr "Breytingar: {0}"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 58
+#: NEEDS WORK
+msgid "⚠️  Conflicts detected!"
+msgstr "⚠️  Árekstur greindur!"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 61
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-resolving conflicts ({0} mode)..."
+msgstr "Sjálfvirk lausn á árekstrum ({0} mód)..."
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 63
+#: NEEDS WORK
+msgid "Failed to resolve conflicts. Please fix manually."
+msgstr "Ekki tókst að leysa ágreining. Vinsamlegast lagfærðu handvirkt."
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 66
+#: NEEDS WORK
+msgid "Conflict resolution required."
+msgstr "Nauðsynleg átökalausn."
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 74
+# File: usr/share/build-package/core/pull_operations.py, line: 58
+#: NEEDS WORK
+msgid "Auto-switching to your branch..."
+msgstr "Sjálfvirk skipting á greinina þína..."
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 78
+#: NEEDS WORK
+msgid "Stash changes before switching"
+msgstr "Geymdu breytingar áður en þú skiptir."
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 84
+# File: usr/share/build-package/core/pull_operations.py, line: 68
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switch to your branch: {0}"
+msgstr "Fara yfir á greinina þína: {0}"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 103
+# File: usr/share/build-package/core/pull_operations.py, line: 117
+#: NEEDS WORK
+msgid "⚠️  Conflicts while restoring changes"
+msgstr "⚠️  Árekstur við endurheimt breytinga"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 105
+#: NEEDS WORK
+msgid "Failed to resolve conflicts"
+msgstr "Ekki tókst að leysa deilur"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 107
+#: NEEDS WORK
+msgid "Failed to restore stashed changes"
+msgstr "Mistók að endurheimta geymdar breytingar"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 110
+#: NEEDS WORK
+msgid "Restore stashed changes"
+msgstr "Endurðu geymdar breytingar"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 118
+#: NEEDS WORK
+#, python-brace-format
+msgid "You're in {0}, but should commit to {1}"
+msgstr "Þú ert í {0}, en ættir að skuldbinda þig til {1}"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 123
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switch to my branch ({0})"
+msgstr "Fara í grein mína ({0})"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 124
+#: NEEDS WORK
+#, python-brace-format
+msgid "Continue in current branch ({0})"
+msgstr "Halda áfram í núverandi grein ({0})"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/gtk_menu.py, line: 54
+# File: usr/share/build-package/gui/gtk_menu.py, line: 96
+# File: usr/share/build-package/gui/gtk_menu.py, line: 133
+# File: usr/share/build-package/gui/gtk_menu.py, line: 184
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 330
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 392
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 257
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 94
+#: NEEDS WORK
+msgid "Cancel"
+msgstr "Hætta við"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 263
+#: NEEDS WORK
+msgid "Operation cancelled"
+msgstr "Aðgerð aflýst"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 136
+#: NEEDS WORK
+msgid "Stashing changes before switching branches..."
+msgstr "Að geyma breytingar áður en greinum er skipt..."
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 144
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to stash changes: {0}"
+msgstr "Mistók að geyma breytingar: {0}"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 153
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to switch branches: {0}"
+msgstr "Mistók að skipta um greinar: {0}"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 171
+#: NEEDS WORK
+msgid "⚠️  Conflicts detected while restoring changes"
+msgstr "⚠️  Árekstur greindur við endurheimt breytinga"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 175
+#: NEEDS WORK
+msgid "Attempting to resolve conflicts..."
+msgstr "Reynir að leysa deilur..."
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 178
+#: NEEDS WORK
+msgid "✗ Could not resolve conflicts automatically"
+msgstr "✗ Gat ekki leyst árekstra sjálfkrafa"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 179
+#: NEEDS WORK
+msgid "Please resolve conflicts manually and run again"
+msgstr "Vinsamlegast leysið ágreiningana handvirkt og keyrið aftur."
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 182
+#: NEEDS WORK
+msgid "Could not restore changes. Check 'git stash list'"
+msgstr "Gat ekki að endurheimta breytingar. Athugaðu 'git stash list'"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 185
+#: NEEDS WORK
+msgid "✓ Changes restored successfully"
+msgstr "✓ Breytingar endurheimtar með góðum árangri"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 193
+#: NEEDS WORK
+msgid "Fetch latest from remote"
+msgstr "Sækja nýjustu frá fjarveitu"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 218
+#: NEEDS WORK
+#, python-brace-format
+msgid "Your branch is {0} commits behind remote"
+msgstr "Þín grein er {0} skuldbindingum á eftir fjarhýsinu."
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 233
+#: NEEDS WORK
+msgid "No changes to commit"
+msgstr "Engin ekki breytingar til að skuldbinda."
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 254
+#: NEEDS WORK
+msgid "✗ Unresolved conflicts detected!"
+msgstr "✗ Óleyst átök greind!"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 255
+#: NEEDS WORK
+msgid "Cannot commit with conflict markers in files"
+msgstr "Get ekki skuldbinda með árekstrarmerki í skrám"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 258
+# File: usr/share/build-package/core/pull_operations.py, line: 190
+#: NEEDS WORK
+msgid "✗ Failed to resolve conflicts"
+msgstr "✗ Ekki tókst að leysa ágreininga"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 259
+#: NEEDS WORK
+msgid "Please resolve manually:"
+msgstr "Vinsamlegast leystu handvirkt:"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 260
+#: NEEDS WORK
+msgid "1. Edit conflicted files"
+msgstr "1. Breyta deildu skrám"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 261
+#: NEEDS WORK
+msgid "2. Remove <<<<<<, =======, >>>>>>> markers"
+msgstr "2. Fjarlægðu <<<<<<, =======, >>>>>>> merki"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 262
+#: NEEDS WORK
+msgid "3. Run 'git add <file>'"
+msgstr "3. Keyra 'git add <file>'"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 263
+#: NEEDS WORK
+msgid "4. Run this command again"
+msgstr "4. Keyrðu þessa skipun aftur"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 266
+#: NEEDS WORK
+msgid "✓ Conflicts resolved, continuing..."
+msgstr "✓ Ágreiningar leystar, haldið áfram..."
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 270
+#: NEEDS WORK
+msgid "Stage all changes"
+msgstr "Skrá allar breytingar"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 276
+#: NEEDS WORK
+#, python-brace-format
+msgid "Commit: {0}"
+msgstr "Skila: {0}"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 291
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Successfully committed and pushed to {0}!"
+msgstr "✓ Hefur verið skráð og ýtt á {0}!"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 329
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error ensuring branch exists: {0}"
+msgstr "Villa að tryggja að grein sé til: {0}"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 40
+#: NEEDS WORK
+#, python-brace-format
+msgid "✗ Failed: {0}"
+msgstr "✗ Misheppnað: {0}"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 56
+#: NEEDS WORK
+#, python-brace-format
+msgid "✗ Command failed: {0}"
+msgstr "✗ Skipti mistókst: {0}"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 107
+#: NEEDS WORK
+msgid "No operations planned"
+msgstr "Engin ekki skipulögð"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 112
+#: NEEDS WORK
+msgid "OPERATION PLAN"
+msgstr "AÐGERÐAÁÆTLUN"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 139
+#: NEEDS WORK
+#, python-brace-format
+msgid "⚠️  {0} destructive operation(s) out of {1} total"
+msgstr "⚠️  {0} eyðileggjandi aðgerð(ir) af {1} heildar"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 141
+#: NEEDS WORK
+#, python-brace-format
+msgid "ℹ️  {0} safe operation(s)"
+msgstr "ℹ️  {0} örugg aðgerð(ir)"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 154
+#: NEEDS WORK
+msgid "⚠️  Proceed with these operations? (includes destructive actions)"
+msgstr "⚠️  Halda áfram með þessar aðgerðir? (innifaldar eyðileggjandi aðgerðir)"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 156
+#: NEEDS WORK
+msgid "Proceed with these operations?"
+msgstr "Viltu halda áfram með þessar aðgerðir?"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 187
+#: NEEDS WORK
+#, python-brace-format
+msgid "Executing {0} operation(s)..."
+msgstr "Að framkvæma {0} aðgerð(ir)..."
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 197
+#: NEEDS WORK
+msgid "✗ Operation failed. Stopping execution."
+msgstr "✗ Aðgerð mistókst. Stöðva framkvæmd."
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 201
+#: NEEDS WORK
+msgid "✓ Completed"
+msgstr "✓ Lokið"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 209
+#: NEEDS WORK
+msgid "Operation cancelled by user"
+msgstr "Aðgerð aflýst af notanda"
+# 
 # File: usr/share/build-package/config.py, line: 46
 #: NEEDS WORK
 msgid "BUILD PACKAGE"
@@ -2592,6 +2941,576 @@ msgid ""
 msgstr ""
 "Alhliður verkfæri fyrir pakkabyggingu, prófanir og dreifingu. Einfaldar Git aðgerðir, sjálfvirknar "
 "byggingar og stjórnar pakkavinnuflæði fyrir BigCommunity geymslur og AUR pakka."
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 62
+# File: usr/share/build-package/core/package_operations.py, line: 64
+# File: usr/share/build-package/core/package_operations.py, line: 88
+# File: usr/share/build-package/core/package_operations.py, line: 90
+# File: usr/share/build-package/core/package_operations.py, line: 117
+# File: usr/share/build-package/core/package_operations.py, line: 119
+# File: usr/share/build-package/core/package_operations.py, line: 130
+# File: usr/share/build-package/core/package_operations.py, line: 132
+#: NEEDS WORK
+msgid "═"
+msgstr "═"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 63
+#: NEEDS WORK
+msgid "STEP 1: Commit Changes"
+msgstr "SKREF 1: Skila Breytingum"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 68
+#: NEEDS WORK
+msgid "✗ Commit failed, cannot proceed with package generation"
+msgstr "✗ Skilaboð mistókst, ekki er hægt að halda áfram með pakkagerð"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 71
+#: NEEDS WORK
+msgid "✓ Commit completed successfully"
+msgstr "✓ Skilaboð lokið með árangri"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 73
+#: NEEDS WORK
+msgid "No changes to commit, proceeding with package generation"
+msgstr "Engin engin aðgerðir, haldið áfram með pakkagerð"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 89
+#: NEEDS WORK
+msgid "STEP 2: Merge to Main"
+msgstr "SKREF 2: Sameinaðu við Aðal"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 93
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-merging {0} to main..."
+msgstr "Sjálfvirk sameining {0} við aðal..."
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 95
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merge {0} to main for {1} package?"
+msgstr "Sameina {0} við aðal fyrir {1} pakka?"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 96
+#: NEEDS WORK
+msgid "Cancelled merge to main"
+msgstr "Hætt við sameiningu við aðalgrein"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 103
+#: NEEDS WORK
+msgid "✗ Failed to merge to main"
+msgstr "✗ Mistók að sameina við aðal"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 106
+#: NEEDS WORK
+msgid "✓ Successfully merged to main"
+msgstr "✓ Samþykkt að sameina við aðal"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 118
+#: NEEDS WORK
+msgid "STEP 3: Package Build Summary"
+msgstr "SKREF 3: Samantekt um pakkabyggingu"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 125
+#: NEEDS WORK
+msgid "🚀 Trigger package build on GitHub Actions?"
+msgstr "🚀 Kalla pakka byggingu á GitHub Actions?"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 126
+#: NEEDS WORK
+msgid "Package build cancelled"
+msgstr "Pakkningarsmíð aflýst"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 131
+#: NEEDS WORK
+msgid "STEP 4: Triggering GitHub Actions Workflow"
+msgstr "SKREF 4: Kveikja GitHub Actions Vinnuflæði"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 142
+#: NEEDS WORK
+msgid "✓ Package build triggered successfully!"
+msgstr "✓ Pakki bygging virkjuð með árangri!"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 143
+#: NEEDS WORK
+#, python-brace-format
+msgid "Monitor build at: https://github.com/{0}/build-package/actions"
+msgstr "Fylgdu byggingu á: https://github.com/{0}/build-package/actions"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 145
+#: NEEDS WORK
+msgid "✗ Failed to trigger package build"
+msgstr "✗ Mistók að kveikja á pakka byggingu"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 172
+#: NEEDS WORK
+msgid "Merge conflict, using automatic resolution..."
+msgstr "Samskipti í sameiningu, notandi sjálfvirka lausn..."
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 184
+#: NEEDS WORK
+msgid "Using force merge strategy..."
+msgstr "Notandi samruna aðferð..."
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 189
+#: NEEDS WORK
+msgid "Push merged main to remote?"
+msgstr "Senda sameinaða aðal að fjarþjón."
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 197
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during merge: {0}"
+msgstr "Villa við samruna: {0}"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 137
+#: NEEDS WORK
+msgid "Repository"
+msgstr "Geymsla"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 218
+#: NEEDS WORK
+msgid "📦 Package Build Configuration"
+msgstr "📦 Pakkaskipulagning"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 55
+#: NEEDS WORK
+#, python-brace-format
+msgid "⚠️  Detected {0} file(s) with conflicts"
+msgstr "⚠️  Greind {0} skrá(ir) með árekstrum"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 73
+#: NEEDS WORK
+msgid "Resolving conflicts: keeping our changes..."
+msgstr "Leiðrétting á ágreiningi: halda breytingunum okkar..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 79
+#: NEEDS WORK
+msgid "✓ Conflicts resolved (kept our changes)"
+msgstr "✓ Ágreiningar leystir (haldið okkar breytingum)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 82
+# File: usr/share/build-package/core/conflict_resolver.py, line: 97
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to auto-resolve: {0}"
+msgstr "Ekki tókst að leysa sjálfkrafa: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 88
+#: NEEDS WORK
+msgid "Resolving conflicts: accepting remote changes..."
+msgstr "Að leysa deilur: að samþykkja fjarbreytingar..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 94
+#: NEEDS WORK
+msgid "✓ Conflicts resolved (accepted remote)"
+msgstr "✓ Ágreiningar leystir (þegar fjarstýrt var samþykkt)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 102
+#: NEEDS WORK
+msgid "Interactive conflict resolution..."
+msgstr "Samskipti í átakamálum..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 110
+#: NEEDS WORK
+msgid "Keep our version"
+msgstr "Haldaðu okkar útgáfu"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 111
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 44
+#: NEEDS WORK
+msgid "Accept remote version"
+msgstr "Samþykkja fjarútgáfu"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 112
+#: NEEDS WORK
+msgid "Keep both (create .ours and .theirs files)"
+msgstr "Halda báða (búa til .ours og .theirs skrár)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 113
+#: NEEDS WORK
+msgid "Edit manually (abort and fix)"
+msgstr "Breyta handvirkt (hætta við og laga)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 114
+#: NEEDS WORK
+msgid "Show diff"
+msgstr "Sýna mun"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 118
+#: NEEDS WORK
+#, python-brace-format
+msgid "How to resolve: {0}"
+msgstr "Hvernig á að leysa: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 130
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Kept our version of {0}"
+msgstr "✓ Haldið okkar útgáfu af {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 135
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Accepted remote version of {0}"
+msgstr "✓ Samþykkt fjarútgáfa af {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 139
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Created both versions of {0}"
+msgstr "✓ Búið til báðar útgáfur af {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 142
+#: NEEDS WORK
+#, python-brace-format
+msgid "Manual resolution required for {0}"
+msgstr "Handvirkni krafist fyrir {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 143
+#: NEEDS WORK
+msgid "Use 'git status' to see conflicted files"
+msgstr "Notaðu 'git status' til að sjá deiluaðgerðir."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 144
+#: NEEDS WORK
+msgid "Edit files, then 'git add' and run this again"
+msgstr "Breyta skrám, síðan 'git add' og keyra þetta aftur"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 152
+#: NEEDS WORK
+msgid "✓ All conflicts resolved!"
+msgstr "✓ Öll átök leyst!"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 157
+#: NEEDS WORK
+msgid "Manual conflict resolution needed"
+msgstr "Handvirk skáldun nauðsynleg."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 158
+#: NEEDS WORK
+msgid "Conflicted files:"
+msgstr "Samskipti skrár:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 163
+#: NEEDS WORK
+msgid "Steps to resolve:"
+msgstr "Skref til að leysa:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 164
+#: NEEDS WORK
+msgid "1. Edit the files above and fix conflicts"
+msgstr "1. Breyta skrám hér að ofan og laga árekstra"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 165
+#: NEEDS WORK
+msgid "2. Run: git add <file>"
+msgstr "2. Keyra: git bæta við <skjali>"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 166
+#: NEEDS WORK
+msgid "3. Run this command again"
+msgstr "3. Keyra þessa skipun aftur"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 179
+#: NEEDS WORK
+#, python-brace-format
+msgid "File: {0}"
+msgstr "Skrá: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 180
+#: NEEDS WORK
+#, python-brace-format
+msgid "Conflicts: {0}"
+msgstr "Ágreiningar: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 206
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not preview file: {0}"
+msgstr "Gat ekki forsýningu á skjali: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 228
+#: NEEDS WORK
+msgid "OUR VERSION:"
+msgstr "OKKAR ÚTGÁFA:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 234
+#: NEEDS WORK
+msgid "THEIR VERSION:"
+msgstr "ÞEIR ÚTGÁFA:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 242
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not show diff: {0}"
+msgstr "Gat ekki sýnt mismun: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 260
+#: NEEDS WORK
+msgid "Created files:"
+msgstr "Sköpuð skrár:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 266
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating versions: {0}"
+msgstr "Villa að búa til útgáfur: {0}"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 36
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 169
+#: NEEDS WORK
+msgid "Reset to defaults"
+msgstr "Endurstilla á sjálfgefið"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 58
+#: NEEDS WORK
+msgid "Reset all settings to defaults?"
+msgstr "Aftengreina allar stillingar í sjálfgefið?"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 60
+#: NEEDS WORK
+msgid "✓ Settings reset to defaults"
+msgstr "✓ Stillingar endurstilltar í sjálfgefið gildi"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 67
+# File: usr/share/build-package/core/settings_menu.py, line: 130
+#: NEEDS WORK
+msgid "Safe Mode"
+msgstr "Öryggismódur"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 67
+# File: usr/share/build-package/core/settings_menu.py, line: 136
+#: NEEDS WORK
+msgid "More control, confirm important actions"
+msgstr "Meiri stjórn, staðfesta mikilvægar aðgerðir"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 68
+# File: usr/share/build-package/core/settings_menu.py, line: 131
+#: NEEDS WORK
+msgid "Quick Mode"
+msgstr "Hraðhamur"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 68
+# File: usr/share/build-package/core/settings_menu.py, line: 137
+#: NEEDS WORK
+msgid "Fast automation, minimal confirmations"
+msgstr "Hraðvirk sjálfvirkni, lágmark staðfestingar"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 69
+# File: usr/share/build-package/core/settings_menu.py, line: 132
+#: NEEDS WORK
+msgid "Expert Mode"
+msgstr "Sérfræðimódur"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 69
+# File: usr/share/build-package/core/settings_menu.py, line: 138
+#: NEEDS WORK
+msgid "Maximum automation, for experienced users"
+msgstr "Maksímum sjálfvirkni, fyrir reynda notendur"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 79
+#: NEEDS WORK
+msgid "Select Operation Mode"
+msgstr "Veldu aðgerðarmód"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 86
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Operation mode changed to: {0}"
+msgstr "✓ Rekstrarhamur breyttist í: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 93
+#: NEEDS WORK
+msgid "Interactive"
+msgstr "Samskipti"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 93
+#: NEEDS WORK
+msgid "Ask for each conflict file"
+msgstr "Fyrir hverja deiluskjal"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 94
+#: NEEDS WORK
+msgid "Auto Keep Ours"
+msgstr "Sjálfvirk Halda Okkar"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 94
+#: NEEDS WORK
+msgid "Always keep our changes"
+msgstr "Alltaf vista breytingarnar okkar"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 95
+#: NEEDS WORK
+msgid "Auto Accept Remote"
+msgstr "Sjálfvirk samþykkt fjarstýringu"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 95
+#: NEEDS WORK
+msgid "Always accept remote changes"
+msgstr "Alltaf samþykkja fjarbreytingar"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 96
+#: NEEDS WORK
+msgid "Manual"
+msgstr "Handbók"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 96
+#: NEEDS WORK
+msgid "Stop and let me resolve manually"
+msgstr "Stöðvaðu og leyfðu mér að leysa þetta handvirkt"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 106
+#: NEEDS WORK
+msgid "Select Conflict Strategy"
+msgstr "Veldu átaksstefnu"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 113
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Conflict strategy changed to: {0}"
+msgstr "✓ Deildu stefna breytt í: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 121
+#: NEEDS WORK
+msgid "enabled"
+msgstr "virktur"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 121
+#: NEEDS WORK
+msgid "disabled"
+msgstr "ófært"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 122
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ {0} {1}"
+msgstr "✓ {0} {1}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 142
+#: NEEDS WORK
+#, python-brace-format
+msgid "Current Mode: {0}"
+msgstr "Núverandi stilla: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 145
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-resolve conflicts: {0}"
+msgstr "Sjálfvirk lausn á árekstrum: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 147
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-switch branches: {0}"
+msgstr "Sjálfvirk greinaskipti: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 149
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-merge: {0}"
+msgstr "Sjálfvirk sameining: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 151
+#: NEEDS WORK
+#, python-brace-format
+msgid "Show preview: {0}"
+msgstr "Sýna forsýningu: {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 53
+#: NEEDS WORK
+#, python-brace-format
+msgid "Local changes: {0}"
+msgstr "Staðbundnar breytingar: {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 62
+#: NEEDS WORK
+msgid "Stash local changes"
+msgstr "Geyma staðbundnar breytingar"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 75
+#: NEEDS WORK
+msgid "Restore local changes"
+msgstr "Endurðu staðbundnar breytingar"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 82
+#: NEEDS WORK
+#, python-brace-format
+msgid "You're in {0}, but your branch is {1}"
+msgstr "Þú ert í {0}, en greinin þín er {1}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 87
+#: NEEDS WORK
+msgid "Switch to my branch and pull there"
+msgstr "Fara yfir á greinina mína og draga þar."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 88
+#: NEEDS WORK
+msgid "Pull to current branch"
+msgstr "Draga í núverandi grein"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 130
+#: NEEDS WORK
+msgid "Finding most recent code..."
+msgstr "Að finna nýjustu kóðann..."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 139
+#: NEEDS WORK
+#, python-brace-format
+msgid "Most recent branch: {0}"
+msgstr "Nýjasta grein: {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 155
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging latest code from {0}"
+msgstr "Sameina síðustu kóðann frá {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 166
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merge {0} into your branch?"
+msgstr "Sama {0} inn í greinina þína?"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 173
+#: NEEDS WORK
+msgid "Skipping merge"
+msgstr "Sleppa sameiningu"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 177
+#: NEEDS WORK
+msgid "✓ Already up to date"
+msgstr "✓ Nú þegar uppfært"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 187
+#: NEEDS WORK
+msgid "⚠️  Conflicts detected after pull"
+msgstr "⚠️  Árekstur greindur eftir niðurhal"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 193
+#: NEEDS WORK
+msgid "✓ Conflicts resolved"
+msgstr "✓ Ágreiningar leystar"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 206
+#: NEEDS WORK
+msgid "✓ Successfully updated to latest code"
+msgstr "✓ Uppfært með góðum árangri í nýjustu kóðann"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 207
+#: NEEDS WORK
+#, python-brace-format
+msgid "Latest commit: {0}"
+msgstr "Síðasta skuldbinding: {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 209
+#: NEEDS WORK
+msgid "✓ Pull completed"
+msgstr "✓ Dregið lokið"
 # 
 # File: usr/share/build-package/gui/main_gui.py, line: 82
 # File: usr/share/build-package/gui/main_gui.py, line: 145
@@ -2615,10 +3534,15 @@ msgstr "Um byggipakka"
 msgid "translator-credits"
 msgstr "þýðandaskuldir"
 # 
-# File: usr/share/build-package/gui/main_gui.py, line: 125
+# File: usr/share/build-package/gui/main_gui.py, line: 141
 #: NEEDS WORK
-msgid "Preferences - Coming soon"
-msgstr "Valmynd - Komandi fljótlega"
+msgid "Settings updated"
+msgstr "Stillingar uppfærðar"
+# 
+# File: usr/share/build-package/gui/main_gui.py, line: 148
+#: NEEDS WORK
+msgid "Settings not available"
+msgstr "Stillingar ekki í boði"
 # 
 # File: usr/share/build-package/gui/main_gui.py, line: 140
 #: NEEDS WORK
@@ -2884,24 +3808,6 @@ msgstr "Aðgerð mistókst: {0}"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-package/gui/gtk_menu.py, line: 54
-# File: usr/share/build-package/gui/gtk_menu.py, line: 96
-# File: usr/share/build-package/gui/gtk_menu.py, line: 133
-# File: usr/share/build-package/gui/gtk_menu.py, line: 184
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 330
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 392
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 257
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 94
-#: NEEDS WORK
-msgid "Cancel"
-msgstr "Hætta við"
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
 # File: usr/share/build-package/gui/gtk_menu.py, line: 97
 # File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 331
 #: NEEDS WORK
@@ -2922,10 +3828,18 @@ msgstr "Í lagi"
 msgid "Please wait..."
 msgstr "Vinsamlegast bíða..."
 # 
-# File: usr/share/build-package/gui/gtk_logger.py, line: 91
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 50
 #: NEEDS WORK
-msgid "Build Package initialized successfully"
-msgstr "Byggipakki hefur verið stofnaður með góðum árangri"
+#, python-brace-format
+msgid ""
+"Found {0} conflicted files:\n"
+"\n"
+msgstr "Fundin {0} deilduð skrár:"
+# 
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 75
+#: NEEDS WORK
+msgid "Select an option:"
+msgstr "Veldu valkost:"
 # 
 # File: usr/share/build-package/gui/gtk_logger.py, line: 107
 #: NEEDS WORK
@@ -3446,11 +4360,6 @@ msgstr "Velkomin í {0}"
 msgid "Version {0}"
 msgstr "Útgáfa {0}"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 137
-#: NEEDS WORK
-msgid "Repository"
-msgstr "Geymsla"
-# 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 139
 #: NEEDS WORK
 msgid "Changes"
@@ -3687,6 +4596,290 @@ msgstr "Aukalega"
 msgid "Ready to build {0} package '{1}' from branch '{2}'"
 msgstr "Búið að byggja {0} pakka '{1}' frá grein '{2}'"
 # 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 40
+#: NEEDS WORK
+msgid "Operation"
+msgstr "Aðgerð"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 45
+#: NEEDS WORK
+msgid "Operation Mode"
+msgstr "Aðgerðarhamur"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 46
+#: NEEDS WORK
+msgid "Choose how the application should operate"
+msgstr "Veldu hvernig forritið eigi að starfa"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 50
+#: NEEDS WORK
+msgid "Mode"
+msgstr "Hamstur"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 51
+#: NEEDS WORK
+msgid "Select your preferred operation mode"
+msgstr "Veldu þinn valinn rekstrarham."
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 55
+#: NEEDS WORK
+msgid "Safe - Show previews and confirmations"
+msgstr "Öryggi - Sýna forsýningar og staðfestingar"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 56
+#: NEEDS WORK
+msgid "Quick - Fast with minimal confirmations"
+msgstr "Hraðvirkt - Fljótlegt með lágmarks staðfestingum"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 57
+#: NEEDS WORK
+msgid "Expert - Maximum automation, no confirmations"
+msgstr "Sérfræðingur - Hámarks sjálfvirkni, engar staðfestingar"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 67
+#: NEEDS WORK
+msgid "Conflicts"
+msgstr "Átök"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 72
+#: NEEDS WORK
+msgid "Conflict Resolution"
+msgstr "Ágreinaskilningur"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 73
+#: NEEDS WORK
+msgid "How to handle merge conflicts"
+msgstr "Hvernig á að meðhöndla samrunaárekstra"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 77
+#: NEEDS WORK
+msgid "Strategy"
+msgstr "Stefna"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 78
+#: NEEDS WORK
+msgid "Select conflict resolution strategy"
+msgstr "Veldu aðferðir til að leysa ágreining."
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 81
+#: NEEDS WORK
+msgid "Interactive - Ask for each file"
+msgstr "Samskipti - Spurðu um hvern skrá"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 82
+#: NEEDS WORK
+msgid "Auto-ours - Always keep local changes"
+msgstr "Auto-ours - Halda alltaf staðbundnar breytingar"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 83
+#: NEEDS WORK
+msgid "Auto-theirs - Always accept remote changes"
+msgstr "Sjálfvirkt - Alltaf samþykkja fjarbreytingar"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 84
+#: NEEDS WORK
+msgid "Manual - Stop and let me resolve"
+msgstr "Handbók - Stoppaðu og leyfðu mér að leysa."
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 94
+#: NEEDS WORK
+msgid "Automation"
+msgstr "Sjálfvirkni"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 99
+#: NEEDS WORK
+msgid "Git Operations"
+msgstr "Git aðgerðir"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 100
+#: NEEDS WORK
+msgid "Automatic git operations"
+msgstr "Sjálfvirkar git aðgerðir"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 104
+#: NEEDS WORK
+msgid "Auto-fetch"
+msgstr "Sjálfvirk skynjun"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 105
+#: NEEDS WORK
+msgid "Automatically fetch from remote before operations"
+msgstr "Sækja sjálfkrafa frá fjarhýsli áður en aðgerðir eru framkvæmdar"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 111
+#: NEEDS WORK
+msgid "Auto-switch branch"
+msgstr "Sjálfvirk greinaskipti"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 112
+#: NEEDS WORK
+msgid "Automatically switch to your development branch"
+msgstr "Sjálfvirkt skipta yfir á þróunargreinina þína"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 118
+#: NEEDS WORK
+msgid "Auto-pull"
+msgstr "Sjálfvirk draga"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 119
+#: NEEDS WORK
+msgid "Automatically pull latest changes"
+msgstr "Sjálfvirkt að draga nýjustu breytingar"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 127
+#: NEEDS WORK
+msgid "Version Management"
+msgstr "Útgáfu stjórnun"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 131
+#: NEEDS WORK
+msgid "Auto-version bump"
+msgstr "Sjálfvirk útgáfuauki"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 132
+#: NEEDS WORK
+msgid "Automatically increment version based on commit type"
+msgstr "Sjálfvirkt að auka útgáfu byggt á gerð skuldbindingar"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 145
+#: NEEDS WORK
+msgid "Display"
+msgstr "Sýna"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 149
+#: NEEDS WORK
+msgid "Show git commands"
+msgstr "Sýna git skipanir"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 150
+#: NEEDS WORK
+msgid "Display git commands being executed"
+msgstr "Sýna git skipanir sem eru framkvæmdar"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 156
+#: NEEDS WORK
+msgid "Confirm destructive operations"
+msgstr "Staðfesta eyðileggjandi aðgerðir"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 157
+#: NEEDS WORK
+msgid "Always confirm potentially destructive operations"
+msgstr "Alltaf staðfesta mögulega eyðileggjandi aðgerðir"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 170
+#: NEEDS WORK
+msgid "Restore all settings to their default values"
+msgstr "Endurðu allar stillingar í þeirra sjálfgefnar gildi."
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 264
+#: NEEDS WORK
+msgid "Reset Settings?"
+msgstr "Endurstilla stillingar?"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 265
+#: NEEDS WORK
+msgid "All settings will be restored to their default values. This cannot be undone."
+msgstr "Öll stillingar verða endurstilltar á sjálfgefnar gildi. Þetta er ekki hægt að afturkalla."
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 35
+#: NEEDS WORK
+msgid "Keep Local"
+msgstr "Haldaðu staðbundið"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 36
+#: NEEDS WORK
+msgid "Keep local version"
+msgstr "Haldaðu staðbundna útgáfu"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 43
+#: NEEDS WORK
+msgid "Accept Remote"
+msgstr "Samþykkja fjarstýringu"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 51
+#: NEEDS WORK
+msgid "Keep Both"
+msgstr "Haldaðu báðum"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 52
+#: NEEDS WORK
+msgid "Keep both versions"
+msgstr "Haldaðu báðum útgáfum"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 60
+#: NEEDS WORK
+msgid "Show differences"
+msgstr "Sýna munina"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 96
+#: NEEDS WORK
+msgid "Resolve Conflicts"
+msgstr "Leystu deilur"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 128
+#: NEEDS WORK
+#, python-brace-format
+msgid "Found {0} conflicted files"
+msgstr "Fundin {0} deildu skrár"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 136
+#: NEEDS WORK
+msgid "Apply to all remaining conflicts"
+msgstr "Beita á allar eftirfarandi deilur"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 145
+#: NEEDS WORK
+msgid "Keep All Local"
+msgstr "Haldaðu allt á staðnum"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 151
+#: NEEDS WORK
+msgid "Accept All Remote"
+msgstr "Samþykkja allt fjarstýringu"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 160
+#: NEEDS WORK
+msgid "Conflicted Files"
+msgstr "Samskipti Skrár"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 197
+#: NEEDS WORK
+msgid "Apply Resolutions"
+msgstr "Beita lausnir"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 214
+#: NEEDS WORK
+#, python-brace-format
+msgid "Resolved {0} of {1} conflicts"
+msgstr "Leyst {0} af {1} ágreiningum"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 236
+#: NEEDS WORK
+msgid "No diff available"
+msgstr "Engin breytingar í boði"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 239
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error getting diff: {0}"
+msgstr "Villa að fá diff: {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 245
+#: NEEDS WORK
+#, python-brace-format
+msgid "Diff: {0}"
+msgstr "Mismunur: {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 288
+#: NEEDS WORK
+msgid "All conflicts resolved (kept local versions)"
+msgstr "Öll átök leyst (geymdar staðbundnar útgáfur)"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 300
+#: NEEDS WORK
+msgid "All conflicts resolved (accepted remote versions)"
+msgstr "Öll átök leyst ( samþykkt fjarversjónir)"
+# 
 # File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 57
 #: NEEDS WORK
 msgid "Preparing..."
@@ -3697,10 +4890,35 @@ msgstr "Undirbúningur..."
 msgid "Details"
 msgstr "Skráningar"
 # 
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 263
+# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 76
 #: NEEDS WORK
-msgid "Operation cancelled"
-msgstr "Aðgerð aflýst"
+msgid "🔍 Dry-Run Mode"
+msgstr "🔍 Þurrkeyrslulíkan"
+# 
+# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 77
+#: NEEDS WORK
+msgid "Simulating operations (nothing will be executed):"
+msgstr "Simulering aðgerða (ekkert verður framkvæmt):"
+# 
+# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 79
+#: NEEDS WORK
+msgid "Operation Preview"
+msgstr "Aðgerð Forskoðun"
+# 
+# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 80
+#: NEEDS WORK
+msgid "The following operations will be executed:"
+msgstr "Fyrirfarandi aðgerðir verða framkvæmdar:"
+# 
+# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 149
+#: NEEDS WORK
+msgid "Close"
+msgstr "Lokaðu"
+# 
+# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 154
+#: NEEDS WORK
+msgid "Proceed"
+msgstr "Fara áfram"
 # 
 # File: usr/share/build-iso/build_iso.py, line: 105
 #: NEEDS WORK

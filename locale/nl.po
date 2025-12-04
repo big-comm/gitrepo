@@ -61,6 +61,17 @@ msgstr ""
 "Gebruik de [white]pijltjestoetsen ↑↓[/] om te navigeren, [white]Enter[/] om te selecteren, "
 "[white]ESC[/] om te verlaten"
 # 
+# File: usr/share/build-package/core/build_package.py, line: 58
+#: NEEDS WORK
+#, python-brace-format
+msgid "Operation mode set to: {0}"
+msgstr "Bedrijfsmodus ingesteld op: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 64
+#: NEEDS WORK
+msgid "🔍 DRY-RUN MODE: No operations will be executed"
+msgstr "🔍 DROGE RUN MODUS: Er zullen geen bewerkingen worden uitgevoerd"
+# 
 # File: usr/share/build-package/build_package.py, line: 74
 #: NEEDS WORK
 #, python-brace-format
@@ -149,6 +160,16 @@ msgstr "Bouw ontwikkelpakket"
 #: NEEDS WORK
 msgid "Configure GitHub organization (default: big-comm)"
 msgstr "Configure GitHub-organisatie (standaard: big-comm)"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 260
+#: NEEDS WORK
+msgid "Operation mode: safe (default), quick (fast), expert (max automation)"
+msgstr "Bedrijfsmodus: veilig (standaard), snel (snel), expert (maximale automatisering)"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 263
+#: NEEDS WORK
+msgid "Simulate operations without executing"
+msgstr "Simuleer bewerkingen zonder uit te voeren"
 # 
 # File: usr/share/build-package/build_package.py, line: 128
 #: NEEDS WORK
@@ -1093,20 +1114,22 @@ msgstr "Nieuwe Tak"
 msgid "AUR - Summary of Choices"
 msgstr "AUR - Samenvatting van Keuzes"
 # 
-# File: usr/share/build-package/build_package.py, line: 535
-#: NEEDS WORK
-msgid "Commit and push"
-msgstr "Commit en push"
-# 
-# File: usr/share/build-package/build_package.py, line: 829
-#: NEEDS WORK
-msgid "Pull latest"
-msgstr "Haal laatste op"
-# 
 # File: usr/share/build-package/build_package.py, line: 536
 #: NEEDS WORK
 msgid "Generate package (commit + branch + build)"
 msgstr "Genereer pakket (commit + tak + build)"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1552
+# File: usr/share/build-package/core/build_package.py, line: 1559
+# File: usr/share/build-package/core/settings_menu.py, line: 40
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 29
+#: NEEDS WORK
+msgid "Settings"
+msgstr "Instellingen"
 # 
 # File: usr/share/build-package/build_package.py, line: 538
 #: NEEDS WORK
@@ -1118,13 +1141,15 @@ msgstr "Geavanceerd menu"
 msgid "Main Menu"
 msgstr "Hoofdmenu"
 # 
-# File: usr/share/build-package/build_package.py, line: 175
-# File: usr/share/build-package/build_package.py, line: 353
-# File: usr/share/build-package/build_package.py, line: 563
-# File: usr/share/build-package/build_package.py, line: 588
+# File: usr/share/build-package/core/build_package.py, line: 1582
 #: NEEDS WORK
-msgid "Failed to pull changes. Do you want to continue anyway?"
-msgstr "Mislukt om wijzigingen op te halen. Wilt u toch doorgaan?"
+msgid "Pull completed"
+msgstr "Pull voltooid"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1582
+#: NEEDS WORK
+msgid "Press Enter to continue"
+msgstr "Druk op Enter om door te gaan"
 # 
 # File: usr/share/build-package/build_package.py, line: 579
 #: NEEDS WORK
@@ -1153,11 +1178,6 @@ msgstr "Nee"
 #: NEEDS WORK
 msgid "Yes"
 msgstr "Ja"
-# 
-# File: usr/share/build-package/build_package.py, line: 608
-#: NEEDS WORK
-msgid "No changes to commit, proceeding with package generation."
-msgstr "Geen wijzigingen om te committen, doorgaan met het genereren van het pakket."
 # 
 # File: usr/share/build-package/build_package.py, line: 654
 #: NEEDS WORK
@@ -2581,6 +2601,335 @@ msgstr "Handmatige samenvoeging vereist"
 msgid "PULL REQUEST COMPLETED"
 msgstr "PULL REQUEST VOLTOOID"
 # 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 44
+# File: usr/share/build-package/core/pull_operations.py, line: 44
+#: NEEDS WORK
+msgid "Analyzing repository state..."
+msgstr "Analyseren van de status van de repository..."
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 53
+# File: usr/share/build-package/core/pull_operations.py, line: 52
+#: NEEDS WORK
+#, python-brace-format
+msgid "Your branch: {0}"
+msgstr "Je tak: {0}"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 54
+#: NEEDS WORK
+#, python-brace-format
+msgid "Changes: {0}"
+msgstr "Wijzigingen: {0}"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 58
+#: NEEDS WORK
+msgid "⚠️  Conflicts detected!"
+msgstr "⚠️  Conflicten gedetecteerd!"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 61
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-resolving conflicts ({0} mode)..."
+msgstr "Automatisch conflicten oplossen ({0} modus)..."
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 63
+#: NEEDS WORK
+msgid "Failed to resolve conflicts. Please fix manually."
+msgstr "Conflicten konden niet worden opgelost. Los dit handmatig op."
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 66
+#: NEEDS WORK
+msgid "Conflict resolution required."
+msgstr "Conflictresolution vereist."
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 74
+# File: usr/share/build-package/core/pull_operations.py, line: 58
+#: NEEDS WORK
+msgid "Auto-switching to your branch..."
+msgstr "Automatisch overschakelen naar uw tak..."
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 78
+#: NEEDS WORK
+msgid "Stash changes before switching"
+msgstr "Verberg wijzigingen voordat je overschakelt"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 84
+# File: usr/share/build-package/core/pull_operations.py, line: 68
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switch to your branch: {0}"
+msgstr "Schakel over naar je branch: {0}"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 103
+# File: usr/share/build-package/core/pull_operations.py, line: 117
+#: NEEDS WORK
+msgid "⚠️  Conflicts while restoring changes"
+msgstr "⚠️  Conflicten bij het herstellen van wijzigingen"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 105
+#: NEEDS WORK
+msgid "Failed to resolve conflicts"
+msgstr "Conflict oplossen mislukt"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 107
+#: NEEDS WORK
+msgid "Failed to restore stashed changes"
+msgstr "Herstellen van opgeslagen wijzigingen is mislukt"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 110
+#: NEEDS WORK
+msgid "Restore stashed changes"
+msgstr "Herstel opgeslagen wijzigingen"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 118
+#: NEEDS WORK
+#, python-brace-format
+msgid "You're in {0}, but should commit to {1}"
+msgstr "Je bent in {0}, maar je zou moeten committen naar {1}"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 123
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switch to my branch ({0})"
+msgstr "Schakel over naar mijn tak ({0})"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 124
+#: NEEDS WORK
+#, python-brace-format
+msgid "Continue in current branch ({0})"
+msgstr "Ga door in de huidige tak ({0})"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/gtk_menu.py, line: 54
+# File: usr/share/build-package/gui/gtk_menu.py, line: 96
+# File: usr/share/build-package/gui/gtk_menu.py, line: 133
+# File: usr/share/build-package/gui/gtk_menu.py, line: 184
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 330
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 392
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 257
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 94
+#: NEEDS WORK
+msgid "Cancel"
+msgstr "Annuleren"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 263
+#: NEEDS WORK
+msgid "Operation cancelled"
+msgstr "Bewerking geannuleerd"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 136
+#: NEEDS WORK
+msgid "Stashing changes before switching branches..."
+msgstr "Wijzigingen opslaan voordat je van tak wisselt..."
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 144
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to stash changes: {0}"
+msgstr "Kon wijzigingen niet opslaan: {0}"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 153
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to switch branches: {0}"
+msgstr "Mislukt om van tak te wisselen: {0}"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 171
+#: NEEDS WORK
+msgid "⚠️  Conflicts detected while restoring changes"
+msgstr "⚠️  Conflicten gedetecteerd tijdens het herstellen van wijzigingen"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 175
+#: NEEDS WORK
+msgid "Attempting to resolve conflicts..."
+msgstr "Poging om conflicten op te lossen..."
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 178
+#: NEEDS WORK
+msgid "✗ Could not resolve conflicts automatically"
+msgstr "✗ Kon conflicten niet automatisch oplossen"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 179
+#: NEEDS WORK
+msgid "Please resolve conflicts manually and run again"
+msgstr "Los alstublieft conflicten handmatig op en voer het opnieuw uit."
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 182
+#: NEEDS WORK
+msgid "Could not restore changes. Check 'git stash list'"
+msgstr "Kon wijzigingen niet herstellen. Controleer 'git stash list'"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 185
+#: NEEDS WORK
+msgid "✓ Changes restored successfully"
+msgstr "✓ Wijzigingen succesvol hersteld"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 193
+#: NEEDS WORK
+msgid "Fetch latest from remote"
+msgstr "Haal de laatste op van de externe bron"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 218
+#: NEEDS WORK
+#, python-brace-format
+msgid "Your branch is {0} commits behind remote"
+msgstr "Je branch is {0} commits achter op de remote"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 233
+#: NEEDS WORK
+msgid "No changes to commit"
+msgstr "Geen wijzigingen om te committen"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 254
+#: NEEDS WORK
+msgid "✗ Unresolved conflicts detected!"
+msgstr "✗ Onopgeloste conflicten gedetecteerd!"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 255
+#: NEEDS WORK
+msgid "Cannot commit with conflict markers in files"
+msgstr "Kan niet committen met conflictmarkeringen in bestanden"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 258
+# File: usr/share/build-package/core/pull_operations.py, line: 190
+#: NEEDS WORK
+msgid "✗ Failed to resolve conflicts"
+msgstr "✗ Conflicten konden niet worden opgelost"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 259
+#: NEEDS WORK
+msgid "Please resolve manually:"
+msgstr "Gelieve handmatig op te lossen:"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 260
+#: NEEDS WORK
+msgid "1. Edit conflicted files"
+msgstr "1. Bewerk conflicterende bestanden"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 261
+#: NEEDS WORK
+msgid "2. Remove <<<<<<, =======, >>>>>>> markers"
+msgstr "2. Verwijder <<<<<<, =======, >>>>>>> markeringen"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 262
+#: NEEDS WORK
+msgid "3. Run 'git add <file>'"
+msgstr "3. Voer 'git add <bestand>' uit"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 263
+#: NEEDS WORK
+msgid "4. Run this command again"
+msgstr "4. Voer dit commando opnieuw uit"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 266
+#: NEEDS WORK
+msgid "✓ Conflicts resolved, continuing..."
+msgstr "✓ Conflicten opgelost, doorgaan..."
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 270
+#: NEEDS WORK
+msgid "Stage all changes"
+msgstr "Stel alle wijzigingen in staat"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 276
+#: NEEDS WORK
+#, python-brace-format
+msgid "Commit: {0}"
+msgstr "Commit: {0}"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 291
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Successfully committed and pushed to {0}!"
+msgstr "✓ Succesvol gecommit en gepusht naar {0}!"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 329
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error ensuring branch exists: {0}"
+msgstr "Fout bij het waarborgen dat de tak bestaat: {0}"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 40
+#: NEEDS WORK
+#, python-brace-format
+msgid "✗ Failed: {0}"
+msgstr "✗ Mislukt: {0}"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 56
+#: NEEDS WORK
+#, python-brace-format
+msgid "✗ Command failed: {0}"
+msgstr "✗ Opdracht mislukt: {0}"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 107
+#: NEEDS WORK
+msgid "No operations planned"
+msgstr "Geen operaties gepland"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 112
+#: NEEDS WORK
+msgid "OPERATION PLAN"
+msgstr "OPERATIEPLAN"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 139
+#: NEEDS WORK
+#, python-brace-format
+msgid "⚠️  {0} destructive operation(s) out of {1} total"
+msgstr "⚠️  {0} destructieve bewerking(en) van {1} totaal"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 141
+#: NEEDS WORK
+#, python-brace-format
+msgid "ℹ️  {0} safe operation(s)"
+msgstr "ℹ️  {0} veilige bewerking(en)"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 154
+#: NEEDS WORK
+msgid "⚠️  Proceed with these operations? (includes destructive actions)"
+msgstr "⚠️  Wilt u deze bewerkingen uitvoeren? (inclusief destructieve acties)"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 156
+#: NEEDS WORK
+msgid "Proceed with these operations?"
+msgstr "Ga door met deze bewerkingen?"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 187
+#: NEEDS WORK
+#, python-brace-format
+msgid "Executing {0} operation(s)..."
+msgstr "Voer {0} bewerking(en) uit..."
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 197
+#: NEEDS WORK
+msgid "✗ Operation failed. Stopping execution."
+msgstr "✗ Operatie mislukt. Uitvoering stoppen."
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 201
+#: NEEDS WORK
+msgid "✓ Completed"
+msgstr "✓ Voltooid"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 209
+#: NEEDS WORK
+msgid "Operation cancelled by user"
+msgstr "Bewerking geannuleerd door gebruiker"
+# 
 # File: usr/share/build-package/config.py, line: 46
 #: NEEDS WORK
 msgid "BUILD PACKAGE"
@@ -2595,6 +2944,576 @@ msgstr ""
 "Een uitgebreide tool voor het bouwen, testen en implementeren van pakketten. Stroomlijnt "
 "Git-operaties, automatiseert builds en beheert pakketworkflows voor BigCommunity-repositories en "
 "AUR-pakketten."
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 62
+# File: usr/share/build-package/core/package_operations.py, line: 64
+# File: usr/share/build-package/core/package_operations.py, line: 88
+# File: usr/share/build-package/core/package_operations.py, line: 90
+# File: usr/share/build-package/core/package_operations.py, line: 117
+# File: usr/share/build-package/core/package_operations.py, line: 119
+# File: usr/share/build-package/core/package_operations.py, line: 130
+# File: usr/share/build-package/core/package_operations.py, line: 132
+#: NEEDS WORK
+msgid "═"
+msgstr "═"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 63
+#: NEEDS WORK
+msgid "STEP 1: Commit Changes"
+msgstr "STAP 1: Wijzigingen bevestigen"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 68
+#: NEEDS WORK
+msgid "✗ Commit failed, cannot proceed with package generation"
+msgstr "✗ Commit mislukt, kan niet doorgaan met het genereren van het pakket"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 71
+#: NEEDS WORK
+msgid "✓ Commit completed successfully"
+msgstr "✓ Commit succesvol voltooid"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 73
+#: NEEDS WORK
+msgid "No changes to commit, proceeding with package generation"
+msgstr "Geen wijzigingen om te committen, doorgaan met het genereren van het pakket."
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 89
+#: NEEDS WORK
+msgid "STEP 2: Merge to Main"
+msgstr "STAP 2: Samenvoegen met Hoofd"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 93
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-merging {0} to main..."
+msgstr "Automatisch samenvoegen van {0} naar main..."
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 95
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merge {0} to main for {1} package?"
+msgstr "Samenvoegen {0} naar hoofd voor {1} pakket?"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 96
+#: NEEDS WORK
+msgid "Cancelled merge to main"
+msgstr "Geannuleerde samenvoeging naar hoofd"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 103
+#: NEEDS WORK
+msgid "✗ Failed to merge to main"
+msgstr "✗ Mergen naar hoofd is mislukt"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 106
+#: NEEDS WORK
+msgid "✓ Successfully merged to main"
+msgstr "✓ Succesvol samengevoegd met main"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 118
+#: NEEDS WORK
+msgid "STEP 3: Package Build Summary"
+msgstr "STAP 3: Samenvatting van de Pakketbouw"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 125
+#: NEEDS WORK
+msgid "🚀 Trigger package build on GitHub Actions?"
+msgstr "🚀 Trigger pakketbouw op GitHub Actions?"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 126
+#: NEEDS WORK
+msgid "Package build cancelled"
+msgstr "Pakketbouw geannuleerd"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 131
+#: NEEDS WORK
+msgid "STEP 4: Triggering GitHub Actions Workflow"
+msgstr "STAP 4: GitHub Actions Workflow Triggeren"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 142
+#: NEEDS WORK
+msgid "✓ Package build triggered successfully!"
+msgstr "✓ Pakketbouw succesvol geactiveerd!"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 143
+#: NEEDS WORK
+#, python-brace-format
+msgid "Monitor build at: https://github.com/{0}/build-package/actions"
+msgstr "Bouw monitoren op: https://github.com/{0}/build-package/actions"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 145
+#: NEEDS WORK
+msgid "✗ Failed to trigger package build"
+msgstr "✗ Mislukt om pakketbouw te activeren"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 172
+#: NEEDS WORK
+msgid "Merge conflict, using automatic resolution..."
+msgstr "Samenvoegconflict, automatische oplossing gebruiken..."
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 184
+#: NEEDS WORK
+msgid "Using force merge strategy..."
+msgstr "Gebruik makend van de force merge-strategie..."
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 189
+#: NEEDS WORK
+msgid "Push merged main to remote?"
+msgstr "Gecombineerde hoofd naar remote duwen?"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 197
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during merge: {0}"
+msgstr "Fout tijdens samenvoegen: {0}"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 137
+#: NEEDS WORK
+msgid "Repository"
+msgstr "Opslagplaats"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 218
+#: NEEDS WORK
+msgid "📦 Package Build Configuration"
+msgstr "📦 Pakketbouwconfiguratie"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 55
+#: NEEDS WORK
+#, python-brace-format
+msgid "⚠️  Detected {0} file(s) with conflicts"
+msgstr "⚠️  {0} bestand(en) met conflicten gedetecteerd"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 73
+#: NEEDS WORK
+msgid "Resolving conflicts: keeping our changes..."
+msgstr "Conflicten oplossen: onze wijzigingen behouden..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 79
+#: NEEDS WORK
+msgid "✓ Conflicts resolved (kept our changes)"
+msgstr "✓ Conflicten opgelost (onze wijzigingen behouden)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 82
+# File: usr/share/build-package/core/conflict_resolver.py, line: 97
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to auto-resolve: {0}"
+msgstr "Automatisch oplossen mislukt: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 88
+#: NEEDS WORK
+msgid "Resolving conflicts: accepting remote changes..."
+msgstr "Conflicten oplossen: externe wijzigingen accepteren..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 94
+#: NEEDS WORK
+msgid "✓ Conflicts resolved (accepted remote)"
+msgstr "✓ Conflicten opgelost (geaccepteerd van afstand)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 102
+#: NEEDS WORK
+msgid "Interactive conflict resolution..."
+msgstr "Interactieve conflictoplossing..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 110
+#: NEEDS WORK
+msgid "Keep our version"
+msgstr "Houd onze versie."
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 111
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 44
+#: NEEDS WORK
+msgid "Accept remote version"
+msgstr "Accepteer externe versie"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 112
+#: NEEDS WORK
+msgid "Keep both (create .ours and .theirs files)"
+msgstr "Houd beide (maak .ours en .theirs bestanden aan)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 113
+#: NEEDS WORK
+msgid "Edit manually (abort and fix)"
+msgstr "Handmatig bewerken (afbreken en corrigeren)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 114
+#: NEEDS WORK
+msgid "Show diff"
+msgstr "Toon verschil"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 118
+#: NEEDS WORK
+#, python-brace-format
+msgid "How to resolve: {0}"
+msgstr "Hoe op te lossen: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 130
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Kept our version of {0}"
+msgstr "✓ Onze versie van {0} behouden"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 135
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Accepted remote version of {0}"
+msgstr "✓ Geaccepteerde externe versie van {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 139
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Created both versions of {0}"
+msgstr "✓ Beide versies van {0} gemaakt"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 142
+#: NEEDS WORK
+#, python-brace-format
+msgid "Manual resolution required for {0}"
+msgstr "Handmatige oplossing vereist voor {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 143
+#: NEEDS WORK
+msgid "Use 'git status' to see conflicted files"
+msgstr "Gebruik 'git status' om conflicterende bestanden te zien"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 144
+#: NEEDS WORK
+msgid "Edit files, then 'git add' and run this again"
+msgstr "Bewerk bestanden, voer vervolgens 'git add' uit en draai dit opnieuw."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 152
+#: NEEDS WORK
+msgid "✓ All conflicts resolved!"
+msgstr "✓ Alle conflicten opgelost!"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 157
+#: NEEDS WORK
+msgid "Manual conflict resolution needed"
+msgstr "Handmatige conflictoplossing nodig"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 158
+#: NEEDS WORK
+msgid "Conflicted files:"
+msgstr "Conflicterende bestanden:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 163
+#: NEEDS WORK
+msgid "Steps to resolve:"
+msgstr "Stappen om op te lossen:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 164
+#: NEEDS WORK
+msgid "1. Edit the files above and fix conflicts"
+msgstr "Bewerk de bovenstaande bestanden en los conflicten op"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 165
+#: NEEDS WORK
+msgid "2. Run: git add <file>"
+msgstr "2. Voer uit: git add <bestand>"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 166
+#: NEEDS WORK
+msgid "3. Run this command again"
+msgstr "3. Voer dit commando opnieuw uit"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 179
+#: NEEDS WORK
+#, python-brace-format
+msgid "File: {0}"
+msgstr "Bestand: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 180
+#: NEEDS WORK
+#, python-brace-format
+msgid "Conflicts: {0}"
+msgstr "Conflicten: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 206
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not preview file: {0}"
+msgstr "Kon het bestand niet vooraf bekijken: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 228
+#: NEEDS WORK
+msgid "OUR VERSION:"
+msgstr "ONZE VERSIE:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 234
+#: NEEDS WORK
+msgid "THEIR VERSION:"
+msgstr "HUN VERSIE:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 242
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not show diff: {0}"
+msgstr "Kon niet diff tonen: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 260
+#: NEEDS WORK
+msgid "Created files:"
+msgstr "Gemaakte bestanden:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 266
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating versions: {0}"
+msgstr "Fout bij het aanmaken van versies: {0}"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 36
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 169
+#: NEEDS WORK
+msgid "Reset to defaults"
+msgstr "Standaardinstellingen herstellen"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 58
+#: NEEDS WORK
+msgid "Reset all settings to defaults?"
+msgstr "Alle instellingen terugzetten naar de standaardwaarden?"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 60
+#: NEEDS WORK
+msgid "✓ Settings reset to defaults"
+msgstr "✓ Instellingen teruggezet naar standaardwaarden"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 67
+# File: usr/share/build-package/core/settings_menu.py, line: 130
+#: NEEDS WORK
+msgid "Safe Mode"
+msgstr "Veilige modus"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 67
+# File: usr/share/build-package/core/settings_menu.py, line: 136
+#: NEEDS WORK
+msgid "More control, confirm important actions"
+msgstr "Meer controle, bevestig belangrijke acties"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 68
+# File: usr/share/build-package/core/settings_menu.py, line: 131
+#: NEEDS WORK
+msgid "Quick Mode"
+msgstr "Snelle modus"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 68
+# File: usr/share/build-package/core/settings_menu.py, line: 137
+#: NEEDS WORK
+msgid "Fast automation, minimal confirmations"
+msgstr "Snelle automatisering, minimale bevestigingen"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 69
+# File: usr/share/build-package/core/settings_menu.py, line: 132
+#: NEEDS WORK
+msgid "Expert Mode"
+msgstr "Expertmodus"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 69
+# File: usr/share/build-package/core/settings_menu.py, line: 138
+#: NEEDS WORK
+msgid "Maximum automation, for experienced users"
+msgstr "Maximale automatisering, voor ervaren gebruikers"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 79
+#: NEEDS WORK
+msgid "Select Operation Mode"
+msgstr "Selecteer bedrijfsmodus"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 86
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Operation mode changed to: {0}"
+msgstr "✓ Bedrijfsmodus gewijzigd naar: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 93
+#: NEEDS WORK
+msgid "Interactive"
+msgstr "Interactief"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 93
+#: NEEDS WORK
+msgid "Ask for each conflict file"
+msgstr "Vraag om elk conflictbestand"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 94
+#: NEEDS WORK
+msgid "Auto Keep Ours"
+msgstr "Auto Bewaar Onze"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 94
+#: NEEDS WORK
+msgid "Always keep our changes"
+msgstr "Houd altijd onze wijzigingen bij"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 95
+#: NEEDS WORK
+msgid "Auto Accept Remote"
+msgstr "Auto Accepteren Op Afstand"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 95
+#: NEEDS WORK
+msgid "Always accept remote changes"
+msgstr "Altijd externe wijzigingen accepteren"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 96
+#: NEEDS WORK
+msgid "Manual"
+msgstr "Handleiding"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 96
+#: NEEDS WORK
+msgid "Stop and let me resolve manually"
+msgstr "Stop en laat me het handmatig oplossen"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 106
+#: NEEDS WORK
+msgid "Select Conflict Strategy"
+msgstr "Selecteer conflictestrategie"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 113
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Conflict strategy changed to: {0}"
+msgstr "✓ Conflictastrategie gewijzigd naar: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 121
+#: NEEDS WORK
+msgid "enabled"
+msgstr "ingeschakeld"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 121
+#: NEEDS WORK
+msgid "disabled"
+msgstr "uitgeschakeld"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 122
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ {0} {1}"
+msgstr "✓ {0} {1}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 142
+#: NEEDS WORK
+#, python-brace-format
+msgid "Current Mode: {0}"
+msgstr "Huidige modus: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 145
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-resolve conflicts: {0}"
+msgstr "Automatisch conflicten oplossen: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 147
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-switch branches: {0}"
+msgstr "Automatisch schakelen tussen branches: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 149
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-merge: {0}"
+msgstr "Auto-samenvoegen: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 151
+#: NEEDS WORK
+#, python-brace-format
+msgid "Show preview: {0}"
+msgstr "Toon voorbeeld: {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 53
+#: NEEDS WORK
+#, python-brace-format
+msgid "Local changes: {0}"
+msgstr "Lokale wijzigingen: {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 62
+#: NEEDS WORK
+msgid "Stash local changes"
+msgstr "Verberg lokale wijzigingen"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 75
+#: NEEDS WORK
+msgid "Restore local changes"
+msgstr "Herstel lokale wijzigingen"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 82
+#: NEEDS WORK
+#, python-brace-format
+msgid "You're in {0}, but your branch is {1}"
+msgstr "Je bent in {0}, maar je tak is {1}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 87
+#: NEEDS WORK
+msgid "Switch to my branch and pull there"
+msgstr "Schakel over naar mijn branch en haal daar op"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 88
+#: NEEDS WORK
+msgid "Pull to current branch"
+msgstr "Haal naar huidige tak"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 130
+#: NEEDS WORK
+msgid "Finding most recent code..."
+msgstr "Zoeken naar de meest recente code..."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 139
+#: NEEDS WORK
+#, python-brace-format
+msgid "Most recent branch: {0}"
+msgstr "Meest recente tak: {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 155
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging latest code from {0}"
+msgstr "Laatste code samenvoegen van {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 166
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merge {0} into your branch?"
+msgstr "Samenvoegen {0} in je branch?"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 173
+#: NEEDS WORK
+msgid "Skipping merge"
+msgstr "Overslaan van samenvoegen"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 177
+#: NEEDS WORK
+msgid "✓ Already up to date"
+msgstr "✓ Al bijgewerkt"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 187
+#: NEEDS WORK
+msgid "⚠️  Conflicts detected after pull"
+msgstr "⚠️  Conflicten gedetecteerd na pull"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 193
+#: NEEDS WORK
+msgid "✓ Conflicts resolved"
+msgstr "✓ Conflicten opgelost"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 206
+#: NEEDS WORK
+msgid "✓ Successfully updated to latest code"
+msgstr "✓ Succesvol bijgewerkt naar de nieuwste code"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 207
+#: NEEDS WORK
+#, python-brace-format
+msgid "Latest commit: {0}"
+msgstr "Laatste commit: {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 209
+#: NEEDS WORK
+msgid "✓ Pull completed"
+msgstr "✓ Pull voltooid"
 # 
 # File: usr/share/build-package/gui/main_gui.py, line: 82
 # File: usr/share/build-package/gui/main_gui.py, line: 145
@@ -2618,10 +3537,15 @@ msgstr "Over Buildpakket"
 msgid "translator-credits"
 msgstr "vertaler-credits"
 # 
-# File: usr/share/build-package/gui/main_gui.py, line: 125
+# File: usr/share/build-package/gui/main_gui.py, line: 141
 #: NEEDS WORK
-msgid "Preferences - Coming soon"
-msgstr "Voorkeuren - Binnenkort beschikbaar"
+msgid "Settings updated"
+msgstr "Instellingen bijgewerkt"
+# 
+# File: usr/share/build-package/gui/main_gui.py, line: 148
+#: NEEDS WORK
+msgid "Settings not available"
+msgstr "Instellingen niet beschikbaar"
 # 
 # File: usr/share/build-package/gui/main_gui.py, line: 140
 #: NEEDS WORK
@@ -2887,24 +3811,6 @@ msgstr "Operatie mislukt: {0}"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-package/gui/gtk_menu.py, line: 54
-# File: usr/share/build-package/gui/gtk_menu.py, line: 96
-# File: usr/share/build-package/gui/gtk_menu.py, line: 133
-# File: usr/share/build-package/gui/gtk_menu.py, line: 184
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 330
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 392
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 257
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 94
-#: NEEDS WORK
-msgid "Cancel"
-msgstr "Annuleren"
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
 # File: usr/share/build-package/gui/gtk_menu.py, line: 97
 # File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 331
 #: NEEDS WORK
@@ -2925,10 +3831,18 @@ msgstr "OK"
 msgid "Please wait..."
 msgstr "Even geduld..."
 # 
-# File: usr/share/build-package/gui/gtk_logger.py, line: 91
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 50
 #: NEEDS WORK
-msgid "Build Package initialized successfully"
-msgstr "Buildpakket succesvol geïnitialiseerd"
+#, python-brace-format
+msgid ""
+"Found {0} conflicted files:\n"
+"\n"
+msgstr "Gevonden {0} conflicterende bestanden:"
+# 
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 75
+#: NEEDS WORK
+msgid "Select an option:"
+msgstr "Selecteer een optie:"
 # 
 # File: usr/share/build-package/gui/gtk_logger.py, line: 107
 #: NEEDS WORK
@@ -3449,11 +4363,6 @@ msgstr "Welkom bij {0}"
 msgid "Version {0}"
 msgstr "Versie {0}"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 137
-#: NEEDS WORK
-msgid "Repository"
-msgstr "Opslagplaats"
-# 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 139
 #: NEEDS WORK
 msgid "Changes"
@@ -3690,6 +4599,290 @@ msgstr "Extra"
 msgid "Ready to build {0} package '{1}' from branch '{2}'"
 msgstr "Klaar om {0} pakket '{1}' te bouwen vanuit tak '{2}'"
 # 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 40
+#: NEEDS WORK
+msgid "Operation"
+msgstr "Bewerking"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 45
+#: NEEDS WORK
+msgid "Operation Mode"
+msgstr "Bedrijfsmodus"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 46
+#: NEEDS WORK
+msgid "Choose how the application should operate"
+msgstr "Kies hoe de applicatie moet functioneren"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 50
+#: NEEDS WORK
+msgid "Mode"
+msgstr "Modus"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 51
+#: NEEDS WORK
+msgid "Select your preferred operation mode"
+msgstr "Selecteer uw voorkeursbedrijfsmodus"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 55
+#: NEEDS WORK
+msgid "Safe - Show previews and confirmations"
+msgstr "Veilig - Toon voorvertoningen en bevestigingen"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 56
+#: NEEDS WORK
+msgid "Quick - Fast with minimal confirmations"
+msgstr "Snel - Snel met minimale bevestigingen"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 57
+#: NEEDS WORK
+msgid "Expert - Maximum automation, no confirmations"
+msgstr "Expert - Maximale automatisering, geen bevestigingen"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 67
+#: NEEDS WORK
+msgid "Conflicts"
+msgstr "Conflicten"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 72
+#: NEEDS WORK
+msgid "Conflict Resolution"
+msgstr "Conflictbeheer"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 73
+#: NEEDS WORK
+msgid "How to handle merge conflicts"
+msgstr "Hoe om te gaan met samenvoegconflicten"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 77
+#: NEEDS WORK
+msgid "Strategy"
+msgstr "Strategie"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 78
+#: NEEDS WORK
+msgid "Select conflict resolution strategy"
+msgstr "Selecteer strategie voor conflictoplossing"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 81
+#: NEEDS WORK
+msgid "Interactive - Ask for each file"
+msgstr "Interactief - Vraag om elk bestand"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 82
+#: NEEDS WORK
+msgid "Auto-ours - Always keep local changes"
+msgstr "Auto-ours - Altijd lokale wijzigingen behouden"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 83
+#: NEEDS WORK
+msgid "Auto-theirs - Always accept remote changes"
+msgstr "Auto-theirs - Altijd externe wijzigingen accepteren"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 84
+#: NEEDS WORK
+msgid "Manual - Stop and let me resolve"
+msgstr "Handmatig - Stop en laat me het oplossen"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 94
+#: NEEDS WORK
+msgid "Automation"
+msgstr "Automatisering"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 99
+#: NEEDS WORK
+msgid "Git Operations"
+msgstr "Git-bewerkingen"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 100
+#: NEEDS WORK
+msgid "Automatic git operations"
+msgstr "Automatische git-bewerkingen"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 104
+#: NEEDS WORK
+msgid "Auto-fetch"
+msgstr "Automatisch ophalen"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 105
+#: NEEDS WORK
+msgid "Automatically fetch from remote before operations"
+msgstr "Automatisch ophalen van de remote voordat de bewerkingen plaatsvinden"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 111
+#: NEEDS WORK
+msgid "Auto-switch branch"
+msgstr "Automatisch schakelen tak"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 112
+#: NEEDS WORK
+msgid "Automatically switch to your development branch"
+msgstr "Schakel automatisch over naar je ontwikkelbranch"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 118
+#: NEEDS WORK
+msgid "Auto-pull"
+msgstr "Auto-trek"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 119
+#: NEEDS WORK
+msgid "Automatically pull latest changes"
+msgstr "Automatisch de laatste wijzigingen ophalen"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 127
+#: NEEDS WORK
+msgid "Version Management"
+msgstr "Versiebeheer"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 131
+#: NEEDS WORK
+msgid "Auto-version bump"
+msgstr "Automatische versieverhoging"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 132
+#: NEEDS WORK
+msgid "Automatically increment version based on commit type"
+msgstr "Automatisch versie verhogen op basis van committype"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 145
+#: NEEDS WORK
+msgid "Display"
+msgstr "Weergave"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 149
+#: NEEDS WORK
+msgid "Show git commands"
+msgstr "Toon git-opdrachten"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 150
+#: NEEDS WORK
+msgid "Display git commands being executed"
+msgstr "Toon git-opdrachten die worden uitgevoerd"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 156
+#: NEEDS WORK
+msgid "Confirm destructive operations"
+msgstr "Bevestig destructieve bewerkingen"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 157
+#: NEEDS WORK
+msgid "Always confirm potentially destructive operations"
+msgstr "Bevestig altijd potentieel destructieve bewerkingen"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 170
+#: NEEDS WORK
+msgid "Restore all settings to their default values"
+msgstr "Herstel alle instellingen naar hun standaardwaarden"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 264
+#: NEEDS WORK
+msgid "Reset Settings?"
+msgstr "Instellingen resetten?"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 265
+#: NEEDS WORK
+msgid "All settings will be restored to their default values. This cannot be undone."
+msgstr "Alle instellingen worden hersteld naar hun standaardwaarden. Dit kan niet ongedaan gemaakt worden."
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 35
+#: NEEDS WORK
+msgid "Keep Local"
+msgstr "Houd Lokaal"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 36
+#: NEEDS WORK
+msgid "Keep local version"
+msgstr "Houd lokale versie behouden"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 43
+#: NEEDS WORK
+msgid "Accept Remote"
+msgstr "Accepteer op afstand"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 51
+#: NEEDS WORK
+msgid "Keep Both"
+msgstr "Beide behouden"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 52
+#: NEEDS WORK
+msgid "Keep both versions"
+msgstr "Houd beide versies."
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 60
+#: NEEDS WORK
+msgid "Show differences"
+msgstr "Toon verschillen"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 96
+#: NEEDS WORK
+msgid "Resolve Conflicts"
+msgstr "Conflicten Oplossen"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 128
+#: NEEDS WORK
+#, python-brace-format
+msgid "Found {0} conflicted files"
+msgstr "Gevonden {0} conflicterende bestanden"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 136
+#: NEEDS WORK
+msgid "Apply to all remaining conflicts"
+msgstr "Pas toe op alle resterende conflicten"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 145
+#: NEEDS WORK
+msgid "Keep All Local"
+msgstr "Houd Alles Lokaal"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 151
+#: NEEDS WORK
+msgid "Accept All Remote"
+msgstr "Accepteer alle afstandsbedieningen"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 160
+#: NEEDS WORK
+msgid "Conflicted Files"
+msgstr "Conflicterende bestanden"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 197
+#: NEEDS WORK
+msgid "Apply Resolutions"
+msgstr "Toepassen van resoluties"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 214
+#: NEEDS WORK
+#, python-brace-format
+msgid "Resolved {0} of {1} conflicts"
+msgstr "Opgelost {0} van {1} conflicten"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 236
+#: NEEDS WORK
+msgid "No diff available"
+msgstr "Geen verschil beschikbaar"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 239
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error getting diff: {0}"
+msgstr "Fout bij het ophalen van het verschil: {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 245
+#: NEEDS WORK
+#, python-brace-format
+msgid "Diff: {0}"
+msgstr "Verschil: {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 288
+#: NEEDS WORK
+msgid "All conflicts resolved (kept local versions)"
+msgstr "Alle conflicten opgelost (lokale versies behouden)"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 300
+#: NEEDS WORK
+msgid "All conflicts resolved (accepted remote versions)"
+msgstr "Alle conflicten opgelost (geaccepteerde externe versies)"
+# 
 # File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 57
 #: NEEDS WORK
 msgid "Preparing..."
@@ -3700,10 +4893,35 @@ msgstr "Voorbereiden..."
 msgid "Details"
 msgstr "Details"
 # 
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 263
+# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 76
 #: NEEDS WORK
-msgid "Operation cancelled"
-msgstr "Bewerking geannuleerd"
+msgid "🔍 Dry-Run Mode"
+msgstr "🔍 Droogloopmodus"
+# 
+# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 77
+#: NEEDS WORK
+msgid "Simulating operations (nothing will be executed):"
+msgstr "Simuleren van bewerkingen (er zal niets worden uitgevoerd):"
+# 
+# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 79
+#: NEEDS WORK
+msgid "Operation Preview"
+msgstr "Bewerkingsvoorbeeld"
+# 
+# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 80
+#: NEEDS WORK
+msgid "The following operations will be executed:"
+msgstr "De volgende bewerkingen zullen worden uitgevoerd:"
+# 
+# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 149
+#: NEEDS WORK
+msgid "Close"
+msgstr "Sluiten"
+# 
+# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 154
+#: NEEDS WORK
+msgid "Proceed"
+msgstr "Doorgaan"
 # 
 # File: usr/share/build-iso/build_iso.py, line: 105
 #: NEEDS WORK
