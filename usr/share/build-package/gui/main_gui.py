@@ -93,14 +93,14 @@ class BuildPackageApplication(Adw.Application):
     
     def on_about_activated(self, action, param):
         """Show about dialog"""
-        from core.config import APP_NAME, VERSION, APP_DESC
-        
+        from core.config import APP_NAME, APP_VERSION, APP_DESC
+
         about_dialog = Adw.AboutWindow(
             transient_for=self.main_window,
             application_name=APP_NAME,
             application_icon="org.bigcommunity.buildpackage",
             developer_name="BigCommunity Team",
-            version=VERSION,
+            version=APP_VERSION,
             comments=APP_DESC,
             website="https://github.com/big-comm/build-package",
             issue_url="https://github.com/big-comm/build-package/issues",

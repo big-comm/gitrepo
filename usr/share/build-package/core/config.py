@@ -41,7 +41,10 @@ COLORS = {
     "reset": "\033[0m",                # Reset text formatting
 }
 
+# Conflict resolution settings
+CONFLICT_RESOLUTION_AUTO_ACCEPT_NEWER = False  # If True, automatically accepts newer branch version in conflicts
+
 # Script version
-VERSION = "3.1.4"
+APP_VERSION = "3.1.5"
 APP_NAME = _("BUILD PACKAGE")
 APP_DESC = _("A comprehensive tool for package building, testing, and deployment. Streamlines Git operations, automates builds and manages package workflows for BigCommunity repositories and AUR packages.")

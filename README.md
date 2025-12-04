@@ -1,7 +1,7 @@
 # GitRepo Tools
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Version-3.0.3-blue.svg" alt="Version"/>
+  <img src="https://img.shields.io/badge/Version-3.1.5-blue.svg" alt="Version"/>
   <img src="https://img.shields.io/badge/Arch-Linux-1793D1.svg?logo=arch-linux" alt="Arch Linux"/>
   <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License"/>
 </p>
@@ -34,20 +34,54 @@ Build Package is a specialized tool designed to simplify the package building pr
 
 ### Features
 
-- **Interactive TUI Interface** - User-friendly terminal interface with colored menus
+- **Dual Interface Support** - Both GTK4/Libadwaita GUI and Rich TUI (Terminal User Interface)
+  - Automatic mode detection based on display environment
+  - Graceful fallback to CLI if GUI dependencies are unavailable
+- **Enhanced Pull Operations** - Smart pull with conflict resolution
+  - Interactive choice to keep or discard uncommitted local changes
+  - Clear visualization of pull results with commit summaries
+  - Automatic merge conflict resolution
+  - Default Git-standard behavior (preserve local changes)
 - **Git Integration** - Automated commit, push, and branch management
+  - User-specific branch creation (`dev-username`)
+  - Automatic detection and switching to most recent development branch
+  - Operation preview system with safety confirmations
 - **Package Building** - Generate packages from repositories with simplified workflows
 - **AUR Support** - Build packages directly from the Arch User Repository
 - **CI/CD Integration** - Trigger GitHub Actions workflows automatically
 - **Repository Management** - Clean up old branches, tags, and CI jobs
+- **Settings System** - Persistent user preferences with safe/expert operation modes
+- **Multi-language Support** - 30+ languages including Portuguese, Spanish, German, French, Russian, Japanese, Chinese
+
+### What's New in 3.1.5
+
+**Pull Operations Improvements:**
+- Added interactive choice when pulling with uncommitted local changes
+  - Option 1 (default): Keep local changes and merge with remote (standard Git behavior)
+  - Option 2: Discard local changes and use remote version only (with clear warnings)
+- Enhanced pull result visualization with detailed commit summaries
+- Now waits for user confirmation before returning to menu (shows what was pulled)
+- Menu reordered: "Pull latest" is now the first option, followed by "Commit and push"
+
+**Code Improvements:**
+- Migrated from `VERSION` to `APP_VERSION` for better consistency
+- Updated to version 3.1.5 with improved pull workflow
 
 ### Requirements
 
+**Core Dependencies:**
 - Python 3.6+
 - Git
 - curl
-- Rich library for Python
+- Rich library for Python (`python-rich`)
 - Arch Linux environment (or compatible)
+
+**Optional GUI Dependencies** (for GTK4 interface):
+- GTK4 (`gtk4`)
+- Libadwaita (`libadwaita`)
+- Python GTK bindings (`python-gobject`)
+
+*Note: The tool automatically falls back to CLI mode if GUI dependencies are not available.*
 
 ### Installation
 
@@ -73,8 +107,21 @@ makepkg -si
 Simply run the command without arguments to enter interactive mode:
 
 ```bash
+# Auto-detects GUI/CLI mode based on display environment
 bpkg
+
+# Force CLI mode
+bpkg --cli
+
+# Force GUI mode (if GTK4 dependencies are available)
+bpkg --gui
 ```
+
+The tool automatically detects whether to use GUI or CLI mode based on:
+1. Command-line flags (`--cli`, `--gui`, `--no-gui`)
+2. Presence of other command-line arguments (uses CLI)
+3. Display environment variables (`DISPLAY`, `WAYLAND_DISPLAY`)
+4. Availability of GTK4/Libadwaita libraries
 
 #### Command Line Arguments
 
@@ -86,6 +133,9 @@ Options:
   -b, --build                Commit/push and generate package (testing|stable|extra)
   -c, --commit               Just commit/push with the specified message
   -a, --aur                  Build AUR package
+  --cli                      Force CLI mode
+  --gui                      Force GUI mode (requires GTK4 dependencies)
+  --no-gui                   Disable GUI mode (same as --cli)
   -n, --nocolor              Suppress color printing
   -V, --version              Print application version
   -t, --tmate                Enable tmate for debugging

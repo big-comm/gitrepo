@@ -187,7 +187,10 @@ def commit_and_push_v2(build_package_instance):
                 current_branch = expected_branch
             # else: continue in current branch
 
-    # === PHASE 4: FETCH/PULL LATEST ===
+    # === PHASE 4: FETCH LATEST (info only, don't pull yet) ===
+    commits_behind = 0
+    should_pull = False
+
     if bp.settings.get("auto_fetch", True):
         plan.add(
             _("Fetch latest from remote"),
@@ -195,36 +198,28 @@ def commit_and_push_v2(build_package_instance):
             destructive=False
         )
 
-    if mode_config["auto_pull"] or bp.settings.get("auto_pull", False):
-        plan.add(
-            "Pull latest changes",
-            ["git", "pull", "origin", current_branch, "--no-edit"],
-            destructive=False
+    # Check if behind (but DON'T pull yet - we need to commit first!)
+    try:
+        subprocess.run(["git", "fetch", "origin"], check=True, capture_output=True)
+        behind_result = subprocess.run(
+            ["git", "rev-list", "--count", f"HEAD..origin/{current_branch}"],
+            capture_output=True,
+            text=True,
+            check=False
         )
-    else:
-        # Check if behind
-        try:
-            subprocess.run(["git", "fetch", "origin"], check=True, capture_output=True)
-            behind_result = subprocess.run(
-                ["git", "rev-list", "--count", f"HEAD..origin/{current_branch}"],
-                capture_output=True,
-                text=True,
-                check=False
-            )
 
-            if behind_result.returncode == 0 and behind_result.stdout.strip():
-                commits_behind = int(behind_result.stdout.strip())
-                if commits_behind > 0:
-                    bp.logger.log("yellow", _("Your branch is {0} commits behind remote").format(commits_behind))
+        if behind_result.returncode == 0 and behind_result.stdout.strip():
+            commits_behind = int(behind_result.stdout.strip())
+            if commits_behind > 0:
+                bp.logger.log("yellow", _("Your branch is {0} commits behind remote").format(commits_behind))
 
-                    if bp.menu.confirm("Pull latest changes?"):
-                        plan.add(
-                            "Pull {0} commits from remote".format(commits_behind),
-                            ["git", "pull", "origin", current_branch, "--no-edit"],
-                            destructive=False
-                        )
-        except Exception:
-            pass  # Ignore fetch errors
+                # Ask user if they want to pull AFTER committing
+                if mode_config["auto_pull"] or bp.settings.get("auto_pull", False):
+                    should_pull = True
+                else:
+                    should_pull = bp.menu.confirm(_("Pull latest changes after committing?"))
+    except Exception:
+        pass  # Ignore fetch errors
 
     # === PHASE 5: CHECK FOR CHANGES ===
     has_changes = GitUtils.has_changes()  # Recheck after pull
@@ -278,13 +273,23 @@ def commit_and_push_v2(build_package_instance):
         destructive=False
     )
 
+    # === PHASE 8.5: PULL AFTER COMMIT (if needed) ===
+    # Now that local changes are committed, safe to pull remote changes
+    if should_pull and commits_behind > 0:
+        plan.add(
+            _("Pull {0} commits from remote").format(commits_behind),
+            ["git", "pull", "origin", current_branch, "--no-edit"],
+            destructive=False
+        )
+
+    # === PHASE 9: PUSH ===
     plan.add(
         "Push to {0}".format(current_branch),
         ["git", "push", "-u", "origin", current_branch],
         destructive=False
     )
 
-    # === PHASE 9: EXECUTE PLAN ===
+    # === PHASE 10: EXECUTE PLAN ===
     if not plan.execute_with_confirmation():
         return False
 

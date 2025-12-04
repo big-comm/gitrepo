@@ -190,6 +190,6 @@ ORG_DEFAULT_CONFIGS = {
 }
 
 # Script version
-VERSION = "3.0.7"
+APP_VERSION = "3.0.9"
 APP_NAME = _("BUILD ISO")
 APP_DESC = _("Wrapper for ISO building using GitHub Actions. Streamlines the process of creating custom Linux distribution ISO images through automation.")

@@ -12,7 +12,7 @@ import requests
 from translation_utils import _
 
 from config import (
-    APP_NAME, APP_DESC, VERSION, DEFAULT_ORGANIZATION, 
+    APP_NAME, APP_DESC, APP_VERSION, DEFAULT_ORGANIZATION,
     VALID_ORGANIZATIONS, VALID_BRANCHES, VALID_KERNELS,
     VALID_DISTROS, DISTRO_DISPLAY_NAMES, ISO_PROFILES,
     DEFAULT_ISO_PROFILES, API_PROFILES, ORG_DEFAULT_CONFIGS
@@ -87,7 +87,7 @@ class BuildISO:
     def parse_arguments(self) -> argparse.Namespace:
         """Parses command line arguments"""
         parser = argparse.ArgumentParser(
-            description=f"{APP_NAME} v{VERSION} - {APP_DESC}",
+            description=f"{APP_NAME} v{APP_VERSION} - {APP_DESC}",
             formatter_class=argparse.RawDescriptionHelpFormatter
         )
         
@@ -141,7 +141,7 @@ class BuildISO:
         from rich.box import ROUNDED
         
         version_text = Text()
-        version_text.append(f"{APP_NAME} v{VERSION}\n", style="bold cyan")
+        version_text.append(f"{APP_NAME} v{APP_VERSION}\n", style="bold cyan")
         version_text.append(f"{APP_DESC}\n\n", style="white")
         version_text.append(_("Copyright (C) 2024-2025 BigCommunity Team\n\n"), style="blue")
         version_text.append(_("""This is free software: you are free to modify and redistribute it."""), style="white")
@@ -559,7 +559,7 @@ the specific source code used to create this copy."""), style="white")
     
     def run(self):
         """Main entry point for the application"""
-        self.logger.log("blue", _("{0} (version {1})").format(APP_NAME, VERSION))
+        self.logger.log("blue", _("{0} (version {1})").format(APP_NAME, APP_VERSION))
         
         if self.args.auto:
             # Run in automatic mode

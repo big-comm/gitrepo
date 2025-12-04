@@ -193,19 +193,45 @@ def pull_latest_v2(build_package_instance):
         bp.logger.log("green", _("✓ Conflicts resolved"))
 
     # === PHASE 8: SHOW SUMMARY ===
+    bp.logger.log("green", "")
+    bp.logger.log("green", "═" * 70)
+    bp.logger.log("green", _("PULL COMPLETED SUCCESSFULLY"))
+    bp.logger.log("green", "═" * 70)
+
     try:
-        # Get commit info
+        # Get current branch info
+        current_branch = GitUtils.get_current_branch()
+        bp.logger.log("cyan", _("Current branch: {0}").format(bp.logger.format_branch_name(current_branch)))
+
+        # Get latest commit info
         result = subprocess.run(
-            ["git", "log", "-1", "--oneline"],
+            ["git", "log", "-1", "--pretty=format:%h - %s (%an, %ar)"],
             capture_output=True,
             text=True,
             check=True
         )
-
         latest_commit = result.stdout.strip()
-        bp.logger.log("green", _("✓ Successfully updated to latest code"))
-        bp.logger.log("dim", _("Latest commit: {0}").format(latest_commit))
+        bp.logger.log("cyan", _("Latest commit: {0}").format(latest_commit))
+
+        # Get number of commits if there were updates
+        try:
+            commits_result = subprocess.run(
+                ["git", "log", "--oneline", "@{1}..HEAD"],
+                capture_output=True,
+                text=True,
+                check=False
+            )
+            if commits_result.returncode == 0 and commits_result.stdout.strip():
+                commit_count = len(commits_result.stdout.strip().split('\n'))
+                bp.logger.log("cyan", _("New commits pulled: {0}").format(commit_count))
+        except:
+            pass
+
     except:
         bp.logger.log("green", _("✓ Pull completed"))
+
+    bp.logger.log("green", "═" * 70)
+    bp.logger.log("yellow", "")
+    input(_("Press Enter to return to main menu..."))
 
     return True
