@@ -49,10 +49,10 @@ msgstr  ""
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/cli/main_cli.py, line: 38
-# File: usr/share/build-package/core/build_package.py, line: 1094
-# File: usr/share/build-package/core/build_package.py, line: 1565
-# File: usr/share/build-package/core/build_package.py, line: 1770
-# File: usr/share/build-package/core/build_package.py, line: 1860
+# File: usr/share/build-package/core/build_package.py, line: 1150
+# File: usr/share/build-package/core/build_package.py, line: 1621
+# File: usr/share/build-package/core/build_package.py, line: 1824
+# File: usr/share/build-package/core/build_package.py, line: 1914
 # File: usr/share/build-iso/build_iso.py, line: 175
 # File: usr/share/build-iso/main.py, line: 30
 msgid   "Operation cancelled by user."
@@ -78,8 +78,8 @@ msgstr  ""
 #
 # File: usr/share/build-package/cli/menu_system.py, line: 50
 # File: usr/share/build-package/cli/menu_system.py, line: 64
-# File: usr/share/build-package/core/build_package.py, line: 1554
-# File: usr/share/build-package/core/build_package.py, line: 1560
+# File: usr/share/build-package/core/build_package.py, line: 1610
+# File: usr/share/build-package/core/build_package.py, line: 1616
 # File: usr/share/build-package/gui/gtk_menu.py, line: 48
 # File: usr/share/build-iso/build_iso.py, line: 171
 # File: usr/share/build-iso/menu_system.py, line: 45
@@ -102,13 +102,13 @@ msgstr  ""
 #
 # File: usr/share/build-package/cli/menu_system.py, line: 52
 # File: usr/share/build-package/cli/menu_system.py, line: 66
-# File: usr/share/build-package/core/build_package.py, line: 1587
-# File: usr/share/build-package/core/build_package.py, line: 1590
-# File: usr/share/build-package/core/build_package.py, line: 1672
-# File: usr/share/build-package/core/build_package.py, line: 1742
-# File: usr/share/build-package/core/build_package.py, line: 1746
-# File: usr/share/build-package/core/build_package.py, line: 1807
-# File: usr/share/build-package/core/build_package.py, line: 1841
+# File: usr/share/build-package/core/build_package.py, line: 1641
+# File: usr/share/build-package/core/build_package.py, line: 1644
+# File: usr/share/build-package/core/build_package.py, line: 1726
+# File: usr/share/build-package/core/build_package.py, line: 1796
+# File: usr/share/build-package/core/build_package.py, line: 1800
+# File: usr/share/build-package/core/build_package.py, line: 1861
+# File: usr/share/build-package/core/build_package.py, line: 1895
 # File: usr/share/build-package/core/settings_menu.py, line: 37
 # File: usr/share/build-package/core/settings_menu.py, line: 77
 # File: usr/share/build-package/core/settings_menu.py, line: 104
@@ -210,8 +210,8 @@ msgstr  ""
 # File: usr/share/build-package/core/build_package.py, line: 191
 # File: usr/share/build-package/core/build_package.py, line: 212
 # File: usr/share/build-package/core/build_package.py, line: 248
-# File: usr/share/build-package/core/build_package.py, line: 1551
-# File: usr/share/build-package/core/build_package.py, line: 1558
+# File: usr/share/build-package/core/build_package.py, line: 1607
+# File: usr/share/build-package/core/build_package.py, line: 1614
 msgid   "Build AUR package"
 msgstr  ""
 
@@ -421,229 +421,331 @@ msgid   "This option is only available in git repositories."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 569
+# File: usr/share/build-package/core/build_package.py, line: 570
+msgid   "Choose target branch for commit:"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 572
+msgid   "Select branch for commit"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 574
 #, python-brace-format
-msgid   "Target branch for commit: {0}"
+msgid   "My branch ({0}) - Recommended"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 573
-#, python-brace-format
-msgid   "You're in {0} but should commit to {1}. Fixing this..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 581
-# File: usr/share/build-package/core/build_package.py, line: 2376
-msgid   "Preserving your changes while switching to your branch..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 589
-# File: usr/share/build-package/core/build_package.py, line: 855
-# File: usr/share/build-package/core/build_package.py, line: 1245
-# File: usr/share/build-package/core/build_package.py, line: 2384
-msgid   "Failed to stash changes. Cannot proceed safely."
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 599
-# File: usr/share/build-package/core/build_package.py, line: 865
-# File: usr/share/build-package/core/build_package.py, line: 1261
-# File: usr/share/build-package/core/build_package.py, line: 2393
-msgid   "Conflicts detected while applying changes. Resolving automatically..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 603
-# File: usr/share/build-package/core/build_package.py, line: 869
-# File: usr/share/build-package/core/build_package.py, line: 1266
-# File: usr/share/build-package/core/build_package.py, line: 2397
-msgid   "Conflicts resolved automatically"
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 605
-# File: usr/share/build-package/core/build_package.py, line: 1268
-msgid   "Could not resolve conflicts automatically. Please check 'git status'"
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 608
-# File: usr/share/build-package/core/build_package.py, line: 874
-msgid   "Successfully moved your changes to your own branch!"
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 613
-# File: usr/share/build-package/core/build_package.py, line: 879
-#, python-brace-format
-msgid   "Switched to your branch: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 623
-msgid   "Checking if your remote branch needs sync with main..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 628
-msgid   "Backing up your local changes temporarily..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 637
-msgid   "Local changes safely backed up!"
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 639
-msgid   "Could not backup changes, skipping sync."
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 641
-#, python-brace-format
-msgid   "Could not backup changes: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 654
-msgid   "Remote branch exists. Checking sync status..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 668
-#, python-brace-format
-msgid   "Your remote branch is {0} commits behind main. Updating..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 689
-msgid   "Remote branch synced with main successfully!"
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 692
-msgid   "Merge conflict detected. Using force-update strategy..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 696
-msgid   "Remote branch force-updated with main!"
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 702
-msgid   "Remote branch is already up-to-date with main!"
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 704
-msgid   "Remote branch doesn't exist yet - will be created on first push."
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 707
-#, python-brace-format
-msgid   "Could not sync remote branch: {0}. Continuing..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 709
-#, python-brace-format
-msgid   "Unexpected sync error: {0}. Continuing..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 713
-# File: usr/share/build-package/core/build_package.py, line: 1195
-msgid   "Restoring your local changes..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 720
-msgid   "Local changes restored successfully!"
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 722
-msgid   "Could not restore changes automatically. Check 'git stash list'"
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 724
-#, python-brace-format
-msgid   "Error restoring changes: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 732
-msgid   "Failed to pull latest changes, but continuing since no local changes."
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 734
-msgid   "Local changes detected - skipping automatic pull to avoid conflicts."
+# File: usr/share/build-package/core/build_package.py, line: 575
+msgid   "Main branch - Direct commit"
 msgstr  ""
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 745
-# File: usr/share/build-package/core/build_package.py, line: 1307
-# File: usr/share/build-package/core/build_package.py, line: 1609
-# File: usr/share/build-package/core/commit_operations.py, line: 244
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# File: usr/share/build-package/core/build_package.py, line: 576
+# File: usr/share/build-package/core/commit_operations.py, line: 125
+# File: usr/share/build-package/core/pull_operations.py, line: 89
+# File: usr/share/build-package/gui/gtk_menu.py, line: 54
+# File: usr/share/build-package/gui/gtk_menu.py, line: 96
+# File: usr/share/build-package/gui/gtk_menu.py, line: 133
+# File: usr/share/build-package/gui/gtk_menu.py, line: 184
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 165
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 330
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 392
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 257
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 267
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 191
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 94
+# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 153
+# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 220
+msgid   "Cancel"
+msgstr  ""
+
+#
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# File: usr/share/build-package/core/build_package.py, line: 582
+# File: usr/share/build-package/core/build_package.py, line: 593
+# File: usr/share/build-package/core/commit_operations.py, line: 130
+# File: usr/share/build-package/core/pull_operations.py, line: 94
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 263
+msgid   "Operation cancelled"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 588
+msgid   "⚠️  WARNING: You chose to commit directly to main!"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 591
+msgid   "Are you sure you want to commit directly to main branch?"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 596
+# File: usr/share/build-package/core/build_package.py, line: 599
+#, python-brace-format
+msgid   "Target branch: {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 603
+#, python-brace-format
+msgid   "You're in {0} but should commit to {1}. Fixing this..."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 611
+msgid   "Preserving your changes while switching to target branch..."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 619
+# File: usr/share/build-package/core/build_package.py, line: 911
+# File: usr/share/build-package/core/build_package.py, line: 1301
+# File: usr/share/build-package/core/build_package.py, line: 2463
+msgid   "Failed to stash changes. Cannot proceed safely."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 628
+# File: usr/share/build-package/core/build_package.py, line: 654
+msgid   "Failed to switch to main branch"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 638
+# File: usr/share/build-package/core/build_package.py, line: 921
+# File: usr/share/build-package/core/build_package.py, line: 1317
+msgid   "Conflicts detected while applying changes. Resolving automatically..."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 642
+# File: usr/share/build-package/core/build_package.py, line: 925
+# File: usr/share/build-package/core/build_package.py, line: 1322
+msgid   "Conflicts resolved automatically"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 644
+# File: usr/share/build-package/core/build_package.py, line: 1324
+msgid   "Could not resolve conflicts automatically. Please check 'git status'"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 647
+msgid   "Successfully moved your changes to target branch!"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 659
+#, python-brace-format
+msgid   "Switched to target branch: {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 671
+msgid   "Checking if your remote branch needs sync with main..."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 676
+msgid   "Backing up your local changes temporarily..."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 685
+msgid   "Local changes safely backed up!"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 687
+msgid   "Could not backup changes, skipping sync."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 689
+#, python-brace-format
+msgid   "Could not backup changes: {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 702
+msgid   "Remote branch exists. Checking sync status..."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 716
+#, python-brace-format
+msgid   "Your remote branch is {0} commits behind main. Updating..."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 737
+msgid   "Remote branch synced with main successfully!"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 740
+msgid   "Merge conflict detected. Using force-update strategy..."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 744
+msgid   "Remote branch force-updated with main!"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 750
+msgid   "Remote branch is already up-to-date with main!"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 752
+msgid   "Remote branch doesn't exist yet - will be created on first push."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 755
+#, python-brace-format
+msgid   "Could not sync remote branch: {0}. Continuing..."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 757
+#, python-brace-format
+msgid   "Unexpected sync error: {0}. Continuing..."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 761
+# File: usr/share/build-package/core/build_package.py, line: 1251
+msgid   "Restoring your local changes..."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 768
+msgid   "Local changes restored successfully!"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 770
+msgid   "Could not restore changes automatically. Check 'git stash list'"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 772
+#, python-brace-format
+msgid   "Error restoring changes: {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 780
+msgid   "Failed to pull latest changes, but continuing since no local changes."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 782
+msgid   "Local changes detected - skipping automatic pull to avoid conflicts."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 785
+msgid   "Pulling latest changes from main..."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 788
+msgid   "Successfully pulled latest main"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 790
+msgid   "Failed to pull, but continuing..."
+msgstr  ""
+
+#
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# File: usr/share/build-package/core/build_package.py, line: 801
+# File: usr/share/build-package/core/build_package.py, line: 1363
+# File: usr/share/build-package/core/build_package.py, line: 1663
+# File: usr/share/build-package/core/commit_operations.py, line: 239
 msgid   "Commit message cannot be empty."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 749
+# File: usr/share/build-package/core/build_package.py, line: 805
 msgid   "No Changes to Commit\n"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 749
-# File: usr/share/build-package/core/build_package.py, line: 2479
+# File: usr/share/build-package/core/build_package.py, line: 805
 msgid   "Press Enter to return to main menu"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 760
+# File: usr/share/build-package/core/build_package.py, line: 816
 #, python-brace-format
 msgid   "Error committing changes: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 767
+# File: usr/share/build-package/core/build_package.py, line: 823
 #, python-brace-format
 msgid   "Error pushing to remote: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 770
+# File: usr/share/build-package/core/build_package.py, line: 826
 #, python-brace-format
 msgid   "Changes committed and pushed to {0} branch successfully!"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 781
+# File: usr/share/build-package/core/build_package.py, line: 837
 msgid   "Stashing local changes before branch switch..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 789
+# File: usr/share/build-package/core/build_package.py, line: 845
 msgid   "Failed to stash changes before branch switch."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 806
+# File: usr/share/build-package/core/build_package.py, line: 862
 #, python-brace-format
 msgid   "Switching to existing branch: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 810
+# File: usr/share/build-package/core/build_package.py, line: 866
 #, python-brace-format
 msgid   "Using existing local branch: {0}"
 msgstr  ""
@@ -653,9 +755,9 @@ msgstr  ""
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 815
+# File: usr/share/build-package/core/build_package.py, line: 871
 # File: usr/share/build-package/core/git_utils.py, line: 353
-# File: usr/share/build-package/core/commit_operations.py, line: 323
+# File: usr/share/build-package/core/commit_operations.py, line: 328
 #, python-brace-format
 msgid   "Creating new branch: {0}"
 msgstr  ""
@@ -663,37 +765,48 @@ msgstr  ""
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 820
+# File: usr/share/build-package/core/build_package.py, line: 876
 # File: usr/share/build-package/core/commit_operations.py, line: 161
 msgid   "Restoring stashed changes..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 823
+# File: usr/share/build-package/core/build_package.py, line: 879
 msgid   "Could not restore stashed changes automatically. Check 'git stash "
         "list'"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 825
+# File: usr/share/build-package/core/build_package.py, line: 881
 msgid   "Stashed changes restored successfully"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 829
+# File: usr/share/build-package/core/build_package.py, line: 885
 #, python-brace-format
 msgid   "Error with user branch: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 841
+# File: usr/share/build-package/core/build_package.py, line: 897
 #, python-brace-format
 msgid   "Moving from {0} to your own branch {1}..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 871
+# File: usr/share/build-package/core/build_package.py, line: 927
 msgid   "Could not resolve conflicts automatically."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 930
+msgid   "Successfully moved your changes to your own branch!"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 935
+#, python-brace-format
+msgid   "Switched to your branch: {0}"
 msgstr  ""
 
 #
@@ -701,257 +814,257 @@ msgstr  ""
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 886
-# File: usr/share/build-package/core/build_package.py, line: 1148
-# File: usr/share/build-package/core/build_package.py, line: 1707
-# File: usr/share/build-package/core/build_package.py, line: 1787
-# File: usr/share/build-package/core/build_package.py, line: 2324
+# File: usr/share/build-package/core/build_package.py, line: 942
+# File: usr/share/build-package/core/build_package.py, line: 1204
+# File: usr/share/build-package/core/build_package.py, line: 1761
+# File: usr/share/build-package/core/build_package.py, line: 1841
+# File: usr/share/build-package/core/build_package.py, line: 2378
 # File: usr/share/build-package/core/package_operations.py, line: 33
 # File: usr/share/build-package/core/pull_operations.py, line: 29
 msgid   "This operation is only available in git repositories."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 912
+# File: usr/share/build-package/core/build_package.py, line: 968
 msgid   "Dev branch doesn't exist. Creating it now..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 919
+# File: usr/share/build-package/core/build_package.py, line: 975
 msgid   "Stashing local changes temporarily..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 931
+# File: usr/share/build-package/core/build_package.py, line: 987
 msgid   "No local changes were stashed."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 933
+# File: usr/share/build-package/core/build_package.py, line: 989
 #, python-brace-format
 msgid   "Error stashing changes: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 960
-# File: usr/share/build-package/core/build_package.py, line: 982
+# File: usr/share/build-package/core/build_package.py, line: 1016
+# File: usr/share/build-package/core/build_package.py, line: 1038
 msgid   "Applying stashed changes..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 962
+# File: usr/share/build-package/core/build_package.py, line: 1018
 msgid   "Stashed changes applied successfully."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 964
+# File: usr/share/build-package/core/build_package.py, line: 1020
 #, python-brace-format
 msgid   "Error applying stashed changes: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 965
+# File: usr/share/build-package/core/build_package.py, line: 1021
 msgid   "Your changes might be in the stash. Use 'git stash list' to check."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 967
+# File: usr/share/build-package/core/build_package.py, line: 1023
 msgid   "Dev branch created successfully!"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 970
+# File: usr/share/build-package/core/build_package.py, line: 1026
 #, python-brace-format
 msgid   "Could not create dev branch: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 985
+# File: usr/share/build-package/core/build_package.py, line: 1041
 msgid   "Could not apply stashed changes. Your changes are in the stash."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 991
+# File: usr/share/build-package/core/build_package.py, line: 1047
 #, python-brace-format
 msgid   "Error creating dev branch: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 996
+# File: usr/share/build-package/core/build_package.py, line: 1052
 msgid   "Determining which branch has the most recent code..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1002
+# File: usr/share/build-package/core/build_package.py, line: 1058
 msgid   "Warning: Failed to fetch latest changes from remote."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1023
+# File: usr/share/build-package/core/build_package.py, line: 1079
 msgid   "Warning: Failed to get branch list."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1059
+# File: usr/share/build-package/core/build_package.py, line: 1115
 #, python-brace-format
 msgid   "The most recent branch is: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1069
+# File: usr/share/build-package/core/build_package.py, line: 1125
 #, python-brace-format
 msgid   "You're already on the most recent branch: {0}. Pulling latest "
         "changes..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1074
+# File: usr/share/build-package/core/build_package.py, line: 1130
 msgid   "Warning: Failed to pull latest changes."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1078
+# File: usr/share/build-package/core/build_package.py, line: 1134
 #, python-brace-format
 msgid   "The most recent code is on branch: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1085
+# File: usr/share/build-package/core/build_package.py, line: 1141
 msgid   "You have local changes that could be lost if you switch branches."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1087
+# File: usr/share/build-package/core/build_package.py, line: 1143
 msgid   "Stash changes and switch to most recent branch"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1088
+# File: usr/share/build-package/core/build_package.py, line: 1144
 msgid   "Stay on current branch and just pull its latest version"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1089
+# File: usr/share/build-package/core/build_package.py, line: 1145
 msgid   "Cancel operation"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1091
+# File: usr/share/build-package/core/build_package.py, line: 1147
 msgid   "How do you want to proceed?"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1100
+# File: usr/share/build-package/core/build_package.py, line: 1156
 msgid   "Stashing your local changes..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1104
-# File: usr/share/build-package/core/build_package.py, line: 1133
+# File: usr/share/build-package/core/build_package.py, line: 1160
+# File: usr/share/build-package/core/build_package.py, line: 1189
 #, python-brace-format
 msgid   "Switching to most recent branch: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1108
-# File: usr/share/build-package/core/build_package.py, line: 1136
+# File: usr/share/build-package/core/build_package.py, line: 1164
+# File: usr/share/build-package/core/build_package.py, line: 1192
 msgid   "Pulling latest changes..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1112
+# File: usr/share/build-package/core/build_package.py, line: 1168
 msgid   "Applying your stashed changes..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1115
+# File: usr/share/build-package/core/build_package.py, line: 1171
 msgid   "Successfully switched to most recent branch with your changes."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1118
+# File: usr/share/build-package/core/build_package.py, line: 1174
 msgid   "Error during branch switch operations."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1119
+# File: usr/share/build-package/core/build_package.py, line: 1175
 msgid   "You may need to manually resolve the situation."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1123
+# File: usr/share/build-package/core/build_package.py, line: 1179
 msgid   "Staying on current branch and pulling its latest version..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1125
+# File: usr/share/build-package/core/build_package.py, line: 1181
 #, python-brace-format
 msgid   "Note: You're not working with the most recent code from {0}."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1128
+# File: usr/share/build-package/core/build_package.py, line: 1184
 msgid   "Error pulling latest changes."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1139
+# File: usr/share/build-package/core/build_package.py, line: 1195
 msgid   "Successfully switched to most recent branch."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1142
+# File: usr/share/build-package/core/build_package.py, line: 1198
 msgid   "Error switching to most recent branch."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1153
+# File: usr/share/build-package/core/build_package.py, line: 1209
 msgid   "Branch type not specified."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1157
+# File: usr/share/build-package/core/build_package.py, line: 1213
 msgid   "Checking and resolving any existing conflicts..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1175
+# File: usr/share/build-package/core/build_package.py, line: 1231
 msgid   "Conflicts detected. Performing automatic cleanup..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1191
+# File: usr/share/build-package/core/build_package.py, line: 1247
 msgid   "Repository cleaned to stable state."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1198
+# File: usr/share/build-package/core/build_package.py, line: 1254
 msgid   "Local changes restored successfully"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1200
+# File: usr/share/build-package/core/build_package.py, line: 1256
 msgid   "Could not restore stashed changes. Use 'git stash list' to see them."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1202
+# File: usr/share/build-package/core/build_package.py, line: 1258
 msgid   "Repository is already in clean state."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1205
+# File: usr/share/build-package/core/build_package.py, line: 1261
 #, python-brace-format
 msgid   "Warning during cleanup: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1211
+# File: usr/share/build-package/core/build_package.py, line: 1267
 msgid   "Fetching latest updates from remote..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1215
+# File: usr/share/build-package/core/build_package.py, line: 1271
 msgid   "Warning: Failed to fetch latest changes, continuing with local code."
 msgstr  ""
 
@@ -962,191 +1075,192 @@ msgstr  ""
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 1229
-# File: usr/share/build-package/core/build_package.py, line: 2361
+# File: usr/share/build-package/core/build_package.py, line: 1285
+# File: usr/share/build-package/core/build_package.py, line: 2415
 # File: usr/share/build-package/core/git_utils.py, line: 220
 # File: usr/share/build-package/core/commit_operations.py, line: 52
 # File: usr/share/build-package/core/pull_operations.py, line: 51
+# File: usr/share/build-package/core/pull_operations.py, line: 204
 #, python-brace-format
 msgid   "Current branch: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1230
-# File: usr/share/build-package/core/build_package.py, line: 2362
+# File: usr/share/build-package/core/build_package.py, line: 1286
+# File: usr/share/build-package/core/build_package.py, line: 2416
 #, python-brace-format
 msgid   "Most recent branch available: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1234
+# File: usr/share/build-package/core/build_package.py, line: 1290
 msgid   "Moving your changes to the most recent branch..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1238
+# File: usr/share/build-package/core/build_package.py, line: 1294
 msgid   "Step 1/4: Preserving your changes temporarily..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1249
+# File: usr/share/build-package/core/build_package.py, line: 1305
 msgid   "Step 2/4: Switching to most recent branch..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1253
+# File: usr/share/build-package/core/build_package.py, line: 1309
 msgid   "Failed to switch branches. Your changes are safe in stash."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1257
+# File: usr/share/build-package/core/build_package.py, line: 1313
 msgid   "Step 3/4: Applying your changes to the most recent branch..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1272
+# File: usr/share/build-package/core/build_package.py, line: 1328
 msgid   "Step 4/4: Your changes are now ready to commit in the most recent "
         "branch!"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1277
+# File: usr/share/build-package/core/build_package.py, line: 1333
 #, python-brace-format
 msgid   "No local changes detected. Switching to most recent branch: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1287
+# File: usr/share/build-package/core/build_package.py, line: 1343
 msgid   "Standard pull failed, trying force update..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1291
-# File: usr/share/build-package/core/build_package.py, line: 2605
+# File: usr/share/build-package/core/build_package.py, line: 1347
+# File: usr/share/build-package/core/build_package.py, line: 2726
 #, python-brace-format
 msgid   "Force-updated to latest {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1293
+# File: usr/share/build-package/core/build_package.py, line: 1349
 msgid   "Could not update branch, continuing with current state"
 msgstr  ""
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 1295
+# File: usr/share/build-package/core/build_package.py, line: 1351
 # File: usr/share/build-package/gui/main_window.py, line: 460
 msgid   "Successfully pulled latest changes"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1314
+# File: usr/share/build-package/core/build_package.py, line: 1370
 msgid   "When using the '-b|--build' parameter and there are changes, the '-"
         "c|--commit' parameter is also required."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1326
+# File: usr/share/build-package/core/build_package.py, line: 1382
 #, python-brace-format
 msgid   "Creating/updating testing branch: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1334
+# File: usr/share/build-package/core/build_package.py, line: 1390
 #, python-brace-format
 msgid   "Syncing local {0} with remote {0}..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1346
+# File: usr/share/build-package/core/build_package.py, line: 1402
 #, python-brace-format
 msgid   "Successfully synced with remote {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1348
+# File: usr/share/build-package/core/build_package.py, line: 1404
 msgid   "Pull failed, trying rebase..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1351
+# File: usr/share/build-package/core/build_package.py, line: 1407
 #, python-brace-format
 msgid   "Successfully rebased with remote {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1354
+# File: usr/share/build-package/core/build_package.py, line: 1410
 #, python-brace-format
 msgid   "Could not sync with remote {0}, continuing with local version"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1357
-# File: usr/share/build-package/core/build_package.py, line: 1381
+# File: usr/share/build-package/core/build_package.py, line: 1413
+# File: usr/share/build-package/core/build_package.py, line: 1437
 msgid   "Committing changes with message:"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1361
-# File: usr/share/build-package/core/build_package.py, line: 1385
+# File: usr/share/build-package/core/build_package.py, line: 1417
+# File: usr/share/build-package/core/build_package.py, line: 1441
 #, python-brace-format
 msgid   "Changes committed and pushed to {0} successfully!"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1363
+# File: usr/share/build-package/core/build_package.py, line: 1419
 #, python-brace-format
 msgid   "Error during branch operations: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1366
+# File: usr/share/build-package/core/build_package.py, line: 1422
 msgid   "No changes to commit, using current branch for package."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1375
+# File: usr/share/build-package/core/build_package.py, line: 1431
 #, python-brace-format
 msgid   "Creating/updating branch {0} for your changes"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1388
+# File: usr/share/build-package/core/build_package.py, line: 1444
 #, python-brace-format
 msgid   "Error in branch operations: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1393
+# File: usr/share/build-package/core/build_package.py, line: 1449
 #, python-brace-format
 msgid   "Force merging {0} to main for stable/extra package"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1414
+# File: usr/share/build-package/core/build_package.py, line: 1470
 msgid   "Using nuclear merge strategy (reset to source branch)"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1421
+# File: usr/share/build-package/core/build_package.py, line: 1477
 #, python-brace-format
 msgid   "Merge strategy {0} failed, trying next..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1429
+# File: usr/share/build-package/core/build_package.py, line: 1485
 #, python-brace-format
 msgid   "Successfully merged {0} to main!"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1431
+# File: usr/share/build-package/core/build_package.py, line: 1487
 msgid   "All merge strategies failed"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1435
+# File: usr/share/build-package/core/build_package.py, line: 1491
 #, python-brace-format
 msgid   "Could not merge automatically: {0}"
 msgstr  ""
@@ -1154,7 +1268,7 @@ msgstr  ""
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 1444
+# File: usr/share/build-package/core/build_package.py, line: 1500
 # File: usr/share/build-package/core/package_operations.py, line: 112
 msgid   "Error: PKGBUILD file not found."
 msgstr  ""
@@ -1162,37 +1276,37 @@ msgstr  ""
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 1444
+# File: usr/share/build-package/core/build_package.py, line: 1500
 # File: usr/share/build-package/core/package_operations.py, line: 112
 msgid   "Error: Package name not found in PKGBUILD."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1451
-# File: usr/share/build-package/core/build_package.py, line: 1485
+# File: usr/share/build-package/core/build_package.py, line: 1507
+# File: usr/share/build-package/core/build_package.py, line: 1541
 msgid   "Do you want to proceed with building the PACKAGE?"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1452
-# File: usr/share/build-package/core/build_package.py, line: 1486
+# File: usr/share/build-package/core/build_package.py, line: 1508
+# File: usr/share/build-package/core/build_package.py, line: 1542
 msgid   "Package build cancelled."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1467
+# File: usr/share/build-package/core/build_package.py, line: 1523
 msgid   "Enter the AUR package name (ex: showtime): type EXIT to exit"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1473
-# File: usr/share/build-package/core/build_package.py, line: 1639
-# File: usr/share/build-package/core/build_package.py, line: 1660
+# File: usr/share/build-package/core/build_package.py, line: 1529
+# File: usr/share/build-package/core/build_package.py, line: 1693
+# File: usr/share/build-package/core/build_package.py, line: 1714
 msgid   "Exiting script. No action was performed."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1476
+# File: usr/share/build-package/core/build_package.py, line: 1532
 msgid   "Error: No package name was entered."
 msgstr  ""
 
@@ -1207,8 +1321,8 @@ msgstr  ""
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 1510
-# File: usr/share/build-package/core/build_package.py, line: 1531
+# File: usr/share/build-package/core/build_package.py, line: 1566
+# File: usr/share/build-package/core/build_package.py, line: 1587
 # File: usr/share/build-package/core/package_operations.py, line: 206
 # File: usr/share/build-package/gui/widgets/aur_widget.py, line: 126
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 197
@@ -1222,8 +1336,8 @@ msgstr  ""
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 1512
-# File: usr/share/build-package/core/build_package.py, line: 1533
+# File: usr/share/build-package/core/build_package.py, line: 1568
+# File: usr/share/build-package/core/build_package.py, line: 1589
 # File: usr/share/build-package/core/package_operations.py, line: 207
 # File: usr/share/build-iso/build_iso.py, line: 443
 msgid   "User Name"
@@ -1234,7 +1348,7 @@ msgstr  ""
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 1513
+# File: usr/share/build-package/core/build_package.py, line: 1569
 # File: usr/share/build-package/core/package_operations.py, line: 208
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 86
 msgid   "Package Name"
@@ -1243,7 +1357,7 @@ msgstr  ""
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 1514
+# File: usr/share/build-package/core/build_package.py, line: 1570
 # File: usr/share/build-package/core/package_operations.py, line: 209
 msgid   "Repository Type"
 msgstr  ""
@@ -1253,15 +1367,15 @@ msgstr  ""
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 1515
+# File: usr/share/build-package/core/build_package.py, line: 1571
 # File: usr/share/build-package/core/package_operations.py, line: 210
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 90
 msgid   "Working Branch"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1519
-# File: usr/share/build-package/core/build_package.py, line: 1537
+# File: usr/share/build-package/core/build_package.py, line: 1575
+# File: usr/share/build-package/core/build_package.py, line: 1593
 msgid   "Url"
 msgstr  ""
 
@@ -1270,45 +1384,45 @@ msgstr  ""
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 1521
-# File: usr/share/build-package/core/build_package.py, line: 1538
+# File: usr/share/build-package/core/build_package.py, line: 1577
+# File: usr/share/build-package/core/build_package.py, line: 1594
 # File: usr/share/build-package/core/package_operations.py, line: 216
 # File: usr/share/build-iso/build_iso.py, line: 453
 msgid   "TMATE Debug"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1523
+# File: usr/share/build-package/core/build_package.py, line: 1579
 msgid   "Summary of Choices"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1532
+# File: usr/share/build-package/core/build_package.py, line: 1588
 msgid   "Repo Workflow"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1534
+# File: usr/share/build-package/core/build_package.py, line: 1590
 msgid   "Package AUR Name"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1535
+# File: usr/share/build-package/core/build_package.py, line: 1591
 msgid   "Branch_type"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1536
+# File: usr/share/build-package/core/build_package.py, line: 1592
 msgid   "New Branch"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1541
+# File: usr/share/build-package/core/build_package.py, line: 1597
 msgid   "AUR - Summary of Choices"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1550
+# File: usr/share/build-package/core/build_package.py, line: 1606
 msgid   "Generate package (commit + branch + build)"
 msgstr  ""
 
@@ -1317,44 +1431,34 @@ msgstr  ""
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 1552
-# File: usr/share/build-package/core/build_package.py, line: 1559
+# File: usr/share/build-package/core/build_package.py, line: 1608
+# File: usr/share/build-package/core/build_package.py, line: 1615
 # File: usr/share/build-package/core/settings_menu.py, line: 40
 # File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 29
 msgid   "Settings"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1553
+# File: usr/share/build-package/core/build_package.py, line: 1609
 msgid   "Advanced menu"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1563
+# File: usr/share/build-package/core/build_package.py, line: 1619
 msgid   "Main Menu"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1582
-msgid   "Pull completed"
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 1582
-msgid   "Press Enter to continue"
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/build_package.py, line: 1588
+# File: usr/share/build-package/core/build_package.py, line: 1642
 msgid   "Select repository"
 msgstr  ""
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 1596
-# File: usr/share/build-package/core/build_package.py, line: 1619
-# File: usr/share/build-package/core/build_package.py, line: 1644
+# File: usr/share/build-package/core/build_package.py, line: 1650
+# File: usr/share/build-package/core/build_package.py, line: 1673
+# File: usr/share/build-package/core/build_package.py, line: 1698
 # File: usr/share/build-iso/build_iso.py, line: 422
 msgid   "Enable TMATE debug session?"
 msgstr  ""
@@ -1364,10 +1468,10 @@ msgstr  ""
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 1596
-# File: usr/share/build-package/core/build_package.py, line: 1619
-# File: usr/share/build-package/core/build_package.py, line: 1644
-# File: usr/share/build-package/core/build_package.py, line: 1763
+# File: usr/share/build-package/core/build_package.py, line: 1650
+# File: usr/share/build-package/core/build_package.py, line: 1673
+# File: usr/share/build-package/core/build_package.py, line: 1698
+# File: usr/share/build-package/core/build_package.py, line: 1817
 # File: usr/share/build-package/gui/gtk_adapters.py, line: 118
 # File: usr/share/build-iso/build_iso.py, line: 423
 # File: usr/share/build-iso/build_iso.py, line: 453
@@ -1379,10 +1483,10 @@ msgstr  ""
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 1596
-# File: usr/share/build-package/core/build_package.py, line: 1619
-# File: usr/share/build-package/core/build_package.py, line: 1644
-# File: usr/share/build-package/core/build_package.py, line: 1763
+# File: usr/share/build-package/core/build_package.py, line: 1650
+# File: usr/share/build-package/core/build_package.py, line: 1673
+# File: usr/share/build-package/core/build_package.py, line: 1698
+# File: usr/share/build-package/core/build_package.py, line: 1817
 # File: usr/share/build-package/gui/gtk_adapters.py, line: 119
 # File: usr/share/build-iso/build_iso.py, line: 423
 # File: usr/share/build-iso/build_iso.py, line: 453
@@ -1390,90 +1494,90 @@ msgid   "Yes"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1666
+# File: usr/share/build-package/core/build_package.py, line: 1720
 msgid   "Delete branches (except main and latest)"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1667
+# File: usr/share/build-package/core/build_package.py, line: 1721
 msgid   "Delete failed Action jobs"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1668
+# File: usr/share/build-package/core/build_package.py, line: 1722
 msgid   "Delete successful Action jobs"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1669
+# File: usr/share/build-package/core/build_package.py, line: 1723
 msgid   "Delete all tags"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1670
+# File: usr/share/build-package/core/build_package.py, line: 1724
 msgid   "Merge branch to main"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1671
+# File: usr/share/build-package/core/build_package.py, line: 1725
 msgid   "Revert commit"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1676
+# File: usr/share/build-package/core/build_package.py, line: 1730
 msgid   "Advanced Menu"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1683
+# File: usr/share/build-package/core/build_package.py, line: 1737
 msgid   "Are you sure you want to delete branches? This action cannot be "
         "undone."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1687
+# File: usr/share/build-package/core/build_package.py, line: 1741
 msgid   "Are you sure you want to delete all failed Action jobs?"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1691
+# File: usr/share/build-package/core/build_package.py, line: 1745
 msgid   "Are you sure you want to delete all successful Action jobs?"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1695
+# File: usr/share/build-package/core/build_package.py, line: 1749
 msgid   "Are you sure you want to delete all repository tags?"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1735
+# File: usr/share/build-package/core/build_package.py, line: 1789
 msgid   "No dev branches found to merge."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1745
+# File: usr/share/build-package/core/build_package.py, line: 1799
 msgid   "Select branch to merge to main"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1752
+# File: usr/share/build-package/core/build_package.py, line: 1806
 msgid   "Create PR (manual approval)"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1752
+# File: usr/share/build-package/core/build_package.py, line: 1806
 msgid   "Create PR and auto-merge"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1753
+# File: usr/share/build-package/core/build_package.py, line: 1807
 msgid   "Select merge option"
 msgstr  ""
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 1761
+# File: usr/share/build-package/core/build_package.py, line: 1815
 # File: usr/share/build-package/gui/widgets/branch_widget.py, line: 126
 msgid   "Source Branch"
 msgstr  ""
@@ -1481,7 +1585,7 @@ msgstr  ""
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 1762
+# File: usr/share/build-package/core/build_package.py, line: 1816
 # File: usr/share/build-package/gui/widgets/branch_widget.py, line: 132
 msgid   "Target Branch"
 msgstr  ""
@@ -1491,29 +1595,29 @@ msgstr  ""
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 1763
+# File: usr/share/build-package/core/build_package.py, line: 1817
 # File: usr/share/build-package/core/github_api.py, line: 758
 # File: usr/share/build-package/gui/widgets/branch_widget.py, line: 138
 msgid   "Auto-merge"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1766
+# File: usr/share/build-package/core/build_package.py, line: 1820
 msgid   "Merge Summary"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1769
+# File: usr/share/build-package/core/build_package.py, line: 1823
 msgid   "Do you want to proceed with creating the pull request?"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1777
+# File: usr/share/build-package/core/build_package.py, line: 1831
 msgid   "Pull request operation completed."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1780
+# File: usr/share/build-package/core/build_package.py, line: 1834
 #, python-brace-format
 msgid   "Error getting branches: {0}"
 msgstr  ""
@@ -1523,7 +1627,7 @@ msgstr  ""
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 1782
+# File: usr/share/build-package/core/build_package.py, line: 1836
 # File: usr/share/build-package/core/git_utils.py, line: 303
 # File: usr/share/build-package/core/github_api.py, line: 304
 #, python-brace-format
@@ -1531,7 +1635,7 @@ msgid   "Unexpected error: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1797
+# File: usr/share/build-package/core/build_package.py, line: 1851
 #, python-brace-format
 msgid   "You can only revert commits on your own branch ({0}) or main branch."
 msgstr  ""
@@ -1539,7 +1643,7 @@ msgstr  ""
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 1805
+# File: usr/share/build-package/core/build_package.py, line: 1859
 # File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 155
 msgid   "Revert (keep history)"
 msgstr  ""
@@ -1547,591 +1651,674 @@ msgstr  ""
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 1806
+# File: usr/share/build-package/core/build_package.py, line: 1860
 # File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 156
 msgid   "Reset (remove from history)"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1812
+# File: usr/share/build-package/core/build_package.py, line: 1866
 #, python-brace-format
 msgid   "Branch: {0} - Select revert method"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1823
+# File: usr/share/build-package/core/build_package.py, line: 1877
 msgid   "Main branch detected - only revert method available (safer for "
         "shared branch)"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1828
+# File: usr/share/build-package/core/build_package.py, line: 1882
 msgid   "No commits found to revert."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1845
+# File: usr/share/build-package/core/build_package.py, line: 1899
 #, python-brace-format
 msgid   "Select commit to revert ({0})"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1857
+# File: usr/share/build-package/core/build_package.py, line: 1911
 #, python-brace-format
 msgid   "Do you want to proceed with this {0}?"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1877
+# File: usr/share/build-package/core/build_package.py, line: 1931
 #, python-brace-format
 msgid   "Failed to {0} commit."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1906
+# File: usr/share/build-package/core/build_package.py, line: 1960
 #, python-brace-format
 msgid   "Error getting commit history: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1909
+# File: usr/share/build-package/core/build_package.py, line: 1963
 #, python-brace-format
 msgid   "Unexpected error getting commits: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1930
+# File: usr/share/build-package/core/build_package.py, line: 1984
 msgid   "Target Commit Hash"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1931
+# File: usr/share/build-package/core/build_package.py, line: 1985
 msgid   "Author"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1932
+# File: usr/share/build-package/core/build_package.py, line: 1986
 msgid   "Date"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1933
+# File: usr/share/build-package/core/build_package.py, line: 1987
 msgid   "Message"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1934
+# File: usr/share/build-package/core/build_package.py, line: 1988
 msgid   "Method"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1938
-# File: usr/share/build-package/core/build_package.py, line: 1943
+# File: usr/share/build-package/core/build_package.py, line: 1992
+# File: usr/share/build-package/core/build_package.py, line: 1997
 msgid   "Result"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1938
+# File: usr/share/build-package/core/build_package.py, line: 1992
 msgid   "Code will be restored to this commit's exact state"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1939
+# File: usr/share/build-package/core/build_package.py, line: 1993
 msgid   "New Commit"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1939
+# File: usr/share/build-package/core/build_package.py, line: 1993
 msgid   "Will create new commit with restored state"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1940
-# File: usr/share/build-package/core/build_package.py, line: 1944
+# File: usr/share/build-package/core/build_package.py, line: 1994
+# File: usr/share/build-package/core/build_package.py, line: 1998
 msgid   "History"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1940
+# File: usr/share/build-package/core/build_package.py, line: 1994
 msgid   "All commits remain in history (non-destructive)"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1941
+# File: usr/share/build-package/core/build_package.py, line: 1995
 msgid   "Current Code"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1943
+# File: usr/share/build-package/core/build_package.py, line: 1997
 msgid   "Repository will be reset to this commit"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1944
+# File: usr/share/build-package/core/build_package.py, line: 1998
 msgid   "Commits after this will be removed from history"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1947
+# File: usr/share/build-package/core/build_package.py, line: 2001
 msgid   "Revert Preview"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1960
+# File: usr/share/build-package/core/build_package.py, line: 2014
 msgid   "Files that will be restored to target state:"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1972
+# File: usr/share/build-package/core/build_package.py, line: 2026
 msgid   "No differences detected - code is already at target state"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1974
+# File: usr/share/build-package/core/build_package.py, line: 2028
 msgid   "Could not analyze file differences"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1977
+# File: usr/share/build-package/core/build_package.py, line: 2031
 #, python-brace-format
 msgid   "Could not show commit details: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1979
+# File: usr/share/build-package/core/build_package.py, line: 2033
 #, python-brace-format
 msgid   "Error showing preview: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 1990
+# File: usr/share/build-package/core/build_package.py, line: 2044
 #, python-brace-format
 msgid   "Executing {0} for commit {1}..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2012
+# File: usr/share/build-package/core/build_package.py, line: 2066
 #, python-brace-format
 msgid   "Error during {0}: {1}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2016
+# File: usr/share/build-package/core/build_package.py, line: 2070
 #, python-brace-format
 msgid   "Unexpected error during {0}: {1}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2024
+# File: usr/share/build-package/core/build_package.py, line: 2078
 msgid   "Getting commit information..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2034
+# File: usr/share/build-package/core/build_package.py, line: 2088
 msgid   "Restoring code state from selected commit..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2041
+# File: usr/share/build-package/core/build_package.py, line: 2095
 msgid   "Staging restored files..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2053
+# File: usr/share/build-package/core/build_package.py, line: 2107
 msgid   "No changes detected - code is already at selected state"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2059
+# File: usr/share/build-package/core/build_package.py, line: 2113
 msgid   "Creating revert commit..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2065
+# File: usr/share/build-package/core/build_package.py, line: 2119
 msgid   "Revert completed successfully - code restored to selected commit "
         "state"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2069
+# File: usr/share/build-package/core/build_package.py, line: 2123
 #, python-brace-format
 msgid   "Error during revert operation: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2073
+# File: usr/share/build-package/core/build_package.py, line: 2127
 #, python-brace-format
 msgid   "Unexpected error during revert: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2078
+# File: usr/share/build-package/core/build_package.py, line: 2132
 msgid   "Resetting to previous commit..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2087
+# File: usr/share/build-package/core/build_package.py, line: 2141
 msgid   "Commit exists in remote - force push required"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2088
+# File: usr/share/build-package/core/build_package.py, line: 2142
 msgid   "This will force push and rewrite remote history. Continue?"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2089
+# File: usr/share/build-package/core/build_package.py, line: 2143
 msgid   "Force pushing changes..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2091
+# File: usr/share/build-package/core/build_package.py, line: 2145
 msgid   "Reset completed and force pushed"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2094
+# File: usr/share/build-package/core/build_package.py, line: 2148
 msgid   "Reset completed locally only (remote unchanged)"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2097
+# File: usr/share/build-package/core/build_package.py, line: 2151
 msgid   "Reset completed (commit was only local)"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2124
+# File: usr/share/build-package/core/build_package.py, line: 2178
 msgid   "Successfully skipped revert (no effective changes)"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2127
+# File: usr/share/build-package/core/build_package.py, line: 2181
 #, python-brace-format
 msgid   "Failed to skip revert: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2144
+# File: usr/share/build-package/core/build_package.py, line: 2198
 msgid   "Revert completed successfully"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2147
+# File: usr/share/build-package/core/build_package.py, line: 2201
 #, python-brace-format
 msgid   "Revert continue failed: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2153
+# File: usr/share/build-package/core/build_package.py, line: 2207
 msgid   "Revert continue timed out - aborting"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2160
+# File: usr/share/build-package/core/build_package.py, line: 2214
 msgid   "Pushing revert changes..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2169
+# File: usr/share/build-package/core/build_package.py, line: 2223
 msgid   "Revert changes pushed successfully"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2172
+# File: usr/share/build-package/core/build_package.py, line: 2226
 #, python-brace-format
 msgid   "Failed to push revert: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2176
+# File: usr/share/build-package/core/build_package.py, line: 2230
 msgid   "Revert completed (commit was only local)"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2235
+# File: usr/share/build-package/core/build_package.py, line: 2289
 msgid   "REVERT COMPLETED SUCCESSFULLY!"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2237
+# File: usr/share/build-package/core/build_package.py, line: 2291
 msgid   "Code restored to commit"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2238
-# File: usr/share/build-package/core/build_package.py, line: 2257
+# File: usr/share/build-package/core/build_package.py, line: 2292
+# File: usr/share/build-package/core/build_package.py, line: 2311
 msgid   "Target commit"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2239
+# File: usr/share/build-package/core/build_package.py, line: 2293
 msgid   "New commit created"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2240
+# File: usr/share/build-package/core/build_package.py, line: 2294
 msgid   "New commit message"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2246
+# File: usr/share/build-package/core/build_package.py, line: 2300
 msgid   "Files restored"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2250
+# File: usr/share/build-package/core/build_package.py, line: 2304
 #, python-brace-format
 msgid   "and {0} more files"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2254
+# File: usr/share/build-package/core/build_package.py, line: 2308
 msgid   "RESET COMPLETED SUCCESSFULLY!"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2256
+# File: usr/share/build-package/core/build_package.py, line: 2310
 msgid   "Repository reset to commit"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2258
+# File: usr/share/build-package/core/build_package.py, line: 2312
 msgid   "History after this commit was removed"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2259
+# File: usr/share/build-package/core/build_package.py, line: 2313
 msgid   "Current HEAD"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2263
+# File: usr/share/build-package/core/build_package.py, line: 2317
 msgid   "Changes force-pushed to remote"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2265
+# File: usr/share/build-package/core/build_package.py, line: 2319
 msgid   "Reset completed locally only"
 msgstr  ""
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 2270
+# File: usr/share/build-package/core/build_package.py, line: 2324
 # File: usr/share/build-package/core/github_api.py, line: 770
 msgid   "Operation completed successfully!"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2271
+# File: usr/share/build-package/core/build_package.py, line: 2325
 msgid   "All changes have been saved to your repository"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2279
+# File: usr/share/build-package/core/build_package.py, line: 2333
 msgid   " COMPLETED"
 msgstr  ""
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/build_package.py, line: 2280
+# File: usr/share/build-package/core/build_package.py, line: 2334
 # File: usr/share/build-package/core/github_api.py, line: 777
 msgid   "Press Enter to return to menu"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2328
+# File: usr/share/build-package/core/build_package.py, line: 2382
 msgid   "Checking for latest updates..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2349
+# File: usr/share/build-package/core/build_package.py, line: 2403
 msgid   "Fetching latest changes from remote..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2363
+# File: usr/share/build-package/core/build_package.py, line: 2417
 #, python-brace-format
 msgid   "Your target branch: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2367
+# File: usr/share/build-package/core/build_package.py, line: 2421
 #, python-brace-format
 msgid   "You're not in your own branch. Moving to {0}..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2371
+# File: usr/share/build-package/core/build_package.py, line: 2425
 msgid   "Failed to create/access your branch."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2399
-msgid   "⚠ Some conflicts need manual resolution. Check 'git status'"
+# File: usr/share/build-package/core/build_package.py, line: 2431
+msgid   "You have uncommitted local changes!"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2409
+# File: usr/share/build-package/core/build_package.py, line: 2433
+msgid   "What do you want to do?"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 2434
+msgid   "  [1] Keep my changes and merge with remote (DEFAULT - Git standard "
+        "behavior)"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 2435
+msgid   "      Your local edits will be preserved and merged with remote code"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 2436
+msgid   "  [2] ⚠️  DISCARD my changes and use only remote version"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 2437
+msgid   "      ⚠️  WARNING: You will LOSE all your uncommitted local changes!"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 2440
+msgid   "Choose option [1/2] (press Enter for default=1): "
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 2448
+msgid   "Discarding local changes and using remote version..."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 2455
+msgid   "Preserving your changes while switching to your branch..."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 2472
+msgid   "⚠️  Conflicts detected while restoring your changes!"
+msgstr  ""
+
+#
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# File: usr/share/build-package/core/build_package.py, line: 2489
+# File: usr/share/build-package/core/build_package.py, line: 2578
+# File: usr/share/build-package/core/commit_operations.py, line: 105
+msgid   "Failed to resolve conflicts"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 2500
 #, python-brace-format
 msgid   "Merging latest code from {0} into your branch..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2414
+# File: usr/share/build-package/core/build_package.py, line: 2505
 msgid   "Using automatic merge strategy"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2416
+# File: usr/share/build-package/core/build_package.py, line: 2507
 msgid   "Using rebase strategy"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2418
+# File: usr/share/build-package/core/build_package.py, line: 2509
 msgid   "Using force update strategy"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2434
+# File: usr/share/build-package/core/build_package.py, line: 2525
 msgid   "Strategy failed, trying next approach..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2441
+# File: usr/share/build-package/core/build_package.py, line: 2532
 msgid   "All merge strategies failed. Manual intervention may be needed."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2444
+# File: usr/share/build-package/core/build_package.py, line: 2535
 msgid   "Successfully merged latest code into your branch!"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2447
+# File: usr/share/build-package/core/build_package.py, line: 2538
 msgid   "Your branch is the most recent. Updating from remote..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2450
+# File: usr/share/build-package/core/build_package.py, line: 2541
 msgid   "Successfully updated your branch"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2455
+# File: usr/share/build-package/core/build_package.py, line: 2546
 msgid   "Force-updated your branch"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2457
+# File: usr/share/build-package/core/build_package.py, line: 2548
 msgid   "Could not update branch"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2478
-msgid   "Update completed successfully!"
+# File: usr/share/build-package/core/build_package.py, line: 2574
+msgid   "Merge conflicts detected after pull"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2485
+# File: usr/share/build-package/core/build_package.py, line: 2581
+msgid   "✓ All conflicts resolved successfully"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 2583
+msgid   "✓ No conflicts detected"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 2589
+msgid   "PULL COMPLETED - SUMMARY OF CHANGES"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 2598
+msgid   "✓ Update completed successfully!"
+msgstr  ""
+
+#
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# File: usr/share/build-package/core/build_package.py, line: 2602
+# File: usr/share/build-package/core/pull_operations.py, line: 235
+msgid   "Press Enter to return to main menu..."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 2606
 #, python-brace-format
 msgid   "✗ Error during update: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2492
-# File: usr/share/build-package/core/build_package.py, line: 2501
+# File: usr/share/build-package/core/build_package.py, line: 2613
+# File: usr/share/build-package/core/build_package.py, line: 2622
 #, python-brace-format
 msgid   "✓ Successfully updated to latest {0}!\n"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2496
+# File: usr/share/build-package/core/build_package.py, line: 2617
 #, python-brace-format
 msgid   "✓ Already up to date with {0}\n"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2513
+# File: usr/share/build-package/core/build_package.py, line: 2634
 #, python-brace-format
 msgid   "📄 New commits ({0}):"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2539
+# File: usr/share/build-package/core/build_package.py, line: 2660
 #, python-brace-format
 msgid   "📁 Files changed ({0}):"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2543
+# File: usr/share/build-package/core/build_package.py, line: 2664
 #, python-brace-format
 msgid   "  ✓ Added: {0} files"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2547
+# File: usr/share/build-package/core/build_package.py, line: 2668
 #, python-brace-format
 msgid   "    + ... and {0} more"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2550
+# File: usr/share/build-package/core/build_package.py, line: 2671
 #, python-brace-format
 msgid   "  ⚠ Modified: {0} files"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2554
+# File: usr/share/build-package/core/build_package.py, line: 2675
 #, python-brace-format
 msgid   "    ~ ... and {0} more"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2557
+# File: usr/share/build-package/core/build_package.py, line: 2678
 #, python-brace-format
 msgid   "  ✗ Deleted: {0} files"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2561
+# File: usr/share/build-package/core/build_package.py, line: 2682
 #, python-brace-format
 msgid   "    - ... and {0} more"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2564
+# File: usr/share/build-package/core/build_package.py, line: 2685
 #, python-brace-format
 msgid   "  → Renamed: {0} files"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2578
+# File: usr/share/build-package/core/build_package.py, line: 2699
 #, python-brace-format
 msgid   "📊 {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2585
+# File: usr/share/build-package/core/build_package.py, line: 2706
 #, python-brace-format
 msgid   "✓ Successfully updated to latest {0}!\n"
         "⚠ Could not show detailed changes: {1}\n"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2600
+# File: usr/share/build-package/core/build_package.py, line: 2721
 msgid   "Standard pull failed, trying force strategy..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2607
+# File: usr/share/build-package/core/build_package.py, line: 2728
 #, python-brace-format
 msgid   "Successfully switched and updated to {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/build_package.py, line: 2610
+# File: usr/share/build-package/core/build_package.py, line: 2731
 #, python-brace-format
 msgid   "Error switching to branch {0}: {1}"
 msgstr  ""
@@ -2934,11 +3121,6 @@ msgid   "⚠️  Conflicts while restoring changes"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 105
-msgid   "Failed to resolve conflicts"
-msgstr  ""
-
-#
 # File: usr/share/build-package/core/commit_operations.py, line: 107
 msgid   "Failed to restore stashed changes"
 msgstr  ""
@@ -2964,54 +3146,6 @@ msgstr  ""
 # File: usr/share/build-package/core/commit_operations.py, line: 124
 #, python-brace-format
 msgid   "Continue in current branch ({0})"
-msgstr  ""
-
-#
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-#
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-#
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-#
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-#
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-#
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-#
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-#
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-#
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-#
-# File: usr/share/build-package/core/commit_operations.py, line: 125
-# File: usr/share/build-package/core/pull_operations.py, line: 89
-# File: usr/share/build-package/gui/gtk_menu.py, line: 54
-# File: usr/share/build-package/gui/gtk_menu.py, line: 96
-# File: usr/share/build-package/gui/gtk_menu.py, line: 133
-# File: usr/share/build-package/gui/gtk_menu.py, line: 184
-# File: usr/share/build-package/gui/gtk_adapters.py, line: 165
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 330
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 392
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 257
-# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 267
-# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 191
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 94
-# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 153
-# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 220
-msgid   "Cancel"
-msgstr  ""
-
-#
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-#
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-#
-# File: usr/share/build-package/core/commit_operations.py, line: 130
-# File: usr/share/build-package/core/pull_operations.py, line: 94
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 263
-msgid   "Operation cancelled"
 msgstr  ""
 
 #
@@ -3062,88 +3196,99 @@ msgid   "✓ Changes restored successfully"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 193
+# File: usr/share/build-package/core/commit_operations.py, line: 196
 msgid   "Fetch latest from remote"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 218
+# File: usr/share/build-package/core/commit_operations.py, line: 214
 #, python-brace-format
 msgid   "Your branch is {0} commits behind remote"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 233
+# File: usr/share/build-package/core/commit_operations.py, line: 220
+msgid   "Pull latest changes after committing?"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/commit_operations.py, line: 228
 msgid   "No changes to commit"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 254
+# File: usr/share/build-package/core/commit_operations.py, line: 249
 msgid   "✗ Unresolved conflicts detected!"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 255
+# File: usr/share/build-package/core/commit_operations.py, line: 250
 msgid   "Cannot commit with conflict markers in files"
 msgstr  ""
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 258
+# File: usr/share/build-package/core/commit_operations.py, line: 253
 # File: usr/share/build-package/core/pull_operations.py, line: 190
 msgid   "✗ Failed to resolve conflicts"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 259
+# File: usr/share/build-package/core/commit_operations.py, line: 254
 msgid   "Please resolve manually:"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 260
+# File: usr/share/build-package/core/commit_operations.py, line: 255
 msgid   "1. Edit conflicted files"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 261
+# File: usr/share/build-package/core/commit_operations.py, line: 256
 msgid   "2. Remove <<<<<<, =======, >>>>>>> markers"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 262
+# File: usr/share/build-package/core/commit_operations.py, line: 257
 msgid   "3. Run 'git add <file>'"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 263
+# File: usr/share/build-package/core/commit_operations.py, line: 258
 msgid   "4. Run this command again"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 266
+# File: usr/share/build-package/core/commit_operations.py, line: 261
 msgid   "✓ Conflicts resolved, continuing..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 270
+# File: usr/share/build-package/core/commit_operations.py, line: 265
 msgid   "Stage all changes"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 276
+# File: usr/share/build-package/core/commit_operations.py, line: 271
 #, python-brace-format
 msgid   "Commit: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 291
+# File: usr/share/build-package/core/commit_operations.py, line: 280
+#, python-brace-format
+msgid   "Pull {0} commits from remote"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/commit_operations.py, line: 296
 #, python-brace-format
 msgid   "✓ Successfully committed and pushed to {0}!"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 329
+# File: usr/share/build-package/core/commit_operations.py, line: 334
 #, python-brace-format
 msgid   "Error ensuring branch exists: {0}"
 msgstr  ""
@@ -3214,12 +3359,12 @@ msgid   "Operation cancelled by user"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/config.py, line: 46
+# File: usr/share/build-package/core/config.py, line: 49
 msgid   "BUILD PACKAGE"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/config.py, line: 47
+# File: usr/share/build-package/core/config.py, line: 50
 msgid   "A comprehensive tool for package building, testing, and deployment. "
         "Streamlines Git operations, automates builds and manages package "
         "workflows for BigCommunity repositories and AUR packages."
@@ -3360,187 +3505,381 @@ msgid   "📦 Package Build Configuration"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 55
+# File: usr/share/build-package/core/conflict_resolver.py, line: 151
 #, python-brace-format
 msgid   "⚠️  Detected {0} file(s) with conflicts"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 73
+# File: usr/share/build-package/core/conflict_resolver.py, line: 173
 msgid   "Resolving conflicts: keeping our changes..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 79
+# File: usr/share/build-package/core/conflict_resolver.py, line: 179
 msgid   "✓ Conflicts resolved (kept our changes)"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 82
-# File: usr/share/build-package/core/conflict_resolver.py, line: 97
+# File: usr/share/build-package/core/conflict_resolver.py, line: 182
+# File: usr/share/build-package/core/conflict_resolver.py, line: 197
 #, python-brace-format
 msgid   "Failed to auto-resolve: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 88
+# File: usr/share/build-package/core/conflict_resolver.py, line: 188
 msgid   "Resolving conflicts: accepting remote changes..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 94
+# File: usr/share/build-package/core/conflict_resolver.py, line: 194
 msgid   "✓ Conflicts resolved (accepted remote)"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 102
+# File: usr/share/build-package/core/conflict_resolver.py, line: 202
 msgid   "Interactive conflict resolution..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 110
+# File: usr/share/build-package/core/conflict_resolver.py, line: 210
 msgid   "Keep our version"
 msgstr  ""
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 111
+# File: usr/share/build-package/core/conflict_resolver.py, line: 211
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 44
 msgid   "Accept remote version"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 112
+# File: usr/share/build-package/core/conflict_resolver.py, line: 212
 msgid   "Keep both (create .ours and .theirs files)"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 113
+# File: usr/share/build-package/core/conflict_resolver.py, line: 213
 msgid   "Edit manually (abort and fix)"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 114
+# File: usr/share/build-package/core/conflict_resolver.py, line: 214
 msgid   "Show diff"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 118
+# File: usr/share/build-package/core/conflict_resolver.py, line: 218
 #, python-brace-format
 msgid   "How to resolve: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 130
+# File: usr/share/build-package/core/conflict_resolver.py, line: 230
 #, python-brace-format
 msgid   "✓ Kept our version of {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 135
+# File: usr/share/build-package/core/conflict_resolver.py, line: 235
 #, python-brace-format
 msgid   "✓ Accepted remote version of {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 139
+# File: usr/share/build-package/core/conflict_resolver.py, line: 239
 #, python-brace-format
 msgid   "✓ Created both versions of {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 142
+# File: usr/share/build-package/core/conflict_resolver.py, line: 242
 #, python-brace-format
 msgid   "Manual resolution required for {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 143
+# File: usr/share/build-package/core/conflict_resolver.py, line: 243
 msgid   "Use 'git status' to see conflicted files"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 144
+# File: usr/share/build-package/core/conflict_resolver.py, line: 244
 msgid   "Edit files, then 'git add' and run this again"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 152
+# File: usr/share/build-package/core/conflict_resolver.py, line: 252
 msgid   "✓ All conflicts resolved!"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 157
+# File: usr/share/build-package/core/conflict_resolver.py, line: 257
 msgid   "Manual conflict resolution needed"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 158
+# File: usr/share/build-package/core/conflict_resolver.py, line: 258
 msgid   "Conflicted files:"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 163
+# File: usr/share/build-package/core/conflict_resolver.py, line: 263
 msgid   "Steps to resolve:"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 164
+# File: usr/share/build-package/core/conflict_resolver.py, line: 264
 msgid   "1. Edit the files above and fix conflicts"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 165
+# File: usr/share/build-package/core/conflict_resolver.py, line: 265
 msgid   "2. Run: git add <file>"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 166
+# File: usr/share/build-package/core/conflict_resolver.py, line: 266
 msgid   "3. Run this command again"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 179
+# File: usr/share/build-package/core/conflict_resolver.py, line: 286
+msgid   "⚠️  MERGE CONFLICTS DETECTED"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 288
+msgid   "Branch comparison:"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 292
+# File: usr/share/build-package/core/conflict_resolver.py, line: 369
+msgid   "NEWER"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 297
+# File: usr/share/build-package/core/conflict_resolver.py, line: 373
+msgid   "older"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 300
+#, python-brace-format
+msgid   "Conflicted files: {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 304
+#, python-brace-format
+msgid   "⚙️  Auto-resolution enabled: Using code from {0} (newer branch)"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 308
+msgid   "Starting interactive conflict resolution..."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 309
+msgid   "You'll review each file and choose which version to keep"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 310
+msgid   "\n"
+        "Press Enter to start..."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 315
+#, python-brace-format
+msgid   "File {0}/{1}: {2}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 322
+#, python-brace-format
+msgid   "Found {0} conflict(s) starting at line {1}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 329
+msgid   "Preview of changes:"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 333
+#, python-brace-format
+msgid   "{0} (YOUR branch, NEWER)"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 334
+#, python-brace-format
+msgid   "{0} (older)"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 336
+#, python-brace-format
+msgid   "{0} (YOUR branch, older)"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 337
+#, python-brace-format
+msgid   "{0} (NEWER)"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 349
+# File: usr/share/build-package/core/conflict_resolver.py, line: 361
+msgid   "more lines"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 352
+msgid   "VS"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 367
+#, python-brace-format
+msgid   "Use {0} version [{1}] - Recommended"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 371
+#, python-brace-format
+msgid   "Use {0} version [{1}]"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 375
+msgid   "Skip - I'll edit manually"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 379
+#, python-brace-format
+msgid   "Choose version for: {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 386
+#, python-brace-format
+msgid   "⚠️  Skipping {0} - you'll need to edit it manually"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 387
+msgid   "To resolve manually:"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 389
+msgid   "  2. Remove conflict markers: <<<<<<< ======= >>>>>>>"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 401
+#, python-brace-format
+msgid   "✓ Resolved: Using {0} version"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 403
+#, python-brace-format
+msgid   "✗ Failed to resolve {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 411
+msgid   "⚠️  Some files still have unresolved conflicts:"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 414
+msgid   "Please resolve them manually and run 'git add <file>'"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 415
+# File: usr/share/build-package/core/conflict_resolver.py, line: 423
+# File: usr/share/build-package/core/conflict_resolver.py, line: 453
+msgid   "\n"
+        "Press Enter to continue..."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 421
+msgid   "✓ All conflicts resolved successfully!"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 447
+#, python-brace-format
+msgid   "Failed to resolve {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 450
+#, python-brace-format
+msgid   "✓ All conflicts auto-resolved using {0} version"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 456
+#, python-brace-format
+msgid   "Error during auto-resolution: {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/conflict_resolver.py, line: 468
 #, python-brace-format
 msgid   "File: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 180
+# File: usr/share/build-package/core/conflict_resolver.py, line: 469
 #, python-brace-format
 msgid   "Conflicts: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 206
+# File: usr/share/build-package/core/conflict_resolver.py, line: 495
 #, python-brace-format
 msgid   "Could not preview file: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 228
+# File: usr/share/build-package/core/conflict_resolver.py, line: 517
 msgid   "OUR VERSION:"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 234
+# File: usr/share/build-package/core/conflict_resolver.py, line: 523
 msgid   "THEIR VERSION:"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 242
+# File: usr/share/build-package/core/conflict_resolver.py, line: 531
 #, python-brace-format
 msgid   "Could not show diff: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 260
+# File: usr/share/build-package/core/conflict_resolver.py, line: 549
 msgid   "Created files:"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/conflict_resolver.py, line: 266
+# File: usr/share/build-package/core/conflict_resolver.py, line: 555
 #, python-brace-format
 msgid   "Error creating versions: {0}"
 msgstr  ""
@@ -3783,18 +4122,24 @@ msgid   "✓ Conflicts resolved"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 206
-msgid   "✓ Successfully updated to latest code"
+# File: usr/share/build-package/core/pull_operations.py, line: 198
+msgid   "PULL COMPLETED SUCCESSFULLY"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 207
+# File: usr/share/build-package/core/pull_operations.py, line: 214
 #, python-brace-format
 msgid   "Latest commit: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 209
+# File: usr/share/build-package/core/pull_operations.py, line: 226
+#, python-brace-format
+msgid   "New commits pulled: {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/pull_operations.py, line: 231
 msgid   "✓ Pull completed"
 msgstr  ""
 
