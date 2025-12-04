@@ -14,11 +14,15 @@ from datetime import datetime
 from .translation_utils import _
 
 from .config import (
-    APP_NAME, APP_DESC, VERSION, DEFAULT_ORGANIZATION, 
+    APP_NAME, APP_DESC, VERSION, DEFAULT_ORGANIZATION,
     VALID_ORGANIZATIONS, VALID_BRANCHES
 )
 from .git_utils import GitUtils
 from .github_api import GitHubAPI
+from .settings import Settings
+from .conflict_resolver import ConflictResolver
+from .operation_preview import OperationPlan, QuickPlan
+from .settings_menu import SettingsMenu
 
 class BuildPackage:
     """Main class for package management"""
@@ -33,17 +37,42 @@ class BuildPackage:
         self.last_commit_type = None
         self._app_version_cache = None
         self._app_version_warning_shown = False
-        
+
         # Check if it's a Git repository
         self.is_git_repo = GitUtils.is_git_repo()
-        
+
         # Setup logger if provided
         if self.logger:
             self.logger.setup_log_file(GitUtils.get_repo_name)
             self.logger.draw_app_header()
-        
+
+        # Initialize settings and intelligent systems
+        self.settings = Settings()
+        self.conflict_resolver = None  # Initialize after menu is ready
+        self.settings_menu = None
+
+        # Apply --mode argument if provided
+        if self.args.mode:
+            self.settings.set("operation_mode", self.args.mode)
+            if self.logger:
+                self.logger.log("cyan", _("Operation mode set to: {0}").format(self.args.mode))
+
+        # Apply --dry-run if provided
+        if self.args.dry_run:
+            self.dry_run_mode = True
+            if self.logger:
+                self.logger.log("yellow", _("🔍 DRY-RUN MODE: No operations will be executed"))
+        else:
+            self.dry_run_mode = False
+
         # Configure environment
         self.setup_environment()
+
+        # Initialize conflict resolver with menu system
+        if self.menu:
+            conflict_strategy = self.settings.get("conflict_strategy", "interactive")
+            self.conflict_resolver = ConflictResolver(self.logger, self.menu, conflict_strategy)
+            self.settings_menu = SettingsMenu(self.settings, self.logger, self.menu)
     
     def setup_environment(self):
         """Configures the execution environment"""
@@ -226,13 +255,19 @@ class BuildPackage:
         
         parser.add_argument("-t", "--tmate", action="store_true",
                         help=_("Enable tmate for debugging"))
-        
+
+        parser.add_argument("--mode", choices=['safe', 'quick', 'expert'],
+                        help=_("Operation mode: safe (default), quick (fast), expert (max automation)"))
+
+        parser.add_argument("--dry-run", action="store_true",
+                        help=_("Simulate operations without executing"))
+
         args = parser.parse_args()
-        
+
         if args.version:
             self.print_version()
             sys.exit(0)
-        
+
         return args
     
     def print_version(self):
@@ -1510,16 +1545,18 @@ the specific source code used to create this copy."""), style="white")
         while True:
             if self.is_git_repo:
                 options = [
-                    _("Commit and push"),
-                    _("Pull latest"),
+                    "Commit and push",
+                    "Pull latest",
                     _("Generate package (commit + branch + build)"),
                     _("Build AUR package"),
+                    _("Settings"),
                     _("Advanced menu"),
                     _("Exit")
                 ]
             else:
                 options = [
                     _("Build AUR package"),
+                    _("Settings"),
                     _("Exit")
                 ]
             
@@ -1532,63 +1569,49 @@ the specific source code used to create this copy."""), style="white")
             
             if self.is_git_repo:
                 if choice == 0:  # Commit and push
-                    # Check changes before asking for message
-                    if not GitUtils.has_changes():
-                        self.menu.show_menu(_("No Changes to Commit\n"), [_("Press Enter to return to main menu")])
-                        continue
-                    
-                    # Pull latest changes
-                    if not GitUtils.git_pull(self.logger):
-                        if not self.menu.confirm(_("Failed to pull changes. Do you want to continue anyway?")):
-                            continue
-                    
-                    # Only ask for message if there are changes
-                    commit_message = self.custom_commit_prompt()
-                    if not commit_message:
-                        self.logger.log("red", _("Commit message cannot be empty."))
-                        continue
-                    
-                    self.args.commit = commit_message
-                    self.commit_and_push()
+                    # Use improved version if available
+                    from .commit_operations import commit_and_push_v2
+                    commit_and_push_v2(self)
                     return
-                
+
                 elif choice == 1:  # Pull latest
-                    self.pull_latest_code_menu()
+                    from .pull_operations import pull_latest_v2
+                    pull_latest_v2(self)
+
+                    # Show completion message
+                    self.menu.show_menu(_("Pull completed"), [_("Press Enter to continue")])
                     continue
-                
+
                 elif choice == 2:  # Generate package
                     # Select branch type
                     branch_options = ["testing", "stable", "extra", _("Back")]
                     branch_result = self.menu.show_menu(_("Select repository"), branch_options)
-                    
+
                     if branch_result is None or branch_options[branch_result[0]] == _("Back"):
                         continue
-                    
+
                     branch_type = branch_options[branch_result[0]]
 
-                    
                     # Enable or disable tmate for debug
                     debug_result = self.menu.show_menu(_("Enable TMATE debug session?"), [_("No"), _("Yes")])
                     if debug_result is None:
                         continue
-                    
-                    self.tmate_option = (debug_result[0] == 1)  # Yes = index 1
-                    
+
+                    tmate_option = (debug_result[0] == 1)  # Yes = index 1
+
                     # Get commit message if there are changes
                     has_changes = GitUtils.has_changes()
-                    commit_message = ""
+                    commit_message = None
 
                     if has_changes:
                         commit_message = self.custom_commit_prompt()
                         if not commit_message:
                             self.logger.log("red", _("Commit message cannot be empty."))
                             continue
-                    else:
-                        self.logger.log("yellow", _("No changes to commit, proceeding with package generation."))
-                    
-                    self.args.build = branch_type
-                    self.args.commit = commit_message
-                    self.commit_and_generate_package()
+
+                    # Use improved version
+                    from .package_operations import commit_and_generate_package_v2
+                    commit_and_generate_package_v2(self, branch_type, commit_message, tmate_option)
                     return
                 
                 elif choice == 3:  # Build AUR package
@@ -1596,18 +1619,23 @@ the specific source code used to create this copy."""), style="white")
                     debug_result = self.menu.show_menu(_("Enable TMATE debug session?"), [_("No"), _("Yes")])
                     if debug_result is None:
                         continue
-                    
+
                     self.tmate_option = (debug_result[0] == 1)  # Yes = index 1
-                    
+
                     self.args.aur = None  # Force package name request
                     self.build_aur_package()
                     return
-                
-                elif choice == 4:  # Advanced menu
+
+                elif choice == 4:  # Settings
+                    if self.settings_menu:
+                        self.settings_menu.show()
+                    continue
+
+                elif choice == 5:  # Advanced menu
                     self.advanced_menu()
                     continue
-                
-                elif choice == 5:  # Exit
+
+                elif choice == 6:  # Exit
                     self.logger.log("yellow", _("Exiting script. No action was performed."))
                     return
             else:
@@ -1616,14 +1644,19 @@ the specific source code used to create this copy."""), style="white")
                     debug_result = self.menu.show_menu(_("Enable TMATE debug session?"), [_("No"), _("Yes")])
                     if debug_result is None:
                         continue
-                    
+
                     self.tmate_option = (debug_result[0] == 1)  # Yes = index 1
-                    
+
                     self.args.aur = None  # Force package name request
                     self.build_aur_package()
                     return
-                
-                elif choice == 1:  # Exit
+
+                elif choice == 1:  # Settings
+                    if self.settings_menu:
+                        self.settings_menu.show()
+                    continue
+
+                elif choice == 2:  # Exit
                     self.logger.log("yellow", _("Exiting script. No action was performed."))
                     return
     

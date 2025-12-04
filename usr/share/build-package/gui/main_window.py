@@ -13,8 +13,11 @@ from gi.repository import Gtk, Adw, GObject, Gio
 from core.build_package import BuildPackage
 from core.git_utils import GitUtils
 from core.translation_utils import _
+from core.settings import Settings
 from .gtk_logger import GTKLogger
 from .gtk_menu import GTKMenu
+from .gtk_adapters import GTKMenuSystem, GTKConflictResolver
+from .dialogs.settings_dialog import SettingsDialog
 from .widgets.overview_widget import OverviewWidget
 from .widgets.commit_widget import CommitWidget
 from .widgets.package_widget import PackageWidget
@@ -30,22 +33,28 @@ class MainWindow(Adw.ApplicationWindow):
     
     def __init__(self, application):
         super().__init__(application=application)
-        
+
         self.application = application
         self.build_package = None
+
+        # Initialize settings first
+        self.settings = Settings()
+
+        # Initialize GTK components
         self.logger = GTKLogger(self)
-        self.menu = GTKMenu(self)
+        self.menu_system = GTKMenuSystem(self)  # New GTK menu system
+        self.menu = GTKMenu(self)  # Keep old for compatibility
         self.operation_runner = OperationRunner(self)
-        
+
         # Create UI programmatically
         self.create_ui()
-        
+
         # Initialize BuildPackage with GUI dependencies
         self.init_build_package()
-        
+
         # Setup actions
         self.setup_actions()
-        
+
         # Set window properties
         self.set_default_size(1000, 600)
         self.set_size_request(800, 600)  # Force minimum size
@@ -124,12 +133,23 @@ class MainWindow(Adw.ApplicationWindow):
         try:
             self.build_package = BuildPackage(
                 logger=self.logger,
-                menu_system=self.menu
+                menu_system=self.menu_system  # Use new GTK menu system
             )
-            
+
+            # Initialize conflict resolver with GTK support
+            self.build_package.conflict_resolver = GTKConflictResolver(
+                logger=self.logger,
+                menu_system=self.menu_system,
+                parent_window=self,
+                strategy=self.settings.get("conflict_strategy", "interactive")
+            )
+
+            # Set settings in build_package
+            self.build_package.settings = self.settings
+
             # Create navigation and pages after build_package is ready
             self.create_navigation_and_pages()
-            
+
         except Exception as e:
             self.show_error_toast(_("Failed to initialize: {0}").format(str(e)))
     
@@ -268,10 +288,15 @@ class MainWindow(Adw.ApplicationWindow):
     def on_commit_requested(self, widget, commit_message):
         """Handle commit request from commit widget"""
         def commit_operation():
+            # Import V2 operation
+            from core.commit_operations import commit_and_push_v2
+
             # Set commit message in args
             self.build_package.args.commit = commit_message
-            return self.build_package.commit_and_push()
-        
+
+            # Use V2 operation with intelligent conflict handling
+            return commit_and_push_v2(self.build_package)
+
         self.operation_runner.run_with_progress(
             commit_operation,
             _("Committing Changes"),
@@ -281,8 +306,12 @@ class MainWindow(Adw.ApplicationWindow):
     def on_pull_requested(self, widget):
         """Handle pull request"""
         def pull_operation():
-            return GitUtils.git_pull(self.build_package.logger)
-        
+            # Import V2 operation
+            from core.pull_operations import pull_latest_v2
+
+            # Use V2 operation with intelligent conflict handling
+            return pull_latest_v2(self.build_package)
+
         self.operation_runner.run_with_progress(
             pull_operation,
             _("Pulling Changes"),
@@ -292,10 +321,17 @@ class MainWindow(Adw.ApplicationWindow):
     def on_package_build_requested(self, widget, package_type, tmate, has_commit_msg):
         """Handle package build request"""
         def build_operation():
-            self.build_package.args.build = package_type
-            self.build_package.args.tmate = tmate
-            return self.build_package.commit_and_generate_package()
-        
+            # Import V2 operation
+            from core.package_operations import commit_and_generate_package_v2
+
+            # Use V2 operation
+            return commit_and_generate_package_v2(
+                self.build_package,
+                branch_type=package_type,
+                commit_message=None,
+                tmate_option=tmate
+            )
+
         self.operation_runner.run_with_progress(
             build_operation,
             _("Building Package"),
@@ -305,11 +341,17 @@ class MainWindow(Adw.ApplicationWindow):
     def on_commit_and_build_requested(self, widget, package_type, commit_message, tmate):
         """Handle commit and build request"""
         def commit_and_build_operation():
-            self.build_package.args.build = package_type
-            self.build_package.args.commit = commit_message
-            self.build_package.args.tmate = tmate
-            return self.build_package.commit_and_generate_package()
-        
+            # Import V2 operation
+            from core.package_operations import commit_and_generate_package_v2
+
+            # Use V2 operation
+            return commit_and_generate_package_v2(
+                self.build_package,
+                branch_type=package_type,
+                commit_message=commit_message,
+                tmate_option=tmate
+            )
+
         self.operation_runner.run_with_progress(
             commit_and_build_operation,
             _("Commit and Build"),
