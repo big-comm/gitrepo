@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: attranslate"
+"X-Generator: attranslate\n"
 # 
 # File: usr/share/build-package/logger.py, line: 67
 #: NEEDS WORK
@@ -300,11 +300,66 @@ msgstr "גרסת האפליקציה עלתה מ-{0} ל-{1} ({2} עלייה) ב-{
 msgid "This option is only available in git repositories."
 msgstr "אפשרות זו זמינה רק במאגרי git."
 # 
-# File: usr/share/build-package/build_package.py, line: 175
+# File: usr/share/build-package/core/build_package.py, line: 570
+#: NEEDS WORK
+msgid "Choose target branch for commit:"
+msgstr "בחר את הענף היעד עבור ההתחייבות:"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 572
+#: NEEDS WORK
+msgid "Select branch for commit"
+msgstr "בחר סניף לביצוע התחייבות"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 574
 #: NEEDS WORK
 #, python-brace-format
-msgid "Target branch for commit: {0}"
-msgstr "ענף יעד עבור התחייבות: {0}"
+msgid "My branch ({0}) - Recommended"
+msgstr "הסניף שלי ({0}) - מומלץ"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 575
+#: NEEDS WORK
+msgid "Main branch - Direct commit"
+msgstr "סניף ראשי - התחייבות ישירה"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/gtk_menu.py, line: 54
+# File: usr/share/build-package/gui/gtk_menu.py, line: 96
+# File: usr/share/build-package/gui/gtk_menu.py, line: 133
+# File: usr/share/build-package/gui/gtk_menu.py, line: 184
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 330
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 392
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 257
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 94
+#: NEEDS WORK
+msgid "Cancel"
+msgstr "ביטול"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 263
+#: NEEDS WORK
+msgid "Operation cancelled"
+msgstr "הפעולה בוטלה"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 588
+#: NEEDS WORK
+msgid "⚠️  WARNING: You chose to commit directly to main!"
+msgstr "⚠️  אזהרה: בחרת לבצע מחויבות ישירות ל-main!"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 591
+#: NEEDS WORK
+msgid "Are you sure you want to commit directly to main branch?"
+msgstr "האם אתה בטוח שאתה רוצה לבצע מחויבות ישירות לענף הראשי?"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 596
+# File: usr/share/build-package/core/build_package.py, line: 599
+#: NEEDS WORK
+#, python-brace-format
+msgid "Target branch: {0}"
+msgstr "ענף יעד: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 179
 #: NEEDS WORK
@@ -312,17 +367,22 @@ msgstr "ענף יעד עבור התחייבות: {0}"
 msgid "You're in {0} but should commit to {1}. Fixing this..."
 msgstr "אתה ב-{0} אבל צריך להתחייב ל-{1}. מתקן את זה..."
 # 
-# File: usr/share/build-package/build_package.py, line: 187
-# File: usr/share/build-package/build_package.py, line: 1298
+# File: usr/share/build-package/core/build_package.py, line: 611
 #: NEEDS WORK
-msgid "Preserving your changes while switching to your branch..."
-msgstr "שימור השינויים שלך בזמן המעבר לענף שלך..."
+msgid "Preserving your changes while switching to target branch..."
+msgstr "שימור השינויים שלך בזמן המעבר לענף היעד..."
 # 
 # File: usr/share/build-package/build_package.py, line: 572
 # File: usr/share/build-package/build_package.py, line: 1153
 #: NEEDS WORK
 msgid "Failed to stash changes. Cannot proceed safely."
 msgstr "נכשל בשמירת שינויים. לא ניתן להמשיך בבטחה."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 628
+# File: usr/share/build-package/core/build_package.py, line: 654
+#: NEEDS WORK
+msgid "Failed to switch to main branch"
+msgstr "נכשל במעבר לענף הראשי"
 # 
 # File: usr/share/build-package/build_package.py, line: 588
 # File: usr/share/build-package/build_package.py, line: 1169
@@ -341,18 +401,16 @@ msgstr "קונפליקטים נפתרו אוטומטית"
 msgid "Could not resolve conflicts automatically. Please check 'git status'"
 msgstr "לא ניתן לפתור קונפליקטים באופן אוטומטי. אנא בדוק 'git status'"
 # 
-# File: usr/share/build-package/build_package.py, line: 214
-# File: usr/share/build-package/build_package.py, line: 343
+# File: usr/share/build-package/core/build_package.py, line: 647
 #: NEEDS WORK
-msgid "Successfully moved your changes to your own branch!"
-msgstr "המעבר של השינויים שלך לענף שלך בוצע בהצלחה!"
+msgid "Successfully moved your changes to target branch!"
+msgstr "המעבר של השינויים שלך לסניף היעד בוצע בהצלחה!"
 # 
-# File: usr/share/build-package/build_package.py, line: 219
-# File: usr/share/build-package/build_package.py, line: 348
+# File: usr/share/build-package/core/build_package.py, line: 659
 #: NEEDS WORK
 #, python-brace-format
-msgid "Switched to your branch: {0}"
-msgstr "עברת לענף שלך: {0}"
+msgid "Switched to target branch: {0}"
+msgstr "עברתי לענף היעד: {0}"
 # 
 # File: usr/share/build-package/core/build_package.py, line: 408
 #: NEEDS WORK
@@ -459,6 +517,21 @@ msgstr "נכשל למשוך את השינויים האחרונים, אך ממש�
 msgid "Local changes detected - skipping automatic pull to avoid conflicts."
 msgstr "שינויים מקומיים זוהו - מדלגים על משיכת אוטומטית כדי למנוע קונפליקטים."
 # 
+# File: usr/share/build-package/core/build_package.py, line: 785
+#: NEEDS WORK
+msgid "Pulling latest changes from main..."
+msgstr "מושך שינויים אחרונים מה-main..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 788
+#: NEEDS WORK
+msgid "Successfully pulled latest main"
+msgstr "משיכת הגרסה האחרונה מהמאגר הצליחה"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 790
+#: NEEDS WORK
+msgid "Failed to pull, but continuing..."
+msgstr "נכשל למשוך, אך ממשיכים..."
+# 
 # File: usr/share/build-package/build_package.py, line: 190
 # File: usr/share/build-package/build_package.py, line: 368
 # File: usr/share/build-package/build_package.py, line: 569
@@ -556,6 +629,19 @@ msgstr "מעבר מ-{0} לענף שלך {1}..."
 #: NEEDS WORK
 msgid "Could not resolve conflicts automatically."
 msgstr "לא ניתן לפתור קונפליקטים באופן אוטומטי."
+# 
+# File: usr/share/build-package/build_package.py, line: 214
+# File: usr/share/build-package/build_package.py, line: 343
+#: NEEDS WORK
+msgid "Successfully moved your changes to your own branch!"
+msgstr "המעבר של השינויים שלך לענף שלך בוצע בהצלחה!"
+# 
+# File: usr/share/build-package/build_package.py, line: 219
+# File: usr/share/build-package/build_package.py, line: 348
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to your branch: {0}"
+msgstr "עברת לענף שלך: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 229
 # File: usr/share/build-package/build_package.py, line: 340
@@ -1134,16 +1220,6 @@ msgstr "תפריט מתקדם"
 #: NEEDS WORK
 msgid "Main Menu"
 msgstr "תפריט ראשי"
-# 
-# File: usr/share/build-package/core/build_package.py, line: 1582
-#: NEEDS WORK
-msgid "Pull completed"
-msgstr "המשיכה הושלמה"
-# 
-# File: usr/share/build-package/core/build_package.py, line: 1582
-#: NEEDS WORK
-msgid "Press Enter to continue"
-msgstr "לחץ על Enter להמשך"
 # 
 # File: usr/share/build-package/build_package.py, line: 579
 #: NEEDS WORK
@@ -1724,10 +1800,61 @@ msgstr "אתה לא בענף שלך. עובר ל-{0}..."
 msgid "Failed to create/access your branch."
 msgstr "נכשל ביצירת/גישה לענף שלך."
 # 
-# File: usr/share/build-package/build_package.py, line: 1175
+# File: usr/share/build-package/core/build_package.py, line: 2431
 #: NEEDS WORK
-msgid "⚠ Some conflicts need manual resolution. Check 'git status'"
-msgstr "⚠ ישנם קונפליקטים שדורשים פתרון ידני. בדוק 'git status'"
+msgid "You have uncommitted local changes!"
+msgstr "יש לך שינויים מקומיים שלא הוקלטו!"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2433
+#: NEEDS WORK
+msgid "What do you want to do?"
+msgstr "מה אתה רוצה לעשות?"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2434
+#: NEEDS WORK
+msgid "  [1] Keep my changes and merge with remote (DEFAULT - Git standard behavior)"
+msgstr "שמור את השינויים שלי ומזג עם המרוחק (ברירת מחדל - התנהגות סטנדרטית של גיט)"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2435
+#: NEEDS WORK
+msgid "      Your local edits will be preserved and merged with remote code"
+msgstr "שינויים המקומיים שלך יישמרו ויתמזגו עם הקוד המרוחק"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2436
+#: NEEDS WORK
+msgid "  [2] ⚠️  DISCARD my changes and use only remote version"
+msgstr "⚠️  זְנַח שִׁנּוּיִים שֶׁלִּי וּשְׁתַּמֵּשׁ רַק בָּרוּסָה הַמָּקוֹמִית"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2437
+#: NEEDS WORK
+msgid "      ⚠️  WARNING: You will LOSE all your uncommitted local changes!"
+msgstr "⚠️  אזהרה: תאבד את כל השינויים המקומיים שלך שלא נשמרו!"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2440
+#: NEEDS WORK
+msgid "Choose option [1/2] (press Enter for default=1): "
+msgstr "בחר אפשרות [1/2] (לחץ Enter עבור ברירת מחדל=1):"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2448
+#: NEEDS WORK
+msgid "Discarding local changes and using remote version..."
+msgstr "מבטל שינויים מקומיים ומשתמש בגרסה המרוחקת..."
+# 
+# File: usr/share/build-package/build_package.py, line: 187
+# File: usr/share/build-package/build_package.py, line: 1298
+#: NEEDS WORK
+msgid "Preserving your changes while switching to your branch..."
+msgstr "שימור השינויים שלך בזמן המעבר לענף שלך..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2472
+#: NEEDS WORK
+msgid "⚠️  Conflicts detected while restoring your changes!"
+msgstr "⚠️  זיהוי קונפליקטים בעת שחזור השינויים שלך!"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 105
+#: NEEDS WORK
+msgid "Failed to resolve conflicts"
+msgstr "נכשל בפתרון קונפליקטים"
 # 
 # File: usr/share/build-package/build_package.py, line: 1331
 #: NEEDS WORK
@@ -1785,10 +1912,38 @@ msgstr "עדכנת בכוח את הסניף שלך"
 msgid "Could not update branch"
 msgstr "לא ניתן לעדכן את הסניף"
 # 
-# File: usr/share/build-package/build_package.py, line: 1163
+# File: usr/share/build-package/core/build_package.py, line: 2574
 #: NEEDS WORK
-msgid "Update completed successfully!"
-msgstr "עדכון הושלם בהצלחה!"
+msgid "Merge conflicts detected after pull"
+msgstr "נמצאו קונפליקטים במיזוג לאחר משיכה"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2581
+#: NEEDS WORK
+msgid "✓ All conflicts resolved successfully"
+msgstr "✓ כל הקונפליקטים נפתרו בהצלחה"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2583
+#: NEEDS WORK
+msgid "✓ No conflicts detected"
+msgstr "✓ לא זוהו קונפליקטים"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2589
+#: NEEDS WORK
+msgid "PULL COMPLETED - SUMMARY OF CHANGES"
+msgstr "משיכה הושלמה - סיכום שינויים"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2598
+#: NEEDS WORK
+msgid "✓ Update completed successfully!"
+msgstr "✓ העדכון הושלם בהצלחה!"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2602
+# File: usr/share/build-package/core/pull_operations.py, line: 235
+#: NEEDS WORK
+msgid "Press Enter to return to main menu..."
+msgstr "לחץ על Enter כדי לחזור לתפריט הראשי..."
 # 
 # File: usr/share/build-package/build_package.py, line: 1170
 #: NEEDS WORK
@@ -2669,11 +2824,6 @@ msgstr "עבור לענף שלך: {0}"
 msgid "⚠️  Conflicts while restoring changes"
 msgstr "⚠️  קונפליקטים בעת שחזור שינויים"
 # 
-# File: usr/share/build-package/core/commit_operations.py, line: 105
-#: NEEDS WORK
-msgid "Failed to resolve conflicts"
-msgstr "נכשל בפתרון קונפליקטים"
-# 
 # File: usr/share/build-package/core/commit_operations.py, line: 107
 #: NEEDS WORK
 msgid "Failed to restore stashed changes"
@@ -2701,29 +2851,6 @@ msgstr "מעבר לענף שלי ({0})"
 #, python-brace-format
 msgid "Continue in current branch ({0})"
 msgstr "המשך בענף הנוכחי ({0})"
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-package/gui/gtk_menu.py, line: 54
-# File: usr/share/build-package/gui/gtk_menu.py, line: 96
-# File: usr/share/build-package/gui/gtk_menu.py, line: 133
-# File: usr/share/build-package/gui/gtk_menu.py, line: 184
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 330
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 392
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 257
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 94
-#: NEEDS WORK
-msgid "Cancel"
-msgstr "ביטול"
-# 
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 263
-#: NEEDS WORK
-msgid "Operation cancelled"
-msgstr "הפעולה בוטלה"
 # 
 # File: usr/share/build-package/core/commit_operations.py, line: 136
 #: NEEDS WORK
@@ -2782,6 +2909,11 @@ msgstr "הבא את הגרסה האחרונה מהמרוחק"
 #, python-brace-format
 msgid "Your branch is {0} commits behind remote"
 msgstr "הסניף שלך מאחר ב-{0} קומיטים מהמרוחק"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 220
+#: NEEDS WORK
+msgid "Pull latest changes after committing?"
+msgstr "משוך שינויים אחרונים לאחר התחייבות?"
 # 
 # File: usr/share/build-package/core/commit_operations.py, line: 233
 #: NEEDS WORK
@@ -2846,6 +2978,12 @@ msgstr "במה כל השינויים"
 #, python-brace-format
 msgid "Commit: {0}"
 msgstr "מחויבות: {0}"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 280
+#: NEEDS WORK
+#, python-brace-format
+msgid "Pull {0} commits from remote"
+msgstr "משוך {0} קומיטים מרחוק"
 # 
 # File: usr/share/build-package/core/commit_operations.py, line: 291
 #: NEEDS WORK
@@ -3210,6 +3348,202 @@ msgstr "2. הרץ: git add <file>"
 msgid "3. Run this command again"
 msgstr "3. הרץ את הפקודה הזו שוב"
 # 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 286
+#: NEEDS WORK
+msgid "⚠️  MERGE CONFLICTS DETECTED"
+msgstr "⚠️  זיהוי קונפליקטים במיזוג"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 288
+#: NEEDS WORK
+msgid "Branch comparison:"
+msgstr "השוואת ענפים:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 292
+# File: usr/share/build-package/core/conflict_resolver.py, line: 369
+#: NEEDS WORK
+msgid "NEWER"
+msgstr "חדש"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 297
+# File: usr/share/build-package/core/conflict_resolver.py, line: 373
+#: NEEDS WORK
+msgid "older"
+msgstr "ישן"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 300
+#: NEEDS WORK
+#, python-brace-format
+msgid "Conflicted files: {0}"
+msgstr "קבצים בסכסוך: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 304
+#: NEEDS WORK
+#, python-brace-format
+msgid "⚙️  Auto-resolution enabled: Using code from {0} (newer branch)"
+msgstr "⚙️  פתרון אוטומטי מופעל: משתמש בקוד מ-{0} (סניף חדש יותר)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 308
+#: NEEDS WORK
+msgid "Starting interactive conflict resolution..."
+msgstr "מתחיל פתרון קונפליקטים אינטראקטיבי..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 309
+#: NEEDS WORK
+msgid "You'll review each file and choose which version to keep"
+msgstr "אתה תסקור כל קובץ ותבחר איזו גרסה לשמור"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 310
+#: NEEDS WORK
+msgid ""
+"\n"
+"Press Enter to start..."
+msgstr "לחץ על Enter כדי להתחיל..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 315
+#: NEEDS WORK
+#, python-brace-format
+msgid "File {0}/{1}: {2}"
+msgstr "קובץ {0}/{1}: {2}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 322
+#: NEEDS WORK
+#, python-brace-format
+msgid "Found {0} conflict(s) starting at line {1}"
+msgstr "נמצא {0} סכסוך(ים) החל משורה {1}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 329
+#: NEEDS WORK
+msgid "Preview of changes:"
+msgstr "תצוגה מקדימה של שינויים:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 333
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} (YOUR branch, NEWER)"
+msgstr "{0} (הסניף שלך, חדש יותר)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 334
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} (older)"
+msgstr "{0} (ישן)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 336
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} (YOUR branch, older)"
+msgstr "{0} (הסניף שלך, ישן)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 337
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} (NEWER)"
+msgstr "{0} (חדש יותר)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 349
+# File: usr/share/build-package/core/conflict_resolver.py, line: 361
+#: NEEDS WORK
+msgid "more lines"
+msgstr "יותר שורות"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 352
+#: NEEDS WORK
+msgid "VS"
+msgstr "VS"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 367
+#: NEEDS WORK
+#, python-brace-format
+msgid "Use {0} version [{1}] - Recommended"
+msgstr "השתמש בגרסה {0} [{1}] - מומלץ"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 371
+#: NEEDS WORK
+#, python-brace-format
+msgid "Use {0} version [{1}]"
+msgstr "השתמש בגרסה {0} [{1}]"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 375
+#: NEEDS WORK
+msgid "Skip - I'll edit manually"
+msgstr "דלג - אני אערוך ידנית"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 379
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose version for: {0}"
+msgstr "בחר גרסה עבור: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 386
+#: NEEDS WORK
+#, python-brace-format
+msgid "⚠️  Skipping {0} - you'll need to edit it manually"
+msgstr "⚠️  מדלג על {0} - תצטרך לערוך את זה ידנית"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 387
+#: NEEDS WORK
+msgid "To resolve manually:"
+msgstr "לפתור ידנית:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 389
+#: NEEDS WORK
+msgid "  2. Remove conflict markers: <<<<<<< ======= >>>>>>>"
+msgstr "2. הסר סימני קונפליקט: <<<<<<< ======= >>>>>>>"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 401
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved: Using {0} version"
+msgstr "✓ נפתר: משתמש בגרסה {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 403
+#: NEEDS WORK
+#, python-brace-format
+msgid "✗ Failed to resolve {0}"
+msgstr "✗ נכשל בפתרון {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 411
+#: NEEDS WORK
+msgid "⚠️  Some files still have unresolved conflicts:"
+msgstr "⚠️  כמה קבצים עדיין יש להם קונפליקטים לא פתורים:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 414
+#: NEEDS WORK
+msgid "Please resolve them manually and run 'git add <file>'"
+msgstr "אנא פתח אותם ידנית והרץ 'git add <file>'"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 415
+# File: usr/share/build-package/core/conflict_resolver.py, line: 423
+# File: usr/share/build-package/core/conflict_resolver.py, line: 453
+#: NEEDS WORK
+msgid ""
+"\n"
+"Press Enter to continue..."
+msgstr "לחץ על Enter להמשך..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 421
+#: NEEDS WORK
+msgid "✓ All conflicts resolved successfully!"
+msgstr "✓ כל הקונפליקטים נפתרו בהצלחה!"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 447
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to resolve {0}"
+msgstr "נכשל בפתרון {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 450
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ All conflicts auto-resolved using {0} version"
+msgstr "✓ כל הקונפליקטים נפתרו אוטומטית באמצעות גרסת {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 456
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during auto-resolution: {0}"
+msgstr "שגיאה במהלך פתרון אוטומטי: {0}"
+# 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 179
 #: NEEDS WORK
 #, python-brace-format
@@ -3492,16 +3826,22 @@ msgstr "⚠️  התגלו קונפליקטים לאחר משיכה"
 msgid "✓ Conflicts resolved"
 msgstr "✓ קונפליקטים נפתרו"
 # 
-# File: usr/share/build-package/core/pull_operations.py, line: 206
+# File: usr/share/build-package/core/pull_operations.py, line: 198
 #: NEEDS WORK
-msgid "✓ Successfully updated to latest code"
-msgstr "✓ עדכון לגרסה האחרונה בוצע בהצלחה"
+msgid "PULL COMPLETED SUCCESSFULLY"
+msgstr "המשיכה הושלמה בהצלחה"
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 207
 #: NEEDS WORK
 #, python-brace-format
 msgid "Latest commit: {0}"
 msgstr "התחייבות האחרונה: {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 226
+#: NEEDS WORK
+#, python-brace-format
+msgid "New commits pulled: {0}"
+msgstr "התחייבויות חדשות נמשכו: {0}"
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 209
 #: NEEDS WORK

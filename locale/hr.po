@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: attranslate"
+"X-Generator: attranslate\n"
 # 
 # File: usr/share/build-package/logger.py, line: 67
 #: NEEDS WORK
@@ -299,11 +299,66 @@ msgstr "VERZIJA_APLIKACIJE povećana s {0} na {1} ({2} povećanje) u {3}"
 msgid "This option is only available in git repositories."
 msgstr "Ova opcija je dostupna samo u git repozitorijima."
 # 
-# File: usr/share/build-package/build_package.py, line: 175
+# File: usr/share/build-package/core/build_package.py, line: 570
+#: NEEDS WORK
+msgid "Choose target branch for commit:"
+msgstr "Odaberite ciljnu granu za commit:"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 572
+#: NEEDS WORK
+msgid "Select branch for commit"
+msgstr "Odaberite granu za commit"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 574
 #: NEEDS WORK
 #, python-brace-format
-msgid "Target branch for commit: {0}"
-msgstr "Ciljana grana za commit: {0}"
+msgid "My branch ({0}) - Recommended"
+msgstr "Moja grana ({0}) - Preporučeno"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 575
+#: NEEDS WORK
+msgid "Main branch - Direct commit"
+msgstr "Glavna grana - Izravna promjena"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/gtk_menu.py, line: 54
+# File: usr/share/build-package/gui/gtk_menu.py, line: 96
+# File: usr/share/build-package/gui/gtk_menu.py, line: 133
+# File: usr/share/build-package/gui/gtk_menu.py, line: 184
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 330
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 392
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 257
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 94
+#: NEEDS WORK
+msgid "Cancel"
+msgstr "Otkaži"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 263
+#: NEEDS WORK
+msgid "Operation cancelled"
+msgstr "Operacija otkazana"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 588
+#: NEEDS WORK
+msgid "⚠️  WARNING: You chose to commit directly to main!"
+msgstr "⚠️  UPOZORENJE: Odabrali ste da izravno izvršite promjene na glavnoj grani!"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 591
+#: NEEDS WORK
+msgid "Are you sure you want to commit directly to main branch?"
+msgstr "Jeste li sigurni da želite izravno izvršiti promjene na glavnoj grani?"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 596
+# File: usr/share/build-package/core/build_package.py, line: 599
+#: NEEDS WORK
+#, python-brace-format
+msgid "Target branch: {0}"
+msgstr "Ciljana grana: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 179
 #: NEEDS WORK
@@ -311,17 +366,22 @@ msgstr "Ciljana grana za commit: {0}"
 msgid "You're in {0} but should commit to {1}. Fixing this..."
 msgstr "Nalazite se u {0}, ali trebate se obvezati na {1}. Ispravljam ovo..."
 # 
-# File: usr/share/build-package/build_package.py, line: 187
-# File: usr/share/build-package/build_package.py, line: 1298
+# File: usr/share/build-package/core/build_package.py, line: 611
 #: NEEDS WORK
-msgid "Preserving your changes while switching to your branch..."
-msgstr "Očuvanje vaših promjena prilikom prebacivanja na vašu granu..."
+msgid "Preserving your changes while switching to target branch..."
+msgstr "Očuvanje vaših promjena prilikom prebacivanja na ciljnu granu..."
 # 
 # File: usr/share/build-package/build_package.py, line: 572
 # File: usr/share/build-package/build_package.py, line: 1153
 #: NEEDS WORK
 msgid "Failed to stash changes. Cannot proceed safely."
 msgstr "Nije uspjelo spremanje promjena. Ne može se sigurno nastaviti."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 628
+# File: usr/share/build-package/core/build_package.py, line: 654
+#: NEEDS WORK
+msgid "Failed to switch to main branch"
+msgstr "Nije uspjelo prebacivanje na glavnu granu"
 # 
 # File: usr/share/build-package/build_package.py, line: 588
 # File: usr/share/build-package/build_package.py, line: 1169
@@ -340,18 +400,16 @@ msgstr "Sukobi su automatski riješeni"
 msgid "Could not resolve conflicts automatically. Please check 'git status'"
 msgstr "Nije moguće automatski riješiti sukobe. Molimo provjerite 'git status'"
 # 
-# File: usr/share/build-package/build_package.py, line: 214
-# File: usr/share/build-package/build_package.py, line: 343
+# File: usr/share/build-package/core/build_package.py, line: 647
 #: NEEDS WORK
-msgid "Successfully moved your changes to your own branch!"
-msgstr "Uspješno ste premjestili svoje promjene na vlastitu granu!"
+msgid "Successfully moved your changes to target branch!"
+msgstr "Uspješno ste premjestili svoje promjene na ciljnu granu!"
 # 
-# File: usr/share/build-package/build_package.py, line: 219
-# File: usr/share/build-package/build_package.py, line: 348
+# File: usr/share/build-package/core/build_package.py, line: 659
 #: NEEDS WORK
 #, python-brace-format
-msgid "Switched to your branch: {0}"
-msgstr "Prebačeno na vašu granu: {0}"
+msgid "Switched to target branch: {0}"
+msgstr "Prebačeno na ciljnu granu: {0}"
 # 
 # File: usr/share/build-package/core/build_package.py, line: 408
 #: NEEDS WORK
@@ -458,6 +516,21 @@ msgstr "Nije uspjelo preuzimanje najnovijih promjena, ali se nastavlja jer nema 
 msgid "Local changes detected - skipping automatic pull to avoid conflicts."
 msgstr "Otkrivene lokalne promjene - preskočeno automatsko preuzimanje kako bi se izbjegli sukobi."
 # 
+# File: usr/share/build-package/core/build_package.py, line: 785
+#: NEEDS WORK
+msgid "Pulling latest changes from main..."
+msgstr "Preuzimanje najnovijih promjena s glavne grane..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 788
+#: NEEDS WORK
+msgid "Successfully pulled latest main"
+msgstr "Uspješno preuzeta najnovija glavna verzija"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 790
+#: NEEDS WORK
+msgid "Failed to pull, but continuing..."
+msgstr "Nije uspjelo preuzimanje, ali se nastavlja..."
+# 
 # File: usr/share/build-package/build_package.py, line: 190
 # File: usr/share/build-package/build_package.py, line: 368
 # File: usr/share/build-package/build_package.py, line: 569
@@ -555,6 +628,19 @@ msgstr "Premještanje s {0} na vlastitu granu {1}..."
 #: NEEDS WORK
 msgid "Could not resolve conflicts automatically."
 msgstr "Nije moguće automatski riješiti sukobe."
+# 
+# File: usr/share/build-package/build_package.py, line: 214
+# File: usr/share/build-package/build_package.py, line: 343
+#: NEEDS WORK
+msgid "Successfully moved your changes to your own branch!"
+msgstr "Uspješno ste premjestili svoje promjene na vlastitu granu!"
+# 
+# File: usr/share/build-package/build_package.py, line: 219
+# File: usr/share/build-package/build_package.py, line: 348
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to your branch: {0}"
+msgstr "Prebačeno na vašu granu: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 229
 # File: usr/share/build-package/build_package.py, line: 340
@@ -1136,16 +1222,6 @@ msgstr "Napredni izbornik"
 msgid "Main Menu"
 msgstr "Glavni izbornik"
 # 
-# File: usr/share/build-package/core/build_package.py, line: 1582
-#: NEEDS WORK
-msgid "Pull completed"
-msgstr "Povlačenje dovršeno"
-# 
-# File: usr/share/build-package/core/build_package.py, line: 1582
-#: NEEDS WORK
-msgid "Press Enter to continue"
-msgstr "Pritisnite Enter za nastavak"
-# 
 # File: usr/share/build-package/build_package.py, line: 579
 #: NEEDS WORK
 msgid "Select repository"
@@ -1725,10 +1801,61 @@ msgstr "Niste u svojoj grani. Prelazak na {0}..."
 msgid "Failed to create/access your branch."
 msgstr "Nije moguće stvoriti/pristupiti vašoj grani."
 # 
-# File: usr/share/build-package/build_package.py, line: 1175
+# File: usr/share/build-package/core/build_package.py, line: 2431
 #: NEEDS WORK
-msgid "⚠ Some conflicts need manual resolution. Check 'git status'"
-msgstr "⚠ Neki sukobi zahtijevaju ručno rješavanje. Provjerite 'git status'"
+msgid "You have uncommitted local changes!"
+msgstr "Imate nekomitirane lokalne promjene!"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2433
+#: NEEDS WORK
+msgid "What do you want to do?"
+msgstr "Što želite učiniti?"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2434
+#: NEEDS WORK
+msgid "  [1] Keep my changes and merge with remote (DEFAULT - Git standard behavior)"
+msgstr "Zadrži moje promjene i spoji s udaljenim (ZADANO - Git standardno ponašanje)"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2435
+#: NEEDS WORK
+msgid "      Your local edits will be preserved and merged with remote code"
+msgstr "Vaše lokalne izmjene bit će sačuvane i spojene s udaljenim kodom."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2436
+#: NEEDS WORK
+msgid "  [2] ⚠️  DISCARD my changes and use only remote version"
+msgstr "⚠️  ODBACI moje promjene i koristi samo udaljenu verziju"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2437
+#: NEEDS WORK
+msgid "      ⚠️  WARNING: You will LOSE all your uncommitted local changes!"
+msgstr "⚠️  UPOZORENJE: Izgubit ćete sve svoje nepohranjene lokalne promjene!"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2440
+#: NEEDS WORK
+msgid "Choose option [1/2] (press Enter for default=1): "
+msgstr "Odaberite opciju [1/2] (pritisnite Enter za zadano=1):"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2448
+#: NEEDS WORK
+msgid "Discarding local changes and using remote version..."
+msgstr "Odbacivanje lokalnih promjena i korištenje verzije s udaljenog poslužitelja..."
+# 
+# File: usr/share/build-package/build_package.py, line: 187
+# File: usr/share/build-package/build_package.py, line: 1298
+#: NEEDS WORK
+msgid "Preserving your changes while switching to your branch..."
+msgstr "Očuvanje vaših promjena prilikom prebacivanja na vašu granu..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2472
+#: NEEDS WORK
+msgid "⚠️  Conflicts detected while restoring your changes!"
+msgstr "⚠️  Otkriveni sukobi prilikom vraćanja vaših promjena!"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 105
+#: NEEDS WORK
+msgid "Failed to resolve conflicts"
+msgstr "Nije uspjelo rješavanje sukoba"
 # 
 # File: usr/share/build-package/build_package.py, line: 1331
 #: NEEDS WORK
@@ -1786,10 +1913,38 @@ msgstr "Prisilno ažurirao vašu granu"
 msgid "Could not update branch"
 msgstr "Nije moguće ažurirati granu"
 # 
-# File: usr/share/build-package/build_package.py, line: 1163
+# File: usr/share/build-package/core/build_package.py, line: 2574
 #: NEEDS WORK
-msgid "Update completed successfully!"
-msgstr "Ažuriranje je uspješno završeno!"
+msgid "Merge conflicts detected after pull"
+msgstr "Otkriveni sukobi pri spajanju nakon povlačenja"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2581
+#: NEEDS WORK
+msgid "✓ All conflicts resolved successfully"
+msgstr "✓ Svi sukobi uspješno riješeni"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2583
+#: NEEDS WORK
+msgid "✓ No conflicts detected"
+msgstr "✓ Nema otkrivenih sukoba"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2589
+#: NEEDS WORK
+msgid "PULL COMPLETED - SUMMARY OF CHANGES"
+msgstr "PULL ZAVRŠEN - SAŽETAK PROMJENA"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2598
+#: NEEDS WORK
+msgid "✓ Update completed successfully!"
+msgstr "✓ Ažuriranje je uspješno završeno!"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2602
+# File: usr/share/build-package/core/pull_operations.py, line: 235
+#: NEEDS WORK
+msgid "Press Enter to return to main menu..."
+msgstr "Pritisnite Enter za povratak na glavni izbornik..."
 # 
 # File: usr/share/build-package/build_package.py, line: 1170
 #: NEEDS WORK
@@ -2670,11 +2825,6 @@ msgstr "Prebaci se na svoju granu: {0}"
 msgid "⚠️  Conflicts while restoring changes"
 msgstr "⚠️  Sukobi prilikom vraćanja promjena"
 # 
-# File: usr/share/build-package/core/commit_operations.py, line: 105
-#: NEEDS WORK
-msgid "Failed to resolve conflicts"
-msgstr "Nije uspjelo rješavanje sukoba"
-# 
 # File: usr/share/build-package/core/commit_operations.py, line: 107
 #: NEEDS WORK
 msgid "Failed to restore stashed changes"
@@ -2702,29 +2852,6 @@ msgstr "Prebaci se na moju granu ({0})"
 #, python-brace-format
 msgid "Continue in current branch ({0})"
 msgstr "Nastavi u trenutnoj grani ({0})"
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-package/gui/gtk_menu.py, line: 54
-# File: usr/share/build-package/gui/gtk_menu.py, line: 96
-# File: usr/share/build-package/gui/gtk_menu.py, line: 133
-# File: usr/share/build-package/gui/gtk_menu.py, line: 184
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 330
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 392
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 257
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 94
-#: NEEDS WORK
-msgid "Cancel"
-msgstr "Otkaži"
-# 
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 263
-#: NEEDS WORK
-msgid "Operation cancelled"
-msgstr "Operacija otkazana"
 # 
 # File: usr/share/build-package/core/commit_operations.py, line: 136
 #: NEEDS WORK
@@ -2783,6 +2910,11 @@ msgstr "Preuzmi najnovije s udaljenog mjesta"
 #, python-brace-format
 msgid "Your branch is {0} commits behind remote"
 msgstr "Vaša grana je {0} commit-a iza udaljenog repozitorija"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 220
+#: NEEDS WORK
+msgid "Pull latest changes after committing?"
+msgstr "Povuci najnovije promjene nakon potvrđivanja?"
 # 
 # File: usr/share/build-package/core/commit_operations.py, line: 233
 #: NEEDS WORK
@@ -2847,6 +2979,12 @@ msgstr "Pripremi sve promjene"
 #, python-brace-format
 msgid "Commit: {0}"
 msgstr "Zavezi: {0}"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 280
+#: NEEDS WORK
+#, python-brace-format
+msgid "Pull {0} commits from remote"
+msgstr "Povuci {0} commit-a s udaljenog repozitorija"
 # 
 # File: usr/share/build-package/core/commit_operations.py, line: 291
 #: NEEDS WORK
@@ -3211,6 +3349,202 @@ msgstr "2. Pokreni: git add <file>"
 msgid "3. Run this command again"
 msgstr "3. Ponovno pokrenite ovu naredbu"
 # 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 286
+#: NEEDS WORK
+msgid "⚠️  MERGE CONFLICTS DETECTED"
+msgstr "⚠️  DETECTIRANI SU SUKOBI SPOJENJA"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 288
+#: NEEDS WORK
+msgid "Branch comparison:"
+msgstr "Usporedba grana:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 292
+# File: usr/share/build-package/core/conflict_resolver.py, line: 369
+#: NEEDS WORK
+msgid "NEWER"
+msgstr "NOVIJI"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 297
+# File: usr/share/build-package/core/conflict_resolver.py, line: 373
+#: NEEDS WORK
+msgid "older"
+msgstr "stariji"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 300
+#: NEEDS WORK
+#, python-brace-format
+msgid "Conflicted files: {0}"
+msgstr "Sukobljene datoteke: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 304
+#: NEEDS WORK
+#, python-brace-format
+msgid "⚙️  Auto-resolution enabled: Using code from {0} (newer branch)"
+msgstr "⚙️  Automatsko rješavanje omogućeno: Koristeći kod iz {0} (novija grana)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 308
+#: NEEDS WORK
+msgid "Starting interactive conflict resolution..."
+msgstr "Pokretanje interaktivnog rješavanja sukoba..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 309
+#: NEEDS WORK
+msgid "You'll review each file and choose which version to keep"
+msgstr "Pregledat ćete svaku datoteku i odabrati koju verziju zadržati."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 310
+#: NEEDS WORK
+msgid ""
+"\n"
+"Press Enter to start..."
+msgstr "Pritisnite Enter za početak..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 315
+#: NEEDS WORK
+#, python-brace-format
+msgid "File {0}/{1}: {2}"
+msgstr "Datoteka {0}/{1}: {2}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 322
+#: NEEDS WORK
+#, python-brace-format
+msgid "Found {0} conflict(s) starting at line {1}"
+msgstr "Pronađeno {0} sukoba(a) počevši od linije {1}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 329
+#: NEEDS WORK
+msgid "Preview of changes:"
+msgstr "Pregled promjena:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 333
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} (YOUR branch, NEWER)"
+msgstr "{0} (VAŠ grana, NOVIJA)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 334
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} (older)"
+msgstr "{0} (stariji)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 336
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} (YOUR branch, older)"
+msgstr "{0} (VAŠa grana, starija)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 337
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} (NEWER)"
+msgstr "{0} (NOVIJI)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 349
+# File: usr/share/build-package/core/conflict_resolver.py, line: 361
+#: NEEDS WORK
+msgid "more lines"
+msgstr "više redaka"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 352
+#: NEEDS WORK
+msgid "VS"
+msgstr "VS"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 367
+#: NEEDS WORK
+#, python-brace-format
+msgid "Use {0} version [{1}] - Recommended"
+msgstr "Koristite {0} verziju [{1}] - Preporučeno"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 371
+#: NEEDS WORK
+#, python-brace-format
+msgid "Use {0} version [{1}]"
+msgstr "Koristite {0} verziju [{1}]"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 375
+#: NEEDS WORK
+msgid "Skip - I'll edit manually"
+msgstr "Preskoči - Ručno ću urediti"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 379
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose version for: {0}"
+msgstr "Odaberite verziju za: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 386
+#: NEEDS WORK
+#, python-brace-format
+msgid "⚠️  Skipping {0} - you'll need to edit it manually"
+msgstr "⚠️  Preskočeno {0} - morat ćete to ručno urediti"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 387
+#: NEEDS WORK
+msgid "To resolve manually:"
+msgstr "Ručno riješiti:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 389
+#: NEEDS WORK
+msgid "  2. Remove conflict markers: <<<<<<< ======= >>>>>>>"
+msgstr "2. Ukloni oznake sukoba: <<<<<<< ======= >>>>>>>"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 401
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved: Using {0} version"
+msgstr "✓ Riješeno: Koristeći verziju {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 403
+#: NEEDS WORK
+#, python-brace-format
+msgid "✗ Failed to resolve {0}"
+msgstr "✗ Nije moguće riješiti {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 411
+#: NEEDS WORK
+msgid "⚠️  Some files still have unresolved conflicts:"
+msgstr "⚠️  Neki datoteke još uvijek imaju neriješene sukobe:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 414
+#: NEEDS WORK
+msgid "Please resolve them manually and run 'git add <file>'"
+msgstr "Molimo vas da ih ručno riješite i pokrenete 'git add <file>'"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 415
+# File: usr/share/build-package/core/conflict_resolver.py, line: 423
+# File: usr/share/build-package/core/conflict_resolver.py, line: 453
+#: NEEDS WORK
+msgid ""
+"\n"
+"Press Enter to continue..."
+msgstr "Pritisnite Enter za nastavak..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 421
+#: NEEDS WORK
+msgid "✓ All conflicts resolved successfully!"
+msgstr "✓ Svi sukobi su uspješno riješeni!"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 447
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to resolve {0}"
+msgstr "Nije moguće riješiti {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 450
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ All conflicts auto-resolved using {0} version"
+msgstr "✓ Svi sukobi automatski riješeni koristeći {0} verziju"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 456
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during auto-resolution: {0}"
+msgstr "Greška tijekom automatskog rješavanja: {0}"
+# 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 179
 #: NEEDS WORK
 #, python-brace-format
@@ -3493,16 +3827,22 @@ msgstr "⚠️  Otkriveni sukobi nakon povlačenja"
 msgid "✓ Conflicts resolved"
 msgstr "✓ Sukobi riješeni"
 # 
-# File: usr/share/build-package/core/pull_operations.py, line: 206
+# File: usr/share/build-package/core/pull_operations.py, line: 198
 #: NEEDS WORK
-msgid "✓ Successfully updated to latest code"
-msgstr "✓ Uspješno ažurirano na najnoviji kod"
+msgid "PULL COMPLETED SUCCESSFULLY"
+msgstr "PULL ZAVRŠEN USPJEŠNO"
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 207
 #: NEEDS WORK
 #, python-brace-format
 msgid "Latest commit: {0}"
 msgstr "Zadnji commit: {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 226
+#: NEEDS WORK
+#, python-brace-format
+msgid "New commits pulled: {0}"
+msgstr "Novi povučeni commitovi: {0}"
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 209
 #: NEEDS WORK

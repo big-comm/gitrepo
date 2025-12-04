@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: attranslate"
+"X-Generator: attranslate\n"
 # 
 # File: usr/share/build-package/logger.py, line: 67
 #: NEEDS WORK
@@ -302,11 +302,66 @@ msgstr "VERSIONE_APP aumentata da {0} a {1} ({2} aumento) in {3}"
 msgid "This option is only available in git repositories."
 msgstr "Questa opzione è disponibile solo nei repository git."
 # 
-# File: usr/share/build-package/build_package.py, line: 175
+# File: usr/share/build-package/core/build_package.py, line: 570
+#: NEEDS WORK
+msgid "Choose target branch for commit:"
+msgstr "Scegli il ramo di destinazione per il commit:"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 572
+#: NEEDS WORK
+msgid "Select branch for commit"
+msgstr "Seleziona ramo per il commit"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 574
 #: NEEDS WORK
 #, python-brace-format
-msgid "Target branch for commit: {0}"
-msgstr "Ramo di destinazione per il commit: {0}"
+msgid "My branch ({0}) - Recommended"
+msgstr "Il mio ramo ({0}) - Raccomandato"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 575
+#: NEEDS WORK
+msgid "Main branch - Direct commit"
+msgstr "Ramo principale - Commit diretto"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/gtk_menu.py, line: 54
+# File: usr/share/build-package/gui/gtk_menu.py, line: 96
+# File: usr/share/build-package/gui/gtk_menu.py, line: 133
+# File: usr/share/build-package/gui/gtk_menu.py, line: 184
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 330
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 392
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 257
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 94
+#: NEEDS WORK
+msgid "Cancel"
+msgstr "Annulla"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 263
+#: NEEDS WORK
+msgid "Operation cancelled"
+msgstr "Operazione annullata"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 588
+#: NEEDS WORK
+msgid "⚠️  WARNING: You chose to commit directly to main!"
+msgstr "⚠️  ATTENZIONE: Hai scelto di effettuare il commit direttamente su main!"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 591
+#: NEEDS WORK
+msgid "Are you sure you want to commit directly to main branch?"
+msgstr "Sei sicuro di voler effettuare il commit direttamente nel ramo principale?"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 596
+# File: usr/share/build-package/core/build_package.py, line: 599
+#: NEEDS WORK
+#, python-brace-format
+msgid "Target branch: {0}"
+msgstr "Ramo di destinazione: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 179
 #: NEEDS WORK
@@ -314,17 +369,22 @@ msgstr "Ramo di destinazione per il commit: {0}"
 msgid "You're in {0} but should commit to {1}. Fixing this..."
 msgstr "Sei in {0} ma dovresti impegnarti in {1}. Risolvendo questo..."
 # 
-# File: usr/share/build-package/build_package.py, line: 187
-# File: usr/share/build-package/build_package.py, line: 1298
+# File: usr/share/build-package/core/build_package.py, line: 611
 #: NEEDS WORK
-msgid "Preserving your changes while switching to your branch..."
-msgstr "Preservando le tue modifiche mentre cambi ramo..."
+msgid "Preserving your changes while switching to target branch..."
+msgstr "Preservare le tue modifiche mentre passi al ramo di destinazione..."
 # 
 # File: usr/share/build-package/build_package.py, line: 572
 # File: usr/share/build-package/build_package.py, line: 1153
 #: NEEDS WORK
 msgid "Failed to stash changes. Cannot proceed safely."
 msgstr "Impossibile salvare le modifiche. Impossibile procedere in modo sicuro."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 628
+# File: usr/share/build-package/core/build_package.py, line: 654
+#: NEEDS WORK
+msgid "Failed to switch to main branch"
+msgstr "Impossibile passare al ramo principale"
 # 
 # File: usr/share/build-package/build_package.py, line: 588
 # File: usr/share/build-package/build_package.py, line: 1169
@@ -343,18 +403,16 @@ msgstr "Conflitti risolti automaticamente"
 msgid "Could not resolve conflicts automatically. Please check 'git status'"
 msgstr "Impossibile risolvere i conflitti automaticamente. Controlla 'git status'"
 # 
-# File: usr/share/build-package/build_package.py, line: 214
-# File: usr/share/build-package/build_package.py, line: 343
+# File: usr/share/build-package/core/build_package.py, line: 647
 #: NEEDS WORK
-msgid "Successfully moved your changes to your own branch!"
-msgstr "Hai spostato con successo le tue modifiche nel tuo ramo!"
+msgid "Successfully moved your changes to target branch!"
+msgstr "Hai spostato con successo le tue modifiche nel ramo di destinazione!"
 # 
-# File: usr/share/build-package/build_package.py, line: 219
-# File: usr/share/build-package/build_package.py, line: 348
+# File: usr/share/build-package/core/build_package.py, line: 659
 #: NEEDS WORK
 #, python-brace-format
-msgid "Switched to your branch: {0}"
-msgstr "Passato al tuo ramo: {0}"
+msgid "Switched to target branch: {0}"
+msgstr "Passato al ramo di destinazione: {0}"
 # 
 # File: usr/share/build-package/core/build_package.py, line: 408
 #: NEEDS WORK
@@ -461,6 +519,21 @@ msgstr "Impossibile recuperare le ultime modifiche, ma si continua poiché non c
 msgid "Local changes detected - skipping automatic pull to avoid conflicts."
 msgstr "Modifiche locali rilevate - salto del pull automatico per evitare conflitti."
 # 
+# File: usr/share/build-package/core/build_package.py, line: 785
+#: NEEDS WORK
+msgid "Pulling latest changes from main..."
+msgstr "Estrazione delle ultime modifiche da main..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 788
+#: NEEDS WORK
+msgid "Successfully pulled latest main"
+msgstr "Ultima versione principale estratta con successo"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 790
+#: NEEDS WORK
+msgid "Failed to pull, but continuing..."
+msgstr "Impossibile estrarre, ma si continua..."
+# 
 # File: usr/share/build-package/build_package.py, line: 190
 # File: usr/share/build-package/build_package.py, line: 368
 # File: usr/share/build-package/build_package.py, line: 569
@@ -558,6 +631,19 @@ msgstr "Spostando da {0} al tuo ramo {1}..."
 #: NEEDS WORK
 msgid "Could not resolve conflicts automatically."
 msgstr "Impossibile risolvere i conflitti automaticamente."
+# 
+# File: usr/share/build-package/build_package.py, line: 214
+# File: usr/share/build-package/build_package.py, line: 343
+#: NEEDS WORK
+msgid "Successfully moved your changes to your own branch!"
+msgstr "Hai spostato con successo le tue modifiche nel tuo ramo!"
+# 
+# File: usr/share/build-package/build_package.py, line: 219
+# File: usr/share/build-package/build_package.py, line: 348
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to your branch: {0}"
+msgstr "Passato al tuo ramo: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 229
 # File: usr/share/build-package/build_package.py, line: 340
@@ -1138,16 +1224,6 @@ msgstr "Menu avanzato"
 #: NEEDS WORK
 msgid "Main Menu"
 msgstr "Menu Principale"
-# 
-# File: usr/share/build-package/core/build_package.py, line: 1582
-#: NEEDS WORK
-msgid "Pull completed"
-msgstr "Pull completato"
-# 
-# File: usr/share/build-package/core/build_package.py, line: 1582
-#: NEEDS WORK
-msgid "Press Enter to continue"
-msgstr "Premi Invio per continuare"
 # 
 # File: usr/share/build-package/build_package.py, line: 579
 #: NEEDS WORK
@@ -1730,10 +1806,61 @@ msgstr "Non sei nel tuo ramo. Passando a {0}..."
 msgid "Failed to create/access your branch."
 msgstr "Impossibile creare/accedere al tuo ramo."
 # 
-# File: usr/share/build-package/build_package.py, line: 1175
+# File: usr/share/build-package/core/build_package.py, line: 2431
 #: NEEDS WORK
-msgid "⚠ Some conflicts need manual resolution. Check 'git status'"
-msgstr "⚠ Alcuni conflitti necessitano di risoluzione manuale. Controlla 'git status'"
+msgid "You have uncommitted local changes!"
+msgstr "Hai modifiche locali non confermate!"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2433
+#: NEEDS WORK
+msgid "What do you want to do?"
+msgstr "Cosa vuoi fare?"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2434
+#: NEEDS WORK
+msgid "  [1] Keep my changes and merge with remote (DEFAULT - Git standard behavior)"
+msgstr "Mantieni le mie modifiche e unisci con il remoto (DEFAULT - comportamento standard di Git)"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2435
+#: NEEDS WORK
+msgid "      Your local edits will be preserved and merged with remote code"
+msgstr "Le tue modifiche locali saranno preservate e unite con il codice remoto."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2436
+#: NEEDS WORK
+msgid "  [2] ⚠️  DISCARD my changes and use only remote version"
+msgstr "[2] ⚠️  ANNULLA le mie modifiche e usa solo la versione remota"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2437
+#: NEEDS WORK
+msgid "      ⚠️  WARNING: You will LOSE all your uncommitted local changes!"
+msgstr "⚠️  ATTENZIONE: Perderai tutte le tue modifiche locali non confermate!"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2440
+#: NEEDS WORK
+msgid "Choose option [1/2] (press Enter for default=1): "
+msgstr "Scegli opzione [1/2] (premi Invio per predefinito=1):"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2448
+#: NEEDS WORK
+msgid "Discarding local changes and using remote version..."
+msgstr "Scartando le modifiche locali e utilizzando la versione remota..."
+# 
+# File: usr/share/build-package/build_package.py, line: 187
+# File: usr/share/build-package/build_package.py, line: 1298
+#: NEEDS WORK
+msgid "Preserving your changes while switching to your branch..."
+msgstr "Preservando le tue modifiche mentre cambi ramo..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2472
+#: NEEDS WORK
+msgid "⚠️  Conflicts detected while restoring your changes!"
+msgstr "⚠️  Conflitti rilevati durante il ripristino delle tue modifiche!"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 105
+#: NEEDS WORK
+msgid "Failed to resolve conflicts"
+msgstr "Impossibile risolvere i conflitti"
 # 
 # File: usr/share/build-package/build_package.py, line: 1331
 #: NEEDS WORK
@@ -1791,10 +1918,38 @@ msgstr "Forzato l'aggiornamento del tuo ramo"
 msgid "Could not update branch"
 msgstr "Impossibile aggiornare il ramo"
 # 
-# File: usr/share/build-package/build_package.py, line: 1163
+# File: usr/share/build-package/core/build_package.py, line: 2574
 #: NEEDS WORK
-msgid "Update completed successfully!"
-msgstr "Aggiornamento completato con successo!"
+msgid "Merge conflicts detected after pull"
+msgstr "Conflitti di unione rilevati dopo il pull"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2581
+#: NEEDS WORK
+msgid "✓ All conflicts resolved successfully"
+msgstr "✓ Tutti i conflitti risolti con successo"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2583
+#: NEEDS WORK
+msgid "✓ No conflicts detected"
+msgstr "✓ Nessun conflitto rilevato"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2589
+#: NEEDS WORK
+msgid "PULL COMPLETED - SUMMARY OF CHANGES"
+msgstr "PULL COMPLETATO - RIEPILOGO DELLE MODIFICHE"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2598
+#: NEEDS WORK
+msgid "✓ Update completed successfully!"
+msgstr "✓ Aggiornamento completato con successo!"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 2602
+# File: usr/share/build-package/core/pull_operations.py, line: 235
+#: NEEDS WORK
+msgid "Press Enter to return to main menu..."
+msgstr "Premi Invio per tornare al menu principale..."
 # 
 # File: usr/share/build-package/build_package.py, line: 1170
 #: NEEDS WORK
@@ -2675,11 +2830,6 @@ msgstr "Passa al tuo ramo: {0}"
 msgid "⚠️  Conflicts while restoring changes"
 msgstr "⚠️  Conflitti durante il ripristino delle modifiche"
 # 
-# File: usr/share/build-package/core/commit_operations.py, line: 105
-#: NEEDS WORK
-msgid "Failed to resolve conflicts"
-msgstr "Impossibile risolvere i conflitti"
-# 
 # File: usr/share/build-package/core/commit_operations.py, line: 107
 #: NEEDS WORK
 msgid "Failed to restore stashed changes"
@@ -2707,29 +2857,6 @@ msgstr "Passa al mio ramo ({0})"
 #, python-brace-format
 msgid "Continue in current branch ({0})"
 msgstr "Continua nel ramo attuale ({0})"
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-package/gui/gtk_menu.py, line: 54
-# File: usr/share/build-package/gui/gtk_menu.py, line: 96
-# File: usr/share/build-package/gui/gtk_menu.py, line: 133
-# File: usr/share/build-package/gui/gtk_menu.py, line: 184
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 330
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 392
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 257
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 94
-#: NEEDS WORK
-msgid "Cancel"
-msgstr "Annulla"
-# 
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 263
-#: NEEDS WORK
-msgid "Operation cancelled"
-msgstr "Operazione annullata"
 # 
 # File: usr/share/build-package/core/commit_operations.py, line: 136
 #: NEEDS WORK
@@ -2788,6 +2915,11 @@ msgstr "Recupera l'ultima versione da remoto"
 #, python-brace-format
 msgid "Your branch is {0} commits behind remote"
 msgstr "Il tuo ramo è {0} commit indietro rispetto al remoto"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 220
+#: NEEDS WORK
+msgid "Pull latest changes after committing?"
+msgstr "Tira le ultime modifiche dopo aver effettuato il commit?"
 # 
 # File: usr/share/build-package/core/commit_operations.py, line: 233
 #: NEEDS WORK
@@ -2852,6 +2984,12 @@ msgstr "Prepara tutte le modifiche"
 #, python-brace-format
 msgid "Commit: {0}"
 msgstr "Commit: {0}"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 280
+#: NEEDS WORK
+#, python-brace-format
+msgid "Pull {0} commits from remote"
+msgstr "Estrai {0} commit dal remoto"
 # 
 # File: usr/share/build-package/core/commit_operations.py, line: 291
 #: NEEDS WORK
@@ -3217,6 +3355,202 @@ msgstr "2. Esegui: git add <file>"
 msgid "3. Run this command again"
 msgstr "3. Esegui di nuovo questo comando"
 # 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 286
+#: NEEDS WORK
+msgid "⚠️  MERGE CONFLICTS DETECTED"
+msgstr "⚠️  CONFLITTI DI UNIONE RILEVATI"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 288
+#: NEEDS WORK
+msgid "Branch comparison:"
+msgstr "Confronto dei rami:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 292
+# File: usr/share/build-package/core/conflict_resolver.py, line: 369
+#: NEEDS WORK
+msgid "NEWER"
+msgstr "PIÙ RECENTE"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 297
+# File: usr/share/build-package/core/conflict_resolver.py, line: 373
+#: NEEDS WORK
+msgid "older"
+msgstr "più vecchio"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 300
+#: NEEDS WORK
+#, python-brace-format
+msgid "Conflicted files: {0}"
+msgstr "File in conflitto: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 304
+#: NEEDS WORK
+#, python-brace-format
+msgid "⚙️  Auto-resolution enabled: Using code from {0} (newer branch)"
+msgstr "⚙️  Risoluzione automatica abilitata: Utilizzando codice da {0} (branch più recente)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 308
+#: NEEDS WORK
+msgid "Starting interactive conflict resolution..."
+msgstr "Avvio della risoluzione interattiva dei conflitti..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 309
+#: NEEDS WORK
+msgid "You'll review each file and choose which version to keep"
+msgstr "Esaminerai ogni file e sceglierai quale versione mantenere."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 310
+#: NEEDS WORK
+msgid ""
+"\n"
+"Press Enter to start..."
+msgstr "Premi Invio per iniziare..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 315
+#: NEEDS WORK
+#, python-brace-format
+msgid "File {0}/{1}: {2}"
+msgstr "File {0}/{1}: {2}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 322
+#: NEEDS WORK
+#, python-brace-format
+msgid "Found {0} conflict(s) starting at line {1}"
+msgstr "Trovato {0} conflitto(i) a partire dalla riga {1}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 329
+#: NEEDS WORK
+msgid "Preview of changes:"
+msgstr "Anteprima delle modifiche:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 333
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} (YOUR branch, NEWER)"
+msgstr "{0} (IL tuo ramo, PIÙ NUOVO)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 334
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} (older)"
+msgstr "{0} (più vecchio)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 336
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} (YOUR branch, older)"
+msgstr "{0} (IL TUO ramo, più vecchio)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 337
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} (NEWER)"
+msgstr "{0} (NUOVO)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 349
+# File: usr/share/build-package/core/conflict_resolver.py, line: 361
+#: NEEDS WORK
+msgid "more lines"
+msgstr "più righe"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 352
+#: NEEDS WORK
+msgid "VS"
+msgstr "VS"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 367
+#: NEEDS WORK
+#, python-brace-format
+msgid "Use {0} version [{1}] - Recommended"
+msgstr "Usa la versione {0} [{1}] - Raccomandato"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 371
+#: NEEDS WORK
+#, python-brace-format
+msgid "Use {0} version [{1}]"
+msgstr "Usa la versione {0} [{1}]"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 375
+#: NEEDS WORK
+msgid "Skip - I'll edit manually"
+msgstr "Salta - Modificherò manualmente"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 379
+#: NEEDS WORK
+#, python-brace-format
+msgid "Choose version for: {0}"
+msgstr "Scegli la versione per: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 386
+#: NEEDS WORK
+#, python-brace-format
+msgid "⚠️  Skipping {0} - you'll need to edit it manually"
+msgstr "⚠️  Ignorando {0} - dovrai modificarlo manualmente"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 387
+#: NEEDS WORK
+msgid "To resolve manually:"
+msgstr "Da risolvere manualmente:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 389
+#: NEEDS WORK
+msgid "  2. Remove conflict markers: <<<<<<< ======= >>>>>>>"
+msgstr "2. Rimuovi i marcatori di conflitto: <<<<<<< ======= >>>>>>>"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 401
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved: Using {0} version"
+msgstr "✓ Risolto: Utilizzando la versione {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 403
+#: NEEDS WORK
+#, python-brace-format
+msgid "✗ Failed to resolve {0}"
+msgstr "✗ Impossibile risolvere {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 411
+#: NEEDS WORK
+msgid "⚠️  Some files still have unresolved conflicts:"
+msgstr "⚠️  Alcuni file hanno ancora conflitti irrisolti:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 414
+#: NEEDS WORK
+msgid "Please resolve them manually and run 'git add <file>'"
+msgstr "Si prega di risolverli manualmente ed eseguire 'git add <file>'"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 415
+# File: usr/share/build-package/core/conflict_resolver.py, line: 423
+# File: usr/share/build-package/core/conflict_resolver.py, line: 453
+#: NEEDS WORK
+msgid ""
+"\n"
+"Press Enter to continue..."
+msgstr "Premi Invio per continuare..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 421
+#: NEEDS WORK
+msgid "✓ All conflicts resolved successfully!"
+msgstr "✓ Tutti i conflitti risolti con successo!"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 447
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to resolve {0}"
+msgstr "Impossibile risolvere {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 450
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ All conflicts auto-resolved using {0} version"
+msgstr "✓ Tutti i conflitti risolti automaticamente utilizzando la versione {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 456
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during auto-resolution: {0}"
+msgstr "Errore durante l'auto-risoluzione: {0}"
+# 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 179
 #: NEEDS WORK
 #, python-brace-format
@@ -3499,16 +3833,22 @@ msgstr "⚠️  Conflitti rilevati dopo il pull"
 msgid "✓ Conflicts resolved"
 msgstr "✓ Conflitti risolti"
 # 
-# File: usr/share/build-package/core/pull_operations.py, line: 206
+# File: usr/share/build-package/core/pull_operations.py, line: 198
 #: NEEDS WORK
-msgid "✓ Successfully updated to latest code"
-msgstr "✓ Aggiornato con successo all'ultima versione del codice"
+msgid "PULL COMPLETED SUCCESSFULLY"
+msgstr "PULL COMPLETATO CON SUCCESSO"
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 207
 #: NEEDS WORK
 #, python-brace-format
 msgid "Latest commit: {0}"
 msgstr "Ultimo commit: {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 226
+#: NEEDS WORK
+#, python-brace-format
+msgid "New commits pulled: {0}"
+msgstr "Nuovi commit estratti: {0}"
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 209
 #: NEEDS WORK
