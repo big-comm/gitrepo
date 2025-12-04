@@ -14,7 +14,7 @@ from datetime import datetime
 from .translation_utils import _
 
 from .config import (
-    APP_NAME, APP_DESC, VERSION, DEFAULT_ORGANIZATION,
+    APP_NAME, APP_DESC, APP_VERSION, DEFAULT_ORGANIZATION,
     VALID_ORGANIZATIONS, VALID_BRANCHES
 )
 from .git_utils import GitUtils
@@ -125,7 +125,7 @@ class BuildPackage:
                 # Header - compact version like main menu
                 header = Text()
                 header.append(f"{APP_NAME} ", style="bold cyan")
-                header.append(f"v{VERSION}\n", style="bold white")
+                header.append(f"v{APP_VERSION}\n", style="bold white")
                 header.append(f"{APP_DESC}", style="white")
 
                 console.print(Panel(
@@ -222,7 +222,7 @@ class BuildPackage:
                 parser.exit()
         
         parser = argparse.ArgumentParser(
-            description=f"{APP_NAME} v{VERSION} - {APP_DESC}",
+            description=f"{APP_NAME} v{APP_VERSION} - {APP_DESC}",
             formatter_class=argparse.RawDescriptionHelpFormatter,
             add_help=False  # Disable default help to use custom one
         )
@@ -278,7 +278,7 @@ class BuildPackage:
         from rich.box import ROUNDED
         
         version_text = Text()
-        version_text.append(f"{APP_NAME} v{VERSION}\n", style="bold cyan")
+        version_text.append(f"{APP_NAME} v{APP_VERSION}\n", style="bold cyan")
         version_text.append(f"{APP_DESC}\n\n", style="white")
         version_text.append(_("Copyright (C) 2024-2025 BigCommunity Team\n\n"), style="blue")
         version_text.append(_("""This is free software: you are free to modify and redistribute it."""), style="white")
@@ -565,34 +565,73 @@ the specific source code used to create this copy."""), style="white")
         username = self.github_user_name or "unknown"
         my_branch = f"dev-{username}"
         current_branch = GitUtils.get_current_branch()
-        
-        self.logger.log("cyan", _("Target branch for commit: {0}").format(self.logger.format_branch_name(my_branch)))
-        
-        # ROBUST CHECK: Ensure user is working in their own branch
-        if current_branch != my_branch:
+
+        # ASK USER: Which branch to commit to?
+        self.logger.log("cyan", _("Choose target branch for commit:"))
+        branch_choice = self.menu.show_menu(
+            _("Select branch for commit"),
+            [
+                _("My branch ({0}) - Recommended").format(my_branch),
+                _("Main branch - Direct commit"),
+                _("Cancel")
+            ],
+            default_index=0
+        )
+
+        if branch_choice is None or branch_choice[0] == 2:  # Cancel
+            self.logger.log("yellow", _("Operation cancelled"))
+            return False
+
+        # Set target branch based on user choice
+        if branch_choice[0] == 1:  # Main branch
+            target_branch = "main"
+            self.logger.log("yellow", _("⚠️  WARNING: You chose to commit directly to main!"))
+
+            # Confirm this choice
+            confirm = self.menu.confirm(_("Are you sure you want to commit directly to main branch?"))
+            if not confirm:
+                self.logger.log("yellow", _("Operation cancelled"))
+                return False
+
+            self.logger.log("cyan", _("Target branch: {0}").format(self.logger.format_branch_name(target_branch)))
+        else:  # User's branch (default)
+            target_branch = my_branch
+            self.logger.log("cyan", _("Target branch: {0}").format(self.logger.format_branch_name(target_branch)))
+
+        # ROBUST CHECK: Ensure user is working in their target branch
+        if current_branch != target_branch:
             self.logger.log("yellow", _("You're in {0} but should commit to {1}. Fixing this...").format(
-                self.logger.format_branch_name(current_branch), self.logger.format_branch_name(my_branch)))
-            
+                self.logger.format_branch_name(current_branch), self.logger.format_branch_name(target_branch)))
+
             # Check if there are changes to preserve
             has_changes = GitUtils.has_changes()
-            
+
             if has_changes:
                 # Stash → Switch → Apply workflow
-                self.logger.log("cyan", _("Preserving your changes while switching to your branch..."))
-                stash_message = f"auto-preserve-changes-commit-to-{my_branch}"
+                self.logger.log("cyan", _("Preserving your changes while switching to target branch..."))
+                stash_message = f"auto-preserve-changes-commit-to-{target_branch}"
                 stash_result = subprocess.run(
-                    ["git", "stash", "push", "-u", "-m", stash_message], 
+                    ["git", "stash", "push", "-u", "-m", stash_message],
                     capture_output=True, text=True, check=False
                 )
-                
+
                 if stash_result.returncode != 0:
                     self.logger.log("red", _("Failed to stash changes. Cannot proceed safely."))
                     return False
-                
-                # Ensure user's branch exists and switch
-                if not self.ensure_user_branch_exists(my_branch):
-                    return False
-                
+
+                # Ensure target branch exists and switch
+                if target_branch == "main":
+                    # For main branch, just checkout (should already exist)
+                    try:
+                        subprocess.run(["git", "checkout", target_branch], check=True)
+                    except subprocess.CalledProcessError:
+                        self.logger.log("red", _("Failed to switch to main branch"))
+                        return False
+                else:
+                    # For user branch, ensure it exists
+                    if not self.ensure_user_branch_exists(target_branch):
+                        return False
+
                 # Apply stashed changes
                 pop_result = subprocess.run(["git", "stash", "pop"], capture_output=True, text=True, check=False)
                 if pop_result.returncode != 0:
@@ -604,134 +643,151 @@ the specific source code used to create this copy."""), style="white")
                     except subprocess.CalledProcessError:
                         self.logger.log("red", _("Could not resolve conflicts automatically. Please check 'git status'"))
                         return False
-                
-                self.logger.log("green", _("Successfully moved your changes to your own branch!"))
+
+                self.logger.log("green", _("Successfully moved your changes to target branch!"))
             else:
-                # No changes, just ensure we're on user's branch
-                if not self.ensure_user_branch_exists(my_branch):
-                    return False
-                self.logger.log("cyan", _("Switched to your branch: {0}").format(self.logger.format_branch_name(my_branch)))
-        
-        # Now we're guaranteed to be in user's own branch
-        current_branch = my_branch
+                # No changes, just ensure we're on target branch
+                if target_branch == "main":
+                    try:
+                        subprocess.run(["git", "checkout", target_branch], check=True)
+                    except subprocess.CalledProcessError:
+                        self.logger.log("red", _("Failed to switch to main branch"))
+                        return False
+                else:
+                    if not self.ensure_user_branch_exists(target_branch):
+                        return False
+                self.logger.log("cyan", _("Switched to target branch: {0}").format(self.logger.format_branch_name(target_branch)))
+
+        # Now we're guaranteed to be in target branch
+        current_branch = target_branch
         
         # Check if there are changes AFTER ensuring we're in the right branch
         has_changes = GitUtils.has_changes()
 
         # SYNC REMOTE BRANCH: Update remote dev-username branch with latest main BEFORE pulling
         # BUT PRESERVE LOCAL CHANGES!
-        self.logger.log("cyan", _("Checking if your remote branch needs sync with main..."))
+        # NOTE: Skip this for main branch - only sync dev branches
+        if target_branch != "main":
+            self.logger.log("cyan", _("Checking if your remote branch needs sync with main..."))
 
-        # CRITICAL: Save local changes first!
-        local_changes_backup = None
-        if has_changes:
-            self.logger.log("cyan", _("Backing up your local changes temporarily..."))
-            try:
-                # Create a temporary stash with all changes
-                stash_result = subprocess.run(
-                    ["git", "stash", "push", "-u", "-m", "auto-backup-before-sync"],
-                    capture_output=True, text=True, check=False
-                )
-                if stash_result.returncode == 0:
-                    local_changes_backup = True
-                    self.logger.log("green", _("Local changes safely backed up!"))
-                else:
-                    self.logger.log("yellow", _("Could not backup changes, skipping sync."))
-            except Exception as e:
-                self.logger.log("yellow", _("Could not backup changes: {0}").format(e))
-
-        try:
-            # Check if remote branch exists
-            remote_check = subprocess.run(
-                ["git", "ls-remote", "--heads", "origin", my_branch],
-                capture_output=True, text=True, check=False
-            )
-            
-            remote_branch_exists = bool(remote_check.stdout.strip())
-            
-            if remote_branch_exists:
-                # Remote branch exists - check if it needs sync with main
-                self.logger.log("cyan", _("Remote branch exists. Checking sync status..."))
-                
-                # Fetch latest main
-                subprocess.run(["git", "fetch", "origin", "main"], check=True)
-                
-                # Check if remote branch is behind main
-                behind_check = subprocess.run(
-                    ["git", "rev-list", "--count", f"origin/{my_branch}..origin/main"],
-                    capture_output=True, text=True, check=False
-                )
-                
-                commits_behind = int(behind_check.stdout.strip()) if behind_check.returncode == 0 and behind_check.stdout.strip() else 0
-                
-                if commits_behind > 0:
-                    self.logger.log("yellow", _("Your remote branch is {0} commits behind main. Updating...").format(commits_behind))
-                    
-                    # Save current branch
-                    original_branch = GitUtils.get_current_branch()
-                    
-                    # Switch to user's branch if not already there
-                    if original_branch != my_branch:
-                        subprocess.run(["git", "checkout", my_branch], check=True)
-                    
-                    # Pull latest from remote user branch first
-                    subprocess.run(["git", "pull", "origin", my_branch, "--no-edit"], check=False)
-                    
-                    # Try to merge main into user branch
-                    merge_result = subprocess.run(
-                        ["git", "merge", "origin/main", "--no-edit"],
-                        capture_output=True, text=True, check=False
-                    )
-                    
-                    if merge_result.returncode == 0:
-                        # Merge successful, push updated branch
-                        subprocess.run(["git", "push", "origin", my_branch], check=True)
-                        self.logger.log("green", _("Remote branch synced with main successfully!"))
-                    else:
-                        # Merge failed, use force update strategy
-                        self.logger.log("yellow", _("Merge conflict detected. Using force-update strategy..."))
-                        subprocess.run(["git", "merge", "--abort"], check=False)
-                        subprocess.run(["git", "reset", "--hard", "origin/main"], check=True)
-                        subprocess.run(["git", "push", "origin", my_branch, "--force"], check=True)
-                        self.logger.log("green", _("Remote branch force-updated with main!"))
-                    
-                    # Return to original branch if needed
-                    if original_branch != my_branch:
-                        subprocess.run(["git", "checkout", original_branch], check=True)
-                else:
-                    self.logger.log("green", _("Remote branch is already up-to-date with main!"))
-            else:
-                self.logger.log("cyan", _("Remote branch doesn't exist yet - will be created on first push."))
-                
-        except subprocess.CalledProcessError as e:
-            self.logger.log("yellow", _("Could not sync remote branch: {0}. Continuing...").format(e))
-        except Exception as e:
-            self.logger.log("yellow", _("Unexpected sync error: {0}. Continuing...").format(e))
-        finally:
-            # CRITICAL: Restore local changes!
-            if local_changes_backup:
-                self.logger.log("cyan", _("Restoring your local changes..."))
+            # CRITICAL: Save local changes first!
+            local_changes_backup = None
+            if has_changes:
+                self.logger.log("cyan", _("Backing up your local changes temporarily..."))
                 try:
-                    restore_result = subprocess.run(
-                        ["git", "stash", "pop"],
+                    # Create a temporary stash with all changes
+                    stash_result = subprocess.run(
+                        ["git", "stash", "push", "-u", "-m", "auto-backup-before-sync"],
                         capture_output=True, text=True, check=False
                     )
-                    if restore_result.returncode == 0:
-                        self.logger.log("green", _("Local changes restored successfully!"))
+                    if stash_result.returncode == 0:
+                        local_changes_backup = True
+                        self.logger.log("green", _("Local changes safely backed up!"))
                     else:
-                        self.logger.log("yellow", _("Could not restore changes automatically. Check 'git stash list'"))
+                        self.logger.log("yellow", _("Could not backup changes, skipping sync."))
                 except Exception as e:
-                    self.logger.log("yellow", _("Error restoring changes: {0}").format(e))
+                    self.logger.log("yellow", _("Could not backup changes: {0}").format(e))
 
-        # Recheck changes after sync (they should be back now)
-        has_changes = GitUtils.has_changes()
+            try:
+                # Check if remote branch exists
+                remote_check = subprocess.run(
+                    ["git", "ls-remote", "--heads", "origin", target_branch],
+                    capture_output=True, text=True, check=False
+                )
 
-        # NOW pull is safe because remote branch is synced with main
-        if not has_changes:
-            if not GitUtils.git_pull(self.logger):
-                self.logger.log("yellow", _("Failed to pull latest changes, but continuing since no local changes."))
+                remote_branch_exists = bool(remote_check.stdout.strip())
+
+                if remote_branch_exists:
+                    # Remote branch exists - check if it needs sync with main
+                    self.logger.log("cyan", _("Remote branch exists. Checking sync status..."))
+
+                    # Fetch latest main
+                    subprocess.run(["git", "fetch", "origin", "main"], check=True)
+
+                    # Check if remote branch is behind main
+                    behind_check = subprocess.run(
+                        ["git", "rev-list", "--count", f"origin/{target_branch}..origin/main"],
+                        capture_output=True, text=True, check=False
+                    )
+
+                    commits_behind = int(behind_check.stdout.strip()) if behind_check.returncode == 0 and behind_check.stdout.strip() else 0
+
+                    if commits_behind > 0:
+                        self.logger.log("yellow", _("Your remote branch is {0} commits behind main. Updating...").format(commits_behind))
+
+                        # Save current branch
+                        original_branch = GitUtils.get_current_branch()
+
+                        # Switch to target branch if not already there
+                        if original_branch != target_branch:
+                            subprocess.run(["git", "checkout", target_branch], check=True)
+
+                        # Pull latest from remote target branch first
+                        subprocess.run(["git", "pull", "origin", target_branch, "--no-edit"], check=False)
+
+                        # Try to merge main into target branch
+                        merge_result = subprocess.run(
+                            ["git", "merge", "origin/main", "--no-edit"],
+                            capture_output=True, text=True, check=False
+                        )
+
+                        if merge_result.returncode == 0:
+                            # Merge successful, push updated branch
+                            subprocess.run(["git", "push", "origin", target_branch], check=True)
+                            self.logger.log("green", _("Remote branch synced with main successfully!"))
+                        else:
+                            # Merge failed, use force update strategy
+                            self.logger.log("yellow", _("Merge conflict detected. Using force-update strategy..."))
+                            subprocess.run(["git", "merge", "--abort"], check=False)
+                            subprocess.run(["git", "reset", "--hard", "origin/main"], check=True)
+                            subprocess.run(["git", "push", "origin", target_branch, "--force"], check=True)
+                            self.logger.log("green", _("Remote branch force-updated with main!"))
+
+                        # Return to original branch if needed
+                        if original_branch != target_branch:
+                            subprocess.run(["git", "checkout", original_branch], check=True)
+                    else:
+                        self.logger.log("green", _("Remote branch is already up-to-date with main!"))
+                else:
+                    self.logger.log("cyan", _("Remote branch doesn't exist yet - will be created on first push."))
+
+            except subprocess.CalledProcessError as e:
+                self.logger.log("yellow", _("Could not sync remote branch: {0}. Continuing...").format(e))
+            except Exception as e:
+                self.logger.log("yellow", _("Unexpected sync error: {0}. Continuing...").format(e))
+            finally:
+                # CRITICAL: Restore local changes!
+                if local_changes_backup:
+                    self.logger.log("cyan", _("Restoring your local changes..."))
+                    try:
+                        restore_result = subprocess.run(
+                            ["git", "stash", "pop"],
+                            capture_output=True, text=True, check=False
+                        )
+                        if restore_result.returncode == 0:
+                            self.logger.log("green", _("Local changes restored successfully!"))
+                        else:
+                            self.logger.log("yellow", _("Could not restore changes automatically. Check 'git stash list'"))
+                    except Exception as e:
+                        self.logger.log("yellow", _("Error restoring changes: {0}").format(e))
+
+            # Recheck changes after sync (they should be back now)
+            has_changes = GitUtils.has_changes()
+
+            # NOW pull is safe because remote branch is synced with main
+            if not has_changes:
+                if not GitUtils.git_pull(self.logger):
+                    self.logger.log("yellow", _("Failed to pull latest changes, but continuing since no local changes."))
+            else:
+                self.logger.log("cyan", _("Local changes detected - skipping automatic pull to avoid conflicts."))
         else:
-            self.logger.log("cyan", _("Local changes detected - skipping automatic pull to avoid conflicts."))
+            # For main branch, just pull latest
+            self.logger.log("cyan", _("Pulling latest changes from main..."))
+            try:
+                subprocess.run(["git", "pull", "origin", "main", "--no-edit"], check=True)
+                self.logger.log("green", _("Successfully pulled latest main"))
+            except subprocess.CalledProcessError:
+                self.logger.log("yellow", _("Failed to pull, but continuing..."))
 
         # Handle commit message based on if we have changes and args
         self.last_commit_type = None
@@ -760,14 +816,14 @@ the specific source code used to create this copy."""), style="white")
             self.logger.log("red", _("Error committing changes: {0}").format(e))
             return False
         
-        # Push user's dev branch to remote
+        # Push target branch to remote
         try:
-            subprocess.run(["git", "push", "-u", "origin", my_branch], check=True)
+            subprocess.run(["git", "push", "-u", "origin", target_branch], check=True)
         except subprocess.CalledProcessError as e:
             self.logger.log("red", _("Error pushing to remote: {0}").format(e))
             return False
-        
-        self.logger.log("green", _("Changes committed and pushed to {0} branch successfully!").format(self.logger.format_branch_name(my_branch)))
+
+        self.logger.log("green", _("Changes committed and pushed to {0} branch successfully!").format(self.logger.format_branch_name(target_branch)))
         return True
     
     def ensure_user_branch_exists(self, branch_name: str):
@@ -1545,8 +1601,8 @@ the specific source code used to create this copy."""), style="white")
         while True:
             if self.is_git_repo:
                 options = [
-                    "Commit and push",
                     "Pull latest",
+                    "Commit and push",
                     _("Generate package (commit + branch + build)"),
                     _("Build AUR package"),
                     _("Settings"),
@@ -1568,19 +1624,17 @@ the specific source code used to create this copy."""), style="white")
             choice, ignore = result
             
             if self.is_git_repo:
-                if choice == 0:  # Commit and push
+                if choice == 0:  # Pull latest
+                    from .pull_operations import pull_latest_v2
+                    pull_latest_v2(self)
+                    # pull_latest_v2 already shows completion message and waits for user input
+                    continue
+
+                elif choice == 1:  # Commit and push
                     # Use improved version if available
                     from .commit_operations import commit_and_push_v2
                     commit_and_push_v2(self)
                     return
-
-                elif choice == 1:  # Pull latest
-                    from .pull_operations import pull_latest_v2
-                    pull_latest_v2(self)
-
-                    # Show completion message
-                    self.menu.show_menu(_("Pull completed"), [_("Press Enter to continue")])
-                    continue
 
                 elif choice == 2:  # Generate package
                     # Select branch type
@@ -2372,31 +2426,68 @@ the specific source code used to create this copy."""), style="white")
                     return False
                 
                 if has_changes:
-                    # Stash → Switch → Apply workflow
-                    self.logger.log("cyan", _("Preserving your changes while switching to your branch..."))
-                    stash_message = f"auto-preserve-changes-pull-to-{my_branch}"
-                    stash_result = subprocess.run(
-                        ["git", "stash", "push", "-u", "-m", stash_message], 
-                        capture_output=True, text=True, check=False
-                    )
-                    
-                    if stash_result.returncode != 0:
-                        self.logger.log("red", _("Failed to stash changes. Cannot proceed safely."))
-                        return False
-                    
-                    # Switch to user's branch
-                    subprocess.run(["git", "checkout", my_branch], check=True)
-                    
-                    # Apply stashed changes
-                    pop_result = subprocess.run(["git", "stash", "pop"], capture_output=True, text=True, check=False)
-                    if pop_result.returncode != 0:
-                        self.logger.log("yellow", _("Conflicts detected while applying changes. Resolving automatically..."))
-                        try:
-                            subprocess.run(["git", "reset", "HEAD"], check=True)
-                            subprocess.run(["git", "add", "."], check=True)
-                            self.logger.log("green", _("Conflicts resolved automatically"))
-                        except subprocess.CalledProcessError:
-                            self.logger.log("yellow", _("⚠ Some conflicts need manual resolution. Check 'git status'"))
+                    # Ask user what to do with local changes
+                    self.logger.log("yellow", "")
+                    self.logger.log("yellow", "⚠️  " + _("You have uncommitted local changes!"))
+                    self.logger.log("cyan", "")
+                    self.logger.log("cyan", _("What do you want to do?"))
+                    self.logger.log("green", _("  [1] Keep my changes and merge with remote (DEFAULT - Git standard behavior)"))
+                    self.logger.log("cyan", _("      Your local edits will be preserved and merged with remote code"))
+                    self.logger.log("red", _("  [2] ⚠️  DISCARD my changes and use only remote version"))
+                    self.logger.log("red", _("      ⚠️  WARNING: You will LOSE all your uncommitted local changes!"))
+                    self.logger.log("cyan", "")
+
+                    choice = input(_("Choose option [1/2] (press Enter for default=1): ")).strip()
+
+                    # Default to option 1 if user just presses Enter
+                    if not choice:
+                        choice = "1"
+
+                    if choice == "2":
+                        # User wants to discard local changes
+                        self.logger.log("yellow", _("Discarding local changes and using remote version..."))
+                        subprocess.run(["git", "reset", "--hard", "HEAD"], check=True)
+                        subprocess.run(["git", "clean", "-fd"], check=True)
+                        subprocess.run(["git", "checkout", my_branch], check=True)
+                    else:
+                        # User wants to keep local changes (default behavior)
+                        # Stash → Switch → Apply workflow
+                        self.logger.log("cyan", _("Preserving your changes while switching to your branch..."))
+                        stash_message = f"auto-preserve-changes-pull-to-{my_branch}"
+                        stash_result = subprocess.run(
+                            ["git", "stash", "push", "-u", "-m", stash_message],
+                            capture_output=True, text=True, check=False
+                        )
+
+                        if stash_result.returncode != 0:
+                            self.logger.log("red", _("Failed to stash changes. Cannot proceed safely."))
+                            return False
+
+                        # Switch to user's branch
+                        subprocess.run(["git", "checkout", my_branch], check=True)
+
+                        # Apply stashed changes
+                        pop_result = subprocess.run(["git", "stash", "pop"], capture_output=True, text=True, check=False)
+                        if pop_result.returncode != 0:
+                            self.logger.log("yellow", _("⚠️  Conflicts detected while restoring your changes!"))
+
+                            # Use enhanced conflict resolver
+                            from .conflict_resolver import ConflictResolver
+                            from .config import CONFLICT_RESOLUTION_AUTO_ACCEPT_NEWER
+
+                            resolver = ConflictResolver(
+                                self.logger,
+                                self.menu,
+                                strategy="interactive",
+                                auto_accept_newer=CONFLICT_RESOLUTION_AUTO_ACCEPT_NEWER
+                            )
+
+                            # Determine the branches involved
+                            # current_branch is where we restored the stash (user's branch)
+                            # incoming is most_recent_branch (from remote)
+                            if not resolver.resolve(current_branch=my_branch, incoming_branch=most_recent_branch):
+                                self.logger.log("red", _("Failed to resolve conflicts"))
+                                return False
                 else:
                     # No changes, safe to switch
                     subprocess.run(["git", "checkout", my_branch], check=True)
@@ -2468,17 +2559,47 @@ the specific source code used to create this copy."""), style="white")
             # Generate changes summary
             changes_summary = self.get_update_changes_summary(initial_commit, final_commit, my_branch)
             
-            # Prepare clean summary for display
-            clean_summary = None
-            if changes_summary:
-                clean_summary = changes_summary.replace('[green bold]', '').replace('[/green bold]', '').replace('[cyan bold]', '').replace('[/cyan bold]', '')
+            # CRITICAL: Check for merge conflicts using enhanced resolver
+            from .conflict_resolver import ConflictResolver
+            from .config import CONFLICT_RESOLUTION_AUTO_ACCEPT_NEWER
 
-            # Show completion menu
-            self.menu.show_menu(
-                _("Update completed successfully!"), 
-                [_("Press Enter to return to main menu")],
-                additional_content=clean_summary
+            resolver = ConflictResolver(
+                self.logger,
+                self.menu,
+                strategy="interactive",
+                auto_accept_newer=CONFLICT_RESOLUTION_AUTO_ACCEPT_NEWER
             )
+
+            if resolver.has_conflicts():
+                self.logger.log("yellow", _("Merge conflicts detected after pull"))
+
+                # Use enhanced interactive conflict resolution
+                if not resolver.resolve(current_branch=my_branch, incoming_branch=most_recent_branch):
+                    self.logger.log("red", _("Failed to resolve conflicts"))
+                    return False
+
+                self.logger.log("green", _("✓ All conflicts resolved successfully"))
+            else:
+                self.logger.log("green", _("✓ No conflicts detected"))
+
+            # Show summary without clearing screen
+            if changes_summary:
+                self.logger.log("green", "")
+                self.logger.log("green", "═" * 70)
+                self.logger.log("green", _("PULL COMPLETED - SUMMARY OF CHANGES"))
+                self.logger.log("green", "═" * 70)
+                # Split summary into lines and log each one
+                summary_lines = changes_summary.split('\n')
+                for line in summary_lines:
+                    if line.strip():
+                        self.logger.log("cyan", line)
+                self.logger.log("green", "═" * 70)
+            else:
+                self.logger.log("green", _("✓ Update completed successfully!"))
+
+            # Wait for user to see the result before continuing
+            self.logger.log("yellow", "")
+            input(_("Press Enter to return to main menu..."))
             return True
             
         except Exception as e:

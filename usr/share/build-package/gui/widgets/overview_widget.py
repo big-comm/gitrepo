@@ -11,7 +11,7 @@ gi.require_version('Adw', '1')
 from gi.repository import Gtk, Adw, GObject
 from core.translation_utils import _
 from core.git_utils import GitUtils
-from core.config import APP_NAME, VERSION, APP_DESC
+from core.config import APP_NAME, APP_VERSION, APP_DESC
 
 class StatusCard(Gtk.Box):
     """Custom status card widget"""
@@ -105,7 +105,7 @@ class OverviewWidget(Gtk.Box):
         header_box.append(welcome_label)
         
         version_label = Gtk.Label()
-        version_label.set_text(_("Version {0}").format(VERSION))
+        version_label.set_text(_("Version {0}").format(APP_VERSION))
         version_label.add_css_class("subtitle")
         header_box.append(version_label)
         
