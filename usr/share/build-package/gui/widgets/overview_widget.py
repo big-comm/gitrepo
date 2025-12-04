@@ -41,7 +41,7 @@ class StatusCard(Gtk.Box):
         # Value (store reference)
         self.value_label = Gtk.Label()
         self.value_label.set_text(str(value))
-        self.value_label.add_css_class("title-1")
+        self.value_label.add_css_class("title-3")
         self.append(self.value_label)
         
         # Title
@@ -81,14 +81,14 @@ class OverviewWidget(Gtk.Box):
     }
     
     def __init__(self, build_package):
-        super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=12)
-        
+        super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+
         self.build_package = build_package
-        
-        self.set_margin_top(12)
-        self.set_margin_bottom(12)
-        self.set_margin_start(12)
-        self.set_margin_end(12)
+
+        self.set_margin_top(6)
+        self.set_margin_bottom(6)
+        self.set_margin_start(6)
+        self.set_margin_end(6)
         
         self.create_ui()
         self.refresh_overview()
@@ -101,7 +101,7 @@ class OverviewWidget(Gtk.Box):
         
         welcome_label = Gtk.Label()
         welcome_label.set_text(_("Welcome to {0}").format(APP_NAME))
-        welcome_label.add_css_class("title-1")
+        welcome_label.add_css_class("title-3")
         header_box.append(welcome_label)
         
         version_label = Gtk.Label()

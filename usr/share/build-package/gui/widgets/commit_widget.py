@@ -42,19 +42,19 @@ class CommitWidget(Gtk.Box):
     }
     
     def __init__(self, build_package):
-        super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=12)
-        
+        super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+
         self.build_package = build_package
         self.selected_commit_type = None
         self.selected_emoji = None
-        
-        self.set_vexpand(True)
-        self.set_valign(Gtk.Align.FILL)
-        
-        self.set_margin_top(12)
-        self.set_margin_bottom(12)
-        self.set_margin_start(12)
-        self.set_margin_end(12)
+
+        # Remover vexpand para evitar espaço vazio
+        self.set_valign(Gtk.Align.START)
+
+        self.set_margin_top(6)
+        self.set_margin_bottom(6)
+        self.set_margin_start(6)
+        self.set_margin_end(6)
         
         self.create_ui()
         self.refresh_status()
@@ -67,7 +67,7 @@ class CommitWidget(Gtk.Box):
         
         title_label = Gtk.Label()
         title_label.set_text(_("Commit and Push"))
-        title_label.add_css_class("title-2")
+        title_label.add_css_class("title-4")
         header_box.append(title_label)
         
         subtitle_label = Gtk.Label()
@@ -124,9 +124,9 @@ class CommitWidget(Gtk.Box):
         self.append(message_group)
         
         # Actions
-        actions_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
+        actions_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
         actions_box.set_halign(Gtk.Align.END)
-        actions_box.set_margin_top(12)
+        actions_box.set_margin_top(6)
         
         # Pull button
         self.pull_button = Gtk.Button()

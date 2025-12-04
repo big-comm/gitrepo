@@ -82,13 +82,13 @@ class GTKLogger:
         """For GUI, this updates the window title instead of drawing terminal header"""
         # Set window title and subtitle
         self.main_window.set_title(APP_NAME)
-        
+
         # Could also update a status or info bar if present
         if hasattr(self.main_window, 'window_title'):
             self.main_window.window_title.set_subtitle(APP_DESC)
-        
-        # Show a welcome toast
-        self.main_window.show_toast(_("Build Package initialized successfully"))
+
+        # Não mostrar toast de inicialização - é redundante na GUI
+        # self.main_window.show_toast(_("Build Package initialized successfully"))
     
     def display_summary(self, title: str, data: list):
         """Display summary information in GUI format"""

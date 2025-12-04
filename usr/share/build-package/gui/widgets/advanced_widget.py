@@ -62,17 +62,17 @@ class AdvancedWidget(Gtk.Box):
     }
     
     def __init__(self, build_package):
-        super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=6)
         self.set_vexpand(False)  # Prevent vertical expansion
         self.set_valign(Gtk.Align.START)  # Align to top
         
         self.build_package = build_package
         self.recent_commits = []
-        
-        self.set_margin_top(12)
-        self.set_margin_bottom(12)
-        self.set_margin_start(12)
-        self.set_margin_end(12)
+
+        self.set_margin_top(6)
+        self.set_margin_bottom(6)
+        self.set_margin_start(6)
+        self.set_margin_end(6)
         
         self.create_ui()
         self.refresh_commits()
@@ -85,7 +85,7 @@ class AdvancedWidget(Gtk.Box):
         
         title_label = Gtk.Label()
         title_label.set_text(_("Advanced Operations"))
-        title_label.add_css_class("title-2")
+        title_label.add_css_class("title-4")
         header_box.append(title_label)
         
         subtitle_label = Gtk.Label()
@@ -180,7 +180,7 @@ class AdvancedWidget(Gtk.Box):
         self.append(stats_group)
         
         # Actions
-        actions_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
+        actions_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
         actions_box.set_halign(Gtk.Align.END)
         actions_box.set_margin_top(12)
         

@@ -120,14 +120,32 @@ class BuildPackageApplication(Adw.Application):
     
     def on_preferences_activated(self, action, param):
         """Show preferences window"""
-        # For now, show a placeholder toast
-        if self.main_window:
-            self.main_window.show_info_toast(_("Preferences - Coming soon"))
-        
-        # TODO: Implement preferences window
-        # from .preferences_window import PreferencesWindow
-        # prefs = PreferencesWindow(self.main_window)
-        # prefs.present()
+        if self.main_window and hasattr(self.main_window, 'settings'):
+            from gui.dialogs.settings_dialog import SettingsDialog
+
+            # Create and show settings dialog
+            settings_dialog = SettingsDialog(
+                self.main_window,
+                self.main_window.settings
+            )
+
+            def on_settings_changed(dialog):
+                # Refresh build_package settings when changed
+                if hasattr(self.main_window, 'build_package') and self.main_window.build_package:
+                    # Update conflict resolver strategy
+                    if hasattr(self.main_window.build_package, 'conflict_resolver'):
+                        new_strategy = self.main_window.settings.get("conflict_strategy", "interactive")
+                        self.main_window.build_package.conflict_resolver.strategy = new_strategy
+
+                # Show toast
+                self.main_window.show_toast(_("Settings updated"))
+
+            settings_dialog.connect('settings-changed', on_settings_changed)
+            settings_dialog.present()
+        else:
+            # Fallback
+            if self.main_window:
+                self.main_window.show_info_toast(_("Settings not available"))
     
     def on_shortcuts_activated(self, action, param):
         """Show keyboard shortcuts window"""
