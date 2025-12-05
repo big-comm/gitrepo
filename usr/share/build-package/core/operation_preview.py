@@ -53,6 +53,42 @@ class Operation:
                 if result.stdout:
                     logger.log("dim", result.stdout.strip())
             except subprocess.CalledProcessError as e:
+                # Special handling for git pull - check if it's a real error
+                is_git_pull = len(cmd) >= 2 and cmd[0] == "git" and cmd[1] == "pull"
+
+                if is_git_pull:
+                    # Check stderr and stdout for actual error indicators
+                    stderr_lower = e.stderr.lower() if e.stderr else ""
+                    stdout_lower = e.stdout.lower() if e.stdout else ""
+                    combined = stderr_lower + stdout_lower
+
+                    # These are REAL errors
+                    real_error_indicators = [
+                        "conflict",
+                        "error:",
+                        "fatal:",
+                        "could not",
+                        "failed to",
+                        "unable to",
+                        "cannot merge",
+                        "merge conflict",
+                        "refusing to merge",
+                        "unrelated histories"
+                    ]
+
+                    # Check if it contains real error keywords
+                    has_real_error = any(indicator in combined for indicator in real_error_indicators)
+
+                    # If no real error, just show informational output and continue
+                    if not has_real_error:
+                        # Show the output as informational
+                        if e.stderr:
+                            logger.log("dim", e.stderr.strip())
+                        if e.stdout:
+                            logger.log("dim", e.stdout.strip())
+                        continue  # Continue to next command - treat as success
+
+                # Real error - show details
                 logger.log("red", _("✗ Command failed: {0}").format(' '.join(cmd)))
 
                 # Show error details
