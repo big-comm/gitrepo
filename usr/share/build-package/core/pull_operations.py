@@ -43,17 +43,105 @@ def pull_latest_v2(build_package_instance):
     # === PHASE 0: CHECK FOR EXISTING CONFLICTS ===
     # Must check BEFORE doing anything else - can't stash with conflicts
     if bp.conflict_resolver.has_conflicts():
-        bp.logger.log("red", _("⚠️  You have unresolved conflicts from a previous operation!"))
+        # Get list of conflicted files
+        try:
+            result = subprocess.run(
+                ["git", "diff", "--name-only", "--diff-filter=U"],
+                capture_output=True,
+                text=True,
+                check=True
+            )
+            conflicted_files = result.stdout.strip().split('\n') if result.stdout.strip() else []
+            conflict_count = len(conflicted_files)
+        except:
+            conflict_count = 0
+            conflicted_files = []
+
+        # Show detailed summary BEFORE opening resolver
+        bp.logger.log("red", "")
+        bp.logger.log("red", "═" * 70)
+        bp.logger.log("red", _("⚠️  UNRESOLVED CONFLICTS DETECTED"))
+        bp.logger.log("red", "═" * 70)
+        bp.logger.log("yellow", _("You have unresolved conflicts from a previous operation!"))
         bp.logger.log("yellow", _("You must resolve these conflicts before pulling."))
         bp.logger.log("cyan", "")
+        bp.logger.log("cyan", _("Conflicted files: {0}").format(conflict_count))
 
+        if conflicted_files and len(conflicted_files) <= 5:
+            for f in conflicted_files:
+                bp.logger.log("yellow", f"  • {f}")
+        elif len(conflicted_files) > 5:
+            # Show first 5 files
+            for f in conflicted_files[:5]:
+                bp.logger.log("yellow", f"  • {f}")
+            bp.logger.log("yellow", f"  ... and {len(conflicted_files) - 5} more files")
+
+        bp.logger.log("cyan", "")
+        bp.logger.log("cyan", _("Next: You'll be asked how to resolve each conflict"))
+        bp.logger.log("red", "═" * 70)
+        bp.logger.log("yellow", "")
+
+        # CRITICAL: Wait for user to read the summary
+        user_input = input(_("Press Enter to start resolving conflicts..."))
+
+        # Clear screen before opening resolver to avoid confusion
+        bp.logger.log("cyan", "")
+        bp.logger.log("cyan", _("Opening conflict resolver..."))
+        bp.logger.log("cyan", "")
+
+        # Now open the resolver (will show its own interface)
         if not bp.conflict_resolver.resolve():
             bp.logger.log("red", _("✗ Failed to resolve conflicts"))
             bp.logger.log("yellow", "")
             input(_("Press Enter to return to main menu..."))
             return False
 
-        bp.logger.log("green", _("✓ Conflicts resolved, continuing with pull..."))
+        bp.logger.log("green", _("✓ Conflicts resolved"))
+
+        # After resolving conflicts, files are staged. We need to commit them
+        # before continuing with pull operations to keep a clean state
+        bp.logger.log("cyan", _("Committing resolved conflicts..."))
+
+        try:
+            # Get list of resolved files
+            resolved_files_result = subprocess.run(
+                ["git", "diff", "--cached", "--name-only"],
+                capture_output=True,
+                text=True,
+                check=True
+            )
+            resolved_files = resolved_files_result.stdout.strip().split('\n') if resolved_files_result.stdout.strip() else []
+
+            if resolved_files:
+                # Create a simple commit message (avoid very long messages)
+                file_count = len(resolved_files)
+                commit_msg = f"Resolved {file_count} conflicted file(s) before pull"
+
+                # Show which files were resolved
+                bp.logger.log("dim", _("Resolved files:"))
+                for f in resolved_files[:5]:  # Show first 5
+                    bp.logger.log("dim", f"  • {f}")
+                if file_count > 5:
+                    bp.logger.log("dim", f"  ... and {file_count - 5} more")
+
+                subprocess.run(
+                    ["git", "commit", "-m", commit_msg],
+                    check=True,
+                    capture_output=True
+                )
+                bp.logger.log("green", _("✓ Resolved conflicts committed ({0} files)").format(file_count))
+            else:
+                # No staged changes, just reset the index
+                subprocess.run(["git", "reset"], capture_output=True, check=False)
+        except subprocess.CalledProcessError as e:
+            bp.logger.log("red", _("✗ Failed to commit resolved conflicts"))
+            if hasattr(e, 'stderr') and e.stderr:
+                bp.logger.log("red", _("Error: {0}").format(e.stderr.decode() if isinstance(e.stderr, bytes) else e.stderr))
+            bp.logger.log("yellow", "")
+            input(_("Press Enter to return to main menu..."))
+            return False
+
+        bp.logger.log("cyan", _("Continuing with pull operations..."))
 
     # === PHASE 1: ANALYZE GIT STATE ===
     bp.logger.log("cyan", _("Analyzing repository state..."))
@@ -253,9 +341,9 @@ def pull_latest_v2(build_package_instance):
 
     # === PHASE 7: CHECK FOR CONFLICTS ===
     if bp.conflict_resolver.has_conflicts():
-        bp.logger.log("yellow", _("⚠️  Conflicts detected after pull"))
-
-        if not bp.conflict_resolver.resolve():
+        # Use enhanced conflict resolver with branch information
+        # This will show a detailed comparison and intelligent resolution
+        if not bp.conflict_resolver.resolve(current_branch, most_recent_branch):
             bp.logger.log("red", _("✗ Failed to resolve conflicts"))
             bp.logger.log("yellow", "")
             input(_("Press Enter to return to main menu..."))
@@ -277,9 +365,23 @@ def pull_latest_v2(build_package_instance):
         if pop_result.returncode != 0:
             # Check if there are conflicts
             if bp.conflict_resolver.has_conflicts():
-                bp.logger.log("yellow", _("⚠️  Conflicts detected while restoring your changes"))
+                # Show context about what happened
+                bp.logger.log("yellow", "")
+                bp.logger.log("yellow", "═" * 70)
+                bp.logger.log("yellow", _("⚠️  CONFLICTS WHILE RESTORING YOUR CHANGES"))
+                bp.logger.log("yellow", "═" * 70)
+                bp.logger.log("cyan", _("Your local changes conflict with the pulled code"))
+                bp.logger.log("cyan", "")
+                bp.logger.log("cyan", _("The conflict resolver will help you merge:"))
+                bp.logger.log("cyan", _("  • Your local changes (from stash)"))
+                bp.logger.log("cyan", _("  • The newly pulled remote code"))
+                bp.logger.log("yellow", "═" * 70)
+                bp.logger.log("yellow", "")
+                input(_("Press Enter to start resolving conflicts..."))
 
-                if not bp.conflict_resolver.resolve():
+                # Use enhanced resolver - "current" is the pulled code, "incoming" is stashed changes
+                # Note: After stash pop, "ours" is the pulled code, "theirs" is the stashed changes
+                if not bp.conflict_resolver.resolve(current_branch, "stashed-changes"):
                     bp.logger.log("red", _("✗ Failed to resolve conflicts"))
                     bp.logger.log("yellow", _("Your changes are still in stash. Use 'git stash pop' manually."))
                     bp.logger.log("yellow", "")
