@@ -3028,6 +3028,18 @@ msgstr "✗ Fehlgeschlagen: {0}"
 msgid "✗ Command failed: {0}"
 msgstr "✗ Befehl fehlgeschlagen: {0}"
 # 
+# File: usr/share/build-package/core/operation_preview.py, line: 98
+#: NEEDS WORK
+#, python-brace-format
+msgid "Output: {0}"
+msgstr "Ausgabe: {0}"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 100
+#: NEEDS WORK
+#, python-brace-format
+msgid "Exit code: {0}"
+msgstr "Exit-Code: {0}"
+# 
 # File: usr/share/build-package/core/operation_preview.py, line: 107
 #: NEEDS WORK
 msgid "No operations planned"
@@ -3265,6 +3277,39 @@ msgstr "✓ Konflikte gelöst (remote akzeptiert)"
 msgid "Interactive conflict resolution..."
 msgstr "Interaktive Konfliktlösung..."
 # 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 221
+# File: usr/share/build-package/core/conflict_resolver.py, line: 404
+#: NEEDS WORK
+#, python-brace-format
+msgid "Detected {0} .mo files (compiled translations)"
+msgstr "Erkannte {0} .mo-Dateien (kompilierte Übersetzungen)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 223
+# File: usr/share/build-package/core/conflict_resolver.py, line: 406
+#: NEEDS WORK
+msgid ".mo files are auto-generated and should be taken from remote"
+msgstr ".mо-Dateien werden automatisch generiert und sollten von remote abgerufen werden."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 226
+# File: usr/share/build-package/core/conflict_resolver.py, line: 409
+#: NEEDS WORK
+#, python-brace-format
+msgid "Accept REMOTE version for all {0} .mo files?"
+msgstr "REMOTE-Version für alle {0} .mo-Dateien akzeptieren?"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 228
+# File: usr/share/build-package/core/conflict_resolver.py, line: 411
+#: NEEDS WORK
+msgid "Accepting remote version for all .mo files..."
+msgstr "Akzeptiere die Remote-Version für alle .mo-Dateien..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 237
+# File: usr/share/build-package/core/conflict_resolver.py, line: 420
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} .mo files"
+msgstr "✓ {0} .mo-Dateien behoben"
+# 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 110
 #: NEEDS WORK
 msgid "Keep our version"
@@ -3305,11 +3350,34 @@ msgstr "Wie zu lösen: {0}"
 msgid "✓ Kept our version of {0}"
 msgstr "✓ Unsere Version von {0} beibehalten"
 # 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 273
+#: NEEDS WORK
+msgid "⚠ Could not checkout --ours, extracting from git index..."
+msgstr "⚠ Konnte --ours nicht auschecken, extrahiere aus dem Git-Index..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 403
+#: NEEDS WORK
+#, python-brace-format
+msgid "✗ Failed to resolve {0}"
+msgstr "✗ Konnte {0} nicht auflösen"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 293
+# File: usr/share/build-package/core/conflict_resolver.py, line: 323
+#: NEEDS WORK
+#, python-brace-format
+msgid "✗ Error resolving {0}: {1}"
+msgstr "✗ Fehler beim Auflösen von {0}: {1}"
+# 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 135
 #: NEEDS WORK
 #, python-brace-format
 msgid "✓ Accepted remote version of {0}"
 msgstr "✓ Akzeptierte entfernte Version von {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 303
+#: NEEDS WORK
+msgid "⚠ Could not checkout --theirs, extracting from git index..."
+msgstr "⚠ Konnte --theirs nicht auschecken, extrahiere aus dem Git-Index..."
 # 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 139
 #: NEEDS WORK
@@ -3516,12 +3584,6 @@ msgstr "2. Konfliktmarker entfernen: <<<<<<< ======= >>>>>>>"
 msgid "✓ Resolved: Using {0} version"
 msgstr "✓ Gelöst: Verwendung von {0} Version"
 # 
-# File: usr/share/build-package/core/conflict_resolver.py, line: 403
-#: NEEDS WORK
-#, python-brace-format
-msgid "✗ Failed to resolve {0}"
-msgstr "✗ Konnte {0} nicht auflösen"
-# 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 411
 #: NEEDS WORK
 msgid "⚠️  Some files still have unresolved conflicts:"
@@ -3582,21 +3644,143 @@ msgstr "Konflikte: {0}"
 msgid "Could not preview file: {0}"
 msgstr "Datei konnte nicht angezeigt werden: {0}"
 # 
-# File: usr/share/build-package/core/conflict_resolver.py, line: 228
+# File: usr/share/build-package/core/conflict_resolver.py, line: 656
 #: NEEDS WORK
-msgid "OUR VERSION:"
-msgstr "UNSERE VERSION:"
+msgid "⚠️  BINARY FILE - Cannot show text diff"
+msgstr "⚠️  BINÄRDATEI - Textdifferenz kann nicht angezeigt werden"
 # 
-# File: usr/share/build-package/core/conflict_resolver.py, line: 234
+# File: usr/share/build-package/core/conflict_resolver.py, line: 660
 #: NEEDS WORK
-msgid "THEIR VERSION:"
-msgstr "IHRE VERSION:"
+msgid "This is a binary file (not human-readable text)."
+msgstr "Dies ist eine Binärdatei (nicht menschenlesbarer Text)."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 661
+#: NEEDS WORK
+msgid "Cannot display text differences for binary files."
+msgstr "Kann die Textunterschiede für Binärdateien nicht anzeigen."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 666
+#: NEEDS WORK
+msgid "RECOMMENDATION for .mo files:"
+msgstr "EMPFEHLUNG für .mo-Dateien:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 667
+# File: usr/share/build-package/core/conflict_resolver.py, line: 675
+#: NEEDS WORK
+msgid "  → Accept REMOTE version"
+msgstr "REMOTE-Version akzeptieren"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 668
+#: NEEDS WORK
+msgid "     (.mo files are auto-generated compiled translations)"
+msgstr "(.mo-Dateien sind automatisch generierte kompilierte Übersetzungen)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 670
+#: NEEDS WORK
+msgid "Recommendation for images:"
+msgstr "Empfehlung für Bilder:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 671
+#: NEEDS WORK
+msgid "  • Check which version you want to keep"
+msgstr "• Überprüfen Sie, welche Version Sie behalten möchten"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 672
+#: NEEDS WORK
+msgid "  • Or keep both if you need to review later"
+msgstr "• Oder behalten Sie beide, wenn Sie später überprüfen müssen."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 674
+#: NEEDS WORK
+msgid "RECOMMENDATION for compiled files:"
+msgstr "EMPFEHLUNG für kompilierte Dateien:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 676
+#: NEEDS WORK
+msgid "     (compiled files should be regenerated from source)"
+msgstr "(kompilierte Dateien sollten aus dem Quellcode neu generiert werden)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 678
+#: NEEDS WORK
+msgid "Recommendation:"
+msgstr "Empfehlung:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 679
+#: NEEDS WORK
+msgid "  • Usually accept the REMOTE version"
+msgstr "• In der Regel die REMOTE-Version akzeptieren"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 680
+#: NEEDS WORK
+msgid "  • Or keep both to review later"
+msgstr "• Oder beide behalten, um sie später zu überprüfen"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 684
+# File: usr/share/build-package/core/conflict_resolver.py, line: 711
+# File: usr/share/build-package/core/conflict_resolver.py, line: 723
+# File: usr/share/build-package/core/conflict_resolver.py, line: 816
+# File: usr/share/build-package/core/conflict_resolver.py, line: 821
+#: NEEDS WORK
+msgid "Press Enter to continue..."
+msgstr "Drücken Sie die Eingabetaste, um fortzufahren..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 709
+# File: usr/share/build-package/core/conflict_resolver.py, line: 721
+#: NEEDS WORK
+msgid "⚠️  File appears to be binary - cannot show diff"
+msgstr "⚠️  Die Datei scheint binär zu sein - kann keinen Unterschied anzeigen"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 747
+#: NEEDS WORK
+msgid "Opening side-by-side diff viewer..."
+msgstr "Öffne den Vergleichsbetrachter für nebeneinander liegende Unterschiede..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 749
+#: NEEDS WORK
+msgid "LEFT side:  YOUR VERSION (current branch)"
+msgstr "LINKE Seite: IHR VERSION (aktueller Branch)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 750
+#: NEEDS WORK
+msgid "RIGHT side: REMOTE VERSION (from server)"
+msgstr "RECHTE Seite: REMOTE VERSION (vom Server)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 752
+#: NEEDS WORK
+msgid "Navigation: Arrow keys, Page Up/Down"
+msgstr "Navigation: Pfeiltasten, Seite hoch/ runter"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 753
+#: NEEDS WORK
+msgid "Exit: Press 'q' then Enter, or type :qa and Enter"
+msgstr "Beenden: Drücken Sie 'q' und dann Enter, oder geben Sie :qa und Enter ein"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 756
+#: NEEDS WORK
+msgid "Press Enter to open viewer..."
+msgstr "Drücken Sie die Eingabetaste, um den Viewer zu öffnen..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 803
+#: NEEDS WORK
+msgid "Files are identical (no differences)"
+msgstr "Dateien sind identisch (keine Unterschiede)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 814
+#: NEEDS WORK
+msgid "Diff viewer closed."
+msgstr "Diff-Viewer geschlossen."
 # 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 242
 #: NEEDS WORK
 #, python-brace-format
 msgid "Could not show diff: {0}"
 msgstr "Konnte den Unterschied nicht anzeigen: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 820
+#: NEEDS WORK
+#, python-brace-format
+msgid "Viewers tried: {0}"
+msgstr "Zuschauer haben versucht: {0}"
 # 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 260
 #: NEEDS WORK
@@ -3771,20 +3955,67 @@ msgstr "Auto-Zusammenführung: {0}"
 msgid "Show preview: {0}"
 msgstr "Vorschau anzeigen: {0}"
 # 
-# File: usr/share/build-package/core/pull_operations.py, line: 46
+# File: usr/share/build-package/core/pull_operations.py, line: 63
 #: NEEDS WORK
-msgid "⚠️  You have unresolved conflicts from a previous operation!"
-msgstr "⚠️  Sie haben ungelöste Konflikte aus einem vorherigen Vorgang!"
+msgid "⚠️  UNRESOLVED CONFLICTS DETECTED"
+msgstr "⚠️  UNLÖSTE KONFLIKTE DETEKTIERT"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 65
+#: NEEDS WORK
+msgid "You have unresolved conflicts from a previous operation!"
+msgstr "Sie haben ungelöste Konflikte aus einem vorherigen Vorgang!"
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 47
 #: NEEDS WORK
 msgid "You must resolve these conflicts before pulling."
 msgstr "Sie müssen diese Konflikte beheben, bevor Sie pullen."
 # 
-# File: usr/share/build-package/core/pull_operations.py, line: 56
+# File: usr/share/build-package/core/pull_operations.py, line: 80
 #: NEEDS WORK
-msgid "✓ Conflicts resolved, continuing with pull..."
-msgstr "✓ Konflikte gelöst, Fortfahren mit Pull..."
+msgid "Next: You'll be asked how to resolve each conflict"
+msgstr "Als Nächstes werden Sie gefragt, wie Sie jeden Konflikt lösen können."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 85
+# File: usr/share/build-package/core/pull_operations.py, line: 380
+#: NEEDS WORK
+msgid "Press Enter to start resolving conflicts..."
+msgstr "Drücken Sie die Eingabetaste, um Konflikte zu beheben..."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 89
+#: NEEDS WORK
+msgid "Opening conflict resolver..."
+msgstr "Öffne Konfliktlöser..."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 193
+#: NEEDS WORK
+msgid "✓ Conflicts resolved"
+msgstr "✓ Konflikte gelöst"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 103
+#: NEEDS WORK
+msgid "Committing resolved conflicts..."
+msgstr "Konflikte, die gelöst wurden, werden festgeschrieben..."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 121
+#: NEEDS WORK
+msgid "Resolved files:"
+msgstr "Gelöste Dateien:"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 132
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved conflicts committed ({0} files)"
+msgstr "✓ Konflikte gelöst und übernommen ({0} Dateien)"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 137
+#: NEEDS WORK
+msgid "✗ Failed to commit resolved conflicts"
+msgstr "✗ Fehler beim Übertragen der gelösten Konflikte"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 144
+#: NEEDS WORK
+msgid "Continuing with pull operations..."
+msgstr "Fortfahren mit Pull-Operationen..."
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 53
 #: NEEDS WORK
@@ -3861,20 +4092,30 @@ msgstr "✓ Bereits auf dem neuesten Stand"
 msgid "✗ Pull operation failed"
 msgstr "✗ Pull-Operation fehlgeschlagen"
 # 
-# File: usr/share/build-package/core/pull_operations.py, line: 187
+# File: usr/share/build-package/core/pull_operations.py, line: 371
 #: NEEDS WORK
-msgid "⚠️  Conflicts detected after pull"
-msgstr "⚠️  Konflikte nach dem Pull erkannt"
+msgid "⚠️  CONFLICTS WHILE RESTORING YOUR CHANGES"
+msgstr "⚠️  KONFLIKTE BEIM WIEDERHERSTELLEN IHRER ÄNDERUNGEN"
 # 
-# File: usr/share/build-package/core/pull_operations.py, line: 193
+# File: usr/share/build-package/core/pull_operations.py, line: 373
 #: NEEDS WORK
-msgid "✓ Conflicts resolved"
-msgstr "✓ Konflikte gelöst"
+msgid "Your local changes conflict with the pulled code"
+msgstr "Ihre lokalen Änderungen stehen im Konflikt mit dem abgerufenen Code."
 # 
-# File: usr/share/build-package/core/pull_operations.py, line: 280
+# File: usr/share/build-package/core/pull_operations.py, line: 375
 #: NEEDS WORK
-msgid "⚠️  Conflicts detected while restoring your changes"
-msgstr "⚠️  Konflikte erkannt beim Wiederherstellen Ihrer Änderungen"
+msgid "The conflict resolver will help you merge:"
+msgstr "Der Konfliktlöser hilft Ihnen beim Zusammenführen:"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 376
+#: NEEDS WORK
+msgid "  • Your local changes (from stash)"
+msgstr "• Ihre lokalen Änderungen (aus dem Stash)"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 377
+#: NEEDS WORK
+msgid "  • The newly pulled remote code"
+msgstr "• Der neu abgerufene Remote-Code"
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 284
 # File: usr/share/build-package/core/pull_operations.py, line: 292

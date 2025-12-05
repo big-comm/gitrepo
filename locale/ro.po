@@ -3020,6 +3020,18 @@ msgstr "✗ Eșuat: {0}"
 msgid "✗ Command failed: {0}"
 msgstr "✗ Comanda a eșuat: {0}"
 # 
+# File: usr/share/build-package/core/operation_preview.py, line: 98
+#: NEEDS WORK
+#, python-brace-format
+msgid "Output: {0}"
+msgstr "Ieșire: {0}"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 100
+#: NEEDS WORK
+#, python-brace-format
+msgid "Exit code: {0}"
+msgstr "Cod de ieșire: {0}"
+# 
 # File: usr/share/build-package/core/operation_preview.py, line: 107
 #: NEEDS WORK
 msgid "No operations planned"
@@ -3257,6 +3269,39 @@ msgstr "✓ Conflicte rezolvate (acceptate de la distanță)"
 msgid "Interactive conflict resolution..."
 msgstr "Rezolvare interactivă a conflictelor..."
 # 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 221
+# File: usr/share/build-package/core/conflict_resolver.py, line: 404
+#: NEEDS WORK
+#, python-brace-format
+msgid "Detected {0} .mo files (compiled translations)"
+msgstr "Detectate {0} fișiere .mo (traduceri compilate)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 223
+# File: usr/share/build-package/core/conflict_resolver.py, line: 406
+#: NEEDS WORK
+msgid ".mo files are auto-generated and should be taken from remote"
+msgstr "Fișierele .mo sunt generate automat și ar trebui să fie preluate de la distanță."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 226
+# File: usr/share/build-package/core/conflict_resolver.py, line: 409
+#: NEEDS WORK
+#, python-brace-format
+msgid "Accept REMOTE version for all {0} .mo files?"
+msgstr "Acceptați versiunea REMOTE pentru toate fișierele {0} .mo?"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 228
+# File: usr/share/build-package/core/conflict_resolver.py, line: 411
+#: NEEDS WORK
+msgid "Accepting remote version for all .mo files..."
+msgstr "Acceptarea versiunii remote pentru toate fișierele .mo..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 237
+# File: usr/share/build-package/core/conflict_resolver.py, line: 420
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} .mo files"
+msgstr "✓ Rezolvate {0} fișiere .mo"
+# 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 110
 #: NEEDS WORK
 msgid "Keep our version"
@@ -3297,11 +3342,34 @@ msgstr "Cum să rezolvi: {0}"
 msgid "✓ Kept our version of {0}"
 msgstr "✓ Am păstrat versiunea noastră de {0}"
 # 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 273
+#: NEEDS WORK
+msgid "⚠ Could not checkout --ours, extracting from git index..."
+msgstr "⚠ Nu s-a putut face checkout --ours, extragere din indexul git..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 403
+#: NEEDS WORK
+#, python-brace-format
+msgid "✗ Failed to resolve {0}"
+msgstr "✗ Nu s-a reușit rezolvarea {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 293
+# File: usr/share/build-package/core/conflict_resolver.py, line: 323
+#: NEEDS WORK
+#, python-brace-format
+msgid "✗ Error resolving {0}: {1}"
+msgstr "✗ Eroare la rezolvarea {0}: {1}"
+# 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 135
 #: NEEDS WORK
 #, python-brace-format
 msgid "✓ Accepted remote version of {0}"
 msgstr "✓ Versiune remote acceptată a lui {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 303
+#: NEEDS WORK
+msgid "⚠ Could not checkout --theirs, extracting from git index..."
+msgstr "⚠ Nu s-a putut face checkout --theirs, extragere din indexul git..."
 # 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 139
 #: NEEDS WORK
@@ -3508,12 +3576,6 @@ msgstr "2. Elimină marcajele de conflict: <<<<<<< ======= >>>>>>>"
 msgid "✓ Resolved: Using {0} version"
 msgstr "✓ Rezolvat: Folosind versiunea {0}"
 # 
-# File: usr/share/build-package/core/conflict_resolver.py, line: 403
-#: NEEDS WORK
-#, python-brace-format
-msgid "✗ Failed to resolve {0}"
-msgstr "✗ Nu s-a reușit rezolvarea {0}"
-# 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 411
 #: NEEDS WORK
 msgid "⚠️  Some files still have unresolved conflicts:"
@@ -3574,21 +3636,143 @@ msgstr "Conflicte: {0}"
 msgid "Could not preview file: {0}"
 msgstr "Nu s-a putut previzualiza fișierul: {0}"
 # 
-# File: usr/share/build-package/core/conflict_resolver.py, line: 228
+# File: usr/share/build-package/core/conflict_resolver.py, line: 656
 #: NEEDS WORK
-msgid "OUR VERSION:"
-msgstr "VERSIUNEA NOASTRĂ:"
+msgid "⚠️  BINARY FILE - Cannot show text diff"
+msgstr "⚠️  FIȘIER BINAR - Nu se poate afișa diferența de text"
 # 
-# File: usr/share/build-package/core/conflict_resolver.py, line: 234
+# File: usr/share/build-package/core/conflict_resolver.py, line: 660
 #: NEEDS WORK
-msgid "THEIR VERSION:"
-msgstr "VERSIUNEA LOR:"
+msgid "This is a binary file (not human-readable text)."
+msgstr "Acesta este un fișier binar (nu este text lizibil de către oameni)."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 661
+#: NEEDS WORK
+msgid "Cannot display text differences for binary files."
+msgstr "Nu se pot afișa diferențele de text pentru fișiere binare."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 666
+#: NEEDS WORK
+msgid "RECOMMENDATION for .mo files:"
+msgstr "RECOMANDARE pentru fișiere .mo:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 667
+# File: usr/share/build-package/core/conflict_resolver.py, line: 675
+#: NEEDS WORK
+msgid "  → Accept REMOTE version"
+msgstr "Accepta versiunea REMOTE"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 668
+#: NEEDS WORK
+msgid "     (.mo files are auto-generated compiled translations)"
+msgstr "(.mo fișierele sunt traduceri compilate generate automat)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 670
+#: NEEDS WORK
+msgid "Recommendation for images:"
+msgstr "Recomandare pentru imagini:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 671
+#: NEEDS WORK
+msgid "  • Check which version you want to keep"
+msgstr "• Verifica ce versiune dorești să păstrezi"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 672
+#: NEEDS WORK
+msgid "  • Or keep both if you need to review later"
+msgstr "• Sau păstrează ambele dacă trebuie să revizuiești mai târziu"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 674
+#: NEEDS WORK
+msgid "RECOMMENDATION for compiled files:"
+msgstr "RECOMANDARE pentru fișierele compilate:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 676
+#: NEEDS WORK
+msgid "     (compiled files should be regenerated from source)"
+msgstr "(fișierele compilate ar trebui regenerate din sursă)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 678
+#: NEEDS WORK
+msgid "Recommendation:"
+msgstr "Recomandare:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 679
+#: NEEDS WORK
+msgid "  • Usually accept the REMOTE version"
+msgstr "• De obicei acceptați versiunea REMOTE"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 680
+#: NEEDS WORK
+msgid "  • Or keep both to review later"
+msgstr "• Sau păstrează ambele pentru a le revizui mai târziu"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 684
+# File: usr/share/build-package/core/conflict_resolver.py, line: 711
+# File: usr/share/build-package/core/conflict_resolver.py, line: 723
+# File: usr/share/build-package/core/conflict_resolver.py, line: 816
+# File: usr/share/build-package/core/conflict_resolver.py, line: 821
+#: NEEDS WORK
+msgid "Press Enter to continue..."
+msgstr "Apăsați Enter pentru a continua..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 709
+# File: usr/share/build-package/core/conflict_resolver.py, line: 721
+#: NEEDS WORK
+msgid "⚠️  File appears to be binary - cannot show diff"
+msgstr "⚠️  Fișierul pare a fi binar - nu se poate afișa diferența"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 747
+#: NEEDS WORK
+msgid "Opening side-by-side diff viewer..."
+msgstr "Deschidere vizualizator de diferențe alăturat..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 749
+#: NEEDS WORK
+msgid "LEFT side:  YOUR VERSION (current branch)"
+msgstr "VERSIUNEA TA (ramura curentă)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 750
+#: NEEDS WORK
+msgid "RIGHT side: REMOTE VERSION (from server)"
+msgstr "PARTEA DREAPTA: VERSIUNE REMOTĂ (de pe server)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 752
+#: NEEDS WORK
+msgid "Navigation: Arrow keys, Page Up/Down"
+msgstr "Navigare: Tastele săgeată, Pagina sus/jos"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 753
+#: NEEDS WORK
+msgid "Exit: Press 'q' then Enter, or type :qa and Enter"
+msgstr "Ieșire: Apăsați 'q' apoi Enter, sau tastați :qa și Enter"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 756
+#: NEEDS WORK
+msgid "Press Enter to open viewer..."
+msgstr "Apăsați Enter pentru a deschide vizualizatorul..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 803
+#: NEEDS WORK
+msgid "Files are identical (no differences)"
+msgstr "Fișierele sunt identice (fără diferențe)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 814
+#: NEEDS WORK
+msgid "Diff viewer closed."
+msgstr "Vizualizator de diferențe închis."
 # 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 242
 #: NEEDS WORK
 #, python-brace-format
 msgid "Could not show diff: {0}"
 msgstr "Nu s-a putut afișa diferența: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 820
+#: NEEDS WORK
+#, python-brace-format
+msgid "Viewers tried: {0}"
+msgstr "Privitori încercați: {0}"
 # 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 260
 #: NEEDS WORK
@@ -3763,20 +3947,67 @@ msgstr "Auto-îmbinare: {0}"
 msgid "Show preview: {0}"
 msgstr "Afișează previzualizarea: {0}"
 # 
-# File: usr/share/build-package/core/pull_operations.py, line: 46
+# File: usr/share/build-package/core/pull_operations.py, line: 63
 #: NEEDS WORK
-msgid "⚠️  You have unresolved conflicts from a previous operation!"
-msgstr "⚠️  Aveți conflicte nerezolvate dintr-o operațiune anterioară!"
+msgid "⚠️  UNRESOLVED CONFLICTS DETECTED"
+msgstr "⚠️  CONFLICTE NEREZOLVATE DETECTATE"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 65
+#: NEEDS WORK
+msgid "You have unresolved conflicts from a previous operation!"
+msgstr "Aveți conflicte nerezolvate dintr-o operațiune anterioară!"
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 47
 #: NEEDS WORK
 msgid "You must resolve these conflicts before pulling."
 msgstr "Trebuie să rezolvi aceste conflicte înainte de a face pull."
 # 
-# File: usr/share/build-package/core/pull_operations.py, line: 56
+# File: usr/share/build-package/core/pull_operations.py, line: 80
 #: NEEDS WORK
-msgid "✓ Conflicts resolved, continuing with pull..."
-msgstr "✓ Conflictele au fost rezolvate, continuând cu pull..."
+msgid "Next: You'll be asked how to resolve each conflict"
+msgstr "Următor: Vei fi întrebat cum să rezolvi fiecare conflict"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 85
+# File: usr/share/build-package/core/pull_operations.py, line: 380
+#: NEEDS WORK
+msgid "Press Enter to start resolving conflicts..."
+msgstr "Apăsați Enter pentru a începe rezolvarea conflictelor..."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 89
+#: NEEDS WORK
+msgid "Opening conflict resolver..."
+msgstr "Deschidere rezolvator de conflicte..."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 193
+#: NEEDS WORK
+msgid "✓ Conflicts resolved"
+msgstr "✓ Conflictele au fost rezolvate"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 103
+#: NEEDS WORK
+msgid "Committing resolved conflicts..."
+msgstr "Comiterea conflictelor rezolvate..."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 121
+#: NEEDS WORK
+msgid "Resolved files:"
+msgstr "Fișiere rezolvate:"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 132
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved conflicts committed ({0} files)"
+msgstr "✓ Conflicte rezolvate comise ({0} fișiere)"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 137
+#: NEEDS WORK
+msgid "✗ Failed to commit resolved conflicts"
+msgstr "✗ Eșec la comiterea conflictelor rezolvate"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 144
+#: NEEDS WORK
+msgid "Continuing with pull operations..."
+msgstr "Continuând cu operațiunile de pull..."
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 53
 #: NEEDS WORK
@@ -3853,20 +4084,30 @@ msgstr "✓ Deja la versiune actualizată"
 msgid "✗ Pull operation failed"
 msgstr "✗ Operațiunea de pull a eșuat"
 # 
-# File: usr/share/build-package/core/pull_operations.py, line: 187
+# File: usr/share/build-package/core/pull_operations.py, line: 371
 #: NEEDS WORK
-msgid "⚠️  Conflicts detected after pull"
-msgstr "⚠️  Conflicte detectate după pull"
+msgid "⚠️  CONFLICTS WHILE RESTORING YOUR CHANGES"
+msgstr "⚠️  CONFLICTE ÎN TIMPUL RESTAURĂRII SCHIMBĂRILOR DUMNEAVOASTRĂ"
 # 
-# File: usr/share/build-package/core/pull_operations.py, line: 193
+# File: usr/share/build-package/core/pull_operations.py, line: 373
 #: NEEDS WORK
-msgid "✓ Conflicts resolved"
-msgstr "✓ Conflictele au fost rezolvate"
+msgid "Your local changes conflict with the pulled code"
+msgstr "Modificările tale locale intră în conflict cu codul extras."
 # 
-# File: usr/share/build-package/core/pull_operations.py, line: 280
+# File: usr/share/build-package/core/pull_operations.py, line: 375
 #: NEEDS WORK
-msgid "⚠️  Conflicts detected while restoring your changes"
-msgstr "⚠️  Conflicte detectate în timp ce restaurați modificările dvs."
+msgid "The conflict resolver will help you merge:"
+msgstr "Resolverul de conflicte vă va ajuta să fuzionați:"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 376
+#: NEEDS WORK
+msgid "  • Your local changes (from stash)"
+msgstr "• Modificările tale locale (din stash)"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 377
+#: NEEDS WORK
+msgid "  • The newly pulled remote code"
+msgstr "• Codul remote nou tras"
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 284
 # File: usr/share/build-package/core/pull_operations.py, line: 292

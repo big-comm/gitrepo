@@ -3020,6 +3020,18 @@ msgstr "✗ 失敗しました: {0}"
 msgid "✗ Command failed: {0}"
 msgstr "✗ コマンドが失敗しました: {0}"
 # 
+# File: usr/share/build-package/core/operation_preview.py, line: 98
+#: NEEDS WORK
+#, python-brace-format
+msgid "Output: {0}"
+msgstr "出力: {0}"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 100
+#: NEEDS WORK
+#, python-brace-format
+msgid "Exit code: {0}"
+msgstr "終了コード: {0}"
+# 
 # File: usr/share/build-package/core/operation_preview.py, line: 107
 #: NEEDS WORK
 msgid "No operations planned"
@@ -3256,6 +3268,39 @@ msgstr "✓ コンフリクトが解決されました（リモートを受け�
 msgid "Interactive conflict resolution..."
 msgstr "インタラクティブな紛争解決..."
 # 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 221
+# File: usr/share/build-package/core/conflict_resolver.py, line: 404
+#: NEEDS WORK
+#, python-brace-format
+msgid "Detected {0} .mo files (compiled translations)"
+msgstr "{0} 個の .mo ファイルが検出されました（コンパイルされた翻訳）"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 223
+# File: usr/share/build-package/core/conflict_resolver.py, line: 406
+#: NEEDS WORK
+msgid ".mo files are auto-generated and should be taken from remote"
+msgstr ".moファイルは自動生成され、リモートから取得する必要があります。"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 226
+# File: usr/share/build-package/core/conflict_resolver.py, line: 409
+#: NEEDS WORK
+#, python-brace-format
+msgid "Accept REMOTE version for all {0} .mo files?"
+msgstr "すべての {0} .mo ファイルのリモートバージョンを受け入れますか？"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 228
+# File: usr/share/build-package/core/conflict_resolver.py, line: 411
+#: NEEDS WORK
+msgid "Accepting remote version for all .mo files..."
+msgstr "すべての .mo ファイルのリモートバージョンを受け入れています..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 237
+# File: usr/share/build-package/core/conflict_resolver.py, line: 420
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} .mo files"
+msgstr "✓ {0} .moファイルが解決されました"
+# 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 110
 #: NEEDS WORK
 msgid "Keep our version"
@@ -3296,11 +3341,34 @@ msgstr "解決方法: {0}"
 msgid "✓ Kept our version of {0}"
 msgstr "✓ {0}のバージョンを保持しました"
 # 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 273
+#: NEEDS WORK
+msgid "⚠ Could not checkout --ours, extracting from git index..."
+msgstr "⚠ --ours をチェックアウトできませんでした。git インデックスから抽出しています..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 403
+#: NEEDS WORK
+#, python-brace-format
+msgid "✗ Failed to resolve {0}"
+msgstr "✗ {0}の解決に失敗しました"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 293
+# File: usr/share/build-package/core/conflict_resolver.py, line: 323
+#: NEEDS WORK
+#, python-brace-format
+msgid "✗ Error resolving {0}: {1}"
+msgstr "✗ {0} の解決中にエラーが発生しました: {1}"
+# 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 135
 #: NEEDS WORK
 #, python-brace-format
 msgid "✓ Accepted remote version of {0}"
 msgstr "✓ リモートバージョン {0} を受け入れました"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 303
+#: NEEDS WORK
+msgid "⚠ Could not checkout --theirs, extracting from git index..."
+msgstr "⚠ --theirs をチェックアウトできませんでした。git インデックスから抽出しています..."
 # 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 139
 #: NEEDS WORK
@@ -3507,12 +3575,6 @@ msgstr "2. コンフリクトマーカーを削除: <<<<<<< ======= >>>>>>>"
 msgid "✓ Resolved: Using {0} version"
 msgstr "✓ 解決済み: {0} バージョンを使用しています"
 # 
-# File: usr/share/build-package/core/conflict_resolver.py, line: 403
-#: NEEDS WORK
-#, python-brace-format
-msgid "✗ Failed to resolve {0}"
-msgstr "✗ {0}の解決に失敗しました"
-# 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 411
 #: NEEDS WORK
 msgid "⚠️  Some files still have unresolved conflicts:"
@@ -3573,21 +3635,143 @@ msgstr "競合: {0}"
 msgid "Could not preview file: {0}"
 msgstr "ファイルをプレビューできませんでした: {0}"
 # 
-# File: usr/share/build-package/core/conflict_resolver.py, line: 228
+# File: usr/share/build-package/core/conflict_resolver.py, line: 656
 #: NEEDS WORK
-msgid "OUR VERSION:"
-msgstr "私たちのバージョン:"
+msgid "⚠️  BINARY FILE - Cannot show text diff"
+msgstr "⚠️  バイナリファイル - テキストの差分を表示できません"
 # 
-# File: usr/share/build-package/core/conflict_resolver.py, line: 234
+# File: usr/share/build-package/core/conflict_resolver.py, line: 660
 #: NEEDS WORK
-msgid "THEIR VERSION:"
-msgstr "彼らのバージョン："
+msgid "This is a binary file (not human-readable text)."
+msgstr "これはバイナリファイルです（人間が読めるテキストではありません）。"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 661
+#: NEEDS WORK
+msgid "Cannot display text differences for binary files."
+msgstr "バイナリファイルのテキストの違いを表示できません。"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 666
+#: NEEDS WORK
+msgid "RECOMMENDATION for .mo files:"
+msgstr ".moファイルの推奨事項:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 667
+# File: usr/share/build-package/core/conflict_resolver.py, line: 675
+#: NEEDS WORK
+msgid "  → Accept REMOTE version"
+msgstr "REMOTEバージョンを受け入れる"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 668
+#: NEEDS WORK
+msgid "     (.mo files are auto-generated compiled translations)"
+msgstr "(.moファイルは自動生成されたコンパイル済み翻訳です)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 670
+#: NEEDS WORK
+msgid "Recommendation for images:"
+msgstr "画像の推奨:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 671
+#: NEEDS WORK
+msgid "  • Check which version you want to keep"
+msgstr "• 保持したいバージョンを確認してください"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 672
+#: NEEDS WORK
+msgid "  • Or keep both if you need to review later"
+msgstr "• 後で確認する必要がある場合は、両方を保持します"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 674
+#: NEEDS WORK
+msgid "RECOMMENDATION for compiled files:"
+msgstr "コンパイルされたファイルの推奨事項："
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 676
+#: NEEDS WORK
+msgid "     (compiled files should be regenerated from source)"
+msgstr "（コンパイルされたファイルはソースから再生成する必要があります）"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 678
+#: NEEDS WORK
+msgid "Recommendation:"
+msgstr "推奨:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 679
+#: NEEDS WORK
+msgid "  • Usually accept the REMOTE version"
+msgstr "• 通常はリモートバージョンを受け入れます"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 680
+#: NEEDS WORK
+msgid "  • Or keep both to review later"
+msgstr "• または両方を保持して後で確認する"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 684
+# File: usr/share/build-package/core/conflict_resolver.py, line: 711
+# File: usr/share/build-package/core/conflict_resolver.py, line: 723
+# File: usr/share/build-package/core/conflict_resolver.py, line: 816
+# File: usr/share/build-package/core/conflict_resolver.py, line: 821
+#: NEEDS WORK
+msgid "Press Enter to continue..."
+msgstr "続行するにはEnterキーを押してください..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 709
+# File: usr/share/build-package/core/conflict_resolver.py, line: 721
+#: NEEDS WORK
+msgid "⚠️  File appears to be binary - cannot show diff"
+msgstr "⚠️  ファイルはバイナリのようです - 差分を表示できません"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 747
+#: NEEDS WORK
+msgid "Opening side-by-side diff viewer..."
+msgstr "サイドバイサイドの差分ビューアを開いています..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 749
+#: NEEDS WORK
+msgid "LEFT side:  YOUR VERSION (current branch)"
+msgstr "左側: あなたのバージョン（現在のブランチ）"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 750
+#: NEEDS WORK
+msgid "RIGHT side: REMOTE VERSION (from server)"
+msgstr "右側: リモートバージョン（サーバーから）"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 752
+#: NEEDS WORK
+msgid "Navigation: Arrow keys, Page Up/Down"
+msgstr "ナビゲーション: 矢印キー、ページアップ/ページダウン"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 753
+#: NEEDS WORK
+msgid "Exit: Press 'q' then Enter, or type :qa and Enter"
+msgstr "終了: 'q' を押して Enter、または :qa と入力して Enter"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 756
+#: NEEDS WORK
+msgid "Press Enter to open viewer..."
+msgstr "Enterキーを押してビューワーを開きます..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 803
+#: NEEDS WORK
+msgid "Files are identical (no differences)"
+msgstr "ファイルは同一です（違いはありません）"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 814
+#: NEEDS WORK
+msgid "Diff viewer closed."
+msgstr "差分ビューアが閉じました。"
 # 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 242
 #: NEEDS WORK
 #, python-brace-format
 msgid "Could not show diff: {0}"
 msgstr "差分を表示できませんでした: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 820
+#: NEEDS WORK
+#, python-brace-format
+msgid "Viewers tried: {0}"
+msgstr "視聴者が試した: {0}"
 # 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 260
 #: NEEDS WORK
@@ -3762,20 +3946,67 @@ msgstr "自動マージ: {0}"
 msgid "Show preview: {0}"
 msgstr "プレビューを表示: {0}"
 # 
-# File: usr/share/build-package/core/pull_operations.py, line: 46
+# File: usr/share/build-package/core/pull_operations.py, line: 63
 #: NEEDS WORK
-msgid "⚠️  You have unresolved conflicts from a previous operation!"
-msgstr "⚠️  前の操作から未解決の競合があります！"
+msgid "⚠️  UNRESOLVED CONFLICTS DETECTED"
+msgstr "⚠️  解決されていない競合が検出されました"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 65
+#: NEEDS WORK
+msgid "You have unresolved conflicts from a previous operation!"
+msgstr "以前の操作から解決されていない競合があります！"
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 47
 #: NEEDS WORK
 msgid "You must resolve these conflicts before pulling."
 msgstr "プルする前に、これらのコンフリクトを解決する必要があります。"
 # 
-# File: usr/share/build-package/core/pull_operations.py, line: 56
+# File: usr/share/build-package/core/pull_operations.py, line: 80
 #: NEEDS WORK
-msgid "✓ Conflicts resolved, continuing with pull..."
-msgstr "✓ コンフリクトが解決されました。プルを続行します..."
+msgid "Next: You'll be asked how to resolve each conflict"
+msgstr "次に、各コンフリクトを解決する方法を尋ねられます。"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 85
+# File: usr/share/build-package/core/pull_operations.py, line: 380
+#: NEEDS WORK
+msgid "Press Enter to start resolving conflicts..."
+msgstr "Enterキーを押して、競合の解決を開始します..."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 89
+#: NEEDS WORK
+msgid "Opening conflict resolver..."
+msgstr "競合解決ツールを開いています..."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 193
+#: NEEDS WORK
+msgid "✓ Conflicts resolved"
+msgstr "✓ 競合が解決されました"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 103
+#: NEEDS WORK
+msgid "Committing resolved conflicts..."
+msgstr "解決済みの競合をコミットしています..."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 121
+#: NEEDS WORK
+msgid "Resolved files:"
+msgstr "解決済みファイル："
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 132
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved conflicts committed ({0} files)"
+msgstr "✓ 解決された競合がコミットされました ({0} ファイル)"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 137
+#: NEEDS WORK
+msgid "✗ Failed to commit resolved conflicts"
+msgstr "✗ 解決済みの競合をコミットできませんでした"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 144
+#: NEEDS WORK
+msgid "Continuing with pull operations..."
+msgstr "プル操作を続行中..."
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 53
 #: NEEDS WORK
@@ -3852,20 +4083,30 @@ msgstr "✓ すでに最新です"
 msgid "✗ Pull operation failed"
 msgstr "✗ プル操作に失敗しました"
 # 
-# File: usr/share/build-package/core/pull_operations.py, line: 187
+# File: usr/share/build-package/core/pull_operations.py, line: 371
 #: NEEDS WORK
-msgid "⚠️  Conflicts detected after pull"
-msgstr "⚠️  プル後に競合が検出されました"
+msgid "⚠️  CONFLICTS WHILE RESTORING YOUR CHANGES"
+msgstr "⚠️  変更を復元中に競合が発生しました"
 # 
-# File: usr/share/build-package/core/pull_operations.py, line: 193
+# File: usr/share/build-package/core/pull_operations.py, line: 373
 #: NEEDS WORK
-msgid "✓ Conflicts resolved"
-msgstr "✓ 競合が解決されました"
+msgid "Your local changes conflict with the pulled code"
+msgstr "ローカルの変更がプルしたコードと衝突しています"
 # 
-# File: usr/share/build-package/core/pull_operations.py, line: 280
+# File: usr/share/build-package/core/pull_operations.py, line: 375
 #: NEEDS WORK
-msgid "⚠️  Conflicts detected while restoring your changes"
-msgstr "⚠️  変更を復元中に競合が検出されました"
+msgid "The conflict resolver will help you merge:"
+msgstr "コンフリクト解決ツールがマージを手助けします:"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 376
+#: NEEDS WORK
+msgid "  • Your local changes (from stash)"
+msgstr "• スタッシュからのローカル変更"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 377
+#: NEEDS WORK
+msgid "  • The newly pulled remote code"
+msgstr "• 新しく取得したリモートコード"
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 284
 # File: usr/share/build-package/core/pull_operations.py, line: 292

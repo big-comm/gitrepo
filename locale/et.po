@@ -3014,6 +3014,18 @@ msgstr "✗ Eba: {0}"
 msgid "✗ Command failed: {0}"
 msgstr "✗ Käsk ebaõnnestus: {0}"
 # 
+# File: usr/share/build-package/core/operation_preview.py, line: 98
+#: NEEDS WORK
+#, python-brace-format
+msgid "Output: {0}"
+msgstr "Välj: {0}"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 100
+#: NEEDS WORK
+#, python-brace-format
+msgid "Exit code: {0}"
+msgstr "Väljumiskood: {0}"
+# 
 # File: usr/share/build-package/core/operation_preview.py, line: 107
 #: NEEDS WORK
 msgid "No operations planned"
@@ -3251,6 +3263,39 @@ msgstr "✓ Konfliktid lahendatud (aktsepteeritud kaugelt)"
 msgid "Interactive conflict resolution..."
 msgstr "Interaktiivne konfliktide lahendamine..."
 # 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 221
+# File: usr/share/build-package/core/conflict_resolver.py, line: 404
+#: NEEDS WORK
+#, python-brace-format
+msgid "Detected {0} .mo files (compiled translations)"
+msgstr "Tuvastatud {0} .mo faili (kompileeritud tõlked)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 223
+# File: usr/share/build-package/core/conflict_resolver.py, line: 406
+#: NEEDS WORK
+msgid ".mo files are auto-generated and should be taken from remote"
+msgstr ".mo failid genereeritakse automaatselt ja need tuleks võtta kaugelt."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 226
+# File: usr/share/build-package/core/conflict_resolver.py, line: 409
+#: NEEDS WORK
+#, python-brace-format
+msgid "Accept REMOTE version for all {0} .mo files?"
+msgstr "Kasuta KAUGLISED versiooni kõigi {0} .mo failide jaoks?"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 228
+# File: usr/share/build-package/core/conflict_resolver.py, line: 411
+#: NEEDS WORK
+msgid "Accepting remote version for all .mo files..."
+msgstr "Kaugversiooni aktsepteerimine kõigi .mo failide jaoks..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 237
+# File: usr/share/build-package/core/conflict_resolver.py, line: 420
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} .mo files"
+msgstr "✓ Lahendatud {0} .mo failid"
+# 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 110
 #: NEEDS WORK
 msgid "Keep our version"
@@ -3291,11 +3336,34 @@ msgstr "Kuidas lahendada: {0}"
 msgid "✓ Kept our version of {0}"
 msgstr "✓ Hoidsime meie versiooni {0}"
 # 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 273
+#: NEEDS WORK
+msgid "⚠ Could not checkout --ours, extracting from git index..."
+msgstr "⚠ Ei saanud checkout'ida --ours, ekstraktimine git indeksist..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 403
+#: NEEDS WORK
+#, python-brace-format
+msgid "✗ Failed to resolve {0}"
+msgstr "✗ Eba tõlgendama {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 293
+# File: usr/share/build-package/core/conflict_resolver.py, line: 323
+#: NEEDS WORK
+#, python-brace-format
+msgid "✗ Error resolving {0}: {1}"
+msgstr "✗ Viga {0} lahendamisel: {1}"
+# 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 135
 #: NEEDS WORK
 #, python-brace-format
 msgid "✓ Accepted remote version of {0}"
 msgstr "✓ Aktsepteeritud kaugversioon {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 303
+#: NEEDS WORK
+msgid "⚠ Could not checkout --theirs, extracting from git index..."
+msgstr "⚠ Ei saanud checkout'ida --theirs, ekstraktimine git indeksist..."
 # 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 139
 #: NEEDS WORK
@@ -3502,12 +3570,6 @@ msgstr "2. Eemalda konfliktimarkerid: <<<<<<< ======= >>>>>>>"
 msgid "✓ Resolved: Using {0} version"
 msgstr "✓ Lahendatud: Kasutades {0} versiooni"
 # 
-# File: usr/share/build-package/core/conflict_resolver.py, line: 403
-#: NEEDS WORK
-#, python-brace-format
-msgid "✗ Failed to resolve {0}"
-msgstr "✗ Eba tõlgendama {0}"
-# 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 411
 #: NEEDS WORK
 msgid "⚠️  Some files still have unresolved conflicts:"
@@ -3568,21 +3630,143 @@ msgstr "Konfliktid: {0}"
 msgid "Could not preview file: {0}"
 msgstr "Ei saanud faili eelvaadet: {0}"
 # 
-# File: usr/share/build-package/core/conflict_resolver.py, line: 228
+# File: usr/share/build-package/core/conflict_resolver.py, line: 656
 #: NEEDS WORK
-msgid "OUR VERSION:"
-msgstr "MEIE VERSIOON:"
+msgid "⚠️  BINARY FILE - Cannot show text diff"
+msgstr "⚠️  BINAARFAIL - Teksti erinevust ei saa näidata"
 # 
-# File: usr/share/build-package/core/conflict_resolver.py, line: 234
+# File: usr/share/build-package/core/conflict_resolver.py, line: 660
 #: NEEDS WORK
-msgid "THEIR VERSION:"
-msgstr "NENDE VERSIOON:"
+msgid "This is a binary file (not human-readable text)."
+msgstr "See on binaarfail (mitte inimloetav tekst)."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 661
+#: NEEDS WORK
+msgid "Cannot display text differences for binary files."
+msgstr "Ei saa kuvada tekstierinevusi binaarfailide jaoks."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 666
+#: NEEDS WORK
+msgid "RECOMMENDATION for .mo files:"
+msgstr "SOOVITUS .mo failide jaoks:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 667
+# File: usr/share/build-package/core/conflict_resolver.py, line: 675
+#: NEEDS WORK
+msgid "  → Accept REMOTE version"
+msgstr "Aktsepteeri KAUGLISED versioon"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 668
+#: NEEDS WORK
+msgid "     (.mo files are auto-generated compiled translations)"
+msgstr "(.mo failid on automaatselt genereeritud kompileeritud tõlked)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 670
+#: NEEDS WORK
+msgid "Recommendation for images:"
+msgstr "Soovitused piltide jaoks:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 671
+#: NEEDS WORK
+msgid "  • Check which version you want to keep"
+msgstr "• Kontrolli, millist versiooni soovid säilitada"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 672
+#: NEEDS WORK
+msgid "  • Or keep both if you need to review later"
+msgstr "• Või hoidke mõlemat, kui peate hiljem üle vaatama"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 674
+#: NEEDS WORK
+msgid "RECOMMENDATION for compiled files:"
+msgstr "SOOVITUS kompileeritud failide jaoks:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 676
+#: NEEDS WORK
+msgid "     (compiled files should be regenerated from source)"
+msgstr "(kompileeritud failid tuleks allikast uuesti genereerida)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 678
+#: NEEDS WORK
+msgid "Recommendation:"
+msgstr "Soovitus:"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 679
+#: NEEDS WORK
+msgid "  • Usually accept the REMOTE version"
+msgstr "• Tavaliselt aktsepteerige KAUGTÖÖ versioon"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 680
+#: NEEDS WORK
+msgid "  • Or keep both to review later"
+msgstr "• Või hoia mõlemad hiljem ülevaatamiseks"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 684
+# File: usr/share/build-package/core/conflict_resolver.py, line: 711
+# File: usr/share/build-package/core/conflict_resolver.py, line: 723
+# File: usr/share/build-package/core/conflict_resolver.py, line: 816
+# File: usr/share/build-package/core/conflict_resolver.py, line: 821
+#: NEEDS WORK
+msgid "Press Enter to continue..."
+msgstr "Vajutage Enter, et jätkata..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 709
+# File: usr/share/build-package/core/conflict_resolver.py, line: 721
+#: NEEDS WORK
+msgid "⚠️  File appears to be binary - cannot show diff"
+msgstr "⚠️  Fail tundub olevat binaarne - ei saa näidata erinevust"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 747
+#: NEEDS WORK
+msgid "Opening side-by-side diff viewer..."
+msgstr "Avatud kõrvuti erinevuste vaatleja..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 749
+#: NEEDS WORK
+msgid "LEFT side:  YOUR VERSION (current branch)"
+msgstr "VASAKÜLG: TEIE VERSIOON (praegune haru)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 750
+#: NEEDS WORK
+msgid "RIGHT side: REMOTE VERSION (from server)"
+msgstr "PAREM: KAUDE VERSION (serverist)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 752
+#: NEEDS WORK
+msgid "Navigation: Arrow keys, Page Up/Down"
+msgstr "Navigeerimine: Nooleklahvid, Leht Üles/Alla"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 753
+#: NEEDS WORK
+msgid "Exit: Press 'q' then Enter, or type :qa and Enter"
+msgstr "Välja: Vajutage 'q' ja seejärel Enter, või kirjutage :qa ja vajutage Enter"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 756
+#: NEEDS WORK
+msgid "Press Enter to open viewer..."
+msgstr "Vajutage Enter, et avada vaataja..."
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 803
+#: NEEDS WORK
+msgid "Files are identical (no differences)"
+msgstr "Failid on identsed (ei mingeid erinevusi)"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 814
+#: NEEDS WORK
+msgid "Diff viewer closed."
+msgstr "Diff vaataja suletud."
 # 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 242
 #: NEEDS WORK
 #, python-brace-format
 msgid "Could not show diff: {0}"
 msgstr "Ei saanud erinevust näidata: {0}"
+# 
+# File: usr/share/build-package/core/conflict_resolver.py, line: 820
+#: NEEDS WORK
+#, python-brace-format
+msgid "Viewers tried: {0}"
+msgstr "Vaatajad proovisid: {0}"
 # 
 # File: usr/share/build-package/core/conflict_resolver.py, line: 260
 #: NEEDS WORK
@@ -3757,20 +3941,67 @@ msgstr "Automaatne ühinemine: {0}"
 msgid "Show preview: {0}"
 msgstr "Kuva eelvaate: {0}"
 # 
-# File: usr/share/build-package/core/pull_operations.py, line: 46
+# File: usr/share/build-package/core/pull_operations.py, line: 63
 #: NEEDS WORK
-msgid "⚠️  You have unresolved conflicts from a previous operation!"
-msgstr "⚠️  Teil on lahendamata konfliktid eelmisest toimingust!"
+msgid "⚠️  UNRESOLVED CONFLICTS DETECTED"
+msgstr "⚠️  LAHENDAMATA KONFLIKTE AVASTATUD"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 65
+#: NEEDS WORK
+msgid "You have unresolved conflicts from a previous operation!"
+msgstr "Teil on lahendamata konfliktid eelmisest toimingust!"
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 47
 #: NEEDS WORK
 msgid "You must resolve these conflicts before pulling."
 msgstr "Sa pead need konfliktid lahendama enne tõmbamist."
 # 
-# File: usr/share/build-package/core/pull_operations.py, line: 56
+# File: usr/share/build-package/core/pull_operations.py, line: 80
 #: NEEDS WORK
-msgid "✓ Conflicts resolved, continuing with pull..."
-msgstr "✓ Konfliktid lahendatud, jätkame tõmbamisega..."
+msgid "Next: You'll be asked how to resolve each conflict"
+msgstr "Järgmine: Teilt küsitakse, kuidas iga konflikt lahendada."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 85
+# File: usr/share/build-package/core/pull_operations.py, line: 380
+#: NEEDS WORK
+msgid "Press Enter to start resolving conflicts..."
+msgstr "Vajutage Enter, et alustada konfliktide lahendamist..."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 89
+#: NEEDS WORK
+msgid "Opening conflict resolver..."
+msgstr "Ava konflikti lahendaja..."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 193
+#: NEEDS WORK
+msgid "✓ Conflicts resolved"
+msgstr "✓ Konfliktid lahendatud"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 103
+#: NEEDS WORK
+msgid "Committing resolved conflicts..."
+msgstr "Kinnitatud lahendatud konfliktid..."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 121
+#: NEEDS WORK
+msgid "Resolved files:"
+msgstr "Lahendatud failid:"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 132
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved conflicts committed ({0} files)"
+msgstr "✓ Lahendatud konfliktid on salvestatud ({0} faili)"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 137
+#: NEEDS WORK
+msgid "✗ Failed to commit resolved conflicts"
+msgstr "✗ Eba tõrge lahendatud konfliktide kinnitamisel"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 144
+#: NEEDS WORK
+msgid "Continuing with pull operations..."
+msgstr "Jätkamine tõmbetegevustega..."
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 53
 #: NEEDS WORK
@@ -3847,20 +4078,30 @@ msgstr "✓ Juba ajakohane"
 msgid "✗ Pull operation failed"
 msgstr "✗ Tõmbetoiming ebaõnnestus"
 # 
-# File: usr/share/build-package/core/pull_operations.py, line: 187
+# File: usr/share/build-package/core/pull_operations.py, line: 371
 #: NEEDS WORK
-msgid "⚠️  Conflicts detected after pull"
-msgstr "⚠️  Tõukamise järel tuvastatud konfliktid"
+msgid "⚠️  CONFLICTS WHILE RESTORING YOUR CHANGES"
+msgstr "⚠️  KONFLIKTID TEIEDE TAGASIVÕTMISEL"
 # 
-# File: usr/share/build-package/core/pull_operations.py, line: 193
+# File: usr/share/build-package/core/pull_operations.py, line: 373
 #: NEEDS WORK
-msgid "✓ Conflicts resolved"
-msgstr "✓ Konfliktid lahendatud"
+msgid "Your local changes conflict with the pulled code"
+msgstr "Teie kohalikud muudatused on vastuolus tõmmatud koodiga."
 # 
-# File: usr/share/build-package/core/pull_operations.py, line: 280
+# File: usr/share/build-package/core/pull_operations.py, line: 375
 #: NEEDS WORK
-msgid "⚠️  Conflicts detected while restoring your changes"
-msgstr "⚠️  Konfliktid tuvastatud teie muudatuste taastamisel"
+msgid "The conflict resolver will help you merge:"
+msgstr "Konflikti lahendaja aitab teil liita:"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 376
+#: NEEDS WORK
+msgid "  • Your local changes (from stash)"
+msgstr "• Teie kohalikud muudatused (stash'ist)"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 377
+#: NEEDS WORK
+msgid "  • The newly pulled remote code"
+msgstr "• Uusim tõmmatud kaugkood"
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 284
 # File: usr/share/build-package/core/pull_operations.py, line: 292
