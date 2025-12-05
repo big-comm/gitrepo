@@ -40,6 +40,21 @@ def pull_latest_v2(build_package_instance):
         dry_run = getattr(bp, 'dry_run_mode', False)
         plan = OperationPlan(bp.logger, bp.menu, show_preview=mode_config["show_preview"], dry_run=dry_run)
 
+    # === PHASE 0: CHECK FOR EXISTING CONFLICTS ===
+    # Must check BEFORE doing anything else - can't stash with conflicts
+    if bp.conflict_resolver.has_conflicts():
+        bp.logger.log("red", _("⚠️  You have unresolved conflicts from a previous operation!"))
+        bp.logger.log("yellow", _("You must resolve these conflicts before pulling."))
+        bp.logger.log("cyan", "")
+
+        if not bp.conflict_resolver.resolve():
+            bp.logger.log("red", _("✗ Failed to resolve conflicts"))
+            bp.logger.log("yellow", "")
+            input(_("Press Enter to return to main menu..."))
+            return False
+
+        bp.logger.log("green", _("✓ Conflicts resolved, continuing with pull..."))
+
     # === PHASE 1: ANALYZE GIT STATE ===
     bp.logger.log("cyan", _("Analyzing repository state..."))
 
@@ -118,6 +133,39 @@ def pull_latest_v2(build_package_instance):
                             if not bp.conflict_resolver.resolve():
                                 return False
 
+    # === PHASE 2.5: HANDLE LOCAL CHANGES ===
+    # Check if we have uncommitted changes that would block the pull
+    has_changes = GitUtils.has_changes()
+    stash_needed = False
+
+    if has_changes:
+        # Ask user what to do with local changes
+        bp.logger.log("yellow", "")
+        bp.logger.log("yellow", "⚠️  " + _("You have uncommitted local changes!"))
+        bp.logger.log("cyan", "")
+        bp.logger.log("cyan", _("What do you want to do?"))
+        bp.logger.log("green", _("  [1] Keep my changes and merge with remote (DEFAULT - Git standard behavior)"))
+        bp.logger.log("cyan", _("      Your local edits will be preserved and merged with remote code"))
+        bp.logger.log("red", _("  [2] ⚠️  DISCARD my changes and use only remote version"))
+        bp.logger.log("red", _("      ⚠️  WARNING: You will LOSE all your uncommitted local changes!"))
+        bp.logger.log("cyan", "")
+
+        choice = input(_("Choose option [1/2] (press Enter for default=1): ")).strip()
+
+        # Default to option 1 if user just presses Enter
+        if not choice:
+            choice = "1"
+
+        if choice == "2":
+            # User wants to discard local changes
+            bp.logger.log("yellow", _("Discarding local changes and using remote version..."))
+            subprocess.run(["git", "reset", "--hard", "HEAD"], check=True)
+            subprocess.run(["git", "clean", "-fd"], check=True)
+        else:
+            # User wants to keep local changes (stash before pull)
+            bp.logger.log("cyan", _("Preserving your changes..."))
+            stash_needed = True
+
     # === PHASE 3: FETCH LATEST ===
     plan.add(
         "Fetch latest from remote",
@@ -145,6 +193,14 @@ def pull_latest_v2(build_package_instance):
         # Same branch, just pull
         bp.logger.log("cyan", "Pull from remote {0}".format(current_branch))
 
+        # Stash before pull if needed
+        if stash_needed:
+            plan.add(
+                _("Stash local changes"),
+                ["git", "stash", "push", "-u", "-m", "auto-stash-before-pull"],
+                destructive=False
+            )
+
         plan.add(
             "Pull from remote {0}".format(current_branch),
             ["git", "pull", "origin", current_branch, "--no-edit"],
@@ -153,6 +209,14 @@ def pull_latest_v2(build_package_instance):
     else:
         # Different branch - merge it
         bp.logger.log("cyan", _("Merging latest code from {0}").format(most_recent_branch))
+
+        # Stash before merge if needed
+        if stash_needed:
+            plan.add(
+                _("Stash local changes"),
+                ["git", "stash", "push", "-u", "-m", "auto-stash-before-merge"],
+                destructive=False
+            )
 
         if mode_config["auto_merge"]:
             # Auto merge
@@ -175,11 +239,16 @@ def pull_latest_v2(build_package_instance):
     # === PHASE 6: EXECUTE PLAN ===
     if plan.is_empty():
         bp.logger.log("green", _("✓ Already up to date"))
+        bp.logger.log("yellow", "")
+        input(_("Press Enter to return to main menu..."))
         return True
 
     success = plan.execute_with_confirmation()
 
     if not success:
+        bp.logger.log("red", _("✗ Pull operation failed"))
+        bp.logger.log("yellow", "")
+        input(_("Press Enter to return to main menu..."))
         return False
 
     # === PHASE 7: CHECK FOR CONFLICTS ===
@@ -188,9 +257,44 @@ def pull_latest_v2(build_package_instance):
 
         if not bp.conflict_resolver.resolve():
             bp.logger.log("red", _("✗ Failed to resolve conflicts"))
+            bp.logger.log("yellow", "")
+            input(_("Press Enter to return to main menu..."))
             return False
 
         bp.logger.log("green", _("✓ Conflicts resolved"))
+
+    # === PHASE 7.5: RESTORE STASHED CHANGES ===
+    if stash_needed:
+        bp.logger.log("cyan", _("Restoring your local changes..."))
+
+        pop_result = subprocess.run(
+            ["git", "stash", "pop"],
+            capture_output=True,
+            text=True,
+            check=False
+        )
+
+        if pop_result.returncode != 0:
+            # Check if there are conflicts
+            if bp.conflict_resolver.has_conflicts():
+                bp.logger.log("yellow", _("⚠️  Conflicts detected while restoring your changes"))
+
+                if not bp.conflict_resolver.resolve():
+                    bp.logger.log("red", _("✗ Failed to resolve conflicts"))
+                    bp.logger.log("yellow", _("Your changes are still in stash. Use 'git stash pop' manually."))
+                    bp.logger.log("yellow", "")
+                    input(_("Press Enter to return to main menu..."))
+                    return False
+
+                bp.logger.log("green", _("✓ Conflicts resolved, changes restored"))
+            else:
+                bp.logger.log("red", _("✗ Failed to restore stashed changes"))
+                bp.logger.log("yellow", _("Your changes are still in stash. Use 'git stash pop' manually."))
+                bp.logger.log("yellow", "")
+                input(_("Press Enter to return to main menu..."))
+                return False
+        else:
+            bp.logger.log("green", _("✓ Local changes restored successfully"))
 
     # === PHASE 8: SHOW SUMMARY ===
     bp.logger.log("green", "")
