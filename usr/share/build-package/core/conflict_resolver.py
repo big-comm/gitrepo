@@ -11,6 +11,7 @@ import subprocess
 import os
 from datetime import datetime
 from .translation_utils import _
+from .git_utils import GitUtils
 
 class ConflictResolver:
     """
@@ -23,6 +24,13 @@ class ConflictResolver:
         self.menu = menu_system
         self.strategy = strategy
         self.auto_accept_newer = auto_accept_newer
+        self.repo_root = GitUtils.get_repo_root_path()
+
+    def _get_absolute_path(self, file_path):
+        """Get absolute path for a file relative to git repo root"""
+        if os.path.isabs(file_path):
+            return file_path
+        return os.path.join(self.repo_root, file_path) if self.repo_root else file_path
 
     def has_conflicts(self):
         """Check if there are unresolved conflicts"""
@@ -100,7 +108,8 @@ class ConflictResolver:
             }
         """
         try:
-            with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+            abs_path = self._get_absolute_path(file_path)
+            with open(abs_path, 'r', encoding='utf-8', errors='ignore') as f:
                 lines = f.readlines()
 
             conflict_data = {
@@ -173,8 +182,8 @@ class ConflictResolver:
             self.logger.log("cyan", _("Resolving conflicts: keeping our changes..."))
 
             for file in conflict_files:
-                subprocess.run(["git", "checkout", "--ours", file], check=True)
-                subprocess.run(["git", "add", file], check=True)
+                subprocess.run(["git", "checkout", "--ours", file], check=True, cwd=self.repo_root)
+                subprocess.run(["git", "add", file], check=True, cwd=self.repo_root)
 
             self.logger.log("green", _("✓ Conflicts resolved (kept our changes)"))
             return True
@@ -188,8 +197,8 @@ class ConflictResolver:
             self.logger.log("cyan", _("Resolving conflicts: accepting remote changes..."))
 
             for file in conflict_files:
-                subprocess.run(["git", "checkout", "--theirs", file], check=True)
-                subprocess.run(["git", "add", file], check=True)
+                subprocess.run(["git", "checkout", "--theirs", file], check=True, cwd=self.repo_root)
+                subprocess.run(["git", "add", file], check=True, cwd=self.repo_root)
 
             self.logger.log("green", _("✓ Conflicts resolved (accepted remote)"))
             return True
@@ -219,8 +228,8 @@ class ConflictResolver:
                 self.logger.log("cyan", _("Accepting remote version for all .mo files..."))
                 for mo_file in mo_files:
                     try:
-                        subprocess.run(["git", "checkout", "--theirs", mo_file], check=True)
-                        subprocess.run(["git", "add", mo_file], check=True)
+                        subprocess.run(["git", "checkout", "--theirs", mo_file], check=True, cwd=self.repo_root)
+                        subprocess.run(["git", "add", mo_file], check=True, cwd=self.repo_root)
                         self.logger.log("dim", f"  ✓ {mo_file}")
                     except subprocess.CalledProcessError:
                         self.logger.log("yellow", f"  ⚠ Failed: {mo_file}")
@@ -255,14 +264,64 @@ class ConflictResolver:
             choice = result[0]
 
             if choice == 0:  # Keep ours
-                subprocess.run(["git", "checkout", "--ours", file], check=True)
-                subprocess.run(["git", "add", file], check=True)
-                self.logger.log("green", _("✓ Kept our version of {0}").format(file))
+                try:
+                    subprocess.run(["git", "checkout", "--ours", file], check=True, capture_output=True, cwd=self.repo_root)
+                    subprocess.run(["git", "add", file], check=True, cwd=self.repo_root)
+                    self.logger.log("green", _("✓ Kept our version of {0}").format(file))
+                except subprocess.CalledProcessError:
+                    # git checkout --ours failed, extract from index directly
+                    self.logger.log("yellow", _("⚠ Could not checkout --ours, extracting from git index..."))
+                    try:
+                        # Extract "ours" version from git index (stage 2)
+                        result = subprocess.run(
+                            ["git", "show", f":2:{file}"],
+                            capture_output=True,
+                            check=True,
+                            cwd=self.repo_root
+                        )
+                        # Write it to the file (use absolute path)
+                        abs_path = self._get_absolute_path(file)
+                        with open(abs_path, 'wb') as f:
+                            f.write(result.stdout)
+                        # Now add the resolved file
+                        subprocess.run(["git", "add", file], check=True, cwd=self.repo_root)
+                        self.logger.log("green", _("✓ Kept our version of {0}").format(file))
+                    except subprocess.CalledProcessError:
+                        self.logger.log("red", _("✗ Failed to resolve {0}").format(file))
+                        return False
+                    except Exception as ex:
+                        self.logger.log("red", _("✗ Error resolving {0}: {1}").format(file, ex))
+                        return False
 
             elif choice == 1:  # Accept theirs
-                subprocess.run(["git", "checkout", "--theirs", file], check=True)
-                subprocess.run(["git", "add", file], check=True)
-                self.logger.log("green", _("✓ Accepted remote version of {0}").format(file))
+                try:
+                    subprocess.run(["git", "checkout", "--theirs", file], check=True, capture_output=True, cwd=self.repo_root)
+                    subprocess.run(["git", "add", file], check=True, cwd=self.repo_root)
+                    self.logger.log("green", _("✓ Accepted remote version of {0}").format(file))
+                except subprocess.CalledProcessError:
+                    # git checkout --theirs failed, extract from index directly
+                    self.logger.log("yellow", _("⚠ Could not checkout --theirs, extracting from git index..."))
+                    try:
+                        # Extract "theirs" version from git index (stage 3)
+                        result = subprocess.run(
+                            ["git", "show", f":3:{file}"],
+                            capture_output=True,
+                            check=True,
+                            cwd=self.repo_root
+                        )
+                        # Write it to the file (use absolute path)
+                        abs_path = self._get_absolute_path(file)
+                        with open(abs_path, 'wb') as f:
+                            f.write(result.stdout)
+                        # Now add the resolved file
+                        subprocess.run(["git", "add", file], check=True, cwd=self.repo_root)
+                        self.logger.log("green", _("✓ Accepted remote version of {0}").format(file))
+                    except subprocess.CalledProcessError:
+                        self.logger.log("red", _("✗ Failed to resolve {0}").format(file))
+                        return False
+                    except Exception as ex:
+                        self.logger.log("red", _("✗ Error resolving {0}: {1}").format(file, ex))
+                        return False
 
             elif choice == 2:  # Keep both
                 self._keep_both_versions(file)
@@ -352,8 +411,8 @@ class ConflictResolver:
                 self.logger.log("cyan", _("Accepting remote version for all .mo files..."))
                 for mo_file in mo_files:
                     try:
-                        subprocess.run(["git", "checkout", "--theirs", mo_file], check=True)
-                        subprocess.run(["git", "add", mo_file], check=True)
+                        subprocess.run(["git", "checkout", "--theirs", mo_file], check=True, cwd=self.repo_root)
+                        subprocess.run(["git", "add", mo_file], check=True, cwd=self.repo_root)
                         self.logger.log("dim", f"  ✓ {mo_file}")
                     except subprocess.CalledProcessError:
                         self.logger.log("yellow", f"  ⚠ Failed: {mo_file}")
@@ -488,16 +547,39 @@ class ConflictResolver:
         try:
             if branch_to_use == current_branch:
                 # Keep current version (ours)
-                subprocess.run(["git", "checkout", "--ours", file_path], check=True)
+                subprocess.run(["git", "checkout", "--ours", file_path], check=True, cwd=self.repo_root)
             else:
                 # Keep incoming version (theirs)
-                subprocess.run(["git", "checkout", "--theirs", file_path], check=True)
+                subprocess.run(["git", "checkout", "--theirs", file_path], check=True, cwd=self.repo_root)
 
             # Stage the resolved file
-            subprocess.run(["git", "add", file_path], check=True)
+            subprocess.run(["git", "add", file_path], check=True, cwd=self.repo_root)
             return True
         except subprocess.CalledProcessError:
-            return False
+            # git checkout failed, try extracting from index
+            try:
+                if branch_to_use == current_branch:
+                    # Extract "ours" version (stage 2)
+                    stage = "2"
+                else:
+                    # Extract "theirs" version (stage 3)
+                    stage = "3"
+
+                result = subprocess.run(
+                    ["git", "show", f":{stage}:{file_path}"],
+                    capture_output=True,
+                    check=True,
+                    cwd=self.repo_root
+                )
+                # Write it to the file (use absolute path)
+                abs_path = self._get_absolute_path(file_path)
+                with open(abs_path, 'wb') as f:
+                    f.write(result.stdout)
+                # Stage the resolved file
+                subprocess.run(["git", "add", file_path], check=True, cwd=self.repo_root)
+                return True
+            except:
+                return False
 
     def _resolve_with_branch(self, branch_to_use, current_branch, conflict_files):
         """Resolves all conflicts using the specified branch's version"""
@@ -519,7 +601,8 @@ class ConflictResolver:
     def _show_conflict_preview(self, file):
         """Show brief preview of conflict"""
         try:
-            with open(file, 'r', encoding='utf-8') as f:
+            abs_path = self._get_absolute_path(file)
+            with open(abs_path, 'r', encoding='utf-8') as f:
                 content = f.read()
 
             # Count conflict markers
@@ -740,18 +823,20 @@ class ConflictResolver:
     def _keep_both_versions(self, file):
         """Save both versions in separate files"""
         try:
+            abs_path = self._get_absolute_path(file)
+
             # Save ours
-            subprocess.run(["git", "checkout", "--ours", file], check=True)
-            ours_file = f"{file}.ours"
-            subprocess.run(["cp", file, ours_file], check=True)
+            subprocess.run(["git", "checkout", "--ours", file], check=True, cwd=self.repo_root)
+            ours_file_abs = f"{abs_path}.ours"
+            subprocess.run(["cp", abs_path, ours_file_abs], check=True)
 
             # Save theirs
-            subprocess.run(["git", "checkout", "--theirs", file], check=True)
-            theirs_file = f"{file}.theirs"
-            subprocess.run(["cp", file, theirs_file], check=True)
+            subprocess.run(["git", "checkout", "--theirs", file], check=True, cwd=self.repo_root)
+            theirs_file_abs = f"{abs_path}.theirs"
+            subprocess.run(["cp", abs_path, theirs_file_abs], check=True)
 
             # Keep theirs as main (user can choose later)
-            subprocess.run(["git", "add", file], check=True)
+            subprocess.run(["git", "add", file], check=True, cwd=self.repo_root)
 
             self.logger.log("cyan", _("Created files:"))
             self.logger.log("cyan", f"  - {ours_file} (our version)")
