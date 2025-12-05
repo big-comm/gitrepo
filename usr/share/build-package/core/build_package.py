@@ -1090,6 +1090,7 @@ the specific source code used to create this copy."""), style="white")
                 commit_date_result = subprocess.run(
                     ["git", "log", "-1", "--format=%ct", f"origin/{branch}"],
                     stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,  # Suppress error messages
                     text=True,
                     check=True
                 )
@@ -1101,14 +1102,20 @@ the specific source code used to create this copy."""), style="white")
                     commit_date_result = subprocess.run(
                         ["git", "log", "-1", "--format=%ct", branch],
                         stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,  # Suppress error messages
                         text=True,
                         check=True
                     )
                     branch_dates[branch] = int(commit_date_result.stdout.strip())
                 except subprocess.CalledProcessError:
-                    # If we can't get the date, assign a very old timestamp
-                    branch_dates[branch] = 0
-        
+                    # If we can't get the date, skip this branch (don't include it)
+                    continue  # Skip branches that don't exist
+
+        # Check if we found any valid branches
+        if not branch_dates:
+            self.logger.log("yellow", _("Warning: No valid branches found, using 'dev' as default"))
+            return "dev"
+
         # Find the branch with the most recent commit
         most_recent_branch = max(branch_dates.keys(), key=lambda b: branch_dates[b])
         
