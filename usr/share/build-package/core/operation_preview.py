@@ -54,8 +54,15 @@ class Operation:
                     logger.log("dim", result.stdout.strip())
             except subprocess.CalledProcessError as e:
                 logger.log("red", _("✗ Command failed: {0}").format(' '.join(cmd)))
-                if e.stderr:
-                    logger.log("red", e.stderr.strip())
+
+                # Show error details
+                if e.stderr and e.stderr.strip():
+                    logger.log("red", _("Error: {0}").format(e.stderr.strip()))
+                elif e.stdout and e.stdout.strip():
+                    logger.log("yellow", _("Output: {0}").format(e.stdout.strip()))
+                else:
+                    logger.log("red", _("Exit code: {0}").format(e.returncode))
+
                 self.executed = True
                 self.success = False
                 return False

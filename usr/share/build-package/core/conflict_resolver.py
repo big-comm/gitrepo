@@ -201,6 +201,36 @@ class ConflictResolver:
         """Interactive resolution - ask for each file"""
         self.logger.log("cyan", _("Interactive conflict resolution..."))
 
+        # Check if there are many .mo files (binary compiled translations)
+        mo_files = [f for f in conflict_files if f.lower().endswith('.mo')]
+        other_files = [f for f in conflict_files if not f.lower().endswith('.mo')]
+
+        # If there are multiple .mo files, offer to resolve them all at once
+        if len(mo_files) > 3:
+            self.logger.log("yellow", "")
+            self.logger.log("cyan", "═" * 70)
+            self.logger.log("cyan", _("Detected {0} .mo files (compiled translations)").format(len(mo_files)))
+            self.logger.log("cyan", "═" * 70)
+            self.logger.log("dim", _(".mo files are auto-generated and should be taken from remote"))
+            self.logger.log("yellow", "")
+
+            if self.menu.confirm(_("Accept REMOTE version for all {0} .mo files?").format(len(mo_files))):
+                # Accept remote version for all .mo files
+                self.logger.log("cyan", _("Accepting remote version for all .mo files..."))
+                for mo_file in mo_files:
+                    try:
+                        subprocess.run(["git", "checkout", "--theirs", mo_file], check=True)
+                        subprocess.run(["git", "add", mo_file], check=True)
+                        self.logger.log("dim", f"  ✓ {mo_file}")
+                    except subprocess.CalledProcessError:
+                        self.logger.log("yellow", f"  ⚠ Failed: {mo_file}")
+
+                self.logger.log("green", _("✓ Resolved {0} .mo files").format(len(mo_files)))
+                self.logger.log("yellow", "")
+
+                # Continue with only other files
+                conflict_files = other_files
+
         for file in conflict_files:
             # Show file preview
             self._show_conflict_preview(file)
@@ -303,6 +333,36 @@ class ConflictResolver:
         if self.auto_accept_newer:
             self.logger.log("cyan", _("⚙️  Auto-resolution enabled: Using code from {0} (newer branch)").format(newer_branch))
             return self._resolve_with_branch(newer_branch, current_branch, conflict_files)
+
+        # Check if there are many .mo files (binary compiled translations)
+        mo_files = [f for f in conflict_files if f.lower().endswith('.mo')]
+        other_files = [f for f in conflict_files if not f.lower().endswith('.mo')]
+
+        # If there are multiple .mo files, offer to resolve them all at once
+        if len(mo_files) > 3:
+            self.logger.log("yellow", "")
+            self.logger.log("cyan", "═" * 70)
+            self.logger.log("cyan", _("Detected {0} .mo files (compiled translations)").format(len(mo_files)))
+            self.logger.log("cyan", "═" * 70)
+            self.logger.log("dim", _(".mo files are auto-generated and should be taken from remote"))
+            self.logger.log("yellow", "")
+
+            if self.menu.confirm(_("Accept REMOTE version for all {0} .mo files?").format(len(mo_files))):
+                # Accept remote version for all .mo files (theirs = incoming)
+                self.logger.log("cyan", _("Accepting remote version for all .mo files..."))
+                for mo_file in mo_files:
+                    try:
+                        subprocess.run(["git", "checkout", "--theirs", mo_file], check=True)
+                        subprocess.run(["git", "add", mo_file], check=True)
+                        self.logger.log("dim", f"  ✓ {mo_file}")
+                    except subprocess.CalledProcessError:
+                        self.logger.log("yellow", f"  ⚠ Failed: {mo_file}")
+
+                self.logger.log("green", _("✓ Resolved {0} .mo files").format(len(mo_files)))
+                self.logger.log("yellow", "")
+
+                # Continue with only other files
+                conflict_files = other_files
 
         # Interactive resolution: file by file
         self.logger.log("cyan", _("Starting interactive conflict resolution..."))
@@ -495,13 +555,56 @@ class ConflictResolver:
             self.logger.log("yellow", _("Could not preview file: {0}").format(e))
 
     def _show_detailed_diff(self, file):
-        """Show detailed diff for a file"""
+        """Show detailed diff for a file using an interactive viewer"""
+        import tempfile
+        import os
+
+        viewers_tried = []  # Define here to avoid UnboundLocalError
+
         try:
-            # Get ours version
+            # Check if file is likely binary based on extension
+            binary_extensions = ['.mo', '.pyc', '.so', '.o', '.a', '.exe', '.dll', '.bin',
+                                '.jpg', '.jpeg', '.png', '.gif', '.ico', '.pdf', '.zip',
+                                '.tar', '.gz', '.bz2', '.xz', '.rar', '.7z']
+
+            if any(file.lower().endswith(ext) for ext in binary_extensions):
+                self.logger.log("yellow", "")
+                self.logger.log("yellow", "═" * 70)
+                self.logger.log("yellow", _("⚠️  BINARY FILE - Cannot show text diff"))
+                self.logger.log("yellow", "═" * 70)
+                self.logger.log("white", _("File: {0}").format(file))
+                self.logger.log("cyan", "")
+                self.logger.log("cyan", _("This is a binary file (not human-readable text)."))
+                self.logger.log("cyan", _("Cannot display text differences for binary files."))
+                self.logger.log("cyan", "")
+
+                # Give specific recommendations based on file type
+                if file.lower().endswith('.mo'):
+                    self.logger.log("green", "✓ " + _("RECOMMENDATION for .mo files:"))
+                    self.logger.log("white", _("  → Accept REMOTE version"))
+                    self.logger.log("dim", _("     (.mo files are auto-generated compiled translations)"))
+                elif file.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.ico')):
+                    self.logger.log("cyan", _("Recommendation for images:"))
+                    self.logger.log("white", _("  • Check which version you want to keep"))
+                    self.logger.log("white", _("  • Or keep both if you need to review later"))
+                elif file.lower().endswith(('.pyc', '.so', '.o', '.a')):
+                    self.logger.log("green", "✓ " + _("RECOMMENDATION for compiled files:"))
+                    self.logger.log("white", _("  → Accept REMOTE version"))
+                    self.logger.log("dim", _("     (compiled files should be regenerated from source)"))
+                else:
+                    self.logger.log("cyan", _("Recommendation:"))
+                    self.logger.log("white", _("  • Usually accept the REMOTE version"))
+                    self.logger.log("white", _("  • Or keep both to review later"))
+
+                self.logger.log("yellow", "═" * 70)
+                self.logger.log("yellow", "")
+                input(_("Press Enter to continue..."))
+                return
+
+            # Get ours version (try binary mode first, then text)
             result_ours = subprocess.run(
                 ["git", "show", f":2:{file}"],
                 capture_output=True,
-                text=True,
                 check=False
             )
 
@@ -509,26 +612,130 @@ class ConflictResolver:
             result_theirs = subprocess.run(
                 ["git", "show", f":3:{file}"],
                 capture_output=True,
-                text=True,
                 check=False
             )
 
-            self.logger.log("cyan", "═" * 60)
-            self.logger.log("cyan", _("OUR VERSION:"))
-            self.logger.log("cyan", "─" * 60)
-            for line in result_ours.stdout.split('\n')[:30]:
-                self.logger.log("green", line)
+            # Try to decode as UTF-8, fallback to latin-1 for text files with special chars
+            try:
+                ours_text = result_ours.stdout.decode('utf-8')
+            except UnicodeDecodeError:
+                try:
+                    ours_text = result_ours.stdout.decode('latin-1')
+                except:
+                    # Still binary
+                    self.logger.log("yellow", _("⚠️  File appears to be binary - cannot show diff"))
+                    self.logger.log("cyan", _("File: {0}").format(file))
+                    input(_("Press Enter to continue..."))
+                    return
 
-            self.logger.log("cyan", "═" * 60)
-            self.logger.log("cyan", _("THEIR VERSION:"))
-            self.logger.log("cyan", "─" * 60)
-            for line in result_theirs.stdout.split('\n')[:30]:
-                self.logger.log("yellow", line)
+            try:
+                theirs_text = result_theirs.stdout.decode('utf-8')
+            except UnicodeDecodeError:
+                try:
+                    theirs_text = result_theirs.stdout.decode('latin-1')
+                except:
+                    # Still binary
+                    self.logger.log("yellow", _("⚠️  File appears to be binary - cannot show diff"))
+                    self.logger.log("cyan", _("File: {0}").format(file))
+                    input(_("Press Enter to continue..."))
+                    return
 
-            self.logger.log("cyan", "═" * 60)
+            # Create temporary files with clear headers
+            with tempfile.NamedTemporaryFile(mode='w', suffix='__YOUR_VERSION.txt', delete=False, prefix=f'{os.path.basename(file)}_') as f_ours:
+                # Add clear header
+                f_ours.write("=" * 80 + "\n")
+                f_ours.write(f"YOUR VERSION (OURS) - Current branch\n")
+                f_ours.write(f"File: {file}\n")
+                f_ours.write("=" * 80 + "\n\n")
+                f_ours.write(ours_text)
+                ours_path = f_ours.name
+
+            with tempfile.NamedTemporaryFile(mode='w', suffix='__REMOTE_VERSION.txt', delete=False, prefix=f'{os.path.basename(file)}_') as f_theirs:
+                # Add clear header
+                f_theirs.write("=" * 80 + "\n")
+                f_theirs.write(f"REMOTE VERSION (THEIRS) - Incoming from server\n")
+                f_theirs.write(f"File: {file}\n")
+                f_theirs.write("=" * 80 + "\n\n")
+                f_theirs.write(theirs_text)
+                theirs_path = f_theirs.name
+
+            self.logger.log("cyan", "")
+            self.logger.log("cyan", "═" * 70)
+            self.logger.log("cyan", _("Opening side-by-side diff viewer..."))
+            self.logger.log("cyan", "")
+            self.logger.log("green", _("LEFT side:  YOUR VERSION (current branch)"))
+            self.logger.log("yellow", _("RIGHT side: REMOTE VERSION (from server)"))
+            self.logger.log("cyan", "")
+            self.logger.log("dim", _("Navigation: Arrow keys, Page Up/Down"))
+            self.logger.log("dim", _("Exit: Press 'q' then Enter, or type :qa and Enter"))
+            self.logger.log("cyan", "═" * 70)
+            self.logger.log("cyan", "")
+            input(_("Press Enter to open viewer..."))
+
+            # Try different viewers in order of preference
+            viewers_tried = []
+
+            # 1. Try vimdiff (best option - interactive and side by side)
+            if subprocess.run(["which", "vimdiff"], capture_output=True).returncode == 0:
+                viewers_tried.append("vimdiff")
+                # Left=ours (your version), Right=theirs (remote version)
+                subprocess.run(["vimdiff", "-R", "-c", "wincmd w", ours_path, theirs_path])
+                success = True
+            # 2. Try nvim diff mode
+            elif subprocess.run(["which", "nvim"], capture_output=True).returncode == 0:
+                viewers_tried.append("nvim")
+                # Left=ours (your version), Right=theirs (remote version)
+                subprocess.run(["nvim", "-d", "-R", ours_path, theirs_path])
+                success = True
+            # 3. Try diff with side-by-side and less
+            else:
+                viewers_tried.append("diff + less")
+                # Create side-by-side diff
+                diff_result = subprocess.run(
+                    ["diff", "-y", "--width=160", "--suppress-common-lines", ours_path, theirs_path],
+                    capture_output=True,
+                    text=True,
+                    check=False
+                )
+
+                if diff_result.stdout:
+                    # Show with less for navigation
+                    with tempfile.NamedTemporaryFile(mode='w', suffix='.diff', delete=False) as f_diff:
+                        # Add header
+                        f_diff.write("=" * 80 + "\n")
+                        f_diff.write(f"SIDE-BY-SIDE COMPARISON: {file}\n")
+                        f_diff.write("=" * 80 + "\n")
+                        f_diff.write(f"LEFT: OUR VERSION     |     RIGHT: THEIR VERSION\n")
+                        f_diff.write("=" * 80 + "\n\n")
+                        f_diff.write(diff_result.stdout)
+                        f_diff.write("\n\n" + "=" * 80 + "\n")
+                        f_diff.write("Legend: '<' = only in ours, '>' = only in theirs, '|' = different\n")
+                        diff_path = f_diff.name
+
+                    subprocess.run(["less", "-R", diff_path])
+                    os.unlink(diff_path)
+                    success = True
+                else:
+                    # Files are identical (no differences)
+                    self.logger.log("green", _("Files are identical (no differences)"))
+                    success = True
+
+            # Clean up temp files
+            try:
+                os.unlink(ours_path)
+                os.unlink(theirs_path)
+            except:
+                pass
+
+            self.logger.log("cyan", "")
+            self.logger.log("cyan", _("Diff viewer closed."))
+            self.logger.log("cyan", "")
+            input(_("Press Enter to continue..."))
 
         except Exception as e:
             self.logger.log("red", _("Could not show diff: {0}").format(e))
+            self.logger.log("yellow", _("Viewers tried: {0}").format(", ".join(viewers_tried) if viewers_tried else "none"))
+            input(_("Press Enter to continue..."))
 
     def _keep_both_versions(self, file):
         """Save both versions in separate files"""
