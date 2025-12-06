@@ -1444,6 +1444,16 @@ msgid "AUR - Summary of Choices"
 msgstr "AUR - Summary of Choices"
 
 #
+# File: usr/share/build-package/core/build_package.py, line: 1611
+msgid "Pull latest"
+msgstr "Pull latest"
+
+#
+# File: usr/share/build-package/core/build_package.py, line: 1612
+msgid "Commit and push"
+msgstr "Commit and push"
+
+#
 # File: usr/share/build-package/core/build_package.py, line: 1613
 msgid "Generate package (commit + branch + build)"
 msgstr "Generate package (commit + branch + build)"
@@ -3452,6 +3462,65 @@ msgstr ""
 "for BigCommunity repositories and AUR packages."
 
 #
+# File: usr/share/build-package/core/package_operations.py, line: 39
+msgid "🔍 DRY-RUN MODE - Package generation simulation:"
+msgstr "🔍 DRY-RUN MODE - Package generation simulation:"
+
+#
+# File: usr/share/build-package/core/package_operations.py, line: 41
+msgid "Would perform:"
+msgstr "Would perform:"
+
+#
+# File: usr/share/build-package/core/package_operations.py, line: 42
+msgid "  1. Commit changes (if any)"
+msgstr "  1. Commit changes (if any)"
+
+#
+# File: usr/share/build-package/core/package_operations.py, line: 43
+#, python-brace-format
+msgid "  2. Merge to main (if {0} = stable/extra)"
+msgstr "  2. Merge to main (if {0} = stable/extra)"
+
+#
+# File: usr/share/build-package/core/package_operations.py, line: 44
+msgid "  3. Trigger GitHub Actions workflow"
+msgstr "  3. Trigger GitHub Actions workflow"
+
+#
+# File: usr/share/build-package/core/package_operations.py, line: 45
+#, python-brace-format
+msgid "     - Package type: {0}"
+msgstr "     - Package type: {0}"
+
+#
+# File: usr/share/build-package/core/package_operations.py, line: 46
+#, python-brace-format
+msgid "     - TMATE: {0}"
+msgstr "     - TMATE: {0}"
+
+#
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# File: usr/share/build-package/core/package_operations.py, line: 46
+# File: usr/share/build-package/core/settings_menu.py, line: 121
+msgid "enabled"
+msgstr "enabled"
+
+#
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# File: usr/share/build-package/core/package_operations.py, line: 46
+# File: usr/share/build-package/core/settings_menu.py, line: 121
+msgid "disabled"
+msgstr "disabled"
+
+#
+# File: usr/share/build-package/core/package_operations.py, line: 48
+msgid "✓ Dry-run completed (no workflow triggered)"
+msgstr "✓ Dry-run completed (no workflow triggered)"
+
+#
 # File: usr/share/build-package/core/package_operations.py, line: 62
 # File: usr/share/build-package/core/package_operations.py, line: 64
 # File: usr/share/build-package/core/package_operations.py, line: 88
@@ -4154,6 +4223,36 @@ msgid "Error creating versions: {0}"
 msgstr "Error creating versions: {0}"
 
 #
+# File: usr/share/build-package/core/settings_menu.py, line: 31
+#, python-brace-format
+msgid "Operation Mode: {0}"
+msgstr "Operation Mode: {0}"
+
+#
+# File: usr/share/build-package/core/settings_menu.py, line: 32
+#, python-brace-format
+msgid "Conflict Strategy: {0}"
+msgstr "Conflict Strategy: {0}"
+
+#
+# File: usr/share/build-package/core/settings_menu.py, line: 33
+msgid "Auto-fetch before operations"
+msgstr "Auto-fetch before operations"
+
+#
+# File: usr/share/build-package/core/settings_menu.py, line: 34
+msgid "Auto-switch to user branch"
+msgstr "Auto-switch to user branch"
+
+#
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# File: usr/share/build-package/core/settings_menu.py, line: 35
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 149
+msgid "Show git commands"
+msgstr "Show git commands"
+
+#
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/settings_menu.py, line: 36
@@ -4268,16 +4367,6 @@ msgstr "Select Conflict Strategy"
 #, python-brace-format
 msgid "✓ Conflict strategy changed to: {0}"
 msgstr "✓ Conflict strategy changed to: {0}"
-
-#
-# File: usr/share/build-package/core/settings_menu.py, line: 121
-msgid "enabled"
-msgstr "enabled"
-
-#
-# File: usr/share/build-package/core/settings_menu.py, line: 121
-msgid "disabled"
-msgstr "disabled"
 
 #
 # File: usr/share/build-package/core/settings_menu.py, line: 122
@@ -4427,6 +4516,12 @@ msgstr "Finding most recent code..."
 #, python-brace-format
 msgid "Most recent branch: {0}"
 msgstr "Most recent branch: {0}"
+
+#
+# File: usr/share/build-package/core/pull_operations.py, line: 282
+#, python-brace-format
+msgid "Pull from remote {0}"
+msgstr "Pull from remote {0}"
 
 #
 # File: usr/share/build-package/core/pull_operations.py, line: 299
@@ -5775,11 +5870,6 @@ msgstr "Automatically increment version based on commit type"
 # File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 145
 msgid "Display"
 msgstr "Display"
-
-#
-# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 149
-msgid "Show git commands"
-msgstr "Show git commands"
 
 #
 # File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 150
