@@ -1608,8 +1608,8 @@ the specific source code used to create this copy."""), style="white")
         while True:
             if self.is_git_repo:
                 options = [
-                    "Pull latest",
-                    "Commit and push",
+                    _("Pull latest"),
+                    _("Commit and push"),
                     _("Generate package (commit + branch + build)"),
                     _("Build AUR package"),
                     _("Settings"),

@@ -28,11 +28,11 @@ class SettingsMenu:
             show_cmds = "✓" if self.settings.get("show_git_commands", False) else "✗"
 
             options = [
-                f"Operation Mode: {mode}",
-                f"Conflict Strategy: {conflict}",
-                f"{auto_fetch} Auto-fetch before operations",
-                f"{auto_switch} Auto-switch to user branch",
-                f"{show_cmds} Show git commands",
+                _("Operation Mode: {0}").format(mode),
+                _("Conflict Strategy: {0}").format(conflict),
+                f"{auto_fetch} " + _("Auto-fetch before operations"),
+                f"{auto_switch} " + _("Auto-switch to user branch"),
+                f"{show_cmds} " + _("Show git commands"),
                 _("Reset to defaults"),
                 _("Back")
             ]
