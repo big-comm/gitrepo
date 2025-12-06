@@ -1200,6 +1200,16 @@ msgstr "Nová vetva"
 msgid "AUR - Summary of Choices"
 msgstr "AUR - Zhrnutie možností"
 # 
+# File: usr/share/build-package/core/build_package.py, line: 1611
+#: NEEDS WORK
+msgid "Pull latest"
+msgstr "Načítaj najnovšie"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1612
+#: NEEDS WORK
+msgid "Commit and push"
+msgstr "Zaviazanie a odoslanie"
+# 
 # File: usr/share/build-package/build_package.py, line: 536
 #: NEEDS WORK
 msgid "Generate package (commit + branch + build)"
@@ -3100,6 +3110,59 @@ msgstr ""
 "Komplexný nástroj na vytváranie, testovanie a nasadzovanie balíkov. Zjednodušuje operácie Git, "
 "automatizuje zostavovanie a spravuje pracovné toky balíkov pre repozitáre BigCommunity a balíky AUR."
 # 
+# File: usr/share/build-package/core/package_operations.py, line: 39
+#: NEEDS WORK
+msgid "🔍 DRY-RUN MODE - Package generation simulation:"
+msgstr "🔍 MÓD DRY-RUN - Simulácia generovania balíka:"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 41
+#: NEEDS WORK
+msgid "Would perform:"
+msgstr "By vykonať:"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 42
+#: NEEDS WORK
+msgid "  1. Commit changes (if any)"
+msgstr "1. Potvrdiť zmeny (ak nejaké sú)"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 43
+#: NEEDS WORK
+#, python-brace-format
+msgid "  2. Merge to main (if {0} = stable/extra)"
+msgstr "2. Zlúčiť do hlavnej vetvy (ak {0} = stabilná/extra)"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 44
+#: NEEDS WORK
+msgid "  3. Trigger GitHub Actions workflow"
+msgstr "3. Spustiť pracovný postup GitHub Actions"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 45
+#: NEEDS WORK
+#, python-brace-format
+msgid "     - Package type: {0}"
+msgstr "- Typ balíka: {0}"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 46
+#: NEEDS WORK
+#, python-brace-format
+msgid "     - TMATE: {0}"
+msgstr "- TMATE: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 121
+#: NEEDS WORK
+msgid "enabled"
+msgstr "povolené"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 121
+#: NEEDS WORK
+msgid "disabled"
+msgstr "zakázané"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 48
+#: NEEDS WORK
+msgid "✓ Dry-run completed (no workflow triggered)"
+msgstr "✓ Simulácia dokončená (žiadny pracovný tok nebol spustený)"
+# 
 # File: usr/share/build-package/core/package_operations.py, line: 62
 # File: usr/share/build-package/core/package_operations.py, line: 64
 # File: usr/share/build-package/core/package_operations.py, line: 88
@@ -3785,6 +3848,33 @@ msgstr "Vytvorené súbory:"
 msgid "Error creating versions: {0}"
 msgstr "Chyba pri vytváraní verzií: {0}"
 # 
+# File: usr/share/build-package/core/settings_menu.py, line: 31
+#: NEEDS WORK
+#, python-brace-format
+msgid "Operation Mode: {0}"
+msgstr "Prevádzkový režim: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 32
+#: NEEDS WORK
+#, python-brace-format
+msgid "Conflict Strategy: {0}"
+msgstr "Stratégia konfliktu: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 33
+#: NEEDS WORK
+msgid "Auto-fetch before operations"
+msgstr "Automatické načítanie pred operáciami"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 34
+#: NEEDS WORK
+msgid "Auto-switch to user branch"
+msgstr "Automatické prepínanie na používateľskú vetvu"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 149
+#: NEEDS WORK
+msgid "Show git commands"
+msgstr "Zobraziť git príkazy"
+# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/build-package/core/settings_menu.py, line: 36
@@ -3900,16 +3990,6 @@ msgstr "Vyberte stratégiu konfliktu"
 #, python-brace-format
 msgid "✓ Conflict strategy changed to: {0}"
 msgstr "✓ Stratégia konfliktu sa zmenila na: {0}"
-# 
-# File: usr/share/build-package/core/settings_menu.py, line: 121
-#: NEEDS WORK
-msgid "enabled"
-msgstr "povolené"
-# 
-# File: usr/share/build-package/core/settings_menu.py, line: 121
-#: NEEDS WORK
-msgid "disabled"
-msgstr "zakázané"
 # 
 # File: usr/share/build-package/core/settings_menu.py, line: 122
 #: NEEDS WORK
@@ -4056,6 +4136,12 @@ msgstr "Hľadanie najnovšieho kódu..."
 #, python-brace-format
 msgid "Most recent branch: {0}"
 msgstr "Najnovšia vetva: {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 282
+#: NEEDS WORK
+#, python-brace-format
+msgid "Pull from remote {0}"
+msgstr "Načítanie z diaľkového {0}"
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 155
 #: NEEDS WORK
@@ -5385,11 +5471,6 @@ msgstr "Automaticky zvyšovať verziu na základe typu commitu"
 #: NEEDS WORK
 msgid "Display"
 msgstr "Zobrazenie"
-# 
-# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 149
-#: NEEDS WORK
-msgid "Show git commands"
-msgstr "Zobraziť git príkazy"
 # 
 # File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 150
 #: NEEDS WORK

@@ -1201,6 +1201,16 @@ msgstr "Нова гілка"
 msgid "AUR - Summary of Choices"
 msgstr "AUR - Огляд вибору"
 # 
+# File: usr/share/build-package/core/build_package.py, line: 1611
+#: NEEDS WORK
+msgid "Pull latest"
+msgstr "Pull latest"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1612
+#: NEEDS WORK
+msgid "Commit and push"
+msgstr "Коміт і відправлення"
+# 
 # File: usr/share/build-package/build_package.py, line: 536
 #: NEEDS WORK
 msgid "Generate package (commit + branch + build)"
@@ -3095,6 +3105,59 @@ msgstr ""
 "Універсальний інструмент для створення, тестування та розгортання пакетів. Спрощує операції Git, "
 "автоматизує збірки та керує робочими процесами пакетів для репозиторіїв BigCommunity та пакетів AUR."
 # 
+# File: usr/share/build-package/core/package_operations.py, line: 39
+#: NEEDS WORK
+msgid "🔍 DRY-RUN MODE - Package generation simulation:"
+msgstr "🔍 DRY-RUN MODE - Пакетна генерація симуляції:"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 41
+#: NEEDS WORK
+msgid "Would perform:"
+msgstr "Виконуватиме:"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 42
+#: NEEDS WORK
+msgid "  1. Commit changes (if any)"
+msgstr "1. Commit changes (if any)"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 43
+#: NEEDS WORK
+#, python-brace-format
+msgid "  2. Merge to main (if {0} = stable/extra)"
+msgstr "2. Злиття в основну гілку (якщо {0} = стабільна/додаткова)"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 44
+#: NEEDS WORK
+msgid "  3. Trigger GitHub Actions workflow"
+msgstr "3. Запустити робочий процес GitHub Actions"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 45
+#: NEEDS WORK
+#, python-brace-format
+msgid "     - Package type: {0}"
+msgstr "- Тип пакета: {0}"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 46
+#: NEEDS WORK
+#, python-brace-format
+msgid "     - TMATE: {0}"
+msgstr "- TMATE: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 121
+#: NEEDS WORK
+msgid "enabled"
+msgstr "включено"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 121
+#: NEEDS WORK
+msgid "disabled"
+msgstr "disabled"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 48
+#: NEEDS WORK
+msgid "✓ Dry-run completed (no workflow triggered)"
+msgstr "✓ Сухий запуск завершено (жоден робочий процес не запущено)"
+# 
 # File: usr/share/build-package/core/package_operations.py, line: 62
 # File: usr/share/build-package/core/package_operations.py, line: 64
 # File: usr/share/build-package/core/package_operations.py, line: 88
@@ -3780,6 +3843,33 @@ msgstr "Створені файли:"
 msgid "Error creating versions: {0}"
 msgstr "Error creating versions: {0}"
 # 
+# File: usr/share/build-package/core/settings_menu.py, line: 31
+#: NEEDS WORK
+#, python-brace-format
+msgid "Operation Mode: {0}"
+msgstr "Режим роботи: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 32
+#: NEEDS WORK
+#, python-brace-format
+msgid "Conflict Strategy: {0}"
+msgstr "Конфліктна стратегія: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 33
+#: NEEDS WORK
+msgid "Auto-fetch before operations"
+msgstr "Автоматичне отримання перед операціями"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 34
+#: NEEDS WORK
+msgid "Auto-switch to user branch"
+msgstr "Автоматичне перемикання на гілку користувача"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 149
+#: NEEDS WORK
+msgid "Show git commands"
+msgstr "Показати команди git"
+# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/build-package/core/settings_menu.py, line: 36
@@ -3895,16 +3985,6 @@ msgstr "Виберіть стратегію конфлікту"
 #, python-brace-format
 msgid "✓ Conflict strategy changed to: {0}"
 msgstr "✓ Стратегія конфлікту змінена на: {0}"
-# 
-# File: usr/share/build-package/core/settings_menu.py, line: 121
-#: NEEDS WORK
-msgid "enabled"
-msgstr "включено"
-# 
-# File: usr/share/build-package/core/settings_menu.py, line: 121
-#: NEEDS WORK
-msgid "disabled"
-msgstr "disabled"
 # 
 # File: usr/share/build-package/core/settings_menu.py, line: 122
 #: NEEDS WORK
@@ -4051,6 +4131,12 @@ msgstr "Найти останній код..."
 #, python-brace-format
 msgid "Most recent branch: {0}"
 msgstr "Найновіша гілка: {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 282
+#: NEEDS WORK
+#, python-brace-format
+msgid "Pull from remote {0}"
+msgstr "Pull from remote {0}"
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 155
 #: NEEDS WORK
@@ -5380,11 +5466,6 @@ msgstr "Автоматично збільшувати версію на осно
 #: NEEDS WORK
 msgid "Display"
 msgstr "Відображення"
-# 
-# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 149
-#: NEEDS WORK
-msgid "Show git commands"
-msgstr "Показати команди git"
 # 
 # File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 150
 #: NEEDS WORK

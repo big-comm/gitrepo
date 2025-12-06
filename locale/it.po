@@ -1203,6 +1203,16 @@ msgstr "Nuova Branch"
 msgid "AUR - Summary of Choices"
 msgstr "AUR - Riepilogo delle Scelte"
 # 
+# File: usr/share/build-package/core/build_package.py, line: 1611
+#: NEEDS WORK
+msgid "Pull latest"
+msgstr "Tira l'ultimo"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1612
+#: NEEDS WORK
+msgid "Commit and push"
+msgstr "Commit e push"
+# 
 # File: usr/share/build-package/build_package.py, line: 536
 #: NEEDS WORK
 msgid "Generate package (commit + branch + build)"
@@ -3100,6 +3110,59 @@ msgstr ""
 "operazioni Git, automatizza le build e gestisce i flussi di lavoro dei pacchetti per i repository "
 "di BigCommunity e i pacchetti AUR."
 # 
+# File: usr/share/build-package/core/package_operations.py, line: 39
+#: NEEDS WORK
+msgid "🔍 DRY-RUN MODE - Package generation simulation:"
+msgstr "🔍 MODALITÀ DI PROVA - Simulazione della generazione del pacchetto:"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 41
+#: NEEDS WORK
+msgid "Would perform:"
+msgstr "Eseguirebbe:"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 42
+#: NEEDS WORK
+msgid "  1. Commit changes (if any)"
+msgstr "1. Commetti le modifiche (se presenti)"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 43
+#: NEEDS WORK
+#, python-brace-format
+msgid "  2. Merge to main (if {0} = stable/extra)"
+msgstr "2. Unisci nel ramo principale (se {0} = stabile/extra)"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 44
+#: NEEDS WORK
+msgid "  3. Trigger GitHub Actions workflow"
+msgstr "3. Attiva il flusso di lavoro di GitHub Actions"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 45
+#: NEEDS WORK
+#, python-brace-format
+msgid "     - Package type: {0}"
+msgstr "- Tipo di pacchetto: {0}"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 46
+#: NEEDS WORK
+#, python-brace-format
+msgid "     - TMATE: {0}"
+msgstr "- TMATE: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 121
+#: NEEDS WORK
+msgid "enabled"
+msgstr "abilitato"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 121
+#: NEEDS WORK
+msgid "disabled"
+msgstr "disabilitato"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 48
+#: NEEDS WORK
+msgid "✓ Dry-run completed (no workflow triggered)"
+msgstr "✓ Esecuzione simulata completata (nessun flusso di lavoro attivato)"
+# 
 # File: usr/share/build-package/core/package_operations.py, line: 62
 # File: usr/share/build-package/core/package_operations.py, line: 64
 # File: usr/share/build-package/core/package_operations.py, line: 88
@@ -3785,6 +3848,33 @@ msgstr "File creati:"
 msgid "Error creating versions: {0}"
 msgstr "Errore nella creazione delle versioni: {0}"
 # 
+# File: usr/share/build-package/core/settings_menu.py, line: 31
+#: NEEDS WORK
+#, python-brace-format
+msgid "Operation Mode: {0}"
+msgstr "Modalità Operativa: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 32
+#: NEEDS WORK
+#, python-brace-format
+msgid "Conflict Strategy: {0}"
+msgstr "Strategia di conflitto: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 33
+#: NEEDS WORK
+msgid "Auto-fetch before operations"
+msgstr "Auto-recupero prima delle operazioni"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 34
+#: NEEDS WORK
+msgid "Auto-switch to user branch"
+msgstr "Passa automaticamente al ramo utente"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 149
+#: NEEDS WORK
+msgid "Show git commands"
+msgstr "Mostra i comandi git"
+# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/build-package/core/settings_menu.py, line: 36
@@ -3900,16 +3990,6 @@ msgstr "Seleziona Strategia di Conflitto"
 #, python-brace-format
 msgid "✓ Conflict strategy changed to: {0}"
 msgstr "✓ Strategia di conflitto cambiata in: {0}"
-# 
-# File: usr/share/build-package/core/settings_menu.py, line: 121
-#: NEEDS WORK
-msgid "enabled"
-msgstr "abilitato"
-# 
-# File: usr/share/build-package/core/settings_menu.py, line: 121
-#: NEEDS WORK
-msgid "disabled"
-msgstr "disabilitato"
 # 
 # File: usr/share/build-package/core/settings_menu.py, line: 122
 #: NEEDS WORK
@@ -4056,6 +4136,12 @@ msgstr "Trova il codice più recente..."
 #, python-brace-format
 msgid "Most recent branch: {0}"
 msgstr "Ramo più recente: {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 282
+#: NEEDS WORK
+#, python-brace-format
+msgid "Pull from remote {0}"
+msgstr "Estrai da remoto {0}"
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 155
 #: NEEDS WORK
@@ -5385,11 +5471,6 @@ msgstr "Incrementa automaticamente la versione in base al tipo di commit"
 #: NEEDS WORK
 msgid "Display"
 msgstr "Visualizza"
-# 
-# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 149
-#: NEEDS WORK
-msgid "Show git commands"
-msgstr "Mostra i comandi git"
 # 
 # File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 150
 #: NEEDS WORK

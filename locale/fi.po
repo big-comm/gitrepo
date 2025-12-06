@@ -1200,6 +1200,16 @@ msgstr "Uusi haara"
 msgid "AUR - Summary of Choices"
 msgstr "AUR - Valintojen yhteenveto"
 # 
+# File: usr/share/build-package/core/build_package.py, line: 1611
+#: NEEDS WORK
+msgid "Pull latest"
+msgstr "Hae uusin"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1612
+#: NEEDS WORK
+msgid "Commit and push"
+msgstr "Vahvista ja työnnä"
+# 
 # File: usr/share/build-package/build_package.py, line: 536
 #: NEEDS WORK
 msgid "Generate package (commit + branch + build)"
@@ -3095,6 +3105,59 @@ msgstr ""
 "automatisoi rakennuksia ja hallitsee pakettityönkulkuja BigCommunity-repositorioille ja "
 "AUR-paketeille."
 # 
+# File: usr/share/build-package/core/package_operations.py, line: 39
+#: NEEDS WORK
+msgid "🔍 DRY-RUN MODE - Package generation simulation:"
+msgstr "🔍 Kuiva-ajotila - Pakettigeneroinnin simulointi:"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 41
+#: NEEDS WORK
+msgid "Would perform:"
+msgstr "Suorittaisi:"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 42
+#: NEEDS WORK
+msgid "  1. Commit changes (if any)"
+msgstr "1. Tallenna muutokset (jos niitä on)"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 43
+#: NEEDS WORK
+#, python-brace-format
+msgid "  2. Merge to main (if {0} = stable/extra)"
+msgstr "2. Yhdistä päähaaraan (jos {0} = vakaa/ylimääräinen)"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 44
+#: NEEDS WORK
+msgid "  3. Trigger GitHub Actions workflow"
+msgstr "3. Käynnistä GitHub Actions -työnkulku"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 45
+#: NEEDS WORK
+#, python-brace-format
+msgid "     - Package type: {0}"
+msgstr "- Pakettityyppi: {0}"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 46
+#: NEEDS WORK
+#, python-brace-format
+msgid "     - TMATE: {0}"
+msgstr "- TMATE: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 121
+#: NEEDS WORK
+msgid "enabled"
+msgstr "käytössä"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 121
+#: NEEDS WORK
+msgid "disabled"
+msgstr "poistettu käytöstä"
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 48
+#: NEEDS WORK
+msgid "✓ Dry-run completed (no workflow triggered)"
+msgstr "✓ Kuivaajo suoritettu (ei työnkulkua käynnistetty)"
+# 
 # File: usr/share/build-package/core/package_operations.py, line: 62
 # File: usr/share/build-package/core/package_operations.py, line: 64
 # File: usr/share/build-package/core/package_operations.py, line: 88
@@ -3780,6 +3843,33 @@ msgstr "Luodut tiedostot:"
 msgid "Error creating versions: {0}"
 msgstr "Virhe versioiden luomisessa: {0}"
 # 
+# File: usr/share/build-package/core/settings_menu.py, line: 31
+#: NEEDS WORK
+#, python-brace-format
+msgid "Operation Mode: {0}"
+msgstr "Toimintatila: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 32
+#: NEEDS WORK
+#, python-brace-format
+msgid "Conflict Strategy: {0}"
+msgstr "Konfliktistrategia: {0}"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 33
+#: NEEDS WORK
+msgid "Auto-fetch before operations"
+msgstr "Automaattinen haku ennen toimintoja"
+# 
+# File: usr/share/build-package/core/settings_menu.py, line: 34
+#: NEEDS WORK
+msgid "Auto-switch to user branch"
+msgstr "Automaattinen vaihto käyttäjähaaraan"
+# 
+# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 149
+#: NEEDS WORK
+msgid "Show git commands"
+msgstr "Näytä git-komennot"
+# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/build-package/core/settings_menu.py, line: 36
@@ -3895,16 +3985,6 @@ msgstr "Valitse konfliktistrategia"
 #, python-brace-format
 msgid "✓ Conflict strategy changed to: {0}"
 msgstr "✓ Konfliktistrategia muutettu: {0}"
-# 
-# File: usr/share/build-package/core/settings_menu.py, line: 121
-#: NEEDS WORK
-msgid "enabled"
-msgstr "käytössä"
-# 
-# File: usr/share/build-package/core/settings_menu.py, line: 121
-#: NEEDS WORK
-msgid "disabled"
-msgstr "poistettu käytöstä"
 # 
 # File: usr/share/build-package/core/settings_menu.py, line: 122
 #: NEEDS WORK
@@ -4051,6 +4131,12 @@ msgstr "Etsitään uusinta koodia..."
 #, python-brace-format
 msgid "Most recent branch: {0}"
 msgstr "Viimeisin haara: {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 282
+#: NEEDS WORK
+#, python-brace-format
+msgid "Pull from remote {0}"
+msgstr "Hae etäisestä {0}"
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 155
 #: NEEDS WORK
@@ -5380,11 +5466,6 @@ msgstr "Versio kasvaa automaattisesti sitoutumistyyppiin perustuen"
 #: NEEDS WORK
 msgid "Display"
 msgstr "Näyttö"
-# 
-# File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 149
-#: NEEDS WORK
-msgid "Show git commands"
-msgstr "Näytä git-komennot"
 # 
 # File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 150
 #: NEEDS WORK
