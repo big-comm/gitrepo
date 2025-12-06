@@ -279,7 +279,7 @@ def pull_latest_v2(build_package_instance):
     # === PHASE 5: DETERMINE PULL STRATEGY ===
     if most_recent_branch == current_branch:
         # Same branch, just pull
-        bp.logger.log("cyan", "Pull from remote {0}".format(current_branch))
+        bp.logger.log("cyan", _("Pull from remote {0}").format(current_branch))
 
         # Stash before pull if needed
         if stash_needed:

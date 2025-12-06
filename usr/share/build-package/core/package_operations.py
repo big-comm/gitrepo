@@ -36,16 +36,16 @@ def commit_and_generate_package_v2(build_package_instance, branch_type, commit_m
     # Check dry-run mode
     if getattr(bp, 'dry_run_mode', False):
         bp.logger.log("yellow", "")
-        bp.logger.log("yellow", "🔍 DRY-RUN MODE - Package generation simulation:")
+        bp.logger.log("yellow", _("🔍 DRY-RUN MODE - Package generation simulation:"))
         bp.logger.log("yellow", "")
-        bp.logger.log("cyan", "Would perform:")
-        bp.logger.log("cyan", f"  1. Commit changes (if any)")
-        bp.logger.log("cyan", f"  2. Merge to main (if {branch_type} = stable/extra)")
-        bp.logger.log("cyan", f"  3. Trigger GitHub Actions workflow")
-        bp.logger.log("cyan", f"     - Package type: {branch_type}")
-        bp.logger.log("cyan", f"     - TMATE: {'enabled' if tmate_option else 'disabled'}")
+        bp.logger.log("cyan", _("Would perform:"))
+        bp.logger.log("cyan", _("  1. Commit changes (if any)"))
+        bp.logger.log("cyan", _("  2. Merge to main (if {0} = stable/extra)").format(branch_type))
+        bp.logger.log("cyan", _("  3. Trigger GitHub Actions workflow"))
+        bp.logger.log("cyan", _("     - Package type: {0}").format(branch_type))
+        bp.logger.log("cyan", _("     - TMATE: {0}").format(_('enabled') if tmate_option else _('disabled')))
         bp.logger.log("yellow", "")
-        bp.logger.log("green", "✓ Dry-run completed (no workflow triggered)")
+        bp.logger.log("green", _("✓ Dry-run completed (no workflow triggered)"))
         return True
 
     # Get mode configuration
