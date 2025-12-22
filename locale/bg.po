@@ -2325,6 +2325,12 @@ msgstr "Открити конфликти, разрешаване автомат
 msgid "Using advanced resolution strategy..."
 msgstr "Използване на напреднала стратегия за разрешаване..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 266
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-resolve conflicts: merge {0} into {1}"
+msgstr "Автоматично разрешаване на конфликти: обединяване на {0} в {1}"
+# 
 # File: usr/share/build-package/github_api.py, line: 254
 #: NEEDS WORK
 msgid "Conflicts resolved automatically!"
@@ -2366,6 +2372,11 @@ msgstr "Грешка по време на разрешаване на конфл
 msgid "Waiting for PR to be ready for merge..."
 msgstr "Изчакване PR да бъде готов за сливане..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 318
+#: NEEDS WORK
+msgid "This may take a few minutes if GitHub Actions workflows are running..."
+msgstr "Това може да отнеме няколко минути, ако работните потоци на GitHub Actions са активни..."
+# 
 # File: usr/share/build-package/github_api.py, line: 316
 #: NEEDS WORK
 #, python-brace-format
@@ -2382,11 +2393,34 @@ msgstr "PR готов за сливане!"
 msgid "PR has conflicts"
 msgstr "PR има конфликти"
 # 
-# File: usr/share/build-package/github_api.py, line: 330
+# File: usr/share/build-package/core/github_api.py, line: 354
 #: NEEDS WORK
 #, python-brace-format
-msgid "Unexpected state: {0}"
-msgstr "Неочаквано състояние: {0}"
+msgid "Still waiting... State: {0} (GitHub may be running workflows)"
+msgstr "Все още чакам... Състояние: {0} (GitHub може да изпълнява работни потоци)"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 359
+#: NEEDS WORK
+#, python-brace-format
+msgid "Timeout: PR still in state '{0}' after {1} seconds"
+msgstr "Време за изчакване: PR все още е в състояние '{0}' след {1} секунди"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 361
+#: NEEDS WORK
+msgid "PR created but needs manual merge"
+msgstr "PR е създаден, но изисква ръчно сливане."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 367
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected state: {0}, continuing to wait..."
+msgstr "Неочаквано състояние: {0}, продължавам да чакам..."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 371
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected final state: {0}"
+msgstr "Неочаквано крайно състояние: {0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 333
 #: NEEDS WORK
@@ -2673,6 +2707,13 @@ msgstr "Конфликтите се разрешават автоматично 
 msgid "Ready for automatic merge"
 msgstr "Готов за автоматично сливане"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 705
+# File: usr/share/build-package/core/github_api.py, line: 748
+# File: usr/share/build-package/core/github_api.py, line: 752
+#: NEEDS WORK
+msgid "Unknown error"
+msgstr "Неизвестна грешка"
+# 
 # File: usr/share/build-package/github_api.py, line: 475
 #: NEEDS WORK
 #, python-brace-format
@@ -2730,11 +2771,23 @@ msgstr "PR е създаден, но трябва да бъде обединен
 msgid "PR not ready for merge (state: {0})"
 msgstr "PR не е готов за сливане (състояние: {0})"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 759
+#: NEEDS WORK
+#, python-brace-format
+msgid "PR not ready: {0}"
+msgstr "PR не е готов: {0}"
+# 
 # File: usr/share/build-package/github_api.py, line: 507
 #: NEEDS WORK
 #, python-brace-format
 msgid "Error creating pull request: {0}"
 msgstr "Грешка при създаване на заявка за изтегляне: {0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 778
+# File: usr/share/build-package/core/github_api.py, line: 792
+#: NEEDS WORK
+msgid "unknown"
+msgstr "неизвестен"
 # 
 # File: usr/share/build-package/core/github_api.py, line: 750
 #: NEEDS WORK
@@ -2771,6 +2824,12 @@ msgstr "Необходимо ръчно сливане"
 #: NEEDS WORK
 msgid "PULL REQUEST COMPLETED"
 msgstr "ЗАЯВКА ЗА ИЗТЕГЛЯНЕ ЗАВЪРШЕНА"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 814
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not show PR summary: {0}"
+msgstr "Не можа да покаже резюме на PR: {0}"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 

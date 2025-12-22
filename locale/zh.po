@@ -2317,6 +2317,12 @@ msgstr "检测到冲突，正在自动解决..."
 msgid "Using advanced resolution strategy..."
 msgstr "使用高级解析策略..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 266
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-resolve conflicts: merge {0} into {1}"
+msgstr "自动解决冲突：将 {0} 合并到 {1}"
+# 
 # File: usr/share/build-package/github_api.py, line: 254
 #: NEEDS WORK
 msgid "Conflicts resolved automatically!"
@@ -2358,6 +2364,11 @@ msgstr "冲突解决期间出错：{0}"
 msgid "Waiting for PR to be ready for merge..."
 msgstr "等待 PR 准备好合并..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 318
+#: NEEDS WORK
+msgid "This may take a few minutes if GitHub Actions workflows are running..."
+msgstr "如果 GitHub Actions 工作流正在运行，这可能需要几分钟。"
+# 
 # File: usr/share/build-package/github_api.py, line: 316
 #: NEEDS WORK
 #, python-brace-format
@@ -2374,11 +2385,34 @@ msgstr "PR 准备合并！"
 msgid "PR has conflicts"
 msgstr "PR 有冲突"
 # 
-# File: usr/share/build-package/github_api.py, line: 330
+# File: usr/share/build-package/core/github_api.py, line: 354
 #: NEEDS WORK
 #, python-brace-format
-msgid "Unexpected state: {0}"
-msgstr "意外状态：{0}"
+msgid "Still waiting... State: {0} (GitHub may be running workflows)"
+msgstr "仍在等待... 状态: {0}（GitHub 可能正在运行工作流）"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 359
+#: NEEDS WORK
+#, python-brace-format
+msgid "Timeout: PR still in state '{0}' after {1} seconds"
+msgstr "超时：PR 在状态 '{0}' 下已持续 {1} 秒"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 361
+#: NEEDS WORK
+msgid "PR created but needs manual merge"
+msgstr "PR已创建，但需要手动合并"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 367
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected state: {0}, continuing to wait..."
+msgstr "意外状态：{0}，继续等待..."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 371
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected final state: {0}"
+msgstr "意外的最终状态：{0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 333
 #: NEEDS WORK
@@ -2665,6 +2699,13 @@ msgstr "冲突自动解决（如有）"
 msgid "Ready for automatic merge"
 msgstr "准备自动合并"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 705
+# File: usr/share/build-package/core/github_api.py, line: 748
+# File: usr/share/build-package/core/github_api.py, line: 752
+#: NEEDS WORK
+msgid "Unknown error"
+msgstr "未知错误"
+# 
 # File: usr/share/build-package/github_api.py, line: 475
 #: NEEDS WORK
 #, python-brace-format
@@ -2722,11 +2763,23 @@ msgstr "PR已创建，但必须手动合并"
 msgid "PR not ready for merge (state: {0})"
 msgstr "PR尚未准备好合并（状态：{0}）"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 759
+#: NEEDS WORK
+#, python-brace-format
+msgid "PR not ready: {0}"
+msgstr "PR未准备好：{0}"
+# 
 # File: usr/share/build-package/github_api.py, line: 507
 #: NEEDS WORK
 #, python-brace-format
 msgid "Error creating pull request: {0}"
 msgstr "创建拉取请求时出错：{0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 778
+# File: usr/share/build-package/core/github_api.py, line: 792
+#: NEEDS WORK
+msgid "unknown"
+msgstr "未知"
 # 
 # File: usr/share/build-package/github_api.py, line: 750
 #: NEEDS WORK
@@ -2763,6 +2816,12 @@ msgstr "需要手动合并"
 #: NEEDS WORK
 msgid "PULL REQUEST COMPLETED"
 msgstr "拉取请求已完成"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 814
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not show PR summary: {0}"
+msgstr "无法显示 PR 摘要：{0}"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 

@@ -2323,6 +2323,12 @@ msgstr "Konflikter upptäckta, löser automatiskt..."
 msgid "Using advanced resolution strategy..."
 msgstr "Använder avancerad lösningsstrategi..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 266
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-resolve conflicts: merge {0} into {1}"
+msgstr "Automatiskt lös konflikter: slå samman {0} till {1}"
+# 
 # File: usr/share/build-package/github_api.py, line: 254
 #: NEEDS WORK
 msgid "Conflicts resolved automatically!"
@@ -2364,6 +2370,11 @@ msgstr "Fel vid konfliktlösning: {0}"
 msgid "Waiting for PR to be ready for merge..."
 msgstr "Väntar på att PR ska vara redo för sammanslagning..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 318
+#: NEEDS WORK
+msgid "This may take a few minutes if GitHub Actions workflows are running..."
+msgstr "Detta kan ta några minuter om GitHub Actions-arbetsflöden körs..."
+# 
 # File: usr/share/build-package/github_api.py, line: 316
 #: NEEDS WORK
 #, python-brace-format
@@ -2380,11 +2391,34 @@ msgstr "PR redo för sammanslagning!"
 msgid "PR has conflicts"
 msgstr "PR har konflikter"
 # 
-# File: usr/share/build-package/github_api.py, line: 330
+# File: usr/share/build-package/core/github_api.py, line: 354
 #: NEEDS WORK
 #, python-brace-format
-msgid "Unexpected state: {0}"
-msgstr "Oväntat tillstånd: {0}"
+msgid "Still waiting... State: {0} (GitHub may be running workflows)"
+msgstr "Väntar fortfarande... Status: {0} (GitHub kan köra arbetsflöden)"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 359
+#: NEEDS WORK
+#, python-brace-format
+msgid "Timeout: PR still in state '{0}' after {1} seconds"
+msgstr "Timeout: PR är fortfarande i tillstånd '{0}' efter {1} sekunder"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 361
+#: NEEDS WORK
+msgid "PR created but needs manual merge"
+msgstr "PR skapad men behöver manuell sammanslagning"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 367
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected state: {0}, continuing to wait..."
+msgstr "Oväntat tillstånd: {0}, fortsätter att vänta..."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 371
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected final state: {0}"
+msgstr "Oväntat slutligt tillstånd: {0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 333
 #: NEEDS WORK
@@ -2671,6 +2705,13 @@ msgstr "Konflikter löstes automatiskt (om några)"
 msgid "Ready for automatic merge"
 msgstr "Redo för automatisk sammanslagning"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 705
+# File: usr/share/build-package/core/github_api.py, line: 748
+# File: usr/share/build-package/core/github_api.py, line: 752
+#: NEEDS WORK
+msgid "Unknown error"
+msgstr "Okänt fel"
+# 
 # File: usr/share/build-package/github_api.py, line: 475
 #: NEEDS WORK
 #, python-brace-format
@@ -2728,11 +2769,23 @@ msgstr "PR skapad men måste slås samman manuellt"
 msgid "PR not ready for merge (state: {0})"
 msgstr "PR är inte redo för sammanslagning (tillstånd: {0})"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 759
+#: NEEDS WORK
+#, python-brace-format
+msgid "PR not ready: {0}"
+msgstr "PR inte redo: {0}"
+# 
 # File: usr/share/build-package/github_api.py, line: 507
 #: NEEDS WORK
 #, python-brace-format
 msgid "Error creating pull request: {0}"
 msgstr "Fel vid skapande av pull-begäran: {0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 778
+# File: usr/share/build-package/core/github_api.py, line: 792
+#: NEEDS WORK
+msgid "unknown"
+msgstr "okänd"
 # 
 # File: usr/share/build-package/github_api.py, line: 750
 #: NEEDS WORK
@@ -2769,6 +2822,12 @@ msgstr "Manuell sammanslagning krävs"
 #: NEEDS WORK
 msgid "PULL REQUEST COMPLETED"
 msgstr "PULL REQUEST FULLFÖRD"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 814
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not show PR summary: {0}"
+msgstr "Kunde inte visa PR-sammanfattning: {0}"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 

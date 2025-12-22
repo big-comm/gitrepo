@@ -2318,6 +2318,12 @@ msgstr "זיהוי קונפליקטים, פותר אוטומטית..."
 msgid "Using advanced resolution strategy..."
 msgstr "שימוש באסטרטגיית פתרון מתקדמת..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 266
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-resolve conflicts: merge {0} into {1}"
+msgstr "פתרון אוטומטי של קונפליקטים: מיזוג {0} ל-{1}"
+# 
 # File: usr/share/build-package/github_api.py, line: 254
 #: NEEDS WORK
 msgid "Conflicts resolved automatically!"
@@ -2359,6 +2365,11 @@ msgstr "שגיאה במהלך פתרון קונפליקטים: {0}"
 msgid "Waiting for PR to be ready for merge..."
 msgstr "ממתין שה-PR יהיה מוכן למיזוג..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 318
+#: NEEDS WORK
+msgid "This may take a few minutes if GitHub Actions workflows are running..."
+msgstr "זה עשוי לקחת כמה דקות אם זרימות העבודה של GitHub Actions פועלות..."
+# 
 # File: usr/share/build-package/github_api.py, line: 316
 #: NEEDS WORK
 #, python-brace-format
@@ -2375,11 +2386,34 @@ msgstr "בקשת משיכה מוכנה למיזוג!"
 msgid "PR has conflicts"
 msgstr "ל-PR יש קונפליקטים"
 # 
-# File: usr/share/build-package/github_api.py, line: 330
+# File: usr/share/build-package/core/github_api.py, line: 354
 #: NEEDS WORK
 #, python-brace-format
-msgid "Unexpected state: {0}"
-msgstr "מצב בלתי צפוי: {0}"
+msgid "Still waiting... State: {0} (GitHub may be running workflows)"
+msgstr "עדיין מחכה... מצב: {0} (ייתכן ש-GitHub מריץ זרימות עבודה)"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 359
+#: NEEDS WORK
+#, python-brace-format
+msgid "Timeout: PR still in state '{0}' after {1} seconds"
+msgstr "זמן פג תוקף: PR עדיין במצב '{0}' לאחר {1} שניות"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 361
+#: NEEDS WORK
+msgid "PR created but needs manual merge"
+msgstr "ה-PR נוצר אך דורש מיזוג ידני"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 367
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected state: {0}, continuing to wait..."
+msgstr "מצב בלתי צפוי: {0}, ממשיכים להמתין..."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 371
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected final state: {0}"
+msgstr "מצב סופי בלתי צפוי: {0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 333
 #: NEEDS WORK
@@ -2666,6 +2700,13 @@ msgstr "הקונפליקטים נפתרו אוטומטית (אם יש)"
 msgid "Ready for automatic merge"
 msgstr "מוכן למיזוג אוטומטי"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 705
+# File: usr/share/build-package/core/github_api.py, line: 748
+# File: usr/share/build-package/core/github_api.py, line: 752
+#: NEEDS WORK
+msgid "Unknown error"
+msgstr "שגיאה לא ידועה"
+# 
 # File: usr/share/build-package/github_api.py, line: 475
 #: NEEDS WORK
 #, python-brace-format
@@ -2723,11 +2764,23 @@ msgstr "ה-PR נוצר אך יש למזגו ידנית"
 msgid "PR not ready for merge (state: {0})"
 msgstr "ה-PR לא מוכן למיזוג (מצב: {0})"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 759
+#: NEEDS WORK
+#, python-brace-format
+msgid "PR not ready: {0}"
+msgstr "בקשת משיכה לא מוכנה: {0}"
+# 
 # File: usr/share/build-package/github_api.py, line: 507
 #: NEEDS WORK
 #, python-brace-format
 msgid "Error creating pull request: {0}"
 msgstr "שגיאה ביצירת בקשת משיכה: {0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 778
+# File: usr/share/build-package/core/github_api.py, line: 792
+#: NEEDS WORK
+msgid "unknown"
+msgstr "לא ידוע"
 # 
 # File: usr/share/build-package/github_api.py, line: 750
 #: NEEDS WORK
@@ -2764,6 +2817,12 @@ msgstr "דרושה מיזוג ידני"
 #: NEEDS WORK
 msgid "PULL REQUEST COMPLETED"
 msgstr "בקשת משיכה הושלמה"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 814
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not show PR summary: {0}"
+msgstr "לא ניתן להציג סיכום PR: {0}"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 

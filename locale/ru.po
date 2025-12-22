@@ -2324,6 +2324,12 @@ msgstr "Обнаружены конфликты, разрешение автом
 msgid "Using advanced resolution strategy..."
 msgstr "Использование стратегии продвинутого разрешения..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 266
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-resolve conflicts: merge {0} into {1}"
+msgstr "Авторазрешение конфликтов: объединить {0} в {1}"
+# 
 # File: usr/share/build-package/github_api.py, line: 254
 #: NEEDS WORK
 msgid "Conflicts resolved automatically!"
@@ -2365,6 +2371,11 @@ msgstr "Ошибка при разрешении конфликта: {0}"
 msgid "Waiting for PR to be ready for merge..."
 msgstr "Ожидание готовности PR для слияния..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 318
+#: NEEDS WORK
+msgid "This may take a few minutes if GitHub Actions workflows are running..."
+msgstr "Это может занять несколько минут, если выполняются рабочие процессы GitHub Actions..."
+# 
 # File: usr/share/build-package/github_api.py, line: 316
 #: NEEDS WORK
 #, python-brace-format
@@ -2381,11 +2392,34 @@ msgstr "ПР готов к слиянию!"
 msgid "PR has conflicts"
 msgstr "У PR есть конфликты"
 # 
-# File: usr/share/build-package/github_api.py, line: 330
+# File: usr/share/build-package/core/github_api.py, line: 354
 #: NEEDS WORK
 #, python-brace-format
-msgid "Unexpected state: {0}"
-msgstr "Неожиданное состояние: {0}"
+msgid "Still waiting... State: {0} (GitHub may be running workflows)"
+msgstr "Все еще ждем... Состояние: {0} (возможно, GitHub выполняет рабочие процессы)"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 359
+#: NEEDS WORK
+#, python-brace-format
+msgid "Timeout: PR still in state '{0}' after {1} seconds"
+msgstr "Таймаут: PR все еще в состоянии '{0}' после {1} секунд"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 361
+#: NEEDS WORK
+msgid "PR created but needs manual merge"
+msgstr "PR создан, но требует ручного слияния"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 367
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected state: {0}, continuing to wait..."
+msgstr "Неожиданное состояние: {0}, продолжаем ожидание..."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 371
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected final state: {0}"
+msgstr "Неожиданное конечное состояние: {0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 333
 #: NEEDS WORK
@@ -2674,6 +2708,13 @@ msgstr "Конфликты разрешены автоматически (есл
 msgid "Ready for automatic merge"
 msgstr "Готов к автоматическому слиянию"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 705
+# File: usr/share/build-package/core/github_api.py, line: 748
+# File: usr/share/build-package/core/github_api.py, line: 752
+#: NEEDS WORK
+msgid "Unknown error"
+msgstr "Неизвестная ошибка"
+# 
 # File: usr/share/build-package/github_api.py, line: 475
 #: NEEDS WORK
 #, python-brace-format
@@ -2731,11 +2772,23 @@ msgstr "PR создан, но должен быть объединен вруч�
 msgid "PR not ready for merge (state: {0})"
 msgstr "ПР не готов к слиянию (состояние: {0})"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 759
+#: NEEDS WORK
+#, python-brace-format
+msgid "PR not ready: {0}"
+msgstr "ПР не готов: {0}"
+# 
 # File: usr/share/build-package/github_api.py, line: 507
 #: NEEDS WORK
 #, python-brace-format
 msgid "Error creating pull request: {0}"
 msgstr "Ошибка при создании запроса на слияние: {0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 778
+# File: usr/share/build-package/core/github_api.py, line: 792
+#: NEEDS WORK
+msgid "unknown"
+msgstr "неизвестно"
 # 
 # File: usr/share/build-package/core/github_api.py, line: 750
 #: NEEDS WORK
@@ -2772,6 +2825,12 @@ msgstr "Требуется ручное слияние"
 #: NEEDS WORK
 msgid "PULL REQUEST COMPLETED"
 msgstr "ПУЛЛ-ЗАПРОС ЗАВЕРШЕН"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 814
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not show PR summary: {0}"
+msgstr "Не удалось показать сводку PR: {0}"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
