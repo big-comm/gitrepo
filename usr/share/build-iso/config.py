@@ -17,9 +17,7 @@ VALID_ORGANIZATIONS = [
     # "big-comm",                              # Former communitybig
     "biglinux",
     "talesam",
-    "leoberbert",
-    "bigbruno",
-    "narayanls"
+    "bigbruno"
 ]
 
 # Valid distros with display names
@@ -50,27 +48,21 @@ LOG_DIR_BASE = "/tmp/build-iso"
 ISO_PROFILES = [
     "https://github.com/big-comm/iso-profiles",
     "https://github.com/biglinux/iso-profiles",
-    "https://github.com/talesam/iso-profiles",
-    "https://github.com/leoberbert/iso-profiles",
-    "https://github.com/narayanls/iso-profiles"
+    "https://github.com/talesam/iso-profiles"
 ]
 
 # Default ISO profiles by organization
 DEFAULT_ISO_PROFILES = {
     "big-comm": "https://github.com/big-comm/iso-profiles",
     "biglinux": "https://github.com/biglinux/iso-profiles",
-    "talesam": "https://github.com/talesam/iso-profiles",
-    "leoberbert": "https://github.com/leoberbert/iso-profiles",
-    "narayanls": "https://github.com/narayanls/iso-profiles"
+    "talesam": "https://github.com/talesam/iso-profiles"
 }
 
 # API URLs for repositories
 API_PROFILES = {
     "https://github.com/big-comm/iso-profiles": "https://api.github.com/repos/big-comm/iso-profiles/contents/",
     "https://github.com/biglinux/iso-profiles": "https://api.github.com/repos/biglinux/iso-profiles/contents/",
-    "https://github.com/talesam/iso-profiles": "https://api.github.com/repos/talesam/iso-profiles/contents/",
-    "https://github.com/leoberbert/iso-profiles": "https://api.github.com/repos/leoberbert/iso-profiles/contents/",
-    "https://github.com/narayanls/iso-profiles": "https://api.github.com/repos/narayanls/iso-profiles/contents/"
+    "https://github.com/talesam/iso-profiles": "https://api.github.com/repos/talesam/iso-profiles/contents/"
 }
 
 # Organization mapping
@@ -78,9 +70,7 @@ ORGANIZATION_MAP = {
     "big-comm": "big-comm",       # Former bigcommunity
     "biglinux": "biglinux",
     "talesam": "talesam",
-    "leoberbert": "leoberbert",
-    "bigbruno": "bigbruno",
-    "narayanls": "narayanls"
+    "bigbruno": "bigbruno"
 }
 
 # =======================================================================================
@@ -129,23 +119,10 @@ ORG_DEFAULT_CONFIGS = {
             "biglinux": "stable"
         },
         "kernel": "latest",
-        "build_dir": "bigcommunity", 
-        "edition": "gnome"
-    },
-    
-    "leoberbert": {
-        "distroname": "bigcommunity",  # leoberbert builds BigCommunity
-        "iso_profiles_repo": "https://github.com/leoberbert/iso-profiles",
-        "branches": {
-            "manjaro": "stable",
-            "community": "stable",
-            "biglinux": "stable"
-        },
-        "kernel": "latest",
         "build_dir": "bigcommunity",
         "edition": "gnome"
     },
-    
+
     "bigbruno": {
         "distroname": "bigcommunity",  # bigbruno builds BigLinux
         "iso_profiles_repo": "https://github.com/biglinux/iso-profiles",
@@ -157,21 +134,8 @@ ORG_DEFAULT_CONFIGS = {
         "kernel": "latest",
         "build_dir": "biglinux",
         "edition": "kde"
-    },
-    
-    "narayanls": {
-        "distroname": "bigcommunity",  # narayanls builds BigLinux
-        "iso_profiles_repo": "https://github.com/narayanls/iso-profiles",
-        "branches": {
-            "manjaro": "stable",
-            "community": "stable",
-            "biglinux": "stable"
-        },
-        "kernel": "latest",
-        "build_dir": "bigcommunity",
-        "edition": "gnome"
     }
-    
+
     # =======================================================================================
     # EXAMPLE: To add a new organization, uncomment and configure:
     # =======================================================================================
@@ -190,6 +154,6 @@ ORG_DEFAULT_CONFIGS = {
 }
 
 # Script version
-APP_VERSION = "3.1.3"
+APP_VERSION = "3.1.4"
 APP_NAME = _("BUILD ISO")
 APP_DESC = _("Wrapper for ISO building using GitHub Actions. Streamlines the process of creating custom Linux distribution ISO images through automation.")
