@@ -263,7 +263,8 @@ class GitHubAPI:
                         if patch_process.returncode == 0:
                             # Add and commit the resolved changes
                             subprocess.run(["git", "add", "."], check=True)
-                            subprocess.run(["git", "commit", "-m", f"Auto-resolve conflicts: merge {target_branch} into {source_branch}"], check=True)
+                            commit_msg = _("Auto-resolve conflicts: merge {0} into {1}").format(target_branch, source_branch)
+                            subprocess.run(["git", "commit", "-m", commit_msg], check=True)
                             logger.log("green", _("Conflicts resolved automatically!"))
                         else:
                             logger.log("red", _("Could not resolve conflicts automatically"))
@@ -304,52 +305,83 @@ class GitHubAPI:
             logger.log("red", _("Unexpected error: {0}").format(e))
             return False
 
-    def wait_for_pr_checks(self, pr_number: int, logger, max_wait: int = 30) -> tuple[bool, str]:
+    def wait_for_pr_checks(self, pr_number: int, logger, max_wait: int = 120) -> tuple[bool, str]:
         """
         Wait for PR to be ready for merge by checking status periodically
+        Now waits up to 4 minutes (120 attempts x 2 seconds) for GitHub Actions and checks
         """
         repo_name = GitUtils.get_repo_name()
         if not repo_name:
             return False, "unknown"
-        
+
         logger.log("cyan", _("Waiting for PR to be ready for merge..."))
-        
+        logger.log("cyan", _("This may take a few minutes if GitHub Actions workflows are running..."))
+
         for attempt in range(max_wait):
             try:
                 response = requests.get(
                     f"https://api.github.com/repos/{repo_name}/pulls/{pr_number}",
                     headers=self.headers
                 )
-                
+
                 if response.status_code == 200:
                     pr_data = response.json()
                     mergeable = pr_data.get('mergeable')
                     mergeable_state = pr_data.get('mergeable_state')
-                    
-                    logger.log("cyan", _("Attempt {0}/{1}: mergeable={2}, state={3}").format(
-                        attempt + 1, max_wait, mergeable, mergeable_state))
-                    
+
+                    # Show progress every 10 attempts to avoid spam
+                    if attempt % 10 == 0 or attempt < 3:
+                        logger.log("cyan", _("Attempt {0}/{1}: mergeable={2}, state={3}").format(
+                            attempt + 1, max_wait, mergeable, mergeable_state))
+
+                    # SUCCESS: PR is ready for merge
                     if mergeable is True and mergeable_state == 'clean':
                         logger.log("green", _("PR ready for merge!"))
                         return True, mergeable_state
+
+                    # CONFLICT: PR has conflicts that need manual resolution
                     elif mergeable is False and mergeable_state == 'dirty':
                         logger.log("red", _("PR has conflicts"))
                         return False, mergeable_state
-                    elif mergeable_state in ['unknown', 'checking']:
+
+                    # STILL PROCESSING: GitHub is still calculating or running checks
+                    # States: unknown, checking, blocked, behind, unstable, has_hooks
+                    # We should CONTINUE WAITING for all these states
+                    elif mergeable_state in ['unknown', 'checking', 'blocked', 'behind', 'unstable', 'has_hooks'] or mergeable is None:
                         if attempt < max_wait - 1:
+                            # Only show detailed status every 10 attempts
+                            if attempt % 10 == 0 and attempt > 0:
+                                logger.log("yellow", _("Still waiting... State: {0} (GitHub may be running workflows)").format(mergeable_state))
                             time.sleep(2)
                             continue
+                        else:
+                            # Reached max attempts
+                            logger.log("yellow", _("Timeout: PR still in state '{0}' after {1} seconds").format(
+                                mergeable_state, max_wait * 2))
+                            logger.log("yellow", _("PR created but needs manual merge"))
+                            return False, "timeout"
+
+                    # UNEXPECTED STATE: Log but continue waiting
                     else:
-                        logger.log("yellow", _("Unexpected state: {0}").format(mergeable_state))
-                        return False, mergeable_state
+                        if attempt < max_wait - 1:
+                            logger.log("yellow", _("Unexpected state: {0}, continuing to wait...").format(mergeable_state))
+                            time.sleep(2)
+                            continue
+                        else:
+                            logger.log("yellow", _("Unexpected final state: {0}").format(mergeable_state))
+                            return False, mergeable_state
                 else:
                     logger.log("red", _("Error checking PR: {0}").format(response.status_code))
                     return False, "error"
-                    
+
             except Exception as e:
                 logger.log("red", _("Error: {0}").format(e))
+                # Don't fail immediately on network errors, retry
+                if attempt < max_wait - 1:
+                    time.sleep(2)
+                    continue
                 return False, "error"
-        
+
         logger.log("yellow", _("Timeout waiting for PR to be ready"))
         return False, "timeout"
 
@@ -670,7 +702,7 @@ class GitHubAPI:
             
             if response.status_code not in [200, 201]:
                 if logger:
-                    error_msg = response.json().get('message', '') if response.text else 'Unknown error'
+                    error_msg = response.json().get('message', '') if response.text else _('Unknown error')
                     logger.log("red", _("Failed to create PR: {0}").format(error_msg))
                 return {}
             
@@ -713,18 +745,18 @@ class GitHubAPI:
                         merge_error = merge_response.json() if merge_response.text else {}
                         if logger:
                             logger.log("red", _("Auto-merge failed: {0}").format(
-                                merge_error.get('message', 'Unknown error')))
+                                merge_error.get('message', _('Unknown error'))))
                             logger.log("yellow", _("PR created but must be merged manually"))
                         
                         pr_info['auto_merged'] = False
-                        pr_info['merge_error'] = merge_error.get('message', 'Unknown error')
+                        pr_info['merge_error'] = merge_error.get('message', _('Unknown error'))
                 else:
                     if logger:
                         logger.log("yellow", _("PR not ready for merge (state: {0})").format(pr_state))
                         logger.log("yellow", _("PR created but must be merged manually"))
-                    
+
                     pr_info['auto_merged'] = False
-                    pr_info['merge_error'] = f"PR not ready: {pr_state}"
+                    pr_info['merge_error'] = _("PR not ready: {0}").format(pr_state)
             
             # Show operation summary
             if pr_info and pr_number:
@@ -743,21 +775,21 @@ class GitHubAPI:
             from menu_system import MenuSystem
             menu = MenuSystem(logger)
             
-            pr_number = pr_info.get('number', 'unknown')
+            pr_number = pr_info.get('number', _('unknown'))
             pr_url = pr_info.get('html_url', '')
-            
+
             summary_lines = [
                 f"🎉 **{_('PULL REQUEST COMPLETED SUCCESSFULLY!')}**",
                 f"",
                 f"🔗 {_('PR #{0} created and processed').format(pr_number)}",
                 f"🌿 {source_branch} → {target_branch}",
             ]
-            
+
             if pr_info.get('auto_merged'):
                 summary_lines.extend([
                     f"⚡ {_('Auto-merge')}: **{_('SUCCESS')}**",
                     f"✅ {_('Code automatically merged to target branch')}",
-                    f"🎯 {_('Merge SHA')}: {pr_info.get('merge_sha', 'unknown')[:7]}"
+                    f"🎯 {_('Merge SHA')}: {pr_info.get('merge_sha', _('unknown'))[:7]}"
                 ])
             else:
                 summary_lines.extend([
@@ -779,4 +811,4 @@ class GitHubAPI:
             )
         except Exception as e:
             if logger:
-                logger.log("yellow", f"Could not show PR summary: {e}")
+                logger.log("yellow", _("Could not show PR summary: {0}").format(e))
