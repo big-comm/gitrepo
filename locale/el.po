@@ -2326,6 +2326,12 @@ msgstr "Ανιχνεύθηκαν συγκρούσεις, επιλύονται α
 msgid "Using advanced resolution strategy..."
 msgstr "Χρησιμοποιώντας προηγμένη στρατηγική επίλυσης..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 266
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-resolve conflicts: merge {0} into {1}"
+msgstr "Αυτόματη επίλυση συγκρούσεων: συγχώνευση {0} σε {1}"
+# 
 # File: usr/share/build-package/github_api.py, line: 254
 #: NEEDS WORK
 msgid "Conflicts resolved automatically!"
@@ -2367,6 +2373,11 @@ msgstr "Σφάλμα κατά την επίλυση σύγκρουσης: {0}"
 msgid "Waiting for PR to be ready for merge..."
 msgstr "Περιμένοντας το PR να είναι έτοιμο για συγχώνευση..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 318
+#: NEEDS WORK
+msgid "This may take a few minutes if GitHub Actions workflows are running..."
+msgstr "Αυτό μπορεί να διαρκέσει μερικά λεπτά αν οι ροές εργασίας του GitHub Actions εκτελούνται..."
+# 
 # File: usr/share/build-package/github_api.py, line: 316
 #: NEEDS WORK
 #, python-brace-format
@@ -2383,11 +2394,34 @@ msgstr "PR έτοιμο προς συγχώνευση!"
 msgid "PR has conflicts"
 msgstr "Η PR έχει συγκρούσεις"
 # 
-# File: usr/share/build-package/github_api.py, line: 330
+# File: usr/share/build-package/core/github_api.py, line: 354
 #: NEEDS WORK
 #, python-brace-format
-msgid "Unexpected state: {0}"
-msgstr "Αναπάντεχη κατάσταση: {0}"
+msgid "Still waiting... State: {0} (GitHub may be running workflows)"
+msgstr "Ακόμα περιμένω... Κατάσταση: {0} (Ίσως το GitHub να εκτελεί ροές εργασίας)"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 359
+#: NEEDS WORK
+#, python-brace-format
+msgid "Timeout: PR still in state '{0}' after {1} seconds"
+msgstr "Χρόνος λήξης: Η PR είναι ακόμα σε κατάσταση '{0}' μετά από {1} δευτερόλεπτα"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 361
+#: NEEDS WORK
+msgid "PR created but needs manual merge"
+msgstr "Η PR δημιουργήθηκε αλλά χρειάζεται χειροκίνητη συγχώνευση"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 367
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected state: {0}, continuing to wait..."
+msgstr "Αναπάντεχη κατάσταση: {0}, συνεχίζοντας να περιμένω..."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 371
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected final state: {0}"
+msgstr "Αναπάντεχη τελική κατάσταση: {0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 333
 #: NEEDS WORK
@@ -2674,6 +2708,13 @@ msgstr "Οι συγκρούσεις επιλύθηκαν αυτόματα (αν 
 msgid "Ready for automatic merge"
 msgstr "Έτοιμο για αυτόματη συγχώνευση"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 705
+# File: usr/share/build-package/core/github_api.py, line: 748
+# File: usr/share/build-package/core/github_api.py, line: 752
+#: NEEDS WORK
+msgid "Unknown error"
+msgstr "Άγνωστο σφάλμα"
+# 
 # File: usr/share/build-package/github_api.py, line: 475
 #: NEEDS WORK
 #, python-brace-format
@@ -2731,11 +2772,23 @@ msgstr "Η PR δημιουργήθηκε αλλά πρέπει να συγχων
 msgid "PR not ready for merge (state: {0})"
 msgstr "PR δεν είναι έτοιμο προς συγχώνευση (κατάσταση: {0})"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 759
+#: NEEDS WORK
+#, python-brace-format
+msgid "PR not ready: {0}"
+msgstr "PR όχι έτοιμο: {0}"
+# 
 # File: usr/share/build-package/github_api.py, line: 507
 #: NEEDS WORK
 #, python-brace-format
 msgid "Error creating pull request: {0}"
 msgstr "Σφάλμα κατά τη δημιουργία αιτήματος έλξης: {0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 778
+# File: usr/share/build-package/core/github_api.py, line: 792
+#: NEEDS WORK
+msgid "unknown"
+msgstr "άγνωστο"
 # 
 # File: usr/share/build-package/github_api.py, line: 750
 #: NEEDS WORK
@@ -2772,6 +2825,12 @@ msgstr "Απαιτείται χειροκίνητη συγχώνευση"
 #: NEEDS WORK
 msgid "PULL REQUEST COMPLETED"
 msgstr "Η ΑΙΤΗΣΗ ΕΛΑΒΕ ΤΕΛΟΣ"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 814
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not show PR summary: {0}"
+msgstr "Δεν ήταν δυνατή η εμφάνιση της περίληψης PR: {0}"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 

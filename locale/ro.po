@@ -2324,6 +2324,12 @@ msgstr "Conflicte detectate, rezolvându-se automat..."
 msgid "Using advanced resolution strategy..."
 msgstr "Folosind strategia avansată de rezolvare..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 266
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-resolve conflicts: merge {0} into {1}"
+msgstr "Rezolvarea automată a conflictelor: îmbină {0} în {1}"
+# 
 # File: usr/share/build-package/github_api.py, line: 254
 #: NEEDS WORK
 msgid "Conflicts resolved automatically!"
@@ -2365,6 +2371,11 @@ msgstr "Eroare în timpul rezolvării conflictului: {0}"
 msgid "Waiting for PR to be ready for merge..."
 msgstr "Așteptând ca PR-ul să fie gata pentru a fi fuzionat..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 318
+#: NEEDS WORK
+msgid "This may take a few minutes if GitHub Actions workflows are running..."
+msgstr "Acest lucru poate dura câteva minute dacă fluxurile de lucru GitHub Actions sunt în execuție..."
+# 
 # File: usr/share/build-package/github_api.py, line: 316
 #: NEEDS WORK
 #, python-brace-format
@@ -2381,11 +2392,34 @@ msgstr "PR gata pentru fuziune!"
 msgid "PR has conflicts"
 msgstr "PR are conflicte"
 # 
-# File: usr/share/build-package/github_api.py, line: 330
+# File: usr/share/build-package/core/github_api.py, line: 354
 #: NEEDS WORK
 #, python-brace-format
-msgid "Unexpected state: {0}"
-msgstr "Stare neașteptată: {0}"
+msgid "Still waiting... State: {0} (GitHub may be running workflows)"
+msgstr "Încă aștept... Stare: {0} (GitHub ar putea rula fluxuri de lucru)"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 359
+#: NEEDS WORK
+#, python-brace-format
+msgid "Timeout: PR still in state '{0}' after {1} seconds"
+msgstr "Timp de așteptare: PR încă în starea '{0}' după {1} secunde"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 361
+#: NEEDS WORK
+msgid "PR created but needs manual merge"
+msgstr "PR creat, dar necesită o fuziune manuală."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 367
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected state: {0}, continuing to wait..."
+msgstr "Stare neașteptată: {0}, continuând să aștepte..."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 371
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected final state: {0}"
+msgstr "Stare finală neașteptată: {0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 333
 #: NEEDS WORK
@@ -2672,6 +2706,13 @@ msgstr "Conflictele sunt rezolvate automat (dacă este cazul)"
 msgid "Ready for automatic merge"
 msgstr "Pregătit pentru fuziune automată"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 705
+# File: usr/share/build-package/core/github_api.py, line: 748
+# File: usr/share/build-package/core/github_api.py, line: 752
+#: NEEDS WORK
+msgid "Unknown error"
+msgstr "Eroare necunoscută"
+# 
 # File: usr/share/build-package/github_api.py, line: 475
 #: NEEDS WORK
 #, python-brace-format
@@ -2729,11 +2770,23 @@ msgstr "PR creat, dar trebuie să fie fuzionat manual."
 msgid "PR not ready for merge (state: {0})"
 msgstr "PR nu este gata pentru a fi fuzionat (stare: {0})"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 759
+#: NEEDS WORK
+#, python-brace-format
+msgid "PR not ready: {0}"
+msgstr "PR nu este gata: {0}"
+# 
 # File: usr/share/build-package/github_api.py, line: 507
 #: NEEDS WORK
 #, python-brace-format
 msgid "Error creating pull request: {0}"
 msgstr "Eroare la crearea cererii de extragere: {0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 778
+# File: usr/share/build-package/core/github_api.py, line: 792
+#: NEEDS WORK
+msgid "unknown"
+msgstr "necunoscut"
 # 
 # File: usr/share/build-package/github_api.py, line: 750
 #: NEEDS WORK
@@ -2770,6 +2823,12 @@ msgstr "Fuzionare manuală necesară"
 #: NEEDS WORK
 msgid "PULL REQUEST COMPLETED"
 msgstr "CERERE DE PULL FINALIZATĂ"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 814
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not show PR summary: {0}"
+msgstr "Nu s-a putut afișa rezumatul PR: {0}"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 

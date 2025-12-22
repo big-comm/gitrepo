@@ -2327,6 +2327,12 @@ msgstr "Byly zjištěny konflikty, automaticky se řeší..."
 msgid "Using advanced resolution strategy..."
 msgstr "Používání pokročilé strategie rozlišení..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 266
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-resolve conflicts: merge {0} into {1}"
+msgstr "Automaticky vyřešit konflikty: sloučit {0} do {1}"
+# 
 # File: usr/share/build-package/github_api.py, line: 254
 #: NEEDS WORK
 msgid "Conflicts resolved automatically!"
@@ -2368,6 +2374,11 @@ msgstr "Chyba během řešení konfliktu: {0}"
 msgid "Waiting for PR to be ready for merge..."
 msgstr "Čekání na připravenost PR k sloučení..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 318
+#: NEEDS WORK
+msgid "This may take a few minutes if GitHub Actions workflows are running..."
+msgstr "Toto může trvat několik minut, pokud běží pracovní postupy GitHub Actions..."
+# 
 # File: usr/share/build-package/github_api.py, line: 316
 #: NEEDS WORK
 #, python-brace-format
@@ -2384,11 +2395,34 @@ msgstr "PR připraveno k sloučení!"
 msgid "PR has conflicts"
 msgstr "PR má konflikty"
 # 
-# File: usr/share/build-package/github_api.py, line: 330
+# File: usr/share/build-package/core/github_api.py, line: 354
 #: NEEDS WORK
 #, python-brace-format
-msgid "Unexpected state: {0}"
-msgstr "Neočekávaný stav: {0}"
+msgid "Still waiting... State: {0} (GitHub may be running workflows)"
+msgstr "Stále čekám... Stav: {0} (GitHub může spouštět pracovní postupy)"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 359
+#: NEEDS WORK
+#, python-brace-format
+msgid "Timeout: PR still in state '{0}' after {1} seconds"
+msgstr "Časový limit: PR je stále ve stavu '{0}' po {1} sekundách"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 361
+#: NEEDS WORK
+msgid "PR created but needs manual merge"
+msgstr "PR byla vytvořena, ale vyžaduje ruční sloučení."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 367
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected state: {0}, continuing to wait..."
+msgstr "Neočekávaný stav: {0}, pokračuji v čekání..."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 371
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected final state: {0}"
+msgstr "Neočekávaný konečný stav: {0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 333
 #: NEEDS WORK
@@ -2675,6 +2709,13 @@ msgstr "Konflikty vyřešeny automaticky (pokud nějaké existují)"
 msgid "Ready for automatic merge"
 msgstr "Připraveno na automatické sloučení"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 705
+# File: usr/share/build-package/core/github_api.py, line: 748
+# File: usr/share/build-package/core/github_api.py, line: 752
+#: NEEDS WORK
+msgid "Unknown error"
+msgstr "Neznámá chyba"
+# 
 # File: usr/share/build-package/github_api.py, line: 475
 #: NEEDS WORK
 #, python-brace-format
@@ -2732,11 +2773,23 @@ msgstr "PR byla vytvořena, ale musí být sloučena ručně."
 msgid "PR not ready for merge (state: {0})"
 msgstr "PR není připraveno k sloučení (stav: {0})"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 759
+#: NEEDS WORK
+#, python-brace-format
+msgid "PR not ready: {0}"
+msgstr "PR není připraveno: {0}"
+# 
 # File: usr/share/build-package/github_api.py, line: 507
 #: NEEDS WORK
 #, python-brace-format
 msgid "Error creating pull request: {0}"
 msgstr "Chyba při vytváření pull requestu: {0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 778
+# File: usr/share/build-package/core/github_api.py, line: 792
+#: NEEDS WORK
+msgid "unknown"
+msgstr "neznámý"
 # 
 # File: usr/share/build-package/core/github_api.py, line: 750
 #: NEEDS WORK
@@ -2773,6 +2826,12 @@ msgstr "Ruční sloučení vyžadováno"
 #: NEEDS WORK
 msgid "PULL REQUEST COMPLETED"
 msgstr "ŽÁDOST O PULL BYLA DOKONČENA"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 814
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not show PR summary: {0}"
+msgstr "Nelze zobrazit shrnutí PR: {0}"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 

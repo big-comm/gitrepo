@@ -2424,6 +2424,12 @@ msgstr "Çatışmalar tespit edildi, otomatik olarak çözülüyor..."
 msgid "Using advanced resolution strategy..."
 msgstr "Gelişmiş çözümleme stratejisi kullanılıyor..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 266
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-resolve conflicts: merge {0} into {1}"
+msgstr "Çatışmaları otomatik çöz: {0}'ı {1}'e birleştir"
+# 
 # File: usr/share/build-package/github_api.py, line: 254
 #: NEEDS WORK
 msgid "Conflicts resolved automatically!"
@@ -2465,6 +2471,11 @@ msgstr "Çatışma çözümü sırasında hata: {0}"
 msgid "Waiting for PR to be ready for merge..."
 msgstr "Birleştirme için PR'nın hazır olmasını bekliyorum..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 318
+#: NEEDS WORK
+msgid "This may take a few minutes if GitHub Actions workflows are running..."
+msgstr "Bu, GitHub Actions iş akışları çalışıyorsa birkaç dakika sürebilir..."
+# 
 # File: usr/share/build-package/github_api.py, line: 316
 #: NEEDS WORK
 #, python-brace-format
@@ -2481,11 +2492,34 @@ msgstr "PR birleştirmeye hazır!"
 msgid "PR has conflicts"
 msgstr "PR çatışmaları var"
 # 
-# File: usr/share/build-package/github_api.py, line: 330
+# File: usr/share/build-package/core/github_api.py, line: 354
 #: NEEDS WORK
 #, python-brace-format
-msgid "Unexpected state: {0}"
-msgstr "Beklenmedik durum: {0}"
+msgid "Still waiting... State: {0} (GitHub may be running workflows)"
+msgstr "Hala bekliyor... Durum: {0} (GitHub iş akışlarını çalıştırıyor olabilir)"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 359
+#: NEEDS WORK
+#, python-brace-format
+msgid "Timeout: PR still in state '{0}' after {1} seconds"
+msgstr "Zaman aşımı: PR hala '{0}' durumunda {1} saniye sonra"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 361
+#: NEEDS WORK
+msgid "PR created but needs manual merge"
+msgstr "PR oluşturuldu ancak manuel birleştirme gerekiyor"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 367
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected state: {0}, continuing to wait..."
+msgstr "Beklenmedik durum: {0}, beklemeye devam ediliyor..."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 371
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected final state: {0}"
+msgstr "Beklenmedik son durum: {0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 333
 #: NEEDS WORK
@@ -2772,6 +2806,13 @@ msgstr "Çatışmalar otomatik olarak çözüldü (varsa)"
 msgid "Ready for automatic merge"
 msgstr "Otomatik birleştirme için hazır"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 705
+# File: usr/share/build-package/core/github_api.py, line: 748
+# File: usr/share/build-package/core/github_api.py, line: 752
+#: NEEDS WORK
+msgid "Unknown error"
+msgstr "Bilinmeyen hata"
+# 
 # File: usr/share/build-package/github_api.py, line: 475
 #: NEEDS WORK
 #, python-brace-format
@@ -2829,11 +2870,23 @@ msgstr "PR oluşturuldu ancak manuel olarak birleştirilmesi gerekiyor."
 msgid "PR not ready for merge (state: {0})"
 msgstr "PR birleştirme için hazır değil (durum: {0})"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 759
+#: NEEDS WORK
+#, python-brace-format
+msgid "PR not ready: {0}"
+msgstr "PR hazır değil: {0}"
+# 
 # File: usr/share/build-package/github_api.py, line: 507
 #: NEEDS WORK
 #, python-brace-format
 msgid "Error creating pull request: {0}"
 msgstr "Hata oluştu: {0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 778
+# File: usr/share/build-package/core/github_api.py, line: 792
+#: NEEDS WORK
+msgid "unknown"
+msgstr "bilinmeyen"
 # 
 # File: usr/share/build-package/github_api.py, line: 750
 #: NEEDS WORK
@@ -2870,6 +2923,12 @@ msgstr "Manuel birleştirme gereklidir"
 #: NEEDS WORK
 msgid "PULL REQUEST COMPLETED"
 msgstr "PULL İSTEĞİ TAMAMLANDI"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 814
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not show PR summary: {0}"
+msgstr "PR özeti gösterilemedi: {0}"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
