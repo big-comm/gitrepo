@@ -2324,6 +2324,12 @@ msgstr "競合が検出されました。自動的に解決しています..."
 msgid "Using advanced resolution strategy..."
 msgstr "高度な解決戦略を使用しています..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 266
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-resolve conflicts: merge {0} into {1}"
+msgstr "自動解決の競合: {0} を {1} にマージ"
+# 
 # File: usr/share/build-package/github_api.py, line: 254
 #: NEEDS WORK
 msgid "Conflicts resolved automatically!"
@@ -2365,6 +2371,11 @@ msgstr "競合解決中のエラー: {0}"
 msgid "Waiting for PR to be ready for merge..."
 msgstr "マージの準備が整うまで待機中..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 318
+#: NEEDS WORK
+msgid "This may take a few minutes if GitHub Actions workflows are running..."
+msgstr "これには、GitHub Actions ワークフローが実行されている場合、数分かかることがあります..."
+# 
 # File: usr/share/build-package/github_api.py, line: 316
 #: NEEDS WORK
 #, python-brace-format
@@ -2381,11 +2392,34 @@ msgstr "PR マージの準備ができました！"
 msgid "PR has conflicts"
 msgstr "PRに競合があります"
 # 
-# File: usr/share/build-package/github_api.py, line: 330
+# File: usr/share/build-package/core/github_api.py, line: 354
 #: NEEDS WORK
 #, python-brace-format
-msgid "Unexpected state: {0}"
-msgstr "予期しない状態: {0}"
+msgid "Still waiting... State: {0} (GitHub may be running workflows)"
+msgstr "まだ待機中... 状態: {0} (GitHubがワークフローを実行している可能性があります)"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 359
+#: NEEDS WORK
+#, python-brace-format
+msgid "Timeout: PR still in state '{0}' after {1} seconds"
+msgstr "タイムアウト: PRはまだ'{0}'の状態にあり、{1}秒経過しました"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 361
+#: NEEDS WORK
+msgid "PR created but needs manual merge"
+msgstr "PRが作成されましたが、手動でのマージが必要です。"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 367
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected state: {0}, continuing to wait..."
+msgstr "予期しない状態: {0}、引き続き待機中..."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 371
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected final state: {0}"
+msgstr "予期しない最終状態: {0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 333
 #: NEEDS WORK
@@ -2672,6 +2706,13 @@ msgstr "競合は自動的に解決されました（該当する場合）"
 msgid "Ready for automatic merge"
 msgstr "自動マージの準備ができました"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 705
+# File: usr/share/build-package/core/github_api.py, line: 748
+# File: usr/share/build-package/core/github_api.py, line: 752
+#: NEEDS WORK
+msgid "Unknown error"
+msgstr "不明なエラー"
+# 
 # File: usr/share/build-package/github_api.py, line: 475
 #: NEEDS WORK
 #, python-brace-format
@@ -2729,11 +2770,23 @@ msgstr "PRが作成されましたが、手動でマージする必要があり�
 msgid "PR not ready for merge (state: {0})"
 msgstr "PRはマージの準備ができていません（状態: {0}）"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 759
+#: NEEDS WORK
+#, python-brace-format
+msgid "PR not ready: {0}"
+msgstr "PRが準備できていません: {0}"
+# 
 # File: usr/share/build-package/github_api.py, line: 507
 #: NEEDS WORK
 #, python-brace-format
 msgid "Error creating pull request: {0}"
 msgstr "プルリクエストの作成エラー: {0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 778
+# File: usr/share/build-package/core/github_api.py, line: 792
+#: NEEDS WORK
+msgid "unknown"
+msgstr "不明"
 # 
 # File: usr/share/build-package/core/github_api.py, line: 750
 #: NEEDS WORK
@@ -2770,6 +2823,12 @@ msgstr "手動マージが必要です"
 #: NEEDS WORK
 msgid "PULL REQUEST COMPLETED"
 msgstr "プルリクエストが完了しました"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 814
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not show PR summary: {0}"
+msgstr "PRの概要を表示できませんでした: {0}"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 

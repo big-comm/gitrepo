@@ -2318,6 +2318,12 @@ msgstr "충돌이 감지되었습니다. 자동으로 해결 중..."
 msgid "Using advanced resolution strategy..."
 msgstr "고급 해상도 전략 사용 중..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 266
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-resolve conflicts: merge {0} into {1}"
+msgstr "자동으로 충돌 해결: {0}을(를) {1}에 병합"
+# 
 # File: usr/share/build-package/github_api.py, line: 254
 #: NEEDS WORK
 msgid "Conflicts resolved automatically!"
@@ -2359,6 +2365,11 @@ msgstr "충돌 해결 중 오류: {0}"
 msgid "Waiting for PR to be ready for merge..."
 msgstr "PR 병합 준비 중 대기 중..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 318
+#: NEEDS WORK
+msgid "This may take a few minutes if GitHub Actions workflows are running..."
+msgstr "이 작업은 GitHub Actions 워크플로가 실행 중인 경우 몇 분 정도 걸릴 수 있습니다..."
+# 
 # File: usr/share/build-package/github_api.py, line: 316
 #: NEEDS WORK
 #, python-brace-format
@@ -2375,11 +2386,34 @@ msgstr "PR 병합 준비 완료!"
 msgid "PR has conflicts"
 msgstr "PR에 충돌이 있습니다"
 # 
-# File: usr/share/build-package/github_api.py, line: 330
+# File: usr/share/build-package/core/github_api.py, line: 354
 #: NEEDS WORK
 #, python-brace-format
-msgid "Unexpected state: {0}"
-msgstr "예상치 못한 상태: {0}"
+msgid "Still waiting... State: {0} (GitHub may be running workflows)"
+msgstr "아직 대기 중... 상태: {0} (GitHub에서 워크플로를 실행 중일 수 있습니다)"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 359
+#: NEEDS WORK
+#, python-brace-format
+msgid "Timeout: PR still in state '{0}' after {1} seconds"
+msgstr "타임아웃: PR이(가) {1} 초 후에도 여전히 '{0}' 상태입니다."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 361
+#: NEEDS WORK
+msgid "PR created but needs manual merge"
+msgstr "PR이 생성되었지만 수동 병합이 필요합니다."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 367
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected state: {0}, continuing to wait..."
+msgstr "예상치 못한 상태: {0}, 계속 대기 중..."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 371
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected final state: {0}"
+msgstr "예상치 못한 최종 상태: {0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 333
 #: NEEDS WORK
@@ -2666,6 +2700,13 @@ msgstr "충돌이 자동으로 해결되었습니다(있는 경우)"
 msgid "Ready for automatic merge"
 msgstr "자동 병합 준비 완료"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 705
+# File: usr/share/build-package/core/github_api.py, line: 748
+# File: usr/share/build-package/core/github_api.py, line: 752
+#: NEEDS WORK
+msgid "Unknown error"
+msgstr "알 수 없는 오류"
+# 
 # File: usr/share/build-package/github_api.py, line: 475
 #: NEEDS WORK
 #, python-brace-format
@@ -2723,11 +2764,23 @@ msgstr "PR이 생성되었지만 수동으로 병합해야 합니다."
 msgid "PR not ready for merge (state: {0})"
 msgstr "PR 병합 준비 완료되지 않음 (상태: {0})"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 759
+#: NEEDS WORK
+#, python-brace-format
+msgid "PR not ready: {0}"
+msgstr "PR 준비되지 않음: {0}"
+# 
 # File: usr/share/build-package/github_api.py, line: 507
 #: NEEDS WORK
 #, python-brace-format
 msgid "Error creating pull request: {0}"
 msgstr "풀 요청 생성 오류: {0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 778
+# File: usr/share/build-package/core/github_api.py, line: 792
+#: NEEDS WORK
+msgid "unknown"
+msgstr "알 수 없음"
 # 
 # File: usr/share/build-package/github_api.py, line: 750
 #: NEEDS WORK
@@ -2764,6 +2817,12 @@ msgstr "수동 병합 필요"
 #: NEEDS WORK
 msgid "PULL REQUEST COMPLETED"
 msgstr "풀 리퀘스트 완료"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 814
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not show PR summary: {0}"
+msgstr "PR 요약을 표시할 수 없습니다: {0}"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 

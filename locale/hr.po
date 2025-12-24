@@ -2319,6 +2319,12 @@ msgstr "Otkriveni sukobi, automatsko rješavanje..."
 msgid "Using advanced resolution strategy..."
 msgstr "Korištenje napredne strategije rješavanja..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 266
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-resolve conflicts: merge {0} into {1}"
+msgstr "Automatsko rješavanje sukoba: spoji {0} u {1}"
+# 
 # File: usr/share/build-package/github_api.py, line: 254
 #: NEEDS WORK
 msgid "Conflicts resolved automatically!"
@@ -2360,6 +2366,11 @@ msgstr "Greška tijekom rješavanja sukoba: {0}"
 msgid "Waiting for PR to be ready for merge..."
 msgstr "Čekanje da PR bude spreman za spajanje..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 318
+#: NEEDS WORK
+msgid "This may take a few minutes if GitHub Actions workflows are running..."
+msgstr "Ovo može potrajati nekoliko minuta ako su GitHub Actions radni tokovi u tijeku..."
+# 
 # File: usr/share/build-package/github_api.py, line: 316
 #: NEEDS WORK
 #, python-brace-format
@@ -2376,11 +2387,34 @@ msgstr "PR spreman za spajanje!"
 msgid "PR has conflicts"
 msgstr "PR ima sukobe"
 # 
-# File: usr/share/build-package/github_api.py, line: 330
+# File: usr/share/build-package/core/github_api.py, line: 354
 #: NEEDS WORK
 #, python-brace-format
-msgid "Unexpected state: {0}"
-msgstr "Neočekivano stanje: {0}"
+msgid "Still waiting... State: {0} (GitHub may be running workflows)"
+msgstr "Još uvijek čekam... Stanje: {0} (GitHub možda pokreće radne tokove)"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 359
+#: NEEDS WORK
+#, python-brace-format
+msgid "Timeout: PR still in state '{0}' after {1} seconds"
+msgstr "Vrijeme isteklo: PR je još uvijek u stanju '{0}' nakon {1} sekundi"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 361
+#: NEEDS WORK
+msgid "PR created but needs manual merge"
+msgstr "PR je kreiran, ali zahtijeva ručno spajanje."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 367
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected state: {0}, continuing to wait..."
+msgstr "Neočekivano stanje: {0}, nastavljam čekati..."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 371
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected final state: {0}"
+msgstr "Neočekivano završno stanje: {0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 333
 #: NEEDS WORK
@@ -2667,6 +2701,13 @@ msgstr "Sukobi su automatski riješeni (ako ih ima)"
 msgid "Ready for automatic merge"
 msgstr "Spreman za automatsko spajanje"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 705
+# File: usr/share/build-package/core/github_api.py, line: 748
+# File: usr/share/build-package/core/github_api.py, line: 752
+#: NEEDS WORK
+msgid "Unknown error"
+msgstr "Nepoznata greška"
+# 
 # File: usr/share/build-package/github_api.py, line: 475
 #: NEEDS WORK
 #, python-brace-format
@@ -2724,11 +2765,23 @@ msgstr "PR je kreiran, ali ga treba ručno spojiti."
 msgid "PR not ready for merge (state: {0})"
 msgstr "PR nije spreman za spajanje (stanje: {0})"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 759
+#: NEEDS WORK
+#, python-brace-format
+msgid "PR not ready: {0}"
+msgstr "PR nije spreman: {0}"
+# 
 # File: usr/share/build-package/github_api.py, line: 507
 #: NEEDS WORK
 #, python-brace-format
 msgid "Error creating pull request: {0}"
 msgstr "Greška prilikom kreiranja zahtjeva za povlačenje: {0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 778
+# File: usr/share/build-package/core/github_api.py, line: 792
+#: NEEDS WORK
+msgid "unknown"
+msgstr "nepoznato"
 # 
 # File: usr/share/build-package/github_api.py, line: 750
 #: NEEDS WORK
@@ -2765,6 +2818,12 @@ msgstr "Ručno spajanje potrebno"
 #: NEEDS WORK
 msgid "PULL REQUEST COMPLETED"
 msgstr "ZAHTJEV ZA POVLAČENJE ZAVRŠEN"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 814
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not show PR summary: {0}"
+msgstr "Nije moguće prikazati sažetak PR-a: {0}"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
