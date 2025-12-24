@@ -2326,6 +2326,12 @@ msgstr "Conflictos detectados, resolviendo automáticamente..."
 msgid "Using advanced resolution strategy..."
 msgstr "Usando estrategia de resolución avanzada..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 266
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-resolve conflicts: merge {0} into {1}"
+msgstr "Resolución automática de conflictos: fusionar {0} en {1}"
+# 
 # File: usr/share/build-package/github_api.py, line: 254
 #: NEEDS WORK
 msgid "Conflicts resolved automatically!"
@@ -2367,6 +2373,11 @@ msgstr "Error durante la resolución de conflictos: {0}"
 msgid "Waiting for PR to be ready for merge..."
 msgstr "Esperando a que la PR esté lista para fusionar..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 318
+#: NEEDS WORK
+msgid "This may take a few minutes if GitHub Actions workflows are running..."
+msgstr "Esto puede tardar unos minutos si se están ejecutando flujos de trabajo de GitHub Actions..."
+# 
 # File: usr/share/build-package/github_api.py, line: 316
 #: NEEDS WORK
 #, python-brace-format
@@ -2383,11 +2394,34 @@ msgstr "¡PR listo para fusionar!"
 msgid "PR has conflicts"
 msgstr "El PR tiene conflictos"
 # 
-# File: usr/share/build-package/github_api.py, line: 330
+# File: usr/share/build-package/core/github_api.py, line: 354
 #: NEEDS WORK
 #, python-brace-format
-msgid "Unexpected state: {0}"
-msgstr "Estado inesperado: {0}"
+msgid "Still waiting... State: {0} (GitHub may be running workflows)"
+msgstr "Siguiendo esperando... Estado: {0} (GitHub puede estar ejecutando flujos de trabajo)"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 359
+#: NEEDS WORK
+#, python-brace-format
+msgid "Timeout: PR still in state '{0}' after {1} seconds"
+msgstr "Tiempo de espera: PR aún en estado '{0}' después de {1} segundos"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 361
+#: NEEDS WORK
+msgid "PR created but needs manual merge"
+msgstr "PR creado pero necesita fusión manual"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 367
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected state: {0}, continuing to wait..."
+msgstr "Estado inesperado: {0}, continuando a esperar..."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 371
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected final state: {0}"
+msgstr "Estado final inesperado: {0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 333
 #: NEEDS WORK
@@ -2674,6 +2708,13 @@ msgstr "Conflictos resueltos automáticamente (si los hay)"
 msgid "Ready for automatic merge"
 msgstr "Listo para fusión automática"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 705
+# File: usr/share/build-package/core/github_api.py, line: 748
+# File: usr/share/build-package/core/github_api.py, line: 752
+#: NEEDS WORK
+msgid "Unknown error"
+msgstr "Error desconocido"
+# 
 # File: usr/share/build-package/github_api.py, line: 475
 #: NEEDS WORK
 #, python-brace-format
@@ -2731,11 +2772,23 @@ msgstr "PR creado pero debe ser fusionado manualmente"
 msgid "PR not ready for merge (state: {0})"
 msgstr "PR no listo para fusionar (estado: {0})"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 759
+#: NEEDS WORK
+#, python-brace-format
+msgid "PR not ready: {0}"
+msgstr "PR no listo: {0}"
+# 
 # File: usr/share/build-package/github_api.py, line: 507
 #: NEEDS WORK
 #, python-brace-format
 msgid "Error creating pull request: {0}"
 msgstr "Error al crear la solicitud de extracción: {0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 778
+# File: usr/share/build-package/core/github_api.py, line: 792
+#: NEEDS WORK
+msgid "unknown"
+msgstr "desconocido"
 # 
 # File: usr/share/build-package/core/github_api.py, line: 750
 #: NEEDS WORK
@@ -2772,6 +2825,12 @@ msgstr "Fusión manual requerida"
 #: NEEDS WORK
 msgid "PULL REQUEST COMPLETED"
 msgstr "SOLICITUD DE PULL COMPLETADA"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 814
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not show PR summary: {0}"
+msgstr "No se pudo mostrar el resumen de PR: {0}"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 

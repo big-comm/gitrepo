@@ -2319,6 +2319,12 @@ msgstr "Tunnistetut konfliktit, ratkaistaan automaattisesti..."
 msgid "Using advanced resolution strategy..."
 msgstr "Käyttämällä edistynyttä ratkaisustrategiaa..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 266
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-resolve conflicts: merge {0} into {1}"
+msgstr "Automaattinen konfliktien ratkaisu: yhdistä {0} {1}:een"
+# 
 # File: usr/share/build-package/github_api.py, line: 254
 #: NEEDS WORK
 msgid "Conflicts resolved automatically!"
@@ -2360,6 +2366,11 @@ msgstr "Virhe konfliktin ratkaisemisessa: {0}"
 msgid "Waiting for PR to be ready for merge..."
 msgstr "Odotetaan, että PR on valmis yhdistettäväksi..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 318
+#: NEEDS WORK
+msgid "This may take a few minutes if GitHub Actions workflows are running..."
+msgstr "Tämä saattaa kestää muutaman minuutin, jos GitHub Actions -työnkulut ovat käynnissä..."
+# 
 # File: usr/share/build-package/github_api.py, line: 316
 #: NEEDS WORK
 #, python-brace-format
@@ -2376,11 +2387,34 @@ msgstr "PR valmis yhdistettäväksi!"
 msgid "PR has conflicts"
 msgstr "PR:llä on ristiriitoja"
 # 
-# File: usr/share/build-package/github_api.py, line: 330
+# File: usr/share/build-package/core/github_api.py, line: 354
 #: NEEDS WORK
 #, python-brace-format
-msgid "Unexpected state: {0}"
-msgstr "Odottamaton tila: {0}"
+msgid "Still waiting... State: {0} (GitHub may be running workflows)"
+msgstr "Odotetaan edelleen... Tila: {0} (GitHub saattaa suorittaa työnkulkuja)"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 359
+#: NEEDS WORK
+#, python-brace-format
+msgid "Timeout: PR still in state '{0}' after {1} seconds"
+msgstr "Aika loppui: PR on edelleen tilassa '{0}' {1} sekunnin jälkeen"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 361
+#: NEEDS WORK
+msgid "PR created but needs manual merge"
+msgstr "PR luotu, mutta vaatii manuaalisen yhdistämisen."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 367
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected state: {0}, continuing to wait..."
+msgstr "Odottamaton tila: {0}, jatketaan odottamista..."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 371
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected final state: {0}"
+msgstr "Odottamaton lopputila: {0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 333
 #: NEEDS WORK
@@ -2667,6 +2701,13 @@ msgstr "Konfliktit ratkaistu automaattisesti (jos niitä on)"
 msgid "Ready for automatic merge"
 msgstr "Valmis automaattiseen yhdistämiseen"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 705
+# File: usr/share/build-package/core/github_api.py, line: 748
+# File: usr/share/build-package/core/github_api.py, line: 752
+#: NEEDS WORK
+msgid "Unknown error"
+msgstr "Tuntematon virhe"
+# 
 # File: usr/share/build-package/github_api.py, line: 475
 #: NEEDS WORK
 #, python-brace-format
@@ -2724,11 +2765,23 @@ msgstr "PR luotu, mutta se on yhdistettävä manuaalisesti"
 msgid "PR not ready for merge (state: {0})"
 msgstr "PR ei ole valmis yhdistettäväksi (tila: {0})"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 759
+#: NEEDS WORK
+#, python-brace-format
+msgid "PR not ready: {0}"
+msgstr "PR ei valmis: {0}"
+# 
 # File: usr/share/build-package/github_api.py, line: 507
 #: NEEDS WORK
 #, python-brace-format
 msgid "Error creating pull request: {0}"
 msgstr "Virhe vetopyynnön luomisessa: {0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 778
+# File: usr/share/build-package/core/github_api.py, line: 792
+#: NEEDS WORK
+msgid "unknown"
+msgstr "tuntematon"
 # 
 # File: usr/share/build-package/github_api.py, line: 750
 #: NEEDS WORK
@@ -2765,6 +2818,12 @@ msgstr "Manuaalinen yhdistäminen vaaditaan"
 #: NEEDS WORK
 msgid "PULL REQUEST COMPLETED"
 msgstr "PULL REQUEST VALMIS"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 814
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not show PR summary: {0}"
+msgstr "Ei voitu näyttää PR-yhteenvetoa: {0}"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 

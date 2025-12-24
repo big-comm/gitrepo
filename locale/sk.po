@@ -2325,6 +2325,12 @@ msgstr "Zistené konflikty, automatické riešenie..."
 msgid "Using advanced resolution strategy..."
 msgstr "Používanie pokročilej stratégie rozlíšenia..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 266
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-resolve conflicts: merge {0} into {1}"
+msgstr "Automaticky vyriešiť konflikty: zlúčiť {0} do {1}"
+# 
 # File: usr/share/build-package/github_api.py, line: 254
 #: NEEDS WORK
 msgid "Conflicts resolved automatically!"
@@ -2366,6 +2372,11 @@ msgstr "Chyba počas riešenia konfliktu: {0}"
 msgid "Waiting for PR to be ready for merge..."
 msgstr "Čaká sa na pripravenie PR na zlúčenie..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 318
+#: NEEDS WORK
+msgid "This may take a few minutes if GitHub Actions workflows are running..."
+msgstr "Toto môže trvať niekoľko minút, ak sú spustené pracovné postupy GitHub Actions..."
+# 
 # File: usr/share/build-package/github_api.py, line: 316
 #: NEEDS WORK
 #, python-brace-format
@@ -2382,11 +2393,34 @@ msgstr "PR pripravené na zlúčenie!"
 msgid "PR has conflicts"
 msgstr "PR má konflikty"
 # 
-# File: usr/share/build-package/github_api.py, line: 330
+# File: usr/share/build-package/core/github_api.py, line: 354
 #: NEEDS WORK
 #, python-brace-format
-msgid "Unexpected state: {0}"
-msgstr "Neočakávaný stav: {0}"
+msgid "Still waiting... State: {0} (GitHub may be running workflows)"
+msgstr "Ešte čakám... Stav: {0} (GitHub môže spúšťať pracovné postupy)"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 359
+#: NEEDS WORK
+#, python-brace-format
+msgid "Timeout: PR still in state '{0}' after {1} seconds"
+msgstr "Časový limit: PR je stále v stave '{0}' po {1} sekundách"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 361
+#: NEEDS WORK
+msgid "PR created but needs manual merge"
+msgstr "PR bola vytvorená, ale vyžaduje manuálne zlúčenie"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 367
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected state: {0}, continuing to wait..."
+msgstr "Neočakávaný stav: {0}, pokračujem v čakaní..."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 371
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected final state: {0}"
+msgstr "Neočakávaný konečný stav: {0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 333
 #: NEEDS WORK
@@ -2673,6 +2707,13 @@ msgstr "Konflikty boli automaticky vyriešené (ak nejaké existujú)"
 msgid "Ready for automatic merge"
 msgstr "Pripravené na automatické zlúčenie"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 705
+# File: usr/share/build-package/core/github_api.py, line: 748
+# File: usr/share/build-package/core/github_api.py, line: 752
+#: NEEDS WORK
+msgid "Unknown error"
+msgstr "Neznáma chyba"
+# 
 # File: usr/share/build-package/github_api.py, line: 475
 #: NEEDS WORK
 #, python-brace-format
@@ -2730,11 +2771,23 @@ msgstr "PR bola vytvorená, ale musí byť zlúčená manuálne"
 msgid "PR not ready for merge (state: {0})"
 msgstr "PR nie je pripravené na zlúčenie (stav: {0})"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 759
+#: NEEDS WORK
+#, python-brace-format
+msgid "PR not ready: {0}"
+msgstr "PR nie je pripravené: {0}"
+# 
 # File: usr/share/build-package/github_api.py, line: 507
 #: NEEDS WORK
 #, python-brace-format
 msgid "Error creating pull request: {0}"
 msgstr "Chyba pri vytváraní požiadavky na zlúčenie: {0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 778
+# File: usr/share/build-package/core/github_api.py, line: 792
+#: NEEDS WORK
+msgid "unknown"
+msgstr "neznáme"
 # 
 # File: usr/share/build-package/core/github_api.py, line: 750
 #: NEEDS WORK
@@ -2771,6 +2824,12 @@ msgstr "Vyžaduje sa ručné zlúčenie"
 #: NEEDS WORK
 msgid "PULL REQUEST COMPLETED"
 msgstr "ŽIADOSŤ O PULL SKONČENÁ"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 814
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not show PR summary: {0}"
+msgstr "Nemožno zobraziť súhrn PR: {0}"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 

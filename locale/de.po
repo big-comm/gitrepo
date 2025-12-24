@@ -2332,6 +2332,12 @@ msgstr "Konflikte erkannt, werden automatisch behoben..."
 msgid "Using advanced resolution strategy..."
 msgstr "Verwendung einer fortschrittlichen Auflösungsstrategie..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 266
+#: NEEDS WORK
+#, python-brace-format
+msgid "Auto-resolve conflicts: merge {0} into {1}"
+msgstr "Konflikte automatisch auflösen: {0} in {1} zusammenführen"
+# 
 # File: usr/share/build-package/github_api.py, line: 254
 #: NEEDS WORK
 msgid "Conflicts resolved automatically!"
@@ -2373,6 +2379,11 @@ msgstr "Fehler bei der Konfliktlösung: {0}"
 msgid "Waiting for PR to be ready for merge..."
 msgstr "Warten auf die PR, um für den Merge bereit zu sein..."
 # 
+# File: usr/share/build-package/core/github_api.py, line: 318
+#: NEEDS WORK
+msgid "This may take a few minutes if GitHub Actions workflows are running..."
+msgstr "Dies kann einige Minuten dauern, wenn GitHub Actions-Workflows ausgeführt werden..."
+# 
 # File: usr/share/build-package/github_api.py, line: 316
 #: NEEDS WORK
 #, python-brace-format
@@ -2389,11 +2400,34 @@ msgstr "PR bereit zum Zusammenführen!"
 msgid "PR has conflicts"
 msgstr "PR hat Konflikte"
 # 
-# File: usr/share/build-package/github_api.py, line: 330
+# File: usr/share/build-package/core/github_api.py, line: 354
 #: NEEDS WORK
 #, python-brace-format
-msgid "Unexpected state: {0}"
-msgstr "Unerwarteter Zustand: {0}"
+msgid "Still waiting... State: {0} (GitHub may be running workflows)"
+msgstr "Warte immer noch... Status: {0} (GitHub führt möglicherweise Workflows aus)"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 359
+#: NEEDS WORK
+#, python-brace-format
+msgid "Timeout: PR still in state '{0}' after {1} seconds"
+msgstr "Zeitüberschreitung: PR befindet sich weiterhin im Zustand '{0}' nach {1} Sekunden"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 361
+#: NEEDS WORK
+msgid "PR created but needs manual merge"
+msgstr "PR erstellt, muss jedoch manuell zusammengeführt werden."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 367
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected state: {0}, continuing to wait..."
+msgstr "Unerwarteter Zustand: {0}, weiterhin warten..."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 371
+#: NEEDS WORK
+#, python-brace-format
+msgid "Unexpected final state: {0}"
+msgstr "Unerwarteter Endzustand: {0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 333
 #: NEEDS WORK
@@ -2680,6 +2714,13 @@ msgstr "Konflikte automatisch gelöst (falls vorhanden)"
 msgid "Ready for automatic merge"
 msgstr "Bereit für automatisches Zusammenführen"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 705
+# File: usr/share/build-package/core/github_api.py, line: 748
+# File: usr/share/build-package/core/github_api.py, line: 752
+#: NEEDS WORK
+msgid "Unknown error"
+msgstr "Unbekannter Fehler"
+# 
 # File: usr/share/build-package/github_api.py, line: 475
 #: NEEDS WORK
 #, python-brace-format
@@ -2737,11 +2778,23 @@ msgstr "PR erstellt, muss jedoch manuell zusammengeführt werden."
 msgid "PR not ready for merge (state: {0})"
 msgstr "PR nicht bereit für den Merge (Status: {0})"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 759
+#: NEEDS WORK
+#, python-brace-format
+msgid "PR not ready: {0}"
+msgstr "PR nicht bereit: {0}"
+# 
 # File: usr/share/build-package/github_api.py, line: 507
 #: NEEDS WORK
 #, python-brace-format
 msgid "Error creating pull request: {0}"
 msgstr "Fehler beim Erstellen der Herunterladen-Anfrage: {0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 778
+# File: usr/share/build-package/core/github_api.py, line: 792
+#: NEEDS WORK
+msgid "unknown"
+msgstr "unbekannt"
 # 
 # File: usr/share/build-package/github_api.py, line: 750
 #: NEEDS WORK
@@ -2778,6 +2831,12 @@ msgstr "Manuelle Zusammenführung erforderlich"
 #: NEEDS WORK
 msgid "PULL REQUEST COMPLETED"
 msgstr "PULL REQUEST ABGESCHLOSSEN"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 814
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not show PR summary: {0}"
+msgstr "Konnte PR-Zusammenfassung nicht anzeigen: {0}"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
