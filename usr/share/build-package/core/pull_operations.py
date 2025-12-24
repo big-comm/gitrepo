@@ -167,11 +167,42 @@ def pull_latest_v2(build_package_instance):
                     destructive=False
                 )
 
-            plan.add(
-                _("Switch to your branch: {0}").format(expected_branch),
-                ["git", "checkout", expected_branch],
-                destructive=False
+            # Check if branch exists locally before switching
+            branch_check = subprocess.run(
+                ["git", "rev-parse", "--verify", expected_branch],
+                capture_output=True,
+                check=False
             )
+
+            if branch_check.returncode != 0:
+                # Branch doesn't exist locally, check if it exists on remote
+                remote_check = subprocess.run(
+                    ["git", "rev-parse", "--verify", f"origin/{expected_branch}"],
+                    capture_output=True,
+                    check=False
+                )
+
+                if remote_check.returncode == 0:
+                    # Branch exists on remote, create local tracking branch
+                    plan.add(
+                        _("Create local branch {0} from remote").format(expected_branch),
+                        ["git", "checkout", "-b", expected_branch, f"origin/{expected_branch}"],
+                        destructive=False
+                    )
+                else:
+                    # Branch doesn't exist anywhere, create new branch
+                    plan.add(
+                        _("Create new branch {0}").format(expected_branch),
+                        ["git", "checkout", "-b", expected_branch],
+                        destructive=False
+                    )
+            else:
+                # Branch exists locally, just checkout
+                plan.add(
+                    _("Switch to your branch: {0}").format(expected_branch),
+                    ["git", "checkout", expected_branch],
+                    destructive=False
+                )
 
             if has_changes:
                 plan.add(
@@ -205,7 +236,39 @@ def pull_latest_v2(build_package_instance):
                         capture_output=True
                     )
 
-                subprocess.run(["git", "checkout", expected_branch], check=True)
+                # Check if branch exists locally
+                branch_check = subprocess.run(
+                    ["git", "rev-parse", "--verify", expected_branch],
+                    capture_output=True,
+                    check=False
+                )
+
+                if branch_check.returncode != 0:
+                    # Branch doesn't exist locally, check if it exists on remote
+                    remote_check = subprocess.run(
+                        ["git", "rev-parse", "--verify", f"origin/{expected_branch}"],
+                        capture_output=True,
+                        check=False
+                    )
+
+                    if remote_check.returncode == 0:
+                        # Branch exists on remote, create local tracking branch
+                        bp.logger.log("cyan", _("Creating local branch {0} from remote").format(expected_branch))
+                        subprocess.run(
+                            ["git", "checkout", "-b", expected_branch, f"origin/{expected_branch}"],
+                            check=True
+                        )
+                    else:
+                        # Branch doesn't exist anywhere, create new branch
+                        bp.logger.log("cyan", _("Creating new branch {0}").format(expected_branch))
+                        subprocess.run(
+                            ["git", "checkout", "-b", expected_branch],
+                            check=True
+                        )
+                else:
+                    # Branch exists locally, just checkout
+                    subprocess.run(["git", "checkout", expected_branch], check=True)
+
                 current_branch = expected_branch
 
                 if has_changes:
