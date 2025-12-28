@@ -437,6 +437,42 @@ class GitHubAPI:
                 # Testing always uses dev-* branch
                 workflow_branch = new_branch
                 logger.log("green", _("Testing package: workflow will use branch {0}").format(workflow_branch))
+
+                # Ensure the branch exists remotely for the workflow to use
+                if workflow_branch and workflow_branch != "main":
+                    logger.log("cyan", _("Checking if branch {0} exists remotely...").format(workflow_branch))
+
+                    # Check if branch exists on remote
+                    try:
+                        check_remote = subprocess.run(
+                            ["git", "ls-remote", "--heads", "origin", workflow_branch],
+                            stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE,
+                            text=True,
+                            check=True
+                        )
+
+                        if not check_remote.stdout.strip():
+                            # Branch doesn't exist remotely, push it
+                            logger.log("yellow", _("Branch {0} not found on remote. Pushing...").format(workflow_branch))
+
+                            push_result = subprocess.run(
+                                ["git", "push", "origin", workflow_branch],
+                                capture_output=True,
+                                text=True
+                            )
+
+                            if push_result.returncode == 0:
+                                logger.log("green", _("✓ Branch {0} pushed successfully to remote").format(workflow_branch))
+                            else:
+                                logger.log("red", _("Failed to push branch {0}: {1}").format(workflow_branch, push_result.stderr))
+                                logger.log("yellow", _("⚠️  Workflow may fail if it cannot find the branch"))
+                        else:
+                            logger.log("green", _("✓ Branch {0} already exists on remote").format(workflow_branch))
+
+                    except subprocess.CalledProcessError as e:
+                        logger.log("yellow", _("Could not verify remote branch status: {0}").format(e))
+                        logger.log("yellow", _("⚠️  Continuing anyway, but workflow may fail"))
             else:
                 # For stable/extra, determine if we successfully merged to main
                 current_branch = GitUtils.get_current_branch()
