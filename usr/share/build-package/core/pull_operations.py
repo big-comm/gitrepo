@@ -354,7 +354,7 @@ def pull_latest_v2(build_package_instance):
 
         plan.add(
             "Pull from remote {0}".format(current_branch),
-            ["git", "pull", "origin", current_branch, "--no-edit"],
+            ["git", "pull", "origin", current_branch, "--rebase", "--no-edit"],
             destructive=False
         )
     else:
