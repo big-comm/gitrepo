@@ -249,7 +249,7 @@ class GitUtils:
                     logger.log("cyan", _("Pulling latest changes from most recent branch: {0}").format(logger.format_branch_name(most_recent_branch)))
                 
                 subprocess.run(
-                    ["git", "pull", "origin", most_recent_branch, "--no-edit"],
+                    ["git", "pull", "origin", most_recent_branch, "--rebase", "--no-edit"],
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE,
                     text=True,
@@ -267,7 +267,7 @@ class GitUtils:
                 
                 try:
                     subprocess.run(
-                        ["git", "pull", "origin", current_branch, "--no-edit"],
+                        ["git", "pull", "origin", current_branch, "--rebase", "--no-edit"],
                         check=True
                     )
                     
@@ -282,7 +282,7 @@ class GitUtils:
                     
                     try:
                         subprocess.run(
-                            ["git", "pull", "origin", "dev", "--no-edit"],
+                            ["git", "pull", "origin", "dev", "--rebase", "--no-edit"],
                             check=True
                         )
                         

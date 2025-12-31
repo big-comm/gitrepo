@@ -278,7 +278,7 @@ def commit_and_push_v2(build_package_instance):
     if should_pull and commits_behind > 0:
         plan.add(
             _("Pull {0} commits from remote").format(commits_behind),
-            ["git", "pull", "origin", current_branch, "--no-edit"],
+            ["git", "pull", "origin", current_branch, "--rebase", "--no-edit"],
             destructive=False
         )
 
