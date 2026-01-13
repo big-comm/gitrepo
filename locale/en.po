@@ -1628,7 +1628,7 @@ msgstr "Target Branch"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/build_package.py, line: 1824
-# File: usr/share/build-package/core/github_api.py, line: 826
+# File: usr/share/build-package/core/github_api.py, line: 871
 # File: usr/share/build-package/gui/widgets/branch_widget.py, line: 138
 msgid "Auto-merge"
 msgstr "Auto-merge"
@@ -2054,7 +2054,7 @@ msgstr "Reset completed locally only"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/build_package.py, line: 2331
-# File: usr/share/build-package/core/github_api.py, line: 838
+# File: usr/share/build-package/core/github_api.py, line: 883
 msgid "Operation completed successfully!"
 msgstr "Operation completed successfully!"
 
@@ -2072,7 +2072,7 @@ msgstr " COMPLETED"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/build_package.py, line: 2341
-# File: usr/share/build-package/core/github_api.py, line: 845
+# File: usr/share/build-package/core/github_api.py, line: 890
 msgid "Press Enter to return to menu"
 msgstr "Press Enter to return to menu"
 
@@ -2535,8 +2535,8 @@ msgstr "Error during branch cleanup: {0}"
 #
 # File: usr/share/build-package/core/github_api.py, line: 31
 # File: usr/share/build-package/core/github_api.py, line: 75
-# File: usr/share/build-package/core/github_api.py, line: 602
-# File: usr/share/build-package/core/github_api.py, line: 651
+# File: usr/share/build-package/core/github_api.py, line: 647
+# File: usr/share/build-package/core/github_api.py, line: 696
 msgid "Could not determine repository name."
 msgstr "Could not determine repository name."
 
@@ -2788,131 +2788,125 @@ msgid "Detected repository: {0}"
 msgstr "Detected repository: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 439
+# File: usr/share/build-package/core/github_api.py, line: 438
+msgid "Finding most recent branch in remote repository..."
+msgstr "Finding most recent branch in remote repository..."
+
+#
+# File: usr/share/build-package/core/github_api.py, line: 467
+#, python-brace-format
+msgid "✓ Found matching remote branch: {0}"
+msgstr "✓ Found matching remote branch: {0}"
+
+#
+# File: usr/share/build-package/core/github_api.py, line: 477
+msgid "Local HEAD doesn't match any remote branch, finding most recent..."
+msgstr "Local HEAD doesn't match any remote branch, finding most recent..."
+
+#
+# File: usr/share/build-package/core/github_api.py, line: 509
+#, python-brace-format
+msgid "✓ Using most recent remote branch: {0}"
+msgstr "✓ Using most recent remote branch: {0}"
+
+#
+# File: usr/share/build-package/core/github_api.py, line: 513
+#, python-brace-format
+msgid "⚠️  Could not determine best branch, using: {0}"
+msgstr "⚠️  Could not determine best branch, using: {0}"
+
+#
+# File: usr/share/build-package/core/github_api.py, line: 515
 #, python-brace-format
 msgid "Testing package: workflow will use branch {0}"
 msgstr "Testing package: workflow will use branch {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 443
+# File: usr/share/build-package/core/github_api.py, line: 518
 #, python-brace-format
-msgid "Checking if branch {0} exists remotely..."
-msgstr "Checking if branch {0} exists remotely..."
+msgid "Error determining branch: {0}"
+msgstr "Error determining branch: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 457
+# File: usr/share/build-package/core/github_api.py, line: 520
 #, python-brace-format
-msgid "Branch {0} not found on remote. Pushing..."
-msgstr "Branch {0} not found on remote. Pushing..."
+msgid "⚠️  Using fallback branch: {0}"
+msgstr "⚠️  Using fallback branch: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 466
-#, python-brace-format
-msgid "✓ Branch {0} pushed successfully to remote"
-msgstr "✓ Branch {0} pushed successfully to remote"
-
-#
-# File: usr/share/build-package/core/github_api.py, line: 468
-#, python-brace-format
-msgid "Failed to push branch {0}: {1}"
-msgstr "Failed to push branch {0}: {1}"
-
-#
-# File: usr/share/build-package/core/github_api.py, line: 469
-msgid "⚠️  Workflow may fail if it cannot find the branch"
-msgstr "⚠️  Workflow may fail if it cannot find the branch"
-
-#
-# File: usr/share/build-package/core/github_api.py, line: 471
-#, python-brace-format
-msgid "✓ Branch {0} already exists on remote"
-msgstr "✓ Branch {0} already exists on remote"
-
-#
-# File: usr/share/build-package/core/github_api.py, line: 474
-#, python-brace-format
-msgid "Could not verify remote branch status: {0}"
-msgstr "Could not verify remote branch status: {0}"
-
-#
-# File: usr/share/build-package/core/github_api.py, line: 475
-msgid "⚠️  Continuing anyway, but workflow may fail"
-msgstr "⚠️  Continuing anyway, but workflow may fail"
-
-#
-# File: usr/share/build-package/core/github_api.py, line: 498
+# File: usr/share/build-package/core/github_api.py, line: 543
 msgid "Stable/Extra package: main is up-to-date, workflow will use main"
 msgstr "Stable/Extra package: main is up-to-date, workflow will use main"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 502
+# File: usr/share/build-package/core/github_api.py, line: 547
 #, python-brace-format
 msgid "Stable/Extra package: main not up-to-date, workflow will use {0}"
 msgstr "Stable/Extra package: main not up-to-date, workflow will use {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 503
-# File: usr/share/build-package/core/github_api.py, line: 516
+# File: usr/share/build-package/core/github_api.py, line: 548
+# File: usr/share/build-package/core/github_api.py, line: 561
 #, python-brace-format
 msgid "⚠️  Warning: Package will be built from {0} instead of main"
 msgstr "⚠️  Warning: Package will be built from {0} instead of main"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 506
+# File: usr/share/build-package/core/github_api.py, line: 551
 msgid "Stable/Extra package: workflow will use main"
 msgstr "Stable/Extra package: workflow will use main"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 511
+# File: usr/share/build-package/core/github_api.py, line: 556
 #, python-brace-format
 msgid "Could not verify branch status, using current: {0}"
 msgstr "Could not verify branch status, using current: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 515
+# File: usr/share/build-package/core/github_api.py, line: 560
 #, python-brace-format
 msgid "Stable/Extra package: not on main, workflow will use {0}"
 msgstr "Stable/Extra package: not on main, workflow will use {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 538
+# File: usr/share/build-package/core/github_api.py, line: 583
 msgid "Workflow payload:"
 msgstr "Workflow payload:"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 539
+# File: usr/share/build-package/core/github_api.py, line: 584
 #, python-brace-format
 msgid "  - branch: {0}"
 msgstr "  - branch: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 540
+# File: usr/share/build-package/core/github_api.py, line: 585
 #, python-brace-format
 msgid "  - branch_type: {0}"
 msgstr "  - branch_type: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 542
+# File: usr/share/build-package/core/github_api.py, line: 587
 #, python-brace-format
 msgid "  - new_branch: {0}"
 msgstr "  - new_branch: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 545
+# File: usr/share/build-package/core/github_api.py, line: 590
 msgid "Triggering build workflow on GitHub..."
 msgstr "Triggering build workflow on GitHub..."
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/github_api.py, line: 554
+# File: usr/share/build-package/core/github_api.py, line: 599
 # File: usr/share/build-iso/github_api.py, line: 129
 #, python-brace-format
 msgid "Error triggering workflow. Response code: {0}"
 msgstr "Error triggering workflow. Response code: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 557
+# File: usr/share/build-package/core/github_api.py, line: 602
 #, python-brace-format
 msgid "Build workflow ({0}) triggered successfully."
 msgstr "Build workflow ({0}) triggered successfully."
@@ -2920,7 +2914,7 @@ msgstr "Build workflow ({0}) triggered successfully."
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/github_api.py, line: 561
+# File: usr/share/build-package/core/github_api.py, line: 606
 # File: usr/share/build-iso/github_api.py, line: 145
 #, python-brace-format
 msgid "URL to monitor the build: {0}"
@@ -2929,7 +2923,7 @@ msgstr "URL to monitor the build: {0}"
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/github_api.py, line: 565
+# File: usr/share/build-package/core/github_api.py, line: 610
 # File: usr/share/build-iso/github_api.py, line: 149
 #, python-brace-format
 msgid "Error triggering workflow: {0}"
@@ -2938,7 +2932,7 @@ msgstr "Error triggering workflow: {0}"
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/github_api.py, line: 573
+# File: usr/share/build-package/core/github_api.py, line: 618
 # File: usr/share/build-iso/github_api.py, line: 30
 #, python-brace-format
 msgid "Token file '{0}' not found."
@@ -2947,7 +2941,7 @@ msgstr "Token file '{0}' not found."
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/github_api.py, line: 591
+# File: usr/share/build-package/core/github_api.py, line: 636
 # File: usr/share/build-iso/github_api.py, line: 48
 #, python-brace-format
 msgid "Token for organization '{0}' not found."
@@ -2956,129 +2950,129 @@ msgstr "Token for organization '{0}' not found."
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/github_api.py, line: 594
+# File: usr/share/build-package/core/github_api.py, line: 639
 # File: usr/share/build-iso/github_api.py, line: 51
 #, python-brace-format
 msgid "Error reading token: {0}"
 msgstr "Error reading token: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 605
+# File: usr/share/build-package/core/github_api.py, line: 650
 #, python-brace-format
 msgid "Cleaning Actions jobs with '{0}' status..."
 msgstr "Cleaning Actions jobs with '{0}' status..."
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 614
+# File: usr/share/build-package/core/github_api.py, line: 659
 #, python-brace-format
 msgid "Error fetching Actions jobs. Code: {0}"
 msgstr "Error fetching Actions jobs. Code: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 621
+# File: usr/share/build-package/core/github_api.py, line: 666
 #, python-brace-format
 msgid "No Action jobs with '{0}' status found."
 msgstr "No Action jobs with '{0}' status found."
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 628
+# File: usr/share/build-package/core/github_api.py, line: 673
 #, python-brace-format
 msgid "Deleting job {0}..."
 msgstr "Deleting job {0}..."
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 638
+# File: usr/share/build-package/core/github_api.py, line: 683
 #, python-brace-format
 msgid "Error deleting job {0}. Code: {1}"
 msgstr "Error deleting job {0}. Code: {1}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 640
+# File: usr/share/build-package/core/github_api.py, line: 685
 #, python-brace-format
 msgid "Deleted {0} Actions jobs with '{1}' status."
 msgstr "Deleted {0} Actions jobs with '{1}' status."
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 643
+# File: usr/share/build-package/core/github_api.py, line: 688
 #, python-brace-format
 msgid "Error cleaning Actions jobs: {0}"
 msgstr "Error cleaning Actions jobs: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 654
+# File: usr/share/build-package/core/github_api.py, line: 699
 msgid "Getting tag list..."
 msgstr "Getting tag list..."
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 663
+# File: usr/share/build-package/core/github_api.py, line: 708
 #, python-brace-format
 msgid "Error fetching tags. Code: {0}"
 msgstr "Error fetching tags. Code: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 669
+# File: usr/share/build-package/core/github_api.py, line: 714
 msgid "No tags found."
 msgstr "No tags found."
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 676
+# File: usr/share/build-package/core/github_api.py, line: 721
 #, python-brace-format
 msgid "Deleting tag {0}..."
 msgstr "Deleting tag {0}..."
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 687
+# File: usr/share/build-package/core/github_api.py, line: 732
 #, python-brace-format
 msgid "Error deleting tag {0}. Code: {1}"
 msgstr "Error deleting tag {0}. Code: {1}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 689
+# File: usr/share/build-package/core/github_api.py, line: 734
 #, python-brace-format
 msgid "Deleted {0} tags."
 msgstr "Deleted {0} tags."
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 692
+# File: usr/share/build-package/core/github_api.py, line: 737
 #, python-brace-format
 msgid "Error cleaning tags: {0}"
 msgstr "Error cleaning tags: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 701
+# File: usr/share/build-package/core/github_api.py, line: 746
 msgid "Source branch name is required to create a pull request"
 msgstr "Source branch name is required to create a pull request"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 708
+# File: usr/share/build-package/core/github_api.py, line: 753
 msgid "Repository name could not be determined"
 msgstr "Repository name could not be determined"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 712
+# File: usr/share/build-package/core/github_api.py, line: 757
 #, python-brace-format
 msgid "Creating pull request: {0} → {1}"
 msgstr "Creating pull request: {0} → {1}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 717
+# File: usr/share/build-package/core/github_api.py, line: 762
 msgid "Resolving possible conflicts before merge..."
 msgstr "Resolving possible conflicts before merge..."
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 722
+# File: usr/share/build-package/core/github_api.py, line: 767
 msgid "Warning: Could not resolve conflicts automatically"
 msgstr "Warning: Could not resolve conflicts automatically"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 723
+# File: usr/share/build-package/core/github_api.py, line: 768
 msgid "Trying to create PR anyway..."
 msgstr "Trying to create PR anyway..."
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/github_api.py, line: 727
+# File: usr/share/build-package/core/github_api.py, line: 772
 # File: usr/share/build-package/core/pull_operations.py, line: 375
 # File: usr/share/build-package/core/pull_operations.py, line: 383
 #, python-brace-format
@@ -3086,140 +3080,140 @@ msgid "Merge {0} into {1}"
 msgstr "Merge {0} into {1}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 728
+# File: usr/share/build-package/core/github_api.py, line: 773
 msgid "Automated PR created by build_package.py"
 msgstr "Automated PR created by build_package.py"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 729
+# File: usr/share/build-package/core/github_api.py, line: 774
 msgid "Conflicts resolved automatically (if any)"
 msgstr "Conflicts resolved automatically (if any)"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 730
+# File: usr/share/build-package/core/github_api.py, line: 775
 msgid "Ready for automatic merge"
 msgstr "Ready for automatic merge"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 741
-# File: usr/share/build-package/core/github_api.py, line: 784
-# File: usr/share/build-package/core/github_api.py, line: 788
+# File: usr/share/build-package/core/github_api.py, line: 786
+# File: usr/share/build-package/core/github_api.py, line: 829
+# File: usr/share/build-package/core/github_api.py, line: 833
 msgid "Unknown error"
 msgstr "Unknown error"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 742
+# File: usr/share/build-package/core/github_api.py, line: 787
 #, python-brace-format
 msgid "Failed to create PR: {0}"
 msgstr "Failed to create PR: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 750
+# File: usr/share/build-package/core/github_api.py, line: 795
 #, python-brace-format
 msgid "Pull request created successfully: {0}"
 msgstr "Pull request created successfully: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 755
+# File: usr/share/build-package/core/github_api.py, line: 800
 msgid "Starting auto-merge process..."
 msgstr "Starting auto-merge process..."
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 764
+# File: usr/share/build-package/core/github_api.py, line: 809
 #, python-brace-format
 msgid "Auto-merge: {0} → {1}"
 msgstr "Auto-merge: {0} → {1}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 765
+# File: usr/share/build-package/core/github_api.py, line: 810
 msgid "Automated merge performed by build_package.py"
 msgstr "Automated merge performed by build_package.py"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 774
+# File: usr/share/build-package/core/github_api.py, line: 819
 msgid "AUTO-MERGE COMPLETED SUCCESSFULLY!"
 msgstr "AUTO-MERGE COMPLETED SUCCESSFULLY!"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 775
+# File: usr/share/build-package/core/github_api.py, line: 820
 #, python-brace-format
 msgid "SHA: {0}"
 msgstr "SHA: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 783
+# File: usr/share/build-package/core/github_api.py, line: 828
 #, python-brace-format
 msgid "Auto-merge failed: {0}"
 msgstr "Auto-merge failed: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 785
-# File: usr/share/build-package/core/github_api.py, line: 792
+# File: usr/share/build-package/core/github_api.py, line: 830
+# File: usr/share/build-package/core/github_api.py, line: 837
 msgid "PR created but must be merged manually"
 msgstr "PR created but must be merged manually"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 791
+# File: usr/share/build-package/core/github_api.py, line: 836
 #, python-brace-format
 msgid "PR not ready for merge (state: {0})"
 msgstr "PR not ready for merge (state: {0})"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 795
+# File: usr/share/build-package/core/github_api.py, line: 840
 #, python-brace-format
 msgid "PR not ready: {0}"
 msgstr "PR not ready: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 805
+# File: usr/share/build-package/core/github_api.py, line: 850
 #, python-brace-format
 msgid "Error creating pull request: {0}"
 msgstr "Error creating pull request: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 814
-# File: usr/share/build-package/core/github_api.py, line: 828
+# File: usr/share/build-package/core/github_api.py, line: 859
+# File: usr/share/build-package/core/github_api.py, line: 873
 msgid "unknown"
 msgstr "unknown"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 818
+# File: usr/share/build-package/core/github_api.py, line: 863
 msgid "PULL REQUEST COMPLETED SUCCESSFULLY!"
 msgstr "PULL REQUEST COMPLETED SUCCESSFULLY!"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 820
+# File: usr/share/build-package/core/github_api.py, line: 865
 #, python-brace-format
 msgid "PR #{0} created and processed"
 msgstr "PR #{0} created and processed"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 826
+# File: usr/share/build-package/core/github_api.py, line: 871
 msgid "SUCCESS"
 msgstr "SUCCESS"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 827
+# File: usr/share/build-package/core/github_api.py, line: 872
 msgid "Code automatically merged to target branch"
 msgstr "Code automatically merged to target branch"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 828
+# File: usr/share/build-package/core/github_api.py, line: 873
 msgid "Merge SHA"
 msgstr "Merge SHA"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 832
+# File: usr/share/build-package/core/github_api.py, line: 877
 msgid "Manual merge required"
 msgstr "Manual merge required"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 844
+# File: usr/share/build-package/core/github_api.py, line: 889
 msgid "PULL REQUEST COMPLETED"
 msgstr "PULL REQUEST COMPLETED"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 850
+# File: usr/share/build-package/core/github_api.py, line: 895
 #, python-brace-format
 msgid "Could not show PR summary: {0}"
 msgstr "Could not show PR summary: {0}"
