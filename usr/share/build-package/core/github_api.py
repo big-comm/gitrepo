@@ -434,45 +434,90 @@ class GitHubAPI:
             
             # CRITICAL FIX: Determine the correct branch to send to workflow
             if branch_type == "testing":
-                # Testing always uses dev-* branch
-                workflow_branch = new_branch
-                logger.log("green", _("Testing package: workflow will use branch {0}").format(workflow_branch))
+                # Testing should always use the most recent code from remote
+                logger.log("cyan", _("Finding most recent branch in remote repository..."))
 
-                # Ensure the branch exists remotely for the workflow to use
-                if workflow_branch and workflow_branch != "main":
-                    logger.log("cyan", _("Checking if branch {0} exists remotely...").format(workflow_branch))
+                try:
+                    # Get current local HEAD commit
+                    local_head = subprocess.run(
+                        ["git", "rev-parse", "HEAD"],
+                        stdout=subprocess.PIPE, text=True, check=True
+                    ).stdout.strip()
 
-                    # Check if branch exists on remote
-                    try:
-                        check_remote = subprocess.run(
-                            ["git", "ls-remote", "--heads", "origin", workflow_branch],
-                            stdout=subprocess.PIPE,
-                            stderr=subprocess.PIPE,
-                            text=True,
-                            check=True
-                        )
+                    # List of branches to check (in order of preference)
+                    branches_to_check = ["main", "dev"]
+                    if new_branch and new_branch not in branches_to_check:
+                        branches_to_check.append(new_branch)
 
-                        if not check_remote.stdout.strip():
-                            # Branch doesn't exist remotely, push it
-                            logger.log("yellow", _("Branch {0} not found on remote. Pushing...").format(workflow_branch))
+                    # Find which remote branch has the most recent code by comparing with local HEAD
+                    matching_branch = None
+                    for branch in branches_to_check:
+                        try:
+                            remote_commit = subprocess.run(
+                                ["git", "rev-parse", f"origin/{branch}"],
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE,
+                                text=True,
+                                check=True
+                            ).stdout.strip()
 
-                            push_result = subprocess.run(
-                                ["git", "push", "origin", workflow_branch],
-                                capture_output=True,
-                                text=True
-                            )
+                            # If remote branch matches local HEAD, use it
+                            if remote_commit == local_head:
+                                matching_branch = branch
+                                logger.log("green", _("✓ Found matching remote branch: {0}").format(branch))
+                                break
+                        except subprocess.CalledProcessError:
+                            # Branch doesn't exist on remote, skip
+                            continue
 
-                            if push_result.returncode == 0:
-                                logger.log("green", _("✓ Branch {0} pushed successfully to remote").format(workflow_branch))
-                            else:
-                                logger.log("red", _("Failed to push branch {0}: {1}").format(workflow_branch, push_result.stderr))
-                                logger.log("yellow", _("⚠️  Workflow may fail if it cannot find the branch"))
+                    if matching_branch:
+                        workflow_branch = matching_branch
+                    else:
+                        # No matching branch found, try to find the most recent one
+                        logger.log("yellow", _("Local HEAD doesn't match any remote branch, finding most recent..."))
+
+                        most_recent_branch = None
+                        most_recent_timestamp = 0
+
+                        for branch in branches_to_check:
+                            try:
+                                remote_commit = subprocess.run(
+                                    ["git", "rev-parse", f"origin/{branch}"],
+                                    stdout=subprocess.PIPE,
+                                    stderr=subprocess.PIPE,
+                                    text=True,
+                                    check=True
+                                ).stdout.strip()
+
+                                # Get commit timestamp
+                                timestamp = int(subprocess.run(
+                                    ["git", "log", "-1", "--format=%ct", remote_commit],
+                                    stdout=subprocess.PIPE,
+                                    text=True,
+                                    check=True
+                                ).stdout.strip())
+
+                                if timestamp > most_recent_timestamp:
+                                    most_recent_timestamp = timestamp
+                                    most_recent_branch = branch
+
+                            except subprocess.CalledProcessError:
+                                continue
+
+                        if most_recent_branch:
+                            workflow_branch = most_recent_branch
+                            logger.log("green", _("✓ Using most recent remote branch: {0}").format(workflow_branch))
                         else:
-                            logger.log("green", _("✓ Branch {0} already exists on remote").format(workflow_branch))
+                            # Fallback to new_branch if nothing else works
+                            workflow_branch = new_branch or "main"
+                            logger.log("yellow", _("⚠️  Could not determine best branch, using: {0}").format(workflow_branch))
 
-                    except subprocess.CalledProcessError as e:
-                        logger.log("yellow", _("Could not verify remote branch status: {0}").format(e))
-                        logger.log("yellow", _("⚠️  Continuing anyway, but workflow may fail"))
+                    logger.log("green", _("Testing package: workflow will use branch {0}").format(workflow_branch))
+
+                except subprocess.CalledProcessError as e:
+                    logger.log("yellow", _("Error determining branch: {0}").format(e))
+                    workflow_branch = "main"  # Safe fallback
+                    logger.log("yellow", _("⚠️  Using fallback branch: {0}").format(workflow_branch))
             else:
                 # For stable/extra, determine if we successfully merged to main
                 current_branch = GitUtils.get_current_branch()
