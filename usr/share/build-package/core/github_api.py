@@ -432,92 +432,101 @@ class GitHubAPI:
             
             logger.log("white", _("Detected repository: {0}").format(repo_name))
             
-            # CRITICAL FIX: Determine the correct branch to send to workflow
+            # For testing: ALWAYS use the branch with the most recent code
             if branch_type == "testing":
-                # Testing should always use the most recent code from remote
-                logger.log("cyan", _("Finding most recent branch in remote repository..."))
+                logger.log("cyan", _("Finding branch with most recent code..."))
 
                 try:
-                    # Get current local HEAD commit
-                    local_head = subprocess.run(
-                        ["git", "rev-parse", "HEAD"],
-                        stdout=subprocess.PIPE, text=True, check=True
-                    ).stdout.strip()
+                    # First, push current branch to ensure local commits are on remote
+                    current_branch = GitUtils.get_current_branch()
+                    if current_branch:
+                        logger.log("cyan", _("Pushing current branch {0} to remote...").format(current_branch))
+                        push_result = subprocess.run(
+                            ["git", "push", "-u", "origin", current_branch],
+                            capture_output=True,
+                            text=True
+                        )
+                        if push_result.returncode == 0:
+                            logger.log("green", _("✓ Branch {0} pushed to remote").format(current_branch))
+                        else:
+                            # May fail if nothing to push or other reason, not critical
+                            logger.log("yellow", _("Push status: {0}").format(push_result.stderr.strip() or "nothing to push"))
 
-                    # List of branches to check (in order of preference)
-                    branches_to_check = ["main", "dev"]
-                    if new_branch and new_branch not in branches_to_check:
-                        branches_to_check.append(new_branch)
+                    # Get all remote branches with their latest commit info using GitHub API
+                    # This is more reliable than git commands for finding the most recent branch
+                    logger.log("cyan", _("Querying remote branches..."))
 
-                    # Find which remote branch has the most recent code by comparing with local HEAD
-                    matching_branch = None
-                    for branch in branches_to_check:
-                        try:
-                            remote_commit = subprocess.run(
-                                ["git", "rev-parse", f"origin/{branch}"],
-                                stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE,
-                                text=True,
-                                check=True
-                            ).stdout.strip()
+                    # Use git ls-remote to get all branches and their commits
+                    ls_remote_result = subprocess.run(
+                        ["git", "ls-remote", "--heads", "origin"],
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        text=True,
+                        check=True
+                    )
 
-                            # If remote branch matches local HEAD, use it
-                            if remote_commit == local_head:
-                                matching_branch = branch
-                                logger.log("green", _("✓ Found matching remote branch: {0}").format(branch))
-                                break
-                        except subprocess.CalledProcessError:
-                            # Branch doesn't exist on remote, skip
-                            continue
-
-                    if matching_branch:
-                        workflow_branch = matching_branch
+                    if not ls_remote_result.stdout.strip():
+                        logger.log("yellow", _("No remote branches found, using main"))
+                        workflow_branch = "main"
                     else:
-                        # No matching branch found, try to find the most recent one
-                        logger.log("yellow", _("Local HEAD doesn't match any remote branch, finding most recent..."))
+                        # Parse branches: each line is "commit_hash\trefs/heads/branch_name"
+                        branches_info = []
+                        for line in ls_remote_result.stdout.strip().split('\n'):
+                            if line:
+                                parts = line.split('\t')
+                                if len(parts) == 2:
+                                    commit_hash = parts[0]
+                                    branch_name = parts[1].replace('refs/heads/', '')
+                                    branches_info.append((branch_name, commit_hash))
+
+                        logger.log("cyan", _("Found {0} branches, checking commit dates...").format(len(branches_info)))
+
+                        # For each branch, get the commit timestamp using git log
+                        # We need to fetch first to have the commits locally
+                        subprocess.run(
+                            ["git", "fetch", "--all", "--prune"],
+                            capture_output=True,
+                            text=True,
+                            check=False
+                        )
 
                         most_recent_branch = None
                         most_recent_timestamp = 0
 
-                        for branch in branches_to_check:
+                        for branch_name, commit_hash in branches_info:
                             try:
-                                remote_commit = subprocess.run(
-                                    ["git", "rev-parse", f"origin/{branch}"],
+                                # Get commit timestamp
+                                timestamp_result = subprocess.run(
+                                    ["git", "log", "-1", "--format=%ct", commit_hash],
                                     stdout=subprocess.PIPE,
                                     stderr=subprocess.PIPE,
                                     text=True,
                                     check=True
-                                ).stdout.strip()
-
-                                # Get commit timestamp
-                                timestamp = int(subprocess.run(
-                                    ["git", "log", "-1", "--format=%ct", remote_commit],
-                                    stdout=subprocess.PIPE,
-                                    text=True,
-                                    check=True
-                                ).stdout.strip())
+                                )
+                                timestamp = int(timestamp_result.stdout.strip())
 
                                 if timestamp > most_recent_timestamp:
                                     most_recent_timestamp = timestamp
-                                    most_recent_branch = branch
+                                    most_recent_branch = branch_name
 
-                            except subprocess.CalledProcessError:
+                            except (subprocess.CalledProcessError, ValueError):
+                                # Skip branches we can't get info for
                                 continue
 
                         if most_recent_branch:
                             workflow_branch = most_recent_branch
-                            logger.log("green", _("✓ Using most recent remote branch: {0}").format(workflow_branch))
+                            # Convert timestamp to readable format for logging
+                            from datetime import datetime
+                            date_str = datetime.fromtimestamp(most_recent_timestamp).strftime('%Y-%m-%d %H:%M:%S')
+                            logger.log("green", _("✓ Most recent branch: {0} (last commit: {1})").format(workflow_branch, date_str))
                         else:
-                            # Fallback to new_branch if nothing else works
-                            workflow_branch = new_branch or "main"
-                            logger.log("yellow", _("⚠️  Could not determine best branch, using: {0}").format(workflow_branch))
-
-                    logger.log("green", _("Testing package: workflow will use branch {0}").format(workflow_branch))
+                            workflow_branch = current_branch or "main"
+                            logger.log("yellow", _("Could not determine most recent branch, using: {0}").format(workflow_branch))
 
                 except subprocess.CalledProcessError as e:
-                    logger.log("yellow", _("Error determining branch: {0}").format(e))
-                    workflow_branch = "main"  # Safe fallback
-                    logger.log("yellow", _("⚠️  Using fallback branch: {0}").format(workflow_branch))
+                    logger.log("yellow", _("Error finding most recent branch: {0}").format(e))
+                    workflow_branch = new_branch or "main"
+                    logger.log("yellow", _("Using fallback: {0}").format(workflow_branch))
             else:
                 # For stable/extra, determine if we successfully merged to main
                 current_branch = GitUtils.get_current_branch()
@@ -568,10 +577,10 @@ class GitHubAPI:
                 "url": f"https://github.com/{repo_name}",
                 "tmate": tmate_option
             }
-            
-            # Only add new_branch if it's different from workflow_branch (avoid redundancy)
-            if branch_type == "testing" and new_branch and new_branch != workflow_branch:
-                payload["new_branch"] = new_branch
+
+            # For testing, ALWAYS send new_branch - the action.yml needs it to modify PKGBUILD
+            if branch_type == "testing":
+                payload["new_branch"] = workflow_branch
             
             data = {
                 "event_type": package_name,
