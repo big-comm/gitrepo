@@ -2454,51 +2454,62 @@ msgstr "获取软件包的远程仓库 URL 时出错: {0}"
 msgid "Detected repository: {0}"
 msgstr "检测到的仓库：{0}"
 # 
-# File: usr/share/build-package/core/github_api.py, line: 438
+# File: usr/share/build-package/core/github_api.py, line: 437
 #: NEEDS WORK
-msgid "Finding most recent branch in remote repository..."
-msgstr "在远程仓库中查找最新分支..."
+msgid "Finding branch with most recent code..."
+msgstr "查找具有最新代码的分支..."
 # 
-# File: usr/share/build-package/core/github_api.py, line: 467
+# File: usr/share/build-package/core/github_api.py, line: 443
 #: NEEDS WORK
 #, python-brace-format
-msgid "✓ Found matching remote branch: {0}"
-msgstr "✓ 找到匹配的远程分支：{0}"
+msgid "Pushing current branch {0} to remote..."
+msgstr "正在将当前分支 {0} 推送到远程..."
 # 
-# File: usr/share/build-package/core/github_api.py, line: 477
-#: NEEDS WORK
-msgid "Local HEAD doesn't match any remote branch, finding most recent..."
-msgstr "本地 HEAD 与任何远程分支不匹配，正在查找最近的..."
-# 
-# File: usr/share/build-package/core/github_api.py, line: 509
+# File: usr/share/build-package/core/github_api.py, line: 450
 #: NEEDS WORK
 #, python-brace-format
-msgid "✓ Using most recent remote branch: {0}"
-msgstr "✓ 使用最新的远程分支: {0}"
+msgid "✓ Branch {0} pushed to remote"
+msgstr "✓ 分支 {0} 已推送到远程"
 # 
-# File: usr/share/build-package/core/github_api.py, line: 513
+# File: usr/share/build-package/core/github_api.py, line: 453
 #: NEEDS WORK
 #, python-brace-format
-msgid "⚠️  Could not determine best branch, using: {0}"
-msgstr "⚠️  无法确定最佳分支，使用：{0}"
+msgid "Push status: {0}"
+msgstr "推送状态：{0}"
 # 
-# File: usr/share/build-package/github_api.py, line: 394
+# File: usr/share/build-package/core/github_api.py, line: 457
+#: NEEDS WORK
+msgid "Querying remote branches..."
+msgstr "查询远程分支..."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 469
+#: NEEDS WORK
+msgid "No remote branches found, using main"
+msgstr "未找到远程分支，使用主分支"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 482
 #: NEEDS WORK
 #, python-brace-format
-msgid "Testing package: workflow will use branch {0}"
-msgstr "测试包：工作流将使用分支 {0}"
+msgid "Found {0} branches, checking commit dates..."
+msgstr "找到 {0} 个分支，正在检查提交日期..."
 # 
-# File: usr/share/build-package/core/github_api.py, line: 518
+# File: usr/share/build-package/core/github_api.py, line: 521
 #: NEEDS WORK
 #, python-brace-format
-msgid "Error determining branch: {0}"
-msgstr "确定分支时出错：{0}"
+msgid "✓ Most recent branch: {0} (last commit: {1})"
+msgstr "✓ 最近的分支: {0} (最后提交: {1})"
 # 
-# File: usr/share/build-package/core/github_api.py, line: 520
+# File: usr/share/build-package/core/github_api.py, line: 524
 #: NEEDS WORK
 #, python-brace-format
-msgid "⚠️  Using fallback branch: {0}"
-msgstr "⚠️  使用后备分支: {0}"
+msgid "Could not determine most recent branch, using: {0}"
+msgstr "无法确定最新的分支，使用：{0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 529
+#: NEEDS WORK
+#, python-brace-format
+msgid "Using fallback: {0}"
+msgstr "使用后备: {0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 417
 #: NEEDS WORK

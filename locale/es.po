@@ -2463,51 +2463,62 @@ msgstr "Error al recuperar la URL del repositorio remoto para el paquete: {0}"
 msgid "Detected repository: {0}"
 msgstr "Repositorio detectado: {0}"
 # 
-# File: usr/share/build-package/core/github_api.py, line: 438
+# File: usr/share/build-package/core/github_api.py, line: 437
 #: NEEDS WORK
-msgid "Finding most recent branch in remote repository..."
-msgstr "Buscando la rama más reciente en el repositorio remoto..."
+msgid "Finding branch with most recent code..."
+msgstr "Buscando la rama con el código más reciente..."
 # 
-# File: usr/share/build-package/core/github_api.py, line: 467
+# File: usr/share/build-package/core/github_api.py, line: 443
 #: NEEDS WORK
 #, python-brace-format
-msgid "✓ Found matching remote branch: {0}"
-msgstr "✓ Rama remota coincidente encontrada: {0}"
+msgid "Pushing current branch {0} to remote..."
+msgstr "Empujando la rama actual {0} al remoto..."
 # 
-# File: usr/share/build-package/core/github_api.py, line: 477
-#: NEEDS WORK
-msgid "Local HEAD doesn't match any remote branch, finding most recent..."
-msgstr "La rama HEAD local no coincide con ninguna rama remota, buscando la más reciente..."
-# 
-# File: usr/share/build-package/core/github_api.py, line: 509
+# File: usr/share/build-package/core/github_api.py, line: 450
 #: NEEDS WORK
 #, python-brace-format
-msgid "✓ Using most recent remote branch: {0}"
-msgstr "✓ Usando la rama remota más reciente: {0}"
+msgid "✓ Branch {0} pushed to remote"
+msgstr "✓ Rama {0} enviada al remoto"
 # 
-# File: usr/share/build-package/core/github_api.py, line: 513
+# File: usr/share/build-package/core/github_api.py, line: 453
 #: NEEDS WORK
 #, python-brace-format
-msgid "⚠️  Could not determine best branch, using: {0}"
-msgstr "⚠️  No se pudo determinar la mejor rama, utilizando: {0}"
+msgid "Push status: {0}"
+msgstr "Estado de la notificación: {0}"
 # 
-# File: usr/share/build-package/github_api.py, line: 394
+# File: usr/share/build-package/core/github_api.py, line: 457
+#: NEEDS WORK
+msgid "Querying remote branches..."
+msgstr "Consultando ramas remotas..."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 469
+#: NEEDS WORK
+msgid "No remote branches found, using main"
+msgstr "No se encontraron ramas remotas, utilizando main"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 482
 #: NEEDS WORK
 #, python-brace-format
-msgid "Testing package: workflow will use branch {0}"
-msgstr "Probando paquete: el flujo de trabajo utilizará la rama {0}"
+msgid "Found {0} branches, checking commit dates..."
+msgstr "Se encontraron {0} ramas, verificando fechas de confirmación..."
 # 
-# File: usr/share/build-package/core/github_api.py, line: 518
+# File: usr/share/build-package/core/github_api.py, line: 521
 #: NEEDS WORK
 #, python-brace-format
-msgid "Error determining branch: {0}"
-msgstr "Error al determinar la rama: {0}"
+msgid "✓ Most recent branch: {0} (last commit: {1})"
+msgstr "✓ Rama más reciente: {0} (último commit: {1})"
 # 
-# File: usr/share/build-package/core/github_api.py, line: 520
+# File: usr/share/build-package/core/github_api.py, line: 524
 #: NEEDS WORK
 #, python-brace-format
-msgid "⚠️  Using fallback branch: {0}"
-msgstr "⚠️  Usando la rama de respaldo: {0}"
+msgid "Could not determine most recent branch, using: {0}"
+msgstr "No se pudo determinar la rama más reciente, utilizando: {0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 529
+#: NEEDS WORK
+#, python-brace-format
+msgid "Using fallback: {0}"
+msgstr "Usando la opción por defecto: {0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 417
 #: NEEDS WORK

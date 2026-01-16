@@ -2467,51 +2467,62 @@ msgstr "Hiba a távoli tároló URL-jének lekérése a csomaghoz: {0}"
 msgid "Detected repository: {0}"
 msgstr "Felfedezett tároló: {0}"
 # 
-# File: usr/share/build-package/core/github_api.py, line: 438
+# File: usr/share/build-package/core/github_api.py, line: 437
 #: NEEDS WORK
-msgid "Finding most recent branch in remote repository..."
-msgstr "A távoli tároló legfrissebb ágainak keresése..."
+msgid "Finding branch with most recent code..."
+msgstr "A legfrissebb kóddal rendelkező ág keresése..."
 # 
-# File: usr/share/build-package/core/github_api.py, line: 467
+# File: usr/share/build-package/core/github_api.py, line: 443
 #: NEEDS WORK
 #, python-brace-format
-msgid "✓ Found matching remote branch: {0}"
-msgstr "✓ Megtaláltuk a megfelelő távoli ágat: {0}"
+msgid "Pushing current branch {0} to remote..."
+msgstr "A jelenlegi ág {0} feltöltése a távoli tárolóra..."
 # 
-# File: usr/share/build-package/core/github_api.py, line: 477
-#: NEEDS WORK
-msgid "Local HEAD doesn't match any remote branch, finding most recent..."
-msgstr "A helyi HEAD nem egyezik meg egyetlen távoli ággal sem, a legutóbbi keresése..."
-# 
-# File: usr/share/build-package/core/github_api.py, line: 509
+# File: usr/share/build-package/core/github_api.py, line: 450
 #: NEEDS WORK
 #, python-brace-format
-msgid "✓ Using most recent remote branch: {0}"
-msgstr "✓ A legfrissebb távoli ágat használja: {0}"
+msgid "✓ Branch {0} pushed to remote"
+msgstr "✓ A(z) {0} ág a távoli tárolóra feltöltve"
 # 
-# File: usr/share/build-package/core/github_api.py, line: 513
+# File: usr/share/build-package/core/github_api.py, line: 453
 #: NEEDS WORK
 #, python-brace-format
-msgid "⚠️  Could not determine best branch, using: {0}"
-msgstr "⚠️  Nem sikerült meghatározni a legjobb ágat, használva: {0}"
+msgid "Push status: {0}"
+msgstr "Push állapot: {0}"
 # 
-# File: usr/share/build-package/github_api.py, line: 394
+# File: usr/share/build-package/core/github_api.py, line: 457
+#: NEEDS WORK
+msgid "Querying remote branches..."
+msgstr "Távoli ágak lekérdezése..."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 469
+#: NEEDS WORK
+msgid "No remote branches found, using main"
+msgstr "Nincsenek távoli ágak, a main-t használjuk"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 482
 #: NEEDS WORK
 #, python-brace-format
-msgid "Testing package: workflow will use branch {0}"
-msgstr "Tesztelő csomag: a munkafolyamat a {0} ágat fogja használni"
+msgid "Found {0} branches, checking commit dates..."
+msgstr "{0} ágat talált, a commit dátumokat ellenőrzöm..."
 # 
-# File: usr/share/build-package/core/github_api.py, line: 518
+# File: usr/share/build-package/core/github_api.py, line: 521
 #: NEEDS WORK
 #, python-brace-format
-msgid "Error determining branch: {0}"
-msgstr "Hiba a ág meghatározásakor: {0}"
+msgid "✓ Most recent branch: {0} (last commit: {1})"
+msgstr "✓ Legutóbbi ág: {0} (utolsó elköteleződés: {1})"
 # 
-# File: usr/share/build-package/core/github_api.py, line: 520
+# File: usr/share/build-package/core/github_api.py, line: 524
 #: NEEDS WORK
 #, python-brace-format
-msgid "⚠️  Using fallback branch: {0}"
-msgstr "⚠️  Visszaesési ágon használva: {0}"
+msgid "Could not determine most recent branch, using: {0}"
+msgstr "Nem sikerült meghatározni a legfrissebb ágat, használva: {0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 529
+#: NEEDS WORK
+#, python-brace-format
+msgid "Using fallback: {0}"
+msgstr "Hibás használat: {0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 417
 #: NEEDS WORK
