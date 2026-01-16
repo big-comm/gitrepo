@@ -2455,51 +2455,62 @@ msgstr "패키지에 대한 원격 저장소 URL을 가져오는 중 오류: {0}
 msgid "Detected repository: {0}"
 msgstr "감지된 저장소: {0}"
 # 
-# File: usr/share/build-package/core/github_api.py, line: 438
+# File: usr/share/build-package/core/github_api.py, line: 437
 #: NEEDS WORK
-msgid "Finding most recent branch in remote repository..."
-msgstr "원격 저장소에서 가장 최근 브랜치 찾기..."
+msgid "Finding branch with most recent code..."
+msgstr "가장 최근 코드가 있는 브랜치 찾기..."
 # 
-# File: usr/share/build-package/core/github_api.py, line: 467
+# File: usr/share/build-package/core/github_api.py, line: 443
 #: NEEDS WORK
 #, python-brace-format
-msgid "✓ Found matching remote branch: {0}"
-msgstr "✓ 일치하는 원격 브랜치 발견: {0}"
+msgid "Pushing current branch {0} to remote..."
+msgstr "현재 브랜치 {0}를 원격으로 푸시하는 중..."
 # 
-# File: usr/share/build-package/core/github_api.py, line: 477
-#: NEEDS WORK
-msgid "Local HEAD doesn't match any remote branch, finding most recent..."
-msgstr "로컬 HEAD가 원격 브랜치와 일치하지 않습니다. 가장 최근 브랜치를 찾는 중..."
-# 
-# File: usr/share/build-package/core/github_api.py, line: 509
+# File: usr/share/build-package/core/github_api.py, line: 450
 #: NEEDS WORK
 #, python-brace-format
-msgid "✓ Using most recent remote branch: {0}"
-msgstr "✓ 최신 원격 브랜치 사용 중: {0}"
+msgid "✓ Branch {0} pushed to remote"
+msgstr "✓ 브랜치 {0}가 원격으로 푸시되었습니다"
 # 
-# File: usr/share/build-package/core/github_api.py, line: 513
+# File: usr/share/build-package/core/github_api.py, line: 453
 #: NEEDS WORK
 #, python-brace-format
-msgid "⚠️  Could not determine best branch, using: {0}"
-msgstr "⚠️  최적의 브랜치를 결정할 수 없습니다. 사용 중: {0}"
+msgid "Push status: {0}"
+msgstr "푸시 상태: {0}"
 # 
-# File: usr/share/build-package/github_api.py, line: 394
+# File: usr/share/build-package/core/github_api.py, line: 457
+#: NEEDS WORK
+msgid "Querying remote branches..."
+msgstr "원격 브랜치 쿼리 중..."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 469
+#: NEEDS WORK
+msgid "No remote branches found, using main"
+msgstr "원격 브랜치가 발견되지 않았습니다. 기본 브랜치를 사용합니다."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 482
 #: NEEDS WORK
 #, python-brace-format
-msgid "Testing package: workflow will use branch {0}"
-msgstr "테스트 패키지: 워크플로우는 브랜치 {0}을 사용할 것입니다."
+msgid "Found {0} branches, checking commit dates..."
+msgstr "{0}개의 브랜치를 찾았습니다. 커밋 날짜를 확인하는 중..."
 # 
-# File: usr/share/build-package/core/github_api.py, line: 518
+# File: usr/share/build-package/core/github_api.py, line: 521
 #: NEEDS WORK
 #, python-brace-format
-msgid "Error determining branch: {0}"
-msgstr "브랜치를 결정하는 중 오류: {0}"
+msgid "✓ Most recent branch: {0} (last commit: {1})"
+msgstr "✓ 가장 최근 브랜치: {0} (마지막 커밋: {1})"
 # 
-# File: usr/share/build-package/core/github_api.py, line: 520
+# File: usr/share/build-package/core/github_api.py, line: 524
 #: NEEDS WORK
 #, python-brace-format
-msgid "⚠️  Using fallback branch: {0}"
-msgstr "⚠️  대체 브랜치를 사용하고 있습니다: {0}"
+msgid "Could not determine most recent branch, using: {0}"
+msgstr "가장 최근 브랜치를 확인할 수 없습니다. 사용 중: {0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 529
+#: NEEDS WORK
+#, python-brace-format
+msgid "Using fallback: {0}"
+msgstr "대체 사용: {0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 417
 #: NEEDS WORK

@@ -2561,51 +2561,62 @@ msgstr "Paket için uzak depo URL'si alınırken hata: {0}"
 msgid "Detected repository: {0}"
 msgstr "Tespit edilen depo: {0}"
 # 
-# File: usr/share/build-package/core/github_api.py, line: 438
+# File: usr/share/build-package/core/github_api.py, line: 437
 #: NEEDS WORK
-msgid "Finding most recent branch in remote repository..."
-msgstr "Uzak depodaki en son dalı bulma..."
+msgid "Finding branch with most recent code..."
+msgstr "En son kodu içeren dalı bulma..."
 # 
-# File: usr/share/build-package/core/github_api.py, line: 467
+# File: usr/share/build-package/core/github_api.py, line: 443
 #: NEEDS WORK
 #, python-brace-format
-msgid "✓ Found matching remote branch: {0}"
-msgstr "✓ Eşleşen uzak dal bulundu: {0}"
+msgid "Pushing current branch {0} to remote..."
+msgstr "Mevcut dal {0}'yı uzak sunucuya itme..."
 # 
-# File: usr/share/build-package/core/github_api.py, line: 477
-#: NEEDS WORK
-msgid "Local HEAD doesn't match any remote branch, finding most recent..."
-msgstr "Yerel HEAD, herhangi bir uzak dal ile eşleşmiyor, en sonunu buluyor..."
-# 
-# File: usr/share/build-package/core/github_api.py, line: 509
+# File: usr/share/build-package/core/github_api.py, line: 450
 #: NEEDS WORK
 #, python-brace-format
-msgid "✓ Using most recent remote branch: {0}"
-msgstr "✓ En son uzak dal kullanılıyor: {0}"
+msgid "✓ Branch {0} pushed to remote"
+msgstr "✓ Dal {0} uzak sunucuya itildi"
 # 
-# File: usr/share/build-package/core/github_api.py, line: 513
+# File: usr/share/build-package/core/github_api.py, line: 453
 #: NEEDS WORK
 #, python-brace-format
-msgid "⚠️  Could not determine best branch, using: {0}"
-msgstr "⚠️  En iyi dalı belirlemek mümkün olmadı, kullanılıyor: {0}"
+msgid "Push status: {0}"
+msgstr "İtme durumu: {0}"
 # 
-# File: usr/share/build-package/github_api.py, line: 394
+# File: usr/share/build-package/core/github_api.py, line: 457
+#: NEEDS WORK
+msgid "Querying remote branches..."
+msgstr "Uzak dalları sorgulama..."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 469
+#: NEEDS WORK
+msgid "No remote branches found, using main"
+msgstr "Uzak dal bulunamadı, ana dal kullanılıyor."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 482
 #: NEEDS WORK
 #, python-brace-format
-msgid "Testing package: workflow will use branch {0}"
-msgstr "Test paketi: iş akışı {0} dalını kullanacak"
+msgid "Found {0} branches, checking commit dates..."
+msgstr "{0} dal buldu, commit tarihleri kontrol ediliyor..."
 # 
-# File: usr/share/build-package/core/github_api.py, line: 518
+# File: usr/share/build-package/core/github_api.py, line: 521
 #: NEEDS WORK
 #, python-brace-format
-msgid "Error determining branch: {0}"
-msgstr "Dalın belirlenmesinde hata: {0}"
+msgid "✓ Most recent branch: {0} (last commit: {1})"
+msgstr "✓ En son dal: {0} (son taahhüt: {1})"
 # 
-# File: usr/share/build-package/core/github_api.py, line: 520
+# File: usr/share/build-package/core/github_api.py, line: 524
 #: NEEDS WORK
 #, python-brace-format
-msgid "⚠️  Using fallback branch: {0}"
-msgstr "⚠️  Yedek dal kullanılıyor: {0}"
+msgid "Could not determine most recent branch, using: {0}"
+msgstr "En son dalı belirlemek mümkün olmadı, kullanılıyor: {0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 529
+#: NEEDS WORK
+#, python-brace-format
+msgid "Using fallback: {0}"
+msgstr "Yedek kullanılıyor: {0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 417
 #: NEEDS WORK

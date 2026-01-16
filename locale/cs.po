@@ -2464,51 +2464,62 @@ msgstr "Chyba při získávání URL vzdáleného repozitáře pro balíček: {0
 msgid "Detected repository: {0}"
 msgstr "Zjištěné úložiště: {0}"
 # 
-# File: usr/share/build-package/core/github_api.py, line: 438
+# File: usr/share/build-package/core/github_api.py, line: 437
 #: NEEDS WORK
-msgid "Finding most recent branch in remote repository..."
-msgstr "Hledání nejnovější větve v dálkovém repozitáři..."
+msgid "Finding branch with most recent code..."
+msgstr "Hledání větve s nejnovějším kódem..."
 # 
-# File: usr/share/build-package/core/github_api.py, line: 467
+# File: usr/share/build-package/core/github_api.py, line: 443
 #: NEEDS WORK
 #, python-brace-format
-msgid "✓ Found matching remote branch: {0}"
-msgstr "✓ Nalezen odpovídající vzdálený branch: {0}"
+msgid "Pushing current branch {0} to remote..."
+msgstr "Pushing current branch {0} to remote..."
 # 
-# File: usr/share/build-package/core/github_api.py, line: 477
-#: NEEDS WORK
-msgid "Local HEAD doesn't match any remote branch, finding most recent..."
-msgstr "Lokální HEAD se neshoduje s žádnou vzdálenou větví, hledání nejnovější..."
-# 
-# File: usr/share/build-package/core/github_api.py, line: 509
+# File: usr/share/build-package/core/github_api.py, line: 450
 #: NEEDS WORK
 #, python-brace-format
-msgid "✓ Using most recent remote branch: {0}"
-msgstr "✓ Používání nejnovější vzdálené větve: {0}"
+msgid "✓ Branch {0} pushed to remote"
+msgstr "✓ Větev {0} byla odeslána na vzdálený server"
 # 
-# File: usr/share/build-package/core/github_api.py, line: 513
+# File: usr/share/build-package/core/github_api.py, line: 453
 #: NEEDS WORK
 #, python-brace-format
-msgid "⚠️  Could not determine best branch, using: {0}"
-msgstr "⚠️  Nelze určit nejlepší větev, používá se: {0}"
+msgid "Push status: {0}"
+msgstr "Stav push: {0}"
 # 
-# File: usr/share/build-package/github_api.py, line: 394
+# File: usr/share/build-package/core/github_api.py, line: 457
+#: NEEDS WORK
+msgid "Querying remote branches..."
+msgstr "Dotazování vzdálených větví..."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 469
+#: NEEDS WORK
+msgid "No remote branches found, using main"
+msgstr "Nebyly nalezeny žádné vzdálené větve, používá se hlavní."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 482
 #: NEEDS WORK
 #, python-brace-format
-msgid "Testing package: workflow will use branch {0}"
-msgstr "Testovací balíček: pracovní postup bude používat větev {0}"
+msgid "Found {0} branches, checking commit dates..."
+msgstr "Nalezeno {0} větví, kontroluji data commitů..."
 # 
-# File: usr/share/build-package/core/github_api.py, line: 518
+# File: usr/share/build-package/core/github_api.py, line: 521
 #: NEEDS WORK
 #, python-brace-format
-msgid "Error determining branch: {0}"
-msgstr "Chyba při určování větve: {0}"
+msgid "✓ Most recent branch: {0} (last commit: {1})"
+msgstr "✓ Nejnovější větev: {0} (poslední potvrzení: {1})"
 # 
-# File: usr/share/build-package/core/github_api.py, line: 520
+# File: usr/share/build-package/core/github_api.py, line: 524
 #: NEEDS WORK
 #, python-brace-format
-msgid "⚠️  Using fallback branch: {0}"
-msgstr "⚠️  Používání záložní větve: {0}"
+msgid "Could not determine most recent branch, using: {0}"
+msgstr "Nelze určit nejnovější větev, používá se: {0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 529
+#: NEEDS WORK
+#, python-brace-format
+msgid "Using fallback: {0}"
+msgstr "Používání záložního: {0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 417
 #: NEEDS WORK
