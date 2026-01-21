@@ -53,6 +53,7 @@ class BranchWidget(Gtk.Box):
         self.build_package = build_package
         self.current_branch = None
         self.branches = []
+        self._block_selection_signal = False  # Flag to prevent signal loops
 
         # Remover vexpand para evitar espaço vazio
         self.set_valign(Gtk.Align.START)
@@ -180,6 +181,9 @@ class BranchWidget(Gtk.Box):
         if not self.build_package.is_git_repo:
             return
         
+        # Block selection signal during refresh to prevent loops
+        self._block_selection_signal = True
+        
         # Get current branch
         self.current_branch = GitUtils.get_current_branch()
         if self.current_branch:
@@ -242,6 +246,9 @@ class BranchWidget(Gtk.Box):
             
         except Exception as e:
             print(f"Error refreshing branches: {e}")
+        finally:
+            # Always unblock signal after refresh
+            self._block_selection_signal = False
     
     def update_combo_boxes(self, branches):
         """Update merge combo boxes with branch list"""
@@ -265,9 +272,11 @@ class BranchWidget(Gtk.Box):
     
     def on_branch_selected(self, list_box, row):
         """Handle branch selection"""
-        if row:
-            branch_name = row.branch_name
-            self.emit('branch-selected', branch_name)
+        # Ignore if signal is blocked (during refresh) or no row selected
+        if self._block_selection_signal or not row:
+            return
+        branch_name = row.branch_name
+        self.emit('branch-selected', branch_name)
     
     def on_merge_selection_changed(self, combo_row, param):
         """Handle merge combo box changes"""
