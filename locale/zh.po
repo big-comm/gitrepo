@@ -1127,6 +1127,11 @@ msgstr "退出脚本。未执行任何操作。"
 msgid "Error: No package name was entered."
 msgstr "错误：未输入包名。"
 # 
+# File: usr/share/build-package/core/build_package.py, line: 1557
+#: NEEDS WORK
+msgid "Starting AUR package build..."
+msgstr "正在启动 AUR 包构建..."
+# 
 # File: usr/share/build-package/build_package.py, line: 497
 # File: usr/share/build-package/build_package.py, line: 518
 #: NEEDS WORK
@@ -2065,18 +2070,6 @@ msgstr "成功切换并更新到 {0}"
 msgid "Error switching to branch {0}: {1}"
 msgstr "切换到分支 {0} 时出错：{1}"
 # 
-# File: usr/share/build-package/git_utils.py, line: 111
-#: NEEDS WORK
-#, python-brace-format
-msgid "Git has changes: {0} - {1}"
-msgstr "Git 有变更: {0} - {1}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 114
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error checking changes: {0}"
-msgstr "检查更改时出错: {0}"
-# 
 # File: usr/share/build-package/git_utils.py, line: 122
 # File: usr/share/build-package/git_utils.py, line: 262
 # File: usr/share/build-package/git_utils.py, line: 317
@@ -2141,16 +2134,22 @@ msgstr "拉取更改时出错：{0}"
 msgid "Error finding most recent branch: {0}"
 msgstr "找不到最近的分支：{0}"
 # 
-# File: usr/share/build-package/git_utils.py, line: 275
-#: NEEDS WORK
-msgid "Pushing new branch to remote repository..."
-msgstr "将新分支推送到远程仓库..."
-# 
-# File: usr/share/build-package/git_utils.py, line: 278
+# File: usr/share/build-package/core/git_utils.py, line: 373
 #: NEEDS WORK
 #, python-brace-format
-msgid "Branch {0} created and pushed successfully!"
-msgstr "分支 {0} 创建并成功推送！"
+msgid "Checking out remote branch: {0}"
+msgstr "检出远程分支：{0}"
+# 
+# File: usr/share/build-package/core/git_utils.py, line: 381
+#: NEEDS WORK
+msgid "Pushing branch to remote repository..."
+msgstr "正在将分支推送到远程仓库..."
+# 
+# File: usr/share/build-package/core/git_utils.py, line: 384
+#: NEEDS WORK
+#, python-brace-format
+msgid "Branch {0} ready and pushed!"
+msgstr "分支 {0} 已准备好并已推送！"
 # 
 # File: usr/share/build-package/git_utils.py, line: 281
 #: NEEDS WORK
@@ -4412,10 +4411,10 @@ msgstr "退出"
 msgid "Refresh Status"
 msgstr "刷新状态"
 # 
-# File: usr/share/build-package/gui/main_gui.py, line: 148
+# File: usr/share/build-package/gui/main_gui.py, line: 188
 #: NEEDS WORK
-msgid "Pull Latest Changes"
-msgstr "拉取最新更改"
+msgid "Welcome Screen"
+msgstr "欢迎界面"
 # 
 # File: usr/share/build-package/gui/main_gui.py, line: 152
 #: NEEDS WORK
@@ -4440,6 +4439,11 @@ msgstr "无法启动图形用户界面"
 #: NEEDS WORK
 msgid "Build Package"
 msgstr "构建包"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 107
+#: NEEDS WORK
+msgid "GitRepo"
+msgstr "Git仓库"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 134
 #: NEEDS WORK
@@ -4479,6 +4483,16 @@ msgstr "分支"
 #: NEEDS WORK
 msgid "Advanced"
 msgstr "高级"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 252
+#: NEEDS WORK
+msgid "About"
+msgstr "关于"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 315
+#: NEEDS WORK
+msgid "Git repository manager for building and deploying packages"
+msgstr "Git 仓库管理器，用于构建和部署软件包"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 228
 #: NEEDS WORK
@@ -4989,13 +5003,18 @@ msgstr "当前分支"
 # 
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 96
 #: NEEDS WORK
+msgid "Commit"
+msgstr "提交"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 96
+#: NEEDS WORK
 msgid "Commit Type"
 msgstr "提交类型"
 # 
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 97
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 104
 #: NEEDS WORK
-msgid "Select the type of changes you are committing"
-msgstr "选择您要提交的更改类型"
+msgid "Select the type of change"
+msgstr "选择更改类型"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -5114,31 +5133,6 @@ msgstr "启用 TMATE 调试"
 msgid "Enable terminal access for debugging build issues"
 msgstr "启用终端访问以调试构建问题"
 # 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 96
-#: NEEDS WORK
-msgid "Quick Access"
-msgstr "快速访问"
-# 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 100
-#: NEEDS WORK
-msgid "AUR helper written in Go"
-msgstr "用Go编写的AUR助手"
-# 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 101
-#: NEEDS WORK
-msgid "Visual Studio Code editor"
-msgstr "Visual Studio Code 编辑器"
-# 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 102
-#: NEEDS WORK
-msgid "Google Chrome browser"
-msgstr "谷歌浏览器"
-# 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 103
-#: NEEDS WORK
-msgid "Discord chat application"
-msgstr "Discord聊天应用程序"
-# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/build-package/gui/widgets/aur_widget.py, line: 123
@@ -5180,35 +5174,33 @@ msgstr "在上方输入包名"
 msgid "Confirm AUR Build"
 msgstr "确认 AUR 构建"
 # 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 252
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 238
 #: NEEDS WORK
 #, python-brace-format
-msgid ""
-"Build AUR package '{0}'?\n"
-"\n"
-"This will:\n"
-"• Create branch: {1}\n"
-"• Download from: https://aur.archlinux.org/{0}.git\n"
-"• Build package in BigCommunity infrastructure"
-msgstr ""
-"构建 AUR 包 '{0}'？\n"
-"\n"
-"这将：\n"
-"• 创建分支：{1}\n"
-"• 从下载： https://aur.archlinux.org/{0}.git\n"
-"• 在 BigCommunity 基础设施中构建包"
+msgid "<b>Package:</b> {0}"
+msgstr "<b>包：</b> {0}"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 103
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 248
 #: NEEDS WORK
-#, python-brace-format
-msgid "Welcome to {0}"
-msgstr "欢迎来到 {0}"
+msgid "This will:"
+msgstr "这将："
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 108
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 255
 #: NEEDS WORK
 #, python-brace-format
-msgid "Version {0}"
-msgstr "版本 {0}"
+msgid "• Create branch: {0}"
+msgstr "• 创建分支: {0}"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 256
+#: NEEDS WORK
+#, python-brace-format
+msgid "• Download from: https://aur.archlinux.org/{0}.git"
+msgstr "• 从以下地址下载: https://aur.archlinux.org/{0}.git"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 257
+#: NEEDS WORK
+msgid "• Build package in BigCommunity infrastructure"
+msgstr "• 在 BigCommunity 基础设施中构建包"
 # 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 139
 #: NEEDS WORK
@@ -5225,20 +5217,15 @@ msgstr "提交"
 msgid "Quick Actions"
 msgstr "快速操作"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 153
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 164
 #: NEEDS WORK
-msgid "Common operations for package development"
-msgstr "软件包开发的常见操作"
+msgid "Pull latest changes from remote repository"
+msgstr "从远程仓库拉取最新更改"
 # 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 162
 #: NEEDS WORK
 msgid "Stage changes and push to development branch"
 msgstr "暂存更改并推送到开发分支"
-# 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 164
-#: NEEDS WORK
-msgid "Pull latest changes from remote repository"
-msgstr "从远程仓库拉取最新更改"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -5286,23 +5273,10 @@ msgstr "没有最近的活动"
 msgid "Activity will appear here after operations"
 msgstr "操作完成后，活动将出现在此处"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 194
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 177
 #: NEEDS WORK
-msgid "System Information"
-msgstr "系统信息"
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 202
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 156
-#: NEEDS WORK
-msgid "Workflow Repository"
-msgstr "工作流库"
-# 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 207
-#: NEEDS WORK
-msgid "GitHub User"
-msgstr "GitHub 用户"
+msgid "Show welcome screen"
+msgstr "显示欢迎界面"
 # 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 220
 #: NEEDS WORK
@@ -5340,10 +5314,10 @@ msgstr "本地仓库"
 msgid "Modified"
 msgstr "已修改"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 277
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 246
 #: NEEDS WORK
-msgid "Clean"
-msgstr "清理"
+msgid "No changes"
+msgstr "没有更改"
 # 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 311
 #: NEEDS WORK
@@ -5362,38 +5336,33 @@ msgstr "更改状态"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 101
 #: NEEDS WORK
-msgid "Package Type"
-msgstr "包类型"
+msgid "Target Repository"
+msgstr "目标仓库"
 # 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 102
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 295
 #: NEEDS WORK
-msgid "Select the repository type for package deployment"
-msgstr "选择用于包部署的存储库类型"
-# 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 111
-#: NEEDS WORK
-msgid "Testing Repository"
-msgstr "测试库"
+msgid "Testing"
+msgstr "测试"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 111
 #: NEEDS WORK
 msgid "Deploy to testing repo for beta users"
 msgstr "部署到测试仓库供测试用户使用"
 # 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 112
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 296
 #: NEEDS WORK
-msgid "Stable Repository"
-msgstr "稳定仓库"
+msgid "Stable"
+msgstr "稳定"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 112
 #: NEEDS WORK
 msgid "Deploy to stable repo for all users"
 msgstr "部署到所有用户的稳定仓库"
 # 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 113
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 297
 #: NEEDS WORK
-msgid "Extra Repository"
-msgstr "额外仓库"
+msgid "Extra"
+msgstr "额外"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 113
 #: NEEDS WORK
@@ -5410,6 +5379,14 @@ msgstr "提交更改"
 msgid "Required when uncommitted changes are present"
 msgstr "在存在未提交更改时必需"
 # 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 202
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 156
+#: NEEDS WORK
+msgid "Workflow Repository"
+msgstr "工作流库"
+# 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 169
 #: NEEDS WORK
 msgid "Reset"
@@ -5424,21 +5401,6 @@ msgstr "错误：未找到 PKGBUILD"
 #: NEEDS WORK
 msgid "Build Extra Package"
 msgstr "构建额外包"
-# 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 295
-#: NEEDS WORK
-msgid "Testing"
-msgstr "测试"
-# 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 296
-#: NEEDS WORK
-msgid "Stable"
-msgstr "稳定"
-# 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 297
-#: NEEDS WORK
-msgid "Extra"
-msgstr "额外"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 309
 #: NEEDS WORK
@@ -5725,15 +5687,150 @@ msgstr "所有冲突已解决（保留本地版本）"
 msgid "All conflicts resolved (accepted remote versions)"
 msgstr "所有冲突已解决（接受远程版本）"
 # 
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 57
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 31
 #: NEEDS WORK
-msgid "Preparing..."
-msgstr "准备中..."
+msgid "Welcome"
+msgstr "欢迎"
 # 
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 65
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 103
 #: NEEDS WORK
-msgid "Details"
-msgstr "详细信息"
+#, python-brace-format
+msgid "Welcome to {0}"
+msgstr "欢迎来到 {0}"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 108
+#: NEEDS WORK
+#, python-brace-format
+msgid "Version {0}"
+msgstr "版本 {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 106
+#: NEEDS WORK
+msgid "Key Features"
+msgstr "主要特性"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 113
+#: NEEDS WORK
+msgid "Stage changes and push to your development branch with semantic commit messages"
+msgstr "暂存更改并将其推送到您的开发分支，使用语义化提交信息"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 114
+#: NEEDS WORK
+msgid "Build Packages"
+msgstr "构建包"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 115
+#: NEEDS WORK
+msgid "Build and deploy packages to testing, stable, or extra repositories"
+msgstr "构建并部署软件包到测试、稳定或额外的仓库"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 116
+#: NEEDS WORK
+msgid "AUR Packages"
+msgstr "AUR 软件包"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 117
+#: NEEDS WORK
+msgid "Build packages directly from the Arch User Repository"
+msgstr "直接从 Arch 用户仓库构建软件包"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 119
+#: NEEDS WORK
+msgid "Manage branches, create merge requests, and cleanup old branches"
+msgstr "管理分支，创建合并请求，清理旧分支"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 121
+#: NEEDS WORK
+msgid "Cleanup GitHub Actions, tags, and revert commits"
+msgstr "清理 GitHub Actions、标签和还原提交"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 135
+#: NEEDS WORK
+msgid "Quick Tips"
+msgstr "快速提示"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 141
+#: NEEDS WORK
+msgid "Use the sidebar to navigate between different operations"
+msgstr "使用侧边栏在不同操作之间导航"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 142
+#: NEEDS WORK
+msgid "The Overview page shows your current repository status"
+msgstr "概览页面显示您当前的代码库状态"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 143
+#: NEEDS WORK
+msgid "Configure your preferences in Settings (Ctrl+,)"
+msgstr "在设置中配置您的偏好（Ctrl+,）"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 144
+#: NEEDS WORK
+msgid "Press Ctrl+Q to quit the application"
+msgstr "按 Ctrl+Q 退出应用程序"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 185
+#: NEEDS WORK
+msgid "Don't show this welcome screen again"
+msgstr "不再显示此欢迎界面"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 191
+#: NEEDS WORK
+msgid "Get Started"
+msgstr "开始使用"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 96
+#: NEEDS WORK
+msgid "Initializing..."
+msgstr "正在初始化..."
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 106
+#: NEEDS WORK
+msgid "Starting..."
+msgstr "正在启动..."
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 123
+#: NEEDS WORK
+msgid "Terminal Log"
+msgstr "终端日志"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 309
+#: NEEDS WORK
+msgid "Completed"
+msgstr "已完成"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 310
+#: NEEDS WORK
+msgid "✓ Operation completed successfully"
+msgstr "✓ 操作成功完成"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 314
+#: NEEDS WORK
+msgid "Failed"
+msgstr "失败"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 315
+#: NEEDS WORK
+#, python-brace-format
+msgid "✗ Operation failed: {0}"
+msgstr "✗ 操作失败: {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 328
+#: NEEDS WORK
+msgid "Done"
+msgstr "完成"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 370
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 376
+#: NEEDS WORK
+msgid "Open in GitHub"
+msgstr "在 GitHub 中打开"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 534
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 541
+#: NEEDS WORK
+msgid "Operation completed successfully"
+msgstr "操作成功完成"
 # 
 # File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 76
 #: NEEDS WORK
@@ -6001,3 +6098,40 @@ msgid ""
 "Wrapper for ISO building using GitHub Actions. Streamlines the process of creating custom Linux "
 "distribution ISO images through automation."
 msgstr "使用 GitHub Actions 构建 ISO 的包装器。通过自动化简化创建自定义 Linux 发行版 ISO 镜像的过程。"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 70
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 99
+#: NEEDS WORK
+msgid "Open in GitRepo"
+msgstr "在 GitRepo 中打开"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 74
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 103
+#: NEEDS WORK
+msgid "Manage this Git repository with GitRepo"
+msgstr "使用 GitRepo 管理此 Git 仓库"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 127
+#: NEEDS WORK
+msgid "Error"
+msgstr "错误"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 128
+#: NEEDS WORK
+msgid "Could not get the path for the selected folder."
+msgstr "无法获取所选文件夹的路径。"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 146
+#: NEEDS WORK
+msgid "Application Not Found"
+msgstr "未找到应用程序"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 147
+#: NEEDS WORK
+msgid "Could not find GitRepo. Is it installed?"
+msgstr "找不到 GitRepo。它是否已安装？"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 152
+#: NEEDS WORK
+msgid "Launch Error"
+msgstr "启动错误"

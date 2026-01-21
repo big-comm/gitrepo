@@ -1129,6 +1129,11 @@ msgstr "Poistutaan skriptistä. Toimintoa ei suoritettu."
 msgid "Error: No package name was entered."
 msgstr "Virhe: Pakettinimeä ei annettu."
 # 
+# File: usr/share/build-package/core/build_package.py, line: 1557
+#: NEEDS WORK
+msgid "Starting AUR package build..."
+msgstr "AUR-paketin rakentaminen alkaa..."
+# 
 # File: usr/share/build-package/build_package.py, line: 497
 # File: usr/share/build-package/build_package.py, line: 518
 #: NEEDS WORK
@@ -2067,18 +2072,6 @@ msgstr "Onnistuneesti vaihdettu ja päivitetty {0}ksi"
 msgid "Error switching to branch {0}: {1}"
 msgstr "Virhe vaihtaessa haaraan {0}: {1}"
 # 
-# File: usr/share/build-package/git_utils.py, line: 111
-#: NEEDS WORK
-#, python-brace-format
-msgid "Git has changes: {0} - {1}"
-msgstr "Gitissä on muutoksia: {0} - {1}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 114
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error checking changes: {0}"
-msgstr "Virhe tarkistaessa muutoksia: {0}"
-# 
 # File: usr/share/build-package/git_utils.py, line: 122
 # File: usr/share/build-package/git_utils.py, line: 262
 # File: usr/share/build-package/git_utils.py, line: 317
@@ -2143,16 +2136,22 @@ msgstr "Virhe muutosten hakemisessa: {0}"
 msgid "Error finding most recent branch: {0}"
 msgstr "Virhe viimeisimmän haaran etsimisessä: {0}"
 # 
-# File: usr/share/build-package/git_utils.py, line: 275
-#: NEEDS WORK
-msgid "Pushing new branch to remote repository..."
-msgstr "Työnnetään uusi haara etävarastoon..."
-# 
-# File: usr/share/build-package/git_utils.py, line: 278
+# File: usr/share/build-package/core/git_utils.py, line: 373
 #: NEEDS WORK
 #, python-brace-format
-msgid "Branch {0} created and pushed successfully!"
-msgstr "Haara {0} luotiin ja työnnettiin onnistuneesti!"
+msgid "Checking out remote branch: {0}"
+msgstr "Tarkistetaan etähaaraa: {0}"
+# 
+# File: usr/share/build-package/core/git_utils.py, line: 381
+#: NEEDS WORK
+msgid "Pushing branch to remote repository..."
+msgstr "Työnnetään haaraa etävarastoon..."
+# 
+# File: usr/share/build-package/core/git_utils.py, line: 384
+#: NEEDS WORK
+#, python-brace-format
+msgid "Branch {0} ready and pushed!"
+msgstr "Haara {0} valmis ja työnnetty!"
 # 
 # File: usr/share/build-package/git_utils.py, line: 281
 #: NEEDS WORK
@@ -4417,10 +4416,10 @@ msgstr "Lopeta"
 msgid "Refresh Status"
 msgstr "Päivitä tila"
 # 
-# File: usr/share/build-package/gui/main_gui.py, line: 148
+# File: usr/share/build-package/gui/main_gui.py, line: 188
 #: NEEDS WORK
-msgid "Pull Latest Changes"
-msgstr "Hae uusimmat muutokset"
+msgid "Welcome Screen"
+msgstr "Tervetuloa-näyttö"
 # 
 # File: usr/share/build-package/gui/main_gui.py, line: 152
 #: NEEDS WORK
@@ -4445,6 +4444,11 @@ msgstr "GUI-käyttöliittymän käynnistys epäonnistui"
 #: NEEDS WORK
 msgid "Build Package"
 msgstr "Rakenna paketti"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 107
+#: NEEDS WORK
+msgid "GitRepo"
+msgstr "GitRepo"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 134
 #: NEEDS WORK
@@ -4484,6 +4488,16 @@ msgstr "Haara"
 #: NEEDS WORK
 msgid "Advanced"
 msgstr "Edistynyt"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 252
+#: NEEDS WORK
+msgid "About"
+msgstr "Tietoja"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 315
+#: NEEDS WORK
+msgid "Git repository manager for building and deploying packages"
+msgstr "Git-repositoriohallinta pakettien rakentamiseen ja käyttöönottoon"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 228
 #: NEEDS WORK
@@ -4994,13 +5008,18 @@ msgstr "Nykyinen haara"
 # 
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 96
 #: NEEDS WORK
+msgid "Commit"
+msgstr "Vahvistaa"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 96
+#: NEEDS WORK
 msgid "Commit Type"
 msgstr "Sitoutumistyyppi"
 # 
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 97
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 104
 #: NEEDS WORK
-msgid "Select the type of changes you are committing"
-msgstr "Valitse tekemäsi muutosten tyyppi"
+msgid "Select the type of change"
+msgstr "Valitse muutoksen tyyppi"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -5119,31 +5138,6 @@ msgstr "Ota TMATE-debug käyttöön"
 msgid "Enable terminal access for debugging build issues"
 msgstr "Ota terminaalipääsy käyttöön virheenkorjausrakennusongelmille"
 # 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 96
-#: NEEDS WORK
-msgid "Quick Access"
-msgstr "Pikakäyttö"
-# 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 100
-#: NEEDS WORK
-msgid "AUR helper written in Go"
-msgstr "AUR-apuohjelma, joka on kirjoitettu Go-kielellä"
-# 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 101
-#: NEEDS WORK
-msgid "Visual Studio Code editor"
-msgstr "Visual Studio Code -editori"
-# 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 102
-#: NEEDS WORK
-msgid "Google Chrome browser"
-msgstr "Google Chrome -selain"
-# 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 103
-#: NEEDS WORK
-msgid "Discord chat application"
-msgstr "Discord-keskusteluohjelma"
-# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/build-package/gui/widgets/aur_widget.py, line: 123
@@ -5185,35 +5179,33 @@ msgstr "Syötä paketin nimi ylle"
 msgid "Confirm AUR Build"
 msgstr "Vahvista AUR-rakennus"
 # 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 252
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 238
 #: NEEDS WORK
 #, python-brace-format
-msgid ""
-"Build AUR package '{0}'?\n"
-"\n"
-"This will:\n"
-"• Create branch: {1}\n"
-"• Download from: https://aur.archlinux.org/{0}.git\n"
-"• Build package in BigCommunity infrastructure"
-msgstr ""
-"Käynnistä AUR-paketti '{0}'?\n"
-"\n"
-"Tämä tekee:\n"
-"• Luo haara: {1}\n"
-"• Lataa osoitteesta: https://aur.archlinux.org/{0}.git\n"
-"• Rakenna paketti BigCommunity-infrastruktuurissa"
+msgid "<b>Package:</b> {0}"
+msgstr "<b>Paketti:</b> {0}"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 103
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 248
 #: NEEDS WORK
-#, python-brace-format
-msgid "Welcome to {0}"
-msgstr "Tervetuloa {0}"
+msgid "This will:"
+msgstr "Tämä tulee:"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 108
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 255
 #: NEEDS WORK
 #, python-brace-format
-msgid "Version {0}"
-msgstr "Versio {0}"
+msgid "• Create branch: {0}"
+msgstr "• Luo haara: {0}"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 256
+#: NEEDS WORK
+#, python-brace-format
+msgid "• Download from: https://aur.archlinux.org/{0}.git"
+msgstr "• Lataa osoitteesta: https://aur.archlinux.org/{0}.git"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 257
+#: NEEDS WORK
+msgid "• Build package in BigCommunity infrastructure"
+msgstr "• Rakenna paketti BigCommunity-infrastruktuurissa"
 # 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 139
 #: NEEDS WORK
@@ -5230,20 +5222,15 @@ msgstr "Sitoumukset"
 msgid "Quick Actions"
 msgstr "Nopeat toiminnot"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 153
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 164
 #: NEEDS WORK
-msgid "Common operations for package development"
-msgstr "Yleisimmät toiminnot pakettikehitykselle"
+msgid "Pull latest changes from remote repository"
+msgstr "Hae viimeisimmät muutokset etävarastosta"
 # 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 162
 #: NEEDS WORK
 msgid "Stage changes and push to development branch"
 msgstr "Vaihda muutokset ja työnnä kehityshaaraan"
-# 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 164
-#: NEEDS WORK
-msgid "Pull latest changes from remote repository"
-msgstr "Hae viimeisimmät muutokset etävarastosta"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -5291,23 +5278,10 @@ msgstr "Ei äskettäistä toimintaa"
 msgid "Activity will appear here after operations"
 msgstr "Toiminta näkyy täällä operaatioiden jälkeen"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 194
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 177
 #: NEEDS WORK
-msgid "System Information"
-msgstr "Järjestelmätiedot"
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 202
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 156
-#: NEEDS WORK
-msgid "Workflow Repository"
-msgstr "Työnkulkuvarasto"
-# 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 207
-#: NEEDS WORK
-msgid "GitHub User"
-msgstr "GitHub-käyttäjä"
+msgid "Show welcome screen"
+msgstr "Näytä tervetulonäyttö"
 # 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 220
 #: NEEDS WORK
@@ -5345,10 +5319,10 @@ msgstr "Paikallinen repositorio"
 msgid "Modified"
 msgstr "Muokattu"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 277
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 246
 #: NEEDS WORK
-msgid "Clean"
-msgstr "Puhdas"
+msgid "No changes"
+msgstr "Ei muutoksia"
 # 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 311
 #: NEEDS WORK
@@ -5367,38 +5341,33 @@ msgstr "Muuta tilaa"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 101
 #: NEEDS WORK
-msgid "Package Type"
-msgstr "Pakettityyppi"
+msgid "Target Repository"
+msgstr "Kohdevarasto"
 # 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 102
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 295
 #: NEEDS WORK
-msgid "Select the repository type for package deployment"
-msgstr "Valitse pakettien käyttöönottoa varten käytettävä repositorion tyyppi"
-# 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 111
-#: NEEDS WORK
-msgid "Testing Repository"
-msgstr "Testausvarasto"
+msgid "Testing"
+msgstr "Testaus"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 111
 #: NEEDS WORK
 msgid "Deploy to testing repo for beta users"
 msgstr "Ota käyttöön testivarasto beta-käyttäjille"
 # 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 112
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 296
 #: NEEDS WORK
-msgid "Stable Repository"
-msgstr "Vakaa varasto"
+msgid "Stable"
+msgstr "Vakaa"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 112
 #: NEEDS WORK
 msgid "Deploy to stable repo for all users"
 msgstr "Ota käyttöön vakaa repositorio kaikille käyttäjille"
 # 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 113
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 297
 #: NEEDS WORK
-msgid "Extra Repository"
-msgstr "Lisävarasto"
+msgid "Extra"
+msgstr "Lisä"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 113
 #: NEEDS WORK
@@ -5415,6 +5384,14 @@ msgstr "Vahvista muutokset"
 msgid "Required when uncommitted changes are present"
 msgstr "Vaaditaan, kun ei-vahvistettuja muutoksia on läsnä"
 # 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 202
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 156
+#: NEEDS WORK
+msgid "Workflow Repository"
+msgstr "Työnkulkuvarasto"
+# 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 169
 #: NEEDS WORK
 msgid "Reset"
@@ -5429,21 +5406,6 @@ msgstr "Virhe: PKGBUILD ei löytynyt"
 #: NEEDS WORK
 msgid "Build Extra Package"
 msgstr "Rakenna ylimääräinen paketti"
-# 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 295
-#: NEEDS WORK
-msgid "Testing"
-msgstr "Testaus"
-# 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 296
-#: NEEDS WORK
-msgid "Stable"
-msgstr "Vakaa"
-# 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 297
-#: NEEDS WORK
-msgid "Extra"
-msgstr "Lisä"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 309
 #: NEEDS WORK
@@ -5730,15 +5692,150 @@ msgstr "Kaikki konfliktit ratkaistu (säilytetty paikalliset versiot)"
 msgid "All conflicts resolved (accepted remote versions)"
 msgstr "Kaikki konfliktit ratkaistu (hyväksytyt etäversiot)"
 # 
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 57
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 31
 #: NEEDS WORK
-msgid "Preparing..."
-msgstr "Valmistellaan..."
+msgid "Welcome"
+msgstr "Tervetuloa"
 # 
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 65
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 103
 #: NEEDS WORK
-msgid "Details"
-msgstr "Yksityiskohdat"
+#, python-brace-format
+msgid "Welcome to {0}"
+msgstr "Tervetuloa {0}"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 108
+#: NEEDS WORK
+#, python-brace-format
+msgid "Version {0}"
+msgstr "Versio {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 106
+#: NEEDS WORK
+msgid "Key Features"
+msgstr "Avainominaisuudet"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 113
+#: NEEDS WORK
+msgid "Stage changes and push to your development branch with semantic commit messages"
+msgstr "Vaihda muutokset ja työnnä ne kehityshaaraasi semanttisten commit-viestien kanssa"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 114
+#: NEEDS WORK
+msgid "Build Packages"
+msgstr "Rakenna paketteja"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 115
+#: NEEDS WORK
+msgid "Build and deploy packages to testing, stable, or extra repositories"
+msgstr "Rakenna ja julkaise paketteja testaus-, vakaa- tai ylimääräisiin varastoihin"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 116
+#: NEEDS WORK
+msgid "AUR Packages"
+msgstr "AUR-paketit"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 117
+#: NEEDS WORK
+msgid "Build packages directly from the Arch User Repository"
+msgstr "Rakenna paketteja suoraan Arch User Repositorystä"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 119
+#: NEEDS WORK
+msgid "Manage branches, create merge requests, and cleanup old branches"
+msgstr "Hallitse haaraoksia, luo yhdistämispyyntöjä ja siivoa vanhat haaraokset"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 121
+#: NEEDS WORK
+msgid "Cleanup GitHub Actions, tags, and revert commits"
+msgstr "Siivoa GitHub-toiminnot, tagit ja peruuta sitoumukset"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 135
+#: NEEDS WORK
+msgid "Quick Tips"
+msgstr "Nopeat vinkit"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 141
+#: NEEDS WORK
+msgid "Use the sidebar to navigate between different operations"
+msgstr "Käytä sivupalkkia navigoidaksesi eri toimintojen välillä"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 142
+#: NEEDS WORK
+msgid "The Overview page shows your current repository status"
+msgstr "Yleiskatsaus-sivu näyttää nykyisen varastosi tilan"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 143
+#: NEEDS WORK
+msgid "Configure your preferences in Settings (Ctrl+,)"
+msgstr "Määritä asetuksesi Asetuksissa (Ctrl+,)"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 144
+#: NEEDS WORK
+msgid "Press Ctrl+Q to quit the application"
+msgstr "Paina Ctrl+Q lopettaaksesi sovelluksen."
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 185
+#: NEEDS WORK
+msgid "Don't show this welcome screen again"
+msgstr "Älä näytä tätä tervetulonäyttöä uudelleen"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 191
+#: NEEDS WORK
+msgid "Get Started"
+msgstr "Aloita"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 96
+#: NEEDS WORK
+msgid "Initializing..."
+msgstr "Alustetaan..."
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 106
+#: NEEDS WORK
+msgid "Starting..."
+msgstr "Aloitetaan..."
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 123
+#: NEEDS WORK
+msgid "Terminal Log"
+msgstr "Päätteentiedosto"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 309
+#: NEEDS WORK
+msgid "Completed"
+msgstr "Valmis"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 310
+#: NEEDS WORK
+msgid "✓ Operation completed successfully"
+msgstr "✓ Toiminto suoritettu onnistuneesti"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 314
+#: NEEDS WORK
+msgid "Failed"
+msgstr "Epäonnistui"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 315
+#: NEEDS WORK
+#, python-brace-format
+msgid "✗ Operation failed: {0}"
+msgstr "✗ Toiminto epäonnistui: {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 328
+#: NEEDS WORK
+msgid "Done"
+msgstr "Valmis"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 370
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 376
+#: NEEDS WORK
+msgid "Open in GitHub"
+msgstr "Avaa GitHubissa"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 534
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 541
+#: NEEDS WORK
+msgid "Operation completed successfully"
+msgstr "Toiminto suoritettu onnistuneesti"
 # 
 # File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 76
 #: NEEDS WORK
@@ -6008,3 +6105,40 @@ msgid ""
 msgstr ""
 "Wrapper ISO-kuvien rakentamiseen GitHub Actionsin avulla. Tehostaa mukautettujen Linux-jakelujen "
 "ISO-kuvien luomisen prosessia automaation kautta."
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 70
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 99
+#: NEEDS WORK
+msgid "Open in GitRepo"
+msgstr "Avaa GitRepo:ssa"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 74
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 103
+#: NEEDS WORK
+msgid "Manage this Git repository with GitRepo"
+msgstr "Hallitse tätä Git-repositoriota GitRepo:lla"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 127
+#: NEEDS WORK
+msgid "Error"
+msgstr "Virhe"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 128
+#: NEEDS WORK
+msgid "Could not get the path for the selected folder."
+msgstr "Ei voitu saada polkua valitulle kansiolle."
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 146
+#: NEEDS WORK
+msgid "Application Not Found"
+msgstr "Sovellusta ei löytynyt"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 147
+#: NEEDS WORK
+msgid "Could not find GitRepo. Is it installed?"
+msgstr "Ei voitu löytää GitRepoa. Onko se asennettu?"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 152
+#: NEEDS WORK
+msgid "Launch Error"
+msgstr "Käynnistysvirhe"

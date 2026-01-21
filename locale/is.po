@@ -1132,6 +1132,11 @@ msgstr "Loka skrift. Engin aðgerð var framkvæmd."
 msgid "Error: No package name was entered."
 msgstr "Villa: Engin pakkaheiti var slegið inn."
 # 
+# File: usr/share/build-package/core/build_package.py, line: 1557
+#: NEEDS WORK
+msgid "Starting AUR package build..."
+msgstr "Byrjar AUR pakka bygging..."
+# 
 # File: usr/share/build-package/build_package.py, line: 497
 # File: usr/share/build-package/build_package.py, line: 518
 #: NEEDS WORK
@@ -2070,18 +2075,6 @@ msgstr "Sukrandið og uppfært í {0}"
 msgid "Error switching to branch {0}: {1}"
 msgstr "Villa við að skipta yfir í grein {0}: {1}"
 # 
-# File: usr/share/build-package/git_utils.py, line: 111
-#: NEEDS WORK
-#, python-brace-format
-msgid "Git has changes: {0} - {1}"
-msgstr "Git hefur breytingar: {0} - {1}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 114
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error checking changes: {0}"
-msgstr "Villa að athuga breytingar: {0}"
-# 
 # File: usr/share/build-package/git_utils.py, line: 122
 # File: usr/share/build-package/git_utils.py, line: 262
 # File: usr/share/build-package/git_utils.py, line: 317
@@ -2146,16 +2139,22 @@ msgstr "Villa að draga breytingar: {0}"
 msgid "Error finding most recent branch: {0}"
 msgstr "Villa að finna nýjustu greinina: {0}"
 # 
-# File: usr/share/build-package/git_utils.py, line: 275
-#: NEEDS WORK
-msgid "Pushing new branch to remote repository..."
-msgstr "Þrýstingur nýrrar greinar á fjarveitu..."
-# 
-# File: usr/share/build-package/git_utils.py, line: 278
+# File: usr/share/build-package/core/git_utils.py, line: 373
 #: NEEDS WORK
 #, python-brace-format
-msgid "Branch {0} created and pushed successfully!"
-msgstr "Grein {0} búin til og ýtt með góðum árangri!"
+msgid "Checking out remote branch: {0}"
+msgstr "Að skoða fjarveitugrein: {0}"
+# 
+# File: usr/share/build-package/core/git_utils.py, line: 381
+#: NEEDS WORK
+msgid "Pushing branch to remote repository..."
+msgstr "Þrýsta grein á fjarveitu..."
+# 
+# File: usr/share/build-package/core/git_utils.py, line: 384
+#: NEEDS WORK
+#, python-brace-format
+msgid "Branch {0} ready and pushed!"
+msgstr "Grein {0} tilbúin og ýtt!"
 # 
 # File: usr/share/build-package/git_utils.py, line: 281
 #: NEEDS WORK
@@ -4419,10 +4418,10 @@ msgstr "Hætta"
 msgid "Refresh Status"
 msgstr "Endurnýja stöðu"
 # 
-# File: usr/share/build-package/gui/main_gui.py, line: 148
+# File: usr/share/build-package/gui/main_gui.py, line: 188
 #: NEEDS WORK
-msgid "Pull Latest Changes"
-msgstr "Sækja nýjustu breytingar"
+msgid "Welcome Screen"
+msgstr "Velkomin skjár"
 # 
 # File: usr/share/build-package/gui/main_gui.py, line: 152
 #: NEEDS WORK
@@ -4447,6 +4446,11 @@ msgstr "Mistók að ræsa GUI viðmót"
 #: NEEDS WORK
 msgid "Build Package"
 msgstr "Byggja pakka"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 107
+#: NEEDS WORK
+msgid "GitRepo"
+msgstr "GitRepo"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 134
 #: NEEDS WORK
@@ -4486,6 +4490,16 @@ msgstr "Greinar"
 #: NEEDS WORK
 msgid "Advanced"
 msgstr "Fyrirferðarmikill"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 252
+#: NEEDS WORK
+msgid "About"
+msgstr "Um umfjöllun"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 315
+#: NEEDS WORK
+msgid "Git repository manager for building and deploying packages"
+msgstr "Git skjalasafnastjóri fyrir að byggja og dreifa pakkningum"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 228
 #: NEEDS WORK
@@ -4996,13 +5010,18 @@ msgstr "Núverandi greina"
 # 
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 96
 #: NEEDS WORK
+msgid "Commit"
+msgstr "Skila"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 96
+#: NEEDS WORK
 msgid "Commit Type"
 msgstr "Skilgreining skuldbindingar"
 # 
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 97
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 104
 #: NEEDS WORK
-msgid "Select the type of changes you are committing"
-msgstr "Veldu þann breytinga tegund sem þú ert að skuldbinda þig."
+msgid "Select the type of change"
+msgstr "Veldu breytingartypuna"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -5121,31 +5140,6 @@ msgstr "Virkja TMATE Villu"
 msgid "Enable terminal access for debugging build issues"
 msgstr "Virkja aðgang að terminali til að afrita byggingavandamál"
 # 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 96
-#: NEEDS WORK
-msgid "Quick Access"
-msgstr "Sniðug aðgangur"
-# 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 100
-#: NEEDS WORK
-msgid "AUR helper written in Go"
-msgstr "AUR aðstoðarmaður skrifaður í Go"
-# 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 101
-#: NEEDS WORK
-msgid "Visual Studio Code editor"
-msgstr "Visual Studio Code ritill"
-# 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 102
-#: NEEDS WORK
-msgid "Google Chrome browser"
-msgstr "Google Chrome vafriður"
-# 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 103
-#: NEEDS WORK
-msgid "Discord chat application"
-msgstr "Discord spjallforrit"
-# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/build-package/gui/widgets/aur_widget.py, line: 123
@@ -5187,35 +5181,33 @@ msgstr "Sláðu inn pakkanafn hér að ofan"
 msgid "Confirm AUR Build"
 msgstr "Staðfesta AUR byggingu"
 # 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 252
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 238
 #: NEEDS WORK
 #, python-brace-format
-msgid ""
-"Build AUR package '{0}'?\n"
-"\n"
-"This will:\n"
-"• Create branch: {1}\n"
-"• Download from: https://aur.archlinux.org/{0}.git\n"
-"• Build package in BigCommunity infrastructure"
-msgstr ""
-"Byggðu AUR pakka '{0}'?\n"
-"\n"
-"Þetta mun:\n"
-"• Búa til grein: {1}\n"
-"• Sækja frá: https://aur.archlinux.org/{0}.git\n"
-"• Byggja pakka í BigCommunity innviðum"
+msgid "<b>Package:</b> {0}"
+msgstr "<b>Pakkage:</b> {0}"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 103
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 248
 #: NEEDS WORK
-#, python-brace-format
-msgid "Welcome to {0}"
-msgstr "Velkomin í {0}"
+msgid "This will:"
+msgstr "Þetta mun:"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 108
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 255
 #: NEEDS WORK
 #, python-brace-format
-msgid "Version {0}"
-msgstr "Útgáfa {0}"
+msgid "• Create branch: {0}"
+msgstr "• Búa útibú: {0}"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 256
+#: NEEDS WORK
+#, python-brace-format
+msgid "• Download from: https://aur.archlinux.org/{0}.git"
+msgstr "• Sæktu frá: https://aur.archlinux.org/{0}.git"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 257
+#: NEEDS WORK
+msgid "• Build package in BigCommunity infrastructure"
+msgstr "• Byggðu pakka í BigCommunity innviðum"
 # 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 139
 #: NEEDS WORK
@@ -5232,20 +5224,15 @@ msgstr "Skref"
 msgid "Quick Actions"
 msgstr "Hraðvalkostir"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 153
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 164
 #: NEEDS WORK
-msgid "Common operations for package development"
-msgstr "Algengar aðgerðir við pakkagerð"
+msgid "Pull latest changes from remote repository"
+msgstr "Draga nýjustu breytingar frá fjarveitu."
 # 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 162
 #: NEEDS WORK
 msgid "Stage changes and push to development branch"
 msgstr "Skrá breytingar og ýta á þróunargrein"
-# 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 164
-#: NEEDS WORK
-msgid "Pull latest changes from remote repository"
-msgstr "Draga nýjustu breytingar frá fjarveitu."
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -5293,23 +5280,10 @@ msgstr "Engin ekki nýleg virkni"
 msgid "Activity will appear here after operations"
 msgstr "Virkni mun birtast hér eftir aðgerðir."
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 194
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 177
 #: NEEDS WORK
-msgid "System Information"
-msgstr "Kerfiss upplýsingar"
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 202
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 156
-#: NEEDS WORK
-msgid "Workflow Repository"
-msgstr "Vinnslusafn"
-# 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 207
-#: NEEDS WORK
-msgid "GitHub User"
-msgstr "GitHub notandi"
+msgid "Show welcome screen"
+msgstr "Sýna velkomin skjá"
 # 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 220
 #: NEEDS WORK
@@ -5347,10 +5321,10 @@ msgstr "Staðbundin geymsla"
 msgid "Modified"
 msgstr "Breytt"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 277
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 246
 #: NEEDS WORK
-msgid "Clean"
-msgstr "Hreinsa"
+msgid "No changes"
+msgstr "Engin breytingar"
 # 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 311
 #: NEEDS WORK
@@ -5369,38 +5343,33 @@ msgstr "Breytingar á stöðu"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 101
 #: NEEDS WORK
-msgid "Package Type"
-msgstr "Pakkager tegund"
+msgid "Target Repository"
+msgstr "Markmið Geymsla"
 # 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 102
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 295
 #: NEEDS WORK
-msgid "Select the repository type for package deployment"
-msgstr "Veldu geymslugerð fyrir pakkadeild."
-# 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 111
-#: NEEDS WORK
-msgid "Testing Repository"
-msgstr "Prófunarsafn"
+msgid "Testing"
+msgstr "Prófun"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 111
 #: NEEDS WORK
 msgid "Deploy to testing repo for beta users"
 msgstr "Setja í prófunarskrá fyrir beta notendur"
 # 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 112
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 296
 #: NEEDS WORK
-msgid "Stable Repository"
-msgstr "Stöðugur geymsla"
+msgid "Stable"
+msgstr "Stöðugur"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 112
 #: NEEDS WORK
 msgid "Deploy to stable repo for all users"
 msgstr "Setja í stöðugan geymslu fyrir alla notendur"
 # 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 113
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 297
 #: NEEDS WORK
-msgid "Extra Repository"
-msgstr "Aukalega Geymsla"
+msgid "Extra"
+msgstr "Aukalega"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 113
 #: NEEDS WORK
@@ -5417,6 +5386,14 @@ msgstr "Skila breytingum"
 msgid "Required when uncommitted changes are present"
 msgstr "Nauðsynlegt þegar óskráð breytingar eru til staðar"
 # 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 202
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 156
+#: NEEDS WORK
+msgid "Workflow Repository"
+msgstr "Vinnslusafn"
+# 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 169
 #: NEEDS WORK
 msgid "Reset"
@@ -5431,21 +5408,6 @@ msgstr "Villa: PKGBUILD fannst ekki"
 #: NEEDS WORK
 msgid "Build Extra Package"
 msgstr "Byggja auka pakka"
-# 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 295
-#: NEEDS WORK
-msgid "Testing"
-msgstr "Prófun"
-# 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 296
-#: NEEDS WORK
-msgid "Stable"
-msgstr "Stöðugur"
-# 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 297
-#: NEEDS WORK
-msgid "Extra"
-msgstr "Aukalega"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 309
 #: NEEDS WORK
@@ -5732,15 +5694,150 @@ msgstr "Öll átök leyst (geymdar staðbundnar útgáfur)"
 msgid "All conflicts resolved (accepted remote versions)"
 msgstr "Öll átök leyst ( samþykkt fjarversjónir)"
 # 
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 57
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 31
 #: NEEDS WORK
-msgid "Preparing..."
-msgstr "Undirbúningur..."
+msgid "Welcome"
+msgstr "Velkomin"
 # 
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 65
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 103
 #: NEEDS WORK
-msgid "Details"
-msgstr "Skráningar"
+#, python-brace-format
+msgid "Welcome to {0}"
+msgstr "Velkomin í {0}"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 108
+#: NEEDS WORK
+#, python-brace-format
+msgid "Version {0}"
+msgstr "Útgáfa {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 106
+#: NEEDS WORK
+msgid "Key Features"
+msgstr "Aðal eiginleikar"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 113
+#: NEEDS WORK
+msgid "Stage changes and push to your development branch with semantic commit messages"
+msgstr "Skráðu breytingar og ýttu á þróunargreinina þína með merkingar commit skilaboðum."
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 114
+#: NEEDS WORK
+msgid "Build Packages"
+msgstr "Byggja pakkar"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 115
+#: NEEDS WORK
+msgid "Build and deploy packages to testing, stable, or extra repositories"
+msgstr "Byggðu og dreifðu pakkningum í prófun, stöðugar eða auka geymslur"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 116
+#: NEEDS WORK
+msgid "AUR Packages"
+msgstr "AUR pakkar"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 117
+#: NEEDS WORK
+msgid "Build packages directly from the Arch User Repository"
+msgstr "Byggðu pakka beint frá Arch User Repository."
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 119
+#: NEEDS WORK
+msgid "Manage branches, create merge requests, and cleanup old branches"
+msgstr "Stjórna greinum, búa til sameiningarbeiðnir og hreinsa út gamlar greinar"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 121
+#: NEEDS WORK
+msgid "Cleanup GitHub Actions, tags, and revert commits"
+msgstr "Hreinsa GitHub aðgerðir, merki og afturkalla skuldbindingar"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 135
+#: NEEDS WORK
+msgid "Quick Tips"
+msgstr "Hraðvísbendingar"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 141
+#: NEEDS WORK
+msgid "Use the sidebar to navigate between different operations"
+msgstr "Notaðu hliðarstikuna til að fletta á milli mismunandi aðgerða."
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 142
+#: NEEDS WORK
+msgid "The Overview page shows your current repository status"
+msgstr "Yfirlitsíða sýnir núverandi stöðu geymslunnar þinnar."
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 143
+#: NEEDS WORK
+msgid "Configure your preferences in Settings (Ctrl+,)"
+msgstr "Stilltu stillingar þínar í Stillingum (Ctrl+,)"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 144
+#: NEEDS WORK
+msgid "Press Ctrl+Q to quit the application"
+msgstr "Pressa Ctrl+Q til að hætta við forritið"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 185
+#: NEEDS WORK
+msgid "Don't show this welcome screen again"
+msgstr "Ekki sýna þessa velkomin skjá aftur"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 191
+#: NEEDS WORK
+msgid "Get Started"
+msgstr "Byrjaðu"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 96
+#: NEEDS WORK
+msgid "Initializing..."
+msgstr "Vinnsl..."
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 106
+#: NEEDS WORK
+msgid "Starting..."
+msgstr "Byrjar..."
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 123
+#: NEEDS WORK
+msgid "Terminal Log"
+msgstr "Terminal Log"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 309
+#: NEEDS WORK
+msgid "Completed"
+msgstr "Lokið"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 310
+#: NEEDS WORK
+msgid "✓ Operation completed successfully"
+msgstr "✓ Aðgerð lokið með góðum árangri"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 314
+#: NEEDS WORK
+msgid "Failed"
+msgstr "Mistókst"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 315
+#: NEEDS WORK
+#, python-brace-format
+msgid "✗ Operation failed: {0}"
+msgstr "✗ Aðgerð mistókst: {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 328
+#: NEEDS WORK
+msgid "Done"
+msgstr "Farið að vinna"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 370
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 376
+#: NEEDS WORK
+msgid "Open in GitHub"
+msgstr "Opna í GitHub"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 534
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 541
+#: NEEDS WORK
+msgid "Operation completed successfully"
+msgstr "Aðgerð lokið með góðum árangri"
 # 
 # File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 76
 #: NEEDS WORK
@@ -6012,3 +6109,40 @@ msgid ""
 msgstr ""
 "Vefari fyrir ISO byggingu með GitHub Actions. Einfaldar ferlið við að búa til sérsniðnar Linux "
 "dreifingar ISO myndir í gegnum sjálfvirkni."
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 70
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 99
+#: NEEDS WORK
+msgid "Open in GitRepo"
+msgstr "Opna í GitRepo"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 74
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 103
+#: NEEDS WORK
+msgid "Manage this Git repository with GitRepo"
+msgstr "Stjórnaðu þessu Git skráasafni með GitRepo"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 127
+#: NEEDS WORK
+msgid "Error"
+msgstr "Villa"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 128
+#: NEEDS WORK
+msgid "Could not get the path for the selected folder."
+msgstr "Gat ekki slóðina fyrir valda möppuna."
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 146
+#: NEEDS WORK
+msgid "Application Not Found"
+msgstr "Forrit fannst ekki"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 147
+#: NEEDS WORK
+msgid "Could not find GitRepo. Is it installed?"
+msgstr "Gatnæmi fannst ekki. Er það uppsett?"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 152
+#: NEEDS WORK
+msgid "Launch Error"
+msgstr "Hleyfuvilla Villa"

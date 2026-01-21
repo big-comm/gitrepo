@@ -1130,6 +1130,11 @@ msgstr "Saindo do script. Nenhuma ação foi executada."
 msgid "Error: No package name was entered."
 msgstr "Erro: Nenhum nome de pacote foi inserido."
 # 
+# File: usr/share/build-package/core/build_package.py, line: 1557
+#: NEEDS WORK
+msgid "Starting AUR package build..."
+msgstr "Iniciando a construção do pacote AUR..."
+# 
 # File: usr/share/build-package/build_package.py, line: 497
 # File: usr/share/build-package/build_package.py, line: 518
 #: NEEDS WORK
@@ -2070,18 +2075,6 @@ msgstr "Mudança e atualização bem-sucedidas para {0}"
 msgid "Error switching to branch {0}: {1}"
 msgstr "Erro ao mudar para o ramo {0}: {1}"
 # 
-# File: usr/share/build-package/git_utils.py, line: 111
-#: NEEDS WORK
-#, python-brace-format
-msgid "Git has changes: {0} - {1}"
-msgstr "O Git tem alterações: {0} - {1}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 114
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error checking changes: {0}"
-msgstr "Erro ao verificar alterações: {0}"
-# 
 # File: usr/share/build-package/git_utils.py, line: 122
 # File: usr/share/build-package/git_utils.py, line: 262
 # File: usr/share/build-package/git_utils.py, line: 317
@@ -2146,16 +2139,22 @@ msgstr "Erro ao baixar alterações: {0}"
 msgid "Error finding most recent branch: {0}"
 msgstr "Erro ao encontrar o ramificação mais recente: {0}"
 # 
-# File: usr/share/build-package/git_utils.py, line: 275
-#: NEEDS WORK
-msgid "Pushing new branch to remote repository..."
-msgstr "Enviando nova ramificação para o repositório remoto..."
-# 
-# File: usr/share/build-package/git_utils.py, line: 278
+# File: usr/share/build-package/core/git_utils.py, line: 373
 #: NEEDS WORK
 #, python-brace-format
-msgid "Branch {0} created and pushed successfully!"
-msgstr "Ramo {0} criado e enviado com sucesso!"
+msgid "Checking out remote branch: {0}"
+msgstr "Verificando o branch remoto: {0}"
+# 
+# File: usr/share/build-package/core/git_utils.py, line: 381
+#: NEEDS WORK
+msgid "Pushing branch to remote repository..."
+msgstr "Enviando branch para o repositório remoto..."
+# 
+# File: usr/share/build-package/core/git_utils.py, line: 384
+#: NEEDS WORK
+#, python-brace-format
+msgid "Branch {0} ready and pushed!"
+msgstr "Branch {0} pronta e enviada!"
 # 
 # File: usr/share/build-package/git_utils.py, line: 281
 #: NEEDS WORK
@@ -4422,10 +4421,10 @@ msgstr "Sair"
 msgid "Refresh Status"
 msgstr "Atualizar Status"
 # 
-# File: usr/share/build-package/gui/main_gui.py, line: 148
+# File: usr/share/build-package/gui/main_gui.py, line: 188
 #: NEEDS WORK
-msgid "Pull Latest Changes"
-msgstr "Baixar últimas Alterações"
+msgid "Welcome Screen"
+msgstr "Tela de Boas-Vindas"
 # 
 # File: usr/share/build-package/gui/main_gui.py, line: 152
 #: NEEDS WORK
@@ -4450,6 +4449,11 @@ msgstr "Falha ao iniciar a interface gráfica"
 #: NEEDS WORK
 msgid "Build Package"
 msgstr "Pacote de Construção"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 107
+#: NEEDS WORK
+msgid "GitRepo"
+msgstr "RepositórioGit"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 134
 #: NEEDS WORK
@@ -4489,6 +4493,16 @@ msgstr "Ramos"
 #: NEEDS WORK
 msgid "Advanced"
 msgstr "Avançado"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 252
+#: NEEDS WORK
+msgid "About"
+msgstr "Sobre"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 315
+#: NEEDS WORK
+msgid "Git repository manager for building and deploying packages"
+msgstr "Gerenciador de repositórios Git para construir e implantar pacotes"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 228
 #: NEEDS WORK
@@ -5001,13 +5015,18 @@ msgstr "Ramo Atual"
 # 
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 96
 #: NEEDS WORK
+msgid "Commit"
+msgstr "Compromisso"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 96
+#: NEEDS WORK
 msgid "Commit Type"
 msgstr "Tipo de Commit"
 # 
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 97
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 104
 #: NEEDS WORK
-msgid "Select the type of changes you are committing"
-msgstr "Selecione o tipo de alterações que você está confirmando"
+msgid "Select the type of change"
+msgstr "Selecione o tipo de alteração"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -5126,31 +5145,6 @@ msgstr "Ativar Depuração TMATE"
 msgid "Enable terminal access for debugging build issues"
 msgstr "Ativar acesso ao terminal para depuração de problemas de compilação"
 # 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 96
-#: NEEDS WORK
-msgid "Quick Access"
-msgstr "Acesso Rápido"
-# 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 100
-#: NEEDS WORK
-msgid "AUR helper written in Go"
-msgstr "AUR helper escrito em Go"
-# 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 101
-#: NEEDS WORK
-msgid "Visual Studio Code editor"
-msgstr "Editor do Visual Studio Code"
-# 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 102
-#: NEEDS WORK
-msgid "Google Chrome browser"
-msgstr "navegador Google Chrome"
-# 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 103
-#: NEEDS WORK
-msgid "Discord chat application"
-msgstr "Aplicativo de chat Discord"
-# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/build-package/gui/widgets/aur_widget.py, line: 123
@@ -5192,35 +5186,33 @@ msgstr "Digite o nome do pacote acima"
 msgid "Confirm AUR Build"
 msgstr "Confirmar Compilação AUR"
 # 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 252
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 238
 #: NEEDS WORK
 #, python-brace-format
-msgid ""
-"Build AUR package '{0}'?\n"
-"\n"
-"This will:\n"
-"• Create branch: {1}\n"
-"• Download from: https://aur.archlinux.org/{0}.git\n"
-"• Build package in BigCommunity infrastructure"
-msgstr ""
-"Construir pacote AUR '{0}'?\n"
-"\n"
-"Isto irá:\n"
-"• Criar branch: {1}\n"
-"• Baixar de: https://aur.archlinux.org/{0}.git\n"
-"• Construir pacote na infraestrutura do BigCommunity"
+msgid "<b>Package:</b> {0}"
+msgstr "<b>Pacote:</b> {0}"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 103
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 248
 #: NEEDS WORK
-#, python-brace-format
-msgid "Welcome to {0}"
-msgstr "Bem-vindo ao {0}"
+msgid "This will:"
+msgstr "Isto irá:"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 108
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 255
 #: NEEDS WORK
 #, python-brace-format
-msgid "Version {0}"
-msgstr "Versão {0}"
+msgid "• Create branch: {0}"
+msgstr "• Criar ramificação: {0}"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 256
+#: NEEDS WORK
+#, python-brace-format
+msgid "• Download from: https://aur.archlinux.org/{0}.git"
+msgstr "• Baixar de: https://aur.archlinux.org/{0}.git"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 257
+#: NEEDS WORK
+msgid "• Build package in BigCommunity infrastructure"
+msgstr "• Criar pacote na infraestrutura do BigCommunity"
 # 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 139
 #: NEEDS WORK
@@ -5237,20 +5229,15 @@ msgstr "Commits"
 msgid "Quick Actions"
 msgstr "Ações Rápidas"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 153
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 164
 #: NEEDS WORK
-msgid "Common operations for package development"
-msgstr "Operações comuns para desenvolvimento de pacotes"
+msgid "Pull latest changes from remote repository"
+msgstr "Baixar as últimas alterações do repositório remoto"
 # 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 162
 #: NEEDS WORK
 msgid "Stage changes and push to development branch"
 msgstr "Preparar alterações e enviar para a ramificação de desenvolvimento"
-# 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 164
-#: NEEDS WORK
-msgid "Pull latest changes from remote repository"
-msgstr "Baixar as últimas alterações do repositório remoto"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -5298,23 +5285,10 @@ msgstr "Nenhuma atividade recente"
 msgid "Activity will appear here after operations"
 msgstr "A atividade aparecerá aqui após as operações"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 194
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 177
 #: NEEDS WORK
-msgid "System Information"
-msgstr "Informações do Sistema"
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 202
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 156
-#: NEEDS WORK
-msgid "Workflow Repository"
-msgstr "Repositório de Fluxo de Trabalho"
-# 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 207
-#: NEEDS WORK
-msgid "GitHub User"
-msgstr "Usuário do GitHub"
+msgid "Show welcome screen"
+msgstr "Mostrar tela de boas-vindas"
 # 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 220
 #: NEEDS WORK
@@ -5352,10 +5326,10 @@ msgstr "Repositório local"
 msgid "Modified"
 msgstr "Modificado"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 277
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 246
 #: NEEDS WORK
-msgid "Clean"
-msgstr "Limpar"
+msgid "No changes"
+msgstr "Nenhuma alteração"
 # 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 311
 #: NEEDS WORK
@@ -5374,38 +5348,33 @@ msgstr "Muda Status"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 101
 #: NEEDS WORK
-msgid "Package Type"
-msgstr "Tipo de Pacote"
+msgid "Target Repository"
+msgstr "Repositório de Destino"
 # 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 102
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 295
 #: NEEDS WORK
-msgid "Select the repository type for package deployment"
-msgstr "Selecione o tipo de repositório para implantação de pacotes"
-# 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 111
-#: NEEDS WORK
-msgid "Testing Repository"
-msgstr "Repositório de Testes"
+msgid "Testing"
+msgstr "Teste"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 111
 #: NEEDS WORK
 msgid "Deploy to testing repo for beta users"
 msgstr "Implantar no repositório de testes para usuários beta"
 # 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 112
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 296
 #: NEEDS WORK
-msgid "Stable Repository"
-msgstr "Repositório Estável"
+msgid "Stable"
+msgstr "Estável"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 112
 #: NEEDS WORK
 msgid "Deploy to stable repo for all users"
 msgstr "Implantar no repositório estável para todos os usuários"
 # 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 113
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 297
 #: NEEDS WORK
-msgid "Extra Repository"
-msgstr "Repositório Extra"
+msgid "Extra"
+msgstr "Extra"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 113
 #: NEEDS WORK
@@ -5422,6 +5391,14 @@ msgstr "Confirmar Alterações"
 msgid "Required when uncommitted changes are present"
 msgstr "Necessário quando houver alterações não confirmadas."
 # 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 202
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 156
+#: NEEDS WORK
+msgid "Workflow Repository"
+msgstr "Repositório de Fluxo de Trabalho"
+# 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 169
 #: NEEDS WORK
 msgid "Reset"
@@ -5436,21 +5413,6 @@ msgstr "Erro: PKGBUILD não encontrado"
 #: NEEDS WORK
 msgid "Build Extra Package"
 msgstr "Construir Pacote Extra"
-# 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 295
-#: NEEDS WORK
-msgid "Testing"
-msgstr "Teste"
-# 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 296
-#: NEEDS WORK
-msgid "Stable"
-msgstr "Estável"
-# 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 297
-#: NEEDS WORK
-msgid "Extra"
-msgstr "Extra"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 309
 #: NEEDS WORK
@@ -5737,15 +5699,150 @@ msgstr "Todos os conflitos resolvidos (versões locais mantidas)"
 msgid "All conflicts resolved (accepted remote versions)"
 msgstr "Todos os conflitos resolvidos (versões remotas aceitas)"
 # 
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 57
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 31
 #: NEEDS WORK
-msgid "Preparing..."
-msgstr "Preparando..."
+msgid "Welcome"
+msgstr "Bem-vindo"
 # 
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 65
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 103
 #: NEEDS WORK
-msgid "Details"
-msgstr "Detalhes"
+#, python-brace-format
+msgid "Welcome to {0}"
+msgstr "Bem-vindo ao {0}"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 108
+#: NEEDS WORK
+#, python-brace-format
+msgid "Version {0}"
+msgstr "Versão {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 106
+#: NEEDS WORK
+msgid "Key Features"
+msgstr "Recursos Principais"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 113
+#: NEEDS WORK
+msgid "Stage changes and push to your development branch with semantic commit messages"
+msgstr "Prepare alterações e envie para o seu branch de desenvolvimento com mensagens de commit semânticas."
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 114
+#: NEEDS WORK
+msgid "Build Packages"
+msgstr "Construir Pacotes"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 115
+#: NEEDS WORK
+msgid "Build and deploy packages to testing, stable, or extra repositories"
+msgstr "Criar e implantar pacotes em repositórios de teste, estáveis ou extras"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 116
+#: NEEDS WORK
+msgid "AUR Packages"
+msgstr "Pacotes AUR"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 117
+#: NEEDS WORK
+msgid "Build packages directly from the Arch User Repository"
+msgstr "Construa pacotes diretamente do Arch User Repository"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 119
+#: NEEDS WORK
+msgid "Manage branches, create merge requests, and cleanup old branches"
+msgstr "Gerenciar ramificações, criar solicitações de mesclagem e limpar ramificações antigas"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 121
+#: NEEDS WORK
+msgid "Cleanup GitHub Actions, tags, and revert commits"
+msgstr "Limpar GitHub Actions, tags e reverter commits"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 135
+#: NEEDS WORK
+msgid "Quick Tips"
+msgstr "Dicas Rápidas"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 141
+#: NEEDS WORK
+msgid "Use the sidebar to navigate between different operations"
+msgstr "Use a barra lateral para navegar entre diferentes operações"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 142
+#: NEEDS WORK
+msgid "The Overview page shows your current repository status"
+msgstr "A página de Visão Geral mostra o status atual do seu repositório."
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 143
+#: NEEDS WORK
+msgid "Configure your preferences in Settings (Ctrl+,)"
+msgstr "Configure suas preferências em Configurações (Ctrl+,)"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 144
+#: NEEDS WORK
+msgid "Press Ctrl+Q to quit the application"
+msgstr "Pressione Ctrl+Q para sair do aplicativo"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 185
+#: NEEDS WORK
+msgid "Don't show this welcome screen again"
+msgstr "Não mostrar novamente esta tela de boas-vindas"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 191
+#: NEEDS WORK
+msgid "Get Started"
+msgstr "Começar"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 96
+#: NEEDS WORK
+msgid "Initializing..."
+msgstr "Inicializando..."
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 106
+#: NEEDS WORK
+msgid "Starting..."
+msgstr "Iniciando..."
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 123
+#: NEEDS WORK
+msgid "Terminal Log"
+msgstr "Registro do Terminal"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 309
+#: NEEDS WORK
+msgid "Completed"
+msgstr "Concluído"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 310
+#: NEEDS WORK
+msgid "✓ Operation completed successfully"
+msgstr "✓ Operação concluída com sucesso"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 314
+#: NEEDS WORK
+msgid "Failed"
+msgstr "Falhou"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 315
+#: NEEDS WORK
+#, python-brace-format
+msgid "✗ Operation failed: {0}"
+msgstr "✗ Operação falhou: {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 328
+#: NEEDS WORK
+msgid "Done"
+msgstr "Concluído"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 370
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 376
+#: NEEDS WORK
+msgid "Open in GitHub"
+msgstr "Abrir no GitHub"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 534
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 541
+#: NEEDS WORK
+msgid "Operation completed successfully"
+msgstr "Operação concluída com sucesso"
 # 
 # File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 76
 #: NEEDS WORK
@@ -6015,3 +6112,40 @@ msgid ""
 msgstr ""
 "Wrapper para construção de ISO usando GitHub Actions. Agiliza o processo de criação de imagens ISO "
 "de distribuições Linux personalizadas por meio de automação."
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 70
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 99
+#: NEEDS WORK
+msgid "Open in GitRepo"
+msgstr "Abrir no GitRepo"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 74
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 103
+#: NEEDS WORK
+msgid "Manage this Git repository with GitRepo"
+msgstr "Gerencie este repositório Git com o GitRepo"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 127
+#: NEEDS WORK
+msgid "Error"
+msgstr "Erro"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 128
+#: NEEDS WORK
+msgid "Could not get the path for the selected folder."
+msgstr "Não foi possível obter o caminho da pasta selecionada."
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 146
+#: NEEDS WORK
+msgid "Application Not Found"
+msgstr "Aplicativo Não Encontrado"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 147
+#: NEEDS WORK
+msgid "Could not find GitRepo. Is it installed?"
+msgstr "Não foi possível encontrar o GitRepo. Está instalado?"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 152
+#: NEEDS WORK
+msgid "Launch Error"
+msgstr "Erro de Lançamento"

@@ -1234,6 +1234,11 @@ msgstr "Çıkış yapılıyor. Hiçbir işlem gerçekleştirilmedi."
 msgid "Error: No package name was entered."
 msgstr "Hata: Hiçbir paket adı girilmedi."
 # 
+# File: usr/share/build-package/core/build_package.py, line: 1557
+#: NEEDS WORK
+msgid "Starting AUR package build..."
+msgstr "AUR paket derlemesi başlatılıyor..."
+# 
 # File: usr/share/build-package/build_package.py, line: 497
 # File: usr/share/build-package/build_package.py, line: 518
 #: NEEDS WORK
@@ -2172,18 +2177,6 @@ msgstr "Başarıyla {0} olarak değiştirildi ve güncellendi."
 msgid "Error switching to branch {0}: {1}"
 msgstr "Dal {0} dal geçiş yaparken hata: {1}"
 # 
-# File: usr/share/build-package/git_utils.py, line: 111
-#: NEEDS WORK
-#, python-brace-format
-msgid "Git has changes: {0} - {1}"
-msgstr "Git'te değişiklikler var: {0} - {1}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 114
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error checking changes: {0}"
-msgstr "Değişiklikleri kontrol etme hatası: {0}"
-# 
 # File: usr/share/build-package/git_utils.py, line: 122
 # File: usr/share/build-package/git_utils.py, line: 262
 # File: usr/share/build-package/git_utils.py, line: 317
@@ -2248,16 +2241,22 @@ msgstr "Değişiklikler çekilirken hata: {0}"
 msgid "Error finding most recent branch: {0}"
 msgstr "En son dal bulunurken hata: {0}"
 # 
-# File: usr/share/build-package/git_utils.py, line: 275
-#: NEEDS WORK
-msgid "Pushing new branch to remote repository..."
-msgstr "Yeni dalı uzak depoya itiyor..."
-# 
-# File: usr/share/build-package/git_utils.py, line: 278
+# File: usr/share/build-package/core/git_utils.py, line: 373
 #: NEEDS WORK
 #, python-brace-format
-msgid "Branch {0} created and pushed successfully!"
-msgstr "Dal {0} başarıyla oluşturuldu ve gönderildi!"
+msgid "Checking out remote branch: {0}"
+msgstr "Uzak dalı kontrol etme: {0}"
+# 
+# File: usr/share/build-package/core/git_utils.py, line: 381
+#: NEEDS WORK
+msgid "Pushing branch to remote repository..."
+msgstr "Uzak depoya dal gönderiliyor..."
+# 
+# File: usr/share/build-package/core/git_utils.py, line: 384
+#: NEEDS WORK
+#, python-brace-format
+msgid "Branch {0} ready and pushed!"
+msgstr "Dal {0} hazır ve gönderildi!"
 # 
 # File: usr/share/build-package/git_utils.py, line: 281
 #: NEEDS WORK
@@ -4522,10 +4521,10 @@ msgstr "Çıkış"
 msgid "Refresh Status"
 msgstr "Durumu Yenile"
 # 
-# File: usr/share/build-package/gui/main_gui.py, line: 148
+# File: usr/share/build-package/gui/main_gui.py, line: 188
 #: NEEDS WORK
-msgid "Pull Latest Changes"
-msgstr "Son Değişiklikleri Çek"
+msgid "Welcome Screen"
+msgstr "Hoş Geldiniz Ekranı"
 # 
 # File: usr/share/build-package/gui/main_gui.py, line: 152
 #: NEEDS WORK
@@ -4550,6 +4549,11 @@ msgstr "GUI arayüzü başlatılamadı"
 #: NEEDS WORK
 msgid "Build Package"
 msgstr "Paket Oluştur"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 107
+#: NEEDS WORK
+msgid "GitRepo"
+msgstr "GitRepo"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 134
 #: NEEDS WORK
@@ -4589,6 +4593,16 @@ msgstr "Dallar"
 #: NEEDS WORK
 msgid "Advanced"
 msgstr "Gelişmiş"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 252
+#: NEEDS WORK
+msgid "About"
+msgstr "Hakkında"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 315
+#: NEEDS WORK
+msgid "Git repository manager for building and deploying packages"
+msgstr "Paketleri oluşturmak ve dağıtmak için Git depo yöneticisi"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 228
 #: NEEDS WORK
@@ -5099,13 +5113,18 @@ msgstr "Geçerli Dal"
 # 
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 96
 #: NEEDS WORK
+msgid "Commit"
+msgstr "Taahhüt"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 96
+#: NEEDS WORK
 msgid "Commit Type"
 msgstr "Taahhüt Türü"
 # 
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 97
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 104
 #: NEEDS WORK
-msgid "Select the type of changes you are committing"
-msgstr "Yapmakta olduğunuz değişikliklerin türünü seçin"
+msgid "Select the type of change"
+msgstr "Değişiklik türünü seçin"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -5224,31 +5243,6 @@ msgstr "TMATE Hata Ayıklamayı Etkinleştir"
 msgid "Enable terminal access for debugging build issues"
 msgstr "Hata ayıklama derleme sorunları için terminal erişimini etkinleştir"
 # 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 96
-#: NEEDS WORK
-msgid "Quick Access"
-msgstr "Hızlı Erişim"
-# 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 100
-#: NEEDS WORK
-msgid "AUR helper written in Go"
-msgstr "Go ile yazılmış AUR yardımcı programı"
-# 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 101
-#: NEEDS WORK
-msgid "Visual Studio Code editor"
-msgstr "Visual Studio Code editörü"
-# 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 102
-#: NEEDS WORK
-msgid "Google Chrome browser"
-msgstr "Google Chrome tarayıcısı"
-# 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 103
-#: NEEDS WORK
-msgid "Discord chat application"
-msgstr "Discord sohbet uygulaması"
-# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/build-package/gui/widgets/aur_widget.py, line: 123
@@ -5290,35 +5284,33 @@ msgstr "Yukarıdaki paket adını girin"
 msgid "Confirm AUR Build"
 msgstr "AUR Yapısını Onayla"
 # 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 252
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 238
 #: NEEDS WORK
 #, python-brace-format
-msgid ""
-"Build AUR package '{0}'?\n"
-"\n"
-"This will:\n"
-"• Create branch: {1}\n"
-"• Download from: https://aur.archlinux.org/{0}.git\n"
-"• Build package in BigCommunity infrastructure"
-msgstr ""
-"AUR paketini '{0}' oluşturmak mı?\n"
-"\n"
-"Bu şunları yapacak:\n"
-"• Dal oluştur: {1}\n"
-"• Şuradan indir: https://aur.archlinux.org/{0}.git\n"
-"• Paketi BigCommunity altyapısında oluştur"
+msgid "<b>Package:</b> {0}"
+msgstr "<b>Paket:</b> {0}"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 103
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 248
 #: NEEDS WORK
-#, python-brace-format
-msgid "Welcome to {0}"
-msgstr "{0}'ya Hoş Geldiniz"
+msgid "This will:"
+msgstr "Bu, şunu yapacak:"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 108
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 255
 #: NEEDS WORK
 #, python-brace-format
-msgid "Version {0}"
-msgstr "Sürüm {0}"
+msgid "• Create branch: {0}"
+msgstr "• Dal oluştur: {0}"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 256
+#: NEEDS WORK
+#, python-brace-format
+msgid "• Download from: https://aur.archlinux.org/{0}.git"
+msgstr "• İndir: https://aur.archlinux.org/{0}.git"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 257
+#: NEEDS WORK
+msgid "• Build package in BigCommunity infrastructure"
+msgstr "• BigCommunity altyapısında paket oluştur"
 # 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 139
 #: NEEDS WORK
@@ -5335,20 +5327,15 @@ msgstr "Taahhütler"
 msgid "Quick Actions"
 msgstr "Hızlı Eylemler"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 153
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 164
 #: NEEDS WORK
-msgid "Common operations for package development"
-msgstr "Paket geliştirme için yaygın işlemler"
+msgid "Pull latest changes from remote repository"
+msgstr "Uzak depodan en son değişiklikleri çek"
 # 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 162
 #: NEEDS WORK
 msgid "Stage changes and push to development branch"
 msgstr "Değişiklikleri sahnele ve geliştirme dalına gönder."
-# 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 164
-#: NEEDS WORK
-msgid "Pull latest changes from remote repository"
-msgstr "Uzak depodan en son değişiklikleri çek"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -5396,23 +5383,10 @@ msgstr "Son zamanlarda etkinlik yok"
 msgid "Activity will appear here after operations"
 msgstr "İşlemlerden sonra etkinlik burada görünecektir."
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 194
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 177
 #: NEEDS WORK
-msgid "System Information"
-msgstr "Sistem Bilgisi"
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 202
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 156
-#: NEEDS WORK
-msgid "Workflow Repository"
-msgstr "İş Akışı Deposu"
-# 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 207
-#: NEEDS WORK
-msgid "GitHub User"
-msgstr "GitHub Kullanıcısı"
+msgid "Show welcome screen"
+msgstr "Hoş geldin ekranını göster"
 # 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 220
 #: NEEDS WORK
@@ -5450,10 +5424,10 @@ msgstr "Yerel depo"
 msgid "Modified"
 msgstr "Değiştirildi"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 277
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 246
 #: NEEDS WORK
-msgid "Clean"
-msgstr "Temiz"
+msgid "No changes"
+msgstr "Değişiklik yok"
 # 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 311
 #: NEEDS WORK
@@ -5472,38 +5446,33 @@ msgstr "Durum Değişiklikleri"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 101
 #: NEEDS WORK
-msgid "Package Type"
-msgstr "Paket Türü"
+msgid "Target Repository"
+msgstr "Hedef Depo"
 # 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 102
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 295
 #: NEEDS WORK
-msgid "Select the repository type for package deployment"
-msgstr "Paket dağıtımı için depo türünü seçin"
-# 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 111
-#: NEEDS WORK
-msgid "Testing Repository"
-msgstr "Test Deposu"
+msgid "Testing"
+msgstr "Test Etme"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 111
 #: NEEDS WORK
 msgid "Deploy to testing repo for beta users"
 msgstr "Beta kullanıcılar için test deposuna dağıtım yapın"
 # 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 112
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 296
 #: NEEDS WORK
-msgid "Stable Repository"
-msgstr "Kararlı Depo"
+msgid "Stable"
+msgstr "Kararlı"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 112
 #: NEEDS WORK
 msgid "Deploy to stable repo for all users"
 msgstr "Tüm kullanıcılar için kararlı depoya dağıtım yapın"
 # 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 113
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 297
 #: NEEDS WORK
-msgid "Extra Repository"
-msgstr "Ekstra Depo"
+msgid "Extra"
+msgstr "Ekstra"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 113
 #: NEEDS WORK
@@ -5520,6 +5489,14 @@ msgstr "Değişiklikleri Taahhüt Et"
 msgid "Required when uncommitted changes are present"
 msgstr "Taahhüt edilmemiş değişiklikler mevcut olduğunda gereklidir."
 # 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 202
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 156
+#: NEEDS WORK
+msgid "Workflow Repository"
+msgstr "İş Akışı Deposu"
+# 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 169
 #: NEEDS WORK
 msgid "Reset"
@@ -5534,21 +5511,6 @@ msgstr "Hata: PKGBUILD bulunamadı"
 #: NEEDS WORK
 msgid "Build Extra Package"
 msgstr "Ekstra Paket Oluştur"
-# 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 295
-#: NEEDS WORK
-msgid "Testing"
-msgstr "Test Etme"
-# 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 296
-#: NEEDS WORK
-msgid "Stable"
-msgstr "Kararlı"
-# 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 297
-#: NEEDS WORK
-msgid "Extra"
-msgstr "Ekstra"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 309
 #: NEEDS WORK
@@ -5835,15 +5797,150 @@ msgstr "Tüm çatışmalar çözüldü (yerel sürümler korundu)"
 msgid "All conflicts resolved (accepted remote versions)"
 msgstr "Tüm çatışmalar çözüldü (kabul edilen uzak sürümler)"
 # 
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 57
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 31
 #: NEEDS WORK
-msgid "Preparing..."
-msgstr "Hazırlanıyor..."
+msgid "Welcome"
+msgstr "Hoş geldiniz"
 # 
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 65
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 103
 #: NEEDS WORK
-msgid "Details"
-msgstr "Ayrıntılar"
+#, python-brace-format
+msgid "Welcome to {0}"
+msgstr "{0}'ya Hoş Geldiniz"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 108
+#: NEEDS WORK
+#, python-brace-format
+msgid "Version {0}"
+msgstr "Sürüm {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 106
+#: NEEDS WORK
+msgid "Key Features"
+msgstr "Ana Özellikler"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 113
+#: NEEDS WORK
+msgid "Stage changes and push to your development branch with semantic commit messages"
+msgstr "Değişiklikleri sahnele ve semantik commit mesajları ile geliştirme dalına gönder."
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 114
+#: NEEDS WORK
+msgid "Build Packages"
+msgstr "Paketleri Oluştur"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 115
+#: NEEDS WORK
+msgid "Build and deploy packages to testing, stable, or extra repositories"
+msgstr "Test, kararlı veya ek depolara paketleri oluşturun ve dağıtın."
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 116
+#: NEEDS WORK
+msgid "AUR Packages"
+msgstr "AUR Paketleri"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 117
+#: NEEDS WORK
+msgid "Build packages directly from the Arch User Repository"
+msgstr "Arch Kullanıcı Deposundan paketleri doğrudan oluşturun"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 119
+#: NEEDS WORK
+msgid "Manage branches, create merge requests, and cleanup old branches"
+msgstr "Dalları yönet, birleştirme talepleri oluştur ve eski dalları temizle."
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 121
+#: NEEDS WORK
+msgid "Cleanup GitHub Actions, tags, and revert commits"
+msgstr "GitHub Eylemlerini, etiketleri ve geri alma işlemlerini temizle"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 135
+#: NEEDS WORK
+msgid "Quick Tips"
+msgstr "Hızlı İpuçları"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 141
+#: NEEDS WORK
+msgid "Use the sidebar to navigate between different operations"
+msgstr "Farklı işlemler arasında gezinmek için yan paneli kullanın."
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 142
+#: NEEDS WORK
+msgid "The Overview page shows your current repository status"
+msgstr "Genel Bakış sayfası mevcut depo durumunuzu gösterir."
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 143
+#: NEEDS WORK
+msgid "Configure your preferences in Settings (Ctrl+,)"
+msgstr "Ayarlar'da (Ctrl+,) tercihlerinizi yapılandırın."
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 144
+#: NEEDS WORK
+msgid "Press Ctrl+Q to quit the application"
+msgstr "Uygulamayı kapatmak için Ctrl+Q tuşuna basın"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 185
+#: NEEDS WORK
+msgid "Don't show this welcome screen again"
+msgstr "Bu karşılama ekranını bir daha gösterme"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 191
+#: NEEDS WORK
+msgid "Get Started"
+msgstr "Başlayın"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 96
+#: NEEDS WORK
+msgid "Initializing..."
+msgstr "Başlatılıyor..."
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 106
+#: NEEDS WORK
+msgid "Starting..."
+msgstr "Başlatılıyor..."
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 123
+#: NEEDS WORK
+msgid "Terminal Log"
+msgstr "Terminal Günlüğü"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 309
+#: NEEDS WORK
+msgid "Completed"
+msgstr "Tamamlandı"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 310
+#: NEEDS WORK
+msgid "✓ Operation completed successfully"
+msgstr "✓ İşlem başarıyla tamamlandı"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 314
+#: NEEDS WORK
+msgid "Failed"
+msgstr "Başarısız"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 315
+#: NEEDS WORK
+#, python-brace-format
+msgid "✗ Operation failed: {0}"
+msgstr "✗ İşlem başarısız oldu: {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 328
+#: NEEDS WORK
+msgid "Done"
+msgstr "Tamam"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 370
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 376
+#: NEEDS WORK
+msgid "Open in GitHub"
+msgstr "GitHub'da Aç"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 534
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 541
+#: NEEDS WORK
+msgid "Operation completed successfully"
+msgstr "İşlem başarıyla tamamlandı"
 # 
 # File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 76
 #: NEEDS WORK
@@ -6113,3 +6210,40 @@ msgid ""
 msgstr ""
 "GitHub Actions kullanarak ISO oluşturma için Wrapper. Otomasyon aracılığıyla özel Linux dağıtım ISO "
 "görüntüleri oluşturma sürecini kolaylaştırır."
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 70
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 99
+#: NEEDS WORK
+msgid "Open in GitRepo"
+msgstr "GitRepo'da Aç"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 74
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 103
+#: NEEDS WORK
+msgid "Manage this Git repository with GitRepo"
+msgstr "Bu Git deposunu GitRepo ile yönetin."
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 127
+#: NEEDS WORK
+msgid "Error"
+msgstr "Hata"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 128
+#: NEEDS WORK
+msgid "Could not get the path for the selected folder."
+msgstr "Seçilen klasörün yolu alınamadı."
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 146
+#: NEEDS WORK
+msgid "Application Not Found"
+msgstr "Uygulama Bulunamadı"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 147
+#: NEEDS WORK
+msgid "Could not find GitRepo. Is it installed?"
+msgstr "GitRepo bulunamadı. Yüklü mü?"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 152
+#: NEEDS WORK
+msgid "Launch Error"
+msgstr "Başlatma Hatası"
