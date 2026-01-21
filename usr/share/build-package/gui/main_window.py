@@ -452,27 +452,29 @@ class MainWindow(Adw.ApplicationWindow):
         )
     
     def on_branch_selected(self, widget, branch_name):
-        """Handle branch selection - switch to selected branch"""
+        """Handle branch selection - switch to selected branch silently"""
         current_branch = GitUtils.get_current_branch()
         
         # Don't switch if already on this branch
         if branch_name == current_branch:
-            self.show_info_toast(_("Already on branch: {0}").format(branch_name))
-            return
+            return  # Silently ignore - no need to show toast
         
-        def switch_branch():
-            import subprocess
-            try:
-                subprocess.run(["git", "checkout", branch_name], check=True, capture_output=True)
-                return True
-            except subprocess.CalledProcessError:
-                return False
-        
-        self.operation_runner.run_with_progress(
-            switch_branch,
-            _("Switching Branch"),
-            _("Switching to branch {0}...").format(branch_name)
-        )
+        # Switch branch silently without progress dialog
+        import subprocess
+        try:
+            subprocess.run(
+                ["git", "checkout", branch_name], 
+                check=True, 
+                capture_output=True,
+                text=True
+            )
+            self.show_toast(_("Switched to branch: {0}").format(branch_name))
+            # Refresh branch widget to update visual selection
+            if hasattr(self, 'branch_widget'):
+                self.branch_widget.refresh_branches()
+        except subprocess.CalledProcessError as e:
+            error_msg = e.stderr.strip() if e.stderr else str(e)
+            self.show_error_toast(_("Failed to switch branch: {0}").format(error_msg))
     
     def on_merge_requested(self, widget, source_branch, target_branch):
         """Handle merge request"""
