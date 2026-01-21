@@ -164,15 +164,13 @@ class GitUtils:
             status = subprocess.run(
                 ["git", "status", "--porcelain"],
                 stdout=subprocess.PIPE,
+                stderr=subprocess.DEVNULL,
                 text=True,
                 check=False
             ).stdout.strip()
             
-            result = bool(status)
-            print(_("Git has changes: {0} - {1}").format(result, status))
-            return result
-        except Exception as e:
-            print(_("Error checking changes: {0}").format(e))
+            return bool(status)
+        except Exception:
             return False
         
     @staticmethod
@@ -349,15 +347,41 @@ class GitUtils:
             new_branch = f"{branch_type}-{username}"
         
         try:
-            # Create new branch
-            logger.log("cyan", _("Creating new branch: {0}").format(new_branch))
-            subprocess.run(["git", "checkout", "-b", new_branch], check=True)
+            # Check if branch already exists locally
+            local_branches = subprocess.run(
+                ["git", "branch", "--list", new_branch],
+                stdout=subprocess.PIPE,
+                text=True,
+                check=False
+            ).stdout.strip()
             
-            # Push to remote
-            logger.log("cyan", _("Pushing new branch to remote repository..."))
-            subprocess.run(["git", "push", "origin", new_branch], check=True)
+            if local_branches:
+                # Branch exists locally, just checkout
+                logger.log("cyan", _("Switching to existing branch: {0}").format(new_branch))
+                subprocess.run(["git", "checkout", new_branch], check=True)
+            else:
+                # Check if branch exists remotely
+                remote_check = subprocess.run(
+                    ["git", "ls-remote", "--heads", "origin", new_branch],
+                    stdout=subprocess.PIPE,
+                    text=True,
+                    check=False
+                ).stdout.strip()
+                
+                if remote_check:
+                    # Branch exists remotely, checkout and track
+                    logger.log("cyan", _("Checking out remote branch: {0}").format(new_branch))
+                    subprocess.run(["git", "checkout", "-t", f"origin/{new_branch}"], check=True)
+                else:
+                    # Branch doesn't exist, create it
+                    logger.log("cyan", _("Creating new branch: {0}").format(new_branch))
+                    subprocess.run(["git", "checkout", "-b", new_branch], check=True)
             
-            logger.log("green", _("Branch {0} created and pushed successfully!").format(new_branch))
+            # Push to remote (with -u to set upstream)
+            logger.log("cyan", _("Pushing branch to remote repository..."))
+            subprocess.run(["git", "push", "-u", "origin", new_branch], check=True)
+            
+            logger.log("green", _("Branch {0} ready and pushed!").format(new_branch))
             return new_branch
         except subprocess.CalledProcessError as e:
             logger.log("red", _("Error creating or pushing branch: {0}").format(e))

@@ -18,6 +18,15 @@ class GTKLogger:
         self.main_window = main_window
         self.log_file = None
         self.use_colors = True  # GUI always supports "colors" via styling
+        self.progress_dialog = None  # When set, log messages go here
+        
+    def set_progress_dialog(self, dialog):
+        """Set active progress dialog to receive log messages"""
+        self.progress_dialog = dialog
+        
+    def clear_progress_dialog(self):
+        """Clear active progress dialog"""
+        self.progress_dialog = None
         
     def setup_log_file(self, get_repo_name_func):
         """Sets up the log file"""
@@ -31,36 +40,44 @@ class GTKLogger:
         """Displays message in GUI and saves to log"""
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         
-        # Map styles to toast types and terminal output
-        style_map = {
-            "cyan": "info",
-            "blue_dark": "info", 
-            "medium_blue": "info",
-            "light_blue": "info",
-            "white": "info",
-            "red": "error",
-            "yellow": "warning",
-            "green": "success",
-            "orange": "warning",
-            "purple": "info",
-            "black": "info",
-            "bold": "info"
-        }
-        
-        toast_type = style_map.get(style, "info")
-        
-        # Show message in GUI
-        if toast_type == "error":
-            self.main_window.show_error_toast(message)
-        elif toast_type == "warning":
-            self.main_window.show_info_toast(message)  # Use info toast with warning styling
-        elif toast_type == "success":
-            self.main_window.show_toast(message)
+        # If progress dialog is active, send messages there with color
+        if self.progress_dialog:
+            # Update status and append to details with style for coloring
+            self.progress_dialog.set_status(message)
+            self.progress_dialog.append_detail(message, style=style)
+            # Print to console for debugging
+            print(f"[{style.upper()}] {message}")
         else:
-            self.main_window.show_info_toast(message)
-        
-        # Also print to console for debugging
-        print(f"[{style.upper()}] {message}")
+            # Map styles to toast types and terminal output
+            style_map = {
+                "cyan": "info",
+                "blue_dark": "info", 
+                "medium_blue": "info",
+                "light_blue": "info",
+                "white": "info",
+                "red": "error",
+                "yellow": "warning",
+                "green": "success",
+                "orange": "warning",
+                "purple": "info",
+                "black": "info",
+                "bold": "info"
+            }
+            
+            toast_type = style_map.get(style, "info")
+            
+            # Show message in GUI
+            if toast_type == "error":
+                self.main_window.show_error_toast(message)
+            elif toast_type == "warning":
+                self.main_window.show_info_toast(message)
+            elif toast_type == "success":
+                self.main_window.show_toast(message)
+            else:
+                self.main_window.show_info_toast(message)
+            
+            # Also print to console for debugging
+            print(f"[{style.upper()}] {message}")
         
         # Save to log file (without colors)
         if self.log_file:
@@ -80,15 +97,9 @@ class GTKLogger:
     
     def draw_app_header(self):
         """For GUI, this updates the window title instead of drawing terminal header"""
-        # Set window title and subtitle
+        # Set window title
         self.main_window.set_title(APP_NAME)
-
-        # Could also update a status or info bar if present
-        if hasattr(self.main_window, 'window_title'):
-            self.main_window.window_title.set_subtitle(APP_DESC)
-
-        # Não mostrar toast de inicialização - é redundante na GUI
-        # self.main_window.show_toast(_("Build Package initialized successfully"))
+        # Subtitle removed - now shown in Welcome dialog only
     
     def display_summary(self, title: str, data: list):
         """Display summary information in GUI format"""

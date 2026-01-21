@@ -99,6 +99,7 @@ class AdvancedWidget(Gtk.Box):
         warning_banner = Adw.Banner()
         warning_banner.set_title(_("Warning: These operations can be destructive"))
         warning_banner.add_css_class("error")
+        warning_banner.set_revealed(True)
         self.append(warning_banner)
         
         # Cleanup operations
@@ -267,7 +268,7 @@ class AdvancedWidget(Gtk.Box):
                 )
                 branch_count = len([b for b in result.stdout.split('\n') if b.strip()])
                 self.branch_count_row.set_subtitle(str(branch_count))
-            except:
+            except subprocess.SubprocessError:
                 self.branch_count_row.set_subtitle(_("Unknown"))
             
             # Commit count
@@ -280,7 +281,7 @@ class AdvancedWidget(Gtk.Box):
                 )
                 commit_count = result.stdout.strip()
                 self.commit_count_row.set_subtitle(commit_count)
-            except:
+            except subprocess.SubprocessError:
                 self.commit_count_row.set_subtitle(_("Unknown"))
             
             # Repository size
@@ -292,7 +293,7 @@ class AdvancedWidget(Gtk.Box):
                         filepath = os.path.join(dirpath, filename)
                         try:
                             total_size += os.path.getsize(filepath)
-                        except:
+                        except OSError:
                             pass
                 
                 # Convert to human readable
@@ -306,7 +307,7 @@ class AdvancedWidget(Gtk.Box):
                     size_text = f"{total_size} bytes"
                 
                 self.repo_size_row.set_subtitle(size_text)
-            except:
+            except (OSError, AttributeError):
                 self.repo_size_row.set_subtitle(_("Unknown"))
                 
         except Exception as e:

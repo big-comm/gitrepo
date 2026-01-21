@@ -51,6 +51,15 @@ def commit_and_generate_package_v2(build_package_instance, branch_type, commit_m
     # Get mode configuration
     mode_config = bp.settings.get_mode_config()
     operation_mode = bp.settings.get("operation_mode", "safe")
+    
+    # Detect if running in GUI mode (GTKMenuSystem doesn't have terminal menus)
+    is_gui_mode = hasattr(bp.menu, '__class__') and 'GTK' in bp.menu.__class__.__name__
+    
+    # In GUI mode, force automatic behavior to avoid blocking menus
+    if is_gui_mode:
+        mode_config["auto_merge"] = True
+        mode_config["confirm_destructive"] = False
+        operation_mode = "expert"  # Skip all confirmations in GUI
 
     # === PHASE 1: HANDLE COMMIT ===
     has_changes = GitUtils.has_changes()
