@@ -1134,6 +1134,11 @@ msgstr "Έξοδος από το σενάριο. Δεν εκτελέστηκε �
 msgid "Error: No package name was entered."
 msgstr "Σφάλμα: Δεν καταχωρήθηκε όνομα πακέτου."
 # 
+# File: usr/share/build-package/core/build_package.py, line: 1557
+#: NEEDS WORK
+msgid "Starting AUR package build..."
+msgstr "Ξεκινώντας τη διαδικασία κατασκευής πακέτου AUR..."
+# 
 # File: usr/share/build-package/build_package.py, line: 497
 # File: usr/share/build-package/build_package.py, line: 518
 #: NEEDS WORK
@@ -2074,18 +2079,6 @@ msgstr "Επιτυχής αλλαγή και ενημέρωση σε {0}"
 msgid "Error switching to branch {0}: {1}"
 msgstr "Σφάλμα κατά την εναλλαγή σε κλάδο {0}: {1}"
 # 
-# File: usr/share/build-package/git_utils.py, line: 111
-#: NEEDS WORK
-#, python-brace-format
-msgid "Git has changes: {0} - {1}"
-msgstr "Το Git έχει αλλαγές: {0} - {1}"
-# 
-# File: usr/share/build-package/git_utils.py, line: 114
-#: NEEDS WORK
-#, python-brace-format
-msgid "Error checking changes: {0}"
-msgstr "Σφάλμα κατά τον έλεγχο αλλαγών: {0}"
-# 
 # File: usr/share/build-package/git_utils.py, line: 122
 # File: usr/share/build-package/git_utils.py, line: 262
 # File: usr/share/build-package/git_utils.py, line: 317
@@ -2150,16 +2143,22 @@ msgstr "Σφάλμα κατά την ανάκτηση αλλαγών: {0}"
 msgid "Error finding most recent branch: {0}"
 msgstr "Σφάλμα κατά την εύρεση του πιο πρόσφατου κλάδου: {0}"
 # 
-# File: usr/share/build-package/git_utils.py, line: 275
-#: NEEDS WORK
-msgid "Pushing new branch to remote repository..."
-msgstr "Σπρώχνοντας νέο κλάδο στο απομακρυσμένο αποθετήριο..."
-# 
-# File: usr/share/build-package/git_utils.py, line: 278
+# File: usr/share/build-package/core/git_utils.py, line: 373
 #: NEEDS WORK
 #, python-brace-format
-msgid "Branch {0} created and pushed successfully!"
-msgstr "Κλάδος {0} δημιουργήθηκε και προωθήθηκε με επιτυχία!"
+msgid "Checking out remote branch: {0}"
+msgstr "Έλεγχος απομακρυσμένου κλάδου: {0}"
+# 
+# File: usr/share/build-package/core/git_utils.py, line: 381
+#: NEEDS WORK
+msgid "Pushing branch to remote repository..."
+msgstr "Σπρώχνοντας το κλάδο σε απομακρυσμένο αποθετήριο..."
+# 
+# File: usr/share/build-package/core/git_utils.py, line: 384
+#: NEEDS WORK
+#, python-brace-format
+msgid "Branch {0} ready and pushed!"
+msgstr "Το κλαδί {0} είναι έτοιμο και έχει προωθηθεί!"
 # 
 # File: usr/share/build-package/git_utils.py, line: 281
 #: NEEDS WORK
@@ -4424,10 +4423,10 @@ msgstr "Έξοδος"
 msgid "Refresh Status"
 msgstr "Ανανεώστε Κατάσταση"
 # 
-# File: usr/share/build-package/gui/main_gui.py, line: 148
+# File: usr/share/build-package/gui/main_gui.py, line: 188
 #: NEEDS WORK
-msgid "Pull Latest Changes"
-msgstr "Ανακτήστε τις τελευταίες αλλαγές"
+msgid "Welcome Screen"
+msgstr "Οθόνη Καλωσορίσματος"
 # 
 # File: usr/share/build-package/gui/main_gui.py, line: 152
 #: NEEDS WORK
@@ -4452,6 +4451,11 @@ msgstr "Αποτυχία εκκίνησης διεπαφής GUI"
 #: NEEDS WORK
 msgid "Build Package"
 msgstr "Δημιουργία Πακέτου"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 107
+#: NEEDS WORK
+msgid "GitRepo"
+msgstr "GitRepo"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 134
 #: NEEDS WORK
@@ -4491,6 +4495,16 @@ msgstr "Κλάδοι"
 #: NEEDS WORK
 msgid "Advanced"
 msgstr "Προηγμένος"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 252
+#: NEEDS WORK
+msgid "About"
+msgstr "Σχετικά"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 315
+#: NEEDS WORK
+msgid "Git repository manager for building and deploying packages"
+msgstr "Διαχειριστής αποθετηρίου Git για τη δημιουργία και ανάπτυξη πακέτων"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 228
 #: NEEDS WORK
@@ -5001,13 +5015,18 @@ msgstr "Τρέχουσα Διακλάδωση"
 # 
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 96
 #: NEEDS WORK
+msgid "Commit"
+msgstr "Δέσμευση"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 96
+#: NEEDS WORK
 msgid "Commit Type"
 msgstr "Τύπος Δέσμευσης"
 # 
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 97
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 104
 #: NEEDS WORK
-msgid "Select the type of changes you are committing"
-msgstr "Επιλέξτε τον τύπο των αλλαγών που δεσμεύεστε."
+msgid "Select the type of change"
+msgstr "Επιλέξτε τον τύπο αλλαγής"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -5126,31 +5145,6 @@ msgstr "Ενεργοποίηση αποσφαλμάτωσης TMATE"
 msgid "Enable terminal access for debugging build issues"
 msgstr "Ενεργοποίηση πρόσβασης τερματικού για αποσφαλμάτωση ζητημάτων κατασκευής"
 # 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 96
-#: NEEDS WORK
-msgid "Quick Access"
-msgstr "Γρήγορη Πρόσβαση"
-# 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 100
-#: NEEDS WORK
-msgid "AUR helper written in Go"
-msgstr "Βοηθός AUR γραμμένος σε Go"
-# 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 101
-#: NEEDS WORK
-msgid "Visual Studio Code editor"
-msgstr "Επεξεργαστής Visual Studio Code"
-# 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 102
-#: NEEDS WORK
-msgid "Google Chrome browser"
-msgstr "Περιηγητής Google Chrome"
-# 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 103
-#: NEEDS WORK
-msgid "Discord chat application"
-msgstr "Εφαρμογή συνομιλίας Discord"
-# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/build-package/gui/widgets/aur_widget.py, line: 123
@@ -5192,35 +5186,33 @@ msgstr "Εισάγετε το όνομα του πακέτου παραπάνω"
 msgid "Confirm AUR Build"
 msgstr "Επιβεβαίωση AUR Build"
 # 
-# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 252
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 238
 #: NEEDS WORK
 #, python-brace-format
-msgid ""
-"Build AUR package '{0}'?\n"
-"\n"
-"This will:\n"
-"• Create branch: {1}\n"
-"• Download from: https://aur.archlinux.org/{0}.git\n"
-"• Build package in BigCommunity infrastructure"
-msgstr ""
-"Δημιουργία πακέτου AUR '{0}';\n"
-"\n"
-"Αυτό θα:\n"
-"• Δημιουργήσει κλάδο: {1}\n"
-"• Κατεβάσει από: https://aur.archlinux.org/{0}.git\n"
-"• Δημιουργήσει πακέτο στην υποδομή του BigCommunity"
+msgid "<b>Package:</b> {0}"
+msgstr "<b>Πακέτο:</b> {0}"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 103
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 248
 #: NEEDS WORK
-#, python-brace-format
-msgid "Welcome to {0}"
-msgstr "Καλώς ήρθατε στο {0}"
+msgid "This will:"
+msgstr "Αυτό θα:"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 108
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 255
 #: NEEDS WORK
 #, python-brace-format
-msgid "Version {0}"
-msgstr "Έκδοση {0}"
+msgid "• Create branch: {0}"
+msgstr "• Δημιουργία κλάδου: {0}"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 256
+#: NEEDS WORK
+#, python-brace-format
+msgid "• Download from: https://aur.archlinux.org/{0}.git"
+msgstr "• Κατεβάστε από: https://aur.archlinux.org/{0}.git"
+# 
+# File: usr/share/build-package/gui/widgets/aur_widget.py, line: 257
+#: NEEDS WORK
+msgid "• Build package in BigCommunity infrastructure"
+msgstr "• Δημιουργία πακέτου στην υποδομή του BigCommunity"
 # 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 139
 #: NEEDS WORK
@@ -5237,20 +5229,15 @@ msgstr "Δεσμεύσεις"
 msgid "Quick Actions"
 msgstr "Γρήγορες Ενέργειες"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 153
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 164
 #: NEEDS WORK
-msgid "Common operations for package development"
-msgstr "Κοινές λειτουργίες για την ανάπτυξη πακέτων"
+msgid "Pull latest changes from remote repository"
+msgstr "Ανακτήστε τις τελευταίες αλλαγές από το απομακρυσμένο αποθετήριο"
 # 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 162
 #: NEEDS WORK
 msgid "Stage changes and push to development branch"
 msgstr "Στάδιο αλλαγών και προώθηση στο αναπτυξιακό κλάδο"
-# 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 164
-#: NEEDS WORK
-msgid "Pull latest changes from remote repository"
-msgstr "Ανακτήστε τις τελευταίες αλλαγές από το απομακρυσμένο αποθετήριο"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -5298,23 +5285,10 @@ msgstr "Καμία πρόσφατη δραστηριότητα"
 msgid "Activity will appear here after operations"
 msgstr "Η δραστηριότητα θα εμφανιστεί εδώ μετά τις λειτουργίες"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 194
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 177
 #: NEEDS WORK
-msgid "System Information"
-msgstr "Πληροφορίες Συστήματος"
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 202
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 156
-#: NEEDS WORK
-msgid "Workflow Repository"
-msgstr "Αποθετήριο Ροής Εργασίας"
-# 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 207
-#: NEEDS WORK
-msgid "GitHub User"
-msgstr "Χρήστης GitHub"
+msgid "Show welcome screen"
+msgstr "Εμφάνιση οθόνης καλωσορίσματος"
 # 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 220
 #: NEEDS WORK
@@ -5352,10 +5326,10 @@ msgstr "Τοπικό αποθετήριο"
 msgid "Modified"
 msgstr "Τροποποιημένο"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 277
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 246
 #: NEEDS WORK
-msgid "Clean"
-msgstr "Καθαρισμός"
+msgid "No changes"
+msgstr "Καμία αλλαγή"
 # 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 311
 #: NEEDS WORK
@@ -5374,38 +5348,33 @@ msgstr "Αλλαγές Κατάστασης"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 101
 #: NEEDS WORK
-msgid "Package Type"
-msgstr "Τύπος Πακέτου"
+msgid "Target Repository"
+msgstr "Στοχευμένο Αποθετήριο"
 # 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 102
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 295
 #: NEEDS WORK
-msgid "Select the repository type for package deployment"
-msgstr "Επιλέξτε τον τύπο αποθετηρίου για την ανάπτυξη πακέτων"
-# 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 111
-#: NEEDS WORK
-msgid "Testing Repository"
-msgstr "Αποθετήριο Δοκιμών"
+msgid "Testing"
+msgstr "Δοκιμή"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 111
 #: NEEDS WORK
 msgid "Deploy to testing repo for beta users"
 msgstr "Ανάπτυξη σε αποθετήριο δοκιμών για χρήστες beta"
 # 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 112
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 296
 #: NEEDS WORK
-msgid "Stable Repository"
-msgstr "Σταθερό Αποθετήριο"
+msgid "Stable"
+msgstr "Σταθερός"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 112
 #: NEEDS WORK
 msgid "Deploy to stable repo for all users"
 msgstr "Ανάπτυξη σε σταθερό αποθετήριο για όλους τους χρήστες"
 # 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 113
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 297
 #: NEEDS WORK
-msgid "Extra Repository"
-msgstr "Επιπλέον Αποθετήριο"
+msgid "Extra"
+msgstr "Επιπλέον"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 113
 #: NEEDS WORK
@@ -5422,6 +5391,14 @@ msgstr "Επιβεβαίωση Αλλαγών"
 msgid "Required when uncommitted changes are present"
 msgstr "Απαιτείται όταν υπάρχουν μη αποθηκευμένες αλλαγές"
 # 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 202
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 156
+#: NEEDS WORK
+msgid "Workflow Repository"
+msgstr "Αποθετήριο Ροής Εργασίας"
+# 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 169
 #: NEEDS WORK
 msgid "Reset"
@@ -5436,21 +5413,6 @@ msgstr "Σφάλμα: Δεν βρέθηκε το PKGBUILD"
 #: NEEDS WORK
 msgid "Build Extra Package"
 msgstr "Κατασκευή Πρόσθετου Πακέτου"
-# 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 295
-#: NEEDS WORK
-msgid "Testing"
-msgstr "Δοκιμή"
-# 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 296
-#: NEEDS WORK
-msgid "Stable"
-msgstr "Σταθερός"
-# 
-# File: usr/share/build-package/gui/widgets/package_widget.py, line: 297
-#: NEEDS WORK
-msgid "Extra"
-msgstr "Επιπλέον"
 # 
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 309
 #: NEEDS WORK
@@ -5737,15 +5699,150 @@ msgstr "Όλες οι συγκρούσεις επιλύθηκαν (διατηρ�
 msgid "All conflicts resolved (accepted remote versions)"
 msgstr "Όλες οι συγκρούσεις επιλύθηκαν (αποδεκτές απομακρυσμένες εκδόσεις)"
 # 
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 57
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 31
 #: NEEDS WORK
-msgid "Preparing..."
-msgstr "Ετοιμασία..."
+msgid "Welcome"
+msgstr "Καλώς ήρθατε"
 # 
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 65
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 103
 #: NEEDS WORK
-msgid "Details"
-msgstr "Λεπτομέρειες"
+#, python-brace-format
+msgid "Welcome to {0}"
+msgstr "Καλώς ήρθατε στο {0}"
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 108
+#: NEEDS WORK
+#, python-brace-format
+msgid "Version {0}"
+msgstr "Έκδοση {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 106
+#: NEEDS WORK
+msgid "Key Features"
+msgstr "Κύρια Χαρακτηριστικά"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 113
+#: NEEDS WORK
+msgid "Stage changes and push to your development branch with semantic commit messages"
+msgstr "Στάδιο αλλαγών και σπρώξτε στον αναπτυξιακό σας κλάδο με σημασιολογικά μηνύματα δέσμευσης"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 114
+#: NEEDS WORK
+msgid "Build Packages"
+msgstr "Δημιουργία Πακέτων"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 115
+#: NEEDS WORK
+msgid "Build and deploy packages to testing, stable, or extra repositories"
+msgstr "Κατασκευή και ανάπτυξη πακέτων σε δοκιμαστικά, σταθερά ή επιπλέον αποθετήρια"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 116
+#: NEEDS WORK
+msgid "AUR Packages"
+msgstr "Πακέτα AUR"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 117
+#: NEEDS WORK
+msgid "Build packages directly from the Arch User Repository"
+msgstr "Κατασκευάστε πακέτα απευθείας από το Arch User Repository"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 119
+#: NEEDS WORK
+msgid "Manage branches, create merge requests, and cleanup old branches"
+msgstr "Διαχείριση κλάδων, δημιουργία αιτημάτων συγχώνευσης και καθαρισμός παλαιών κλάδων"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 121
+#: NEEDS WORK
+msgid "Cleanup GitHub Actions, tags, and revert commits"
+msgstr "Καθαρισμός GitHub Actions, ετικετών και αναίρεση commits"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 135
+#: NEEDS WORK
+msgid "Quick Tips"
+msgstr "Γρήγορες Συμβουλές"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 141
+#: NEEDS WORK
+msgid "Use the sidebar to navigate between different operations"
+msgstr "Χρησιμοποιήστε την πλαϊνή μπάρα για να πλοηγηθείτε μεταξύ διαφορετικών λειτουργιών"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 142
+#: NEEDS WORK
+msgid "The Overview page shows your current repository status"
+msgstr "Η σελίδα Επισκόπησης δείχνει την τρέχουσα κατάσταση του αποθετηρίου σας."
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 143
+#: NEEDS WORK
+msgid "Configure your preferences in Settings (Ctrl+,)"
+msgstr "Ρυθμίστε τις προτιμήσεις σας στις Ρυθμίσεις (Ctrl+,)"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 144
+#: NEEDS WORK
+msgid "Press Ctrl+Q to quit the application"
+msgstr "Πατήστε Ctrl+Q για να κλείσετε την εφαρμογή"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 185
+#: NEEDS WORK
+msgid "Don't show this welcome screen again"
+msgstr "Μην εμφανίζετε ξανά αυτήν την οθόνη καλωσορίσματος"
+# 
+# File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 191
+#: NEEDS WORK
+msgid "Get Started"
+msgstr "Ξεκινήστε"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 96
+#: NEEDS WORK
+msgid "Initializing..."
+msgstr "Αρχικοποίηση..."
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 106
+#: NEEDS WORK
+msgid "Starting..."
+msgstr "Ξεκινάει..."
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 123
+#: NEEDS WORK
+msgid "Terminal Log"
+msgstr "Καταγραφή Τερματικού"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 309
+#: NEEDS WORK
+msgid "Completed"
+msgstr "Ολοκληρώθηκε"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 310
+#: NEEDS WORK
+msgid "✓ Operation completed successfully"
+msgstr "✓ Η λειτουργία ολοκληρώθηκε με επιτυχία"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 314
+#: NEEDS WORK
+msgid "Failed"
+msgstr "Απέτυχε"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 315
+#: NEEDS WORK
+#, python-brace-format
+msgid "✗ Operation failed: {0}"
+msgstr "✗ Η λειτουργία απέτυχε: {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 328
+#: NEEDS WORK
+msgid "Done"
+msgstr "Ολοκληρώθηκε"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 370
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 376
+#: NEEDS WORK
+msgid "Open in GitHub"
+msgstr "Άνοιγμα στο GitHub"
+# 
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 534
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 541
+#: NEEDS WORK
+msgid "Operation completed successfully"
+msgstr "Η λειτουργία ολοκληρώθηκε με επιτυχία"
 # 
 # File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 76
 #: NEEDS WORK
@@ -6023,3 +6120,40 @@ msgid ""
 msgstr ""
 "Wrapper για την κατασκευή ISO χρησιμοποιώντας GitHub Actions. Απλοποιεί τη διαδικασία δημιουργίας "
 "προσαρμοσμένων εικόνων ISO διανομής Linux μέσω αυτοματοποίησης."
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 70
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 99
+#: NEEDS WORK
+msgid "Open in GitRepo"
+msgstr "Άνοιγμα στο GitRepo"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 74
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 103
+#: NEEDS WORK
+msgid "Manage this Git repository with GitRepo"
+msgstr "Διαχειριστείτε αυτό το αποθετήριο Git με το GitRepo"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 127
+#: NEEDS WORK
+msgid "Error"
+msgstr "Σφάλμα"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 128
+#: NEEDS WORK
+msgid "Could not get the path for the selected folder."
+msgstr "Δεν ήταν δυνατή η λήψη της διαδρομής για τον επιλεγμένο φάκελο."
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 146
+#: NEEDS WORK
+msgid "Application Not Found"
+msgstr "Η εφαρμογή δεν βρέθηκε"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 147
+#: NEEDS WORK
+msgid "Could not find GitRepo. Is it installed?"
+msgstr "Δεν μπόρεσα να βρω το GitRepo. Είναι εγκατεστημένο;"
+# 
+# File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 152
+#: NEEDS WORK
+msgid "Launch Error"
+msgstr "Σφάλμα Εκκίνησης"
