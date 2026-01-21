@@ -37,7 +37,8 @@ class GitRepoExtension(GObject.GObject, Nautilus.MenuProvider):
     def __init__(self):
         """Initializes the extension."""
         super().__init__()
-        self.app_executable = 'gitrepo'
+        # Use absolute path to ensure it works in Nautilus environment
+        self.app_executable = '/usr/bin/gitrepo'
 
     def get_file_items(self, *args):
         """

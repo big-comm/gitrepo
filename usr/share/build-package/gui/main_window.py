@@ -14,6 +14,7 @@ from core.build_package import BuildPackage
 from core.git_utils import GitUtils
 from core.translation_utils import _
 from core.settings import Settings
+from core.config import APP_VERSION
 from .gtk_logger import GTKLogger
 from .gtk_menu import GTKMenu
 from .gtk_adapters import GTKMenuSystem, GTKConflictResolver
@@ -304,7 +305,7 @@ class MainWindow(Adw.ApplicationWindow):
             application_name="GitRepo",
             application_icon="gitrepo",
             developer_name="BigCommunity",
-            version="1.0.0",
+            version=APP_VERSION,
             copyright="© 2024-2025 BigCommunity",
             license_type=Gtk.License.GPL_3_0,
             website="https://github.com/big-comm/gitrepo",
@@ -451,8 +452,27 @@ class MainWindow(Adw.ApplicationWindow):
         )
     
     def on_branch_selected(self, widget, branch_name):
-        """Handle branch selection"""
-        self.show_info_toast(_("Selected branch: {0}").format(branch_name))
+        """Handle branch selection - switch to selected branch"""
+        current_branch = GitUtils.get_current_branch()
+        
+        # Don't switch if already on this branch
+        if branch_name == current_branch:
+            self.show_info_toast(_("Already on branch: {0}").format(branch_name))
+            return
+        
+        def switch_branch():
+            import subprocess
+            try:
+                subprocess.run(["git", "checkout", branch_name], check=True, capture_output=True)
+                return True
+            except subprocess.CalledProcessError:
+                return False
+        
+        self.operation_runner.run_with_progress(
+            switch_branch,
+            _("Switching Branch"),
+            _("Switching to branch {0}...").format(branch_name)
+        )
     
     def on_merge_requested(self, widget, source_branch, target_branch):
         """Handle merge request"""
