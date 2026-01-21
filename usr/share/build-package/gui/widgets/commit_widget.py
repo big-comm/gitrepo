@@ -91,24 +91,38 @@ class CommitWidget(Gtk.Box):
         
         self.append(status_group)
         
-        # Commit type selection
+        # Commit type selection using ExpanderRow (opens below, larger)
         commit_type_group = Adw.PreferencesGroup()
-        commit_type_group.set_title(_("Commit Type"))
-        commit_type_group.set_description(_("Select the type of changes you are committing"))
+        commit_type_group.set_title(_("Commit"))
         
-        # Create list box for commit types
-        self.commit_types_list = Gtk.ListBox()
-        self.commit_types_list.set_selection_mode(Gtk.SelectionMode.SINGLE)
-        self.commit_types_list.add_css_class("boxed-list")
-        self.commit_types_list.connect('row-selected', self.on_commit_type_selected)
+        # Get commit types
+        self.commit_types = self.build_package.get_commit_types()
         
-        # Add commit types
-        commit_types = self.build_package.get_commit_types()
-        for emoji, commit_type, description in commit_types:
-            row = CommitTypeRow(emoji, commit_type, description)
-            self.commit_types_list.append(row)
-
-        commit_type_group.add(self.commit_types_list)
+        # Create expander row for commit types
+        self.commit_type_expander = Adw.ExpanderRow()
+        self.commit_type_expander.set_title(_("Commit Type"))
+        self.commit_type_expander.set_subtitle(_("Select the type of change"))
+        
+        # Add commit type rows inside expander
+        for idx, (emoji, commit_type, description) in enumerate(self.commit_types):
+            type_row = Adw.ActionRow()
+            type_row.set_title(f"{emoji} {commit_type}")
+            type_row.set_subtitle(description)
+            type_row.set_activatable(True)
+            type_row.commit_type = commit_type
+            type_row.emoji = emoji
+            type_row.idx = idx
+            
+            # Add checkmark for selected
+            check_icon = Gtk.Image.new_from_icon_name("emblem-ok-symbolic")
+            check_icon.set_visible(False)
+            type_row.check_icon = check_icon
+            type_row.add_suffix(check_icon)
+            
+            type_row.connect('activated', self.on_commit_type_row_activated)
+            self.commit_type_expander.add_row(type_row)
+        
+        commit_type_group.add(self.commit_type_expander)
         self.append(commit_type_group)
 
         # Commit message entry
@@ -145,20 +159,47 @@ class CommitWidget(Gtk.Box):
         
         self.append(actions_box)
         
-        # Select first commit type by default (after all widgets are created)
-        if self.commit_types_list.get_row_at_index(0):
-            self.commit_types_list.select_row(self.commit_types_list.get_row_at_index(0))
+        # Select first commit type by default
+        if len(self.commit_types) > 0:
+            # Find and select first row in expander
+            first_row = None
+            child = self.commit_type_expander.get_first_child()
+            while child:
+                if hasattr(child, 'commit_type'):
+                    first_row = child
+                    break
+                child = child.get_next_sibling()
+            
+            if first_row:
+                self._select_commit_type_row(first_row)
     
     def refresh_status(self):
         """Refresh repository status"""
+        # Clear previous state from changes_row
+        self.changes_row.remove_css_class("warning")
+        self.changes_row.remove_css_class("success")
+        # Remove all suffixes
+        while True:
+            suffix = self.changes_row.get_last_child()
+            if suffix and suffix.get_parent() == self.changes_row:
+                # Check if it's the suffix box (not part of ActionRow internal structure)
+                if isinstance(suffix, Gtk.Image):
+                    self.changes_row.remove(suffix)
+                else:
+                    break
+            else:
+                break
+        
         # Check for changes
         if GitUtils.has_changes():
             self.changes_row.set_subtitle(_("Uncommitted changes present"))
-            self.changes_row.add_suffix(Gtk.Image.new_from_icon_name("emblem-important-symbolic"))
+            suffix_icon = Gtk.Image.new_from_icon_name("emblem-important-symbolic")
+            self.changes_row.add_suffix(suffix_icon)
             self.changes_row.add_css_class("warning")
         else:
             self.changes_row.set_subtitle(_("Working directory clean"))
-            self.changes_row.add_suffix(Gtk.Image.new_from_icon_name("emblem-ok-symbolic"))
+            suffix_icon = Gtk.Image.new_from_icon_name("emblem-ok-symbolic")
+            self.changes_row.add_suffix(suffix_icon)
             self.changes_row.add_css_class("success")
         
         # Current branch
@@ -171,22 +212,41 @@ class CommitWidget(Gtk.Box):
         # Update commit button state
         self.update_commit_button_state()
     
-    def on_commit_type_selected(self, list_box, row):
-        """Handle commit type selection"""
-        if row:
-            self.selected_commit_type = row.commit_type
-            self.selected_emoji = row.emoji
-            
-            # Update placeholder text (only if message_entry exists)
-            if hasattr(self, 'message_entry') and self.message_entry is not None:
-                if self.selected_commit_type == "custom":
-                    self.message_entry.set_text("")
-                    self.message_entry.set_title(_("Custom message"))
-                else:
-                    self.message_entry.set_text("")
-                    self.message_entry.set_title(_("Description for {0}").format(self.selected_commit_type))
-            
-            self.update_commit_button_state()
+    def _select_commit_type_row(self, row):
+        """Select a commit type row and update visuals"""
+        # Hide all checkmarks first
+        child = self.commit_type_expander.get_first_child()
+        while child:
+            if hasattr(child, 'check_icon'):
+                child.check_icon.set_visible(False)
+            child = child.get_next_sibling()
+        
+        # Show checkmark on selected
+        if hasattr(row, 'check_icon'):
+            row.check_icon.set_visible(True)
+        
+        # Update selected values
+        self.selected_commit_type = row.commit_type
+        self.selected_emoji = row.emoji
+        
+        # Update expander subtitle to show selection
+        self.commit_type_expander.set_subtitle(f"{row.emoji} {row.commit_type}")
+        
+        # Collapse expander after selection
+        self.commit_type_expander.set_expanded(False)
+        
+        # Update message entry title
+        if hasattr(self, 'message_entry') and self.message_entry is not None:
+            if row.commit_type == "custom":
+                self.message_entry.set_title(_("Custom message"))
+            else:
+                self.message_entry.set_title(_("Description for {0}").format(row.commit_type))
+        
+        self.update_commit_button_state()
+    
+    def on_commit_type_row_activated(self, row):
+        """Handle commit type row activation"""
+        self._select_commit_type_row(row)
     
     def on_message_changed(self, entry):
         """Handle message entry changes"""

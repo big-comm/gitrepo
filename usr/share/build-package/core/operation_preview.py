@@ -22,10 +22,15 @@ class Operation:
             callback: Optional function to call instead of running commands
         """
         self.description = description
-        self.commands = commands if isinstance(commands[0], list) else [commands]
+        # Handle empty commands (callback-only operations)
+        if commands and len(commands) > 0:
+            self.commands = commands if isinstance(commands[0], list) else [commands]
+        else:
+            self.commands = []
         self.destructive = destructive
         self.callback = callback
         self.executed = False
+        self.success = False
         self.success = False
 
     def execute(self, logger):

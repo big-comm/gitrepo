@@ -96,28 +96,6 @@ class OverviewWidget(Gtk.Box):
     def create_ui(self):
         """Create the widget UI"""
         
-        # Header with welcome message
-        header_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=3)
-        
-        welcome_label = Gtk.Label()
-        welcome_label.set_text(_("Welcome to {0}").format(APP_NAME))
-        welcome_label.add_css_class("title-3")
-        header_box.append(welcome_label)
-        
-        version_label = Gtk.Label()
-        version_label.set_text(_("Version {0}").format(APP_VERSION))
-        version_label.add_css_class("subtitle")
-        header_box.append(version_label)
-        
-        desc_label = Gtk.Label()
-        desc_label.set_text(APP_DESC)
-        desc_label.add_css_class("body")
-        desc_label.set_wrap(True)
-        desc_label.set_justify(Gtk.Justification.CENTER)
-        header_box.append(desc_label)
-        
-        self.append(header_box)
-        
         # Repository status banner
         self.status_banner = Adw.Banner()
         self.append(self.status_banner)
@@ -133,11 +111,11 @@ class OverviewWidget(Gtk.Box):
         cards_flow.set_selection_mode(Gtk.SelectionMode.NONE)
         cards_flow.set_homogeneous(True)
         
-        # Create status cards (will be populated in refresh_overview)
+        # Create status cards with standard GNOME icons
         self.repo_card = StatusCard(_("Repository"), "—", "folder-symbolic")
-        self.branch_card = StatusCard(_("Current Branch"), "—", "git-branch-symbolic")
+        self.branch_card = StatusCard(_("Current Branch"), "—", "media-playlist-consecutive-symbolic")
         self.changes_card = StatusCard(_("Changes"), "—", "document-edit-symbolic")
-        self.commits_card = StatusCard(_("Commits"), "—", "commit-symbolic")
+        self.commits_card = StatusCard(_("Commits"), "—", "view-list-symbolic")
         
         cards_flow.append(self.repo_card)
         cards_flow.append(self.branch_card)
@@ -150,19 +128,18 @@ class OverviewWidget(Gtk.Box):
         # Quick actions
         actions_group = Adw.PreferencesGroup()
         actions_group.set_title(_("Quick Actions"))
-        actions_group.set_description(_("Common operations for package development"))
         
         self.quick_actions_list = Gtk.ListBox()
         self.quick_actions_list.set_selection_mode(Gtk.SelectionMode.NONE)
         self.quick_actions_list.add_css_class("boxed-list")
         self.quick_actions_list.connect('row-activated', self.on_quick_action_activated)
         
-        # Define quick actions
+        # Define quick actions (order matches CLI menu)
         quick_actions = [
+            ("pull", _("Pull Latest"), _("Pull latest changes from remote repository"), 
+             "go-down-symbolic"),
             ("commit", _("Commit and Push"), _("Stage changes and push to development branch"), 
              "document-save-symbolic"),
-            ("pull", _("Pull Latest"), _("Pull latest changes from remote repository"), 
-             "cloud-download-symbolic"),
             ("package_testing", _("Build Testing Package"), _("Build and deploy to testing repository"), 
              "package-x-generic-symbolic"),
             ("package_stable", _("Build Stable Package"), _("Build and deploy to stable repository"), 
@@ -178,7 +155,7 @@ class OverviewWidget(Gtk.Box):
         actions_group.add(self.quick_actions_list)
         self.append(actions_group)
         
-        # Recent activity (placeholder for future enhancement)
+        # Recent activity
         activity_group = Adw.PreferencesGroup()
         activity_group.set_title(_("Recent Activity"))
         
@@ -189,38 +166,26 @@ class OverviewWidget(Gtk.Box):
         
         self.append(activity_group)
         
-        # System information
-        system_group = Adw.PreferencesGroup()
-        system_group.set_title(_("System Information"))
+        # Actions bar at bottom
+        actions_bar = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+        actions_bar.set_halign(Gtk.Align.END)
+        actions_bar.set_margin_top(12)
         
-        self.org_row = Adw.ActionRow()
-        self.org_row.set_title(_("Organization"))
-        self.org_row.set_subtitle(self.build_package.organization)
-        system_group.add(self.org_row)
+        # Show welcome button
+        welcome_button = Gtk.Button()
+        welcome_button.set_icon_name("help-about-symbolic")
+        welcome_button.set_tooltip_text(_("Show welcome screen"))
+        welcome_button.connect('clicked', self.on_welcome_clicked)
+        actions_bar.append(welcome_button)
         
-        self.workflow_row = Adw.ActionRow()
-        self.workflow_row.set_title(_("Workflow Repository"))
-        self.workflow_row.set_subtitle(self.build_package.repo_workflow)
-        system_group.add(self.workflow_row)
-        
-        self.user_row = Adw.ActionRow()
-        self.user_row.set_title(_("GitHub User"))
-        self.user_row.set_subtitle(self.build_package.github_user_name or _("Unknown"))
-        system_group.add(self.user_row)
-        
-        self.append(system_group)
-        
-        # Refresh action
-        refresh_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-        refresh_box.set_halign(Gtk.Align.END)
-        refresh_box.set_margin_top(12)
-        
+        # Refresh button
         refresh_button = Gtk.Button()
         refresh_button.set_label(_("Refresh Status"))
         refresh_button.set_tooltip_text(_("Refresh repository status and information"))
         refresh_button.connect('clicked', self.on_refresh_clicked)
-        refresh_box.append(refresh_button)
-        self.append(refresh_box)
+        actions_bar.append(refresh_button)
+        
+        self.append(actions_bar)
     
     def refresh_overview(self):
         """Refresh overview information"""
@@ -269,12 +234,16 @@ class OverviewWidget(Gtk.Box):
             else:
                 self.branch_card.value_label.set_text(_("Unknown"))
             
-            # Changes card
+            # Changes card - clear previous CSS classes first
+            self.changes_card.icon.remove_css_class("warning")
+            self.changes_card.icon.remove_css_class("success")
+            
             if GitUtils.has_changes():
                 self.changes_card.value_label.set_text(_("Modified"))
                 self.changes_card.icon.add_css_class("warning")
             else:
-                self.changes_card.value_label.set_text(_("Clean"))
+                # TRANSLATORS: Status when working directory has no modifications
+                self.changes_card.value_label.set_text(_("No changes"))
                 self.changes_card.icon.add_css_class("success")
             
             # Commits card
@@ -288,7 +257,7 @@ class OverviewWidget(Gtk.Box):
                 )
                 commit_count = result.stdout.strip()
                 self.commits_card.value_label.set_text(commit_count)
-            except:
+            except subprocess.SubprocessError:
                 self.commits_card.value_label.set_text("—")
                 
         except Exception as e:
@@ -311,13 +280,20 @@ class OverviewWidget(Gtk.Box):
                     self.activity_row.set_title(_("Last commit"))
                     self.activity_row.set_subtitle(result.stdout.strip())
                 
-        except:
+        except subprocess.SubprocessError:
             pass
     
     def on_quick_action_activated(self, list_box, row):
         """Handle quick action selection"""
         if hasattr(row, 'action_id'):
             self.emit('quick-action', row.action_id)
+    
+    def on_welcome_clicked(self, button):
+        """Handle welcome button click"""
+        # Get the main window and trigger welcome action
+        window = self.get_root()
+        if window and hasattr(window, 'show_welcome_dialog'):
+            window.show_welcome_dialog()
     
     def on_refresh_clicked(self, button):
         """Handle refresh button click"""

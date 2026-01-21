@@ -1,0 +1,36 @@
+#!/bin/bash
+# Wrapper to run GitRepo GUI
+
+# Detect installation directory
+# First look in Python site-packages (newest to oldest version)
+# Then fallback to /usr/share/build-package or local directory
+for i in /usr/lib/python3.{25..6}/site-packages/gitrepo /usr/share/build-package; do
+    if [[ -e "$i" ]]; then
+        GITREPO_DIR="$i"
+        break
+    fi
+done
+
+# If not found, try local directory (development)
+if [[ -z "$GITREPO_DIR" ]]; then
+    SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
+    GITREPO_DIR="$SCRIPT_DIR/../share/build-package"
+fi
+
+# Check if target directory is a Git repository (when called from context menu)
+if [[ -n "$1" && -d "$1" ]]; then
+    if [[ ! -d "$1/.git" ]]; then
+        # Not a Git repository - show notification and exit
+        if command -v notify-send &> /dev/null; then
+            notify-send --app-name="GitRepo" --icon="dialog-warning" \
+                "Not a Git Repository" \
+                "The selected folder is not a Git repository: $1"
+        fi
+        exit 1
+    fi
+    # Change to target directory
+    cd "$1" || exit 1
+fi
+
+# Run main_gui.py
+exec python3 "$GITREPO_DIR/gui/main_gui.py" "$@"

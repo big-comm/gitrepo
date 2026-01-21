@@ -13,6 +13,7 @@ from .progress_dialog import ProgressDialog, SimpleProgressDialog, OperationRunn
 from .settings_dialog import SettingsDialog
 from .conflict_dialog import ConflictDialog, ConflictFileRow
 from .preview_dialog import PreviewDialog, SimplePreviewDialog
+from .welcome_dialog import WelcomeDialog, should_show_welcome
 
 __all__ = [
     'ProgressDialog',
@@ -23,4 +24,6 @@ __all__ = [
     'ConflictFileRow',
     'PreviewDialog',
     'SimplePreviewDialog',
+    'WelcomeDialog',
+    'should_show_welcome',
 ]

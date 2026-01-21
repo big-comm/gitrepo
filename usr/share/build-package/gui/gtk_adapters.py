@@ -139,6 +139,10 @@ class GTKMenuSystem:
             GLib.MainContext.default().iteration(True)
 
         return result[0]
+    
+    def confirm(self, question, default_yes=True):
+        """Confirm an action (alias for ask_yes_no)"""
+        return self.ask_yes_no(question, default_yes)
 
     def ask_input(self, prompt, default_value=""):
         """Ask for text input"""

@@ -9,7 +9,7 @@ import gi
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 
-from gi.repository import Gtk, Adw, GObject, Gio
+from gi.repository import Gtk, Adw, GObject, Gio, GLib
 from core.build_package import BuildPackage
 from core.git_utils import GitUtils
 from core.translation_utils import _
@@ -18,6 +18,7 @@ from .gtk_logger import GTKLogger
 from .gtk_menu import GTKMenu
 from .gtk_adapters import GTKMenuSystem, GTKConflictResolver
 from .dialogs.settings_dialog import SettingsDialog
+from .dialogs.welcome_dialog import WelcomeDialog, should_show_welcome
 from .widgets.overview_widget import OverviewWidget
 from .widgets.commit_widget import CommitWidget
 from .widgets.package_widget import PackageWidget
@@ -59,6 +60,9 @@ class MainWindow(Adw.ApplicationWindow):
         self.set_default_size(1000, 600)
         self.set_size_request(800, 600)  # Force minimum size
         self.set_title(_("Build Package"))
+        
+        # Show welcome dialog on first run (after window is shown)
+        GLib.idle_add(self._check_show_welcome)
     
     def create_ui(self):
         """Create the main UI programmatically"""
@@ -100,18 +104,15 @@ class MainWindow(Adw.ApplicationWindow):
         self.header_bar = Adw.HeaderBar()
         
         # Create a Title widget to hold title and subtitle
-        self.window_title = Adw.WindowTitle(title=_("Build Package"))
+        self.window_title = Adw.WindowTitle(title=_("GitRepo"))
         self.header_bar.set_title_widget(self.window_title)
         
         # Show title buttons only on main header (right side)
         self.header_bar.set_show_start_title_buttons(False)  # Hide start buttons
         self.header_bar.set_show_end_title_buttons(True)     # Show end buttons (close, etc)
         
-        # Back button for mobile
-        back_button = Gtk.Button()
-        back_button.set_icon_name("go-previous-symbolic")
-        back_button.connect('clicked', self.on_back_button_clicked)
-        self.header_bar.pack_start(back_button)
+        # Add hamburger menu button
+        self._create_hamburger_menu()
         
         content_box.append(self.header_bar)
         
@@ -120,9 +121,10 @@ class MainWindow(Adw.ApplicationWindow):
         scrolled_content.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
         scrolled_content.set_vexpand(True)
         scrolled_content.set_hexpand(True)
-        # scrolled_content.set_propagate_natural_height(True)
+        scrolled_content.set_propagate_natural_height(True)
 
         self.content_stack = Adw.ViewStack()
+        self.content_stack.set_vhomogeneous(False)  # Don't force all pages to same height
         scrolled_content.set_child(self.content_stack)
         content_box.append(scrolled_content)
         
@@ -177,6 +179,9 @@ class MainWindow(Adw.ApplicationWindow):
             (self.advanced_widget, "advanced", _("Advanced"), "preferences-system-symbolic")
         ]
         
+        # Store nav rows for badge updates
+        self.nav_rows = {}
+        
         for widget, page_id, title, icon_name in pages:
             self.content_stack.add_titled_with_icon(widget, page_id, title, icon_name)
             
@@ -190,11 +195,24 @@ class MainWindow(Adw.ApplicationWindow):
             icon = Gtk.Image.new_from_icon_name(icon_name)
             nav_row.add_prefix(icon)
             
+            # Add badge placeholder (hidden by default)
+            badge_label = Gtk.Label()
+            badge_label.add_css_class("badge")
+            badge_label.add_css_class("numeric")
+            badge_label.set_visible(False)
+            badge_label.set_valign(Gtk.Align.CENTER)
+            nav_row.add_suffix(badge_label)
+            nav_row.badge = badge_label
+            
+            self.nav_rows[page_id] = nav_row
             self.nav_list.append(nav_row)
         
         # Select first page
         self.nav_list.select_row(self.nav_list.get_row_at_index(0))
         self.content_stack.set_visible_child_name("overview")
+        
+        # Initial badge update
+        GLib.idle_add(self.update_nav_badges)
     
     def connect_widget_signals(self):
         """Connect signals from all widgets"""
@@ -225,6 +243,23 @@ class MainWindow(Adw.ApplicationWindow):
         self.advanced_widget.connect('cleanup-tags-requested', self.on_cleanup_tags_requested)
         self.advanced_widget.connect('revert-commit-requested', self.on_revert_commit_requested)
     
+    def _create_hamburger_menu(self):
+        """Create hamburger menu button with About option"""
+        # Create menu model
+        menu = Gio.Menu()
+        
+        # Add menu items
+        menu.append(_("About"), "win.about")
+        
+        # Create menu button with hamburger icon
+        menu_button = Gtk.MenuButton()
+        menu_button.set_icon_name("open-menu-symbolic")
+        menu_button.set_menu_model(menu)
+        menu_button.set_tooltip_text(_("Main Menu"))
+        
+        # Add to header bar (pack_end places it on the right, before window controls)
+        self.header_bar.pack_end(menu_button)
+    
     def setup_actions(self):
         """Setup application actions"""
         # Refresh action
@@ -236,6 +271,50 @@ class MainWindow(Adw.ApplicationWindow):
         pull_action = Gio.SimpleAction.new("pull", None)
         pull_action.connect("activate", self.on_pull_activated)
         self.add_action(pull_action)
+        
+        # Welcome action (to show welcome dialog manually)
+        welcome_action = Gio.SimpleAction.new("show-welcome", None)
+        welcome_action.connect("activate", self.on_show_welcome_activated)
+        self.add_action(welcome_action)
+        
+        # About action
+        about_action = Gio.SimpleAction.new("about", None)
+        about_action.connect("activate", self.on_about_activated)
+        self.add_action(about_action)
+    
+    def _check_show_welcome(self):
+        """Check if welcome dialog should be shown and show it"""
+        if should_show_welcome(self.settings):
+            self.show_welcome_dialog()
+        return False  # Don't repeat idle callback
+    
+    def show_welcome_dialog(self):
+        """Show the welcome dialog"""
+        dialog = WelcomeDialog(self, self.settings)
+        dialog.present()
+    
+    def on_show_welcome_activated(self, action, param):
+        """Handle show welcome action"""
+        self.show_welcome_dialog()
+    
+    def on_about_activated(self, action, param):
+        """Handle about action - show About dialog"""
+        about = Adw.AboutWindow(
+            transient_for=self,
+            application_name="GitRepo",
+            application_icon="gitrepo",
+            developer_name="BigCommunity",
+            version="1.0.0",
+            copyright="© 2024-2025 BigCommunity",
+            license_type=Gtk.License.GPL_3_0,
+            website="https://github.com/big-comm/gitrepo",
+            issue_url="https://github.com/big-comm/gitrepo/issues",
+            developers=[
+                "BigCommunity Team"
+            ],
+            comments=_("Git repository manager for building and deploying packages")
+        )
+        about.present()
     
     def refresh_status(self):
         """Refresh repository status display"""
@@ -507,10 +586,12 @@ class MainWindow(Adw.ApplicationWindow):
         """Switch to specific page"""
         self.content_stack.set_visible_child_name(page_id)
         
-        # Update leaflet for mobile view
+        # Navigate to content area in mobile/folded view
         if self.leaflet.get_folded():
-            # Use get_child_by_name or navigate properly
-            pass  # Remove this line for now, mobile view will work without it
+            # Get the content box (second child of leaflet)
+            content_box = self.leaflet.get_child_at_index(1)
+            if content_box:
+                self.leaflet.set_visible_child(content_box)
     
     def refresh_all_widgets(self):
         """Refresh all widgets with current status"""
@@ -524,6 +605,64 @@ class MainWindow(Adw.ApplicationWindow):
             self.branch_widget.refresh_branches()
         if hasattr(self, 'advanced_widget'):
             self.advanced_widget.refresh_commits()
+        
+        # Update navigation badges
+        self.update_nav_badges()
+    
+    def update_nav_badges(self):
+        """Update badges in navigation sidebar"""
+        if not hasattr(self, 'nav_rows') or not self.build_package:
+            return False
+        
+        try:
+            # Commit badge - show number of uncommitted changes
+            if "commit" in self.nav_rows:
+                if self.build_package.is_git_repo and GitUtils.has_changes():
+                    # Count changed files
+                    import subprocess
+                    result = subprocess.run(
+                        ["git", "status", "--porcelain"],
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.DEVNULL,
+                        text=True
+                    )
+                    if result.returncode == 0:
+                        changes = len([l for l in result.stdout.strip().split('\n') if l.strip()])
+                        if changes > 0:
+                            self.nav_rows["commit"].badge.set_text(str(changes))
+                            self.nav_rows["commit"].badge.set_visible(True)
+                            self.nav_rows["commit"].badge.add_css_class("warning")
+                        else:
+                            self.nav_rows["commit"].badge.set_visible(False)
+                    else:
+                        self.nav_rows["commit"].badge.set_visible(False)
+                else:
+                    self.nav_rows["commit"].badge.set_visible(False)
+            
+            # Branches badge - could show number of branches or active merges
+            # Package badge - could show build status
+            # AUR badge - could show available updates
+            # These remain hidden for now but infrastructure is ready
+            
+        except Exception as e:
+            print(f"Error updating nav badges: {e}")
+        
+        return False  # Don't repeat idle callback
+    
+    def send_system_notification(self, title, body, icon="package-x-generic"):
+        """Send a system notification (desktop notification)"""
+        try:
+            # Use GNotification for libadwaita apps
+            notification = Gio.Notification.new(title)
+            notification.set_body(body)
+            notification.set_icon(Gio.ThemedIcon.new(icon))
+            notification.set_priority(Gio.NotificationPriority.NORMAL)
+            
+            # Send via application
+            if self.application:
+                self.application.send_notification(None, notification)
+        except Exception as e:
+            print(f"Could not send notification: {e}")
     
     def on_back_button_clicked(self, button):
         """Handle back button in mobile view"""

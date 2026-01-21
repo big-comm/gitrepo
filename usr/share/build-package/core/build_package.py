@@ -1545,9 +1545,16 @@ the specific source code used to create this copy."""), style="white")
         # Summary of choices for AUR
         self.show_aur_summary(aur_package_name)
         
-        if not self.menu.confirm(_("Do you want to proceed with building the PACKAGE?")):
-            self.logger.log("red", _("Package build cancelled."))
-            return False
+        # Detect if running in GUI mode (confirmation already done by GTK dialog)
+        is_gui_mode = hasattr(self.menu, '__class__') and 'GTK' in self.menu.__class__.__name__
+        
+        # In CLI mode, ask for confirmation; in GUI mode, skip (already confirmed)
+        if not is_gui_mode:
+            if not self.menu.confirm(_("Do you want to proceed with building the PACKAGE?")):
+                self.logger.log("red", _("Package build cancelled."))
+                return False
+        
+        self.logger.log("cyan", _("Starting AUR package build..."))
         
         # Create branch and push if in a Git repository
         new_branch = ""

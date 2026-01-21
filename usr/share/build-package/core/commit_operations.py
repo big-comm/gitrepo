@@ -32,9 +32,18 @@ def commit_and_push_v2(build_package_instance):
     # Get mode configuration
     mode_config = bp.settings.get_mode_config()
     operation_mode = bp.settings.get("operation_mode", "safe")
+    
+    # Detect if running in GUI mode (GTKMenuSystem doesn't have terminal menus)
+    is_gui_mode = hasattr(bp.menu, '__class__') and 'GTK' in bp.menu.__class__.__name__
+    
+    # In GUI mode, force automatic behavior to avoid blocking menus
+    if is_gui_mode:
+        mode_config["auto_switch_branches"] = True
+        mode_config["auto_pull"] = True
+        mode_config["show_preview"] = False  # Don't show CLI preview
 
-    # Create operation plan (Quick for expert, normal for others)
-    if operation_mode == "expert":
+    # Create operation plan (Quick for expert/GUI, normal for others)
+    if operation_mode == "expert" or is_gui_mode:
         plan = QuickPlan(bp.logger, bp.menu)
     else:
         dry_run = getattr(bp, 'dry_run_mode', False)

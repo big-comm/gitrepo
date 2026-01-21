@@ -27,7 +27,7 @@ class BuildPackageApplication(Adw.Application):
     
     def __init__(self):
         super().__init__(
-            application_id='org.bigcommunity.buildpackage',
+            application_id='org.bigcommunity.gitrepo',
             flags=Gio.ApplicationFlags.DEFAULT_FLAGS
         )
         
@@ -58,6 +58,18 @@ class BuildPackageApplication(Adw.Application):
         shortcuts_action.connect("activate", self.on_shortcuts_activated)
         self.add_action(shortcuts_action)
         self.set_accels_for_action("app.shortcuts", ["<Ctrl>question"])
+        
+        # Refresh action
+        refresh_action = Gio.SimpleAction.new("refresh", None)
+        refresh_action.connect("activate", self.on_refresh_activated)
+        self.add_action(refresh_action)
+        self.set_accels_for_action("app.refresh", ["<Ctrl>R", "F5"])
+        
+        # Welcome action
+        welcome_action = Gio.SimpleAction.new("welcome", None)
+        welcome_action.connect("activate", self.on_welcome_activated)
+        self.add_action(welcome_action)
+        self.set_accels_for_action("app.welcome", ["F1"])
     
     def do_activate(self):
         """Called when the application is activated"""
@@ -147,6 +159,16 @@ class BuildPackageApplication(Adw.Application):
             if self.main_window:
                 self.main_window.show_info_toast(_("Settings not available"))
     
+    def on_refresh_activated(self, action, param):
+        """Handle refresh action"""
+        if self.main_window and hasattr(self.main_window, 'refresh_all_widgets'):
+            self.main_window.refresh_all_widgets()
+    
+    def on_welcome_activated(self, action, param):
+        """Handle welcome action"""
+        if self.main_window and hasattr(self.main_window, 'show_welcome_dialog'):
+            self.main_window.show_welcome_dialog()
+    
     def on_shortcuts_activated(self, action, param):
         """Show keyboard shortcuts window"""
         shortcuts_window = Gtk.ShortcutsWindow(
@@ -162,8 +184,8 @@ class BuildPackageApplication(Adw.Application):
             (_("Quit"), "<Ctrl>Q"),
             (_("Preferences"), "<Ctrl>comma"),
             (_("Keyboard Shortcuts"), "<Ctrl>question"),
-            (_("Refresh Status"), "F5"),
-            (_("Pull Latest Changes"), "<Ctrl>P")
+            (_("Refresh Status"), "<Ctrl>R"),
+            (_("Welcome Screen"), "F1"),
         ]
         
         group = Gtk.ShortcutsGroup(visible=True)

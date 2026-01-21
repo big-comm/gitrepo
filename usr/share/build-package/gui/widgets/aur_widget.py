@@ -91,33 +91,6 @@ class AURWidget(Gtk.Box):
         
         self.append(options_group)
         
-        # Recent packages (placeholder for future)
-        recent_group = Adw.PreferencesGroup()
-        recent_group.set_title(_("Quick Access"))
-        
-        # Popular AUR packages as examples
-        examples = [
-            ("yay", _("AUR helper written in Go")),
-            ("visual-studio-code-bin", _("Visual Studio Code editor")),
-            ("google-chrome", _("Google Chrome browser")),
-            ("discord", _("Discord chat application"))
-        ]
-        
-        for pkg_name, description in examples:
-            row = Adw.ActionRow()
-            row.set_title(pkg_name)
-            row.set_subtitle(description)
-            row.set_activatable(True)
-            row.connect('activated', lambda r, name=pkg_name: self.set_package_name(name))
-            
-            # Add icon
-            icon = Gtk.Image.new_from_icon_name("package-x-generic-symbolic")
-            row.add_prefix(icon)
-            
-            recent_group.add(row)
-        
-        self.append(recent_group)
-        
         # Build summary
         self.summary_group = Adw.PreferencesGroup()
         self.summary_group.set_title(_("Build Summary"))
@@ -245,14 +218,54 @@ class AURWidget(Gtk.Box):
         # Update timestamp display
         self.timestamp_row.set_subtitle(branch_name)
         
-        # Create confirmation dialog
+        # Create confirmation dialog with better formatting
         dialog = Adw.MessageDialog.new(
             self.get_root(),
             _("Confirm AUR Build"),
-            _("Build AUR package '{0}'?\n\nThis will:\n• Create branch: {1}\n• Download from: https://aur.archlinux.org/{0}.git\n• Build package in BigCommunity infrastructure").format(
-                package_name, branch_name
-            )
+            ""
         )
+        
+        # Create custom content box for better layout
+        content_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        content_box.set_margin_start(12)
+        content_box.set_margin_end(12)
+        content_box.set_margin_top(6)
+        content_box.set_margin_bottom(6)
+        content_box.set_size_request(450, -1)  # Force minimum width
+        
+        # Package name header
+        pkg_label = Gtk.Label()
+        pkg_label.set_markup(_("<b>Package:</b> {0}").format(package_name))
+        pkg_label.set_halign(Gtk.Align.START)
+        content_box.append(pkg_label)
+        
+        # Separator
+        separator = Gtk.Separator()
+        content_box.append(separator)
+        
+        # Details section
+        details_label = Gtk.Label()
+        details_label.set_text(_("This will:"))
+        details_label.set_halign(Gtk.Align.START)
+        details_label.add_css_class("dim-label")
+        content_box.append(details_label)
+        
+        # Action items
+        actions = [
+            _("• Create branch: {0}").format(branch_name),
+            _("• Download from: https://aur.archlinux.org/{0}.git").format(package_name),
+            _("• Build package in BigCommunity infrastructure")
+        ]
+        
+        for action in actions:
+            action_label = Gtk.Label()
+            action_label.set_text(action)
+            action_label.set_halign(Gtk.Align.START)
+            action_label.set_wrap(True)
+            action_label.set_xalign(0)
+            content_box.append(action_label)
+        
+        dialog.set_extra_child(content_box)
         
         dialog.add_response("cancel", _("Cancel"))
         dialog.add_response("build", _("Build Package"))

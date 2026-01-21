@@ -96,29 +96,47 @@ class PackageWidget(Gtk.Box):
         
         self.append(status_group)
         
-        # Package type selection
+        # Package type selection with radio buttons style
         package_type_group = Adw.PreferencesGroup()
-        package_type_group.set_title(_("Package Type"))
-        package_type_group.set_description(_("Select the repository type for package deployment"))
+        package_type_group.set_title(_("Target Repository"))
         
+        # Package types
+        self.package_types = [
+            ("testing", _("Testing"), _("Deploy to testing repo for beta users"), "system-software-update-symbolic"),
+            ("stable", _("Stable"), _("Deploy to stable repo for all users"), "emblem-ok-symbolic"),
+            ("extra", _("Extra"), _("Deploy to extra repo for additional packages"), "folder-new-symbolic")
+        ]
+        
+        # Use a ListBox for selection
         self.package_types_list = Gtk.ListBox()
         self.package_types_list.set_selection_mode(Gtk.SelectionMode.SINGLE)
         self.package_types_list.add_css_class("boxed-list")
         self.package_types_list.connect('row-selected', self.on_package_type_selected)
         
-        # Add package types
-        package_types = [
-            ("testing", _("Testing Repository"), _("Deploy to testing repo for beta users"), "applications-debugging-symbolic"),
-            ("stable", _("Stable Repository"), _("Deploy to stable repo for all users"), "emblem-ok-symbolic"),
-            ("extra", _("Extra Repository"), _("Deploy to extra repo for additional packages"), "folder-symbolic")
-        ]
-        
-        for pkg_type, title, description, icon in package_types:
-            row = PackageTypeRow(pkg_type, title, description, icon)
+        for pkg_type, title, description, icon_name in self.package_types:
+            row = Adw.ActionRow()
+            row.set_title(title)
+            row.set_subtitle(description)
+            row.set_activatable(True)
+            row.package_type = pkg_type
+            
+            # Add icon as prefix
+            icon = Gtk.Image.new_from_icon_name(icon_name)
+            row.add_prefix(icon)
+            
+            # Add checkmark (hidden by default)
+            check_icon = Gtk.Image.new_from_icon_name("emblem-ok-symbolic")
+            check_icon.set_visible(False)
+            check_icon.add_css_class("success")
+            row.check_icon = check_icon
+            row.add_suffix(check_icon)
+            
             self.package_types_list.append(row)
         
         package_type_group.add(self.package_types_list)
         self.append(package_type_group)
+        
+        # NOTE: seleção será feita após criar build_button em refresh_status
         
         # Commit message (conditional)
         self.commit_group = Adw.PreferencesGroup()
@@ -179,6 +197,17 @@ class PackageWidget(Gtk.Box):
         actions_box.append(self.build_button)
         
         self.append(actions_box)
+        
+        # Select testing by default (after all widgets created)
+        first_row = self.package_types_list.get_row_at_index(0)
+        if first_row:
+            # Set package type without triggering update_build_button_state
+            actual_row = first_row.get_child() if first_row.get_child() else first_row
+            if hasattr(actual_row, 'package_type'):
+                self.selected_package_type = actual_row.package_type
+            if hasattr(actual_row, 'check_icon'):
+                actual_row.check_icon.set_visible(True)
+            self.package_types_list.select_row(first_row)
     
     def refresh_status(self):
         """Refresh package and repository status"""
@@ -198,17 +227,28 @@ class PackageWidget(Gtk.Box):
         else:
             self.working_branch_row.set_subtitle(_("Unknown"))
         
+        # Clear previous state from changes_status_row
+        self.changes_status_row.remove_css_class("warning")
+        self.changes_status_row.remove_css_class("success")
+        # Remove previous suffix icons (clear all Image suffixes)
+        # Note: Adw.ActionRow doesn't have a clear_suffixes method,
+        # so we track the suffix ourselves
+        if hasattr(self, '_changes_suffix_icon') and self._changes_suffix_icon:
+            self.changes_status_row.remove(self._changes_suffix_icon)
+            self._changes_suffix_icon = None
+        
         # Changes status
         has_changes = GitUtils.has_changes()
         if has_changes:
             self.changes_status_row.set_subtitle(_("Uncommitted changes present"))
-            self.changes_status_row.add_suffix(Gtk.Image.new_from_icon_name("dialog-warning-symbolic"))
+            self._changes_suffix_icon = Gtk.Image.new_from_icon_name("dialog-warning-symbolic")
+            self.changes_status_row.add_suffix(self._changes_suffix_icon)
             self.changes_status_row.add_css_class("warning")
             self.commit_group.set_visible(True)
         else:
             self.changes_status_row.set_subtitle(_("Working directory clean"))
-            self.changes_status_row.add_suffix(Gtk.Image.new_from_icon_name("emblem-ok-symbolic"))
-            self.changes_status_row.remove_css_class("warning")
+            self._changes_suffix_icon = Gtk.Image.new_from_icon_name("emblem-ok-symbolic")
+            self.changes_status_row.add_suffix(self._changes_suffix_icon)
             self.changes_status_row.add_css_class("success")
             self.commit_group.set_visible(False)
         
@@ -216,8 +256,27 @@ class PackageWidget(Gtk.Box):
     
     def on_package_type_selected(self, list_box, row):
         """Handle package type selection"""
+        # Hide all checkmarks first
+        for i in range(3):  # 3 package types
+            child_row = self.package_types_list.get_row_at_index(i)
+            if child_row and hasattr(child_row.get_child(), 'check_icon'):
+                child_row.get_child().check_icon.set_visible(False)
+            elif child_row:
+                # Get the actual row from ListBoxRow
+                actual_row = child_row.get_child() if child_row.get_child() else child_row
+                if hasattr(actual_row, 'check_icon'):
+                    actual_row.check_icon.set_visible(False)
+        
         if row:
-            self.selected_package_type = row.package_type
+            # Show checkmark on selected
+            actual_row = row.get_child() if hasattr(row, 'get_child') and row.get_child() else row
+            if hasattr(actual_row, 'check_icon'):
+                actual_row.check_icon.set_visible(True)
+            if hasattr(actual_row, 'package_type'):
+                self.selected_package_type = actual_row.package_type
+            elif hasattr(row, 'package_type'):
+                self.selected_package_type = row.package_type
+            
             self.update_build_button_state()
             
             # Update build button text
