@@ -32,5 +32,5 @@ if [[ -n "$1" && -d "$1" ]]; then
     cd "$1" || exit 1
 fi
 
-# Run main_gui.py
-exec python3 "$GITREPO_DIR/gui/main_gui.py" "$@"
+# Run main_gui.py (don't pass args - cd already changed to target directory)
+exec python3 "$GITREPO_DIR/gui/main_gui.py"
