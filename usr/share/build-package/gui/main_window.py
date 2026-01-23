@@ -366,22 +366,190 @@ class MainWindow(Adw.ApplicationWindow):
         self.refresh_all_widgets()
     
     def on_commit_requested(self, widget, commit_message):
-        """Handle commit request from commit widget"""
+        """Handle commit request from commit widget - show branch confirmation first"""
+        current_branch = GitUtils.get_current_branch()
+        username = self.build_package.github_user_name or "unknown"
+        dev_branch = f"dev-{username}"
+        
+        # Store commit message for later use
+        self._pending_commit_message = commit_message
+        
+        # Check if on a protected branch
+        is_protected = current_branch in ["main", "master"]
+        
+        # Show confirmation dialog
+        self._show_commit_branch_dialog(current_branch, dev_branch, is_protected)
+    
+    def _show_commit_branch_dialog(self, current_branch, dev_branch, is_protected):
+        """Show dialog to confirm target branch for commit"""
+        dialog = Adw.MessageDialog(
+            transient_for=self,
+            modal=True
+        )
+        
+        if is_protected:
+            dialog.set_heading(_("⚠️ Commit to Protected Branch?"))
+            dialog.set_body(
+                _("You are about to commit directly to '{0}'.\n\n"
+                  "This is usually protected. Consider using your development branch instead.").format(current_branch)
+            )
+        else:
+            dialog.set_heading(_("Confirm Commit Branch"))
+            dialog.set_body(
+                _("Choose where to commit your changes:")
+            )
+        
+        # Visual content
+        wrapper = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+        wrapper.set_size_request(400, -1)
+        
+        content_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        content_box.set_margin_top(12)
+        content_box.set_margin_bottom(12)
+        content_box.set_margin_start(24)
+        content_box.set_margin_end(24)
+        
+        # Current branch info
+        current_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
+        current_box.set_halign(Gtk.Align.CENTER)
+        
+        icon_name = "dialog-warning-symbolic" if is_protected else "emblem-ok-symbolic"
+        icon = Gtk.Image.new_from_icon_name(icon_name)
+        icon.set_pixel_size(32)
+        if is_protected:
+            icon.add_css_class("warning")
+        else:
+            icon.add_css_class("success")
+        current_box.append(icon)
+        
+        branch_label = Gtk.Label()
+        if is_protected:
+            branch_label.set_markup(_("<b>Current:</b> <span foreground='#FF6B6B'>{0}</span>").format(current_branch))
+        else:
+            branch_label.set_markup(_("<b>Current:</b> <span foreground='#00CED1'>{0}</span>").format(current_branch))
+        current_box.append(branch_label)
+        
+        content_box.append(current_box)
+        
+        # Dev branch suggestion
+        if current_branch != dev_branch:
+            suggestion_label = Gtk.Label()
+            suggestion_label.set_markup(_("<span foreground='#888888'>Your dev branch:</span> <span foreground='#32CD32'>{0}</span>").format(dev_branch))
+            suggestion_label.set_margin_top(8)
+            content_box.append(suggestion_label)
+        
+        wrapper.append(content_box)
+        dialog.set_extra_child(wrapper)
+        
+        # Responses
+        dialog.add_response("cancel", _("Cancel"))
+        
+        if current_branch != dev_branch:
+            dialog.add_response("dev", _("Use {0}").format(dev_branch))
+            dialog.set_response_appearance("dev", Adw.ResponseAppearance.SUGGESTED)
+        
+        if is_protected:
+            dialog.add_response("current", _("Commit to {0} anyway").format(current_branch))
+            dialog.set_response_appearance("current", Adw.ResponseAppearance.DESTRUCTIVE)
+        else:
+            dialog.add_response("current", _("Commit to {0}").format(current_branch))
+            if current_branch == dev_branch:
+                dialog.set_response_appearance("current", Adw.ResponseAppearance.SUGGESTED)
+        
+        dialog.set_default_response("dev" if current_branch != dev_branch else "current")
+        dialog.set_close_response("cancel")
+        
+        dialog.connect("response", self._on_commit_branch_response, current_branch, dev_branch)
+        dialog.present()
+    
+    def _on_commit_branch_response(self, dialog, response, current_branch, dev_branch):
+        """Handle commit branch dialog response"""
+        if response == "cancel":
+            self._pending_commit_message = None
+            return
+        
+        target_branch = dev_branch if response == "dev" else current_branch
+        
+        # If we need to switch branches first
+        if target_branch != current_branch:
+            self._switch_then_commit(target_branch, self._pending_commit_message)
+        else:
+            self._do_commit(self._pending_commit_message, target_branch)
+        
+        self._pending_commit_message = None
+    
+    def _switch_then_commit(self, target_branch, commit_message):
+        """Switch to target branch then commit"""
+        import subprocess
+        
+        # Check for changes to stash
+        has_changes = GitUtils.has_changes()
+        
+        def switch_and_commit():
+            stashed = False
+            
+            try:
+                # Stash if needed
+                if has_changes:
+                    stash_result = subprocess.run(
+                        ["git", "stash", "push", "-u", "-m", f"auto-stash-commit-to-{target_branch}"],
+                        capture_output=True, text=True, check=False
+                    )
+                    stashed = stash_result.returncode == 0
+                
+                # Switch branch
+                subprocess.run(["git", "checkout", target_branch], check=True, capture_output=True)
+                
+                # Restore stash
+                if stashed:
+                    subprocess.run(["git", "stash", "pop"], capture_output=True, check=False)
+                
+                # Now do the commit
+                return self._execute_commit(commit_message)
+                
+            except subprocess.CalledProcessError as e:
+                if stashed:
+                    subprocess.run(["git", "stash", "pop"], capture_output=True, check=False)
+                raise e
+        
+        self.operation_runner.run_with_progress(
+            switch_and_commit,
+            _("Switching & Committing"),
+            _("Switching to {0} and committing...").format(target_branch)
+        )
+    
+    def _do_commit(self, commit_message, target_branch):
+        """Execute commit on current branch"""
         def commit_operation():
-            # Import V2 operation
-            from core.commit_operations import commit_and_push_v2
-
-            # Set commit message in args
-            self.build_package.args.commit = commit_message
-
-            # Use V2 operation with intelligent conflict handling
-            return commit_and_push_v2(self.build_package)
-
+            return self._execute_commit(commit_message)
+        
         self.operation_runner.run_with_progress(
             commit_operation,
             _("Committing Changes"),
-            _("Committing and pushing changes to repository...")
+            _("Committing to {0}...").format(target_branch)
         )
+    
+    def _execute_commit(self, commit_message):
+        """Execute the actual git commit and push"""
+        import subprocess
+        
+        # Stage all changes
+        subprocess.run(["git", "add", "-A"], check=True, capture_output=True)
+        
+        # Commit
+        subprocess.run(
+            ["git", "commit", "-m", commit_message],
+            check=True, capture_output=True
+        )
+        
+        # Push
+        current_branch = GitUtils.get_current_branch()
+        subprocess.run(
+            ["git", "push", "-u", "origin", current_branch],
+            check=True, capture_output=True
+        )
+        
+        return True
     
     def on_pull_requested(self, widget):
         """Handle pull request"""
@@ -452,41 +620,230 @@ class MainWindow(Adw.ApplicationWindow):
         )
     
     def on_branch_selected(self, widget, branch_name):
-        """Handle branch selection - switch to selected branch silently"""
+        """Handle branch selection - switch to selected branch intelligently"""
         current_branch = GitUtils.get_current_branch()
         
         # Don't switch if already on this branch
         if branch_name == current_branch:
-            return  # Silently ignore - no need to show toast
+            return  # Silently ignore
         
-        # Switch branch silently without progress dialog
+        # Check for local changes
+        has_changes = GitUtils.has_changes()
+        
+        if has_changes:
+            # Show confirmation dialog with options
+            self._show_branch_switch_dialog(branch_name, current_branch)
+        else:
+            # No changes, switch directly
+            self._do_branch_switch(branch_name, stash_first=False)
+    
+    def _show_branch_switch_dialog(self, target_branch, current_branch):
+        """Show dialog asking what to do with local changes"""
+        dialog = Adw.MessageDialog(
+            transient_for=self,
+            modal=True
+        )
+        dialog.set_heading(_("Uncommitted Changes Detected"))
+        dialog.set_body(
+            _("You have uncommitted changes. Choose how to proceed:")
+        )
+        
+        # Add visual content with icon and branch info - wrapper for min width
+        wrapper = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+        wrapper.set_size_request(420, -1)  # Force minimum width
+        
+        content_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=20)
+        content_box.set_margin_top(16)
+        content_box.set_margin_bottom(16)
+        content_box.set_margin_start(32)
+        content_box.set_margin_end(32)
+        content_box.set_halign(Gtk.Align.CENTER)
+        
+        # Warning icon
+        icon = Gtk.Image.new_from_icon_name("dialog-warning-symbolic")
+        icon.set_pixel_size(56)
+        icon.add_css_class("warning")
+        content_box.append(icon)
+        
+        # Branch info
+        info_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
+        info_box.set_valign(Gtk.Align.CENTER)
+        
+        from_label = Gtk.Label()
+        from_label.set_markup(_("<b>Current:</b>  <span foreground='#FFA500'>{0}</span>").format(current_branch))
+        from_label.set_halign(Gtk.Align.START)
+        info_box.append(from_label)
+        
+        to_label = Gtk.Label()
+        to_label.set_markup(_("<b>Switch to:</b>  <span foreground='#00CED1'>{0}</span>").format(target_branch))
+        to_label.set_halign(Gtk.Align.START)
+        info_box.append(to_label)
+        
+        content_box.append(info_box)
+        wrapper.append(content_box)
+        dialog.set_extra_child(wrapper)
+        
+        # Responses
+        dialog.add_response("cancel", _("Cancel"))
+        dialog.add_response("discard", _("Discard & Switch"))
+        dialog.add_response("stash", _("Stash & Switch"))
+        
+        dialog.set_response_appearance("stash", Adw.ResponseAppearance.SUGGESTED)
+        dialog.set_response_appearance("discard", Adw.ResponseAppearance.DESTRUCTIVE)
+        dialog.set_default_response("stash")
+        dialog.set_close_response("cancel")
+        
+        dialog.connect("response", self._on_branch_switch_response, target_branch)
+        dialog.present()
+    
+    def _on_branch_switch_response(self, dialog, response, target_branch):
+        """Handle branch switch dialog response"""
+        if response == "stash":
+            self._do_branch_switch(target_branch, stash_first=True)
+        elif response == "discard":
+            self._do_branch_switch(target_branch, discard_first=True)
+        # Cancel does nothing
+    
+    def _do_branch_switch(self, target_branch, stash_first=False, discard_first=False):
+        """Perform the actual branch switch with optional stash/discard"""
         import subprocess
+        
+        stashed = False
+        
         try:
-            subprocess.run(
-                ["git", "checkout", branch_name], 
-                check=True, 
-                capture_output=True,
-                text=True
+            # Step 1: Handle local changes if needed
+            if discard_first:
+                subprocess.run(["git", "checkout", "--", "."], check=True, capture_output=True)
+                subprocess.run(["git", "clean", "-fd"], check=True, capture_output=True)
+            elif stash_first:
+                stash_result = subprocess.run(
+                    ["git", "stash", "push", "-u", "-m", f"auto-stash-before-switch-to-{target_branch}"],
+                    capture_output=True, text=True, check=False
+                )
+                if stash_result.returncode != 0:
+                    self.show_error_toast(_("Failed to stash changes"))
+                    return
+                stashed = True
+            
+            # Step 2: Switch branch
+            checkout_result = subprocess.run(
+                ["git", "checkout", target_branch],
+                capture_output=True, text=True, check=False
             )
-            self.show_toast(_("Switched to branch: {0}").format(branch_name))
-            # Refresh branch widget to update visual selection
+            
+            if checkout_result.returncode != 0:
+                error_msg = checkout_result.stderr.strip()
+                self.show_error_toast(_("Failed to switch: {0}").format(error_msg))
+                # Restore stash if we stashed
+                if stashed:
+                    subprocess.run(["git", "stash", "pop"], capture_output=True, check=False)
+                return
+            
+            # Step 3: Restore stash if we stashed
+            if stashed:
+                pop_result = subprocess.run(
+                    ["git", "stash", "pop"],
+                    capture_output=True, text=True, check=False
+                )
+                if pop_result.returncode != 0:
+                    if "CONFLICT" in pop_result.stdout or "CONFLICT" in pop_result.stderr:
+                        self.show_info_toast(_("Switched to {0}. Conflicts detected - resolve manually.").format(target_branch))
+                    else:
+                        self.show_info_toast(_("Switched to {0}. Check 'git stash list' for your changes.").format(target_branch))
+                else:
+                    self.show_toast(_("Switched to {0} with your changes restored.").format(target_branch))
+            else:
+                self.show_toast(_("Switched to branch: {0}").format(target_branch))
+            
+            # Step 4: Refresh UI
             if hasattr(self, 'branch_widget'):
                 self.branch_widget.refresh_branches()
+            self.refresh_all_widgets()
+            
         except subprocess.CalledProcessError as e:
-            error_msg = e.stderr.strip() if e.stderr else str(e)
-            self.show_error_toast(_("Failed to switch branch: {0}").format(error_msg))
+            self.show_error_toast(_("Error switching branch: {0}").format(str(e)))
     
-    def on_merge_requested(self, widget, source_branch, target_branch):
-        """Handle merge request"""
+    def on_merge_requested(self, widget, source_branch, target_branch, auto_merge):
+        """Handle merge request - create PR with optional auto-merge"""
+        # Show confirmation dialog first
+        self._show_merge_confirmation(source_branch, target_branch, auto_merge)
+    
+    def _show_merge_confirmation(self, source_branch, target_branch, auto_merge):
+        """Show merge confirmation dialog"""
+        dialog = Adw.MessageDialog(
+            transient_for=self,
+            modal=True
+        )
+        
+        dialog.set_heading(_("Confirm Pull Request"))
+        dialog.set_body(_("Create a Pull Request to merge changes?"))
+        
+        # Visual content
+        wrapper = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+        wrapper.set_size_request(420, -1)
+        
+        content_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        content_box.set_margin_top(16)
+        content_box.set_margin_bottom(16)
+        content_box.set_margin_start(24)
+        content_box.set_margin_end(24)
+        
+        # Branch flow visualization
+        flow_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
+        flow_box.set_halign(Gtk.Align.CENTER)
+        
+        source_label = Gtk.Label()
+        source_label.set_markup(_("<span foreground='#FFA500'><b>{0}</b></span>").format(source_branch))
+        flow_box.append(source_label)
+        
+        arrow = Gtk.Image.new_from_icon_name("go-next-symbolic")
+        arrow.set_pixel_size(24)
+        flow_box.append(arrow)
+        
+        target_label = Gtk.Label()
+        target_label.set_markup(_("<span foreground='#32CD32'><b>{0}</b></span>").format(target_branch))
+        flow_box.append(target_label)
+        
+        content_box.append(flow_box)
+        
+        # Auto-merge status
+        merge_status = Gtk.Label()
+        if auto_merge:
+            merge_status.set_markup(_("<span foreground='#00CED1'>✓ Auto-merge enabled</span>"))
+        else:
+            merge_status.set_markup(_("<span foreground='#888888'>Manual approval required</span>"))
+        merge_status.set_margin_top(8)
+        content_box.append(merge_status)
+        
+        wrapper.append(content_box)
+        dialog.set_extra_child(wrapper)
+        
+        # Responses
+        dialog.add_response("cancel", _("Cancel"))
+        dialog.add_response("create", _("Create PR"))
+        
+        dialog.set_response_appearance("create", Adw.ResponseAppearance.SUGGESTED)
+        dialog.set_default_response("create")
+        dialog.set_close_response("cancel")
+        
+        dialog.connect("response", self._on_merge_confirm_response, source_branch, target_branch, auto_merge)
+        dialog.present()
+    
+    def _on_merge_confirm_response(self, dialog, response, source_branch, target_branch, auto_merge):
+        """Handle merge confirmation response"""
+        if response != "create":
+            return
+        
         def merge_operation():
             return self.build_package.github_api.create_pull_request(
-                source_branch, target_branch, True, self.build_package.logger
+                source_branch, target_branch, auto_merge, self.build_package.logger
             )
         
+        merge_type = _("Auto-merge") if auto_merge else _("Manual")
         self.operation_runner.run_with_progress(
             merge_operation,
-            _("Creating Merge Request"),
-            _("Creating merge request: {0} → {1}").format(source_branch, target_branch)
+            _("Creating Pull Request"),
+            _("{0}: {1} → {2}").format(merge_type, source_branch, target_branch)
         )
     
     def on_branch_cleanup_requested(self, widget):

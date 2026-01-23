@@ -32,10 +32,15 @@ class GTKMenu:
         dialog = Adw.MessageDialog.new(
             self.main_window,
             title,
-            additional_content if additional_content else ""
+            additional_content if additional_content else _("Select an option:")
         )
         
-        # Add options as responses
+        # Force minimum width for better readability
+        content_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+        content_box.set_size_request(500, -1)  # Minimum width of 500px
+        dialog.set_extra_child(content_box)
+        
+        # Add options as responses with smart styling
         for i, option in enumerate(options):
             response_id = f"option_{i}"
             dialog.add_response(response_id, option)
@@ -44,19 +49,24 @@ class GTKMenu:
             if i == default_index:
                 dialog.set_default_response(response_id)
             
-            # Style special options
-            if _("Exit") in option or _("Back") in option:
+            # Smart styling based on option content
+            option_lower = option.lower() if hasattr(option, 'lower') else ""
+            
+            # Destructive actions (red) - cancel, back, exit, voltar, cancelar, sair
+            if any(word in option_lower for word in ["cancel", "back", "exit", "voltar", "cancelar", "sair"]):
                 dialog.set_response_appearance(response_id, Adw.ResponseAppearance.DESTRUCTIVE)
-            elif "AUR" in option:
+            
+            # Suggested actions (blue) - switch, my branch, pull, minha, mudar, baixar, atualizar
+            elif any(word in option_lower for word in ["switch", "my branch", "minha", "mudar", "atualizar"]):
                 dialog.set_response_appearance(response_id, Adw.ResponseAppearance.SUGGESTED)
-        
-        # Add cancel option
-        dialog.add_response("cancel", _("Cancel"))
-        dialog.set_response_appearance("cancel", Adw.ResponseAppearance.DEFAULT)
+            
+            # AUR actions (blue)
+            elif "aur" in option_lower:
+                dialog.set_response_appearance(response_id, Adw.ResponseAppearance.SUGGESTED)
         
         # Connect response handler
         def on_response(dialog, response_id):
-            if response_id == "cancel":
+            if response_id == "close":
                 self.selected_option = None
             elif response_id.startswith("option_"):
                 try:

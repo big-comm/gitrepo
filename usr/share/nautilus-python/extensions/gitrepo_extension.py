@@ -62,19 +62,20 @@ class GitRepoExtension(GObject.GObject, Nautilus.MenuProvider):
         if not folder_path:
             return []
         
-        # Check if it's a Git repository
-        git_folder = Path(folder_path) / '.git'
-        if not git_folder.exists():
+        # Check if it's inside a Git repository (search up directory tree)
+        git_root = self._find_git_root(folder_path)
+        if not git_root:
             return []
         
-        # It's a Git repository - show the menu
+        # It's inside a Git repository - show the menu
         label = _('Open in GitRepo')
         menu_item = Nautilus.MenuItem(
             name='GitRepo::Open',
             label=label,
             tip=_('Manage this Git repository with GitRepo')
         )
-        menu_item.connect('activate', self._launch_application, [file_info])
+        # Pass the git root as the path to open
+        menu_item.connect('activate', self._launch_application_path, git_root)
         return [menu_item]
 
     def get_background_items(self, *args):
@@ -92,9 +93,9 @@ class GitRepoExtension(GObject.GObject, Nautilus.MenuProvider):
         if not folder_path:
             return []
         
-        # Check if current folder is a Git repository
-        git_folder = Path(folder_path) / '.git'
-        if not git_folder.exists():
+        # Check if current folder is inside a Git repository
+        git_root = self._find_git_root(folder_path)
+        if not git_root:
             return []
         
         label = _('Open in GitRepo')
@@ -103,7 +104,8 @@ class GitRepoExtension(GObject.GObject, Nautilus.MenuProvider):
             label=label,
             tip=_('Manage this Git repository with GitRepo')
         )
-        menu_item.connect('activate', self._launch_application, [current_folder])
+        # Pass the git root as the path to open
+        menu_item.connect('activate', self._launch_application_path, git_root)
         return [menu_item]
 
     def _get_file_path(self, file_info) -> str | None:
@@ -114,6 +116,60 @@ class GitRepoExtension(GObject.GObject, Nautilus.MenuProvider):
         if not uri or not uri.startswith('file://'):
             return None
         return unquote(uri[7:])
+
+    def _find_git_root(self, folder_path: str) -> str | None:
+        """
+        Finds the root of a Git repository by searching up the directory tree.
+        Returns the path to the Git root directory, or None if not in a repo.
+        """
+        current = Path(folder_path).resolve()
+        
+        # Search up to root
+        while current != current.parent:
+            if (current / '.git').exists():
+                return str(current)
+            current = current.parent
+        
+        # Check root as well
+        if (current / '.git').exists():
+            return str(current)
+        
+        return None
+
+    def _launch_application_path(self, menu_item, file_path: str):
+        """
+        Launches the GitRepo application with the given path directly.
+        """
+        if not file_path or not Path(file_path).exists():
+            self._show_notification(
+                _("Error"),
+                _("Could not get the path for the selected folder.")
+            )
+            return
+
+        try:
+            cmd = [self.app_executable, file_path]
+            print(f"GitRepo Extension: Launching command: {cmd}")
+
+            subprocess.Popen(
+                cmd,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                start_new_session=True
+            )
+
+        except FileNotFoundError:
+            print(f"GitRepo Extension: Executable not found: {self.app_executable}")
+            self._show_notification(
+                _("Application Not Found"),
+                _("Could not find GitRepo. Is it installed?")
+            )
+        except Exception as e:
+            print(f"GitRepo Extension: Error launching: {e}")
+            self._show_notification(
+                _("Launch Error"),
+                str(e)
+            )
 
     def _launch_application(self, menu_item, files):
         """

@@ -19,19 +19,33 @@ else
     done
 fi
 
-# Check if target directory is a Git repository (when called from context menu)
+# Check if target directory is inside a Git repository (when called from context menu)
 if [[ -n "$1" && -d "$1" ]]; then
-    if [[ ! -d "$1/.git" ]]; then
-        # Not a Git repository - show notification and exit
+    TARGET_DIR="$1"
+    
+    # Find git root by searching up the directory tree
+    GIT_ROOT=""
+    CHECK_DIR="$TARGET_DIR"
+    while [[ "$CHECK_DIR" != "/" ]]; do
+        if [[ -d "$CHECK_DIR/.git" ]]; then
+            GIT_ROOT="$CHECK_DIR"
+            break
+        fi
+        CHECK_DIR="$(dirname "$CHECK_DIR")"
+    done
+    
+    if [[ -z "$GIT_ROOT" ]]; then
+        # Not inside a Git repository - show notification and exit
         if command -v notify-send &> /dev/null; then
             notify-send --app-name="GitRepo" --icon="dialog-warning" \
                 "Not a Git Repository" \
-                "The selected folder is not a Git repository: $1"
+                "The selected folder is not inside a Git repository: $TARGET_DIR"
         fi
         exit 1
     fi
-    # Change to target directory
-    cd "$1" || exit 1
+    
+    # Change to git root directory
+    cd "$GIT_ROOT" || exit 1
 fi
 
 # Run main_gui.py (don't pass args - cd already changed to target directory)
