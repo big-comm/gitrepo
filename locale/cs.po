@@ -2846,36 +2846,39 @@ msgstr "neznámý"
 msgid "PULL REQUEST COMPLETED SUCCESSFULLY!"
 msgstr "ŽÁDOST O PULL BYLA ÚSPĚŠNĚ DOKONČENA!"
 # 
-# File: usr/share/build-package/core/github_api.py, line: 752
+# File: usr/share/build-package/core/github_api.py, line: 874
 #: NEEDS WORK
 #, python-brace-format
-msgid "PR #{0} created and processed"
-msgstr "PR #{0} vytvořen a zpracován"
+msgid "PR #{0} created"
+msgstr "PR #{0} vytvořen"
 # 
-# File: usr/share/build-package/core/github_api.py, line: 758
+# File: usr/share/build-package/core/github_api.py, line: 875
 #: NEEDS WORK
-msgid "SUCCESS"
-msgstr "ÚSPĚCH"
+#, python-brace-format
+msgid "Flow: {0} → {1}"
+msgstr "Tok: {0} → {1}"
 # 
-# File: usr/share/build-package/core/github_api.py, line: 759
+# File: usr/share/build-package/core/github_api.py, line: 878
 #: NEEDS WORK
-msgid "Code automatically merged to target branch"
-msgstr "Kód byl automaticky sloučen do cílové větve"
+msgid "Auto-merge: SUCCESS"
+msgstr "Automatické sloučení: ÚSPĚCH"
 # 
-# File: usr/share/build-package/core/github_api.py, line: 760
+# File: usr/share/build-package/core/github_api.py, line: 879
 #: NEEDS WORK
-msgid "Merge SHA"
-msgstr "Sloučit SHA"
+#, python-brace-format
+msgid "Merge SHA: {0}"
+msgstr "Sloučit SHA: {0}"
 # 
 # File: usr/share/build-package/core/github_api.py, line: 764
 #: NEEDS WORK
 msgid "Manual merge required"
 msgstr "Ruční sloučení vyžadováno"
 # 
-# File: usr/share/build-package/core/github_api.py, line: 776
+# File: usr/share/build-package/core/github_api.py, line: 882
 #: NEEDS WORK
-msgid "PULL REQUEST COMPLETED"
-msgstr "ŽÁDOST O PULL BYLA DOKONČENA"
+#, python-brace-format
+msgid "URL: {0}"
+msgstr "URL: {0}"
 # 
 # File: usr/share/build-package/core/github_api.py, line: 814
 #: NEEDS WORK
@@ -4547,15 +4550,90 @@ msgstr "Nezavedené změny"
 msgid "Clean working tree"
 msgstr "Čistý pracovní strom"
 # 
+# File: usr/share/build-package/gui/main_window.py, line: 391
+#: NEEDS WORK
+msgid "⚠️ Commit to Protected Branch?"
+msgstr "⚠️ Závazek k chráněné větvi?"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 393
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"You are about to commit directly to '{0}'.\n"
+"\n"
+"This is usually protected. Consider using your development branch instead."
+msgstr ""
+"Chystáte se provést commit přímo do '{0}'.\n"
+"\n"
+"Toto je obvykle chráněno. Zvažte použití vaší vývojové větve místo toho."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 397
+#: NEEDS WORK
+msgid "Confirm Commit Branch"
+msgstr "Potvrdit větvičku commitu"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 399
+#: NEEDS WORK
+msgid "Choose where to commit your changes:"
+msgstr "Vyberte místo, kam chcete uložit své změny:"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 427
+#: NEEDS WORK
+#, python-brace-format
+msgid "<b>Current:</b> <span foreground='#FF6B6B'>{0}</span>"
+msgstr "<b>Aktuální:</b> <span foreground='#FF6B6B'>{0}</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 429
+#: NEEDS WORK
+#, python-brace-format
+msgid "<b>Current:</b> <span foreground='#00CED1'>{0}</span>"
+msgstr "<b>Aktuální:</b> <span foreground='#00CED1'>{0}</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 437
+#: NEEDS WORK
+#, python-brace-format
+msgid "<span foreground='#888888'>Your dev branch:</span> <span foreground='#32CD32'>{0}</span>"
+msgstr "<span foreground='#888888'>Vaše vývojová větev:</span> <span foreground='#32CD32'>{0}</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 448
+#: NEEDS WORK
+#, python-brace-format
+msgid "Use {0}"
+msgstr "Použijte {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 452
+#: NEEDS WORK
+#, python-brace-format
+msgid "Commit to {0} anyway"
+msgstr "Přesto potvrdit {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 455
+#: NEEDS WORK
+#, python-brace-format
+msgid "Commit to {0}"
+msgstr "Zavázat se k {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 517
+#: NEEDS WORK
+msgid "Switching & Committing"
+msgstr "Přepínání a potvrzování"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 518
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switching to {0} and committing..."
+msgstr "Přepínání na {0} a potvrzování..."
+# 
 # File: usr/share/build-package/gui/main_window.py, line: 277
 #: NEEDS WORK
 msgid "Committing Changes"
 msgstr "Zavádění změn"
 # 
-# File: usr/share/build-package/gui/main_window.py, line: 278
+# File: usr/share/build-package/gui/main_window.py, line: 529
 #: NEEDS WORK
-msgid "Committing and pushing changes to repository..."
-msgstr "Zavazování a odesílání změn do repozitáře..."
+#, python-brace-format
+msgid "Committing to {0}..."
+msgstr "Zavazování k {0}..."
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 288
 #: NEEDS WORK
@@ -4600,28 +4678,126 @@ msgstr "Sestavení AUR balíčku"
 msgid "Building AUR package: {0}"
 msgstr "Sestavení AUR balíčku: {0}"
 # 
+# File: usr/share/build-package/gui/main_window.py, line: 646
+#: NEEDS WORK
+msgid "Uncommitted Changes Detected"
+msgstr "Zjištěny neuložené změny"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 648
+#: NEEDS WORK
+msgid "You have uncommitted changes. Choose how to proceed:"
+msgstr "Máte neuložené změny. Zvolte, jak pokračovat:"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 673
+#: NEEDS WORK
+#, python-brace-format
+msgid "<b>Current:</b>  <span foreground='#FFA500'>{0}</span>"
+msgstr "<b>Aktuální:</b>  <span foreground='#FFA500'>{0}</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 678
+#: NEEDS WORK
+#, python-brace-format
+msgid "<b>Switch to:</b>  <span foreground='#00CED1'>{0}</span>"
+msgstr "<b>Přepnout na:</b>  <span foreground='#00CED1'>{0}</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 688
+#: NEEDS WORK
+msgid "Discard & Switch"
+msgstr "Zrušit a přepnout"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 689
+#: NEEDS WORK
+msgid "Stash & Switch"
+msgstr "Stash a přepnout"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 724
+#: NEEDS WORK
+msgid "Failed to stash changes"
+msgstr "Nepodařilo se uložit změny"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 736
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to switch: {0}"
+msgstr "Nepodařilo se přepnout: {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 750
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to {0}. Conflicts detected - resolve manually."
+msgstr "Přepnuto na {0}. Zjištěny konflikty - vyřešte ručně."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 752
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to {0}. Check 'git stash list' for your changes."
+msgstr "Přepnuto na {0}. Zkontrolujte 'git stash list' pro vaše změny."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 754
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to {0} with your changes restored."
+msgstr "Přepnuto na {0} s obnovenými změnami."
+# 
 # File: usr/share/build-package/gui/main_window.py, line: 471
 #: NEEDS WORK
 #, python-brace-format
 msgid "Switched to branch: {0}"
 msgstr "Přepnuto na větev: {0}"
 # 
-# File: usr/share/build-package/gui/main_window.py, line: 477
+# File: usr/share/build-package/gui/main_window.py, line: 764
 #: NEEDS WORK
 #, python-brace-format
-msgid "Failed to switch branch: {0}"
-msgstr "Nepodařilo se přepnout větev: {0}"
+msgid "Error switching branch: {0}"
+msgstr "Chyba při přepínání větve: {0}"
 # 
-# File: usr/share/build-package/gui/main_window.py, line: 345
+# File: usr/share/build-package/gui/main_window.py, line: 778
 #: NEEDS WORK
-msgid "Creating Merge Request"
-msgstr "Vytváření žádosti o sloučení"
+msgid "Confirm Pull Request"
+msgstr "Potvrdit žádost o sloučení"
 # 
-# File: usr/share/build-package/gui/main_window.py, line: 346
+# File: usr/share/build-package/gui/main_window.py, line: 779
+#: NEEDS WORK
+msgid "Create a Pull Request to merge changes?"
+msgstr "Vytvořit žádost o sloučení pro sloučení změn?"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 796
 #: NEEDS WORK
 #, python-brace-format
-msgid "Creating merge request: {0} → {1}"
-msgstr "Vytváření žádosti o sloučení: {0} → {1}"
+msgid "<span foreground='#FFA500'><b>{0}</b></span>"
+msgstr "<span foreground='#FFA500'><b>{0}</b></span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 804
+#: NEEDS WORK
+#, python-brace-format
+msgid "<span foreground='#32CD32'><b>{0}</b></span>"
+msgstr "<span foreground='#32CD32'><b>{0}</b></span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 812
+#: NEEDS WORK
+msgid "<span foreground='#00CED1'>✓ Auto-merge enabled</span>"
+msgstr "<span foreground='#00CED1'>✓ Automatické sloučení povoleno</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 814
+#: NEEDS WORK
+msgid "<span foreground='#888888'>Manual approval required</span>"
+msgstr "<span foreground='#888888'>Ruční schválení vyžadováno</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 823
+#: NEEDS WORK
+msgid "Create PR"
+msgstr "Vytvořit PR"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 845
+#: NEEDS WORK
+msgid "Creating Pull Request"
+msgstr "Vytváření pull requestu"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 846
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0}: {1} → {2}"
+msgstr "{0}: {1} → {2}"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 360
 #: NEEDS WORK
@@ -4689,6 +4865,11 @@ msgstr "Nepodařilo se stáhnout změny"
 msgid "Operation failed: {0}"
 msgstr "Operace selhala: {0}"
 # 
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 75
+#: NEEDS WORK
+msgid "Select an option:"
+msgstr "Vyberte možnost:"
+# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/build-package/gui/gtk_menu.py, line: 97
@@ -4719,10 +4900,20 @@ msgid ""
 "\n"
 msgstr "Nalezeno {0} konfliktujících souborů:"
 # 
-# File: usr/share/build-package/gui/gtk_adapters.py, line: 75
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 115
 #: NEEDS WORK
-msgid "Select an option:"
-msgstr "Vyberte možnost:"
+msgid "Branch Switch Required"
+msgstr "Přepnutí větve vyžadováno"
+# 
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 130
+#: NEEDS WORK
+msgid "You are on"
+msgstr "Jste na"
+# 
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 131
+#: NEEDS WORK
+msgid "Your branch is"
+msgstr "Vaše větev je"
 # 
 # File: usr/share/build-package/gui/gtk_logger.py, line: 107
 #: NEEDS WORK
@@ -5069,6 +5260,11 @@ msgstr "Načíst nejnovější změny z vzdáleného úložiště"
 msgid "Uncommitted changes present"
 msgstr "Nezavedené změny jsou přítomny"
 # 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 191
+#: NEEDS WORK
+msgid "You have uncommitted changes that need to be committed"
+msgstr "Máte neuložené změny, které je třeba uložit."
+# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 160
@@ -5076,6 +5272,11 @@ msgstr "Nezavedené změny jsou přítomny"
 #: NEEDS WORK
 msgid "Working directory clean"
 msgstr "Pracovní adresář je čistý"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 197
+#: NEEDS WORK
+msgid "No pending changes - working directory is clean"
+msgstr "Žádné nevyřízené změny - pracovní adresář je čistý"
 # 
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 184
 #: NEEDS WORK

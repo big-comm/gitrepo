@@ -2836,36 +2836,39 @@ msgstr "未知"
 msgid "PULL REQUEST COMPLETED SUCCESSFULLY!"
 msgstr "拉取请求已成功完成！"
 # 
-# File: usr/share/build-package/github_api.py, line: 752
+# File: usr/share/build-package/core/github_api.py, line: 874
 #: NEEDS WORK
 #, python-brace-format
-msgid "PR #{0} created and processed"
-msgstr "PR #{0} 已创建并处理"
+msgid "PR #{0} created"
+msgstr "PR #{0} 已创建"
 # 
-# File: usr/share/build-package/github_api.py, line: 758
+# File: usr/share/build-package/core/github_api.py, line: 875
 #: NEEDS WORK
-msgid "SUCCESS"
-msgstr "成功"
+#, python-brace-format
+msgid "Flow: {0} → {1}"
+msgstr "流程: {0} → {1}"
 # 
-# File: usr/share/build-package/github_api.py, line: 759
+# File: usr/share/build-package/core/github_api.py, line: 878
 #: NEEDS WORK
-msgid "Code automatically merged to target branch"
-msgstr "代码自动合并到目标分支"
+msgid "Auto-merge: SUCCESS"
+msgstr "自动合并：成功"
 # 
-# File: usr/share/build-package/github_api.py, line: 760
+# File: usr/share/build-package/core/github_api.py, line: 879
 #: NEEDS WORK
-msgid "Merge SHA"
-msgstr "合并 SHA"
+#, python-brace-format
+msgid "Merge SHA: {0}"
+msgstr "合并 SHA: {0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 764
 #: NEEDS WORK
 msgid "Manual merge required"
 msgstr "需要手动合并"
 # 
-# File: usr/share/build-package/github_api.py, line: 776
+# File: usr/share/build-package/core/github_api.py, line: 882
 #: NEEDS WORK
-msgid "PULL REQUEST COMPLETED"
-msgstr "拉取请求已完成"
+#, python-brace-format
+msgid "URL: {0}"
+msgstr "网址：{0}"
 # 
 # File: usr/share/build-package/core/github_api.py, line: 814
 #: NEEDS WORK
@@ -4534,15 +4537,90 @@ msgstr "未提交的更改"
 msgid "Clean working tree"
 msgstr "清理工作区"
 # 
+# File: usr/share/build-package/gui/main_window.py, line: 391
+#: NEEDS WORK
+msgid "⚠️ Commit to Protected Branch?"
+msgstr "⚠️ 提交到受保护的分支吗？"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 393
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"You are about to commit directly to '{0}'.\n"
+"\n"
+"This is usually protected. Consider using your development branch instead."
+msgstr ""
+"您即将直接提交到 '{0}'。\n"
+"\n"
+"这通常是受保护的。请考虑使用您的开发分支。"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 397
+#: NEEDS WORK
+msgid "Confirm Commit Branch"
+msgstr "确认提交分支"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 399
+#: NEEDS WORK
+msgid "Choose where to commit your changes:"
+msgstr "选择提交更改的位置："
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 427
+#: NEEDS WORK
+#, python-brace-format
+msgid "<b>Current:</b> <span foreground='#FF6B6B'>{0}</span>"
+msgstr "<b>当前:</b> <span foreground='#FF6B6B'>{0}</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 429
+#: NEEDS WORK
+#, python-brace-format
+msgid "<b>Current:</b> <span foreground='#00CED1'>{0}</span>"
+msgstr "<b>当前:</b> <span foreground='#00CED1'>{0}</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 437
+#: NEEDS WORK
+#, python-brace-format
+msgid "<span foreground='#888888'>Your dev branch:</span> <span foreground='#32CD32'>{0}</span>"
+msgstr "<span foreground='#888888'>您的开发分支：</span> <span foreground='#32CD32'>{0}</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 448
+#: NEEDS WORK
+#, python-brace-format
+msgid "Use {0}"
+msgstr "使用 {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 452
+#: NEEDS WORK
+#, python-brace-format
+msgid "Commit to {0} anyway"
+msgstr "无论如何提交到 {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 455
+#: NEEDS WORK
+#, python-brace-format
+msgid "Commit to {0}"
+msgstr "提交到 {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 517
+#: NEEDS WORK
+msgid "Switching & Committing"
+msgstr "切换与提交"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 518
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switching to {0} and committing..."
+msgstr "切换到 {0} 并提交..."
+# 
 # File: usr/share/build-package/gui/main_window.py, line: 277
 #: NEEDS WORK
 msgid "Committing Changes"
 msgstr "提交更改"
 # 
-# File: usr/share/build-package/gui/main_window.py, line: 278
+# File: usr/share/build-package/gui/main_window.py, line: 529
 #: NEEDS WORK
-msgid "Committing and pushing changes to repository..."
-msgstr "提交并推送更改到仓库..."
+#, python-brace-format
+msgid "Committing to {0}..."
+msgstr "正在提交到 {0}..."
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 288
 #: NEEDS WORK
@@ -4587,28 +4665,126 @@ msgstr "构建 AUR 包"
 msgid "Building AUR package: {0}"
 msgstr "构建 AUR 包：{0}"
 # 
+# File: usr/share/build-package/gui/main_window.py, line: 646
+#: NEEDS WORK
+msgid "Uncommitted Changes Detected"
+msgstr "检测到未提交的更改"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 648
+#: NEEDS WORK
+msgid "You have uncommitted changes. Choose how to proceed:"
+msgstr "您有未提交的更改。请选择如何继续："
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 673
+#: NEEDS WORK
+#, python-brace-format
+msgid "<b>Current:</b>  <span foreground='#FFA500'>{0}</span>"
+msgstr "<b>当前:</b>  <span foreground='#FFA500'>{0}</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 678
+#: NEEDS WORK
+#, python-brace-format
+msgid "<b>Switch to:</b>  <span foreground='#00CED1'>{0}</span>"
+msgstr "<b>切换到：</b>  <span foreground='#00CED1'>{0}</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 688
+#: NEEDS WORK
+msgid "Discard & Switch"
+msgstr "放弃并切换"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 689
+#: NEEDS WORK
+msgid "Stash & Switch"
+msgstr "存储与切换"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 724
+#: NEEDS WORK
+msgid "Failed to stash changes"
+msgstr "未能暂存更改"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 736
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to switch: {0}"
+msgstr "切换失败：{0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 750
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to {0}. Conflicts detected - resolve manually."
+msgstr "切换到 {0}。检测到冲突 - 请手动解决。"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 752
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to {0}. Check 'git stash list' for your changes."
+msgstr "切换到 {0}。检查 'git stash list' 以查看您的更改。"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 754
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to {0} with your changes restored."
+msgstr "已切换到 {0}，并恢复了您的更改。"
+# 
 # File: usr/share/build-package/gui/main_window.py, line: 471
 #: NEEDS WORK
 #, python-brace-format
 msgid "Switched to branch: {0}"
 msgstr "切换到分支：{0}"
 # 
-# File: usr/share/build-package/gui/main_window.py, line: 477
+# File: usr/share/build-package/gui/main_window.py, line: 764
 #: NEEDS WORK
 #, python-brace-format
-msgid "Failed to switch branch: {0}"
-msgstr "切换分支失败：{0}"
+msgid "Error switching branch: {0}"
+msgstr "切换分支时出错：{0}"
 # 
-# File: usr/share/build-package/gui/main_window.py, line: 345
+# File: usr/share/build-package/gui/main_window.py, line: 778
 #: NEEDS WORK
-msgid "Creating Merge Request"
-msgstr "创建合并请求"
+msgid "Confirm Pull Request"
+msgstr "确认拉取请求"
 # 
-# File: usr/share/build-package/gui/main_window.py, line: 346
+# File: usr/share/build-package/gui/main_window.py, line: 779
+#: NEEDS WORK
+msgid "Create a Pull Request to merge changes?"
+msgstr "创建拉取请求以合并更改？"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 796
 #: NEEDS WORK
 #, python-brace-format
-msgid "Creating merge request: {0} → {1}"
-msgstr "创建合并请求：{0} → {1}"
+msgid "<span foreground='#FFA500'><b>{0}</b></span>"
+msgstr "<span foreground='#FFA500'><b>{0}</b></span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 804
+#: NEEDS WORK
+#, python-brace-format
+msgid "<span foreground='#32CD32'><b>{0}</b></span>"
+msgstr "<span foreground='#32CD32'><b>{0}</b></span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 812
+#: NEEDS WORK
+msgid "<span foreground='#00CED1'>✓ Auto-merge enabled</span>"
+msgstr "<span foreground='#00CED1'>✓ 自动合并已启用</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 814
+#: NEEDS WORK
+msgid "<span foreground='#888888'>Manual approval required</span>"
+msgstr "<span foreground='#888888'>需要手动审批</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 823
+#: NEEDS WORK
+msgid "Create PR"
+msgstr "创建 PR"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 845
+#: NEEDS WORK
+msgid "Creating Pull Request"
+msgstr "创建拉取请求"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 846
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0}: {1} → {2}"
+msgstr "{0}: {1} → {2}"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 360
 #: NEEDS WORK
@@ -4676,6 +4852,11 @@ msgstr "拉取更改失败"
 msgid "Operation failed: {0}"
 msgstr "操作失败：{0}"
 # 
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 75
+#: NEEDS WORK
+msgid "Select an option:"
+msgstr "选择一个选项："
+# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/build-package/gui/gtk_menu.py, line: 97
@@ -4706,10 +4887,20 @@ msgid ""
 "\n"
 msgstr "找到 {0} 个冲突文件："
 # 
-# File: usr/share/build-package/gui/gtk_adapters.py, line: 75
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 115
 #: NEEDS WORK
-msgid "Select an option:"
-msgstr "选择一个选项："
+msgid "Branch Switch Required"
+msgstr "分支切换必需"
+# 
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 130
+#: NEEDS WORK
+msgid "You are on"
+msgstr "您已开启"
+# 
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 131
+#: NEEDS WORK
+msgid "Your branch is"
+msgstr "您的分支是"
 # 
 # File: usr/share/build-package/gui/gtk_logger.py, line: 107
 #: NEEDS WORK
@@ -5056,6 +5247,11 @@ msgstr "从远程拉取最新更改"
 msgid "Uncommitted changes present"
 msgstr "存在未提交的更改"
 # 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 191
+#: NEEDS WORK
+msgid "You have uncommitted changes that need to be committed"
+msgstr "您有未提交的更改需要提交。"
+# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 160
@@ -5063,6 +5259,11 @@ msgstr "存在未提交的更改"
 #: NEEDS WORK
 msgid "Working directory clean"
 msgstr "工作目录干净"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 197
+#: NEEDS WORK
+msgid "No pending changes - working directory is clean"
+msgstr "没有待处理的更改 - 工作目录是干净的"
 # 
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 184
 #: NEEDS WORK

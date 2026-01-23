@@ -2837,36 +2837,39 @@ msgstr "לא ידוע"
 msgid "PULL REQUEST COMPLETED SUCCESSFULLY!"
 msgstr "בקשת משיכה הושלמה בהצלחה!"
 # 
-# File: usr/share/build-package/github_api.py, line: 752
+# File: usr/share/build-package/core/github_api.py, line: 874
 #: NEEDS WORK
 #, python-brace-format
-msgid "PR #{0} created and processed"
-msgstr "PR #{0} נוצר ועובד"
+msgid "PR #{0} created"
+msgstr "בקשת משיכה #{0} נוצרה"
 # 
-# File: usr/share/build-package/github_api.py, line: 758
+# File: usr/share/build-package/core/github_api.py, line: 875
 #: NEEDS WORK
-msgid "SUCCESS"
-msgstr "הצלחה"
+#, python-brace-format
+msgid "Flow: {0} → {1}"
+msgstr "זרימה: {0} → {1}"
 # 
-# File: usr/share/build-package/github_api.py, line: 759
+# File: usr/share/build-package/core/github_api.py, line: 878
 #: NEEDS WORK
-msgid "Code automatically merged to target branch"
-msgstr "הקוד מוזג אוטומטית לענף היעד"
+msgid "Auto-merge: SUCCESS"
+msgstr "איחוד אוטומטי: הצלחה"
 # 
-# File: usr/share/build-package/github_api.py, line: 760
+# File: usr/share/build-package/core/github_api.py, line: 879
 #: NEEDS WORK
-msgid "Merge SHA"
-msgstr "מיזוג SHA"
+#, python-brace-format
+msgid "Merge SHA: {0}"
+msgstr "מיזוג SHA: {0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 764
 #: NEEDS WORK
 msgid "Manual merge required"
 msgstr "דרושה מיזוג ידני"
 # 
-# File: usr/share/build-package/github_api.py, line: 776
+# File: usr/share/build-package/core/github_api.py, line: 882
 #: NEEDS WORK
-msgid "PULL REQUEST COMPLETED"
-msgstr "בקשת משיכה הושלמה"
+#, python-brace-format
+msgid "URL: {0}"
+msgstr "כתובת אתר: {0}"
 # 
 # File: usr/share/build-package/core/github_api.py, line: 814
 #: NEEDS WORK
@@ -4537,15 +4540,90 @@ msgstr "שינויים לא מחויבים"
 msgid "Clean working tree"
 msgstr "עץ עבודה נקי"
 # 
+# File: usr/share/build-package/gui/main_window.py, line: 391
+#: NEEDS WORK
+msgid "⚠️ Commit to Protected Branch?"
+msgstr "⚠️ האם להתחייב לסניף המוגן?"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 393
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"You are about to commit directly to '{0}'.\n"
+"\n"
+"This is usually protected. Consider using your development branch instead."
+msgstr ""
+"אתה עומד לבצע התחייבות ישירה ל- '{0}'.\n"
+"\n"
+"זה בדרך כלל מוגן. שקול להשתמש בענף הפיתוח שלך במקום."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 397
+#: NEEDS WORK
+msgid "Confirm Commit Branch"
+msgstr "אשר את הענף של המחויבות"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 399
+#: NEEDS WORK
+msgid "Choose where to commit your changes:"
+msgstr "בחר היכן לבצע את השינויים שלך:"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 427
+#: NEEDS WORK
+#, python-brace-format
+msgid "<b>Current:</b> <span foreground='#FF6B6B'>{0}</span>"
+msgstr "<b>נוכחי:</b> <span foreground='#FF6B6B'>{0}</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 429
+#: NEEDS WORK
+#, python-brace-format
+msgid "<b>Current:</b> <span foreground='#00CED1'>{0}</span>"
+msgstr "<b>נוכחי:</b> <span foreground='#00CED1'>{0}</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 437
+#: NEEDS WORK
+#, python-brace-format
+msgid "<span foreground='#888888'>Your dev branch:</span> <span foreground='#32CD32'>{0}</span>"
+msgstr "<span foreground='#888888'>ענף הפיתוח שלך:</span> <span foreground='#32CD32'>{0}</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 448
+#: NEEDS WORK
+#, python-brace-format
+msgid "Use {0}"
+msgstr "השתמש ב-{0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 452
+#: NEEDS WORK
+#, python-brace-format
+msgid "Commit to {0} anyway"
+msgstr "בצע התחייבות ל-{0} בכל מקרה"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 455
+#: NEEDS WORK
+#, python-brace-format
+msgid "Commit to {0}"
+msgstr "מחויב ל-{0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 517
+#: NEEDS WORK
+msgid "Switching & Committing"
+msgstr "מעבר ומחויבות"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 518
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switching to {0} and committing..."
+msgstr "מעבר ל-{0} ומחויב..."
+# 
 # File: usr/share/build-package/gui/main_window.py, line: 277
 #: NEEDS WORK
 msgid "Committing Changes"
 msgstr "מחויבת שינויים"
 # 
-# File: usr/share/build-package/gui/main_window.py, line: 278
+# File: usr/share/build-package/gui/main_window.py, line: 529
 #: NEEDS WORK
-msgid "Committing and pushing changes to repository..."
-msgstr "מחייב ודוחף שינויים למאגר..."
+#, python-brace-format
+msgid "Committing to {0}..."
+msgstr "מתחייב ל-{0}..."
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 288
 #: NEEDS WORK
@@ -4590,28 +4668,126 @@ msgstr "בנייה של חבילת AUR"
 msgid "Building AUR package: {0}"
 msgstr "בנייה של חבילת AUR: {0}"
 # 
+# File: usr/share/build-package/gui/main_window.py, line: 646
+#: NEEDS WORK
+msgid "Uncommitted Changes Detected"
+msgstr "שינויים לא מחויבים זוהו"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 648
+#: NEEDS WORK
+msgid "You have uncommitted changes. Choose how to proceed:"
+msgstr "יש לך שינויים שלא הוקלטו. בחר כיצד להמשיך:"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 673
+#: NEEDS WORK
+#, python-brace-format
+msgid "<b>Current:</b>  <span foreground='#FFA500'>{0}</span>"
+msgstr "<b>נוכחי:</b>  <span foreground='#FFA500'>{0}</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 678
+#: NEEDS WORK
+#, python-brace-format
+msgid "<b>Switch to:</b>  <span foreground='#00CED1'>{0}</span>"
+msgstr "<b>מעבר ל:</b>  <span foreground='#00CED1'>{0}</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 688
+#: NEEDS WORK
+msgid "Discard & Switch"
+msgstr "לְהַשְׁלִיךְ וּלְהַעֲבִיר"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 689
+#: NEEDS WORK
+msgid "Stash & Switch"
+msgstr "אחסן ומתג"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 724
+#: NEEDS WORK
+msgid "Failed to stash changes"
+msgstr "נכשל בשמירת שינויים"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 736
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to switch: {0}"
+msgstr "נכשל במעבר: {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 750
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to {0}. Conflicts detected - resolve manually."
+msgstr "עברו ל-{0}. זוהו קונפליקטים - יש לפתור ידנית."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 752
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to {0}. Check 'git stash list' for your changes."
+msgstr "עברו ל-{0}. בדוק 'git stash list' עבור השינויים שלך."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 754
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to {0} with your changes restored."
+msgstr "עברתי ל-{0} עם השינויים שלך ששוחזרו."
+# 
 # File: usr/share/build-package/gui/main_window.py, line: 471
 #: NEEDS WORK
 #, python-brace-format
 msgid "Switched to branch: {0}"
 msgstr "עברו לענף: {0}"
 # 
-# File: usr/share/build-package/gui/main_window.py, line: 477
+# File: usr/share/build-package/gui/main_window.py, line: 764
 #: NEEDS WORK
 #, python-brace-format
-msgid "Failed to switch branch: {0}"
-msgstr "נכשל במעבר לענף: {0}"
+msgid "Error switching branch: {0}"
+msgstr "שגיאה במעבר בין סניפים: {0}"
 # 
-# File: usr/share/build-package/gui/main_window.py, line: 345
+# File: usr/share/build-package/gui/main_window.py, line: 778
 #: NEEDS WORK
-msgid "Creating Merge Request"
-msgstr "יצירת בקשת מיזוג"
+msgid "Confirm Pull Request"
+msgstr "אשר בקשת משיכה"
 # 
-# File: usr/share/build-package/gui/main_window.py, line: 346
+# File: usr/share/build-package/gui/main_window.py, line: 779
+#: NEEDS WORK
+msgid "Create a Pull Request to merge changes?"
+msgstr "צור בקשת משיכה למיזוג שינויים?"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 796
 #: NEEDS WORK
 #, python-brace-format
-msgid "Creating merge request: {0} → {1}"
-msgstr "יצירת בקשת מיזוג: {0} → {1}"
+msgid "<span foreground='#FFA500'><b>{0}</b></span>"
+msgstr "<span foreground='#FFA500'><b>{0}</b></span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 804
+#: NEEDS WORK
+#, python-brace-format
+msgid "<span foreground='#32CD32'><b>{0}</b></span>"
+msgstr "<span foreground='#32CD32'><b>{0}</b></span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 812
+#: NEEDS WORK
+msgid "<span foreground='#00CED1'>✓ Auto-merge enabled</span>"
+msgstr "<span foreground='#00CED1'>✓ מיזוג אוטומטי מופעל</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 814
+#: NEEDS WORK
+msgid "<span foreground='#888888'>Manual approval required</span>"
+msgstr "<span foreground='#888888'>דרוש אישור ידני</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 823
+#: NEEDS WORK
+msgid "Create PR"
+msgstr "צור PR"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 845
+#: NEEDS WORK
+msgid "Creating Pull Request"
+msgstr "יצירת בקשת משיכה"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 846
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0}: {1} → {2}"
+msgstr "{0}: {1} → {2}"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 360
 #: NEEDS WORK
@@ -4679,6 +4855,11 @@ msgstr "נכשל למשוך שינויים"
 msgid "Operation failed: {0}"
 msgstr "הפעולה נכשלה: {0}"
 # 
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 75
+#: NEEDS WORK
+msgid "Select an option:"
+msgstr "בחר אפשרות:"
+# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/build-package/gui/gtk_menu.py, line: 97
@@ -4709,10 +4890,20 @@ msgid ""
 "\n"
 msgstr "נמצאו {0} קבצים עם קונפליקט:"
 # 
-# File: usr/share/build-package/gui/gtk_adapters.py, line: 75
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 115
 #: NEEDS WORK
-msgid "Select an option:"
-msgstr "בחר אפשרות:"
+msgid "Branch Switch Required"
+msgstr "דרוש מתג סניף"
+# 
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 130
+#: NEEDS WORK
+msgid "You are on"
+msgstr "אתה מחובר"
+# 
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 131
+#: NEEDS WORK
+msgid "Your branch is"
+msgstr "הסניף שלך הוא"
 # 
 # File: usr/share/build-package/gui/gtk_logger.py, line: 107
 #: NEEDS WORK
@@ -5059,6 +5250,11 @@ msgstr "משוך שינויים אחרונים מהמרוחק"
 msgid "Uncommitted changes present"
 msgstr "שינויים לא מחויבים קיימים"
 # 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 191
+#: NEEDS WORK
+msgid "You have uncommitted changes that need to be committed"
+msgstr "יש לך שינויים שלא הוקלטו שצריכים להיות מוקלטים"
+# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 160
@@ -5066,6 +5262,11 @@ msgstr "שינויים לא מחויבים קיימים"
 #: NEEDS WORK
 msgid "Working directory clean"
 msgstr "תיקייה פעילה נקייה"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 197
+#: NEEDS WORK
+msgid "No pending changes - working directory is clean"
+msgstr "אין שינויים ממתינים - תיק העבודה נקי"
 # 
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 184
 #: NEEDS WORK

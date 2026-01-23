@@ -2841,36 +2841,39 @@ msgstr "óþekkt"
 msgid "PULL REQUEST COMPLETED SUCCESSFULLY!"
 msgstr "PULL BEiðNI LOKIÐ ÁFANGSLAUST!"
 # 
-# File: usr/share/build-package/github_api.py, line: 752
+# File: usr/share/build-package/core/github_api.py, line: 874
 #: NEEDS WORK
 #, python-brace-format
-msgid "PR #{0} created and processed"
-msgstr "PR #{0} búin til og unnin"
+msgid "PR #{0} created"
+msgstr "PR #{0} búin til"
 # 
-# File: usr/share/build-package/github_api.py, line: 758
+# File: usr/share/build-package/core/github_api.py, line: 875
 #: NEEDS WORK
-msgid "SUCCESS"
-msgstr "SUKKUR"
+#, python-brace-format
+msgid "Flow: {0} → {1}"
+msgstr "Flæði: {0} → {1}"
 # 
-# File: usr/share/build-package/github_api.py, line: 759
+# File: usr/share/build-package/core/github_api.py, line: 878
 #: NEEDS WORK
-msgid "Code automatically merged to target branch"
-msgstr "Kóði sjálfkrafa sameinaður við markgrein"
+msgid "Auto-merge: SUCCESS"
+msgstr "Sjálfvirk sameining: SUCCESS"
 # 
-# File: usr/share/build-package/github_api.py, line: 760
+# File: usr/share/build-package/core/github_api.py, line: 879
 #: NEEDS WORK
-msgid "Merge SHA"
-msgstr "Sameina SHA"
+#, python-brace-format
+msgid "Merge SHA: {0}"
+msgstr "Samskeyti SHA: {0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 764
 #: NEEDS WORK
 msgid "Manual merge required"
 msgstr "Handvirk samruni nauðsynlegur"
 # 
-# File: usr/share/build-package/github_api.py, line: 776
+# File: usr/share/build-package/core/github_api.py, line: 882
 #: NEEDS WORK
-msgid "PULL REQUEST COMPLETED"
-msgstr "PULL BEiðNI LOKIÐ"
+#, python-brace-format
+msgid "URL: {0}"
+msgstr "Vefslóð: {0}"
 # 
 # File: usr/share/build-package/core/github_api.py, line: 814
 #: NEEDS WORK
@@ -4541,15 +4544,90 @@ msgstr "Óskráð breytingar"
 msgid "Clean working tree"
 msgstr "Hreinsað vinnusvæði"
 # 
+# File: usr/share/build-package/gui/main_window.py, line: 391
+#: NEEDS WORK
+msgid "⚠️ Commit to Protected Branch?"
+msgstr "⚠️ Skila í verndaða grein?"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 393
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"You are about to commit directly to '{0}'.\n"
+"\n"
+"This is usually protected. Consider using your development branch instead."
+msgstr ""
+"Þú ert að fara að skuldbinda beint við '{0}'.\n"
+"\n"
+"Þetta er venjulega varið. Íhugaðu að nota þróunargreinina þína í staðinn."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 397
+#: NEEDS WORK
+msgid "Confirm Commit Branch"
+msgstr "Staðfesta skuldbindingargrein"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 399
+#: NEEDS WORK
+msgid "Choose where to commit your changes:"
+msgstr "Veldu hvar á að skuldbinda breytingarnar þínar:"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 427
+#: NEEDS WORK
+#, python-brace-format
+msgid "<b>Current:</b> <span foreground='#FF6B6B'>{0}</span>"
+msgstr "<b>Núverandi:</b> <span foreground='#FF6B6B'>{0}</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 429
+#: NEEDS WORK
+#, python-brace-format
+msgid "<b>Current:</b> <span foreground='#00CED1'>{0}</span>"
+msgstr "<b>Núverandi:</b> <span foreground='#00CED1'>{0}</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 437
+#: NEEDS WORK
+#, python-brace-format
+msgid "<span foreground='#888888'>Your dev branch:</span> <span foreground='#32CD32'>{0}</span>"
+msgstr "<span foreground='#888888'>Þín þróunargrein:</span> <span foreground='#32CD32'>{0}</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 448
+#: NEEDS WORK
+#, python-brace-format
+msgid "Use {0}"
+msgstr "Notaðu {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 452
+#: NEEDS WORK
+#, python-brace-format
+msgid "Commit to {0} anyway"
+msgstr "Skráðu {0} samt sem áður"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 455
+#: NEEDS WORK
+#, python-brace-format
+msgid "Commit to {0}"
+msgstr "Skila til {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 517
+#: NEEDS WORK
+msgid "Switching & Committing"
+msgstr "Vekja & Skjarfing"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 518
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switching to {0} and committing..."
+msgstr "Breyting í {0} og skuldbinding..."
+# 
 # File: usr/share/build-package/gui/main_window.py, line: 277
 #: NEEDS WORK
 msgid "Committing Changes"
 msgstr "Skila breytingum"
 # 
-# File: usr/share/build-package/gui/main_window.py, line: 278
+# File: usr/share/build-package/gui/main_window.py, line: 529
 #: NEEDS WORK
-msgid "Committing and pushing changes to repository..."
-msgstr "Að skrá og ýta breytingum í geymslu..."
+#, python-brace-format
+msgid "Committing to {0}..."
+msgstr "Skrá í {0}..."
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 288
 #: NEEDS WORK
@@ -4594,28 +4672,126 @@ msgstr "Bygging AUR pakka"
 msgid "Building AUR package: {0}"
 msgstr "Bygging AUR pakka: {0}"
 # 
+# File: usr/share/build-package/gui/main_window.py, line: 646
+#: NEEDS WORK
+msgid "Uncommitted Changes Detected"
+msgstr "Óskráð breytingar greindar"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 648
+#: NEEDS WORK
+msgid "You have uncommitted changes. Choose how to proceed:"
+msgstr "Þú hefur óskráð breytingar. Veldu hvernig þú vilt halda áfram:"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 673
+#: NEEDS WORK
+#, python-brace-format
+msgid "<b>Current:</b>  <span foreground='#FFA500'>{0}</span>"
+msgstr "<b>Núverandi:</b>  <span foreground='#FFA500'>{0}</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 678
+#: NEEDS WORK
+#, python-brace-format
+msgid "<b>Switch to:</b>  <span foreground='#00CED1'>{0}</span>"
+msgstr "<b>Skipta í:</b>  <span foreground='#00CED1'>{0}</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 688
+#: NEEDS WORK
+msgid "Discard & Switch"
+msgstr "Henda & Skipta"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 689
+#: NEEDS WORK
+msgid "Stash & Switch"
+msgstr "Geymsla & Skipta"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 724
+#: NEEDS WORK
+msgid "Failed to stash changes"
+msgstr "Mistók að geyma breytingar"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 736
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to switch: {0}"
+msgstr "Ekki tókst að skipta: {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 750
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to {0}. Conflicts detected - resolve manually."
+msgstr "Vekja í {0}. Árekstrar greindir - leysið handvirkt."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 752
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to {0}. Check 'git stash list' for your changes."
+msgstr "Hægt að skipta yfir í {0}. Athugaðu 'git stash list' fyrir breytingarnar þínar."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 754
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to {0} with your changes restored."
+msgstr "Vann til {0} með breytingunum þínum endurheimt."
+# 
 # File: usr/share/build-package/gui/main_window.py, line: 471
 #: NEEDS WORK
 #, python-brace-format
 msgid "Switched to branch: {0}"
 msgstr "Breytt í grein: {0}"
 # 
-# File: usr/share/build-package/gui/main_window.py, line: 477
+# File: usr/share/build-package/gui/main_window.py, line: 764
 #: NEEDS WORK
 #, python-brace-format
-msgid "Failed to switch branch: {0}"
-msgstr "Ekki tókst að skipta um grein: {0}"
+msgid "Error switching branch: {0}"
+msgstr "Villa að skipta um grein: {0}"
 # 
-# File: usr/share/build-package/gui/main_window.py, line: 345
+# File: usr/share/build-package/gui/main_window.py, line: 778
 #: NEEDS WORK
-msgid "Creating Merge Request"
-msgstr "Að búa til sameiningarbeiðni"
+msgid "Confirm Pull Request"
+msgstr "Staðfesta draga beiðni"
 # 
-# File: usr/share/build-package/gui/main_window.py, line: 346
+# File: usr/share/build-package/gui/main_window.py, line: 779
+#: NEEDS WORK
+msgid "Create a Pull Request to merge changes?"
+msgstr "Búa til Pull Request til að sameina breytingar?"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 796
 #: NEEDS WORK
 #, python-brace-format
-msgid "Creating merge request: {0} → {1}"
-msgstr "Búa til sameiningarbeiðni: {0} → {1}"
+msgid "<span foreground='#FFA500'><b>{0}</b></span>"
+msgstr "<span foreground='#FFA500'><b>{0}</b></span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 804
+#: NEEDS WORK
+#, python-brace-format
+msgid "<span foreground='#32CD32'><b>{0}</b></span>"
+msgstr "<span foreground='#32CD32'><b>{0}</b></span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 812
+#: NEEDS WORK
+msgid "<span foreground='#00CED1'>✓ Auto-merge enabled</span>"
+msgstr "<span foreground='#00CED1'>✓ Sjálfvirk sameining virk</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 814
+#: NEEDS WORK
+msgid "<span foreground='#888888'>Manual approval required</span>"
+msgstr "<span foreground='#888888'>Handvirk samþykki krafist</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 823
+#: NEEDS WORK
+msgid "Create PR"
+msgstr "Búa til PR"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 845
+#: NEEDS WORK
+msgid "Creating Pull Request"
+msgstr "Búa til Póllbeiðni"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 846
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0}: {1} → {2}"
+msgstr "{0}: {1} → {2}"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 360
 #: NEEDS WORK
@@ -4683,6 +4859,11 @@ msgstr "Mistók að draga breytingar"
 msgid "Operation failed: {0}"
 msgstr "Aðgerð mistókst: {0}"
 # 
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 75
+#: NEEDS WORK
+msgid "Select an option:"
+msgstr "Veldu valkost:"
+# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/build-package/gui/gtk_menu.py, line: 97
@@ -4713,10 +4894,20 @@ msgid ""
 "\n"
 msgstr "Fundin {0} deilduð skrár:"
 # 
-# File: usr/share/build-package/gui/gtk_adapters.py, line: 75
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 115
 #: NEEDS WORK
-msgid "Select an option:"
-msgstr "Veldu valkost:"
+msgid "Branch Switch Required"
+msgstr "Greinaskipti krafist"
+# 
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 130
+#: NEEDS WORK
+msgid "You are on"
+msgstr "Þú ert á"
+# 
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 131
+#: NEEDS WORK
+msgid "Your branch is"
+msgstr "Þín grein er"
 # 
 # File: usr/share/build-package/gui/gtk_logger.py, line: 107
 #: NEEDS WORK
@@ -5063,6 +5254,11 @@ msgstr "Draga nýjustu breytingar frá fjarhýsli"
 msgid "Uncommitted changes present"
 msgstr "Óskilgreindar breytingar til staðar"
 # 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 191
+#: NEEDS WORK
+msgid "You have uncommitted changes that need to be committed"
+msgstr "Þú hefur óskráð breytingar sem þarf að skrá."
+# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 160
@@ -5070,6 +5266,11 @@ msgstr "Óskilgreindar breytingar til staðar"
 #: NEEDS WORK
 msgid "Working directory clean"
 msgstr "Vinnsluskrá hreinsaður"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 197
+#: NEEDS WORK
+msgid "No pending changes - working directory is clean"
+msgstr "Engin óbreytt - vinnuskrá er hreinn"
 # 
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 184
 #: NEEDS WORK
