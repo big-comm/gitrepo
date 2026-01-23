@@ -43,7 +43,7 @@ class BranchWidget(Gtk.Box):
     
     __gsignals__ = {
         'branch-selected': (GObject.SignalFlags.RUN_FIRST, None, (str,)),
-        'merge-requested': (GObject.SignalFlags.RUN_FIRST, None, (str, str)),
+        'merge-requested': (GObject.SignalFlags.RUN_FIRST, None, (str, str, bool)),  # source, target, auto_merge
         'cleanup-requested': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
     
@@ -311,4 +311,7 @@ class BranchWidget(Gtk.Box):
             # Show error - cannot merge branch into itself
             return
         
-        self.emit('merge-requested', source_branch, target_branch)
+        # Get auto-merge setting
+        auto_merge = self.auto_merge_row.get_active()
+        
+        self.emit('merge-requested', source_branch, target_branch, auto_merge)

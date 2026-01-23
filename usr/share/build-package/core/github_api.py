@@ -861,44 +861,26 @@ class GitHubAPI:
 
     def _show_pr_summary(self, pr_info: dict, source_branch: str, target_branch: str, auto_merge: bool, logger):
         """Show pull request operation summary"""
-        try:
-            from menu_system import MenuSystem
-            menu = MenuSystem(logger)
+        if not logger:
+            return
             
+        try:
             pr_number = pr_info.get('number', _('unknown'))
             pr_url = pr_info.get('html_url', '')
 
-            summary_lines = [
-                f"🎉 **{_('PULL REQUEST COMPLETED SUCCESSFULLY!')}**",
-                f"",
-                f"🔗 {_('PR #{0} created and processed').format(pr_number)}",
-                f"🌿 {source_branch} → {target_branch}",
-            ]
+            logger.log("green", "=" * 50)
+            logger.log("green", _("PULL REQUEST COMPLETED SUCCESSFULLY!"))
+            logger.log("green", "=" * 50)
+            logger.log("white", _("PR #{0} created").format(pr_number))
+            logger.log("white", _("Flow: {0} → {1}").format(source_branch, target_branch))
 
             if pr_info.get('auto_merged'):
-                summary_lines.extend([
-                    f"⚡ {_('Auto-merge')}: **{_('SUCCESS')}**",
-                    f"✅ {_('Code automatically merged to target branch')}",
-                    f"🎯 {_('Merge SHA')}: {pr_info.get('merge_sha', _('unknown'))[:7]}"
-                ])
+                logger.log("green", _("Auto-merge: SUCCESS"))
+                logger.log("green", _("Merge SHA: {0}").format(pr_info.get('merge_sha', _('unknown'))[:7]))
             else:
-                summary_lines.extend([
-                    f"⏳ {_('Manual merge required')}",
-                    f"🌐 {pr_url}"
-                ])
+                logger.log("yellow", _("Manual merge required"))
+                logger.log("cyan", _("URL: {0}").format(pr_url))
             
-            summary_lines.extend([
-                f"",
-                f"📋 **{_('Operation completed successfully!')}**"
-            ])
-            
-            summary_text = '\n'.join(summary_lines)
-            
-            menu.show_menu(
-                f"✅ {_('PULL REQUEST COMPLETED')}",
-                [_("Press Enter to return to menu")],
-                additional_content=summary_text
-            )
+            logger.log("green", "=" * 50)
         except Exception as e:
-            if logger:
-                logger.log("yellow", _("Could not show PR summary: {0}").format(e))
+            logger.log("yellow", _("Could not show PR summary: {0}").format(e))

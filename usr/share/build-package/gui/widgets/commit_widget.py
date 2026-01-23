@@ -178,28 +178,24 @@ class CommitWidget(Gtk.Box):
         # Clear previous state from changes_row
         self.changes_row.remove_css_class("warning")
         self.changes_row.remove_css_class("success")
-        # Remove all suffixes
-        while True:
-            suffix = self.changes_row.get_last_child()
-            if suffix and suffix.get_parent() == self.changes_row:
-                # Check if it's the suffix box (not part of ActionRow internal structure)
-                if isinstance(suffix, Gtk.Image):
-                    self.changes_row.remove(suffix)
-                else:
-                    break
-            else:
-                break
+        
+        # Remove previous suffix icon if exists
+        if hasattr(self, '_status_suffix_icon') and self._status_suffix_icon:
+            self.changes_row.remove(self._status_suffix_icon)
+            self._status_suffix_icon = None
         
         # Check for changes
         if GitUtils.has_changes():
             self.changes_row.set_subtitle(_("Uncommitted changes present"))
-            suffix_icon = Gtk.Image.new_from_icon_name("emblem-important-symbolic")
-            self.changes_row.add_suffix(suffix_icon)
+            self._status_suffix_icon = Gtk.Image.new_from_icon_name("emblem-important-symbolic")
+            self._status_suffix_icon.set_tooltip_text(_("You have uncommitted changes that need to be committed"))
+            self.changes_row.add_suffix(self._status_suffix_icon)
             self.changes_row.add_css_class("warning")
         else:
             self.changes_row.set_subtitle(_("Working directory clean"))
-            suffix_icon = Gtk.Image.new_from_icon_name("emblem-ok-symbolic")
-            self.changes_row.add_suffix(suffix_icon)
+            self._status_suffix_icon = Gtk.Image.new_from_icon_name("emblem-ok-symbolic")
+            self._status_suffix_icon.set_tooltip_text(_("No pending changes - working directory is clean"))
+            self.changes_row.add_suffix(self._status_suffix_icon)
             self.changes_row.add_css_class("success")
         
         # Current branch
