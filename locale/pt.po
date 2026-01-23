@@ -2841,36 +2841,39 @@ msgstr "desconhecido"
 msgid "PULL REQUEST COMPLETED SUCCESSFULLY!"
 msgstr "PULL REQUEST CONCLUÍDO COM SUCESSO!"
 # 
-# File: usr/share/build-package/github_api.py, line: 752
+# File: usr/share/build-package/core/github_api.py, line: 874
 #: NEEDS WORK
 #, python-brace-format
-msgid "PR #{0} created and processed"
-msgstr "PR #{0} criado e processado"
+msgid "PR #{0} created"
+msgstr "PR #{0} criado"
 # 
-# File: usr/share/build-package/github_api.py, line: 758
+# File: usr/share/build-package/core/github_api.py, line: 875
 #: NEEDS WORK
-msgid "SUCCESS"
-msgstr "SUCESSO"
+#, python-brace-format
+msgid "Flow: {0} → {1}"
+msgstr "Fluxo: {0} → {1}"
 # 
-# File: usr/share/build-package/github_api.py, line: 759
+# File: usr/share/build-package/core/github_api.py, line: 878
 #: NEEDS WORK
-msgid "Code automatically merged to target branch"
-msgstr "Código mesclado automaticamente para a ramificação de destino"
+msgid "Auto-merge: SUCCESS"
+msgstr "Mesclagem automática: SUCESSO"
 # 
-# File: usr/share/build-package/github_api.py, line: 760
+# File: usr/share/build-package/core/github_api.py, line: 879
 #: NEEDS WORK
-msgid "Merge SHA"
-msgstr "Mesclar SHA"
+#, python-brace-format
+msgid "Merge SHA: {0}"
+msgstr "Mesclar SHA: {0}"
 # 
 # File: usr/share/build-package/github_api.py, line: 764
 #: NEEDS WORK
 msgid "Manual merge required"
 msgstr "Mesclagem manual necessária"
 # 
-# File: usr/share/build-package/github_api.py, line: 776
+# File: usr/share/build-package/core/github_api.py, line: 882
 #: NEEDS WORK
-msgid "PULL REQUEST COMPLETED"
-msgstr "PULL REQUEST CONCLUÍDO"
+#, python-brace-format
+msgid "URL: {0}"
+msgstr "URL: {0}"
 # 
 # File: usr/share/build-package/core/github_api.py, line: 814
 #: NEEDS WORK
@@ -4544,15 +4547,92 @@ msgstr "Alterações não confirmadas"
 msgid "Clean working tree"
 msgstr "Árvore de trabalho limpa"
 # 
+# File: usr/share/build-package/gui/main_window.py, line: 391
+#: NEEDS WORK
+msgid "⚠️ Commit to Protected Branch?"
+msgstr "⚠️ Confirmar commit em branch protegida?"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 393
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"You are about to commit directly to '{0}'.\n"
+"\n"
+"This is usually protected. Consider using your development branch instead."
+msgstr ""
+"Você está prestes a fazer um commit diretamente em '{0}'.\n"
+"\n"
+"Isso geralmente é protegido. Considere usar sua branch de desenvolvimento em vez disso."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 397
+#: NEEDS WORK
+msgid "Confirm Commit Branch"
+msgstr "Confirmar Commit da Branch"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 399
+#: NEEDS WORK
+msgid "Choose where to commit your changes:"
+msgstr "Escolha onde commitar suas alterações:"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 427
+#: NEEDS WORK
+#, python-brace-format
+msgid "<b>Current:</b> <span foreground='#FF6B6B'>{0}</span>"
+msgstr "<b>Atual:</b> <span foreground='#FF6B6B'>{0}</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 429
+#: NEEDS WORK
+#, python-brace-format
+msgid "<b>Current:</b> <span foreground='#00CED1'>{0}</span>"
+msgstr "<b>Atual:</b> <span foreground='#00CED1'>{0}</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 437
+#: NEEDS WORK
+#, python-brace-format
+msgid "<span foreground='#888888'>Your dev branch:</span> <span foreground='#32CD32'>{0}</span>"
+msgstr ""
+"<span foreground='#888888'>Seu branch de desenvolvimento:</span> <span "
+"foreground='#32CD32'>{0}</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 448
+#: NEEDS WORK
+#, python-brace-format
+msgid "Use {0}"
+msgstr "Use {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 452
+#: NEEDS WORK
+#, python-brace-format
+msgid "Commit to {0} anyway"
+msgstr "Comprometer-se com {0} mesmo assim"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 455
+#: NEEDS WORK
+#, python-brace-format
+msgid "Commit to {0}"
+msgstr "Comprometer-se com {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 517
+#: NEEDS WORK
+msgid "Switching & Committing"
+msgstr "Alternando e Confirmando"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 518
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switching to {0} and committing..."
+msgstr "Mudando para {0} e confirmando..."
+# 
 # File: usr/share/build-package/gui/main_window.py, line: 277
 #: NEEDS WORK
 msgid "Committing Changes"
 msgstr "Confirmando Alterações"
 # 
-# File: usr/share/build-package/gui/main_window.py, line: 278
+# File: usr/share/build-package/gui/main_window.py, line: 529
 #: NEEDS WORK
-msgid "Committing and pushing changes to repository..."
-msgstr "Confirmando e enviando alterações para o repositório..."
+#, python-brace-format
+msgid "Committing to {0}..."
+msgstr "Confirmando {0}..."
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 288
 #: NEEDS WORK
@@ -4597,28 +4677,126 @@ msgstr "Construindo Pacote AUR"
 msgid "Building AUR package: {0}"
 msgstr "Construindo pacote AUR: {0}"
 # 
+# File: usr/share/build-package/gui/main_window.py, line: 646
+#: NEEDS WORK
+msgid "Uncommitted Changes Detected"
+msgstr "Alterações Não Confirmadas Detectadas"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 648
+#: NEEDS WORK
+msgid "You have uncommitted changes. Choose how to proceed:"
+msgstr "Você tem alterações não confirmadas. Escolha como prosseguir:"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 673
+#: NEEDS WORK
+#, python-brace-format
+msgid "<b>Current:</b>  <span foreground='#FFA500'>{0}</span>"
+msgstr "<b>Atual:</b>  <span foreground='#FFA500'>{0}</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 678
+#: NEEDS WORK
+#, python-brace-format
+msgid "<b>Switch to:</b>  <span foreground='#00CED1'>{0}</span>"
+msgstr "<b>Alternar para:</b>  <span foreground='#00CED1'>{0}</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 688
+#: NEEDS WORK
+msgid "Discard & Switch"
+msgstr "Descartar e Trocar"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 689
+#: NEEDS WORK
+msgid "Stash & Switch"
+msgstr "Armazenar e Alternar"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 724
+#: NEEDS WORK
+msgid "Failed to stash changes"
+msgstr "Falha ao armazenar alterações"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 736
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to switch: {0}"
+msgstr "Falha ao alternar: {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 750
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to {0}. Conflicts detected - resolve manually."
+msgstr "Mudou para {0}. Conflitos detectados - resolva manualmente."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 752
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to {0}. Check 'git stash list' for your changes."
+msgstr "Mudou para {0}. Verifique 'git stash list' para suas alterações."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 754
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switched to {0} with your changes restored."
+msgstr "Mudado para {0} com suas alterações restauradas."
+# 
 # File: usr/share/build-package/gui/main_window.py, line: 471
 #: NEEDS WORK
 #, python-brace-format
 msgid "Switched to branch: {0}"
 msgstr "Mudado para a ramificação: {0}"
 # 
-# File: usr/share/build-package/gui/main_window.py, line: 477
+# File: usr/share/build-package/gui/main_window.py, line: 764
 #: NEEDS WORK
 #, python-brace-format
-msgid "Failed to switch branch: {0}"
-msgstr "Falha ao mudar de ramo: {0}"
+msgid "Error switching branch: {0}"
+msgstr "Erro ao mudar de ramo: {0}"
 # 
-# File: usr/share/build-package/gui/main_window.py, line: 345
+# File: usr/share/build-package/gui/main_window.py, line: 778
 #: NEEDS WORK
-msgid "Creating Merge Request"
-msgstr "Criando Solicitação de Mesclagem"
+msgid "Confirm Pull Request"
+msgstr "Confirmar Solicitação de Pull"
 # 
-# File: usr/share/build-package/gui/main_window.py, line: 346
+# File: usr/share/build-package/gui/main_window.py, line: 779
+#: NEEDS WORK
+msgid "Create a Pull Request to merge changes?"
+msgstr "Criar um Pull Request para mesclar alterações?"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 796
 #: NEEDS WORK
 #, python-brace-format
-msgid "Creating merge request: {0} → {1}"
-msgstr "Criando solicitação de mesclagem: {0} → {1}"
+msgid "<span foreground='#FFA500'><b>{0}</b></span>"
+msgstr "<span foreground='#FFA500'><b>{0}</b></span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 804
+#: NEEDS WORK
+#, python-brace-format
+msgid "<span foreground='#32CD32'><b>{0}</b></span>"
+msgstr "<span foreground='#32CD32'><b>{0}</b></span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 812
+#: NEEDS WORK
+msgid "<span foreground='#00CED1'>✓ Auto-merge enabled</span>"
+msgstr "<span foreground='#00CED1'>✓ Mesclagem automática ativada</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 814
+#: NEEDS WORK
+msgid "<span foreground='#888888'>Manual approval required</span>"
+msgstr "<span foreground='#888888'>Aprovação manual necessária</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 823
+#: NEEDS WORK
+msgid "Create PR"
+msgstr "Criar PR"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 845
+#: NEEDS WORK
+msgid "Creating Pull Request"
+msgstr "Criando Pull Request"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 846
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0}: {1} → {2}"
+msgstr "{0}: {1} → {2}"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 360
 #: NEEDS WORK
@@ -4686,6 +4864,11 @@ msgstr "Falha ao baixar alterações"
 msgid "Operation failed: {0}"
 msgstr "Operação falhou: {0}"
 # 
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 75
+#: NEEDS WORK
+msgid "Select an option:"
+msgstr "Selecione uma opção:"
+# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/build-package/gui/gtk_menu.py, line: 97
@@ -4718,10 +4901,20 @@ msgstr ""
 "Encontrados {0} arquivos em conflito:\n"
 "\n"
 # 
-# File: usr/share/build-package/gui/gtk_adapters.py, line: 75
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 115
 #: NEEDS WORK
-msgid "Select an option:"
-msgstr "Selecione uma opção:"
+msgid "Branch Switch Required"
+msgstr "Mudança de Ramificação Necessária"
+# 
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 130
+#: NEEDS WORK
+msgid "You are on"
+msgstr "Você está ativo"
+# 
+# File: usr/share/build-package/gui/gtk_adapters.py, line: 131
+#: NEEDS WORK
+msgid "Your branch is"
+msgstr "Seu ramo é"
 # 
 # File: usr/share/build-package/gui/gtk_logger.py, line: 107
 #: NEEDS WORK
@@ -5068,6 +5261,11 @@ msgstr "Baixar as últimas alterações do remoto"
 msgid "Uncommitted changes present"
 msgstr "Mudanças não confirmadas presentes"
 # 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 191
+#: NEEDS WORK
+msgid "You have uncommitted changes that need to be committed"
+msgstr "Você tem alterações não confirmadas que precisam ser confirmadas."
+# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 160
@@ -5075,6 +5273,11 @@ msgstr "Mudanças não confirmadas presentes"
 #: NEEDS WORK
 msgid "Working directory clean"
 msgstr "Diretório de trabalho limpo"
+# 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 197
+#: NEEDS WORK
+msgid "No pending changes - working directory is clean"
+msgstr "Nenhuma alteração pendente - o diretório de trabalho está limpo"
 # 
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 184
 #: NEEDS WORK
