@@ -29,6 +29,9 @@ def pull_latest_v2(build_package_instance):
         bp.logger.die("red", _("This operation is only available in git repositories."))
         return False
 
+    # Check if running from GUI mode (skip interactive prompts)
+    is_gui_mode = hasattr(bp.menu, '__class__') and 'GTK' in bp.menu.__class__.__name__
+
     # Get mode configuration
     mode_config = bp.settings.get_mode_config()
     operation_mode = bp.settings.get("operation_mode", "safe")
@@ -81,8 +84,9 @@ def pull_latest_v2(build_package_instance):
         bp.logger.log("red", "═" * 70)
         bp.logger.log("yellow", "")
 
-        # CRITICAL: Wait for user to read the summary
-        user_input = input(_("Press Enter to start resolving conflicts..."))
+        # CRITICAL: Wait for user to read the summary (skip in GUI mode)
+        if not is_gui_mode:
+            input(_("Press Enter to start resolving conflicts..."))
 
         # Clear screen before opening resolver to avoid confusion
         bp.logger.log("cyan", "")
@@ -93,7 +97,8 @@ def pull_latest_v2(build_package_instance):
         if not bp.conflict_resolver.resolve():
             bp.logger.log("red", _("✗ Failed to resolve conflicts"))
             bp.logger.log("yellow", "")
-            input(_("Press Enter to return to main menu..."))
+            if not is_gui_mode:
+                input(_("Press Enter to return to main menu..."))
             return False
 
         bp.logger.log("green", _("✓ Conflicts resolved"))
@@ -138,7 +143,8 @@ def pull_latest_v2(build_package_instance):
             if hasattr(e, 'stderr') and e.stderr:
                 bp.logger.log("red", _("Error: {0}").format(e.stderr.decode() if isinstance(e.stderr, bytes) else e.stderr))
             bp.logger.log("yellow", "")
-            input(_("Press Enter to return to main menu..."))
+            if not is_gui_mode:
+                input(_("Press Enter to return to main menu..."))
             return False
 
         bp.logger.log("cyan", _("Continuing with pull operations..."))
@@ -301,7 +307,11 @@ def pull_latest_v2(build_package_instance):
         bp.logger.log("red", _("      ⚠️  WARNING: You will LOSE all your uncommitted local changes!"))
         bp.logger.log("cyan", "")
 
-        choice = input(_("Choose option [1/2] (press Enter for default=1): ")).strip()
+        # In GUI mode, always keep changes (option 1 - safest default)
+        if is_gui_mode:
+            choice = "1"
+        else:
+            choice = input(_("Choose option [1/2] (press Enter for default=1): ")).strip()
 
         # Default to option 1 if user just presses Enter
         if not choice:
@@ -358,48 +368,75 @@ def pull_latest_v2(build_package_instance):
             destructive=False
         )
     else:
-        # Different branch - merge it
-        bp.logger.log("cyan", _("Merging latest code from {0}").format(most_recent_branch))
-
-        # Stash before merge if needed
-        if stash_needed:
-            plan.add(
-                _("Stash local changes"),
-                ["git", "stash", "push", "-u", "-m", "auto-stash-before-merge"],
-                destructive=False
+        # Different branch - check if there are commits to merge first
+        try:
+            # Check how many commits the most_recent_branch has that current_branch doesn't
+            merge_check = subprocess.run(
+                ["git", "rev-list", "--count", f"{current_branch}..origin/{most_recent_branch}"],
+                capture_output=True,
+                text=True,
+                check=True
             )
+            commits_to_merge = int(merge_check.stdout.strip()) if merge_check.stdout.strip() else 0
+        except:
+            commits_to_merge = 0
 
-        if mode_config["auto_merge"]:
-            # Auto merge
-            plan.add(
-                _("Merge {0} into {1}").format(most_recent_branch, current_branch),
-                ["git", "merge", f"origin/{most_recent_branch}", "--no-edit"],
-                destructive=False
-            )
+        if commits_to_merge == 0:
+            # No new commits to merge - we're already up to date with the most recent branch
+            bp.logger.log("green", _("✓ Already up to date with {0}").format(
+                bp.logger.format_branch_name(most_recent_branch)
+            ))
         else:
-            # Ask user
-            if bp.menu.confirm(_("Merge {0} into your branch?").format(most_recent_branch)):
+            # There are commits to merge
+            bp.logger.log("cyan", _("Found {0} new commit(s) from {1}").format(
+                commits_to_merge, bp.logger.format_branch_name(most_recent_branch)
+            ))
+
+            # Stash before merge if needed
+            if stash_needed:
+                plan.add(
+                    _("Stash local changes"),
+                    ["git", "stash", "push", "-u", "-m", "auto-stash-before-merge"],
+                    destructive=False
+                )
+
+            if mode_config["auto_merge"]:
+                # Auto merge
                 plan.add(
                     _("Merge {0} into {1}").format(most_recent_branch, current_branch),
                     ["git", "merge", f"origin/{most_recent_branch}", "--no-edit"],
                     destructive=False
                 )
             else:
-                bp.logger.log("yellow", _("Skipping merge"))
+                # Ask user (this is the ONLY confirmation needed)
+                if bp.menu.confirm(_("Merge {0} new commit(s) from {1} into your branch?").format(
+                    commits_to_merge, most_recent_branch
+                )):
+                    plan.add(
+                        _("Merge {0} into {1}").format(most_recent_branch, current_branch),
+                        ["git", "merge", f"origin/{most_recent_branch}", "--no-edit"],
+                        destructive=False
+                    )
+                else:
+                    bp.logger.log("yellow", _("Skipping merge"))
 
     # === PHASE 6: EXECUTE PLAN ===
     if plan.is_empty():
         bp.logger.log("green", _("✓ Already up to date"))
         bp.logger.log("yellow", "")
-        input(_("Press Enter to return to main menu..."))
+        if not is_gui_mode:
+            input(_("Press Enter to return to main menu..."))
         return True
 
-    success = plan.execute_with_confirmation()
+    # Execute directly without confirmation dialog since user already confirmed the merge
+    # This avoids the double confirmation issue
+    success = plan.execute()
 
     if not success:
         bp.logger.log("red", _("✗ Pull operation failed"))
         bp.logger.log("yellow", "")
-        input(_("Press Enter to return to main menu..."))
+        if not is_gui_mode:
+            input(_("Press Enter to return to main menu..."))
         return False
 
     # === PHASE 7: CHECK FOR CONFLICTS ===
@@ -409,7 +446,8 @@ def pull_latest_v2(build_package_instance):
         if not bp.conflict_resolver.resolve(current_branch, most_recent_branch):
             bp.logger.log("red", _("✗ Failed to resolve conflicts"))
             bp.logger.log("yellow", "")
-            input(_("Press Enter to return to main menu..."))
+            if not is_gui_mode:
+                input(_("Press Enter to return to main menu..."))
             return False
 
         bp.logger.log("green", _("✓ Conflicts resolved"))
@@ -440,7 +478,8 @@ def pull_latest_v2(build_package_instance):
                 bp.logger.log("cyan", _("  • The newly pulled remote code"))
                 bp.logger.log("yellow", "═" * 70)
                 bp.logger.log("yellow", "")
-                input(_("Press Enter to start resolving conflicts..."))
+                if not is_gui_mode:
+                    input(_("Press Enter to start resolving conflicts..."))
 
                 # Use enhanced resolver - "current" is the pulled code, "incoming" is stashed changes
                 # Note: After stash pop, "ours" is the pulled code, "theirs" is the stashed changes
@@ -448,7 +487,8 @@ def pull_latest_v2(build_package_instance):
                     bp.logger.log("red", _("✗ Failed to resolve conflicts"))
                     bp.logger.log("yellow", _("Your changes are still in stash. Use 'git stash pop' manually."))
                     bp.logger.log("yellow", "")
-                    input(_("Press Enter to return to main menu..."))
+                    if not is_gui_mode:
+                        input(_("Press Enter to return to main menu..."))
                     return False
 
                 bp.logger.log("green", _("✓ Conflicts resolved, changes restored"))
@@ -456,7 +496,8 @@ def pull_latest_v2(build_package_instance):
                 bp.logger.log("red", _("✗ Failed to restore stashed changes"))
                 bp.logger.log("yellow", _("Your changes are still in stash. Use 'git stash pop' manually."))
                 bp.logger.log("yellow", "")
-                input(_("Press Enter to return to main menu..."))
+                if not is_gui_mode:
+                    input(_("Press Enter to return to main menu..."))
                 return False
         else:
             bp.logger.log("green", _("✓ Local changes restored successfully"))
@@ -501,6 +542,7 @@ def pull_latest_v2(build_package_instance):
 
     bp.logger.log("green", "═" * 70)
     bp.logger.log("yellow", "")
-    input(_("Press Enter to return to main menu..."))
+    if not is_gui_mode:
+        input(_("Press Enter to return to main menu..."))
 
     return True
