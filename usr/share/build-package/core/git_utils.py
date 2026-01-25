@@ -677,7 +677,7 @@ class GitUtils:
             return result
     
     @staticmethod
-    def resolve_divergence(branch: str, method: str, logger=None) -> bool:
+    def resolve_divergence(branch: str, method: str, logger=None, menu=None) -> bool:
         """
         Resolve divergência entre branch local e remoto.
         
@@ -685,6 +685,7 @@ class GitUtils:
             branch: Nome do branch
             method: Método de resolução ('rebase', 'merge', 'force_push')
             logger: Logger para mensagens
+            menu: Menu system for user interaction (optional)
         
         Returns:
             bool: True se resolvido com sucesso
@@ -712,12 +713,43 @@ class GitUtils:
                     if "conflict" in result.stderr.lower() or "conflict" in result.stdout.lower():
                         if logger:
                             logger.log("yellow", _("⚠️ Rebase conflicts detected!"))
-                            logger.log("white", _("Resolve conflicts in the marked files, then:"))
-                            logger.log("white", _("  1. Edit files to resolve conflicts"))
-                            logger.log("white", _("  2. git add <resolved-files>"))
-                            logger.log("white", _("  3. git rebase --continue"))
-                            logger.log("white", _("Or abort with: git rebase --abort"))
-                        return False
+                        
+                        # Abort the rebase automatically
+                        subprocess.run(["git", "rebase", "--abort"], capture_output=True, check=False)
+                        
+                        if logger:
+                            logger.log("cyan", _("Rebase aborted automatically."))
+                        
+                        # If we have menu, offer alternatives
+                        if menu:
+                            if logger:
+                                logger.log("white", "")
+                                logger.log("yellow", _("The remote has conflicting changes."))
+                            
+                            choice = menu.show_menu(
+                                _("Rebase failed due to conflicts. What do you want to do?"),
+                                [
+                                    _("🔀 Try merge instead (may auto-resolve)"),
+                                    _("⚠️ Force push MY version (overwrites remote)"),
+                                    _("❌ Cancel - I'll resolve manually")
+                                ]
+                            )
+                            
+                            if choice is None or choice[0] == 2:  # Cancel
+                                if logger:
+                                    logger.log("yellow", _("Operation cancelled"))
+                                return False
+                            
+                            if choice[0] == 0:  # Try merge
+                                return GitUtils.resolve_divergence(branch, 'merge', logger, menu)
+                            elif choice[0] == 1:  # Force push
+                                return GitUtils.resolve_divergence(branch, 'force_push', logger)
+                        else:
+                            # No menu available, just report failure
+                            if logger:
+                                logger.log("yellow", _("Conflict detected. Trying merge instead..."))
+                            # Auto-try merge as fallback
+                            return GitUtils.resolve_divergence(branch, 'merge', logger)
                     else:
                         if logger:
                             logger.log("red", _("Rebase failed: {0}").format(
