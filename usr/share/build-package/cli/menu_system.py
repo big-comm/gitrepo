@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# menu_system.py - Interactive menu system
+# cli/menu_system.py - Interactive menu system
 #
 
 import os
@@ -12,8 +12,9 @@ from typing import Optional, Tuple
 from rich.console import Console
 from rich.panel import Panel
 from rich.prompt import Confirm
-from translation_utils import _
 from rich.box import ROUNDED
+
+from core.translation_utils import _
 
 class MenuSystem:
     """Menu system using Rich"""

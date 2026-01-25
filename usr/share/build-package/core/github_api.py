@@ -8,9 +8,9 @@ import os
 import requests
 import subprocess
 import time
-from git_utils import GitUtils
-from config import TOKEN_FILE
-from translation_utils import _
+from .git_utils import GitUtils
+from .config import TOKEN_FILE
+from .translation_utils import _
 
 class GitHubAPI:
     """Interface with GitHub API - Fixed version with automatic conflict resolution"""
@@ -79,6 +79,19 @@ class GitHubAPI:
             username = GitUtils.get_github_username() or "unknown"
             new_branch_name = f"dev-{username}"  # Use dev- prefix with username
 
+            # STEP 1: Check if branch already exists
+            logger.log("cyan", _("Checking if branch {0} already exists...").format(new_branch_name))
+            check_response = requests.get(
+                f"https://api.github.com/repos/{repo_name}/branches/{new_branch_name}",
+                headers=self.headers
+            )
+            
+            if check_response.status_code == 200:
+                # Branch already exists, use it
+                logger.log("green", _("Branch {0} already exists - using existing branch").format(new_branch_name))
+                return new_branch_name
+            
+            # STEP 2: Branch doesn't exist, create it
             # Use dev branch as base, or main if dev doesn't exist
             base_branch = self.get_branch_sha("dev", logger) and "dev" or "main"
             
@@ -87,9 +100,9 @@ class GitHubAPI:
                 logger.log("red", _("Could not determine SHA for {0}.").format(base_branch))
                 return ""
             
-            logger.log("cyan", _("Creating branch: {0} based on {1}...").format(new_branch_name, base_branch))
+            logger.log("cyan", _("Creating new branch: {0} based on {1}...").format(new_branch_name, base_branch))
             
-            # First create a Git reference
+            # Create a Git reference
             url = f"https://api.github.com/repos/{repo_name}/git/refs"
             data = {
                 "ref": f"refs/heads/{new_branch_name}",
@@ -250,7 +263,8 @@ class GitHubAPI:
                         if patch_process.returncode == 0:
                             # Add and commit the resolved changes
                             subprocess.run(["git", "add", "."], check=True)
-                            subprocess.run(["git", "commit", "-m", f"Auto-resolve conflicts: merge {target_branch} into {source_branch}"], check=True)
+                            commit_msg = _("Auto-resolve conflicts: merge {0} into {1}").format(target_branch, source_branch)
+                            subprocess.run(["git", "commit", "-m", commit_msg], check=True)
                             logger.log("green", _("Conflicts resolved automatically!"))
                         else:
                             logger.log("red", _("Could not resolve conflicts automatically"))
@@ -291,52 +305,83 @@ class GitHubAPI:
             logger.log("red", _("Unexpected error: {0}").format(e))
             return False
 
-    def wait_for_pr_checks(self, pr_number: int, logger, max_wait: int = 30) -> tuple[bool, str]:
+    def wait_for_pr_checks(self, pr_number: int, logger, max_wait: int = 120) -> tuple[bool, str]:
         """
         Wait for PR to be ready for merge by checking status periodically
+        Now waits up to 4 minutes (120 attempts x 2 seconds) for GitHub Actions and checks
         """
         repo_name = GitUtils.get_repo_name()
         if not repo_name:
             return False, "unknown"
-        
+
         logger.log("cyan", _("Waiting for PR to be ready for merge..."))
-        
+        logger.log("cyan", _("This may take a few minutes if GitHub Actions workflows are running..."))
+
         for attempt in range(max_wait):
             try:
                 response = requests.get(
                     f"https://api.github.com/repos/{repo_name}/pulls/{pr_number}",
                     headers=self.headers
                 )
-                
+
                 if response.status_code == 200:
                     pr_data = response.json()
                     mergeable = pr_data.get('mergeable')
                     mergeable_state = pr_data.get('mergeable_state')
-                    
-                    logger.log("cyan", _("Attempt {0}/{1}: mergeable={2}, state={3}").format(
-                        attempt + 1, max_wait, mergeable, mergeable_state))
-                    
+
+                    # Show progress every 10 attempts to avoid spam
+                    if attempt % 10 == 0 or attempt < 3:
+                        logger.log("cyan", _("Attempt {0}/{1}: mergeable={2}, state={3}").format(
+                            attempt + 1, max_wait, mergeable, mergeable_state))
+
+                    # SUCCESS: PR is ready for merge
                     if mergeable is True and mergeable_state == 'clean':
                         logger.log("green", _("PR ready for merge!"))
                         return True, mergeable_state
+
+                    # CONFLICT: PR has conflicts that need manual resolution
                     elif mergeable is False and mergeable_state == 'dirty':
                         logger.log("red", _("PR has conflicts"))
                         return False, mergeable_state
-                    elif mergeable_state in ['unknown', 'checking']:
+
+                    # STILL PROCESSING: GitHub is still calculating or running checks
+                    # States: unknown, checking, blocked, behind, unstable, has_hooks
+                    # We should CONTINUE WAITING for all these states
+                    elif mergeable_state in ['unknown', 'checking', 'blocked', 'behind', 'unstable', 'has_hooks'] or mergeable is None:
                         if attempt < max_wait - 1:
+                            # Only show detailed status every 10 attempts
+                            if attempt % 10 == 0 and attempt > 0:
+                                logger.log("yellow", _("Still waiting... State: {0} (GitHub may be running workflows)").format(mergeable_state))
                             time.sleep(2)
                             continue
+                        else:
+                            # Reached max attempts
+                            logger.log("yellow", _("Timeout: PR still in state '{0}' after {1} seconds").format(
+                                mergeable_state, max_wait * 2))
+                            logger.log("yellow", _("PR created but needs manual merge"))
+                            return False, "timeout"
+
+                    # UNEXPECTED STATE: Log but continue waiting
                     else:
-                        logger.log("yellow", _("Unexpected state: {0}").format(mergeable_state))
-                        return False, mergeable_state
+                        if attempt < max_wait - 1:
+                            logger.log("yellow", _("Unexpected state: {0}, continuing to wait...").format(mergeable_state))
+                            time.sleep(2)
+                            continue
+                        else:
+                            logger.log("yellow", _("Unexpected final state: {0}").format(mergeable_state))
+                            return False, mergeable_state
                 else:
                     logger.log("red", _("Error checking PR: {0}").format(response.status_code))
                     return False, "error"
-                    
+
             except Exception as e:
                 logger.log("red", _("Error: {0}").format(e))
+                # Don't fail immediately on network errors, retry
+                if attempt < max_wait - 1:
+                    time.sleep(2)
+                    continue
                 return False, "error"
-        
+
         logger.log("yellow", _("Timeout waiting for PR to be ready"))
         return False, "timeout"
 
@@ -387,11 +432,101 @@ class GitHubAPI:
             
             logger.log("white", _("Detected repository: {0}").format(repo_name))
             
-            # CRITICAL FIX: Determine the correct branch to send to workflow
+            # For testing: ALWAYS use the branch with the most recent code
             if branch_type == "testing":
-                # Testing always uses dev-* branch
-                workflow_branch = new_branch
-                logger.log("green", _("Testing package: workflow will use branch {0}").format(workflow_branch))
+                logger.log("cyan", _("Finding branch with most recent code..."))
+
+                try:
+                    # First, push current branch to ensure local commits are on remote
+                    current_branch = GitUtils.get_current_branch()
+                    if current_branch:
+                        logger.log("cyan", _("Pushing current branch {0} to remote...").format(current_branch))
+                        push_result = subprocess.run(
+                            ["git", "push", "-u", "origin", current_branch],
+                            capture_output=True,
+                            text=True
+                        )
+                        if push_result.returncode == 0:
+                            logger.log("green", _("✓ Branch {0} pushed to remote").format(current_branch))
+                        else:
+                            # May fail if nothing to push or other reason, not critical
+                            logger.log("yellow", _("Push status: {0}").format(push_result.stderr.strip() or "nothing to push"))
+
+                    # Get all remote branches with their latest commit info using GitHub API
+                    # This is more reliable than git commands for finding the most recent branch
+                    logger.log("cyan", _("Querying remote branches..."))
+
+                    # Use git ls-remote to get all branches and their commits
+                    ls_remote_result = subprocess.run(
+                        ["git", "ls-remote", "--heads", "origin"],
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        text=True,
+                        check=True
+                    )
+
+                    if not ls_remote_result.stdout.strip():
+                        logger.log("yellow", _("No remote branches found, using main"))
+                        workflow_branch = "main"
+                    else:
+                        # Parse branches: each line is "commit_hash\trefs/heads/branch_name"
+                        branches_info = []
+                        for line in ls_remote_result.stdout.strip().split('\n'):
+                            if line:
+                                parts = line.split('\t')
+                                if len(parts) == 2:
+                                    commit_hash = parts[0]
+                                    branch_name = parts[1].replace('refs/heads/', '')
+                                    branches_info.append((branch_name, commit_hash))
+
+                        logger.log("cyan", _("Found {0} branches, checking commit dates...").format(len(branches_info)))
+
+                        # For each branch, get the commit timestamp using git log
+                        # We need to fetch first to have the commits locally
+                        subprocess.run(
+                            ["git", "fetch", "--all", "--prune"],
+                            capture_output=True,
+                            text=True,
+                            check=False
+                        )
+
+                        most_recent_branch = None
+                        most_recent_timestamp = 0
+
+                        for branch_name, commit_hash in branches_info:
+                            try:
+                                # Get commit timestamp
+                                timestamp_result = subprocess.run(
+                                    ["git", "log", "-1", "--format=%ct", commit_hash],
+                                    stdout=subprocess.PIPE,
+                                    stderr=subprocess.PIPE,
+                                    text=True,
+                                    check=True
+                                )
+                                timestamp = int(timestamp_result.stdout.strip())
+
+                                if timestamp > most_recent_timestamp:
+                                    most_recent_timestamp = timestamp
+                                    most_recent_branch = branch_name
+
+                            except (subprocess.CalledProcessError, ValueError):
+                                # Skip branches we can't get info for
+                                continue
+
+                        if most_recent_branch:
+                            workflow_branch = most_recent_branch
+                            # Convert timestamp to readable format for logging
+                            from datetime import datetime
+                            date_str = datetime.fromtimestamp(most_recent_timestamp).strftime('%Y-%m-%d %H:%M:%S')
+                            logger.log("green", _("✓ Most recent branch: {0} (last commit: {1})").format(workflow_branch, date_str))
+                        else:
+                            workflow_branch = current_branch or "main"
+                            logger.log("yellow", _("Could not determine most recent branch, using: {0}").format(workflow_branch))
+
+                except subprocess.CalledProcessError as e:
+                    logger.log("yellow", _("Error finding most recent branch: {0}").format(e))
+                    workflow_branch = new_branch or "main"
+                    logger.log("yellow", _("Using fallback: {0}").format(workflow_branch))
             else:
                 # For stable/extra, determine if we successfully merged to main
                 current_branch = GitUtils.get_current_branch()
@@ -434,27 +569,31 @@ class GitHubAPI:
                     logger.log("yellow", _("Stable/Extra package: not on main, workflow will use {0}").format(workflow_branch))
                     logger.log("yellow", _("⚠️  Warning: Package will be built from {0} instead of main").format(workflow_branch))
             
+            # Prepare payload data
+            payload = {
+                "branch": workflow_branch,
+                "branch_type": branch_type,
+                "build_env": "normal",
+                "url": f"https://github.com/{repo_name}",
+                "tmate": tmate_option
+            }
+
+            # For testing, ALWAYS send new_branch - the action.yml needs it to modify PKGBUILD
+            if branch_type == "testing":
+                payload["new_branch"] = workflow_branch
+            
             data = {
                 "event_type": package_name,
-                "client_payload": {
-                    "branch": workflow_branch,  # Use the determined branch
-                    "branch_type": branch_type,
-                    "build_env": "normal",
-                    "url": f"https://github.com/{repo_name}",
-                    "tmate": tmate_option,
-                    "git_branch": workflow_branch,  # CRITICAL: Also set git_branch parameter
-                    "new_branch": new_branch if branch_type == "testing" else None  # Only for testing
-                }
+                "client_payload": payload
             }
-            event_type = "package-build"
+            event_type = "package-build"  # ← ESTA LINHA ERA NECESSÁRIA!
             
-            # Log what we're sending to the workflow
+            # Log what we're sending to the workflow (clean)
             logger.log("cyan", _("Workflow payload:"))
             logger.log("cyan", _("  - branch: {0}").format(workflow_branch))
-            logger.log("cyan", _("  - git_branch: {0}").format(workflow_branch))
             logger.log("cyan", _("  - branch_type: {0}").format(branch_type))
-            if branch_type == "testing":
-                logger.log("cyan", _("  - new_branch: {0}").format(new_branch))
+            if payload.get("new_branch"):
+                logger.log("cyan", _("  - new_branch: {0}").format(payload["new_branch"]))
         
         try:
             logger.log("cyan", _("Triggering build workflow on GitHub..."))
@@ -653,7 +792,7 @@ class GitHubAPI:
             
             if response.status_code not in [200, 201]:
                 if logger:
-                    error_msg = response.json().get('message', '') if response.text else 'Unknown error'
+                    error_msg = response.json().get('message', '') if response.text else _('Unknown error')
                     logger.log("red", _("Failed to create PR: {0}").format(error_msg))
                 return {}
             
@@ -696,18 +835,22 @@ class GitHubAPI:
                         merge_error = merge_response.json() if merge_response.text else {}
                         if logger:
                             logger.log("red", _("Auto-merge failed: {0}").format(
-                                merge_error.get('message', 'Unknown error')))
+                                merge_error.get('message', _('Unknown error'))))
                             logger.log("yellow", _("PR created but must be merged manually"))
                         
                         pr_info['auto_merged'] = False
-                        pr_info['merge_error'] = merge_error.get('message', 'Unknown error')
+                        pr_info['merge_error'] = merge_error.get('message', _('Unknown error'))
                 else:
                     if logger:
                         logger.log("yellow", _("PR not ready for merge (state: {0})").format(pr_state))
                         logger.log("yellow", _("PR created but must be merged manually"))
-                    
+
                     pr_info['auto_merged'] = False
-                    pr_info['merge_error'] = f"PR not ready: {pr_state}"
+                    pr_info['merge_error'] = _("PR not ready: {0}").format(pr_state)
+            
+            # Show operation summary
+            if pr_info and pr_number:
+                self._show_pr_summary(pr_info, source_branch, target_branch, auto_merge, logger)
             
             return pr_info
         
@@ -715,3 +858,29 @@ class GitHubAPI:
             if logger:
                 logger.log("red", _("Error creating pull request: {0}").format(str(e)))
             return {}
+
+    def _show_pr_summary(self, pr_info: dict, source_branch: str, target_branch: str, auto_merge: bool, logger):
+        """Show pull request operation summary"""
+        if not logger:
+            return
+            
+        try:
+            pr_number = pr_info.get('number', _('unknown'))
+            pr_url = pr_info.get('html_url', '')
+
+            logger.log("green", "=" * 50)
+            logger.log("green", _("PULL REQUEST COMPLETED SUCCESSFULLY!"))
+            logger.log("green", "=" * 50)
+            logger.log("white", _("PR #{0} created").format(pr_number))
+            logger.log("white", _("Flow: {0} → {1}").format(source_branch, target_branch))
+
+            if pr_info.get('auto_merged'):
+                logger.log("green", _("Auto-merge: SUCCESS"))
+                logger.log("green", _("Merge SHA: {0}").format(pr_info.get('merge_sha', _('unknown'))[:7]))
+            else:
+                logger.log("yellow", _("Manual merge required"))
+                logger.log("cyan", _("URL: {0}").format(pr_url))
+            
+            logger.log("green", "=" * 50)
+        except Exception as e:
+            logger.log("yellow", _("Could not show PR summary: {0}").format(e))

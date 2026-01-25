@@ -8,9 +8,9 @@ import os
 import re
 import subprocess
 import requests
-from config import TOKEN_FILE
+from .config import TOKEN_FILE
 from datetime import datetime
-from translation_utils import _
+from .translation_utils import _
 
 class GitUtils:
     """Utilities for Git repository operations"""
@@ -164,15 +164,13 @@ class GitUtils:
             status = subprocess.run(
                 ["git", "status", "--porcelain"],
                 stdout=subprocess.PIPE,
+                stderr=subprocess.DEVNULL,
                 text=True,
                 check=False
             ).stdout.strip()
             
-            result = bool(status)
-            print(_("Git has changes: {0} - {1}").format(result, status))
-            return result
-        except Exception as e:
-            print(_("Error checking changes: {0}").format(e))
+            return bool(status)
+        except Exception:
             return False
         
     @staticmethod
@@ -249,7 +247,7 @@ class GitUtils:
                     logger.log("cyan", _("Pulling latest changes from most recent branch: {0}").format(logger.format_branch_name(most_recent_branch)))
                 
                 subprocess.run(
-                    ["git", "pull", "origin", most_recent_branch, "--no-edit"],
+                    ["git", "pull", "origin", most_recent_branch, "--rebase", "--no-edit"],
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE,
                     text=True,
@@ -267,7 +265,7 @@ class GitUtils:
                 
                 try:
                     subprocess.run(
-                        ["git", "pull", "origin", current_branch, "--no-edit"],
+                        ["git", "pull", "origin", current_branch, "--rebase", "--no-edit"],
                         check=True
                     )
                     
@@ -282,7 +280,7 @@ class GitUtils:
                     
                     try:
                         subprocess.run(
-                            ["git", "pull", "origin", "dev", "--no-edit"],
+                            ["git", "pull", "origin", "dev", "--rebase", "--no-edit"],
                             check=True
                         )
                         
@@ -349,15 +347,41 @@ class GitUtils:
             new_branch = f"{branch_type}-{username}"
         
         try:
-            # Create new branch
-            logger.log("cyan", _("Creating new branch: {0}").format(new_branch))
-            subprocess.run(["git", "checkout", "-b", new_branch], check=True)
+            # Check if branch already exists locally
+            local_branches = subprocess.run(
+                ["git", "branch", "--list", new_branch],
+                stdout=subprocess.PIPE,
+                text=True,
+                check=False
+            ).stdout.strip()
             
-            # Push to remote
-            logger.log("cyan", _("Pushing new branch to remote repository..."))
-            subprocess.run(["git", "push", "origin", new_branch], check=True)
+            if local_branches:
+                # Branch exists locally, just checkout
+                logger.log("cyan", _("Switching to existing branch: {0}").format(new_branch))
+                subprocess.run(["git", "checkout", new_branch], check=True)
+            else:
+                # Check if branch exists remotely
+                remote_check = subprocess.run(
+                    ["git", "ls-remote", "--heads", "origin", new_branch],
+                    stdout=subprocess.PIPE,
+                    text=True,
+                    check=False
+                ).stdout.strip()
+                
+                if remote_check:
+                    # Branch exists remotely, checkout and track
+                    logger.log("cyan", _("Checking out remote branch: {0}").format(new_branch))
+                    subprocess.run(["git", "checkout", "-t", f"origin/{new_branch}"], check=True)
+                else:
+                    # Branch doesn't exist, create it
+                    logger.log("cyan", _("Creating new branch: {0}").format(new_branch))
+                    subprocess.run(["git", "checkout", "-b", new_branch], check=True)
             
-            logger.log("green", _("Branch {0} created and pushed successfully!").format(new_branch))
+            # Push to remote (with -u to set upstream)
+            logger.log("cyan", _("Pushing branch to remote repository..."))
+            subprocess.run(["git", "push", "-u", "origin", new_branch], check=True)
+            
+            logger.log("green", _("Branch {0} ready and pushed!").format(new_branch))
             return new_branch
         except subprocess.CalledProcessError as e:
             logger.log("red", _("Error creating or pushing branch: {0}").format(e))
@@ -528,3 +552,277 @@ class GitUtils:
             return ""
         except Exception:
             return ""
+    
+    @staticmethod
+    def check_branch_divergence(branch: str = None) -> dict:
+        """
+        Verifica se o branch local divergiu do remoto.
+        
+        Args:
+            branch: Nome do branch (usa o atual se não especificado)
+        
+        Returns:
+            dict com:
+            - diverged: bool - Se há divergência (ambos têm commits únicos)
+            - ahead: int - Commits locais à frente do remoto
+            - behind: int - Commits atrás do remoto  
+            - local_commits: list - Lista de (sha, mensagem) dos commits locais
+            - remote_commits: list - Lista de (sha, mensagem) dos commits remotos
+            - error: str - Mensagem de erro se houver
+        """
+        result = {
+            'diverged': False,
+            'ahead': 0,
+            'behind': 0,
+            'local_commits': [],
+            'remote_commits': [],
+            'error': None
+        }
+        
+        if not GitUtils.is_git_repo():
+            result['error'] = _("Not a git repository")
+            return result
+        
+        try:
+            # Get current branch if not specified
+            if not branch:
+                branch = GitUtils.get_current_branch()
+            
+            if not branch:
+                result['error'] = _("Could not determine current branch")
+                return result
+            
+            # Fetch latest from remote first
+            subprocess.run(
+                ["git", "fetch", "origin", branch],
+                capture_output=True,
+                check=False
+            )
+            
+            # Check if remote branch exists
+            remote_check = subprocess.run(
+                ["git", "rev-parse", "--verify", f"origin/{branch}"],
+                capture_output=True,
+                check=False
+            )
+            
+            if remote_check.returncode != 0:
+                # Remote branch doesn't exist - not diverged, just needs push
+                result['ahead'] = 1  # At least current commit needs push
+                return result
+            
+            # Count commits ahead (local commits not in remote)
+            ahead_result = subprocess.run(
+                ["git", "rev-list", "--count", f"origin/{branch}..HEAD"],
+                capture_output=True,
+                text=True,
+                check=False
+            )
+            
+            if ahead_result.returncode == 0:
+                result['ahead'] = int(ahead_result.stdout.strip() or "0")
+            
+            # Count commits behind (remote commits not in local)
+            behind_result = subprocess.run(
+                ["git", "rev-list", "--count", f"HEAD..origin/{branch}"],
+                capture_output=True,
+                text=True,
+                check=False
+            )
+            
+            if behind_result.returncode == 0:
+                result['behind'] = int(behind_result.stdout.strip() or "0")
+            
+            # Diverged = both ahead AND behind
+            result['diverged'] = result['ahead'] > 0 and result['behind'] > 0
+            
+            # If diverged, get commit details for user information
+            if result['diverged']:
+                # Get local commits (not in remote)
+                local_log = subprocess.run(
+                    ["git", "log", "--oneline", f"origin/{branch}..HEAD"],
+                    capture_output=True,
+                    text=True,
+                    check=False
+                )
+                
+                if local_log.returncode == 0 and local_log.stdout.strip():
+                    for line in local_log.stdout.strip().split('\n'):
+                        if line:
+                            parts = line.split(' ', 1)
+                            sha = parts[0]
+                            msg = parts[1] if len(parts) > 1 else ""
+                            result['local_commits'].append((sha, msg))
+                
+                # Get remote commits (not in local)
+                remote_log = subprocess.run(
+                    ["git", "log", "--oneline", f"HEAD..origin/{branch}"],
+                    capture_output=True,
+                    text=True,
+                    check=False
+                )
+                
+                if remote_log.returncode == 0 and remote_log.stdout.strip():
+                    for line in remote_log.stdout.strip().split('\n'):
+                        if line:
+                            parts = line.split(' ', 1)
+                            sha = parts[0]
+                            msg = parts[1] if len(parts) > 1 else ""
+                            result['remote_commits'].append((sha, msg))
+            
+            return result
+            
+        except Exception as e:
+            result['error'] = str(e)
+            return result
+    
+    @staticmethod
+    def resolve_divergence(branch: str, method: str, logger=None, menu=None) -> bool:
+        """
+        Resolve divergência entre branch local e remoto.
+        
+        Args:
+            branch: Nome do branch
+            method: Método de resolução ('rebase', 'merge', 'force_push')
+            logger: Logger para mensagens
+            menu: Menu system for user interaction (optional)
+        
+        Returns:
+            bool: True se resolvido com sucesso
+        """
+        if not GitUtils.is_git_repo():
+            if logger:
+                logger.log("red", _("Not a git repository"))
+            return False
+        
+        try:
+            if method == 'rebase':
+                # Pull with rebase - applies local commits on top of remote
+                if logger:
+                    logger.log("cyan", _("Pulling with rebase..."))
+                
+                result = subprocess.run(
+                    ["git", "pull", "--rebase", "origin", branch],
+                    capture_output=True,
+                    text=True,
+                    check=False
+                )
+                
+                if result.returncode != 0:
+                    # Check for conflicts
+                    if "conflict" in result.stderr.lower() or "conflict" in result.stdout.lower():
+                        if logger:
+                            logger.log("yellow", _("⚠️ Rebase conflicts detected!"))
+                        
+                        # Abort the rebase automatically
+                        subprocess.run(["git", "rebase", "--abort"], capture_output=True, check=False)
+                        
+                        if logger:
+                            logger.log("cyan", _("Rebase aborted automatically."))
+                        
+                        # If we have menu, offer alternatives
+                        if menu:
+                            if logger:
+                                logger.log("white", "")
+                                logger.log("yellow", _("The remote has conflicting changes."))
+                            
+                            choice = menu.show_menu(
+                                _("Rebase failed due to conflicts. What do you want to do?"),
+                                [
+                                    _("🔀 Try merge instead (may auto-resolve)"),
+                                    _("⚠️ Force push MY version (overwrites remote)"),
+                                    _("❌ Cancel - I'll resolve manually")
+                                ]
+                            )
+                            
+                            if choice is None or choice[0] == 2:  # Cancel
+                                if logger:
+                                    logger.log("yellow", _("Operation cancelled"))
+                                return False
+                            
+                            if choice[0] == 0:  # Try merge
+                                return GitUtils.resolve_divergence(branch, 'merge', logger, menu)
+                            elif choice[0] == 1:  # Force push
+                                return GitUtils.resolve_divergence(branch, 'force_push', logger)
+                        else:
+                            # No menu available, just report failure
+                            if logger:
+                                logger.log("yellow", _("Conflict detected. Trying merge instead..."))
+                            # Auto-try merge as fallback
+                            return GitUtils.resolve_divergence(branch, 'merge', logger)
+                    else:
+                        if logger:
+                            logger.log("red", _("Rebase failed: {0}").format(
+                                result.stderr.strip() or result.stdout.strip()
+                            ))
+                        return False
+                
+                if logger:
+                    logger.log("green", _("✓ Rebase successful"))
+                return True
+                
+            elif method == 'merge':
+                # Pull with merge - creates merge commit
+                if logger:
+                    logger.log("cyan", _("Pulling with merge..."))
+                
+                result = subprocess.run(
+                    ["git", "pull", "--no-rebase", "origin", branch],
+                    capture_output=True,
+                    text=True,
+                    check=False
+                )
+                
+                if result.returncode != 0:
+                    if "conflict" in result.stderr.lower() or "conflict" in result.stdout.lower():
+                        if logger:
+                            logger.log("yellow", _("⚠️ Merge conflicts detected!"))
+                            logger.log("white", _("Resolve conflicts in the marked files, then:"))
+                            logger.log("white", _("  1. Edit files to resolve conflicts"))
+                            logger.log("white", _("  2. git add <resolved-files>"))
+                            logger.log("white", _("  3. git commit"))
+                            logger.log("white", _("Or abort with: git merge --abort"))
+                        return False
+                    else:
+                        if logger:
+                            logger.log("red", _("Merge failed: {0}").format(
+                                result.stderr.strip() or result.stdout.strip()
+                            ))
+                        return False
+                
+                if logger:
+                    logger.log("green", _("✓ Merge successful"))
+                return True
+                
+            elif method == 'force_push':
+                # Force push with lease - safer than --force
+                if logger:
+                    logger.log("yellow", _("⚠️ Force pushing (this overwrites remote!)..."))
+                
+                result = subprocess.run(
+                    ["git", "push", "--force-with-lease", "origin", branch],
+                    capture_output=True,
+                    text=True,
+                    check=False
+                )
+                
+                if result.returncode != 0:
+                    if logger:
+                        logger.log("red", _("Force push failed: {0}").format(
+                            result.stderr.strip() or result.stdout.strip()
+                        ))
+                    return False
+                
+                if logger:
+                    logger.log("green", _("✓ Force push successful"))
+                return True
+            
+            else:
+                if logger:
+                    logger.log("red", _("Unknown resolution method: {0}").format(method))
+                return False
+                
+        except Exception as e:
+            if logger:
+                logger.log("red", _("Error resolving divergence: {0}").format(e))
+            return False
