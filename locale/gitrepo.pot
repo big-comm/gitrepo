@@ -460,7 +460,7 @@ msgstr  ""
 #
 # File: usr/share/build-package/core/build_package.py, line: 576
 # File: usr/share/build-package/core/commit_operations.py, line: 134
-# File: usr/share/build-package/core/pull_operations.py, line: 223
+# File: usr/share/build-package/core/pull_operations.py, line: 229
 # File: usr/share/build-package/gui/main_window.py, line: 445
 # File: usr/share/build-package/gui/main_window.py, line: 687
 # File: usr/share/build-package/gui/main_window.py, line: 822
@@ -486,11 +486,15 @@ msgstr  ""
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
 # File: usr/share/build-package/core/build_package.py, line: 582
 # File: usr/share/build-package/core/build_package.py, line: 593
+# File: usr/share/build-package/core/git_utils.py, line: 740
 # File: usr/share/build-package/core/commit_operations.py, line: 139
-# File: usr/share/build-package/core/pull_operations.py, line: 228
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 569
+# File: usr/share/build-package/core/commit_operations.py, line: 319
+# File: usr/share/build-package/core/pull_operations.py, line: 234
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 574
 msgid   "Operation cancelled"
 msgstr  ""
 
@@ -646,7 +650,7 @@ msgstr  ""
 #
 # File: usr/share/build-package/core/build_package.py, line: 761
 # File: usr/share/build-package/core/build_package.py, line: 1258
-# File: usr/share/build-package/core/pull_operations.py, line: 419
+# File: usr/share/build-package/core/pull_operations.py, line: 457
 msgid   "Restoring your local changes..."
 msgstr  ""
 
@@ -697,7 +701,7 @@ msgstr  ""
 # File: usr/share/build-package/core/build_package.py, line: 801
 # File: usr/share/build-package/core/build_package.py, line: 1370
 # File: usr/share/build-package/core/build_package.py, line: 1677
-# File: usr/share/build-package/core/commit_operations.py, line: 248
+# File: usr/share/build-package/core/commit_operations.py, line: 230
 msgid   "Commit message cannot be empty."
 msgstr  ""
 
@@ -761,7 +765,7 @@ msgstr  ""
 #
 # File: usr/share/build-package/core/build_package.py, line: 871
 # File: usr/share/build-package/core/git_utils.py, line: 377
-# File: usr/share/build-package/core/commit_operations.py, line: 337
+# File: usr/share/build-package/core/commit_operations.py, line: 426
 #, python-brace-format
 msgid   "Creating new branch: {0}"
 msgstr  ""
@@ -1088,8 +1092,8 @@ msgstr  ""
 # File: usr/share/build-package/core/build_package.py, line: 2429
 # File: usr/share/build-package/core/git_utils.py, line: 218
 # File: usr/share/build-package/core/commit_operations.py, line: 61
-# File: usr/share/build-package/core/pull_operations.py, line: 154
-# File: usr/share/build-package/core/pull_operations.py, line: 473
+# File: usr/share/build-package/core/pull_operations.py, line: 160
+# File: usr/share/build-package/core/pull_operations.py, line: 514
 #, python-brace-format
 msgid   "Current branch: {0}"
 msgstr  ""
@@ -2093,7 +2097,7 @@ msgstr  ""
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/build_package.py, line: 2445
-# File: usr/share/build-package/core/pull_operations.py, line: 295
+# File: usr/share/build-package/core/pull_operations.py, line: 301
 msgid   "You have uncommitted local changes!"
 msgstr  ""
 
@@ -2101,7 +2105,7 @@ msgstr  ""
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/build_package.py, line: 2447
-# File: usr/share/build-package/core/pull_operations.py, line: 297
+# File: usr/share/build-package/core/pull_operations.py, line: 303
 msgid   "What do you want to do?"
 msgstr  ""
 
@@ -2109,7 +2113,7 @@ msgstr  ""
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/build_package.py, line: 2448
-# File: usr/share/build-package/core/pull_operations.py, line: 298
+# File: usr/share/build-package/core/pull_operations.py, line: 304
 msgid   "  [1] Keep my changes and merge with remote (DEFAULT - Git standard "
         "behavior)"
 msgstr  ""
@@ -2118,7 +2122,7 @@ msgstr  ""
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/build_package.py, line: 2449
-# File: usr/share/build-package/core/pull_operations.py, line: 299
+# File: usr/share/build-package/core/pull_operations.py, line: 305
 msgid   "      Your local edits will be preserved and merged with remote code"
 msgstr  ""
 
@@ -2126,7 +2130,7 @@ msgstr  ""
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/build_package.py, line: 2450
-# File: usr/share/build-package/core/pull_operations.py, line: 300
+# File: usr/share/build-package/core/pull_operations.py, line: 306
 msgid   "  [2] ⚠️  DISCARD my changes and use only remote version"
 msgstr  ""
 
@@ -2134,7 +2138,7 @@ msgstr  ""
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/build_package.py, line: 2451
-# File: usr/share/build-package/core/pull_operations.py, line: 301
+# File: usr/share/build-package/core/pull_operations.py, line: 307
 msgid   "      ⚠️  WARNING: You will LOSE all your uncommitted local changes!"
 msgstr  ""
 
@@ -2142,7 +2146,7 @@ msgstr  ""
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/build_package.py, line: 2454
-# File: usr/share/build-package/core/pull_operations.py, line: 304
+# File: usr/share/build-package/core/pull_operations.py, line: 314
 msgid   "Choose option [1/2] (press Enter for default=1): "
 msgstr  ""
 
@@ -2150,7 +2154,7 @@ msgstr  ""
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/build_package.py, line: 2462
-# File: usr/share/build-package/core/pull_operations.py, line: 312
+# File: usr/share/build-package/core/pull_operations.py, line: 322
 msgid   "Discarding local changes and using remote version..."
 msgstr  ""
 
@@ -2258,14 +2262,14 @@ msgstr  ""
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/build_package.py, line: 2616
-# File: usr/share/build-package/core/pull_operations.py, line: 96
-# File: usr/share/build-package/core/pull_operations.py, line: 141
-# File: usr/share/build-package/core/pull_operations.py, line: 394
-# File: usr/share/build-package/core/pull_operations.py, line: 402
-# File: usr/share/build-package/core/pull_operations.py, line: 412
-# File: usr/share/build-package/core/pull_operations.py, line: 451
-# File: usr/share/build-package/core/pull_operations.py, line: 459
-# File: usr/share/build-package/core/pull_operations.py, line: 504
+# File: usr/share/build-package/core/pull_operations.py, line: 101
+# File: usr/share/build-package/core/pull_operations.py, line: 147
+# File: usr/share/build-package/core/pull_operations.py, line: 428
+# File: usr/share/build-package/core/pull_operations.py, line: 439
+# File: usr/share/build-package/core/pull_operations.py, line: 450
+# File: usr/share/build-package/core/pull_operations.py, line: 491
+# File: usr/share/build-package/core/pull_operations.py, line: 500
+# File: usr/share/build-package/core/pull_operations.py, line: 546
 msgid   "Press Enter to return to main menu..."
 msgstr  ""
 
@@ -2512,6 +2516,147 @@ msgid   "Error during branch cleanup: {0}"
 msgstr  ""
 
 #
+# File: usr/share/build-package/core/git_utils.py, line: 583
+# File: usr/share/build-package/core/git_utils.py, line: 695
+msgid   "Not a git repository"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 592
+msgid   "Could not determine current branch"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 702
+msgid   "Pulling with rebase..."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 715
+msgid   "⚠️ Rebase conflicts detected!"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 721
+msgid   "Rebase aborted automatically."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 727
+msgid   "The remote has conflicting changes."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 730
+msgid   "Rebase failed due to conflicts. What do you want to do?"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 732
+msgid   "🔀 Try merge instead (may auto-resolve)"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 733
+msgid   "⚠️ Force push MY version (overwrites remote)"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 734
+msgid   "❌ Cancel - I'll resolve manually"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 750
+msgid   "Conflict detected. Trying merge instead..."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 755
+#, python-brace-format
+msgid   "Rebase failed: {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 761
+msgid   "✓ Rebase successful"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 767
+msgid   "Pulling with merge..."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 779
+msgid   "⚠️ Merge conflicts detected!"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 780
+msgid   "Resolve conflicts in the marked files, then:"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 781
+msgid   "  1. Edit files to resolve conflicts"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 782
+msgid   "  2. git add <resolved-files>"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 783
+msgid   "  3. git commit"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 784
+msgid   "Or abort with: git merge --abort"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 788
+#, python-brace-format
+msgid   "Merge failed: {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 794
+msgid   "✓ Merge successful"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 800
+msgid   "⚠️ Force pushing (this overwrites remote!)..."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 811
+#, python-brace-format
+msgid   "Force push failed: {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 817
+msgid   "✓ Force push successful"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 822
+#, python-brace-format
+msgid   "Unknown resolution method: {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/git_utils.py, line: 827
+#, python-brace-format
+msgid   "Error resolving divergence: {0}"
+msgstr  ""
+
+#
 # File: usr/share/build-package/core/github_api.py, line: 31
 # File: usr/share/build-package/core/github_api.py, line: 75
 # File: usr/share/build-package/core/github_api.py, line: 656
@@ -2733,8 +2878,8 @@ msgstr  ""
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/github_api.py, line: 378
-# File: usr/share/build-package/core/operation_preview.py, line: 101
-# File: usr/share/build-package/core/pull_operations.py, line: 139
+# File: usr/share/build-package/core/operation_preview.py, line: 141
+# File: usr/share/build-package/core/pull_operations.py, line: 144
 #, python-brace-format
 msgid   "Error: {0}"
 msgstr  ""
@@ -3064,8 +3209,8 @@ msgstr  ""
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/github_api.py, line: 781
-# File: usr/share/build-package/core/pull_operations.py, line: 375
-# File: usr/share/build-package/core/pull_operations.py, line: 383
+# File: usr/share/build-package/core/pull_operations.py, line: 406
+# File: usr/share/build-package/core/pull_operations.py, line: 416
 #, python-brace-format
 msgid   "Merge {0} into {1}"
 msgstr  ""
@@ -3216,7 +3361,7 @@ msgstr  ""
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/commit_operations.py, line: 53
-# File: usr/share/build-package/core/pull_operations.py, line: 147
+# File: usr/share/build-package/core/pull_operations.py, line: 153
 msgid   "Analyzing repository state..."
 msgstr  ""
 
@@ -3224,7 +3369,7 @@ msgstr  ""
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/commit_operations.py, line: 62
-# File: usr/share/build-package/core/pull_operations.py, line: 155
+# File: usr/share/build-package/core/pull_operations.py, line: 161
 #, python-brace-format
 msgid   "Your branch: {0}"
 msgstr  ""
@@ -3260,7 +3405,7 @@ msgstr  ""
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/commit_operations.py, line: 83
-# File: usr/share/build-package/core/pull_operations.py, line: 161
+# File: usr/share/build-package/core/pull_operations.py, line: 167
 msgid   "Auto-switching to your branch..."
 msgstr  ""
 
@@ -3273,7 +3418,7 @@ msgstr  ""
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/commit_operations.py, line: 93
-# File: usr/share/build-package/core/pull_operations.py, line: 202
+# File: usr/share/build-package/core/pull_operations.py, line: 208
 #, python-brace-format
 msgid   "Switch to your branch: {0}"
 msgstr  ""
@@ -3282,7 +3427,7 @@ msgstr  ""
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/commit_operations.py, line: 112
-# File: usr/share/build-package/core/pull_operations.py, line: 283
+# File: usr/share/build-package/core/pull_operations.py, line: 289
 msgid   "⚠️  Conflicts while restoring changes"
 msgstr  ""
 
@@ -3362,101 +3507,217 @@ msgid   "✓ Changes restored successfully"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 205
+# File: usr/share/build-package/core/commit_operations.py, line: 204
 msgid   "Fetch latest from remote"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 223
-#, python-brace-format
-msgid   "Your branch is {0} commits behind remote"
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/commit_operations.py, line: 229
-msgid   "Pull latest changes after committing?"
-msgstr  ""
-
-#
-# File: usr/share/build-package/core/commit_operations.py, line: 237
+# File: usr/share/build-package/core/commit_operations.py, line: 219
 msgid   "No changes to commit"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 258
+# File: usr/share/build-package/core/commit_operations.py, line: 240
 msgid   "✗ Unresolved conflicts detected!"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 259
+# File: usr/share/build-package/core/commit_operations.py, line: 241
 msgid   "Cannot commit with conflict markers in files"
 msgstr  ""
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 262
-# File: usr/share/build-package/core/pull_operations.py, line: 94
-# File: usr/share/build-package/core/pull_operations.py, line: 410
-# File: usr/share/build-package/core/pull_operations.py, line: 448
+# File: usr/share/build-package/core/commit_operations.py, line: 244
+# File: usr/share/build-package/core/pull_operations.py, line: 98
+# File: usr/share/build-package/core/pull_operations.py, line: 447
+# File: usr/share/build-package/core/pull_operations.py, line: 487
 msgid   "✗ Failed to resolve conflicts"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 263
+# File: usr/share/build-package/core/commit_operations.py, line: 245
 msgid   "Please resolve manually:"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 264
+# File: usr/share/build-package/core/commit_operations.py, line: 246
 msgid   "1. Edit conflicted files"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 265
+# File: usr/share/build-package/core/commit_operations.py, line: 247
 msgid   "2. Remove <<<<<<, =======, >>>>>>> markers"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 266
+# File: usr/share/build-package/core/commit_operations.py, line: 248
 msgid   "3. Run 'git add <file>'"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 267
+# File: usr/share/build-package/core/commit_operations.py, line: 249
 msgid   "4. Run this command again"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 270
+# File: usr/share/build-package/core/commit_operations.py, line: 252
 msgid   "✓ Conflicts resolved, continuing..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 274
-msgid   "Stage all changes"
+# File: usr/share/build-package/core/commit_operations.py, line: 256
+msgid   "Staging and committing changes..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 280
+# File: usr/share/build-package/core/commit_operations.py, line: 268
+msgid   "✓ Changes committed locally"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/commit_operations.py, line: 272
 #, python-brace-format
-msgid   "Commit: {0}"
+msgid   "✗ Commit failed: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 289
+# File: usr/share/build-package/core/commit_operations.py, line: 282
+msgid   "⚠️ Your branch has diverged from remote!"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/commit_operations.py, line: 283
 #, python-brace-format
-msgid   "Pull {0} commits from remote"
+msgid   "   Local: {0} commit(s) ahead"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 305
+# File: usr/share/build-package/core/commit_operations.py, line: 284
+#, python-brace-format
+msgid   "   Remote: {0} commit(s) behind"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/commit_operations.py, line: 288
+msgid   "\n"
+        "   Your local commits:"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/commit_operations.py, line: 292
+# File: usr/share/build-package/core/commit_operations.py, line: 301
+#, python-brace-format
+msgid   "     ... and {0} more"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/commit_operations.py, line: 297
+msgid   "\n"
+        "   Remote commits (not in local):"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/commit_operations.py, line: 309
+msgid   "How do you want to resolve this divergence?"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/commit_operations.py, line: 311
+msgid   "📥 Pull with rebase (RECOMMENDED - clean history)"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/commit_operations.py, line: 312
+msgid   "🔀 Pull with merge (keeps both histories)"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/commit_operations.py, line: 313
+msgid   "⚠️ Force push (DANGEROUS - overwrites remote!)"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/commit_operations.py, line: 314
+msgid   "❌ Cancel and resolve manually"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/commit_operations.py, line: 320
+msgid   "Your commit is saved locally. To complete:"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/commit_operations.py, line: 321
+#, python-brace-format
+msgid   "  1. git pull --rebase origin {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/commit_operations.py, line: 322
+msgid   "  2. Resolve any conflicts"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/commit_operations.py, line: 323
+#, python-brace-format
+msgid   "  3. git push origin {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/commit_operations.py, line: 330
+msgid   "✗ Failed to resolve divergence"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/commit_operations.py, line: 331
+msgid   "Your commit is saved locally. Please resolve manually."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/commit_operations.py, line: 344
+# File: usr/share/build-package/core/commit_operations.py, line: 378
+# File: usr/share/build-package/core/commit_operations.py, line: 391
+#, python-brace-format
+msgid   "✗ Push failed: {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/commit_operations.py, line: 349
+#, python-brace-format
+msgid   "Your branch is {0} commit(s) behind remote"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/commit_operations.py, line: 356
+msgid   "Pull failed, trying merge..."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/commit_operations.py, line: 358
+msgid   "✗ Could not sync with remote"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/commit_operations.py, line: 362
+#, python-brace-format
+msgid   "Pull {0} commit(s) from remote before pushing?"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/commit_operations.py, line: 366
+msgid   "✗ Pull failed"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/commit_operations.py, line: 394
 #, python-brace-format
 msgid   "✓ Successfully committed and pushed to {0}!"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/commit_operations.py, line: 343
+# File: usr/share/build-package/core/commit_operations.py, line: 432
 #, python-brace-format
 msgid   "Error ensuring branch exists: {0}"
 msgstr  ""
@@ -3468,73 +3729,128 @@ msgid   "✗ Failed: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/operation_preview.py, line: 97
+# File: usr/share/build-package/core/operation_preview.py, line: 114
+msgid   "⚠️ Push rejected - your branch has diverged from remote!"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/operation_preview.py, line: 116
+msgid   "This happens when both you and someone else made changes."
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/operation_preview.py, line: 118
+msgid   "To resolve this, you can:"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/operation_preview.py, line: 120
+msgid   "  Option 1 (RECOMMENDED): Pull with rebase"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/operation_preview.py, line: 121
+#, python-brace-format
+msgid   "    git pull --rebase origin {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/operation_preview.py, line: 122
+# File: usr/share/build-package/core/operation_preview.py, line: 126
+#, python-brace-format
+msgid   "    git push origin {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/operation_preview.py, line: 124
+msgid   "  Option 2: Pull with merge"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/operation_preview.py, line: 125
+#, python-brace-format
+msgid   "    git pull origin {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/operation_preview.py, line: 128
+msgid   "  Option 3 (DANGEROUS): Force push (overwrites remote!)"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/operation_preview.py, line: 129
+#, python-brace-format
+msgid   "    git push --force-with-lease origin {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/operation_preview.py, line: 137
 #, python-brace-format
 msgid   "✗ Command failed: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/operation_preview.py, line: 103
+# File: usr/share/build-package/core/operation_preview.py, line: 143
 #, python-brace-format
 msgid   "Output: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/operation_preview.py, line: 105
+# File: usr/share/build-package/core/operation_preview.py, line: 145
 #, python-brace-format
 msgid   "Exit code: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/operation_preview.py, line: 155
+# File: usr/share/build-package/core/operation_preview.py, line: 195
 msgid   "No operations planned"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/operation_preview.py, line: 160
+# File: usr/share/build-package/core/operation_preview.py, line: 200
 msgid   "OPERATION PLAN"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/operation_preview.py, line: 187
+# File: usr/share/build-package/core/operation_preview.py, line: 227
 #, python-brace-format
 msgid   "⚠️  {0} destructive operation(s) out of {1} total"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/operation_preview.py, line: 189
+# File: usr/share/build-package/core/operation_preview.py, line: 229
 #, python-brace-format
 msgid   "ℹ️  {0} safe operation(s)"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/operation_preview.py, line: 202
+# File: usr/share/build-package/core/operation_preview.py, line: 242
 msgid   "⚠️  Proceed with these operations? (includes destructive actions)"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/operation_preview.py, line: 204
+# File: usr/share/build-package/core/operation_preview.py, line: 244
 msgid   "Proceed with these operations?"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/operation_preview.py, line: 235
+# File: usr/share/build-package/core/operation_preview.py, line: 275
 #, python-brace-format
 msgid   "Executing {0} operation(s)..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/operation_preview.py, line: 245
+# File: usr/share/build-package/core/operation_preview.py, line: 285
 msgid   "✗ Operation failed. Stopping execution."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/operation_preview.py, line: 249
+# File: usr/share/build-package/core/operation_preview.py, line: 289
 msgid   "✓ Completed"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/operation_preview.py, line: 257
+# File: usr/share/build-package/core/operation_preview.py, line: 297
 msgid   "Operation cancelled by user"
 msgstr  ""
 
@@ -3970,7 +4286,7 @@ msgstr  ""
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/conflict_resolver.py, line: 389
-# File: usr/share/build-package/core/pull_operations.py, line: 68
+# File: usr/share/build-package/core/pull_operations.py, line: 71
 #, python-brace-format
 msgid   "Conflicted files: {0}"
 msgstr  ""
@@ -4491,240 +4807,246 @@ msgid   "Show preview: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 63
+# File: usr/share/build-package/core/pull_operations.py, line: 66
 msgid   "⚠️  UNRESOLVED CONFLICTS DETECTED"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 65
+# File: usr/share/build-package/core/pull_operations.py, line: 68
 msgid   "You have unresolved conflicts from a previous operation!"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 66
+# File: usr/share/build-package/core/pull_operations.py, line: 69
 msgid   "You must resolve these conflicts before pulling."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 80
+# File: usr/share/build-package/core/pull_operations.py, line: 83
 msgid   "Next: You'll be asked how to resolve each conflict"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 85
-# File: usr/share/build-package/core/pull_operations.py, line: 443
+# File: usr/share/build-package/core/pull_operations.py, line: 89
+# File: usr/share/build-package/core/pull_operations.py, line: 482
 msgid   "Press Enter to start resolving conflicts..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 89
+# File: usr/share/build-package/core/pull_operations.py, line: 93
 msgid   "Opening conflict resolver..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 99
-# File: usr/share/build-package/core/pull_operations.py, line: 415
+# File: usr/share/build-package/core/pull_operations.py, line: 104
+# File: usr/share/build-package/core/pull_operations.py, line: 453
 msgid   "✓ Conflicts resolved"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 103
+# File: usr/share/build-package/core/pull_operations.py, line: 108
 msgid   "Committing resolved conflicts..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 121
+# File: usr/share/build-package/core/pull_operations.py, line: 126
 msgid   "Resolved files:"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 132
+# File: usr/share/build-package/core/pull_operations.py, line: 137
 #, python-brace-format
 msgid   "✓ Resolved conflicts committed ({0} files)"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 137
+# File: usr/share/build-package/core/pull_operations.py, line: 142
 msgid   "✗ Failed to commit resolved conflicts"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 144
+# File: usr/share/build-package/core/pull_operations.py, line: 150
 msgid   "Continuing with pull operations..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 156
+# File: usr/share/build-package/core/pull_operations.py, line: 162
 #, python-brace-format
 msgid   "Local changes: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 165
-# File: usr/share/build-package/core/pull_operations.py, line: 350
-# File: usr/share/build-package/core/pull_operations.py, line: 367
+# File: usr/share/build-package/core/pull_operations.py, line: 171
+# File: usr/share/build-package/core/pull_operations.py, line: 360
+# File: usr/share/build-package/core/pull_operations.py, line: 398
 msgid   "Stash local changes"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 188
+# File: usr/share/build-package/core/pull_operations.py, line: 194
 #, python-brace-format
 msgid   "Create local branch {0} from remote"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 195
+# File: usr/share/build-package/core/pull_operations.py, line: 201
 #, python-brace-format
 msgid   "Create new branch {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 209
+# File: usr/share/build-package/core/pull_operations.py, line: 215
 msgid   "Restore local changes"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 216
+# File: usr/share/build-package/core/pull_operations.py, line: 222
 #, python-brace-format
 msgid   "You're in {0}, but your branch is {1}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 221
+# File: usr/share/build-package/core/pull_operations.py, line: 227
 msgid   "Switch to my branch and pull there"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 222
+# File: usr/share/build-package/core/pull_operations.py, line: 228
 msgid   "Pull to current branch"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 256
+# File: usr/share/build-package/core/pull_operations.py, line: 262
 #, python-brace-format
 msgid   "Creating local branch {0} from remote"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 263
+# File: usr/share/build-package/core/pull_operations.py, line: 269
 #, python-brace-format
 msgid   "Creating new branch {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 317
+# File: usr/share/build-package/core/pull_operations.py, line: 327
 msgid   "Preserving your changes..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 329
+# File: usr/share/build-package/core/pull_operations.py, line: 339
 msgid   "Finding most recent code..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 338
+# File: usr/share/build-package/core/pull_operations.py, line: 348
 #, python-brace-format
 msgid   "Most recent branch: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 345
+# File: usr/share/build-package/core/pull_operations.py, line: 355
 #, python-brace-format
 msgid   "Pull from remote {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 362
+# File: usr/share/build-package/core/pull_operations.py, line: 386
 #, python-brace-format
-msgid   "Merging latest code from {0}"
+msgid   "✓ Already up to date with {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 381
+# File: usr/share/build-package/core/pull_operations.py, line: 391
 #, python-brace-format
-msgid   "Merge {0} into your branch?"
+msgid   "Found {0} new commit(s) from {1}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 388
+# File: usr/share/build-package/core/pull_operations.py, line: 412
+#, python-brace-format
+msgid   "Merge {0} new commit(s) from {1} into your branch?"
+msgstr  ""
+
+#
+# File: usr/share/build-package/core/pull_operations.py, line: 421
 msgid   "Skipping merge"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 392
+# File: usr/share/build-package/core/pull_operations.py, line: 425
 msgid   "✓ Already up to date"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 400
+# File: usr/share/build-package/core/pull_operations.py, line: 436
 msgid   "✗ Pull operation failed"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 434
+# File: usr/share/build-package/core/pull_operations.py, line: 472
 msgid   "⚠️  CONFLICTS WHILE RESTORING YOUR CHANGES"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 436
+# File: usr/share/build-package/core/pull_operations.py, line: 474
 msgid   "Your local changes conflict with the pulled code"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 438
+# File: usr/share/build-package/core/pull_operations.py, line: 476
 msgid   "The conflict resolver will help you merge:"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 439
+# File: usr/share/build-package/core/pull_operations.py, line: 477
 msgid   "  • Your local changes (from stash)"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 440
+# File: usr/share/build-package/core/pull_operations.py, line: 478
 msgid   "  • The newly pulled remote code"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 449
-# File: usr/share/build-package/core/pull_operations.py, line: 457
+# File: usr/share/build-package/core/pull_operations.py, line: 488
+# File: usr/share/build-package/core/pull_operations.py, line: 497
 msgid   "Your changes are still in stash. Use 'git stash pop' manually."
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 454
+# File: usr/share/build-package/core/pull_operations.py, line: 494
 msgid   "✓ Conflicts resolved, changes restored"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 456
+# File: usr/share/build-package/core/pull_operations.py, line: 496
 msgid   "✗ Failed to restore stashed changes"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 462
+# File: usr/share/build-package/core/pull_operations.py, line: 503
 msgid   "✓ Local changes restored successfully"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 467
+# File: usr/share/build-package/core/pull_operations.py, line: 508
 msgid   "PULL COMPLETED SUCCESSFULLY"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 483
+# File: usr/share/build-package/core/pull_operations.py, line: 524
 #, python-brace-format
 msgid   "Latest commit: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 495
+# File: usr/share/build-package/core/pull_operations.py, line: 536
 #, python-brace-format
 msgid   "New commits pulled: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/core/pull_operations.py, line: 500
+# File: usr/share/build-package/core/pull_operations.py, line: 541
 msgid   "✓ Pull completed"
 msgstr  ""
 
@@ -4805,8 +5127,8 @@ msgstr  ""
 # File: usr/share/build-package/gui/widgets/aur_widget.py, line: 271
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 193
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 328
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 540
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 561
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 545
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 566
 msgid   "Build Package"
 msgstr  ""
 
@@ -5217,8 +5539,8 @@ msgstr  ""
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/gui/main_window.py, line: 936
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 552
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 562
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 557
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 567
 #, python-brace-format
 msgid   "Operation failed: {0}"
 msgstr  ""
@@ -6387,40 +6709,45 @@ msgid   "Terminal Log"
 msgstr  ""
 
 #
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 309
-msgid   "Completed"
-msgstr  ""
-
-#
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 310
-msgid   "✓ Operation completed successfully"
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 290
+msgid   "Operation returned failure status"
 msgstr  ""
 
 #
 # File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 314
-msgid   "Failed"
+msgid   "Completed"
 msgstr  ""
 
 #
 # File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 315
+msgid   "✓ Operation completed successfully"
+msgstr  ""
+
+#
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 319
+msgid   "Failed"
+msgstr  ""
+
+#
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 320
 #, python-brace-format
 msgid   "✗ Operation failed: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 328
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 333
 msgid   "Done"
 msgstr  ""
 
 #
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 370
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 376
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 375
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 381
 msgid   "Open in GitHub"
 msgstr  ""
 
 #
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 534
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 541
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 539
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 546
 msgid   "Operation completed successfully"
 msgstr  ""
 
@@ -6734,833 +7061,4 @@ msgstr  ""
 # File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 170
 # File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 209
 msgid   "Launch Error"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 31
-# File: usr/share/build-package/github_api.py, line: 75
-# File: usr/share/build-package/github_api.py, line: 517
-# File: usr/share/build-package/github_api.py, line: 566
-msgid   "Could not determine repository name."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 37
-msgid   "Could not determine current commit SHA."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 46
-#, python-brace-format
-msgid   "Creating reference: {0}..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 61
-# File: usr/share/build-package/github_api.py, line: 67
-#, python-brace-format
-msgid   "Error creating reference: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 64
-#, python-brace-format
-msgid   "Reference {0} created successfully!"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 87
-#, python-brace-format
-msgid   "Could not determine SHA for {0}."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 90
-#, python-brace-format
-msgid   "Creating branch: {0} based on {1}..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 102
-# File: usr/share/build-package/github_api.py, line: 109
-#, python-brace-format
-msgid   "Error creating branch: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 103
-#, python-brace-format
-msgid   "Error details: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 106
-#, python-brace-format
-msgid   "Branch {0} created successfully!"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 183
-msgid   "Backing up local changes..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 191
-msgid   "Updating remote references..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 195
-#, python-brace-format
-msgid   "Switching to branch {0}..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 202
-#, python-brace-format
-msgid   "Merging {0} into {1}..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 211
-msgid   "Merge completed without conflicts!"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 214
-msgid   "Conflicts detected, resolving automatically..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 227
-msgid   "Using advanced resolution strategy..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 254
-msgid   "Conflicts resolved automatically!"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 256
-msgid   "Could not resolve conflicts automatically"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 259
-msgid   "No differences detected"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 262
-msgid   "Pushing resolved branch..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 271
-msgid   "Restoring local changes..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 274
-msgid   "Conflict resolution completed successfully!"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 278
-#, python-brace-format
-msgid   "Error during conflict resolution: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 302
-msgid   "Waiting for PR to be ready for merge..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 316
-#, python-brace-format
-msgid   "Attempt {0}/{1}: mergeable={2}, state={3}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 320
-msgid   "PR ready for merge!"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 323
-msgid   "PR has conflicts"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 330
-#, python-brace-format
-msgid   "Unexpected state: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 333
-#, python-brace-format
-msgid   "Error checking PR: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 337
-#, python-brace-format
-msgid   "Error: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 340
-msgid   "Timeout waiting for PR to be ready"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 358
-msgid   "Failed to create branch for the build."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 363
-#, python-brace-format
-msgid   "Using existing branch: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 385
-#, python-brace-format
-msgid   "Error retrieving remote repository URL for package: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 388
-#, python-brace-format
-msgid   "Detected repository: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 394
-#, python-brace-format
-msgid   "Testing package: workflow will use branch {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 417
-msgid   "Stable/Extra package: main is up-to-date, workflow will use main"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 421
-#, python-brace-format
-msgid   "Stable/Extra package: main not up-to-date, workflow will use {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 422
-# File: usr/share/build-package/github_api.py, line: 435
-#, python-brace-format
-msgid   "⚠️  Warning: Package will be built from {0} instead of main"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 425
-msgid   "Stable/Extra package: workflow will use main"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 430
-#, python-brace-format
-msgid   "Could not verify branch status, using current: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 434
-#, python-brace-format
-msgid   "Stable/Extra package: not on main, workflow will use {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 452
-msgid   "Workflow payload:"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 453
-#, python-brace-format
-msgid   "  - branch: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 454
-#, python-brace-format
-msgid   "  - git_branch: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 455
-#, python-brace-format
-msgid   "  - branch_type: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 457
-#, python-brace-format
-msgid   "  - new_branch: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 460
-msgid   "Triggering build workflow on GitHub..."
-msgstr  ""
-
-#
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-#
-# File: usr/share/build-package/github_api.py, line: 469
-# File: usr/share/build-iso/github_api.py, line: 129
-#, python-brace-format
-msgid   "Error triggering workflow. Response code: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 472
-#, python-brace-format
-msgid   "Build workflow ({0}) triggered successfully."
-msgstr  ""
-
-#
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-#
-# File: usr/share/build-package/github_api.py, line: 476
-# File: usr/share/build-iso/github_api.py, line: 145
-#, python-brace-format
-msgid   "URL to monitor the build: {0}"
-msgstr  ""
-
-#
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-#
-# File: usr/share/build-package/github_api.py, line: 480
-# File: usr/share/build-iso/github_api.py, line: 149
-#, python-brace-format
-msgid   "Error triggering workflow: {0}"
-msgstr  ""
-
-#
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-#
-# File: usr/share/build-package/github_api.py, line: 488
-# File: usr/share/build-iso/github_api.py, line: 30
-#, python-brace-format
-msgid   "Token file '{0}' not found."
-msgstr  ""
-
-#
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-#
-# File: usr/share/build-package/github_api.py, line: 506
-# File: usr/share/build-iso/github_api.py, line: 48
-#, python-brace-format
-msgid   "Token for organization '{0}' not found."
-msgstr  ""
-
-#
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-#
-# File: usr/share/build-package/github_api.py, line: 509
-# File: usr/share/build-iso/github_api.py, line: 51
-#, python-brace-format
-msgid   "Error reading token: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 520
-#, python-brace-format
-msgid   "Cleaning Actions jobs with '{0}' status..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 529
-#, python-brace-format
-msgid   "Error fetching Actions jobs. Code: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 536
-#, python-brace-format
-msgid   "No Action jobs with '{0}' status found."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 543
-#, python-brace-format
-msgid   "Deleting job {0}..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 553
-#, python-brace-format
-msgid   "Error deleting job {0}. Code: {1}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 555
-#, python-brace-format
-msgid   "Deleted {0} Actions jobs with '{1}' status."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 558
-#, python-brace-format
-msgid   "Error cleaning Actions jobs: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 569
-msgid   "Getting tag list..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 578
-#, python-brace-format
-msgid   "Error fetching tags. Code: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 584
-msgid   "No tags found."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 591
-#, python-brace-format
-msgid   "Deleting tag {0}..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 602
-#, python-brace-format
-msgid   "Error deleting tag {0}. Code: {1}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 604
-#, python-brace-format
-msgid   "Deleted {0} tags."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 607
-#, python-brace-format
-msgid   "Error cleaning tags: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 616
-msgid   "Source branch name is required to create a pull request"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 623
-msgid   "Repository name could not be determined"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 627
-#, python-brace-format
-msgid   "Creating pull request: {0} → {1}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 632
-msgid   "Resolving possible conflicts before merge..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 637
-msgid   "Warning: Could not resolve conflicts automatically"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 638
-msgid   "Trying to create PR anyway..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 642
-#, python-brace-format
-msgid   "Merge {0} into {1}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 643
-msgid   "Automated PR created by build_package.py"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 644
-msgid   "Conflicts resolved automatically (if any)"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 645
-msgid   "Ready for automatic merge"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 657
-#, python-brace-format
-msgid   "Failed to create PR: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 665
-#, python-brace-format
-msgid   "Pull request created successfully: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 670
-msgid   "Starting auto-merge process..."
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 679
-#, python-brace-format
-msgid   "Auto-merge: {0} → {1}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 680
-msgid   "Automated merge performed by build_package.py"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 689
-msgid   "AUTO-MERGE COMPLETED SUCCESSFULLY!"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 690
-#, python-brace-format
-msgid   "SHA: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 698
-#, python-brace-format
-msgid   "Auto-merge failed: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 700
-# File: usr/share/build-package/github_api.py, line: 707
-msgid   "PR created but must be merged manually"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 706
-#, python-brace-format
-msgid   "PR not ready for merge (state: {0})"
-msgstr  ""
-
-#
-# File: usr/share/build-package/github_api.py, line: 716
-#, python-brace-format
-msgid   "Error creating pull request: {0}"
-msgstr  ""
-
-#
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-#
-# File: usr/share/build-package/logger.py, line: 69
-# File: usr/share/build-iso/logger.py, line: 68
-msgid   "ERROR"
-msgstr  ""
-
-#
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-#
-# File: usr/share/build-package/logger.py, line: 121
-# File: usr/share/build-iso/logger.py, line: 120
-msgid   "Field"
-msgstr  ""
-
-#
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-#
-# File: usr/share/build-package/logger.py, line: 122
-# File: usr/share/build-iso/logger.py, line: 121
-msgid   "Value"
-msgstr  ""
-
-#
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-#
-# File: usr/share/build-package/menu_system.py, line: 95
-# File: usr/share/build-iso/menu_system.py, line: 91
-msgid   "Use [white]arrow keys ↑↓[/] to navigate, [white]Enter[/] to select, "
-        "[white]ESC[/] to exit"
-msgstr  ""
-
-#
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-#
-# File: usr/share/build-package/main.py, line: 34
-# File: usr/share/build-iso/main.py, line: 33
-#, python-brace-format
-msgid   "Unhandled error: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-package/config.py, line: 46
-msgid   "BUILD PACKAGE"
-msgstr  ""
-
-#
-# File: usr/share/build-package/config.py, line: 47
-msgid   "A comprehensive tool for package building, testing, and deployment. "
-        "Streamlines Git operations, automates builds and manages package "
-        "workflows for BigCommunity repositories and AUR packages."
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 102
-msgid   "Set the distribution name"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 106
-msgid   "Set the edition (desktop environment)"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 109
-msgid   "Set the kernel type"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 114
-msgid   "Automatic mode using default values"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 170
-#, python-brace-format
-msgid   "Choose the GitHub {0}:"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 193
-#, python-brace-format
-msgid   "Choose the {0}:"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 223
-msgid   "Choose the ISO profiles repository:"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 237
-msgid   "No ISO profiles repository selected."
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 243
-# File: usr/share/build-iso/build_iso.py, line: 312
-#, python-brace-format
-msgid   "Error: Repository API URL not found: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 246
-#, python-brace-format
-msgid   "Fetching from API: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 252
-#, python-brace-format
-msgid   "Error: API request failed with status code {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 276
-#, python-brace-format
-msgid   "Choose a {0} for {1}:"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 287
-#, python-brace-format
-msgid   "Error fetching build list: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 292
-#, python-brace-format
-msgid   "Choose a {0} for {1} (from defaults):"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 305
-msgid   "Repository and build directory must be selected first."
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 341
-#, python-brace-format
-msgid   "Choose an {0} for {1}:"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 352
-#, python-brace-format
-msgid   "Error fetching editions: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 357
-#, python-brace-format
-msgid   "Choose an {0} for {1} (from defaults):"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 370
-# File: usr/share/build-iso/build_iso.py, line: 383
-# File: usr/share/build-iso/build_iso.py, line: 396
-#, python-brace-format
-msgid   "Choose the {0} branch for {1}:"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 409
-#, python-brace-format
-msgid   "Choose the {0} version:"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 444
-msgid   "Distribution"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 445
-msgid   "ISO Profiles Repo"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 446
-msgid   "Build Dir"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 447
-msgid   "Edition"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 448
-msgid   "Manjaro Branch"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 449
-msgid   "Community Branch"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 450
-msgid   "BigLinux Branch"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 451
-msgid   "Kernel"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 452
-msgid   "Release Tag"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 457
-msgid   "ISO Build Summary"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 460
-msgid   "Do you want to proceed with building the ISO?"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 461
-msgid   "ISO build cancelled."
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 483
-#, python-brace-format
-msgid   "No default configuration found for organization '{0}'."
-msgstr  ""
-
-#
-# File: usr/share/build-iso/build_iso.py, line: 562
-#, python-brace-format
-msgid   "{0} (version {1})"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/github_api.py, line: 112
-msgid   "Triggering ISO build workflow on GitHub..."
-msgstr  ""
-
-#
-# File: usr/share/build-iso/github_api.py, line: 116
-#, python-brace-format
-msgid   "Sending request to: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/github_api.py, line: 125
-msgid   "Error triggering workflow (code 422). Can't have more than 10 "
-        "entries in the event."
-msgstr  ""
-
-#
-# File: usr/share/build-iso/github_api.py, line: 132
-#, python-brace-format
-msgid   "ISO build workflow triggered successfully for {0}."
-msgstr  ""
-
-#
-# File: usr/share/build-iso/github_api.py, line: 133
-msgid   "Please check the 'Actions' tab on GitHub to monitor the build "
-        "progress."
-msgstr  ""
-
-#
-# File: usr/share/build-iso/github_api.py, line: 136
-msgid   "TMATE session will be enabled. Watch the GitHub Actions logs for "
-        "connection information."
-msgstr  ""
-
-#
-# File: usr/share/build-iso/github_api.py, line: 138
-msgid   "Waiting 3 seconds for the API to trigger the Action to get the 'id'."
-msgstr  ""
-
-#
-# File: usr/share/build-iso/config.py, line: 188
-msgid   "BUILD ISO"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/config.py, line: 189
-msgid   "Wrapper for ISO building using GitHub Actions. Streamlines the "
-        "process of creating custom Linux distribution ISO images through "
-        "automation."
 msgstr  ""
