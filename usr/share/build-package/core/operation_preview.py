@@ -58,16 +58,17 @@ class Operation:
                 if result.stdout:
                     logger.log("dim", result.stdout.strip())
             except subprocess.CalledProcessError as e:
-                # Special handling for git pull - check if it's a real error
+                # Check stderr and stdout for error analysis
+                stderr_lower = e.stderr.lower() if e.stderr else ""
+                stdout_lower = e.stdout.lower() if e.stdout else ""
+                combined = stderr_lower + stdout_lower
+                
+                # Detect git command type
                 is_git_pull = len(cmd) >= 2 and cmd[0] == "git" and cmd[1] == "pull"
+                is_git_push = len(cmd) >= 2 and cmd[0] == "git" and cmd[1] == "push"
 
                 if is_git_pull:
-                    # Check stderr and stdout for actual error indicators
-                    stderr_lower = e.stderr.lower() if e.stderr else ""
-                    stdout_lower = e.stdout.lower() if e.stdout else ""
-                    combined = stderr_lower + stdout_lower
-
-                    # These are REAL errors
+                    # These are REAL errors for pull
                     real_error_indicators = [
                         "conflict",
                         "error:",
@@ -92,6 +93,45 @@ class Operation:
                         if e.stdout:
                             logger.log("dim", e.stdout.strip())
                         continue  # Continue to next command - treat as success
+                
+                if is_git_push:
+                    # Check for push rejection (branches diverged)
+                    push_rejection_indicators = [
+                        "rejected",
+                        "non-fast-forward",
+                        "updates were rejected",
+                        "failed to push",
+                        "your branch is behind"
+                    ]
+                    
+                    is_rejection = any(indicator in combined for indicator in push_rejection_indicators)
+                    
+                    if is_rejection:
+                        # Extract branch name from command if possible
+                        branch = cmd[-1] if len(cmd) > 3 else "your branch"
+                        
+                        logger.log("yellow", "")
+                        logger.log("yellow", _("⚠️ Push rejected - your branch has diverged from remote!"))
+                        logger.log("white", _(""))
+                        logger.log("white", _("This happens when both you and someone else made changes."))
+                        logger.log("white", _(""))
+                        logger.log("cyan", _("To resolve this, you can:"))
+                        logger.log("white", _(""))
+                        logger.log("white", _("  Option 1 (RECOMMENDED): Pull with rebase"))
+                        logger.log("dim", _("    git pull --rebase origin {0}").format(branch))
+                        logger.log("dim", _("    git push origin {0}").format(branch))
+                        logger.log("white", _(""))
+                        logger.log("white", _("  Option 2: Pull with merge"))
+                        logger.log("dim", _("    git pull origin {0}").format(branch))
+                        logger.log("dim", _("    git push origin {0}").format(branch))
+                        logger.log("white", _(""))
+                        logger.log("yellow", _("  Option 3 (DANGEROUS): Force push (overwrites remote!)"))
+                        logger.log("dim", _("    git push --force-with-lease origin {0}").format(branch))
+                        logger.log("white", "")
+                        
+                        self.executed = True
+                        self.success = False
+                        return False
 
                 # Real error - show details
                 logger.log("red", _("✗ Command failed: {0}").format(' '.join(cmd)))

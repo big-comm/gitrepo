@@ -284,8 +284,13 @@ class ProgressDialog(Adw.Window):
             result = self.operation_function(*self.operation_args, **self.operation_kwargs)
             self.result = result
             
-            # Signal completion on main thread (capture result by default arg)
-            GLib.idle_add(lambda r=result: self._complete_operation(True, r))
+            # Check if result is explicitly False (operation failed)
+            # Operations that return False indicate failure without exception
+            if result is False:
+                GLib.idle_add(lambda: self._complete_operation(False, _("Operation returned failure status")))
+            else:
+                # Signal completion on main thread (capture result by default arg)
+                GLib.idle_add(lambda r=result: self._complete_operation(True, r))
             
         except Exception as ex:
             self.error = ex

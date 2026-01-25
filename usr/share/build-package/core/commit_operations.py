@@ -196,9 +196,8 @@ def commit_and_push_v2(build_package_instance):
                 current_branch = expected_branch
             # else: continue in current branch
 
-    # === PHASE 4: FETCH LATEST (info only, don't pull yet) ===
-    commits_behind = 0
-    should_pull = False
+    # === PHASE 4: FETCH LATEST (info only) ===
+    # Fetch to update remote refs, actual sync handled in PHASE 8.5
 
     if bp.settings.get("auto_fetch", True):
         plan.add(
@@ -207,26 +206,9 @@ def commit_and_push_v2(build_package_instance):
             destructive=False
         )
 
-    # Check if behind (but DON'T pull yet - we need to commit first!)
+    # Quick fetch to check status (divergence check in PHASE 8.5 will handle sync)
     try:
         subprocess.run(["git", "fetch", "origin"], check=True, capture_output=True)
-        behind_result = subprocess.run(
-            ["git", "rev-list", "--count", f"HEAD..origin/{current_branch}"],
-            capture_output=True,
-            text=True,
-            check=False
-        )
-
-        if behind_result.returncode == 0 and behind_result.stdout.strip():
-            commits_behind = int(behind_result.stdout.strip())
-            if commits_behind > 0:
-                bp.logger.log("yellow", _("Your branch is {0} commits behind remote").format(commits_behind))
-
-                # Ask user if they want to pull AFTER committing
-                if mode_config["auto_pull"] or bp.settings.get("auto_pull", False):
-                    should_pull = True
-                else:
-                    should_pull = bp.menu.confirm(_("Pull latest changes after committing?"))
     except Exception:
         pass  # Ignore fetch errors
 
@@ -269,38 +251,145 @@ def commit_and_push_v2(build_package_instance):
 
         bp.logger.log("green", _("✓ Conflicts resolved, continuing..."))
 
-    # === PHASE 8: COMMIT AND PUSH ===
-    plan.add(
-        _("Stage all changes"),
-        ["git", "add", "--all"],
-        destructive=False
-    )
-
-    plan.add(
-        _("Commit: {0}").format(commit_message[:50] + "..." if len(commit_message) > 50 else commit_message),
-        ["git", "commit", "-m", commit_message],
-        destructive=False
-    )
-
-    # === PHASE 8.5: PULL AFTER COMMIT (if needed) ===
-    # Now that local changes are committed, safe to pull remote changes
-    if should_pull and commits_behind > 0:
-        plan.add(
-            _("Pull {0} commits from remote").format(commits_behind),
-            ["git", "pull", "origin", current_branch, "--rebase", "--no-edit"],
-            destructive=False
+    # === PHASE 8: COMMIT LOCAL CHANGES FIRST ===
+    # Critical: Must commit BEFORE trying to pull/sync with remote
+    bp.logger.log("cyan", _("Staging and committing changes..."))
+    
+    try:
+        # Stage all changes
+        subprocess.run(["git", "add", "--all"], check=True, capture_output=True)
+        
+        # Commit
+        subprocess.run(
+            ["git", "commit", "-m", commit_message],
+            check=True,
+            capture_output=True
         )
-
-    # === PHASE 9: PUSH ===
-    plan.add(
-        "Push to {0}".format(current_branch),
-        ["git", "push", "-u", "origin", current_branch],
-        destructive=False
-    )
-
-    # === PHASE 10: EXECUTE PLAN ===
-    if not plan.execute_with_confirmation():
+        bp.logger.log("green", _("✓ Changes committed locally"))
+        
+    except subprocess.CalledProcessError as e:
+        error_msg = e.stderr.decode() if e.stderr else str(e)
+        bp.logger.log("red", _("✗ Commit failed: {0}").format(error_msg))
         return False
+
+    # === PHASE 8.5: CHECK DIVERGENCE AND SYNC ===
+    # Now that changes are committed, safe to check divergence and sync
+    divergence = GitUtils.check_branch_divergence(current_branch)
+    
+    if divergence['diverged']:
+        # Branches have diverged - need user decision
+        bp.logger.log("yellow", "")
+        bp.logger.log("yellow", _("⚠️ Your branch has diverged from remote!"))
+        bp.logger.log("white", _("   Local: {0} commit(s) ahead").format(divergence['ahead']))
+        bp.logger.log("white", _("   Remote: {0} commit(s) behind").format(divergence['behind']))
+        
+        # Show commit details
+        if divergence['local_commits']:
+            bp.logger.log("cyan", _("\n   Your local commits:"))
+            for sha, msg in divergence['local_commits'][:3]:  # Show max 3
+                bp.logger.log("white", f"     • {sha[:7]} {msg}")
+            if len(divergence['local_commits']) > 3:
+                bp.logger.log("dim", _("     ... and {0} more").format(
+                    len(divergence['local_commits']) - 3
+                ))
+        
+        if divergence['remote_commits']:
+            bp.logger.log("cyan", _("\n   Remote commits (not in local):"))
+            for sha, msg in divergence['remote_commits'][:3]:  # Show max 3
+                bp.logger.log("white", f"     • {sha[:7]} {msg}")
+            if len(divergence['remote_commits']) > 3:
+                bp.logger.log("dim", _("     ... and {0} more").format(
+                    len(divergence['remote_commits']) - 3
+                ))
+        
+        bp.logger.log("white", "")
+        
+        # Show resolution menu
+        choice = bp.menu.show_menu(
+            _("How do you want to resolve this divergence?"),
+            [
+                _("📥 Pull with rebase (RECOMMENDED - clean history)"),
+                _("🔀 Pull with merge (keeps both histories)"),
+                _("⚠️ Force push (DANGEROUS - overwrites remote!)"),
+                _("❌ Cancel and resolve manually")
+            ]
+        )
+        
+        if choice is None or choice[0] == 3:  # Cancel
+            bp.logger.log("yellow", _("Operation cancelled"))
+            bp.logger.log("white", _("Your commit is saved locally. To complete:"))
+            bp.logger.log("white", _("  1. git pull --rebase origin {0}").format(current_branch))
+            bp.logger.log("white", _("  2. Resolve any conflicts"))
+            bp.logger.log("white", _("  3. git push origin {0}").format(current_branch))
+            return False
+        
+        resolution_method = ['rebase', 'merge', 'force_push'][choice[0]]
+        
+        # Resolve the divergence
+        if not GitUtils.resolve_divergence(current_branch, resolution_method, bp.logger):
+            bp.logger.log("red", _("✗ Failed to resolve divergence"))
+            bp.logger.log("yellow", _("Your commit is saved locally. Please resolve manually."))
+            return False
+        
+        # After rebase/merge, push
+        if resolution_method != 'force_push':
+            try:
+                subprocess.run(
+                    ["git", "push", "-u", "origin", current_branch],
+                    check=True,
+                    capture_output=True
+                )
+            except subprocess.CalledProcessError as e:
+                error_msg = e.stderr.decode() if e.stderr else str(e)
+                bp.logger.log("red", _("✗ Push failed: {0}").format(error_msg))
+                return False
+    
+    elif divergence['behind'] > 0:
+        # Only behind (not diverged) - sync then push
+        bp.logger.log("cyan", _("Your branch is {0} commit(s) behind remote").format(
+            divergence['behind']
+        ))
+        
+        if mode_config.get("auto_pull", False) or is_gui_mode:
+            # Auto pull with rebase
+            if not GitUtils.resolve_divergence(current_branch, 'rebase', bp.logger):
+                bp.logger.log("yellow", _("Pull failed, trying merge..."))
+                if not GitUtils.resolve_divergence(current_branch, 'merge', bp.logger):
+                    bp.logger.log("red", _("✗ Could not sync with remote"))
+                    return False
+        else:
+            # Ask user
+            if bp.menu.confirm(_("Pull {0} commit(s) from remote before pushing?").format(
+                divergence['behind']
+            )):
+                if not GitUtils.resolve_divergence(current_branch, 'rebase', bp.logger):
+                    bp.logger.log("red", _("✗ Pull failed"))
+                    return False
+        
+        # Push after sync
+        try:
+            subprocess.run(
+                ["git", "push", "-u", "origin", current_branch],
+                check=True,
+                capture_output=True
+            )
+        except subprocess.CalledProcessError as e:
+            error_msg = e.stderr.decode() if e.stderr else str(e)
+            bp.logger.log("red", _("✗ Push failed: {0}").format(error_msg))
+            return False
+    
+    else:
+        # Not diverged, not behind - normal push
+        try:
+            subprocess.run(
+                ["git", "push", "-u", "origin", current_branch],
+                check=True,
+                capture_output=True
+            )
+        except subprocess.CalledProcessError as e:
+            error_msg = e.stderr.decode() if e.stderr else str(e)
+            bp.logger.log("red", _("✗ Push failed: {0}").format(error_msg))
+            return False
 
     bp.logger.log("green", _("✓ Successfully committed and pushed to {0}!").format(
         bp.logger.format_branch_name(current_branch)
