@@ -326,7 +326,7 @@ def commit_and_push_v2(build_package_instance):
         resolution_method = ['rebase', 'merge', 'force_push'][choice[0]]
         
         # Resolve the divergence
-        if not GitUtils.resolve_divergence(current_branch, resolution_method, bp.logger):
+        if not GitUtils.resolve_divergence(current_branch, resolution_method, bp.logger, bp.menu):
             bp.logger.log("red", _("✗ Failed to resolve divergence"))
             bp.logger.log("yellow", _("Your commit is saved locally. Please resolve manually."))
             return False
@@ -352,9 +352,9 @@ def commit_and_push_v2(build_package_instance):
         
         if mode_config.get("auto_pull", False) or is_gui_mode:
             # Auto pull with rebase
-            if not GitUtils.resolve_divergence(current_branch, 'rebase', bp.logger):
+            if not GitUtils.resolve_divergence(current_branch, 'rebase', bp.logger, bp.menu):
                 bp.logger.log("yellow", _("Pull failed, trying merge..."))
-                if not GitUtils.resolve_divergence(current_branch, 'merge', bp.logger):
+                if not GitUtils.resolve_divergence(current_branch, 'merge', bp.logger, bp.menu):
                     bp.logger.log("red", _("✗ Could not sync with remote"))
                     return False
         else:
@@ -362,7 +362,7 @@ def commit_and_push_v2(build_package_instance):
             if bp.menu.confirm(_("Pull {0} commit(s) from remote before pushing?").format(
                 divergence['behind']
             )):
-                if not GitUtils.resolve_divergence(current_branch, 'rebase', bp.logger):
+                if not GitUtils.resolve_divergence(current_branch, 'rebase', bp.logger, bp.menu):
                     bp.logger.log("red", _("✗ Pull failed"))
                     return False
         
