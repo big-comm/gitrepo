@@ -82,8 +82,41 @@ class BuildPackageApplication(Adw.Application):
         """Called when the application starts up"""
         Adw.Application.do_startup(self)
         
+        # Load custom CSS for UI adjustments
+        self._setup_css()
+        
         # Setup application menu
         self.setup_menu()
+    
+    def _setup_css(self):
+        """Setup custom CSS styles"""
+        from gi.repository import Gdk
+        
+        css_provider = Gtk.CssProvider()
+        css_data = """
+            /* Make dropdown popups wider to show full text */
+            .wide-dropdown popover.menu {
+                min-width: 280px;
+            }
+            
+            .wide-dropdown popover.menu modelbutton {
+                min-width: 260px;
+            }
+            
+            /* Ensure dropdown list items don't truncate */
+            row.combo popover contents modelbutton {
+                min-width: 250px;
+            }
+        """
+        css_provider.load_from_data(css_data.encode('utf-8'))
+        
+        display = Gdk.Display.get_default()
+        if display:
+            Gtk.StyleContext.add_provider_for_display(
+                display,
+                css_provider,
+                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+            )
     
     def setup_menu(self):
         """Setup application menu"""
