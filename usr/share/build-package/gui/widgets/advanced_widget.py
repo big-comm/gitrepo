@@ -135,9 +135,11 @@ class AdvancedWidget(Gtk.Box):
         revert_group.set_title(_("Commit History"))
         revert_group.set_description(_("View and revert recent commits"))
         
-        # Commit list
+        # Commit list - show at least 5 commits
         scrolled_commits = Gtk.ScrolledWindow()
         scrolled_commits.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        scrolled_commits.set_min_content_height(250)  # Height for ~5 commits
+        scrolled_commits.set_max_content_height(350)  # Max height to prevent taking all space
         
         self.commits_list = Gtk.ListBox()
         self.commits_list.set_selection_mode(Gtk.SelectionMode.SINGLE)
@@ -151,10 +153,12 @@ class AdvancedWidget(Gtk.Box):
         self.revert_method_row = Adw.ComboRow()
         self.revert_method_row.set_title(_("Revert Method"))
         self.revert_method_row.set_subtitle(_("Choose how to undo the commit"))
+        self.revert_method_row.set_use_subtitle(True)
         
         methods = Gtk.StringList()
-        methods.append(_("Revert (keep history)"))
-        methods.append(_("Reset (remove from history)"))
+        # Shorter text that fits in popup - tooltip can explain more
+        methods.append(_("Revert (keep)"))      # Creates revert commit
+        methods.append(_("Reset (delete)"))     # Removes from history
         self.revert_method_row.set_model(methods)
         self.revert_method_row.set_selected(0)  # Default to revert
         
