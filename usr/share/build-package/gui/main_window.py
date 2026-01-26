@@ -622,7 +622,44 @@ class MainWindow(Adw.ApplicationWindow):
                 log("red", str(e))
                 raise
         
-        # Step 3: Push
+        # Step 3: Check for divergence and sync before push
+        log("cyan", _("Checking remote status..."))
+        divergence = GitUtils.check_branch_divergence(current_branch)
+        
+        if divergence.get('error'):
+            log("yellow", _("⚠ Could not check remote status: {0}").format(divergence['error']))
+            log("dim", _("    Proceeding with push anyway..."))
+        elif divergence.get('diverged') or divergence.get('behind', 0) > 0:
+            # Need to sync with remote first
+            behind_count = divergence.get('behind', 0)
+            ahead_count = divergence.get('ahead', 0)
+            
+            if divergence.get('diverged'):
+                log("yellow", _("⚠ Branch has diverged from remote"))
+                log("dim", _("    Local: {0} commit(s) ahead").format(ahead_count))
+                log("dim", _("    Remote: {0} commit(s) to sync").format(behind_count))
+            else:
+                log("cyan", _("Remote has {0} new commit(s) - syncing...").format(behind_count))
+            
+            log("cyan", _("Pulling with rebase to sync..."))
+            log("dim", _("    git pull --rebase origin {0}").format(current_branch))
+            
+            # Try to auto-resolve with rebase
+            if GitUtils.resolve_divergence(current_branch, 'rebase', logger):
+                log("green", _("✓ Synced with remote successfully"))
+            else:
+                # Rebase failed, try merge
+                log("yellow", _("⚠ Rebase had conflicts, trying merge..."))
+                if GitUtils.resolve_divergence(current_branch, 'merge', logger):
+                    log("green", _("✓ Merged with remote successfully"))
+                else:
+                    log("red", _("✗ Could not sync with remote automatically"))
+                    log("white", _("Please resolve conflicts manually and try again"))
+                    raise Exception(_("Failed to sync with remote - conflicts need manual resolution"))
+        else:
+            log("green", _("✓ Already in sync with remote"))
+        
+        # Step 4: Push
         log("cyan", _("Pushing to remote..."))
         log("dim", f"    git push -u origin {current_branch}")
         try:
