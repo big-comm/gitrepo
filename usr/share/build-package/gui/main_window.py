@@ -225,6 +225,7 @@ class MainWindow(Adw.ApplicationWindow):
         # Commit widget signals
         self.commit_widget.connect('commit-requested', self.on_commit_requested)
         self.commit_widget.connect('push-requested', self.on_pull_requested)
+        self.commit_widget.connect('undo-commit-requested', self.on_undo_commit_requested)
         
         # Package widget signals
         self.package_widget.connect('package-build-requested', self.on_package_build_requested)
@@ -479,37 +480,77 @@ class MainWindow(Adw.ApplicationWindow):
         self._pending_commit_message = None
     
     def _switch_then_commit(self, target_branch, commit_message):
-        """Switch to target branch then commit"""
+        """Switch to target branch then commit with logging"""
         import subprocess
         
         # Check for changes to stash
         has_changes = GitUtils.has_changes()
+        logger = self.build_package.logger if hasattr(self.build_package, 'logger') else None
+        
+        def log(style, msg):
+            if logger:
+                logger.log(style, msg)
+            else:
+                print(f"[{style}] {msg}")
         
         def switch_and_commit():
             stashed = False
+            current_branch = GitUtils.get_current_branch()
             
             try:
+                log("cyan", _("Preparing branch switch..."))
+                log("dim", f"    From: {current_branch} → To: {target_branch}")
+                
                 # Stash if needed
                 if has_changes:
+                    log("cyan", _("Stashing local changes..."))
                     stash_result = subprocess.run(
                         ["git", "stash", "push", "-u", "-m", f"auto-stash-commit-to-{target_branch}"],
                         capture_output=True, text=True, check=False
                     )
-                    stashed = stash_result.returncode == 0
+                    if stash_result.returncode == 0:
+                        stashed = True
+                        log("green", _("✓ Changes stashed"))
+                    else:
+                        log("yellow", _("⚠ Could not stash (continuing anyway)"))
                 
                 # Switch branch
-                subprocess.run(["git", "checkout", target_branch], check=True, capture_output=True)
+                log("cyan", _("Switching to branch {0}...").format(target_branch))
+                checkout_result = subprocess.run(
+                    ["git", "checkout", target_branch], 
+                    capture_output=True, text=True, check=False
+                )
+                
+                if checkout_result.returncode != 0:
+                    error_msg = checkout_result.stderr.strip() or checkout_result.stdout.strip()
+                    log("red", _("✗ Failed to switch branch: {0}").format(error_msg))
+                    if stashed:
+                        subprocess.run(["git", "stash", "pop"], capture_output=True, check=False)
+                        log("yellow", _("Restored stashed changes"))
+                    raise Exception(_("Failed to switch to branch {0}").format(target_branch))
+                
+                log("green", _("✓ Switched to {0}").format(target_branch))
                 
                 # Restore stash
                 if stashed:
-                    subprocess.run(["git", "stash", "pop"], capture_output=True, check=False)
+                    log("cyan", _("Restoring stashed changes..."))
+                    pop_result = subprocess.run(
+                        ["git", "stash", "pop"], 
+                        capture_output=True, text=True, check=False
+                    )
+                    if pop_result.returncode == 0:
+                        log("green", _("✓ Stash restored"))
+                    else:
+                        log("yellow", _("⚠ Conflicts while restoring stash - please resolve manually"))
                 
                 # Now do the commit
                 return self._execute_commit(commit_message)
                 
             except subprocess.CalledProcessError as e:
+                log("red", _("Error: {0}").format(str(e)))
                 if stashed:
                     subprocess.run(["git", "stash", "pop"], capture_output=True, check=False)
+                    log("yellow", _("Restored stashed changes"))
                 raise e
         
         self.operation_runner.run_with_progress(
@@ -530,26 +571,212 @@ class MainWindow(Adw.ApplicationWindow):
         )
     
     def _execute_commit(self, commit_message):
-        """Execute the actual git commit and push"""
+        """Execute the actual git commit and push with intelligent error handling"""
         import subprocess
         
-        # Stage all changes
-        subprocess.run(["git", "add", "-A"], check=True, capture_output=True)
+        logger = self.build_package.logger if hasattr(self.build_package, 'logger') else None
         
-        # Commit
-        subprocess.run(
-            ["git", "commit", "-m", commit_message],
-            check=True, capture_output=True
-        )
+        def log(style, msg):
+            if logger:
+                logger.log(style, msg)
+            else:
+                print(f"[{style}] {msg}")
         
-        # Push
         current_branch = GitUtils.get_current_branch()
-        subprocess.run(
-            ["git", "push", "-u", "origin", current_branch],
-            check=True, capture_output=True
-        )
+        
+        # Step 1: Stage all changes
+        log("cyan", _("Staging all changes..."))
+        try:
+            result = subprocess.run(
+                ["git", "add", "-A"],
+                capture_output=True, text=True, check=False
+            )
+            if result.returncode != 0:
+                error_msg = result.stderr.strip() or result.stdout.strip() or _("Unknown error")
+                log("red", _("Failed to stage changes: {0}").format(error_msg))
+                raise Exception(_("Failed to stage changes: {0}").format(error_msg))
+            log("green", _("✓ Changes staged"))
+        except Exception as e:
+            log("red", str(e))
+            raise
+        
+        # Step 2: Commit
+        log("cyan", _("Creating commit..."))
+        log("dim", f"    git commit -m \"{commit_message[:50]}...\"" if len(commit_message) > 50 else f"    git commit -m \"{commit_message}\"")
+        try:
+            result = subprocess.run(
+                ["git", "commit", "-m", commit_message],
+                capture_output=True, text=True, check=False
+            )
+            if result.returncode != 0:
+                error_msg = result.stderr.strip() or result.stdout.strip() or _("Unknown error")
+                # Check for common issues
+                if "nothing to commit" in error_msg.lower():
+                    log("yellow", _("⚠ No changes to commit"))
+                    return True  # Not really an error
+                log("red", _("Failed to commit: {0}").format(error_msg))
+                raise Exception(_("Failed to commit: {0}").format(error_msg))
+            log("green", _("✓ Commit created successfully"))
+        except Exception as e:
+            if "No changes to commit" not in str(e):
+                log("red", str(e))
+                raise
+        
+        # Step 3: Check for divergence and sync before push
+        log("cyan", _("Checking remote status..."))
+        divergence = GitUtils.check_branch_divergence(current_branch)
+        
+        if divergence.get('error'):
+            log("yellow", _("⚠ Could not check remote status: {0}").format(divergence['error']))
+            log("dim", _("    Proceeding with push anyway..."))
+        elif divergence.get('diverged') or divergence.get('behind', 0) > 0:
+            # Need to sync with remote first
+            behind_count = divergence.get('behind', 0)
+            ahead_count = divergence.get('ahead', 0)
+            
+            if divergence.get('diverged'):
+                log("yellow", _("⚠ Branch has diverged from remote"))
+                log("dim", _("    Local: {0} commit(s) ahead").format(ahead_count))
+                log("dim", _("    Remote: {0} commit(s) to sync").format(behind_count))
+            else:
+                log("cyan", _("Remote has {0} new commit(s) - syncing...").format(behind_count))
+            
+            log("cyan", _("Pulling with rebase to sync..."))
+            log("dim", _("    git pull --rebase origin {0}").format(current_branch))
+            
+            # Try to auto-resolve with rebase
+            if GitUtils.resolve_divergence(current_branch, 'rebase', logger):
+                log("green", _("✓ Synced with remote successfully"))
+            else:
+                # Rebase failed, try merge
+                log("yellow", _("⚠ Rebase had conflicts, trying merge..."))
+                if GitUtils.resolve_divergence(current_branch, 'merge', logger):
+                    log("green", _("✓ Merged with remote successfully"))
+                else:
+                    log("red", _("✗ Could not sync with remote automatically"))
+                    log("white", _("Please resolve conflicts manually and try again"))
+                    raise Exception(_("Failed to sync with remote - conflicts need manual resolution"))
+        else:
+            log("green", _("✓ Already in sync with remote"))
+        
+        # Step 4: Push
+        log("cyan", _("Pushing to remote..."))
+        log("dim", f"    git push -u origin {current_branch}")
+        try:
+            result = subprocess.run(
+                ["git", "push", "-u", "origin", current_branch],
+                capture_output=True, text=True, check=False
+            )
+            
+            if result.returncode != 0:
+                error_output = result.stderr.strip() or result.stdout.strip() or ""
+                
+                # Detect specific error types and provide helpful messages
+                error_info = self._analyze_push_error(error_output, current_branch)
+                
+                log("red", _("✗ Push failed!"))
+                log("red", _("Error: {0}").format(error_output))
+                log("yellow", "")
+                log("yellow", _("═══ Diagnosis ═══"))
+                log("orange", error_info["diagnosis"])
+                log("yellow", "")
+                log("yellow", _("═══ Suggested Solutions ═══"))
+                for solution in error_info["solutions"]:
+                    log("white", f"  • {solution}")
+                
+                raise Exception(error_info["diagnosis"])
+            
+            log("green", _("✓ Pushed to origin/{0}").format(current_branch))
+        except Exception as e:
+            # Re-raise to show in UI
+            raise
+        
+        log("green", "")
+        log("green", _("═══ Commit Complete ═══"))
+        log("white", _("Branch: {0}").format(current_branch))
+        log("white", _("Message: {0}").format(commit_message[:60] + "..." if len(commit_message) > 60 else commit_message))
         
         return True
+    
+    def _analyze_push_error(self, error_output, branch):
+        """Analyze push error and provide helpful diagnosis and solutions"""
+        error_lower = error_output.lower()
+        
+        # Authentication errors
+        if any(x in error_lower for x in ["authentication", "permission denied", "403", "401", "could not read username"]):
+            return {
+                "diagnosis": _("Authentication failed - credentials may be expired or invalid"),
+                "solutions": [
+                    _("Run 'gh auth login' to authenticate with GitHub CLI"),
+                    _("Check if your SSH key is added: ssh -T git@github.com"),
+                    _("For HTTPS, run: git credential reject"),
+                    _("Generate a new Personal Access Token on GitHub")
+                ]
+            }
+        
+        # Remote branch ahead (need to pull)
+        if any(x in error_lower for x in ["non-fast-forward", "updates were rejected", "fetch first"]):
+            return {
+                "diagnosis": _("Remote branch has changes you don't have locally"),
+                "solutions": [
+                    _("Use 'Pull Latest' button first to get remote changes"),
+                    _("Or run: git pull --rebase origin {0}").format(branch),
+                    _("Then try pushing again")
+                ]
+            }
+        
+        # Protected branch
+        if any(x in error_lower for x in ["protected branch", "required status", "review required"]):
+            return {
+                "diagnosis": _("This branch has protection rules - direct push is not allowed"),
+                "solutions": [
+                    _("Push to a development branch instead (e.g., dev-yourname)"),
+                    _("Create a Pull Request to merge your changes"),
+                    _("Ask a maintainer to temporarily disable branch protection")
+                ]
+            }
+        
+        # Network errors
+        if any(x in error_lower for x in ["could not resolve", "network", "connection refused", "timed out"]):
+            return {
+                "diagnosis": _("Network error - cannot reach remote server"),
+                "solutions": [
+                    _("Check your internet connection"),
+                    _("Try again in a few moments"),
+                    _("Check if GitHub/remote is accessible")
+                ]
+            }
+        
+        # Repository access
+        if any(x in error_lower for x in ["repository not found", "does not exist"]):
+            return {
+                "diagnosis": _("Remote repository not found or you don't have access"),
+                "solutions": [
+                    _("Verify the remote URL: git remote -v"),
+                    _("Check if you have write access to the repository"),
+                    _("Request access from the repository owner")
+                ]
+            }
+        
+        # Branch doesn't exist on remote
+        if "src refspec" in error_lower and "does not match any" in error_lower:
+            return {
+                "diagnosis": _("Local branch configuration issue"),
+                "solutions": [
+                    _("Try: git push --set-upstream origin {0}").format(branch),
+                    _("Or verify you have commits on this branch")
+                ]
+            }
+        
+        # Default / unknown error
+        return {
+            "diagnosis": _("Push failed with error: {0}").format(error_output[:200]),
+            "solutions": [
+                _("Check the error message above for details"),
+                _("Try running 'git push' in terminal to see full output"),
+                _("Check GitHub status: https://githubstatus.com")
+            ]
+        }
     
     def on_pull_requested(self, widget):
         """Handle pull request"""
@@ -564,6 +791,44 @@ class MainWindow(Adw.ApplicationWindow):
             pull_operation,
             _("Pulling Changes"),
             _("Pulling latest changes from remote repository...")
+        )
+    
+    def on_undo_commit_requested(self, widget):
+        """Handle undo last commit request - executes git reset HEAD~1"""
+        import subprocess
+        
+        logger = self.build_package.logger if hasattr(self.build_package, 'logger') else None
+        
+        def log(style, msg):
+            if logger:
+                logger.log(style, msg)
+            else:
+                print(f"[{style}] {msg}")
+        
+        def undo_operation():
+            log("cyan", _("Undoing last commit..."))
+            log("dim", "    git reset HEAD~1")
+            
+            result = subprocess.run(
+                ["git", "reset", "HEAD~1"],
+                capture_output=True, text=True, check=False
+            )
+            
+            if result.returncode != 0:
+                error_msg = result.stderr.strip() or result.stdout.strip()
+                log("red", _("✗ Failed to undo commit: {0}").format(error_msg))
+                raise Exception(_("Failed to undo commit: {0}").format(error_msg))
+            
+            log("green", _("✓ Last commit undone successfully"))
+            log("white", _("Your changes are now in the working directory"))
+            log("yellow", _("You can modify files and commit again"))
+            
+            return True
+        
+        self.operation_runner.run_with_progress(
+            undo_operation,
+            _("Undoing Commit"),
+            _("Undoing last commit (keeping changes)...")
         )
     
     def on_package_build_requested(self, widget, package_type, tmate, has_commit_msg):

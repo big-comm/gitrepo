@@ -39,6 +39,7 @@ class CommitWidget(Gtk.Box):
     __gsignals__ = {
         'commit-requested': (GObject.SignalFlags.RUN_FIRST, None, (str,)),
         'push-requested': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        'undo-commit-requested': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
     
     def __init__(self, build_package):
@@ -88,6 +89,23 @@ class CommitWidget(Gtk.Box):
         self.branch_row = Adw.ActionRow()
         self.branch_row.set_title(_("Current Branch"))
         status_group.add(self.branch_row)
+        
+        # Last commit row (for undo functionality)
+        self.last_commit_row = Adw.ActionRow()
+        self.last_commit_row.set_title(_("Last Commit"))
+        self.last_commit_row.set_subtitle(_("No commit info"))
+        
+        # Undo button as suffix
+        self.undo_button = Gtk.Button()
+        self.undo_button.set_icon_name("edit-undo-symbolic")
+        self.undo_button.set_tooltip_text(_("Undo last commit (keep changes)"))
+        self.undo_button.set_valign(Gtk.Align.CENTER)
+        self.undo_button.add_css_class("flat")
+        self.undo_button.connect('clicked', self.on_undo_clicked)
+        self.undo_button.set_visible(False)  # Hidden by default
+        self.last_commit_row.add_suffix(self.undo_button)
+        
+        status_group.add(self.last_commit_row)
         
         self.append(status_group)
         
@@ -175,6 +193,8 @@ class CommitWidget(Gtk.Box):
     
     def refresh_status(self):
         """Refresh repository status"""
+        import subprocess
+        
         # Clear previous state from changes_row
         self.changes_row.remove_css_class("warning")
         self.changes_row.remove_css_class("success")
@@ -205,8 +225,51 @@ class CommitWidget(Gtk.Box):
         else:
             self.branch_row.set_subtitle(_("Unknown"))
         
+        # Last commit info
+        try:
+            result = subprocess.run(
+                ["git", "log", "-1", "--pretty=format:%h|%s"],
+                capture_output=True, text=True, check=False
+            )
+            if result.returncode == 0 and result.stdout.strip():
+                parts = result.stdout.strip().split("|", 1)
+                if len(parts) == 2:
+                    commit_hash, commit_msg = parts
+                    # Truncate long messages
+                    display_msg = commit_msg[:50] + "..." if len(commit_msg) > 50 else commit_msg
+                    self.last_commit_row.set_subtitle(f"{commit_hash}: {display_msg}")
+                    
+                    # Check if we're ahead of remote (commit can be undone)
+                    can_undo = self._check_can_undo_commit(current_branch)
+                    self.undo_button.set_visible(can_undo)
+                else:
+                    self.last_commit_row.set_subtitle(_("No commits"))
+                    self.undo_button.set_visible(False)
+            else:
+                self.last_commit_row.set_subtitle(_("No commits"))
+                self.undo_button.set_visible(False)
+        except Exception:
+            self.last_commit_row.set_subtitle(_("Unknown"))
+            self.undo_button.set_visible(False)
+        
         # Update commit button state
         self.update_commit_button_state()
+    
+    def _check_can_undo_commit(self, branch):
+        """Check if the last commit can be undone (not pushed yet)"""
+        import subprocess
+        try:
+            # Check if local is ahead of remote
+            result = subprocess.run(
+                ["git", "rev-list", "--count", f"origin/{branch}..HEAD"],
+                capture_output=True, text=True, check=False
+            )
+            if result.returncode == 0:
+                ahead_count = int(result.stdout.strip())
+                return ahead_count > 0
+            return False
+        except Exception:
+            return False
     
     def _select_commit_type_row(self, row):
         """Select a commit type row and update visuals"""
@@ -282,3 +345,26 @@ class CommitWidget(Gtk.Box):
         # Clear form after commit
         self.message_entry.set_text("")
         self.refresh_status()
+    
+    def on_undo_clicked(self, button):
+        """Handle undo last commit button click with confirmation"""
+        # Show confirmation dialog
+        dialog = Adw.MessageDialog.new(
+            self.get_root(),
+            _("Undo Last Commit?"),
+            _("This will undo your last commit but keep all changes in your working directory.\n\nYou can then modify files and commit again.")
+        )
+        
+        dialog.add_response("cancel", _("Cancel"))
+        dialog.add_response("undo", _("Undo Commit"))
+        dialog.set_response_appearance("undo", Adw.ResponseAppearance.DESTRUCTIVE)
+        dialog.set_default_response("cancel")
+        
+        def on_response(dialog, response):
+            if response == "undo":
+                self.emit('undo-commit-requested')
+                self.refresh_status()
+            dialog.close()
+        
+        dialog.connect("response", on_response)
+        dialog.present()
