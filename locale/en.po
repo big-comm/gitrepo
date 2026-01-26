@@ -467,18 +467,21 @@ msgstr "Main branch - Direct commit"
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
 # File: usr/share/build-package/core/build_package.py, line: 576
 # File: usr/share/build-package/core/commit_operations.py, line: 134
 # File: usr/share/build-package/core/pull_operations.py, line: 229
-# File: usr/share/build-package/gui/main_window.py, line: 445
-# File: usr/share/build-package/gui/main_window.py, line: 687
-# File: usr/share/build-package/gui/main_window.py, line: 822
+# File: usr/share/build-package/gui/main_window.py, line: 446
+# File: usr/share/build-package/gui/main_window.py, line: 952
+# File: usr/share/build-package/gui/main_window.py, line: 1087
 # File: usr/share/build-package/gui/gtk_menu.py, line: 106
 # File: usr/share/build-package/gui/gtk_menu.py, line: 143
 # File: usr/share/build-package/gui/gtk_menu.py, line: 194
 # File: usr/share/build-package/gui/gtk_adapters.py, line: 263
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 331
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 393
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 335
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 397
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 358
 # File: usr/share/build-package/gui/widgets/aur_widget.py, line: 270
 # File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 267
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 191
@@ -782,8 +785,11 @@ msgstr "Creating new branch: {0}"
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
 # File: usr/share/build-package/core/build_package.py, line: 876
 # File: usr/share/build-package/core/commit_operations.py, line: 170
+# File: usr/share/build-package/gui/main_window.py, line: 536
 msgid "Restoring stashed changes..."
 msgstr "Restoring stashed changes..."
 
@@ -1174,7 +1180,7 @@ msgstr "Could not update branch, continuing with current state"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/build_package.py, line: 1358
-# File: usr/share/build-package/gui/main_window.py, line: 918
+# File: usr/share/build-package/gui/main_window.py, line: 1183
 msgid "Successfully pulled latest changes"
 msgstr "Successfully pulled latest changes"
 
@@ -1486,7 +1492,7 @@ msgstr "Advanced menu"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/build_package.py, line: 1633
-# File: usr/share/build-package/gui/main_window.py, line: 259
+# File: usr/share/build-package/gui/main_window.py, line: 260
 msgid "Main Menu"
 msgstr "Main Menu"
 
@@ -1638,7 +1644,7 @@ msgstr "Target Branch"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/build_package.py, line: 1831
-# File: usr/share/build-package/gui/main_window.py, line: 842
+# File: usr/share/build-package/gui/main_window.py, line: 1107
 # File: usr/share/build-package/gui/widgets/branch_widget.py, line: 139
 msgid "Auto-merge"
 msgstr "Auto-merge"
@@ -1683,18 +1689,12 @@ msgid "You can only revert commits on your own branch ({0}) or main branch."
 msgstr "You can only revert commits on your own branch ({0}) or main branch."
 
 #
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-#
 # File: usr/share/build-package/core/build_package.py, line: 1873
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 156
 msgid "Revert (keep history)"
 msgstr "Revert (keep history)"
 
 #
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-#
 # File: usr/share/build-package/core/build_package.py, line: 1874
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 157
 msgid "Reset (remove from history)"
 msgstr "Reset (remove from history)"
 
@@ -2760,7 +2760,10 @@ msgid "Updating remote references..."
 msgstr "Updating remote references..."
 
 #
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
 # File: usr/share/build-package/core/github_api.py, line: 208
+# File: usr/share/build-package/gui/main_window.py, line: 518
 #, python-brace-format
 msgid "Switching to branch {0}..."
 msgstr "Switching to branch {0}..."
@@ -2894,9 +2897,13 @@ msgstr "Error checking PR: {0}"
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
 # File: usr/share/build-package/core/github_api.py, line: 378
 # File: usr/share/build-package/core/operation_preview.py, line: 141
 # File: usr/share/build-package/core/pull_operations.py, line: 144
+# File: usr/share/build-package/gui/main_window.py, line: 550
+# File: usr/share/build-package/gui/main_window.py, line: 678
 #, python-brace-format
 msgid "Error: {0}"
 msgstr "Error: {0}"
@@ -3248,9 +3255,13 @@ msgid "Ready for automatic merge"
 msgstr "Ready for automatic merge"
 
 #
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
 # File: usr/share/build-package/core/github_api.py, line: 795
 # File: usr/share/build-package/core/github_api.py, line: 838
 # File: usr/share/build-package/core/github_api.py, line: 842
+# File: usr/share/build-package/gui/main_window.py, line: 595
+# File: usr/share/build-package/gui/main_window.py, line: 612
 msgid "Unknown error"
 msgstr "Unknown error"
 
@@ -3772,7 +3783,10 @@ msgid "  Option 1 (RECOMMENDED): Pull with rebase"
 msgstr "  Option 1 (RECOMMENDED): Pull with rebase"
 
 #
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
 # File: usr/share/build-package/core/operation_preview.py, line: 121
+# File: usr/share/build-package/gui/main_window.py, line: 645
 #, python-brace-format
 msgid "    git pull --rebase origin {0}"
 msgstr "    git pull --rebase origin {0}"
@@ -4783,7 +4797,7 @@ msgstr "Always accept remote changes"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/settings_menu.py, line: 96
-# File: usr/share/build-package/gui/main_window.py, line: 842
+# File: usr/share/build-package/gui/main_window.py, line: 1107
 msgid "Manual"
 msgstr "Manual"
 
@@ -5084,67 +5098,67 @@ msgid "✓ Pull completed"
 msgstr "✓ Pull completed"
 
 #
-# File: usr/share/build-package/gui/main_gui.py, line: 94
-# File: usr/share/build-package/gui/main_gui.py, line: 185
+# File: usr/share/build-package/gui/main_gui.py, line: 127
+# File: usr/share/build-package/gui/main_gui.py, line: 218
 msgid "Preferences"
 msgstr "Preferences"
 
 #
-# File: usr/share/build-package/gui/main_gui.py, line: 95
-# File: usr/share/build-package/gui/main_gui.py, line: 186
+# File: usr/share/build-package/gui/main_gui.py, line: 128
+# File: usr/share/build-package/gui/main_gui.py, line: 219
 msgid "Keyboard Shortcuts"
 msgstr "Keyboard Shortcuts"
 
 #
-# File: usr/share/build-package/gui/main_gui.py, line: 96
+# File: usr/share/build-package/gui/main_gui.py, line: 129
 msgid "About Build Package"
 msgstr "About Build Package"
 
 #
-# File: usr/share/build-package/gui/main_gui.py, line: 129
+# File: usr/share/build-package/gui/main_gui.py, line: 162
 msgid "translator-credits"
 msgstr "translator-credits"
 
 #
-# File: usr/share/build-package/gui/main_gui.py, line: 153
+# File: usr/share/build-package/gui/main_gui.py, line: 186
 msgid "Settings updated"
 msgstr "Settings updated"
 
 #
-# File: usr/share/build-package/gui/main_gui.py, line: 160
+# File: usr/share/build-package/gui/main_gui.py, line: 193
 msgid "Settings not available"
 msgstr "Settings not available"
 
 #
-# File: usr/share/build-package/gui/main_gui.py, line: 180
+# File: usr/share/build-package/gui/main_gui.py, line: 213
 msgid "General"
 msgstr "General"
 
 #
-# File: usr/share/build-package/gui/main_gui.py, line: 184
+# File: usr/share/build-package/gui/main_gui.py, line: 217
 msgid "Quit"
 msgstr "Quit"
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/main_gui.py, line: 187
+# File: usr/share/build-package/gui/main_gui.py, line: 220
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 183
 msgid "Refresh Status"
 msgstr "Refresh Status"
 
 #
-# File: usr/share/build-package/gui/main_gui.py, line: 188
+# File: usr/share/build-package/gui/main_gui.py, line: 221
 msgid "Welcome Screen"
 msgstr "Welcome Screen"
 
 #
-# File: usr/share/build-package/gui/main_gui.py, line: 192
+# File: usr/share/build-package/gui/main_gui.py, line: 225
 msgid "Application"
 msgstr "Application"
 
 #
-# File: usr/share/build-package/gui/main_gui.py, line: 225
+# File: usr/share/build-package/gui/main_gui.py, line: 258
 msgid "Failed to start GUI interface"
 msgstr "Failed to start GUI interface"
 
@@ -5216,22 +5230,22 @@ msgid "Advanced"
 msgstr "Advanced"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 253
+# File: usr/share/build-package/gui/main_window.py, line: 254
 msgid "About"
 msgstr "About"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 316
+# File: usr/share/build-package/gui/main_window.py, line: 317
 msgid "Git repository manager for building and deploying packages"
 msgstr "Git repository manager for building and deploying packages"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 328
+# File: usr/share/build-package/gui/main_window.py, line: 329
 msgid "Git Repository"
 msgstr "Git Repository"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 331
+# File: usr/share/build-package/gui/main_window.py, line: 332
 msgid "Not a Git repository"
 msgstr "Not a Git repository"
 
@@ -5244,33 +5258,34 @@ msgstr "Not a Git repository"
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/main_window.py, line: 339
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 272
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 285
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 311
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 206
+# File: usr/share/build-package/gui/main_window.py, line: 340
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 276
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 289
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 315
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 226
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 252
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 235
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 228
 msgid "Unknown"
 msgstr "Unknown"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 343
+# File: usr/share/build-package/gui/main_window.py, line: 344
 msgid "Uncommitted changes"
 msgstr "Uncommitted changes"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 346
+# File: usr/share/build-package/gui/main_window.py, line: 347
 msgid "Clean working tree"
 msgstr "Clean working tree"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 391
+# File: usr/share/build-package/gui/main_window.py, line: 392
 msgid "⚠️ Commit to Protected Branch?"
 msgstr "⚠️ Commit to Protected Branch?"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 393
+# File: usr/share/build-package/gui/main_window.py, line: 394
 #, python-brace-format
 msgid ""
 "You are about to commit directly to '{0}'.\n"
@@ -5282,29 +5297,29 @@ msgstr ""
 "This is usually protected. Consider using your development branch instead."
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 397
+# File: usr/share/build-package/gui/main_window.py, line: 398
 msgid "Confirm Commit Branch"
 msgstr "Confirm Commit Branch"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 399
+# File: usr/share/build-package/gui/main_window.py, line: 400
 msgid "Choose where to commit your changes:"
 msgstr "Choose where to commit your changes:"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 427
+# File: usr/share/build-package/gui/main_window.py, line: 428
 #, python-brace-format
 msgid "<b>Current:</b> <span foreground='#FF6B6B'>{0}</span>"
 msgstr "<b>Current:</b> <span foreground='#FF6B6B'>{0}</span>"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 429
+# File: usr/share/build-package/gui/main_window.py, line: 430
 #, python-brace-format
 msgid "<b>Current:</b> <span foreground='#00CED1'>{0}</span>"
 msgstr "<b>Current:</b> <span foreground='#00CED1'>{0}</span>"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 437
+# File: usr/share/build-package/gui/main_window.py, line: 438
 #, python-brace-format
 msgid ""
 "<span foreground='#888888'>Your dev branch:</span> <span "
@@ -5314,270 +5329,670 @@ msgstr ""
 "foreground='#32CD32'>{0}</span>"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 448
+# File: usr/share/build-package/gui/main_window.py, line: 449
 #, python-brace-format
 msgid "Use {0}"
 msgstr "Use {0}"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 452
+# File: usr/share/build-package/gui/main_window.py, line: 453
 #, python-brace-format
 msgid "Commit to {0} anyway"
 msgstr "Commit to {0} anyway"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 455
+# File: usr/share/build-package/gui/main_window.py, line: 456
 #, python-brace-format
 msgid "Commit to {0}"
 msgstr "Commit to {0}"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 517
+# File: usr/share/build-package/gui/main_window.py, line: 501
+msgid "Preparing branch switch..."
+msgstr "Preparing branch switch..."
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 506
+msgid "Stashing local changes..."
+msgstr "Stashing local changes..."
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 513
+msgid "✓ Changes stashed"
+msgstr "✓ Changes stashed"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 515
+msgid "⚠ Could not stash (continuing anyway)"
+msgstr "⚠ Could not stash (continuing anyway)"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 526
+#, python-brace-format
+msgid "✗ Failed to switch branch: {0}"
+msgstr "✗ Failed to switch branch: {0}"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 529
+# File: usr/share/build-package/gui/main_window.py, line: 553
+msgid "Restored stashed changes"
+msgstr "Restored stashed changes"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 530
+#, python-brace-format
+msgid "Failed to switch to branch {0}"
+msgstr "Failed to switch to branch {0}"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 532
+#, python-brace-format
+msgid "✓ Switched to {0}"
+msgstr "✓ Switched to {0}"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 542
+msgid "✓ Stash restored"
+msgstr "✓ Stash restored"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 544
+msgid "⚠ Conflicts while restoring stash - please resolve manually"
+msgstr "⚠ Conflicts while restoring stash - please resolve manually"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 558
 msgid "Switching & Committing"
 msgstr "Switching & Committing"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 518
+# File: usr/share/build-package/gui/main_window.py, line: 559
 #, python-brace-format
 msgid "Switching to {0} and committing..."
 msgstr "Switching to {0} and committing..."
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 528
+# File: usr/share/build-package/gui/main_window.py, line: 569
 msgid "Committing Changes"
 msgstr "Committing Changes"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 529
+# File: usr/share/build-package/gui/main_window.py, line: 570
 #, python-brace-format
 msgid "Committing to {0}..."
 msgstr "Committing to {0}..."
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 565
+# File: usr/share/build-package/gui/main_window.py, line: 588
+msgid "Staging all changes..."
+msgstr "Staging all changes..."
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 596
+# File: usr/share/build-package/gui/main_window.py, line: 597
+#, python-brace-format
+msgid "Failed to stage changes: {0}"
+msgstr "Failed to stage changes: {0}"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 598
+msgid "✓ Changes staged"
+msgstr "✓ Changes staged"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 604
+msgid "Creating commit..."
+msgstr "Creating commit..."
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 615
+msgid "⚠ No changes to commit"
+msgstr "⚠ No changes to commit"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 617
+# File: usr/share/build-package/gui/main_window.py, line: 618
+#, python-brace-format
+msgid "Failed to commit: {0}"
+msgstr "Failed to commit: {0}"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 619
+msgid "✓ Commit created successfully"
+msgstr "✓ Commit created successfully"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 626
+msgid "Checking remote status..."
+msgstr "Checking remote status..."
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 630
+#, python-brace-format
+msgid "⚠ Could not check remote status: {0}"
+msgstr "⚠ Could not check remote status: {0}"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 631
+msgid "    Proceeding with push anyway..."
+msgstr "    Proceeding with push anyway..."
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 638
+msgid "⚠ Branch has diverged from remote"
+msgstr "⚠ Branch has diverged from remote"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 639
+#, python-brace-format
+msgid "    Local: {0} commit(s) ahead"
+msgstr "    Local: {0} commit(s) ahead"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 640
+#, python-brace-format
+msgid "    Remote: {0} commit(s) to sync"
+msgstr "    Remote: {0} commit(s) to sync"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 642
+#, python-brace-format
+msgid "Remote has {0} new commit(s) - syncing..."
+msgstr "Remote has {0} new commit(s) - syncing..."
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 644
+msgid "Pulling with rebase to sync..."
+msgstr "Pulling with rebase to sync..."
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 649
+msgid "✓ Synced with remote successfully"
+msgstr "✓ Synced with remote successfully"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 652
+msgid "⚠ Rebase had conflicts, trying merge..."
+msgstr "⚠ Rebase had conflicts, trying merge..."
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 654
+msgid "✓ Merged with remote successfully"
+msgstr "✓ Merged with remote successfully"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 656
+msgid "✗ Could not sync with remote automatically"
+msgstr "✗ Could not sync with remote automatically"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 657
+msgid "Please resolve conflicts manually and try again"
+msgstr "Please resolve conflicts manually and try again"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 658
+msgid "Failed to sync with remote - conflicts need manual resolution"
+msgstr "Failed to sync with remote - conflicts need manual resolution"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 660
+msgid "✓ Already in sync with remote"
+msgstr "✓ Already in sync with remote"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 663
+msgid "Pushing to remote..."
+msgstr "Pushing to remote..."
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 677
+msgid "✗ Push failed!"
+msgstr "✗ Push failed!"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 680
+msgid "═══ Diagnosis ═══"
+msgstr "═══ Diagnosis ═══"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 683
+msgid "═══ Suggested Solutions ═══"
+msgstr "═══ Suggested Solutions ═══"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 689
+#, python-brace-format
+msgid "✓ Pushed to origin/{0}"
+msgstr "✓ Pushed to origin/{0}"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 695
+msgid "═══ Commit Complete ═══"
+msgstr "═══ Commit Complete ═══"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 696
+#, python-brace-format
+msgid "Branch: {0}"
+msgstr "Branch: {0}"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 697
+#, python-brace-format
+msgid "Message: {0}"
+msgstr "Message: {0}"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 708
+msgid "Authentication failed - credentials may be expired or invalid"
+msgstr "Authentication failed - credentials may be expired or invalid"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 710
+msgid "Run 'gh auth login' to authenticate with GitHub CLI"
+msgstr "Run 'gh auth login' to authenticate with GitHub CLI"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 711
+msgid "Check if your SSH key is added: ssh -T git@github.com"
+msgstr "Check if your SSH key is added: ssh -T git@github.com"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 712
+msgid "For HTTPS, run: git credential reject"
+msgstr "For HTTPS, run: git credential reject"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 713
+msgid "Generate a new Personal Access Token on GitHub"
+msgstr "Generate a new Personal Access Token on GitHub"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 720
+msgid "Remote branch has changes you don't have locally"
+msgstr "Remote branch has changes you don't have locally"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 722
+msgid "Use 'Pull Latest' button first to get remote changes"
+msgstr "Use 'Pull Latest' button first to get remote changes"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 723
+#, python-brace-format
+msgid "Or run: git pull --rebase origin {0}"
+msgstr "Or run: git pull --rebase origin {0}"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 724
+msgid "Then try pushing again"
+msgstr "Then try pushing again"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 731
+msgid "This branch has protection rules - direct push is not allowed"
+msgstr "This branch has protection rules - direct push is not allowed"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 733
+msgid "Push to a development branch instead (e.g., dev-yourname)"
+msgstr "Push to a development branch instead (e.g., dev-yourname)"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 734
+msgid "Create a Pull Request to merge your changes"
+msgstr "Create a Pull Request to merge your changes"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 735
+msgid "Ask a maintainer to temporarily disable branch protection"
+msgstr "Ask a maintainer to temporarily disable branch protection"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 742
+msgid "Network error - cannot reach remote server"
+msgstr "Network error - cannot reach remote server"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 744
+msgid "Check your internet connection"
+msgstr "Check your internet connection"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 745
+msgid "Try again in a few moments"
+msgstr "Try again in a few moments"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 746
+msgid "Check if GitHub/remote is accessible"
+msgstr "Check if GitHub/remote is accessible"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 753
+msgid "Remote repository not found or you don't have access"
+msgstr "Remote repository not found or you don't have access"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 755
+msgid "Verify the remote URL: git remote -v"
+msgstr "Verify the remote URL: git remote -v"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 756
+msgid "Check if you have write access to the repository"
+msgstr "Check if you have write access to the repository"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 757
+msgid "Request access from the repository owner"
+msgstr "Request access from the repository owner"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 764
+msgid "Local branch configuration issue"
+msgstr "Local branch configuration issue"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 766
+#, python-brace-format
+msgid "Try: git push --set-upstream origin {0}"
+msgstr "Try: git push --set-upstream origin {0}"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 767
+msgid "Or verify you have commits on this branch"
+msgstr "Or verify you have commits on this branch"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 773
+#, python-brace-format
+msgid "Push failed with error: {0}"
+msgstr "Push failed with error: {0}"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 775
+msgid "Check the error message above for details"
+msgstr "Check the error message above for details"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 776
+msgid "Try running 'git push' in terminal to see full output"
+msgstr "Try running 'git push' in terminal to see full output"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 777
+msgid "Check GitHub status: https://githubstatus.com"
+msgstr "Check GitHub status: https://githubstatus.com"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 792
 msgid "Pulling Changes"
 msgstr "Pulling Changes"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 566
+# File: usr/share/build-package/gui/main_window.py, line: 793
 msgid "Pulling latest changes from remote repository..."
 msgstr "Pulling latest changes from remote repository..."
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 585
+# File: usr/share/build-package/gui/main_window.py, line: 809
+msgid "Undoing last commit..."
+msgstr "Undoing last commit..."
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 819
+#, python-brace-format
+msgid "✗ Failed to undo commit: {0}"
+msgstr "✗ Failed to undo commit: {0}"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 820
+#, python-brace-format
+msgid "Failed to undo commit: {0}"
+msgstr "Failed to undo commit: {0}"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 822
+msgid "✓ Last commit undone successfully"
+msgstr "✓ Last commit undone successfully"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 823
+msgid "Your changes are now in the working directory"
+msgstr "Your changes are now in the working directory"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 824
+msgid "You can modify files and commit again"
+msgstr "You can modify files and commit again"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 830
+msgid "Undoing Commit"
+msgstr "Undoing Commit"
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 831
+msgid "Undoing last commit (keeping changes)..."
+msgstr "Undoing last commit (keeping changes)..."
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 850
 msgid "Building Package"
 msgstr "Building Package"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 586
+# File: usr/share/build-package/gui/main_window.py, line: 851
 #, python-brace-format
 msgid "Building {0} package..."
 msgstr "Building {0} package..."
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 605
+# File: usr/share/build-package/gui/main_window.py, line: 870
 msgid "Commit and Build"
 msgstr "Commit and Build"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 606
+# File: usr/share/build-package/gui/main_window.py, line: 871
 #, python-brace-format
 msgid "Committing changes and building {0} package..."
 msgstr "Committing changes and building {0} package..."
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 618
+# File: usr/share/build-package/gui/main_window.py, line: 883
 msgid "Building AUR Package"
 msgstr "Building AUR Package"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 619
+# File: usr/share/build-package/gui/main_window.py, line: 884
 #, python-brace-format
 msgid "Building AUR package: {0}"
 msgstr "Building AUR package: {0}"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 646
+# File: usr/share/build-package/gui/main_window.py, line: 911
 msgid "Uncommitted Changes Detected"
 msgstr "Uncommitted Changes Detected"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 648
+# File: usr/share/build-package/gui/main_window.py, line: 913
 msgid "You have uncommitted changes. Choose how to proceed:"
 msgstr "You have uncommitted changes. Choose how to proceed:"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 673
+# File: usr/share/build-package/gui/main_window.py, line: 938
 #, python-brace-format
 msgid "<b>Current:</b>  <span foreground='#FFA500'>{0}</span>"
 msgstr "<b>Current:</b>  <span foreground='#FFA500'>{0}</span>"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 678
+# File: usr/share/build-package/gui/main_window.py, line: 943
 #, python-brace-format
 msgid "<b>Switch to:</b>  <span foreground='#00CED1'>{0}</span>"
 msgstr "<b>Switch to:</b>  <span foreground='#00CED1'>{0}</span>"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 688
+# File: usr/share/build-package/gui/main_window.py, line: 953
 msgid "Discard & Switch"
 msgstr "Discard & Switch"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 689
+# File: usr/share/build-package/gui/main_window.py, line: 954
 msgid "Stash & Switch"
 msgstr "Stash & Switch"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 724
+# File: usr/share/build-package/gui/main_window.py, line: 989
 msgid "Failed to stash changes"
 msgstr "Failed to stash changes"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 736
+# File: usr/share/build-package/gui/main_window.py, line: 1001
 #, python-brace-format
 msgid "Failed to switch: {0}"
 msgstr "Failed to switch: {0}"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 750
+# File: usr/share/build-package/gui/main_window.py, line: 1015
 #, python-brace-format
 msgid "Switched to {0}. Conflicts detected - resolve manually."
 msgstr "Switched to {0}. Conflicts detected - resolve manually."
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 752
+# File: usr/share/build-package/gui/main_window.py, line: 1017
 #, python-brace-format
 msgid "Switched to {0}. Check 'git stash list' for your changes."
 msgstr "Switched to {0}. Check 'git stash list' for your changes."
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 754
+# File: usr/share/build-package/gui/main_window.py, line: 1019
 #, python-brace-format
 msgid "Switched to {0} with your changes restored."
 msgstr "Switched to {0} with your changes restored."
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 756
+# File: usr/share/build-package/gui/main_window.py, line: 1021
 #, python-brace-format
 msgid "Switched to branch: {0}"
 msgstr "Switched to branch: {0}"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 764
+# File: usr/share/build-package/gui/main_window.py, line: 1029
 #, python-brace-format
 msgid "Error switching branch: {0}"
 msgstr "Error switching branch: {0}"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 778
+# File: usr/share/build-package/gui/main_window.py, line: 1043
 msgid "Confirm Pull Request"
 msgstr "Confirm Pull Request"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 779
+# File: usr/share/build-package/gui/main_window.py, line: 1044
 msgid "Create a Pull Request to merge changes?"
 msgstr "Create a Pull Request to merge changes?"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 796
+# File: usr/share/build-package/gui/main_window.py, line: 1061
 #, python-brace-format
 msgid "<span foreground='#FFA500'><b>{0}</b></span>"
 msgstr "<span foreground='#FFA500'><b>{0}</b></span>"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 804
+# File: usr/share/build-package/gui/main_window.py, line: 1069
 #, python-brace-format
 msgid "<span foreground='#32CD32'><b>{0}</b></span>"
 msgstr "<span foreground='#32CD32'><b>{0}</b></span>"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 812
+# File: usr/share/build-package/gui/main_window.py, line: 1077
 msgid "<span foreground='#00CED1'>✓ Auto-merge enabled</span>"
 msgstr "<span foreground='#00CED1'>✓ Auto-merge enabled</span>"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 814
+# File: usr/share/build-package/gui/main_window.py, line: 1079
 msgid "<span foreground='#888888'>Manual approval required</span>"
 msgstr "<span foreground='#888888'>Manual approval required</span>"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 823
+# File: usr/share/build-package/gui/main_window.py, line: 1088
 msgid "Create PR"
 msgstr "Create PR"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 845
+# File: usr/share/build-package/gui/main_window.py, line: 1110
 msgid "Creating Pull Request"
 msgstr "Creating Pull Request"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 846
+# File: usr/share/build-package/gui/main_window.py, line: 1111
 #, python-brace-format
 msgid "{0}: {1} → {2}"
 msgstr "{0}: {1} → {2}"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 860
+# File: usr/share/build-package/gui/main_window.py, line: 1125
 msgid "Cleaning Up Branches"
 msgstr "Cleaning Up Branches"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 861
+# File: usr/share/build-package/gui/main_window.py, line: 1126
 msgid "Removing old development branches..."
 msgstr "Removing old development branches..."
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 873
+# File: usr/share/build-package/gui/main_window.py, line: 1138
 msgid "Cleaning Up Actions"
 msgstr "Cleaning Up Actions"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 874
+# File: usr/share/build-package/gui/main_window.py, line: 1139
 #, python-brace-format
 msgid "Removing {0} GitHub Actions..."
 msgstr "Removing {0} GitHub Actions..."
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 886
+# File: usr/share/build-package/gui/main_window.py, line: 1151
 msgid "Cleaning Up Tags"
 msgstr "Cleaning Up Tags"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 887
+# File: usr/share/build-package/gui/main_window.py, line: 1152
 msgid "Removing all repository tags..."
 msgstr "Removing all repository tags..."
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 899
+# File: usr/share/build-package/gui/main_window.py, line: 1164
 msgid "Reverting Commit"
 msgstr "Reverting Commit"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 900
+# File: usr/share/build-package/gui/main_window.py, line: 1165
 #, python-brace-format
 msgid "Reverting commit {0} using {1} method..."
 msgstr "Reverting commit {0} using {1} method..."
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 906
+# File: usr/share/build-package/gui/main_window.py, line: 1171
 msgid "Status refreshed"
 msgstr "Status refreshed"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 911
+# File: usr/share/build-package/gui/main_window.py, line: 1176
 msgid "Not in a Git repository"
 msgstr "Not in a Git repository"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 919
+# File: usr/share/build-package/gui/main_window.py, line: 1184
 msgid "Failed to pull changes"
 msgstr "Failed to pull changes"
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/main_window.py, line: 936
+# File: usr/share/build-package/gui/main_window.py, line: 1201
 # File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 557
 # File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 567
 #, python-brace-format
@@ -5598,7 +6013,7 @@ msgstr "Select an option:"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/gui/gtk_menu.py, line: 107
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 332
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 336
 # File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 221
 msgid "Confirm"
 msgstr "Confirm"
@@ -5723,7 +6138,7 @@ msgstr "Automatically merge if no conflicts"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/gui/widgets/branch_widget.py, line: 152
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 190
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 194
 msgid "Refresh"
 msgstr "Refresh"
 
@@ -5826,47 +6241,57 @@ msgid "View and revert recent commits"
 msgstr "View and revert recent commits"
 
 #
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 152
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 154
 msgid "Revert Method"
 msgstr "Revert Method"
 
 #
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 153
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 155
 msgid "Choose how to undo the commit"
 msgstr "Choose how to undo the commit"
 
 #
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 167
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 160
+msgid "Revert (keep)"
+msgstr "Revert (keep)"
+
+#
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 161
+msgid "Reset (delete)"
+msgstr "Reset (delete)"
+
+#
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 171
 msgid "Repository Statistics"
 msgstr "Repository Statistics"
 
 #
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 170
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 174
 msgid "Total Branches"
 msgstr "Total Branches"
 
 #
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 174
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 178
 msgid "Commits in Current Branch"
 msgstr "Commits in Current Branch"
 
 #
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 178
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 182
 msgid "Repository Size"
 msgstr "Repository Size"
 
 #
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 196
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 200
 msgid "Revert Selected"
 msgstr "Revert Selected"
 
 #
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 327
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 331
 msgid "Confirm Cleanup Operation"
 msgstr "Confirm Cleanup Operation"
 
 #
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 328
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 332
 #, python-brace-format
 msgid ""
 "Are you sure you want to perform '{0}'?\n"
@@ -5878,23 +6303,23 @@ msgstr ""
 "This operation cannot be undone."
 
 #
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 383
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 387
 msgid "revert"
 msgstr "revert"
 
 #
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 383
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 387
 msgid "reset"
 msgstr "reset"
 
 #
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 387
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 391
 #, python-brace-format
 msgid "Confirm Commit {0}"
 msgstr "Confirm Commit {0}"
 
 #
-# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 388
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 392
 #, python-brace-format
 msgid ""
 "Are you sure you want to {0} this commit?\n"
@@ -5912,14 +6337,14 @@ msgstr ""
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 69
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 154
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 70
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 172
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 141
 msgid "Commit and Push"
 msgstr "Commit and Push"
 
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 74
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 75
 msgid "Stage changes and push to your development branch"
 msgstr "Stage changes and push to your development branch"
 
@@ -5928,102 +6353,146 @@ msgstr "Stage changes and push to your development branch"
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 82
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 83
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 105
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 83
 msgid "Repository Status"
 msgstr "Repository Status"
 
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 85
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 86
 msgid "Working Directory"
 msgstr "Working Directory"
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 89
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 90
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 116
 msgid "Current Branch"
 msgstr "Current Branch"
 
 #
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 95
+msgid "Last Commit"
+msgstr "Last Commit"
+
+#
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 96
+msgid "No commit info"
+msgstr "No commit info"
+
+#
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 101
+msgid "Undo last commit (keep changes)"
+msgstr "Undo last commit (keep changes)"
+
+#
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 114
 msgid "Commit"
 msgstr "Commit"
 
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 103
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 121
 msgid "Commit Type"
 msgstr "Commit Type"
 
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 104
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 122
 msgid "Select the type of change"
 msgstr "Select the type of change"
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 130
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 148
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 147
 msgid "Commit Message"
 msgstr "Commit Message"
 
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 133
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 151
 msgid "Description"
 msgstr "Description"
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 147
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 165
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 139
 msgid "Pull Latest"
 msgstr "Pull Latest"
 
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 148
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 166
 msgid "Pull latest changes from remote"
 msgstr "Pull latest changes from remote"
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 189
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 209
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 243
 msgid "Uncommitted changes present"
 msgstr "Uncommitted changes present"
 
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 191
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 211
 msgid "You have uncommitted changes that need to be committed"
 msgstr "You have uncommitted changes that need to be committed"
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 195
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 215
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 249
 msgid "Working directory clean"
 msgstr "Working directory clean"
 
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 197
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 217
 msgid "No pending changes - working directory is clean"
 msgstr "No pending changes - working directory is clean"
 
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 237
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 246
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 249
+msgid "No commits"
+msgstr "No commits"
+
+#
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 300
 msgid "Custom message"
 msgstr "Custom message"
 
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 239
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 302
 #, python-brace-format
 msgid "Description for {0}"
 msgstr "Description for {0}"
+
+#
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 354
+msgid "Undo Last Commit?"
+msgstr "Undo Last Commit?"
+
+#
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 355
+msgid ""
+"This will undo your last commit but keep all changes in your working "
+"directory.\n"
+"\n"
+"You can then modify files and commit again."
+msgstr ""
+"This will undo your last commit but keep all changes in your working "
+"directory.\n"
+"\n"
+"You can then modify files and commit again."
+
+#
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 359
+msgid "Undo Commit"
+msgstr "Undo Commit"
 
 #
 # File: usr/share/build-package/gui/widgets/aur_widget.py, line: 44
