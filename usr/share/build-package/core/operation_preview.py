@@ -31,7 +31,7 @@ class Operation:
         self.callback = callback
         self.executed = False
         self.success = False
-        self.success = False
+        self.has_conflict = False  # Flag para indicar conflito de merge
 
     def execute(self, logger):
         """Execute the operation"""
@@ -66,18 +66,39 @@ class Operation:
                 # Detect git command type
                 is_git_pull = len(cmd) >= 2 and cmd[0] == "git" and cmd[1] == "pull"
                 is_git_push = len(cmd) >= 2 and cmd[0] == "git" and cmd[1] == "push"
+                is_git_merge = len(cmd) >= 2 and cmd[0] == "git" and cmd[1] == "merge"
+
+                # === CONFLICT DETECTION ===
+                # Check if this is a merge conflict (not a fatal error)
+                conflict_indicators = ["conflict", "merge conflict", "automatic merge failed"]
+                has_conflict = any(indicator in combined for indicator in conflict_indicators)
+                
+                if has_conflict and (is_git_merge or is_git_pull):
+                    # This is a CONFLICT - not a fatal error!
+                    # Log informatively and return "conflict" status
+                    logger.log("yellow", "")
+                    logger.log("yellow", _("⚠️ Merge conflict detected!"))
+                    logger.log("cyan", _("The conflict resolver will help you resolve this."))
+                    
+                    # Show conflict details
+                    if e.stdout and e.stdout.strip():
+                        for line in e.stdout.strip().split('\n'):
+                            if 'CONFLICT' in line or 'conflict' in line.lower():
+                                logger.log("yellow", f"  {line}")
+                    
+                    self.executed = True
+                    self.success = False
+                    self.has_conflict = True  # Mark as conflict
+                    return "conflict"  # Special return value
 
                 if is_git_pull:
-                    # These are REAL errors for pull
+                    # These are REAL errors for pull (not conflicts)
                     real_error_indicators = [
-                        "conflict",
                         "error:",
                         "fatal:",
                         "could not",
                         "failed to",
                         "unable to",
-                        "cannot merge",
-                        "merge conflict",
                         "refusing to merge",
                         "unrelated histories"
                     ]
@@ -279,9 +300,14 @@ class OperationPlan:
             if show_progress:
                 self.logger.log("cyan", f"[{i}/{len(self.operations)}] {op.description}")
 
-            success = op.execute(self.logger)
+            result = op.execute(self.logger)
 
-            if not success:
+            # Handle special "conflict" status
+            if result == "conflict":
+                self.logger.log("yellow", _("⚠️ Conflicts detected - resolution needed."))
+                return "conflict"  # Propagate conflict status
+            
+            if not result:
                 self.logger.log("red", _("✗ Operation failed. Stopping execution."))
                 return False
 
