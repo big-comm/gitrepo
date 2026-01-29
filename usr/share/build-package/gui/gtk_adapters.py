@@ -27,6 +27,19 @@ class GTKConflictResolver(ConflictResolver):
 
     def _resolve_interactive(self, conflict_files):
         """Resolve conflicts interactively using GTK dialog"""
+        return self._show_conflict_dialog(conflict_files)
+
+    def _resolve_interactive_enhanced(self, conflict_files, current_branch, incoming_branch):
+        """
+        Enhanced interactive resolution with branch comparison.
+        For GTK, we use the same dialog but could show branch info in the future.
+        """
+        # For now, use the same dialog - ConflictDialog already handles the resolution
+        # In the future, we could enhance ConflictDialog to show branch comparison
+        return self._show_conflict_dialog(conflict_files, current_branch, incoming_branch)
+
+    def _show_conflict_dialog(self, conflict_files, current_branch=None, incoming_branch=None):
+        """Show the conflict resolution dialog"""
         # Reset state
         self._result_event.clear()
         self.dialog_result = False
@@ -36,6 +49,10 @@ class GTKConflictResolver(ConflictResolver):
             # Close any existing progress dialog temporarily
             # to avoid modal dialog conflicts
             dialog = ConflictDialog(self.parent_window, conflict_files)
+            
+            # Store branch info for future use (if dialog supports it)
+            if hasattr(dialog, 'set_branch_info') and current_branch and incoming_branch:
+                dialog.set_branch_info(current_branch, incoming_branch)
 
             def on_conflicts_resolved(dlg, result):
                 self.dialog_result = result

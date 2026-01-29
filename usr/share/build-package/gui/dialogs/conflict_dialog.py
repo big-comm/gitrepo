@@ -54,13 +54,21 @@ class ConflictFileRow(Adw.ActionRow):
         both_button.connect('clicked', lambda b: self.emit('action-selected', 'both'))
         button_box.append(both_button)
 
-        # Show diff button
+        # Show diff button (compare side-by-side)
         diff_button = Gtk.Button()
-        diff_button.set_icon_name("document-properties-symbolic")
-        diff_button.set_tooltip_text(_("Show differences"))
+        diff_button.set_icon_name("view-dual-symbolic")
+        diff_button.set_tooltip_text(_("Compare versions side-by-side"))
         diff_button.add_css_class("flat")
         diff_button.connect('clicked', lambda b: self.emit('show-diff'))
         button_box.append(diff_button)
+
+        # Edit manually button
+        edit_button = Gtk.Button()
+        edit_button.set_icon_name("document-edit-symbolic")
+        edit_button.set_tooltip_text(_("Edit file manually"))
+        edit_button.add_css_class("flat")
+        edit_button.connect('clicked', lambda b: self.emit('edit-file'))
+        button_box.append(edit_button)
 
         self.add_suffix(button_box)
 
@@ -73,6 +81,7 @@ class ConflictFileRow(Adw.ActionRow):
     __gsignals__ = {
         'action-selected': (GObject.SignalFlags.RUN_FIRST, None, (str,)),
         'show-diff': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        'edit-file': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
 
@@ -176,6 +185,7 @@ class ConflictDialog(Adw.Window):
             row = ConflictFileRow(filepath)
             row.connect('action-selected', self.on_file_action_selected)
             row.connect('show-diff', self.on_show_diff)
+            row.connect('edit-file', self.on_edit_file)
             self.conflicts_list.append(row)
 
         conflicts_group.add(scrolled)
@@ -220,60 +230,366 @@ class ConflictDialog(Adw.Window):
         """Show diff for a file"""
         self.show_diff_dialog(row.filepath)
 
+    def on_edit_file(self, row):
+        """Open file in external editor for manual editing"""
+        import os
+        filepath = row.filepath
+        
+        # Try different editors in order of preference
+        editors = [
+            # GUI editors
+            'code',      # VS Code
+            'codium',    # VSCodium  
+            'kate',      # KDE Kate
+            'gedit',     # GNOME Gedit
+            'xed',       # Linux Mint Xed
+            'pluma',     # MATE Pluma
+            'mousepad',  # Xfce Mousepad
+            'leafpad',   # Lightweight
+            # Fallback to xdg-open (system default)
+            'xdg-open',
+        ]
+        
+        editor_found = False
+        for editor in editors:
+            try:
+                # Check if editor exists
+                result = subprocess.run(
+                    ['which', editor],
+                    capture_output=True,
+                    check=False
+                )
+                if result.returncode == 0:
+                    # Editor found, open file
+                    subprocess.Popen(
+                        [editor, filepath],
+                        start_new_session=True
+                    )
+                    editor_found = True
+                    
+                    # Show toast informing user
+                    toast = Adw.Toast.new(
+                        _("File opened in {0}. After editing, click 'Mark as Edited' to continue.").format(editor)
+                    )
+                    toast.set_timeout(5)
+                    if hasattr(self, 'toast_overlay'):
+                        self.toast_overlay.add_toast(toast)
+                    
+                    # Mark as "manual" resolution
+                    self.resolutions[row.filepath] = 'manual'
+                    row.mark_resolved()
+                    
+                    # Update button state
+                    self.resolved_count = len(self.resolutions)
+                    self.apply_button.set_sensitive(self.resolved_count == len(self.conflict_files))
+                    
+                    # Update status
+                    self.status_banner.set_title(
+                        _("Resolved {0} of {1} conflicts (editing manually)").format(
+                            self.resolved_count, len(self.conflict_files)
+                        )
+                    )
+                    break
+                    
+            except Exception:
+                continue
+        
+        if not editor_found:
+            # Fallback - show message
+            dialog = Adw.MessageDialog.new(
+                self,
+                _("No Editor Found"),
+                _("Could not find a text editor. Please edit the file manually:\n\n{0}").format(filepath)
+            )
+            dialog.add_response("ok", _("OK"))
+            dialog.present()
+
     def show_diff_dialog(self, filepath):
-        """Show diff in a dialog"""
-        # Get diff
+        """Show side-by-side diff dialog with colors (MELD-style)"""
+        # Get both versions from git
         try:
-            result = subprocess.run(
-                ["git", "diff", "--", filepath],
+            # Get "ours" version (local/current branch)
+            ours_result = subprocess.run(
+                ["git", "show", f":2:{filepath}"],
                 capture_output=True,
-                text=True,
                 check=False
             )
-            diff_output = result.stdout
-
-            if not diff_output:
-                diff_output = _("No diff available")
-
+            
+            # Get "theirs" version (remote/incoming)
+            theirs_result = subprocess.run(
+                ["git", "show", f":3:{filepath}"],
+                capture_output=True,
+                check=False
+            )
+            
+            # Try to decode as UTF-8, fallback to latin-1
+            try:
+                ours_content = ours_result.stdout.decode('utf-8') if ours_result.stdout else ""
+            except UnicodeDecodeError:
+                ours_content = ours_result.stdout.decode('latin-1', errors='replace') if ours_result.stdout else ""
+            
+            try:
+                theirs_content = theirs_result.stdout.decode('utf-8') if theirs_result.stdout else ""
+            except UnicodeDecodeError:
+                theirs_content = theirs_result.stdout.decode('latin-1', errors='replace') if theirs_result.stdout else ""
+            
         except Exception as e:
-            diff_output = _("Error getting diff: {0}").format(str(e))
-
-        # Create diff dialog
+            ours_content = _("Error reading local version: {0}").format(str(e))
+            theirs_content = _("Error reading remote version: {0}").format(str(e))
+        
+        # Create diff dialog - larger and maximizable
         dialog = Adw.Window(
             transient_for=self,
             modal=True,
-            title=_("Diff: {0}").format(filepath)
+            title=_("Compare: {0}").format(filepath)
         )
-        dialog.set_default_size(700, 500)
-
-        # Content
-        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        dialog.set_content(box)
-
-        # Header
+        dialog.set_default_size(1200, 700)
+        
+        # Make it resizable
+        dialog.set_resizable(True)
+        
+        # Main content
+        main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        dialog.set_content(main_box)
+        
+        # Header bar with maximize button
         header = Adw.HeaderBar()
-        box.append(header)
-
-        # Scrolled window with text view
-        scrolled = Gtk.ScrolledWindow()
-        scrolled.set_vexpand(True)
-
-        text_view = Gtk.TextView()
-        text_view.set_editable(False)
-        text_view.set_monospace(True)
-        text_view.set_wrap_mode(Gtk.WrapMode.NONE)
-        text_view.get_buffer().set_text(diff_output)
-
-        # Add some padding
-        text_view.set_left_margin(12)
-        text_view.set_right_margin(12)
-        text_view.set_top_margin(12)
-        text_view.set_bottom_margin(12)
-
-        scrolled.set_child(text_view)
-        box.append(scrolled)
-
+        
+        # Maximize button
+        maximize_button = Gtk.Button()
+        maximize_button.set_icon_name("view-fullscreen-symbolic")
+        maximize_button.set_tooltip_text(_("Maximize"))
+        maximize_button.connect('clicked', lambda b: dialog.maximize() if not dialog.is_maximized() else dialog.unmaximize())
+        header.pack_end(maximize_button)
+        
+        main_box.append(header)
+        
+        # Info bar
+        info_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
+        info_box.set_halign(Gtk.Align.CENTER)
+        info_box.set_margin_top(8)
+        info_box.set_margin_bottom(8)
+        
+        local_label = Gtk.Label()
+        local_label.set_markup(_("<span foreground='#3584e4' weight='bold'>◀ LOCAL (Your Version)</span>"))
+        info_box.append(local_label)
+        
+        vs_label = Gtk.Label()
+        vs_label.set_markup("<span weight='bold'>VS</span>")
+        info_box.append(vs_label)
+        
+        remote_label = Gtk.Label()
+        remote_label.set_markup(_("<span foreground='#2ec27e' weight='bold'>REMOTE (Server) ▶</span>"))
+        info_box.append(remote_label)
+        
+        main_box.append(info_box)
+        
+        # Side-by-side paned container
+        paned = Gtk.Paned(orientation=Gtk.Orientation.HORIZONTAL)
+        paned.set_vexpand(True)
+        paned.set_wide_handle(True)
+        
+        # Left side - LOCAL version (ours)
+        left_frame = Gtk.Frame()
+        left_frame.add_css_class("view")
+        
+        left_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        
+        left_header = Gtk.Label()
+        left_header.set_markup(_("<span foreground='#3584e4' weight='bold'>📁 LOCAL VERSION</span>"))
+        left_header.set_margin_top(8)
+        left_header.set_margin_bottom(4)
+        left_box.append(left_header)
+        
+        left_scrolled = Gtk.ScrolledWindow()
+        left_scrolled.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+        left_scrolled.set_vexpand(True)
+        
+        left_text = Gtk.TextView()
+        left_text.set_editable(False)
+        left_text.set_monospace(True)
+        left_text.set_wrap_mode(Gtk.WrapMode.NONE)
+        left_text.set_left_margin(8)
+        left_text.set_right_margin(8)
+        left_text.set_top_margin(8)
+        left_text.set_bottom_margin(8)
+        
+        # Apply syntax highlighting with colors
+        self._apply_diff_highlighting(left_text, ours_content, is_local=True)
+        
+        left_scrolled.set_child(left_text)
+        left_box.append(left_scrolled)
+        left_frame.set_child(left_box)
+        
+        # Right side - REMOTE version (theirs)
+        right_frame = Gtk.Frame()
+        right_frame.add_css_class("view")
+        
+        right_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        
+        right_header = Gtk.Label()
+        right_header.set_markup(_("<span foreground='#2ec27e' weight='bold'>☁️ REMOTE VERSION</span>"))
+        right_header.set_margin_top(8)
+        right_header.set_margin_bottom(4)
+        right_box.append(right_header)
+        
+        right_scrolled = Gtk.ScrolledWindow()
+        right_scrolled.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+        right_scrolled.set_vexpand(True)
+        
+        right_text = Gtk.TextView()
+        right_text.set_editable(False)
+        right_text.set_monospace(True)
+        right_text.set_wrap_mode(Gtk.WrapMode.NONE)
+        right_text.set_left_margin(8)
+        right_text.set_right_margin(8)
+        right_text.set_top_margin(8)
+        right_text.set_bottom_margin(8)
+        
+        # Apply syntax highlighting with colors
+        self._apply_diff_highlighting(right_text, theirs_content, is_local=False)
+        
+        right_scrolled.set_child(right_text)
+        right_box.append(right_scrolled)
+        right_frame.set_child(right_box)
+        
+        # Sync scrolling between both views
+        left_vadj = left_scrolled.get_vadjustment()
+        right_vadj = right_scrolled.get_vadjustment()
+        
+        def sync_scroll_left(adj):
+            right_vadj.set_value(adj.get_value())
+        
+        def sync_scroll_right(adj):
+            left_vadj.set_value(adj.get_value())
+        
+        left_vadj.connect('value-changed', sync_scroll_left)
+        right_vadj.connect('value-changed', sync_scroll_right)
+        
+        paned.set_start_child(left_frame)
+        paned.set_end_child(right_frame)
+        paned.set_position(550)  # Start position
+        
+        main_box.append(paned)
+        
+        # Bottom action bar with choice buttons
+        action_bar = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
+        action_bar.set_halign(Gtk.Align.CENTER)
+        action_bar.set_margin_top(12)
+        action_bar.set_margin_bottom(12)
+        action_bar.set_margin_start(12)
+        action_bar.set_margin_end(12)
+        
+        # Use Local button
+        use_local_btn = Gtk.Button()
+        use_local_btn.set_label(_("✓ Use LOCAL Version"))
+        use_local_btn.add_css_class("suggested-action")
+        use_local_btn.set_tooltip_text(_("Keep your local changes"))
+        
+        def on_use_local(btn):
+            self._apply_choice_from_diff(filepath, 'ours')
+            dialog.close()
+        
+        use_local_btn.connect('clicked', on_use_local)
+        action_bar.append(use_local_btn)
+        
+        # Close without choosing
+        close_btn = Gtk.Button()
+        close_btn.set_label(_("Close"))
+        close_btn.connect('clicked', lambda b: dialog.close())
+        action_bar.append(close_btn)
+        
+        # Use Remote button
+        use_remote_btn = Gtk.Button()
+        use_remote_btn.set_label(_("✓ Use REMOTE Version"))
+        use_remote_btn.add_css_class("accent")
+        use_remote_btn.set_tooltip_text(_("Accept the remote server version"))
+        
+        def on_use_remote(btn):
+            self._apply_choice_from_diff(filepath, 'theirs')
+            dialog.close()
+        
+        use_remote_btn.connect('clicked', on_use_remote)
+        action_bar.append(use_remote_btn)
+        
+        main_box.append(action_bar)
+        
         dialog.present()
+    
+    def _apply_diff_highlighting(self, text_view, content, is_local=True):
+        """Apply syntax highlighting with colors to text view"""
+        buffer = text_view.get_buffer()
+        
+        # Create tags for highlighting
+        tag_table = buffer.get_tag_table()
+        
+        # Create color tags if they don't exist
+        comment_tag = Gtk.TextTag.new("comment")
+        comment_tag.set_property("foreground", "#8b949e")  # Gray for comments
+        tag_table.add(comment_tag)
+        
+        keyword_tag = Gtk.TextTag.new("keyword")
+        keyword_tag.set_property("foreground", "#ff7b72")  # Red for keywords
+        tag_table.add(keyword_tag)
+        
+        string_tag = Gtk.TextTag.new("string")
+        string_tag.set_property("foreground", "#a5d6ff")  # Blue for strings
+        tag_table.add(string_tag)
+        
+        number_tag = Gtk.TextTag.new("number")
+        number_tag.set_property("foreground", "#79c0ff")  # Light blue for numbers
+        tag_table.add(number_tag)
+        
+        # Background color based on side
+        if is_local:
+            bg_tag = Gtk.TextTag.new("bg")
+            bg_tag.set_property("background", "#1a2332")  # Dark blue tint
+        else:
+            bg_tag = Gtk.TextTag.new("bg")
+            bg_tag.set_property("background", "#1a3320")  # Dark green tint
+        tag_table.add(bg_tag)
+        
+        # Set the text
+        buffer.set_text(content)
+        
+        # Apply background to all text
+        start = buffer.get_start_iter()
+        end = buffer.get_end_iter()
+        buffer.apply_tag_by_name("bg", start, end)
+        
+        # Apply simple syntax highlighting
+        lines = content.split('\n')
+        offset = 0
+        
+        for line in lines:
+            line_start = buffer.get_iter_at_offset(offset)
+            line_end = buffer.get_iter_at_offset(offset + len(line))
+            
+            # Comments (# or //)
+            if line.strip().startswith('#') or line.strip().startswith('//'):
+                buffer.apply_tag_by_name("comment", line_start, line_end)
+            
+            offset += len(line) + 1  # +1 for newline
+    
+    def _apply_choice_from_diff(self, filepath, action):
+        """Apply choice made from diff dialog"""
+        # Find the row for this file
+        for child in list(self.conflicts_list):
+            if isinstance(child, ConflictFileRow) and child.filepath == filepath:
+                self.resolutions[filepath] = action
+                child.mark_resolved()
+                
+                # Update button state
+                self.resolved_count = len(self.resolutions)
+                self.apply_button.set_sensitive(self.resolved_count == len(self.conflict_files))
+                
+                # Update status
+                self.status_banner.set_title(
+                    _("Resolved {0} of {1} conflicts").format(
+                        self.resolved_count, len(self.conflict_files)
+                    )
+                )
+                break
 
     def on_auto_ours_clicked(self, button):
         """Apply 'ours' to all unresolved conflicts"""
@@ -345,6 +661,19 @@ class ConflictDialog(Adw.Window):
                     check=True,
                     capture_output=True
                 )
+            elif action == 'manual':
+                # User edited the file manually
+                # Just verify it doesn't have conflict markers
+                try:
+                    with open(filepath, 'r', errors='replace') as f:
+                        content = f.read()
+                        if '<<<<<<<' in content or '=======' in content or '>>>>>>>' in content:
+                            # Still has conflict markers - warn but continue
+                            print(f"Warning: {filepath} may still have conflict markers")
+                except:
+                    pass
+                # File was edited, just return True
+                return True
             elif action == 'both':
                 # Keep both versions by creating .ours and .theirs files
                 ours_file = f"{filepath}.ours"

@@ -430,9 +430,61 @@ def pull_latest_v2(build_package_instance):
 
     # Execute directly without confirmation dialog since user already confirmed the merge
     # This avoids the double confirmation issue
-    success = plan.execute()
+    result = plan.execute()
 
-    if not success:
+    # Handle special "conflict" status - conflicts occurred during merge
+    if result == "conflict":
+        bp.logger.log("yellow", "")
+        bp.logger.log("yellow", "═" * 70)
+        bp.logger.log("yellow", _("⚠️  MERGE CONFLICTS DETECTED"))
+        bp.logger.log("yellow", "═" * 70)
+        bp.logger.log("cyan", _("The pull was successful, but some files have conflicts."))
+        bp.logger.log("cyan", _("You'll now choose how to resolve each conflicted file."))
+        bp.logger.log("yellow", "═" * 70)
+        bp.logger.log("yellow", "")
+        
+        if not is_gui_mode:
+            input(_("Press Enter to start resolving conflicts..."))
+        
+        # Use enhanced conflict resolver with branch information
+        if not bp.conflict_resolver.resolve(current_branch, most_recent_branch):
+            bp.logger.log("red", _("✗ Failed to resolve conflicts"))
+            bp.logger.log("yellow", _("The merge is still incomplete. Resolve conflicts manually:"))
+            bp.logger.log("white", _("  1. Edit conflicted files and remove conflict markers"))
+            bp.logger.log("white", _("  2. Run: git add <file>"))
+            bp.logger.log("white", _("  3. Run: git commit"))
+            bp.logger.log("yellow", "")
+            if not is_gui_mode:
+                input(_("Press Enter to return to main menu..."))
+            return False
+        
+        bp.logger.log("green", _("✓ All conflicts resolved successfully!"))
+        
+        # After resolving conflicts, commit the merge
+        bp.logger.log("cyan", _("Completing the merge..."))
+        try:
+            # Stage resolved files and complete merge
+            subprocess.run(["git", "add", "-A"], check=True, capture_output=True)
+            
+            # Check if we're in a merge state
+            merge_head = subprocess.run(
+                ["git", "rev-parse", "MERGE_HEAD"],
+                capture_output=True, check=False
+            )
+            
+            if merge_head.returncode == 0:
+                # We're in a merge state, commit to complete it
+                subprocess.run(
+                    ["git", "commit", "-m", f"Merge {most_recent_branch} into {current_branch} (conflicts resolved)"],
+                    check=True, capture_output=True
+                )
+                bp.logger.log("green", _("✓ Merge completed"))
+            else:
+                bp.logger.log("green", _("✓ Conflicts resolved and staged"))
+        except subprocess.CalledProcessError as e:
+            bp.logger.log("yellow", _("⚠ Note: You may need to complete the merge manually"))
+    
+    elif not result:
         bp.logger.log("red", _("✗ Pull operation failed"))
         bp.logger.log("yellow", "")
         if not is_gui_mode:
@@ -440,6 +492,7 @@ def pull_latest_v2(build_package_instance):
         return False
 
     # === PHASE 7: CHECK FOR CONFLICTS ===
+    # This is now also a safety check in case conflicts were not detected earlier
     if bp.conflict_resolver.has_conflicts():
         # Use enhanced conflict resolver with branch information
         # This will show a detailed comparison and intelligent resolution
