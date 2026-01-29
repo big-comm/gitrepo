@@ -206,6 +206,15 @@ def commit_and_push_v2(build_package_instance):
             destructive=False
         )
 
+    # === PHASE 4.5: EXECUTE BRANCH SWITCH OPERATIONS ===
+    # Critical: Must execute plan now to switch branch BEFORE committing
+    if not plan.is_empty():
+        bp.logger.log("cyan", _("Executing branch preparation operations..."))
+        if not plan.execute(show_progress=True):
+            bp.logger.log("red", _("✗ Failed to prepare branch"))
+            return False
+        plan.clear()  # Clear executed operations
+
     # Quick fetch to check status (divergence check in PHASE 8.5 will handle sync)
     try:
         subprocess.run(["git", "fetch", "origin"], check=True, capture_output=True)
@@ -415,8 +424,15 @@ def _ensure_branch_exists(bp, branch_name):
             check=False
         )
 
-        if remote_check.returncode == 0:
-            # Exists remotely, checkout
+        if remote_check.returncode == 0 and local_check.returncode != 0:
+            # Exists remotely but NOT locally - create local branch tracking remote
+            bp.logger.log("cyan", _("Creating local branch from remote: {0}").format(branch_name))
+            subprocess.run(
+                ["git", "checkout", "-b", branch_name, f"origin/{branch_name}"],
+                check=True
+            )
+        elif remote_check.returncode == 0:
+            # Exists both locally and remotely - just checkout
             subprocess.run(["git", "checkout", branch_name], check=True)
         elif local_check.returncode == 0:
             # Exists locally only
