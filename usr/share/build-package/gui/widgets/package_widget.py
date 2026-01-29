@@ -143,12 +143,46 @@ class PackageWidget(Gtk.Box):
         self.commit_group.set_title(_("Commit Changes"))
         self.commit_group.set_description(_("Required when uncommitted changes are present"))
         
+        # Get commit types from build_package
+        self.commit_types = self.build_package.get_commit_types()
+        self.selected_commit_type = None
+        self.selected_emoji = None
+        
+        # Create expander row for commit types
+        self.commit_type_expander = Adw.ExpanderRow()
+        self.commit_type_expander.set_title(_("Commit Type"))
+        self.commit_type_expander.set_subtitle(_("Select the type of change"))
+        
+        # Add commit type rows inside expander
+        for idx, (emoji, commit_type, description) in enumerate(self.commit_types):
+            type_row = Adw.ActionRow()
+            type_row.set_title(f"{emoji} {commit_type}")
+            type_row.set_subtitle(description)
+            type_row.set_activatable(True)
+            type_row.commit_type = commit_type
+            type_row.emoji = emoji
+            type_row.idx = idx
+            
+            # Add checkmark for selected
+            check_icon = Gtk.Image.new_from_icon_name("emblem-ok-symbolic")
+            check_icon.set_visible(False)
+            type_row.check_icon = check_icon
+            type_row.add_suffix(check_icon)
+            
+            type_row.connect('activated', self.on_commit_type_row_activated)
+            self.commit_type_expander.add_row(type_row)
+        
+        self.commit_group.add(self.commit_type_expander)
+        
         self.commit_message_entry = Adw.EntryRow()
         self.commit_message_entry.set_title(_("Commit Message"))
         self.commit_message_entry.connect('changed', self.on_commit_message_changed)
         self.commit_group.add(self.commit_message_entry)
         
         self.append(self.commit_group)
+        
+        # Select first commit type by default
+        self._select_first_commit_type()
         
         # Build options
         options_group = Adw.PreferencesGroup()
@@ -294,21 +328,66 @@ class PackageWidget(Gtk.Box):
         self.commit_message = entry.get_text().strip()
         self.update_build_button_state()
     
+    def _select_first_commit_type(self):
+        """Select first commit type by default"""
+        if len(self.commit_types) > 0:
+            # Find and select first row in expander
+            first_row = None
+            child = self.commit_type_expander.get_first_child()
+            while child:
+                if hasattr(child, 'commit_type'):
+                    first_row = child
+                    break
+                child = child.get_next_sibling()
+            
+            if first_row:
+                self._select_commit_type_row(first_row)
+    
+    def on_commit_type_row_activated(self, row):
+        """Handle commit type row activation"""
+        self._select_commit_type_row(row)
+    
+    def _select_commit_type_row(self, row):
+        """Select a commit type row and update visuals"""
+        # Hide all checkmarks first
+        child = self.commit_type_expander.get_first_child()
+        while child:
+            if hasattr(child, 'check_icon'):
+                child.check_icon.set_visible(False)
+            child = child.get_next_sibling()
+        
+        # Show checkmark on selected
+        if hasattr(row, 'check_icon'):
+            row.check_icon.set_visible(True)
+        
+        # Update selected values
+        self.selected_commit_type = row.commit_type
+        self.selected_emoji = row.emoji
+        
+        # Update expander subtitle to show selection
+        self.commit_type_expander.set_subtitle(f"{row.emoji} {row.commit_type}")
+        
+        # Collapse expander after selection
+        self.commit_type_expander.set_expanded(False)
+        
+        self.update_build_button_state()
+    
     def update_build_button_state(self):
         """Update build button sensitivity"""
         # Check if package type is selected
         has_package_type = self.selected_package_type is not None
         
-        # Check if commit message is provided when needed
+        # Check if commit message and type are provided when needed
         has_changes = GitUtils.has_changes()
         has_commit_msg = bool(self.commit_message) if has_changes else True
+        has_commit_type = (self.selected_commit_type is not None) if has_changes else True
         
         # Check if package name is valid
         package_name = GitUtils.get_package_name()
         has_valid_package = not package_name.startswith("error")
         
         self.build_button.set_sensitive(
-            has_package_type and has_commit_msg and has_valid_package
+            has_package_type and has_commit_msg and has_commit_type and has_valid_package
         )
     
     def on_reset_clicked(self, button):
@@ -316,6 +395,9 @@ class PackageWidget(Gtk.Box):
         # Clear selections
         self.package_types_list.unselect_all()
         self.selected_package_type = None
+        
+        # Reset commit type selection
+        self._select_first_commit_type()
         
         # Clear commit message
         self.commit_message_entry.set_text("")
@@ -337,10 +419,16 @@ class PackageWidget(Gtk.Box):
         has_changes = GitUtils.has_changes()
         
         if has_changes and self.commit_message:
+            # Format commit message with type
+            if self.selected_commit_type == "custom":
+                formatted_message = self.commit_message
+            else:
+                formatted_message = f"{self.selected_emoji} {self.selected_commit_type}: {self.commit_message}"
+            
             # Need to commit first, then build
             self.emit('commit-and-build-requested', 
                      self.selected_package_type, 
-                     self.commit_message, 
+                     formatted_message, 
                      tmate_enabled)
         else:
             # Direct build (no uncommitted changes)

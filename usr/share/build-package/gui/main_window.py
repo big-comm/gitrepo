@@ -514,12 +514,41 @@ class MainWindow(Adw.ApplicationWindow):
                     else:
                         log("yellow", _("⚠ Could not stash (continuing anyway)"))
                 
-                # Switch branch
+                # Switch branch - handle case where branch exists remotely but not locally
                 log("cyan", _("Switching to branch {0}...").format(target_branch))
-                checkout_result = subprocess.run(
-                    ["git", "checkout", target_branch], 
-                    capture_output=True, text=True, check=False
+                
+                # Check if branch exists locally
+                local_check = subprocess.run(
+                    ["git", "rev-parse", "--verify", target_branch],
+                    capture_output=True, check=False
                 )
+                
+                # Check if branch exists remotely
+                remote_check = subprocess.run(
+                    ["git", "rev-parse", "--verify", f"origin/{target_branch}"],
+                    capture_output=True, check=False
+                )
+                
+                if remote_check.returncode == 0 and local_check.returncode != 0:
+                    # Exists remotely but NOT locally - create local branch tracking remote
+                    log("cyan", _("Creating local branch from remote: {0}").format(target_branch))
+                    checkout_result = subprocess.run(
+                        ["git", "checkout", "-b", target_branch, f"origin/{target_branch}"],
+                        capture_output=True, text=True, check=False
+                    )
+                elif local_check.returncode == 0 or remote_check.returncode == 0:
+                    # Exists locally or both - normal checkout
+                    checkout_result = subprocess.run(
+                        ["git", "checkout", target_branch], 
+                        capture_output=True, text=True, check=False
+                    )
+                else:
+                    # Doesn't exist anywhere - create new branch
+                    log("cyan", _("Creating new branch: {0}").format(target_branch))
+                    checkout_result = subprocess.run(
+                        ["git", "checkout", "-b", target_branch],
+                        capture_output=True, text=True, check=False
+                    )
                 
                 if checkout_result.returncode != 0:
                     error_msg = checkout_result.stderr.strip() or checkout_result.stdout.strip()
@@ -990,11 +1019,37 @@ class MainWindow(Adw.ApplicationWindow):
                     return
                 stashed = True
             
-            # Step 2: Switch branch
-            checkout_result = subprocess.run(
-                ["git", "checkout", target_branch],
-                capture_output=True, text=True, check=False
+            # Step 2: Switch branch - handle case where branch exists remotely but not locally
+            # Check if branch exists locally
+            local_check = subprocess.run(
+                ["git", "rev-parse", "--verify", target_branch],
+                capture_output=True, check=False
             )
+            
+            # Check if branch exists remotely
+            remote_check = subprocess.run(
+                ["git", "rev-parse", "--verify", f"origin/{target_branch}"],
+                capture_output=True, check=False
+            )
+            
+            if remote_check.returncode == 0 and local_check.returncode != 0:
+                # Exists remotely but NOT locally - create local branch tracking remote
+                checkout_result = subprocess.run(
+                    ["git", "checkout", "-b", target_branch, f"origin/{target_branch}"],
+                    capture_output=True, text=True, check=False
+                )
+            elif local_check.returncode == 0 or remote_check.returncode == 0:
+                # Exists locally or both - normal checkout
+                checkout_result = subprocess.run(
+                    ["git", "checkout", target_branch],
+                    capture_output=True, text=True, check=False
+                )
+            else:
+                # Doesn't exist anywhere - create new branch
+                checkout_result = subprocess.run(
+                    ["git", "checkout", "-b", target_branch],
+                    capture_output=True, text=True, check=False
+                )
             
             if checkout_result.returncode != 0:
                 error_msg = checkout_result.stderr.strip()
