@@ -3424,6 +3424,16 @@ msgstr "Erreur lors de la vérification de l'existence de la branche : {0}"
 msgid "✗ Failed: {0}"
 msgstr "✗ Échoué : {0}"
 # 
+# File: usr/share/build-package/core/operation_preview.py, line: 80
+#: NEEDS WORK
+msgid "⚠️ Merge conflict detected!"
+msgstr "⚠️ Conflit de fusion détecté !"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 81
+#: NEEDS WORK
+msgid "The conflict resolver will help you resolve this."
+msgstr "Le résolveur de conflits vous aidera à résoudre cela."
+# 
 # File: usr/share/build-package/core/operation_preview.py, line: 114
 #: NEEDS WORK
 msgid "⚠️ Push rejected - your branch has diverged from remote!"
@@ -3534,6 +3544,11 @@ msgstr "Procéder avec ces opérations ?"
 #, python-brace-format
 msgid "Executing {0} operation(s)..."
 msgstr "Exécution de {0} opération(s)..."
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 307
+#: NEEDS WORK
+msgid "⚠️ Conflicts detected - resolution needed."
+msgstr "⚠️ Conflits détectés - résolution nécessaire."
 # 
 # File: usr/share/build-package/core/operation_preview.py, line: 197
 #: NEEDS WORK
@@ -4649,6 +4664,56 @@ msgstr "Ignorer la fusion"
 #: NEEDS WORK
 msgid "✓ Already up to date"
 msgstr "✓ Déjà à jour"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 441
+#: NEEDS WORK
+msgid "The pull was successful, but some files have conflicts."
+msgstr "Le tirage a réussi, mais certains fichiers ont des conflits."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 442
+#: NEEDS WORK
+msgid "You'll now choose how to resolve each conflicted file."
+msgstr "Vous allez maintenant choisir comment résoudre chaque fichier en conflit."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 452
+#: NEEDS WORK
+msgid "The merge is still incomplete. Resolve conflicts manually:"
+msgstr "La fusion est toujours incomplète. Résolvez les conflits manuellement :"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 453
+#: NEEDS WORK
+msgid "  1. Edit conflicted files and remove conflict markers"
+msgstr "1. Modifier les fichiers en conflit et supprimer les marqueurs de conflit"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 454
+#: NEEDS WORK
+msgid "  2. Run: git add <file>"
+msgstr "2. Exécutez : git add <fichier>"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 455
+#: NEEDS WORK
+msgid "  3. Run: git commit"
+msgstr "3. Exécuter : git commit"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 464
+#: NEEDS WORK
+msgid "Completing the merge..."
+msgstr "Finalisation de la fusion..."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 481
+#: NEEDS WORK
+msgid "✓ Merge completed"
+msgstr "✓ Fusion terminée"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 483
+#: NEEDS WORK
+msgid "✓ Conflicts resolved and staged"
+msgstr "✓ Conflits résolus et mis en scène"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 485
+#: NEEDS WORK
+msgid "⚠ Note: You may need to complete the merge manually"
+msgstr "⚠ Remarque : Vous devrez peut-être terminer la fusion manuellement"
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 249
 #: NEEDS WORK
@@ -6638,8 +6703,13 @@ msgstr "Conservez les deux versions"
 # 
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 60
 #: NEEDS WORK
-msgid "Show differences"
-msgstr "Afficher les différences"
+msgid "Compare versions side-by-side"
+msgstr "Comparer les versions côte à côte"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 68
+#: NEEDS WORK
+msgid "Edit file manually"
+msgstr "Modifier le fichier manuellement"
 # 
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 96
 #: NEEDS WORK
@@ -6683,22 +6753,102 @@ msgstr "Appliquer les résolutions"
 msgid "Resolved {0} of {1} conflicts"
 msgstr "Résolu {0} de {1} conflits"
 # 
-# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 236
-#: NEEDS WORK
-msgid "No diff available"
-msgstr "Aucune différence disponible"
-# 
-# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 239
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 272
 #: NEEDS WORK
 #, python-brace-format
-msgid "Error getting diff: {0}"
-msgstr "Erreur lors de l'obtention de la différence : {0}"
+msgid "File opened in {0}. After editing, click 'Mark as Edited' to continue."
+msgstr "Fichier ouvert dans {0}. Après modification, cliquez sur 'Marquer comme modifié' pour continuer."
 # 
-# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 245
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 288
 #: NEEDS WORK
 #, python-brace-format
-msgid "Diff: {0}"
-msgstr "Diff : {0}"
+msgid "Resolved {0} of {1} conflicts (editing manually)"
+msgstr "Résolu {0} de {1} conflits (édition manuelle)"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 301
+#: NEEDS WORK
+msgid "No Editor Found"
+msgstr "Aucun éditeur trouvé"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 302
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Could not find a text editor. Please edit the file manually:\n"
+"\n"
+"{0}"
+msgstr ""
+"Impossible de trouver un éditeur de texte. Veuillez modifier le fichier manuellement :\n"
+"\n"
+"{0}"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 337
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error reading local version: {0}"
+msgstr "Erreur de lecture de la version locale : {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 338
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error reading remote version: {0}"
+msgstr "Erreur de lecture de la version distante : {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 344
+#: NEEDS WORK
+#, python-brace-format
+msgid "Compare: {0}"
+msgstr "Comparer : {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 361
+#: NEEDS WORK
+msgid "Maximize"
+msgstr "Agrandir"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 374
+#: NEEDS WORK
+msgid "<span foreground='#3584e4' weight='bold'>◀ LOCAL (Your Version)</span>"
+msgstr "<span foreground='#3584e4' weight='bold'>◀ LOCAL (Votre version)</span>"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 382
+#: NEEDS WORK
+msgid "<span foreground='#2ec27e' weight='bold'>REMOTE (Server) ▶</span>"
+msgstr "<span foreground='#2ec27e' weight='bold'>DISTANT (Serveur) ▶</span>"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 399
+#: NEEDS WORK
+msgid "<span foreground='#3584e4' weight='bold'>📁 LOCAL VERSION</span>"
+msgstr "<span foreground='#3584e4' weight='bold'>📁 VERSION LOCALE</span>"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 431
+#: NEEDS WORK
+msgid "<span foreground='#2ec27e' weight='bold'>☁️ REMOTE VERSION</span>"
+msgstr "<span foreground='#2ec27e' weight='bold'>☁️ VERSION DISTANTE</span>"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 485
+#: NEEDS WORK
+msgid "✓ Use LOCAL Version"
+msgstr "✓ Utiliser la version LOCALE"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 487
+#: NEEDS WORK
+msgid "Keep your local changes"
+msgstr "Conservez vos modifications locales"
+# 
+# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 149
+#: NEEDS WORK
+msgid "Close"
+msgstr "Fermer"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 504
+#: NEEDS WORK
+msgid "✓ Use REMOTE Version"
+msgstr "✓ Utiliser la version DISTANTE"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 506
+#: NEEDS WORK
+msgid "Accept the remote server version"
+msgstr "Accepter la version du serveur distant"
 # 
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 288
 #: NEEDS WORK
@@ -6881,11 +7031,6 @@ msgstr "Aperçu de l'opération"
 #: NEEDS WORK
 msgid "The following operations will be executed:"
 msgstr "Les opérations suivantes seront exécutées :"
-# 
-# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 149
-#: NEEDS WORK
-msgid "Close"
-msgstr "Fermer"
 # 
 # File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 154
 #: NEEDS WORK

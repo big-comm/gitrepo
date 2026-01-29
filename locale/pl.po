@@ -3420,6 +3420,16 @@ msgstr "Błąd podczas zapewniania istnienia gałęzi: {0}"
 msgid "✗ Failed: {0}"
 msgstr "✗ Niepowodzenie: {0}"
 # 
+# File: usr/share/build-package/core/operation_preview.py, line: 80
+#: NEEDS WORK
+msgid "⚠️ Merge conflict detected!"
+msgstr "⚠️ Wykryto konflikt scalania!"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 81
+#: NEEDS WORK
+msgid "The conflict resolver will help you resolve this."
+msgstr "Rozwiązywacz konfliktów pomoże Ci to rozwiązać."
+# 
 # File: usr/share/build-package/core/operation_preview.py, line: 114
 #: NEEDS WORK
 msgid "⚠️ Push rejected - your branch has diverged from remote!"
@@ -3530,6 +3540,11 @@ msgstr "Czy kontynuować te operacje?"
 #, python-brace-format
 msgid "Executing {0} operation(s)..."
 msgstr "Wykonywanie {0} operacji..."
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 307
+#: NEEDS WORK
+msgid "⚠️ Conflicts detected - resolution needed."
+msgstr "⚠️ Wykryto konflikty - wymagana jest rozwiązanie."
 # 
 # File: usr/share/build-package/core/operation_preview.py, line: 197
 #: NEEDS WORK
@@ -4645,6 +4660,56 @@ msgstr "Pomijanie scalania"
 #: NEEDS WORK
 msgid "✓ Already up to date"
 msgstr "✓ Już aktualne"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 441
+#: NEEDS WORK
+msgid "The pull was successful, but some files have conflicts."
+msgstr "Pobranie zakończyło się sukcesem, ale niektóre pliki mają konflikty."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 442
+#: NEEDS WORK
+msgid "You'll now choose how to resolve each conflicted file."
+msgstr "Teraz wybierzesz, jak rozwiązać każdy konfliktowy plik."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 452
+#: NEEDS WORK
+msgid "The merge is still incomplete. Resolve conflicts manually:"
+msgstr "Scalanie jest nadal niekompletne. Rozwiąż konflikty ręcznie:"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 453
+#: NEEDS WORK
+msgid "  1. Edit conflicted files and remove conflict markers"
+msgstr "1. Edytuj pliki z konfliktami i usuń znaczniki konfliktu"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 454
+#: NEEDS WORK
+msgid "  2. Run: git add <file>"
+msgstr "2. Uruchom: git add <plik>"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 455
+#: NEEDS WORK
+msgid "  3. Run: git commit"
+msgstr "3. Uruchom: git commit"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 464
+#: NEEDS WORK
+msgid "Completing the merge..."
+msgstr "Kończenie scalania..."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 481
+#: NEEDS WORK
+msgid "✓ Merge completed"
+msgstr "✓ Scalanie zakończone"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 483
+#: NEEDS WORK
+msgid "✓ Conflicts resolved and staged"
+msgstr "✓ Konflikty rozwiązane i przygotowane"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 485
+#: NEEDS WORK
+msgid "⚠ Note: You may need to complete the merge manually"
+msgstr "⚠ Uwaga: Możesz potrzebować ręcznie dokończyć scalanie."
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 249
 #: NEEDS WORK
@@ -6629,8 +6694,13 @@ msgstr "Zachowaj obie wersje"
 # 
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 60
 #: NEEDS WORK
-msgid "Show differences"
-msgstr "Pokaż różnice"
+msgid "Compare versions side-by-side"
+msgstr "Porównaj wersje obok siebie"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 68
+#: NEEDS WORK
+msgid "Edit file manually"
+msgstr "Edytuj plik ręcznie"
 # 
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 96
 #: NEEDS WORK
@@ -6674,22 +6744,102 @@ msgstr "Zastosuj rozwiązania"
 msgid "Resolved {0} of {1} conflicts"
 msgstr "Rozwiązano {0} z {1} konfliktów"
 # 
-# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 236
-#: NEEDS WORK
-msgid "No diff available"
-msgstr "Brak dostępnych różnic"
-# 
-# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 239
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 272
 #: NEEDS WORK
 #, python-brace-format
-msgid "Error getting diff: {0}"
-msgstr "Błąd podczas pobierania różnicy: {0}"
+msgid "File opened in {0}. After editing, click 'Mark as Edited' to continue."
+msgstr "Plik otwarty w {0}. Po edytowaniu kliknij 'Oznacz jako edytowany', aby kontynuować."
 # 
-# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 245
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 288
 #: NEEDS WORK
 #, python-brace-format
-msgid "Diff: {0}"
-msgstr "Różnica: {0}"
+msgid "Resolved {0} of {1} conflicts (editing manually)"
+msgstr "Rozwiązano {0} z {1} konfliktów (edycja ręczna)"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 301
+#: NEEDS WORK
+msgid "No Editor Found"
+msgstr "Nie znaleziono edytora"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 302
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Could not find a text editor. Please edit the file manually:\n"
+"\n"
+"{0}"
+msgstr ""
+"Nie znaleziono edytora tekstu. Proszę edytować plik ręcznie:\n"
+"\n"
+"{0}"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 337
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error reading local version: {0}"
+msgstr "Błąd odczytu lokalnej wersji: {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 338
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error reading remote version: {0}"
+msgstr "Błąd odczytu zdalnej wersji: {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 344
+#: NEEDS WORK
+#, python-brace-format
+msgid "Compare: {0}"
+msgstr "Porównaj: {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 361
+#: NEEDS WORK
+msgid "Maximize"
+msgstr "Maksymalizuj"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 374
+#: NEEDS WORK
+msgid "<span foreground='#3584e4' weight='bold'>◀ LOCAL (Your Version)</span>"
+msgstr "<span foreground='#3584e4' weight='bold'>◀ LOKALNY (Twoja Wersja)</span>"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 382
+#: NEEDS WORK
+msgid "<span foreground='#2ec27e' weight='bold'>REMOTE (Server) ▶</span>"
+msgstr "<span foreground='#2ec27e' weight='bold'>ZDALNY (Serwer) ▶</span>"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 399
+#: NEEDS WORK
+msgid "<span foreground='#3584e4' weight='bold'>📁 LOCAL VERSION</span>"
+msgstr "<span foreground='#3584e4' weight='bold'>📁 WERSJA LOKALNA</span>"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 431
+#: NEEDS WORK
+msgid "<span foreground='#2ec27e' weight='bold'>☁️ REMOTE VERSION</span>"
+msgstr "<span foreground='#2ec27e' weight='bold'>☁️ WERSJA ZDALNA</span>"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 485
+#: NEEDS WORK
+msgid "✓ Use LOCAL Version"
+msgstr "✓ Użyj wersji LOKALNEJ"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 487
+#: NEEDS WORK
+msgid "Keep your local changes"
+msgstr "Zachowaj lokalne zmiany"
+# 
+# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 149
+#: NEEDS WORK
+msgid "Close"
+msgstr "Zamknij"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 504
+#: NEEDS WORK
+msgid "✓ Use REMOTE Version"
+msgstr "✓ Użyj wersji ZDALNEJ"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 506
+#: NEEDS WORK
+msgid "Accept the remote server version"
+msgstr "Akceptuj wersję zdalnego serwera"
 # 
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 288
 #: NEEDS WORK
@@ -6870,11 +7020,6 @@ msgstr "Podgląd operacji"
 #: NEEDS WORK
 msgid "The following operations will be executed:"
 msgstr "Następujące operacje zostaną wykonane:"
-# 
-# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 149
-#: NEEDS WORK
-msgid "Close"
-msgstr "Zamknij"
 # 
 # File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 154
 #: NEEDS WORK

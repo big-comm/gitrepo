@@ -3414,6 +3414,16 @@ msgstr "Viga haru tagamise: {0}"
 msgid "✗ Failed: {0}"
 msgstr "✗ Eba: {0}"
 # 
+# File: usr/share/build-package/core/operation_preview.py, line: 80
+#: NEEDS WORK
+msgid "⚠️ Merge conflict detected!"
+msgstr "⚠️ Ühendamise konflikt tuvastatud!"
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 81
+#: NEEDS WORK
+msgid "The conflict resolver will help you resolve this."
+msgstr "Konflikti lahendaja aitab teil seda lahendada."
+# 
 # File: usr/share/build-package/core/operation_preview.py, line: 114
 #: NEEDS WORK
 msgid "⚠️ Push rejected - your branch has diverged from remote!"
@@ -3524,6 +3534,11 @@ msgstr "Kas jätkata nende toimingutega?"
 #, python-brace-format
 msgid "Executing {0} operation(s)..."
 msgstr "Teostan {0} toimingut..."
+# 
+# File: usr/share/build-package/core/operation_preview.py, line: 307
+#: NEEDS WORK
+msgid "⚠️ Conflicts detected - resolution needed."
+msgstr "⚠️ Tuvastatud konfliktid - lahendus vajalik."
 # 
 # File: usr/share/build-package/core/operation_preview.py, line: 197
 #: NEEDS WORK
@@ -4643,6 +4658,56 @@ msgstr "Üksuse vahelejätmine"
 #: NEEDS WORK
 msgid "✓ Already up to date"
 msgstr "✓ Juba ajakohane"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 441
+#: NEEDS WORK
+msgid "The pull was successful, but some files have conflicts."
+msgstr "Pull oli edukas, kuid mõned failid sisaldavad konflikte."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 442
+#: NEEDS WORK
+msgid "You'll now choose how to resolve each conflicted file."
+msgstr "Nüüd valite, kuidas iga konfliktne fail lahendada."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 452
+#: NEEDS WORK
+msgid "The merge is still incomplete. Resolve conflicts manually:"
+msgstr "Ühendamine on endiselt lõpetamata. Lahendage konfliktid käsitsi:"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 453
+#: NEEDS WORK
+msgid "  1. Edit conflicted files and remove conflict markers"
+msgstr "1. Redigeeri konfliktseid faile ja eemalda konfliktimärgid"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 454
+#: NEEDS WORK
+msgid "  2. Run: git add <file>"
+msgstr "2. Käivita: git add <fail>"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 455
+#: NEEDS WORK
+msgid "  3. Run: git commit"
+msgstr "3. Käivita: git commit"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 464
+#: NEEDS WORK
+msgid "Completing the merge..."
+msgstr "Ühendamise lõpetamine..."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 481
+#: NEEDS WORK
+msgid "✓ Merge completed"
+msgstr "✓ Ühendamine lõpetatud"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 483
+#: NEEDS WORK
+msgid "✓ Conflicts resolved and staged"
+msgstr "✓ Konfliktid lahendatud ja lavastatud"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 485
+#: NEEDS WORK
+msgid "⚠ Note: You may need to complete the merge manually"
+msgstr "⚠ Märkus: Võite vajada sulandumise käsitsi lõpetamist"
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 249
 #: NEEDS WORK
@@ -6629,8 +6694,13 @@ msgstr "Hoia mõlemad versioonid"
 # 
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 60
 #: NEEDS WORK
-msgid "Show differences"
-msgstr "Näita erinevusi"
+msgid "Compare versions side-by-side"
+msgstr "Võrdle versioone kõrvuti"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 68
+#: NEEDS WORK
+msgid "Edit file manually"
+msgstr "Redigeeri faili käsitsi"
 # 
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 96
 #: NEEDS WORK
@@ -6674,22 +6744,102 @@ msgstr "Rakenda lahendused"
 msgid "Resolved {0} of {1} conflicts"
 msgstr "Lahendatud {0} {1} konfliktist"
 # 
-# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 236
-#: NEEDS WORK
-msgid "No diff available"
-msgstr "Ei erinevust saadaval"
-# 
-# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 239
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 272
 #: NEEDS WORK
 #, python-brace-format
-msgid "Error getting diff: {0}"
-msgstr "Viga diff'i saamisel: {0}"
+msgid "File opened in {0}. After editing, click 'Mark as Edited' to continue."
+msgstr "Fail avatud {0}. Pärast redigeerimist klõpsake 'Märgi redigeerituks', et jätkata."
 # 
-# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 245
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 288
 #: NEEDS WORK
 #, python-brace-format
-msgid "Diff: {0}"
-msgstr "Diff: {0}"
+msgid "Resolved {0} of {1} conflicts (editing manually)"
+msgstr "Lahendatud {0} {1} konfliktist (redigeerimine käsitsi)"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 301
+#: NEEDS WORK
+msgid "No Editor Found"
+msgstr "Toimetajat ei leitud"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 302
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Could not find a text editor. Please edit the file manually:\n"
+"\n"
+"{0}"
+msgstr ""
+"Ei leitud tekstiredaktorit. Palun redigeerige fail käsitsi:\n"
+"\n"
+"{0}"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 337
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error reading local version: {0}"
+msgstr "Viga kohaliku versiooni lugemisel: {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 338
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error reading remote version: {0}"
+msgstr "Viga kaugversiooni lugemisel: {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 344
+#: NEEDS WORK
+#, python-brace-format
+msgid "Compare: {0}"
+msgstr "Võrdle: {0}"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 361
+#: NEEDS WORK
+msgid "Maximize"
+msgstr "Maksimeeri"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 374
+#: NEEDS WORK
+msgid "<span foreground='#3584e4' weight='bold'>◀ LOCAL (Your Version)</span>"
+msgstr "<span foreground='#3584e4' weight='bold'>◀ KOHALIK (Teie Versioon)</span>"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 382
+#: NEEDS WORK
+msgid "<span foreground='#2ec27e' weight='bold'>REMOTE (Server) ▶</span>"
+msgstr "<span foreground='#2ec27e' weight='bold'>KAUGTÖÖ (Server) ▶</span>"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 399
+#: NEEDS WORK
+msgid "<span foreground='#3584e4' weight='bold'>📁 LOCAL VERSION</span>"
+msgstr "<span foreground='#3584e4' weight='bold'>📁 KOHALIK VERSIOON</span>"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 431
+#: NEEDS WORK
+msgid "<span foreground='#2ec27e' weight='bold'>☁️ REMOTE VERSION</span>"
+msgstr "<span foreground='#2ec27e' weight='bold'>☁️ KAUDA VERSIO</span>"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 485
+#: NEEDS WORK
+msgid "✓ Use LOCAL Version"
+msgstr "✓ Kasuta KOHALIKku versiooni"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 487
+#: NEEDS WORK
+msgid "Keep your local changes"
+msgstr "Hoia oma kohalikud muudatused"
+# 
+# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 149
+#: NEEDS WORK
+msgid "Close"
+msgstr "Sulge"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 504
+#: NEEDS WORK
+msgid "✓ Use REMOTE Version"
+msgstr "✓ Kasuta KAUGTöö versiooni"
+# 
+# File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 506
+#: NEEDS WORK
+msgid "Accept the remote server version"
+msgstr "Käivita kaugserveri versioon"
 # 
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 288
 #: NEEDS WORK
@@ -6870,11 +7020,6 @@ msgstr "Operatsiooni eelvaade"
 #: NEEDS WORK
 msgid "The following operations will be executed:"
 msgstr "Järgmised toimingud viiakse läbi:"
-# 
-# File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 149
-#: NEEDS WORK
-msgid "Close"
-msgstr "Sulge"
 # 
 # File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 154
 #: NEEDS WORK
