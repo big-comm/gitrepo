@@ -214,6 +214,10 @@ def commit_and_push_v2(build_package_instance):
             bp.logger.log("red", _("✗ Failed to prepare branch"))
             return False
         plan.clear()  # Clear executed operations
+        
+        # Update current_branch to reflect actual branch after switch
+        current_branch = GitUtils.get_current_branch()
+        bp.logger.log("dim", _("Now on branch: {0}").format(current_branch))
 
     # Quick fetch to check status (divergence check in PHASE 8.5 will handle sync)
     try:
