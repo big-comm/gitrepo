@@ -235,12 +235,30 @@ def pull_latest_v2(build_package_instance):
                 return False
 
             if choice[0] == 0:  # Switch
+                stashed = False
                 if has_changes:
-                    subprocess.run(
-                        ["git", "stash", "push", "-u", "-m", f"stash-before-pull"],
-                        check=True,
-                        capture_output=True
-                    )
+                    try:
+                        stash_result = subprocess.run(
+                            ["git", "stash", "push", "-u", "-m", f"stash-before-pull"],
+                            capture_output=True,
+                            text=True,
+                            check=False
+                        )
+                        if stash_result.returncode == 0:
+                            stashed = True
+                            bp.logger.log("cyan", _("Local changes stashed"))
+                        else:
+                            # git stash can fail if there's nothing to stash or other issues
+                            # Check if it's just "nothing to stash"
+                            stderr = stash_result.stderr.lower() if stash_result.stderr else ""
+                            if "no local changes" in stderr or "nothing to" in stderr.lower():
+                                bp.logger.log("dim", _("No changes to stash"))
+                            else:
+                                bp.logger.log("yellow", _("⚠ Could not stash changes: {0}").format(
+                                    stash_result.stderr.strip() if stash_result.stderr else _("unknown error")
+                                ))
+                    except Exception as e:
+                        bp.logger.log("yellow", _("⚠ Could not stash changes: {0}").format(str(e)))
 
                 # Check if branch exists locally
                 branch_check = subprocess.run(
@@ -277,7 +295,7 @@ def pull_latest_v2(build_package_instance):
 
                 current_branch = expected_branch
 
-                if has_changes:
+                if stashed:
                     pop_result = subprocess.run(
                         ["git", "stash", "pop"],
                         capture_output=True,
@@ -320,7 +338,23 @@ def pull_latest_v2(build_package_instance):
         if choice == "2":
             # User wants to discard local changes
             bp.logger.log("yellow", _("Discarding local changes and using remote version..."))
-            subprocess.run(["git", "reset", "--hard", "HEAD"], check=True)
+            
+            # Check if HEAD exists (repository may not have initial commit)
+            head_check = subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                capture_output=True,
+                check=False
+            )
+            
+            if head_check.returncode == 0:
+                # HEAD exists, can use normal reset
+                subprocess.run(["git", "reset", "--hard", "HEAD"], check=True)
+            else:
+                # No initial commit yet - just remove untracked files
+                # and reset index
+                bp.logger.log("dim", _("No commits yet, removing untracked files only..."))
+                subprocess.run(["git", "rm", "-rf", "--cached", "."], capture_output=True, check=False)
+            
             subprocess.run(["git", "clean", "-fd"], check=True)
         else:
             # User wants to keep local changes (stash before pull)
