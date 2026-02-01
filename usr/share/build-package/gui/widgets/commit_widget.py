@@ -143,17 +143,51 @@ class CommitWidget(Gtk.Box):
         commit_type_group.add(self.commit_type_expander)
         self.append(commit_type_group)
 
-        # Commit message entry
+        # Commit message entry - multiline support
         message_group = Adw.PreferencesGroup()
         message_group.set_title(_("Commit Message"))
         
-        self.message_entry = Adw.EntryRow()
-        self.message_entry.set_title(_("Description"))
-        self.message_entry.connect('changed', self.on_message_changed)
-        self.message_entry.connect('activate', self.on_commit_clicked)
-        message_group.add(self.message_entry)
+        # Label for description
+        message_label = Gtk.Label()
+        message_label.set_text(_("Description (supports multiple lines)"))
+        message_label.set_halign(Gtk.Align.START)
+        message_label.add_css_class("dim-label")
+        message_label.set_margin_start(6)
+        message_label.set_margin_bottom(4)
+        self.message_label = message_label
         
-        self.append(message_group)
+        # Frame for better visual separation
+        message_frame = Gtk.Frame()
+        message_frame.set_margin_start(6)
+        message_frame.set_margin_end(6)
+        
+        # ScrolledWindow for multiline text
+        message_scroll = Gtk.ScrolledWindow()
+        message_scroll.set_min_content_height(80)
+        message_scroll.set_max_content_height(120)
+        message_scroll.set_vexpand(False)
+        message_scroll.set_hexpand(True)
+        
+        # TextView for multiline commit message
+        self.message_textview = Gtk.TextView()
+        self.message_textview.set_wrap_mode(Gtk.WrapMode.WORD_CHAR)
+        self.message_textview.set_left_margin(8)
+        self.message_textview.set_right_margin(8)
+        self.message_textview.set_top_margin(8)
+        self.message_textview.set_bottom_margin(8)
+        self.message_textview.get_buffer().connect('changed', self.on_message_changed)
+        message_scroll.set_child(self.message_textview)
+        
+        message_frame.set_child(message_scroll)
+        
+        # Add to group using a vertical box
+        message_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
+        message_box.append(message_label)
+        message_box.append(message_frame)
+        message_box.set_margin_top(6)
+        message_box.set_margin_bottom(6)
+        
+        self.append(message_box)
         
         # Actions
         actions_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
@@ -294,12 +328,12 @@ class CommitWidget(Gtk.Box):
         # Collapse expander after selection
         self.commit_type_expander.set_expanded(False)
         
-        # Update message entry title
-        if hasattr(self, 'message_entry') and self.message_entry is not None:
+        # Update message label title
+        if hasattr(self, 'message_label') and self.message_label is not None:
             if row.commit_type == "custom":
-                self.message_entry.set_title(_("Custom message"))
+                self.message_label.set_text(_("Custom message (supports multiple lines)"))
             else:
-                self.message_entry.set_title(_("Description for {0}").format(row.commit_type))
+                self.message_label.set_text(_("Description for {0} (supports multiple lines)").format(row.commit_type))
         
         self.update_commit_button_state()
     
@@ -314,11 +348,15 @@ class CommitWidget(Gtk.Box):
     def update_commit_button_state(self):
         """Update commit button sensitivity"""
         # Check if we have all necessary components
-        if not hasattr(self, 'message_entry') or not hasattr(self, 'commit_button'):
+        if not hasattr(self, 'message_textview') or not hasattr(self, 'commit_button'):
             return
             
         has_changes = GitUtils.has_changes()
-        has_message = bool(self.message_entry.get_text().strip()) if self.message_entry else False
+        # Get text from TextView buffer
+        buffer = self.message_textview.get_buffer()
+        start, end = buffer.get_bounds()
+        text = buffer.get_text(start, end, False)
+        has_message = bool(text.strip())
         has_type = self.selected_commit_type is not None
         
         self.commit_button.set_sensitive(has_changes and has_message and has_type)
@@ -330,7 +368,10 @@ class CommitWidget(Gtk.Box):
     
     def on_commit_clicked(self, widget):
         """Handle commit button click"""
-        message = self.message_entry.get_text().strip()
+        # Get text from TextView buffer
+        buffer = self.message_textview.get_buffer()
+        start, end = buffer.get_bounds()
+        message = buffer.get_text(start, end, False).strip()
         if not message:
             return
         
@@ -338,12 +379,17 @@ class CommitWidget(Gtk.Box):
         if self.selected_commit_type == "custom":
             formatted_message = message
         else:
-            formatted_message = f"{self.selected_emoji} {self.selected_commit_type}: {message}"
+            # For multiline messages, put type on first line
+            if '\n' in message:
+                lines = message.split('\n', 1)
+                formatted_message = f"{self.selected_emoji} {self.selected_commit_type}: {lines[0]}\n\n{lines[1]}"
+            else:
+                formatted_message = f"{self.selected_emoji} {self.selected_commit_type}: {message}"
         
         self.emit('commit-requested', formatted_message)
         
         # Clear form after commit
-        self.message_entry.set_text("")
+        buffer.set_text("")
         self.refresh_status()
     
     def on_undo_clicked(self, button):
