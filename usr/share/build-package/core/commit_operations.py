@@ -8,6 +8,8 @@
 #
 
 import subprocess
+import os
+import tempfile
 from .git_utils import GitUtils
 from .operation_preview import OperationPlan, QuickPlan
 from .translation_utils import _
@@ -235,7 +237,22 @@ def commit_and_push_v2(build_package_instance):
     # === PHASE 6: GET COMMIT MESSAGE ===
     bp.last_commit_type = None
 
-    if bp.args.commit:
+    if bp.args.commit_file:
+        # Read message from file
+        try:
+            with open(bp.args.commit_file, 'r', encoding='utf-8') as f:
+                commit_message = f.read().strip()
+            if not commit_message:
+                bp.logger.die("red", _("Commit message file is empty."))
+                return False
+            bp.logger.log("cyan", _("Using commit message from file: {0}").format(bp.args.commit_file))
+        except FileNotFoundError:
+            bp.logger.die("red", _("Commit message file not found: {0}").format(bp.args.commit_file))
+            return False
+        except Exception as e:
+            bp.logger.die("red", _("Error reading commit message file: {0}").format(e))
+            return False
+    elif bp.args.commit:
         commit_message = bp.args.commit
     else:
         commit_message = bp.custom_commit_prompt()
@@ -272,12 +289,27 @@ def commit_and_push_v2(build_package_instance):
         # Stage all changes
         subprocess.run(["git", "add", "--all"], check=True, capture_output=True)
         
-        # Commit
-        subprocess.run(
-            ["git", "commit", "-m", commit_message],
-            check=True,
-            capture_output=True
-        )
+        # Commit - use file for multiline messages
+        if '\n' in commit_message:
+            # Use temporary file for multiline message
+            with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False, encoding='utf-8') as f:
+                f.write(commit_message)
+                commit_file = f.name
+            try:
+                subprocess.run(
+                    ["git", "commit", "-F", commit_file],
+                    check=True,
+                    capture_output=True
+                )
+            finally:
+                os.unlink(commit_file)
+        else:
+            # Single line message
+            subprocess.run(
+                ["git", "commit", "-m", commit_message],
+                check=True,
+                capture_output=True
+            )
         bp.logger.log("green", _("✓ Changes committed locally"))
         
     except subprocess.CalledProcessError as e:

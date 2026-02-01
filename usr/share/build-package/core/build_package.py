@@ -10,6 +10,7 @@ import argparse
 import subprocess
 from rich.console import Console
 from rich.prompt import Prompt
+import tempfile
 from datetime import datetime
 from .translation_utils import _
 
@@ -187,6 +188,10 @@ class BuildPackage:
                     _("Just commit/push with the specified message")
                 )
                 table.add_row(
+                    "-F, --commit-file FILE",
+                    _("Read commit message from file (multi-line support)")
+                )
+                table.add_row(
                     "-a, --aur PACKAGE",
                     _("Build AUR package")
                 )
@@ -208,6 +213,7 @@ class BuildPackage:
                     ("python main.py --cli", _("Open in CLI mode")),
                     ("python main.py --gui", _("Open in GUI mode")),
                     ("python main.py -c \"fix: bug fix\"", _("Quick commit with message")),
+                    ("python main.py -F commit_msg.txt", _("Commit with message from file")),
                     ("python main.py -b dev -c \"feat: new feature\"", _("Build development package")),
                     ("python main.py -a package-name", _("Build AUR package")),
                 ]
@@ -243,6 +249,9 @@ class BuildPackage:
         
         parser.add_argument("-c", "--commit",
                         help=_("Just commit/push with the specified message"))
+        
+        parser.add_argument("-F", "--commit-file",
+                        help=_("Read commit message from file (multi-line support)"))
         
         parser.add_argument("-a", "--aur",
                         help=_("Build AUR package"))
@@ -791,7 +800,22 @@ the specific source code used to create this copy."""), style="white")
 
         # Handle commit message based on if we have changes and args
         self.last_commit_type = None
-        if self.args.commit:
+        if self.args.commit_file:
+            # Read commit message from file
+            try:
+                with open(self.args.commit_file, 'r', encoding='utf-8') as f:
+                    commit_message = f.read().strip()
+                if not commit_message:
+                    self.logger.die("red", _("Commit message file is empty."))
+                    return False
+                self.logger.log("cyan", _("Using commit message from file: {0}").format(self.args.commit_file))
+            except FileNotFoundError:
+                self.logger.die("red", _("Commit message file not found: {0}").format(self.args.commit_file))
+                return False
+            except Exception as e:
+                self.logger.die("red", _("Error reading commit message file: {0}").format(e))
+                return False
+        elif self.args.commit:
             # User already provided commit message via argument
             commit_message = self.args.commit
         elif has_changes:
@@ -811,7 +835,18 @@ the specific source code used to create this copy."""), style="white")
         # Add and commit changes to user's dev branch
         try:
             subprocess.run(["git", "add", "--all"], check=True)
-            subprocess.run(["git", "commit", "-m", commit_message], check=True)
+            
+            # Use file for multiline messages
+            if '\n' in commit_message:
+                with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False, encoding='utf-8') as f:
+                    f.write(commit_message)
+                    commit_file = f.name
+                try:
+                    subprocess.run(["git", "commit", "-F", commit_file], check=True)
+                finally:
+                    os.unlink(commit_file)
+            else:
+                subprocess.run(["git", "commit", "-m", commit_message], check=True)
         except subprocess.CalledProcessError as e:
             self.logger.log("red", _("Error committing changes: {0}").format(e))
             return False
@@ -1362,7 +1397,22 @@ the specific source code used to create this copy."""), style="white")
 
         # Handle commit message
         self.last_commit_type = None
-        if self.args.commit:
+        if self.args.commit_file:
+            # Read commit message from file
+            try:
+                with open(self.args.commit_file, 'r', encoding='utf-8') as f:
+                    commit_message = f.read().strip()
+                if not commit_message:
+                    self.logger.die("red", _("Commit message file is empty."))
+                    return False
+                self.logger.log("cyan", _("Using commit message from file: {0}").format(self.args.commit_file))
+            except FileNotFoundError:
+                self.logger.die("red", _("Commit message file not found: {0}").format(self.args.commit_file))
+                return False
+            except Exception as e:
+                self.logger.die("red", _("Error reading commit message file: {0}").format(e))
+                return False
+        elif self.args.commit:
             commit_message = self.args.commit
         elif has_changes:
             commit_message = self.custom_commit_prompt()
@@ -1374,7 +1424,7 @@ the specific source code used to create this copy."""), style="white")
             
         # Ensure we have a message if there are changes
         if has_changes and not commit_message:
-            self.logger.die("red", _("When using the '-b|--build' parameter and there are changes, the '-c|--commit' parameter is also required."))
+            self.logger.die("red", _("When using the '-b|--build' parameter and there are changes, the '-c|--commit' or '-F|--commit-file' parameter is also required."))
             return False
 
         if has_changes and commit_message:
