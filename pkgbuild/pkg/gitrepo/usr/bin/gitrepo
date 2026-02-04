@@ -1,0 +1,52 @@
+#!/bin/bash
+# Wrapper to run GitRepo GUI
+
+# Detect installation directory
+# FIRST check for local/development directory (relative to script location)
+SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
+LOCAL_DIR="$SCRIPT_DIR/../share/build-package"
+
+if [[ -e "$LOCAL_DIR/gui/main_gui.py" ]]; then
+    # Development mode - use local directory
+    GITREPO_DIR="$LOCAL_DIR"
+else
+    # Installed mode - look in system paths
+    for i in /usr/lib/python3.{25..6}/site-packages/gitrepo /usr/share/build-package; do
+        if [[ -e "$i" ]]; then
+            GITREPO_DIR="$i"
+            break
+        fi
+    done
+fi
+
+# Check if target directory is inside a Git repository (when called from context menu)
+if [[ -n "$1" && -d "$1" ]]; then
+    TARGET_DIR="$1"
+    
+    # Find git root by searching up the directory tree
+    GIT_ROOT=""
+    CHECK_DIR="$TARGET_DIR"
+    while [[ "$CHECK_DIR" != "/" ]]; do
+        if [[ -d "$CHECK_DIR/.git" ]]; then
+            GIT_ROOT="$CHECK_DIR"
+            break
+        fi
+        CHECK_DIR="$(dirname "$CHECK_DIR")"
+    done
+    
+    if [[ -z "$GIT_ROOT" ]]; then
+        # Not inside a Git repository - show notification and exit
+        if command -v notify-send &> /dev/null; then
+            notify-send --app-name="GitRepo" --icon="dialog-warning" \
+                "Not a Git Repository" \
+                "The selected folder is not inside a Git repository: $TARGET_DIR"
+        fi
+        exit 1
+    fi
+    
+    # Change to git root directory
+    cd "$GIT_ROOT" || exit 1
+fi
+
+# Run main_gui.py (don't pass args - cd already changed to target directory)
+exec python3 "$GITREPO_DIR/gui/main_gui.py"
