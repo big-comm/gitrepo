@@ -534,8 +534,8 @@ the specific source code used to create this copy."""), style="white")
 
         # Prepare summary data
         data = [
-            (_("Build Mode"), _("LOCAL")),
-            (_("Distribution"), DISTRO_DISPLAY_NAMES.get(self.distroname, self.distroname)),
+            (_("Build Mode"), _(self.build_mode.upper())),
+            (_("Distribution"), _(DISTRO_DISPLAY_NAMES.get(self.distroname, self.distroname))),
             (_("ISO Profiles Repo"), self.iso_profiles_repo),
             (_("Build Dir"), self.build_dir),
             (_("Edition"), self.edition),
