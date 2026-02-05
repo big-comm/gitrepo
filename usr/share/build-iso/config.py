@@ -7,6 +7,8 @@
 # All rights reserved.
 #
 
+import os
+
 # Import translation function
 from translation_utils import _
 
@@ -15,7 +17,6 @@ REPO_WORKFLOW = "big-comm/build-iso"        # Repository containing workflows
 DEFAULT_ORGANIZATION = "big-comm"            # Default organization
 VALID_ORGANIZATIONS = [
     # "big-comm",                              # Former communitybig
-    "biglinux",
     "talesam",
     "bigbruno"
 ]
@@ -47,22 +48,20 @@ LOG_DIR_BASE = "/tmp/build-iso"
 # ISO Profiles repositories
 ISO_PROFILES = [
     "https://github.com/big-comm/iso-profiles",
-    "https://github.com/biglinux/iso-profiles",
-    "https://github.com/talesam/iso-profiles"
+    "https://github.com/biglinux/iso-profiles"
 ]
 
 # Default ISO profiles by organization
 DEFAULT_ISO_PROFILES = {
     "big-comm": "https://github.com/big-comm/iso-profiles",
     "biglinux": "https://github.com/biglinux/iso-profiles",
-    "talesam": "https://github.com/talesam/iso-profiles"
+    "talesam": "https://github.com/big-comm/iso-profiles"  # talesam uses big-comm profiles
 }
 
 # API URLs for repositories
 API_PROFILES = {
     "https://github.com/big-comm/iso-profiles": "https://api.github.com/repos/big-comm/iso-profiles/contents/",
-    "https://github.com/biglinux/iso-profiles": "https://api.github.com/repos/biglinux/iso-profiles/contents/",
-    "https://github.com/talesam/iso-profiles": "https://api.github.com/repos/talesam/iso-profiles/contents/"
+    "https://github.com/biglinux/iso-profiles": "https://api.github.com/repos/biglinux/iso-profiles/contents/"
 }
 
 # Organization mapping
@@ -154,6 +153,21 @@ ORG_DEFAULT_CONFIGS = {
 }
 
 # Script version
-APP_VERSION = "3.2.9"
+APP_VERSION = "3.2.11"
 APP_NAME = _("BUILD ISO")
 APP_DESC = _("Wrapper for ISO building using GitHub Actions. Streamlines the process of creating custom Linux distribution ISO images through automation.")
+
+# =============================================================================
+# LOCAL BUILD SETTINGS
+# =============================================================================
+
+BUILD_MODE_REMOTE = "remote"
+BUILD_MODE_LOCAL = "local"
+
+DEFAULT_OUTPUT_DIR = os.path.expanduser("~/ISO")
+LOCAL_CONFIG_DIR = os.path.expanduser("~/.config/build-iso")
+LOCAL_CONFIG_FILE = os.path.join(LOCAL_CONFIG_DIR, "config.json")
+
+# Container settings (following edition.yml)
+CONTAINER_IMAGE = "talesam/community-build:latest"
+BUILD_ISO_REPO = "https://github.com/talesam/build-iso.git"

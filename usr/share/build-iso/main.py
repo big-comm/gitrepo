@@ -27,10 +27,10 @@ def main():
         build_iso = BuildISO()
         build_iso.run()
     except KeyboardInterrupt:
-        console.print("\n[yellow]" + _("Operation cancelled by user.") + "[/]")
+        console.print(_("Operation cancelled by user."), style="yellow")
         sys.exit(1)
     except Exception as e:
-        console.print("[red]" + _("Unhandled error: {0}").format(e) + "[/]")
+        console.print(_("Unhandled error: {0}").format(str(e)), style="red", markup=False)
         sys.exit(1)
 
 if __name__ == "__main__":
