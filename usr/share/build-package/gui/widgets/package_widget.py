@@ -174,12 +174,51 @@ class PackageWidget(Gtk.Box):
         
         self.commit_group.add(self.commit_type_expander)
         
-        self.commit_message_entry = Adw.EntryRow()
-        self.commit_message_entry.set_title(_("Commit Message"))
-        self.commit_message_entry.connect('changed', self.on_commit_message_changed)
-        self.commit_group.add(self.commit_message_entry)
+        # Commit message - multiline support (same as commit_widget.py)
+        # Label for description
+        message_label = Gtk.Label()
+        message_label.set_text(_("Commit Message (supports multiple lines)"))
+        message_label.set_halign(Gtk.Align.START)
+        message_label.add_css_class("dim-label")
+        message_label.set_margin_start(6)
+        message_label.set_margin_bottom(4)
+        message_label.set_margin_top(6)
+        
+        # Frame for better visual separation
+        message_frame = Gtk.Frame()
+        message_frame.set_margin_start(6)
+        message_frame.set_margin_end(6)
+        
+        # ScrolledWindow for multiline text
+        message_scroll = Gtk.ScrolledWindow()
+        message_scroll.set_min_content_height(80)
+        message_scroll.set_max_content_height(120)
+        message_scroll.set_vexpand(False)
+        message_scroll.set_hexpand(True)
+        
+        # TextView for multiline commit message
+        self.message_textview = Gtk.TextView()
+        self.message_textview.set_wrap_mode(Gtk.WrapMode.WORD_CHAR)
+        self.message_textview.set_left_margin(8)
+        self.message_textview.set_right_margin(8)
+        self.message_textview.set_top_margin(8)
+        self.message_textview.set_bottom_margin(8)
+        self.message_textview.get_buffer().connect('changed', self.on_commit_message_changed)
+        message_scroll.set_child(self.message_textview)
+        
+        message_frame.set_child(message_scroll)
+        
+        # Add to group using a vertical box
+        message_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
+        message_box.append(message_label)
+        message_box.append(message_frame)
+        message_box.set_margin_bottom(6)
         
         self.append(self.commit_group)
+        self.append(message_box)
+        
+        # Store reference for visibility control
+        self.commit_message_box = message_box
         
         # Select first commit type by default
         self._select_first_commit_type()
@@ -279,12 +318,14 @@ class PackageWidget(Gtk.Box):
             self.changes_status_row.add_suffix(self._changes_suffix_icon)
             self.changes_status_row.add_css_class("warning")
             self.commit_group.set_visible(True)
+            self.commit_message_box.set_visible(True)
         else:
             self.changes_status_row.set_subtitle(_("Working directory clean"))
             self._changes_suffix_icon = Gtk.Image.new_from_icon_name("emblem-ok-symbolic")
             self.changes_status_row.add_suffix(self._changes_suffix_icon)
             self.changes_status_row.add_css_class("success")
             self.commit_group.set_visible(False)
+            self.commit_message_box.set_visible(False)
         
         self.update_build_button_state()
     
@@ -323,9 +364,11 @@ class PackageWidget(Gtk.Box):
             if self.selected_package_type in type_names:
                 self.build_button.set_label(type_names[self.selected_package_type])
     
-    def on_commit_message_changed(self, entry):
+    def on_commit_message_changed(self, buffer):
         """Handle commit message changes"""
-        self.commit_message = entry.get_text().strip()
+        # Get text from TextView buffer
+        start, end = buffer.get_bounds()
+        self.commit_message = buffer.get_text(start, end, False).strip()
         self.update_build_button_state()
     
     def _select_first_commit_type(self):
@@ -400,7 +443,7 @@ class PackageWidget(Gtk.Box):
         self._select_first_commit_type()
         
         # Clear commit message
-        self.commit_message_entry.set_text("")
+        self.message_textview.get_buffer().set_text("")
         self.commit_message = ""
         
         # Reset TMATE option
@@ -419,11 +462,16 @@ class PackageWidget(Gtk.Box):
         has_changes = GitUtils.has_changes()
         
         if has_changes and self.commit_message:
-            # Format commit message with type
+            # Format commit message with type (support multiline)
             if self.selected_commit_type == "custom":
                 formatted_message = self.commit_message
             else:
-                formatted_message = f"{self.selected_emoji} {self.selected_commit_type}: {self.commit_message}"
+                # For multiline messages, put type on first line
+                if '\n' in self.commit_message:
+                    lines = self.commit_message.split('\n', 1)
+                    formatted_message = f"{self.selected_emoji} {self.selected_commit_type}: {lines[0]}\n\n{lines[1]}"
+                else:
+                    formatted_message = f"{self.selected_emoji} {self.selected_commit_type}: {self.commit_message}"
             
             # Need to commit first, then build
             self.emit('commit-and-build-requested', 
