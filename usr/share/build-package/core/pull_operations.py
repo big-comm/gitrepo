@@ -385,22 +385,72 @@ def pull_latest_v2(build_package_instance):
 
     # === PHASE 5: DETERMINE PULL STRATEGY ===
     if most_recent_branch == current_branch:
-        # Same branch, just pull
-        bp.logger.log("cyan", _("Pull from remote {0}").format(current_branch))
+        # Same branch - check if it exists on remote first
+        remote_branch_check = subprocess.run(
+            ["git", "ls-remote", "--heads", "origin", current_branch],
+            capture_output=True,
+            text=True,
+            check=False
+        )
+        
+        branch_exists_on_remote = bool(remote_branch_check.stdout.strip())
+        
+        if not branch_exists_on_remote:
+            # Branch doesn't exist on remote - automatically merge from main/master
+            # This is a PULL operation, so we download from main instead of failing
+            bp.logger.log("cyan", "")
+            bp.logger.log("cyan", _("Branch '{0}' does not exist on remote yet").format(current_branch))
+            
+            # Find main/master branch to pull from
+            main_branch = None
+            for branch_name in ["main", "master"]:
+                main_check = subprocess.run(
+                    ["git", "ls-remote", "--heads", "origin", branch_name],
+                    capture_output=True,
+                    text=True,
+                    check=False
+                )
+                if main_check.stdout.strip():
+                    main_branch = branch_name
+                    break
+            
+            if main_branch:
+                bp.logger.log("cyan", _("Pulling latest from '{0}' into your branch...").format(main_branch))
+                
+                if stash_needed:
+                    plan.add(
+                        _("Stash local changes"),
+                        ["git", "stash", "push", "-u", "-m", "auto-stash-before-merge"],
+                        destructive=False
+                    )
+                
+                plan.add(
+                    _("Merge {0} into {1}").format(main_branch, current_branch),
+                    ["git", "merge", f"origin/{main_branch}", "--no-edit"],
+                    destructive=False
+                )
+            else:
+                # No main branch found - nothing to pull
+                bp.logger.log("green", _("✓ Your branch is up to date (no remote branch to pull from)"))
+                bp.logger.log("cyan", _("Use 'Commit and Push' to send your branch to the server."))
+                return True
+        else:
+            # Branch exists on remote, proceed with normal pull
+            bp.logger.log("cyan", _("Pull from remote {0}").format(current_branch))
 
-        # Stash before pull if needed
-        if stash_needed:
+            # Stash before pull if needed
+            if stash_needed:
+                plan.add(
+                    _("Stash local changes"),
+                    ["git", "stash", "push", "-u", "-m", "auto-stash-before-pull"],
+                    destructive=False
+                )
+
             plan.add(
-                _("Stash local changes"),
-                ["git", "stash", "push", "-u", "-m", "auto-stash-before-pull"],
+                "Pull from remote {0}".format(current_branch),
+                ["git", "pull", "origin", current_branch, "--rebase", "--no-edit"],
                 destructive=False
             )
-
-        plan.add(
-            "Pull from remote {0}".format(current_branch),
-            ["git", "pull", "origin", current_branch, "--rebase", "--no-edit"],
-            destructive=False
-        )
     else:
         # Different branch - check if there are commits to merge first
         try:
