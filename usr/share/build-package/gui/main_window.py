@@ -1505,9 +1505,154 @@ class MainWindow(Adw.ApplicationWindow):
     def on_revert_commit_requested(self, widget, commit_hash, method):
         """Handle commit revert request"""
         def revert_operation():
-            # This would need to be implemented in BuildPackage
-            # For now, just show a placeholder
-            return True
+            logger = self.build_package.logger if hasattr(self.build_package, 'logger') else None
+            
+            def log(style, msg):
+                if logger:
+                    logger.log(style, msg)
+            
+            try:
+                import subprocess
+                
+                # Get current branch
+                current_branch = GitUtils.get_current_branch()
+                if not current_branch:
+                    log("red", _("✗ Could not determine current branch"))
+                    return False
+                
+                # Get commit info for messages
+                commit_info_result = subprocess.run(
+                    ["git", "log", "-1", "--pretty=format:%s", commit_hash],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                    check=False
+                )
+                commit_message = commit_info_result.stdout.strip() if commit_info_result.returncode == 0 else "Unknown commit"
+                
+                # Check if commit exists in remote
+                remote_check = subprocess.run(
+                    ["git", "branch", "-r", "--contains", commit_hash],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                    check=False
+                )
+                remote_exists = bool(remote_check.stdout.strip())
+                
+                if method == "revert":
+                    # Execute revert method - restore complete state from selected commit
+                    log("cyan", _("Restoring code state from selected commit..."))
+                    
+                    # Step 1: Restore complete state from selected commit
+                    checkout_result = subprocess.run(
+                        ["git", "checkout", commit_hash, "--", "."],
+                        capture_output=True,
+                        text=True,
+                        check=False
+                    )
+                    
+                    if checkout_result.returncode != 0:
+                        log("red", _("✗ Failed to checkout commit: {0}").format(checkout_result.stderr.strip()))
+                        return False
+                    
+                    # Step 2: Stage all changes
+                    log("cyan", _("Staging restored files..."))
+                    subprocess.run(["git", "add", "."], check=True)
+                    
+                    # Step 3: Check if there are actually changes to commit
+                    status_result = subprocess.run(
+                        ["git", "status", "--porcelain"],
+                        stdout=subprocess.PIPE,
+                        text=True,
+                        check=True
+                    )
+                    
+                    if not status_result.stdout.strip():
+                        log("yellow", _("No changes detected - code is already at selected state"))
+                        return True
+                    
+                    # Step 4: Create new commit with restored state
+                    new_commit_message = f"Revert to: {commit_message}\n\nThis restores the complete state from commit {commit_hash[:7]}."
+                    
+                    log("cyan", _("Creating revert commit..."))
+                    commit_result = subprocess.run(
+                        ["git", "commit", "-m", new_commit_message],
+                        capture_output=True,
+                        text=True,
+                        check=False
+                    )
+                    
+                    if commit_result.returncode != 0:
+                        log("red", _("✗ Failed to create revert commit: {0}").format(commit_result.stderr.strip()))
+                        return False
+                    
+                    log("green", _("✓ Revert commit created successfully"))
+                    
+                    # Step 5: Push changes
+                    if remote_exists:
+                        log("cyan", _("Pushing revert changes..."))
+                        push_result = subprocess.run(
+                            ["git", "push", "origin", current_branch],
+                            capture_output=True,
+                            text=True,
+                            check=False
+                        )
+                        
+                        if push_result.returncode != 0:
+                            log("red", _("✗ Failed to push: {0}").format(push_result.stderr.strip()))
+                            return False
+                        
+                        log("green", _("✓ Revert changes pushed successfully"))
+                    else:
+                        log("green", _("✓ Revert completed (commit was only local)"))
+                    
+                    return True
+                    
+                else:  # reset method
+                    log("cyan", _("Resetting to selected commit..."))
+                    
+                    # Execute hard reset
+                    reset_result = subprocess.run(
+                        ["git", "reset", "--hard", commit_hash],
+                        capture_output=True,
+                        text=True,
+                        check=False
+                    )
+                    
+                    if reset_result.returncode != 0:
+                        log("red", _("✗ Failed to reset: {0}").format(reset_result.stderr.strip()))
+                        return False
+                    
+                    log("green", _("✓ Reset completed locally"))
+                    
+                    # Handle push for remote
+                    if remote_exists:
+                        log("yellow", _("Commit exists in remote - force pushing..."))
+                        push_result = subprocess.run(
+                            ["git", "push", "origin", current_branch, "--force"],
+                            capture_output=True,
+                            text=True,
+                            check=False
+                        )
+                        
+                        if push_result.returncode != 0:
+                            log("red", _("✗ Force push failed: {0}").format(push_result.stderr.strip()))
+                            log("yellow", _("Reset completed locally only (remote unchanged)"))
+                            return True  # Still consider local reset successful
+                        
+                        log("green", _("✓ Reset force pushed to remote"))
+                    else:
+                        log("green", _("✓ Reset completed (commit was only local)"))
+                    
+                    return True
+                    
+            except subprocess.CalledProcessError as e:
+                log("red", _("✗ Error during {0}: {1}").format(method, str(e)))
+                return False
+            except Exception as e:
+                log("red", _("✗ Unexpected error: {0}").format(str(e)))
+                return False
         
         self.operation_runner.run_with_progress(
             revert_operation,
