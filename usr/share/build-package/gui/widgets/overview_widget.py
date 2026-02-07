@@ -246,19 +246,26 @@ class OverviewWidget(Gtk.Box):
                 self.changes_card.value_label.set_text(_("No changes"))
                 self.changes_card.icon.add_css_class("success")
             
-            # Commits card
-            try:
-                import subprocess
-                result = subprocess.run(
-                    ["git", "rev-list", "--count", "HEAD"],
-                    stdout=subprocess.PIPE,
-                    text=True,
-                    check=True
-                )
-                commit_count = result.stdout.strip()
-                self.commits_card.value_label.set_text(commit_count)
-            except subprocess.SubprocessError:
-                self.commits_card.value_label.set_text("—")
+            # Commits card - check for empty repo first
+            if not GitUtils.has_commits():
+                self.commits_card.value_label.set_text("0")
+            else:
+                try:
+                    import subprocess
+                    result = subprocess.run(
+                        ["git", "rev-list", "--count", "HEAD"],
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        text=True,
+                        check=False
+                    )
+                    if result.returncode == 0:
+                        commit_count = result.stdout.strip()
+                        self.commits_card.value_label.set_text(commit_count)
+                    else:
+                        self.commits_card.value_label.set_text("0")
+                except subprocess.SubprocessError:
+                    self.commits_card.value_label.set_text("—")
                 
         except Exception as e:
             print(f"Error updating status cards: {e}")
@@ -268,15 +275,22 @@ class OverviewWidget(Gtk.Box):
         # Placeholder - could show last commit, last build, etc.
         try:
             if self.build_package.is_git_repo:
+                # Check for empty repo first
+                if not GitUtils.has_commits():
+                    self.activity_row.set_title(_("No commits yet"))
+                    self.activity_row.set_subtitle(_("Create your first commit to start tracking activity"))
+                    return
+                
                 import subprocess
                 result = subprocess.run(
                     ["git", "log", "-1", "--pretty=format:%s (%ar)"],
                     stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
                     text=True,
-                    check=True
+                    check=False
                 )
                 
-                if result.stdout.strip():
+                if result.returncode == 0 and result.stdout.strip():
                     self.activity_row.set_title(_("Last commit"))
                     self.activity_row.set_subtitle(result.stdout.strip())
                 

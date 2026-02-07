@@ -31,6 +31,27 @@ class GitUtils:
             return False
     
     @staticmethod
+    def has_commits() -> bool:
+        """Checks if the repository has at least one commit.
+        
+        Returns False for newly created/cloned empty repositories.
+        """
+        if not GitUtils.is_git_repo():
+            return False
+        
+        try:
+            result = subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False
+            )
+            return result.returncode == 0
+        except Exception:
+            return False
+    
+    @staticmethod
     def get_repo_name() -> str:
         """Gets the repository name"""
         if not GitUtils.is_git_repo():
@@ -50,8 +71,13 @@ class GitUtils:
             
             url = result.stdout.strip()
             
-            # Pattern for https or git URLs
-            match = re.search(r'[:/]([^/]+/[^.]+)(?:\.git)?$', url)
+            # Pattern for https or git URLs - handle repo names with dots
+            # First, remove .git suffix if present
+            if url.endswith('.git'):
+                url = url[:-4]
+            
+            # Match owner/repo pattern after : or /
+            match = re.search(r'[:/]([^/]+/[^/:]+)$', url)
             if match:
                 return match.group(1)
             return ""
@@ -306,12 +332,18 @@ class GitUtils:
         """Finds the branch with the most recent commit"""
         try:
             # Get list of all remote branches
-            branches_output = subprocess.run(
+            result = subprocess.run(
                 ["git", "for-each-ref", "--sort=-committerdate", "refs/remotes/origin", "--format=%(refname:short)"],
                 stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 text=True,
-                check=True
-            ).stdout.strip().split('\n')
+                check=False
+            )
+            
+            if result.returncode != 0 or not result.stdout.strip():
+                return 'dev'  # Default to dev if command fails or no output
+            
+            branches_output = result.stdout.strip().split('\n')
             
             # Filter relevant branches and remove origin/ prefix
             relevant_branches = []
@@ -543,6 +575,7 @@ class GitUtils:
             result = subprocess.run(
                 ["git", "rev-parse", "--abbrev-ref", "HEAD"],
                 stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 text=True,
                 check=False
             )
@@ -582,6 +615,10 @@ class GitUtils:
         if not GitUtils.is_git_repo():
             result['error'] = _("Not a git repository")
             return result
+        
+        # Check if repo has commits - if not, nothing to compare
+        if not GitUtils.has_commits():
+            return result  # Return empty result for empty repo
         
         try:
             # Get current branch if not specified

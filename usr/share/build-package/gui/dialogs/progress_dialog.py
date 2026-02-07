@@ -284,10 +284,20 @@ class ProgressDialog(Adw.Window):
             result = self.operation_function(*self.operation_args, **self.operation_kwargs)
             self.result = result
             
-            # Check if result is explicitly False (operation failed)
-            # Operations that return False indicate failure without exception
+            # Check for failure conditions:
+            # 1. Explicit False
+            # 2. Empty dict {} (many operations return {} on failure)
+            # 3. None when it shouldn't be
+            operation_failed = False
+            
             if result is False:
-                GLib.idle_add(lambda: self._complete_operation(False, _("Operation returned failure status")))
+                operation_failed = True
+            elif isinstance(result, dict) and len(result) == 0:
+                # Empty dict typically means failure in our APIs
+                operation_failed = True
+            
+            if operation_failed:
+                GLib.idle_add(lambda: self._complete_operation(False, _("Operation failed - check terminal log for details")))
             else:
                 # Signal completion on main thread (capture result by default arg)
                 GLib.idle_add(lambda r=result: self._complete_operation(True, r))
