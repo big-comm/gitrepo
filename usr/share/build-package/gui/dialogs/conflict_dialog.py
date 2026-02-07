@@ -669,7 +669,7 @@ class ConflictDialog(Adw.Window):
                         content = f.read()
                         if '<<<<<<<' in content or '=======' in content or '>>>>>>>' in content:
                             # Still has conflict markers - warn but continue
-                            print(f"Warning: {filepath} may still have conflict markers")
+                            print(_("Warning: {0} may still have conflict markers").format(filepath))
                 except:
                     pass
                 # File was edited, just return True
@@ -706,5 +706,5 @@ class ConflictDialog(Adw.Window):
             return True
 
         except Exception as e:
-            print(f"Error resolving {filepath}: {e}")
+            print(_("Error resolving {0}: {1}").format(filepath, e))
             return False

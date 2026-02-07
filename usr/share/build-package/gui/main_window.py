@@ -501,7 +501,7 @@ class MainWindow(Adw.ApplicationWindow):
             if logger:
                 logger.log(style, msg)
             else:
-                print(f"[{style}] {msg}")
+                print("[{0}] {1}".format(style, msg))
         
         def switch_and_commit():
             stashed = False
@@ -625,7 +625,7 @@ class MainWindow(Adw.ApplicationWindow):
             if logger:
                 logger.log(style, msg)
             else:
-                print(f"[{style}] {msg}")
+                print("[{0}] {1}".format(style, msg))
         
         # Use provided target_branch or get current branch
         current_branch = target_branch if target_branch else GitUtils.get_current_branch()
@@ -855,7 +855,7 @@ class MainWindow(Adw.ApplicationWindow):
             if logger:
                 logger.log(style, msg)
             else:
-                print(f"[{style}] {msg}")
+                print("[{0}] {1}".format(style, msg))
         
         def undo_operation():
             log("cyan", _("Undoing last commit..."))
@@ -1639,7 +1639,7 @@ class MainWindow(Adw.ApplicationWindow):
             # These remain hidden for now but infrastructure is ready
             
         except Exception as e:
-            print(f"Error updating nav badges: {e}")
+            print(_("Error updating nav badges: {0}").format(e))
         
         return False  # Don't repeat idle callback
     

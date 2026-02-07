@@ -847,7 +847,7 @@ the specific source code used to create this copy."""), style="white")
                 return False
         else:
             # No changes to commit
-            self.menu.show_menu(_("No Changes to Commit\n"), [_("Press Enter to return to main menu")])
+            self.menu.show_menu(_("No Changes to Commit") + "\n", [_("Press Enter to return to main menu")])
             return True
         
         if has_changes and commit_message:
@@ -2695,16 +2695,16 @@ the specific source code used to create this copy."""), style="white")
         """Generate a formatted summary of changes"""
         
         if not initial_commit or not final_commit:
-            result = _("✓ Successfully updated to latest {0}!\n").format(self.logger.format_branch_name(branch_name))
+            result = _("✓ Successfully updated to latest {0}!").format(self.logger.format_branch_name(branch_name)) + "\n"
             return result
         
         if initial_commit == final_commit:
-            result = _("✓ Already up to date with {0}\n").format(self.logger.format_branch_name(branch_name))
+            result = _("✓ Already up to date with {0}").format(self.logger.format_branch_name(branch_name)) + "\n"
             return result
         
         try:
             summary_lines = []
-            summary_lines.append(_("✓ Successfully updated to latest {0}!\n").format(self.logger.format_branch_name(branch_name)))
+            summary_lines.append(_("✓ Successfully updated to latest {0}!").format(self.logger.format_branch_name(branch_name)) + "\n")
             
             # Get commit range info
             commits_result = subprocess.run(
@@ -2788,8 +2788,8 @@ the specific source code used to create this copy."""), style="white")
             return result
                     
         except Exception as e:
-            return _("✓ Successfully updated to latest {0}!\n⚠ Could not show detailed changes: {1}\n").format(
-                self.logger.format_branch_name(branch_name), str(e))
+            return _("✓ Successfully updated to latest {0}!").format(
+                self.logger.format_branch_name(branch_name)) + "\n" + _("⚠ Could not show detailed changes: {0}").format(str(e)) + "\n"
     
     def _switch_to_branch_safely(self, target_branch):
         """Helper method to switch branches with proper error handling and feedback"""

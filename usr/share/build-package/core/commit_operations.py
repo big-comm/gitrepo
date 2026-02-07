@@ -330,7 +330,7 @@ def commit_and_push_v2(build_package_instance):
         
         # Show commit details
         if divergence['local_commits']:
-            bp.logger.log("cyan", _("\n   Your local commits:"))
+            bp.logger.log("cyan", "\n" + _("   Your local commits:"))
             for sha, msg in divergence['local_commits'][:3]:  # Show max 3
                 bp.logger.log("white", f"     • {sha[:7]} {msg}")
             if len(divergence['local_commits']) > 3:
@@ -339,7 +339,7 @@ def commit_and_push_v2(build_package_instance):
                 ))
         
         if divergence['remote_commits']:
-            bp.logger.log("cyan", _("\n   Remote commits (not in local):"))
+            bp.logger.log("cyan", "\n" + _("   Remote commits (not in local):"))
             for sha, msg in divergence['remote_commits'][:3]:  # Show max 3
                 bp.logger.log("white", f"     • {sha[:7]} {msg}")
             if len(divergence['remote_commits']) > 3:

@@ -18,6 +18,7 @@ Automatically detects whether to run CLI or GUI interface based on:
 import sys
 import os
 from typing import Literal
+from core.translation_utils import _
 
 def detect_interface_mode() -> Literal['cli', 'gui']:
     """
@@ -62,10 +63,10 @@ def run_cli_interface():
         from cli.main_cli import main as cli_main
         cli_main()
     except ImportError as e:
-        print(f"Error: Failed to import CLI components: {e}")
+        print(_("Error: Failed to import CLI components: {0}").format(e))
         sys.exit(1)
     except Exception as e:
-        print(f"Error: CLI interface failed: {e}")
+        print(_("Error: CLI interface failed: {0}").format(e))
         sys.exit(1)
 
 def run_gui_interface():
@@ -74,12 +75,12 @@ def run_gui_interface():
         from gui.main_gui import main as gui_main
         gui_main()
     except ImportError as e:
-        print(f"Warning: GTK4/Libadwaita not available: {e}")
-        print("Falling back to CLI interface...")
+        print(_("Warning: GTK4/Libadwaita not available: {0}").format(e))
+        print(_("Falling back to CLI interface..."))
         run_cli_interface()
     except Exception as e:
-        print(f"Error: GUI interface failed: {e}")
-        print("Falling back to CLI interface...")
+        print(_("Error: GUI interface failed: {0}").format(e))
+        print(_("Falling back to CLI interface..."))
         run_cli_interface()
 
 def main():

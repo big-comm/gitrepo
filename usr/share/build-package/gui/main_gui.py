@@ -249,7 +249,7 @@ def main():
         return exit_code
         
     except Exception as e:
-        print(f"GUI Error: {e}")
+        print(_("GUI Error: {0}").format(e))
         # Import Gtk for emergency error dialog
         try:
             error_dialog = Gtk.MessageDialog(
@@ -261,7 +261,7 @@ def main():
             error_dialog.run()
             error_dialog.destroy()
         except:
-            print(f"Fatal GUI Error: {e}")
+            print(_("Fatal GUI Error: {0}").format(e))
         
         return 1
 

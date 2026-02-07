@@ -495,7 +495,7 @@ class PackageWidget(Gtk.Box):
         package_type_name = type_text.get(self.selected_package_type, self.selected_package_type)
         
         # You could show a toast or confirmation dialog here
-        print(f"Building {package_type_name} package with TMATE: {tmate_enabled}")
+        print(_("Building {0} package with TMATE: {1}").format(package_type_name, tmate_enabled))
     
     def show_build_summary(self, package_name, package_type, working_branch):
         """Show build summary before execution"""
@@ -505,4 +505,4 @@ class PackageWidget(Gtk.Box):
             package_type, package_name, working_branch
         )
         
-        print(f"Build Summary: {summary_text}")
+        print(_("Build Summary: {0}").format(summary_text))

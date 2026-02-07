@@ -46,7 +46,7 @@ class GTKLogger:
             self.progress_dialog.set_status(message)
             self.progress_dialog.append_detail(message, style=style)
             # Print to console for debugging
-            print(f"[{style.upper()}] {message}")
+            print("[{0}] {1}".format(style.upper(), message))
         else:
             # Map styles to toast types and terminal output
             style_map = {
@@ -77,7 +77,7 @@ class GTKLogger:
                 self.main_window.show_info_toast(message)
             
             # Also print to console for debugging
-            print(f"[{style.upper()}] {message}")
+            print("[{0}] {1}".format(style.upper(), message))
         
         # Save to log file (without colors)
         if self.log_file:
@@ -90,7 +90,7 @@ class GTKLogger:
         self.main_window.show_error_toast(error_msg)
         
         # Also show in console for debugging
-        print(f"[FATAL] {error_msg}")
+        print("[FATAL] {0}".format(error_msg))
         
         # For GUI, we might want to show a modal dialog instead of exiting immediately
         self._show_fatal_error_dialog(error_msg, exit_code)
@@ -110,7 +110,7 @@ class GTKLogger:
             summary_text += f"• {key}: {value}\n"
         
         # Show in console for now (later could be a proper dialog)
-        print(f"=== {title} ===")
+        print("=== {0} ===".format(title))
         for key, value in data:
             print(f"{key}: {value}")
         
@@ -151,6 +151,6 @@ class GTKLogger:
             
         except Exception as e:
             # Fallback to console exit if dialog fails
-            print(f"Dialog error: {e}")
-            print(f"Fatal error: {message}")
+            print(_("Dialog error: {0}").format(e))
+            print(_("Fatal error: {0}").format(message))
             sys.exit(exit_code)
