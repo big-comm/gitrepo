@@ -119,6 +119,12 @@ msgstr "Valider/pousser et générer le paquet"
 msgid "Just commit/push with the specified message"
 msgstr "Il suffit de valider/pousser avec le message spécifié."
 # 
+# File: usr/share/build-package/core/build_package.py, line: 192
+# File: usr/share/build-package/core/build_package.py, line: 254
+#: NEEDS WORK
+msgid "Read commit message from file (multi-line support)"
+msgstr "Lire le message de commit à partir du fichier (prise en charge multi-lignes)"
+# 
 # File: usr/share/build-package/build_package.py, line: 97
 # File: usr/share/build-package/build_package.py, line: 537
 # File: usr/share/build-package/build_package.py, line: 543
@@ -150,6 +156,11 @@ msgstr "Ouvrir en mode GUI"
 #: NEEDS WORK
 msgid "Quick commit with message"
 msgstr "Engagement rapide avec message"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 216
+#: NEEDS WORK
+msgid "Commit with message from file"
+msgstr "Valider avec le message du fichier"
 # 
 # File: usr/share/build-package/core/build_package.py, line: 178
 #: NEEDS WORK
@@ -380,11 +391,24 @@ msgstr "Préservation de vos modifications lors du passage à la branche cible..
 msgid "Failed to stash changes. Cannot proceed safely."
 msgstr "Échec de la mise en attente des modifications. Impossible de continuer en toute sécurité."
 # 
-# File: usr/share/build-package/core/build_package.py, line: 628
-# File: usr/share/build-package/core/build_package.py, line: 654
+# File: usr/share/build-package/core/build_package.py, line: 640
+# File: usr/share/build-package/core/build_package.py, line: 677
 #: NEEDS WORK
-msgid "Failed to switch to main branch"
-msgstr "Échec du passage à la branche principale"
+msgid "Creating main branch (doesn't exist yet)..."
+msgstr "Création de la branche principale (n'existe pas encore)..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 646
+# File: usr/share/build-package/core/build_package.py, line: 683
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to create main branch: {0}"
+msgstr "Échec de la création de la branche principale : {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 648
+# File: usr/share/build-package/core/build_package.py, line: 685
+#: NEEDS WORK
+msgid "✓ Created new main branch"
+msgstr "✓ Nouvelle branche principale créée"
 # 
 # File: usr/share/build-package/build_package.py, line: 588
 # File: usr/share/build-package/build_package.py, line: 1169
@@ -535,6 +559,45 @@ msgstr "Dernière version principale récupérée avec succès"
 #: NEEDS WORK
 msgid "Failed to pull, but continuing..."
 msgstr "Échec du tirage, mais poursuite..."
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 830
+# File: usr/share/build-package/core/build_package.py, line: 1427
+# File: usr/share/build-package/core/commit_operations.py, line: 246
+#: NEEDS WORK
+msgid "Commit message file is empty."
+msgstr "Le fichier de message de commit est vide."
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 832
+# File: usr/share/build-package/core/build_package.py, line: 1429
+# File: usr/share/build-package/core/commit_operations.py, line: 248
+#: NEEDS WORK
+#, python-brace-format
+msgid "Using commit message from file: {0}"
+msgstr "Utilisation du message de commit à partir du fichier : {0}"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 834
+# File: usr/share/build-package/core/build_package.py, line: 1431
+# File: usr/share/build-package/core/commit_operations.py, line: 250
+#: NEEDS WORK
+#, python-brace-format
+msgid "Commit message file not found: {0}"
+msgstr "Fichier de message de commit introuvable : {0}"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 837
+# File: usr/share/build-package/core/build_package.py, line: 1434
+# File: usr/share/build-package/core/commit_operations.py, line: 253
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error reading commit message file: {0}"
+msgstr "Erreur de lecture du fichier de message de commit : {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 190
 # File: usr/share/build-package/build_package.py, line: 368
@@ -983,14 +1046,14 @@ msgstr "Impossible de mettre à jour la branche, continuation avec l'état actue
 msgid "Successfully pulled latest changes"
 msgstr "Modifications les plus récentes récupérées avec succès"
 # 
-# File: usr/share/build-package/build_package.py, line: 376
+# File: usr/share/build-package/core/build_package.py, line: 1448
 #: NEEDS WORK
 msgid ""
-"When using the '-b|--build' parameter and there are changes, the '-c|--commit' parameter is also "
-"required."
+"When using the '-b|--build' parameter and there are changes, the '-c|--commit' or "
+"'-F|--commit-file' parameter is also required."
 msgstr ""
 "Lors de l'utilisation du paramètre '-b|--build' et s'il y a des modifications, le paramètre "
-"'-c|--commit' est également requis."
+"'-c|--commit' ou '-F|--commit-file' est également requis."
 # 
 # File: usr/share/build-package/build_package.py, line: 683
 #: NEEDS WORK
@@ -4603,6 +4666,28 @@ msgstr "Passez à ma branche et tirez là."
 msgid "Pull to current branch"
 msgstr "Tirer vers la branche actuelle"
 # 
+# File: usr/share/build-package/core/pull_operations.py, line: 249
+#: NEEDS WORK
+msgid "Local changes stashed"
+msgstr "Modifications locales mises de côté"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 255
+#: NEEDS WORK
+msgid "No changes to stash"
+msgstr "Aucune modification apportée au stash"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 257
+# File: usr/share/build-package/core/pull_operations.py, line: 261
+#: NEEDS WORK
+#, python-brace-format
+msgid "⚠ Could not stash changes: {0}"
+msgstr "⚠ Impossible de mettre de côté les modifications : {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 258
+#: NEEDS WORK
+msgid "unknown error"
+msgstr "erreur inconnue"
+# 
 # File: usr/share/build-package/core/pull_operations.py, line: 256
 #: NEEDS WORK
 #, python-brace-format
@@ -4614,6 +4699,11 @@ msgstr "Création de la branche locale {0} à partir du distant"
 #, python-brace-format
 msgid "Creating new branch {0}"
 msgstr "Création d'une nouvelle branche {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 355
+#: NEEDS WORK
+msgid "No commits yet, removing untracked files only..."
+msgstr "Aucun commit pour l'instant, suppression uniquement des fichiers non suivis..."
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 166
 #: NEEDS WORK
@@ -4630,6 +4720,28 @@ msgstr "Recherche du code le plus récent..."
 #, python-brace-format
 msgid "Most recent branch: {0}"
 msgstr "Branche la plus récente : {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 402
+#: NEEDS WORK
+#, python-brace-format
+msgid "Branch '{0}' does not exist on remote yet"
+msgstr "La branche '{0}' n'existe pas encore sur le distant."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 418
+#: NEEDS WORK
+#, python-brace-format
+msgid "Pulling latest from '{0}' into your branch..."
+msgstr "Récupération de la dernière version de '{0}' dans votre branche..."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 434
+#: NEEDS WORK
+msgid "✓ Your branch is up to date (no remote branch to pull from)"
+msgstr "✓ Votre branche est à jour (aucune branche distante à récupérer)"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 435
+#: NEEDS WORK
+msgid "Use 'Commit and Push' to send your branch to the server."
+msgstr "Utilisez 'Commit and Push' pour envoyer votre branche au serveur."
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 282
 #: NEEDS WORK
@@ -5014,6 +5126,11 @@ msgstr ""
 msgid "Use {0}"
 msgstr "Utilisez {0}"
 # 
+# File: usr/share/build-package/gui/main_window.py, line: 454
+#: NEEDS WORK
+msgid "Send to main"
+msgstr "Envoyer au principal"
+# 
 # File: usr/share/build-package/gui/main_window.py, line: 452
 #: NEEDS WORK
 #, python-brace-format
@@ -5101,6 +5218,21 @@ msgstr "Validation des modifications"
 #, python-brace-format
 msgid "Committing to {0}..."
 msgstr "Engagement à {0}..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 635
+#: NEEDS WORK
+msgid "✗ Could not determine branch name!"
+msgstr "✗ Impossible de déterminer le nom de la branche !"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 636
+#: NEEDS WORK
+msgid "Please check your git repository state."
+msgstr "Veuillez vérifier l'état de votre dépôt git."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 637
+#: NEEDS WORK
+msgid "Could not determine branch name for push"
+msgstr "Impossible de déterminer le nom de la branche pour le push"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 588
 #: NEEDS WORK
@@ -5566,6 +5698,185 @@ msgstr "Passé à la branche : {0}"
 msgid "Error switching branch: {0}"
 msgstr "Erreur lors du changement de branche : {0}"
 # 
+# File: usr/share/build-package/gui/main_window.py, line: 1147
+#: NEEDS WORK
+#, python-brace-format
+msgid "Create Branch '{0}'?"
+msgstr "Créer une branche '{0}' ?"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1149
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"The branch '{0}' doesn't exist yet.\n"
+"\n"
+"Would you like to create it from '{1}' and push to remote?"
+msgstr ""
+"La branche '{0}' n'existe pas encore.\n"
+"\n"
+"Voulez-vous la créer à partir de '{1}' et la pousser vers le distant ?"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 796
+#: NEEDS WORK
+#, python-brace-format
+msgid "<span foreground='#FFA500'><b>{0}</b></span>"
+msgstr "<span foreground='#FFA500'><b>{0}</b></span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1176
+#: NEEDS WORK
+#, python-brace-format
+msgid "<span foreground='#32CD32'><b>{0}</b></span> <span foreground='#888888'>(new)</span>"
+msgstr "<span foreground='#32CD32'><b>{0}</b></span> <span foreground='#888888'>(nouveau)</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1182
+#: NEEDS WORK
+#, python-brace-format
+msgid "<span foreground='#00CED1'>This will copy all code from '{0}' to the new '{1}' branch</span>"
+msgstr "<span foreground='#00CED1'>Cela copiera tout le code de '{0}' vers la nouvelle branche '{1}'</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1192
+#: NEEDS WORK
+msgid "Create and Push"
+msgstr "Créer et Pousser"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1220
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switching to source branch: {0}"
+msgstr "Changement vers la branche source : {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1224
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating branch: {0}"
+msgstr "Création de la branche : {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1233
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to create branch: {0}"
+msgstr "Échec de la création de la branche : {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1236
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Branch '{0}' created"
+msgstr "✓ Branche '{0}' créée"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1248
+# File: usr/share/build-package/gui/main_window.py, line: 1373
+#: NEEDS WORK
+#, python-brace-format
+msgid "Push failed: {0}"
+msgstr "Échec de la poussée : {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1251
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Successfully pushed '{0}' to remote!"
+msgstr "✓ '{0}' a été poussé avec succès vers le dépôt distant !"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1252
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ All code from '{0}' is now in '{1}'"
+msgstr "✓ Tout le code de '{0}' est maintenant dans '{1}'"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1262
+#: NEEDS WORK
+msgid "Creating Branch"
+msgstr "Créer une branche"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1263
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating '{0}' from '{1}' and pushing..."
+msgstr "Création de '{0}' à partir de '{1}' et envoi..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1273
+#: NEEDS WORK
+msgid "⚠️ Remote Not Configured"
+msgstr "⚠️ Télécommande non configurée"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1274
+#: NEEDS WORK
+msgid "This repository has no remote origin configured. Would you like to configure it now?"
+msgstr "Ce dépôt n'a pas d'origine distante configurée. Souhaitez-vous le configurer maintenant ?"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1290
+#: NEEDS WORK
+msgid "Repository URL"
+msgstr "URL du dépôt"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1293
+#: NEEDS WORK
+msgid "GitHub URL"
+msgstr "URL GitHub"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1301
+#: NEEDS WORK
+msgid ""
+"<span foreground='#888888'>Tip: Create the repository on GitHub first, then paste the URL "
+"here</span>"
+msgstr "<span foreground='#888888'>Astuce : Créez d'abord le dépôt sur GitHub, puis collez l'URL ici</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1309
+#: NEEDS WORK
+msgid "Configure Remote"
+msgstr "Configurer à distance"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1325
+#: NEEDS WORK
+msgid "Please enter a valid URL"
+msgstr "Veuillez entrer une URL valide"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1337
+#: NEEDS WORK
+msgid "Configuring remote origin..."
+msgstr "Configuration de l'origine distante..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1348
+#: NEEDS WORK
+msgid "Remote 'origin' already exists, updating URL..."
+msgstr "Le dépôt distant 'origin' existe déjà, mise à jour de l'URL..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1354
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to update remote: {0}"
+msgstr "Échec de la mise à jour du distant : {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1357
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to add remote: {0}"
+msgstr "Échec de l'ajout du distant : {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1360
+#: NEEDS WORK
+msgid "✓ Remote origin configured successfully"
+msgstr "✓ Origine distante configurée avec succès"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1374
+#: NEEDS WORK
+msgid "You may need to create the repository on GitHub first"
+msgstr "Vous devrez peut-être d'abord créer le dépôt sur GitHub."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1377
+#: NEEDS WORK
+msgid "✓ Successfully pushed to remote!"
+msgstr "✓ Poussé avec succès vers le distant !"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1382
+#: NEEDS WORK
+msgid "Configuring Remote"
+msgstr "Configuration à distance"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1383
+#: NEEDS WORK
+msgid "Setting up remote origin and pushing..."
+msgstr "Configuration de l'origine distante et envoi..."
+# 
 # File: usr/share/build-package/gui/main_window.py, line: 778
 #: NEEDS WORK
 msgid "Confirm Pull Request"
@@ -5575,12 +5886,6 @@ msgstr "Confirmer la demande de tirage"
 #: NEEDS WORK
 msgid "Create a Pull Request to merge changes?"
 msgstr "Créer une demande de tirage pour fusionner les modifications ?"
-# 
-# File: usr/share/build-package/gui/main_window.py, line: 796
-#: NEEDS WORK
-#, python-brace-format
-msgid "<span foreground='#FFA500'><b>{0}</b></span>"
-msgstr "<span foreground='#FFA500'><b>{0}</b></span>"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 804
 #: NEEDS WORK
@@ -5781,6 +6086,26 @@ msgstr "Branche avec les derniers commits"
 msgid "Available Branches"
 msgstr "Branches disponibles"
 # 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 152
+#: NEEDS WORK
+msgid "Quick Actions"
+msgstr "Actions rapides"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 131
+#: NEEDS WORK
+msgid "Main Branch"
+msgstr "Branche principale"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 132
+#: NEEDS WORK
+msgid "Switch to main or create if it doesn't exist"
+msgstr "Basculer vers principal ou créer s'il n'existe pas"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 136
+#: NEEDS WORK
+msgid "Use main"
+msgstr "Utiliser principal"
+# 
 # File: usr/share/build-package/gui/widgets/branch_widget.py, line: 122
 #: NEEDS WORK
 msgid "Merge Operations"
@@ -5949,6 +6274,19 @@ msgstr "Taille du dépôt"
 msgid "Revert Selected"
 msgstr "Rétablir la sélection"
 # 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 228
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 280
+#: NEEDS WORK
+msgid "No commits yet"
+msgstr "Aucun commit pour l'instant"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 230
+#: NEEDS WORK
+msgid "Create your first commit to see history"
+msgstr "Créez votre premier commit pour voir l'historique"
+# 
 # File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 326
 #: NEEDS WORK
 msgid "Confirm Cleanup Operation"
@@ -6074,10 +6412,10 @@ msgstr "Sélectionnez le type de changement"
 msgid "Commit Message"
 msgstr "Message de validation"
 # 
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 119
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 152
 #: NEEDS WORK
-msgid "Description"
-msgstr "Description"
+msgid "Description (supports multiple lines)"
+msgstr "Description (prend en charge plusieurs lignes)"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -6118,22 +6456,27 @@ msgstr "Répertoire de travail propre"
 msgid "No pending changes - working directory is clean"
 msgstr "Aucun changement en attente - le répertoire de travail est propre"
 # 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 264
+#: NEEDS WORK
+msgid "No commits yet (this will be your first!)"
+msgstr "Aucun commit pour l'instant (ce sera le vôtre !)"
+# 
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 246
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 249
 #: NEEDS WORK
 msgid "No commits"
 msgstr "Aucun commit"
 # 
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 184
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 338
 #: NEEDS WORK
-msgid "Custom message"
-msgstr "Message personnalisé"
+msgid "Custom message (supports multiple lines)"
+msgstr "Message personnalisé (prend en charge plusieurs lignes)"
 # 
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 187
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 340
 #: NEEDS WORK
 #, python-brace-format
-msgid "Description for {0}"
-msgstr "Description pour {0}"
+msgid "Description for {0} (supports multiple lines)"
+msgstr "Description pour {0} (prend en charge plusieurs lignes)"
 # 
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 354
 #: NEEDS WORK
@@ -6300,11 +6643,6 @@ msgstr "Modifications"
 msgid "Commits"
 msgstr "Engagements"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 152
-#: NEEDS WORK
-msgid "Quick Actions"
-msgstr "Actions rapides"
-# 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 164
 #: NEEDS WORK
 msgid "Pull latest changes from remote repository"
@@ -6407,6 +6745,11 @@ msgstr "Modifié"
 msgid "No changes"
 msgstr "Aucun changement"
 # 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 281
+#: NEEDS WORK
+msgid "Create your first commit to start tracking activity"
+msgstr "Créez votre premier commit pour commencer à suivre l'activité"
+# 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 311
 #: NEEDS WORK
 msgid "Last commit"
@@ -6466,6 +6809,11 @@ msgstr "Valider les modifications"
 #: NEEDS WORK
 msgid "Required when uncommitted changes are present"
 msgstr "Requis lorsque des modifications non validées sont présentes"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 180
+#: NEEDS WORK
+msgid "Commit Message (supports multiple lines)"
+msgstr "Message de validation (prend en charge plusieurs lignes)"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -6969,10 +7317,10 @@ msgstr "Démarrage..."
 msgid "Terminal Log"
 msgstr "Journal du terminal"
 # 
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 290
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 300
 #: NEEDS WORK
-msgid "Operation returned failure status"
-msgstr "L'opération a renvoyé un statut d'échec"
+msgid "Operation failed - check terminal log for details"
+msgstr "L'opération a échoué - vérifiez le journal du terminal pour plus de détails"
 # 
 # File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 309
 #: NEEDS WORK
@@ -7056,6 +7404,21 @@ msgstr "Définir le type de noyau"
 #: NEEDS WORK
 msgid "Automatic mode using default values"
 msgstr "Mode automatique utilisant les valeurs par défaut"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 138
+#: NEEDS WORK
+msgid "Use local build mode"
+msgstr "Utiliser le mode de construction local"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 141
+#: NEEDS WORK
+msgid "Output directory for local builds"
+msgstr "Répertoire de sortie pour les builds locaux"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 145
+#: NEEDS WORK
+msgid "Clean cache after build (local mode)"
+msgstr "Nettoyer le cache après la construction (mode local)"
 # 
 # File: usr/share/build-iso/build_iso.py, line: 173
 #: NEEDS WORK
@@ -7153,6 +7516,84 @@ msgstr "Choisissez la branche {0} pour {1} :"
 msgid "Choose the {0} version:"
 msgstr "Choisissez la version {0} :"
 # 
+# File: usr/share/build-iso/build_iso.py, line: 459
+#: NEEDS WORK
+msgid "Local Build"
+msgstr "Compilation locale"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 459
+#: NEEDS WORK
+msgid "Remote Build (GitHub Actions)"
+msgstr "Construction à distance (GitHub Actions)"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 477
+#: NEEDS WORK
+msgid "Output directory configuration:"
+msgstr "Configuration du répertoire de sortie :"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 479
+#: NEEDS WORK
+#, python-brace-format
+msgid "Keep current: {0}"
+msgstr "Conserver actuel : {0}"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 480
+#: NEEDS WORK
+msgid "Change directory"
+msgstr "Changer de répertoire"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 490
+#: NEEDS WORK
+msgid "Enter new output directory"
+msgstr "Entrez un nouveau répertoire de sortie"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 497
+#: NEEDS WORK
+#, python-brace-format
+msgid "Directory configured: {0}"
+msgstr "Répertoire configuré : {0}"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 499
+#: NEEDS WORK
+msgid "Failed to configure directory"
+msgstr "Échec de la configuration du répertoire"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 509
+#: NEEDS WORK
+msgid "Clean package cache after build?"
+msgstr "Nettoyer le cache des paquets après la construction ?"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 511
+#: NEEDS WORK
+msgid "Keep cache (faster future builds, uses ~15GB disk)"
+msgstr "Conserver le cache (constructions futures plus rapides, utilise ~15 Go de disque)"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 512
+#: NEEDS WORK
+msgid "Clean cache (frees disk space, slower future builds)"
+msgstr "Vider le cache (libère de l'espace disque, ralentit les futures compilations)"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 523
+#: NEEDS WORK
+msgid "cleaned"
+msgstr "nettoyé"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 523
+#: NEEDS WORK
+msgid "kept"
+msgstr "gardé"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 524
+#: NEEDS WORK
+#, python-brace-format
+msgid "Cache will be {0} after build"
+msgstr "Le cache sera {0} après la construction"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 537
+#: NEEDS WORK
+msgid "Build Mode"
+msgstr "Mode de construction"
+# 
 # File: usr/share/build-iso/build_iso.py, line: 473
 #: NEEDS WORK
 msgid "Distribution"
@@ -7193,10 +7634,30 @@ msgstr "Branche BigLinux"
 msgid "Kernel"
 msgstr "Noyau"
 # 
+# File: usr/share/build-iso/build_iso.py, line: 546
+#: NEEDS WORK
+msgid "Output Directory"
+msgstr "Répertoire de sortie"
+# 
 # File: usr/share/build-iso/build_iso.py, line: 485
 #: NEEDS WORK
 msgid "Release Tag"
 msgstr "Étiquette de version"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 550
+#: NEEDS WORK
+msgid "Local ISO Build Configuration"
+msgstr "Configuration de build ISO locale"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 552
+#: NEEDS WORK
+msgid "Do you want to proceed with local build?"
+msgstr "Voulez-vous procéder à la construction locale ?"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 553
+#: NEEDS WORK
+msgid "Local build cancelled."
+msgstr "Construction locale annulée."
 # 
 # File: usr/share/build-iso/build_iso.py, line: 490
 #: NEEDS WORK
@@ -7218,6 +7679,12 @@ msgstr "Construction ISO annulée."
 #, python-brace-format
 msgid "No default configuration found for organization '{0}'."
 msgstr "Aucune configuration par défaut trouvée pour l'organisation '{0}'."
+# 
+# File: usr/share/build-iso/build_iso.py, line: 667
+#: NEEDS WORK
+#, python-brace-format
+msgid "Invalid output directory: {0}"
+msgstr "Répertoire de sortie invalide : {0}"
 # 
 # File: usr/share/build-iso/build_iso.py, line: 614
 #: NEEDS WORK
@@ -7265,6 +7732,296 @@ msgstr ""
 #: NEEDS WORK
 msgid "Waiting 3 seconds for the API to trigger the Action to get the 'id'."
 msgstr "Attente de 3 secondes pour que l'API déclenche l'action pour obtenir l'« id »."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 88
+#: NEEDS WORK
+#, python-brace-format
+msgid "Container engine found: {0}"
+msgstr "Moteur de conteneur trouvé : {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 103
+#: NEEDS WORK
+#, python-brace-format
+msgid "Stopping {0} old container(s)..."
+msgstr "Arrêt de {0} ancien(s) conteneur(s)..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 142
+#: NEEDS WORK
+#, python-brace-format
+msgid "Warning: Only {0:.1f} GB free. 20 GB recommended."
+msgstr "Avertissement : Il ne reste que {0:.1f} Go. 20 Go recommandés."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 145
+#: NEEDS WORK
+#, python-brace-format
+msgid "Disk space available: {0:.1f} GB"
+msgstr "Espace disque disponible : {0:.1f} Go"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 148
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not check disk space: {0}"
+msgstr "Impossible de vérifier l'espace disque : {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 158
+#: NEEDS WORK
+#, python-brace-format
+msgid "Pulling container image: {0}"
+msgstr "Téléchargement de l'image du conteneur : {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 172
+#: NEEDS WORK
+msgid "Container image pulled successfully"
+msgstr "Image de conteneur tirée avec succès"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 175
+#: NEEDS WORK
+msgid "Failed to pull container image"
+msgstr "Échec du téléchargement de l'image du conteneur"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 180
+# File: usr/share/build-iso/local_builder.py, line: 293
+#: NEEDS WORK
+msgid "Retrying..."
+msgstr "Nouvelle tentative..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 185
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error pulling container image: {0}"
+msgstr "Erreur lors de l'extraction de l'image du conteneur : {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 197
+#: NEEDS WORK
+msgid "Preparing build directories..."
+msgstr "Préparation des répertoires de construction..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 202
+#: NEEDS WORK
+msgid "Cleaning work directory..."
+msgstr "Nettoyage du répertoire de travail..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 210
+#: NEEDS WORK
+msgid "Cleaning cache directory (--clean flag)..."
+msgstr "Nettoyage du répertoire de cache (--clean flag)..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 238
+#: NEEDS WORK
+#, python-brace-format
+msgid "Created: {0}"
+msgstr "Créé : {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 251
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating directories: {0}"
+msgstr "Erreur lors de la création des répertoires : {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 261
+#: NEEDS WORK
+msgid "Cloning build-iso repository..."
+msgstr "Clonage du dépôt build-iso..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 270
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not remove old build-iso: {0}"
+msgstr "Impossible de supprimer l'ancien build-iso : {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 285
+#: NEEDS WORK
+msgid "Build script prepared"
+msgstr "Script de construction préparé"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 288
+#: NEEDS WORK
+msgid "Failed to clone build-iso repository"
+msgstr "Échec du clonage du dépôt build-iso"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 298
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error cloning repository: {0}"
+msgstr "Erreur lors de la clonage du dépôt : {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 378
+#: NEEDS WORK
+msgid "Starting container build..."
+msgstr "Démarrage de la construction du conteneur..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 379
+#: NEEDS WORK
+msgid "This may take 30-120 minutes depending on your hardware and network."
+msgstr "Cela peut prendre 30 à 120 minutes en fonction de votre matériel et de votre réseau."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 420
+#: NEEDS WORK
+msgid "Container build completed successfully"
+msgstr "La construction du conteneur a été réalisée avec succès."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 423
+#: NEEDS WORK
+#, python-brace-format
+msgid "Container build failed with exit code {0}"
+msgstr "La construction du conteneur a échoué avec le code de sortie {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 427
+#: NEEDS WORK
+msgid "Error running container"
+msgstr "Erreur lors de l'exécution du conteneur"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 438
+#: NEEDS WORK
+msgid "Moving ISO files to output directory..."
+msgstr "Déplacement des fichiers ISO vers le répertoire de sortie..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 448
+#: NEEDS WORK
+msgid "No ISO files found in work directory"
+msgstr "Aucun fichier ISO trouvé dans le répertoire de travail"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 458
+#: NEEDS WORK
+#, python-brace-format
+msgid "Moving: {0}"
+msgstr "Déplacement : {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 485
+#: NEEDS WORK
+msgid "Generating MD5 checksum..."
+msgstr "Génération de la somme de contrôle MD5..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 497
+#: NEEDS WORK
+#, python-brace-format
+msgid "Moved: {0}"
+msgstr "Déplacé : {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 498
+#: NEEDS WORK
+#, python-brace-format
+msgid "MD5: {0}"
+msgstr "MD5 : {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 501
+#: NEEDS WORK
+msgid "Cleaning up work directory..."
+msgstr "Nettoyage du répertoire de travail..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 504
+# File: usr/share/build-iso/local_builder.py, line: 507
+#: NEEDS WORK
+msgid "Work directory removed"
+msgstr "Répertoire de travail supprimé"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 509
+#: NEEDS WORK
+msgid "Cleanup completed"
+msgstr "Nettoyage terminé"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 513
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error moving ISO files: {0}"
+msgstr "Erreur lors du déplacement des fichiers ISO : {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 523
+#: NEEDS WORK
+msgid "Cleaning up cache directories..."
+msgstr "Nettoyage des répertoires de cache..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 528
+#: NEEDS WORK
+msgid "Cache cleaned"
+msgstr "Cache vidé"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 532
+#: NEEDS WORK
+msgid "Work directory cleaned"
+msgstr "Répertoire de travail nettoyé"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 537
+# File: usr/share/build-iso/local_builder.py, line: 611
+# File: usr/share/build-iso/local_builder.py, line: 613
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not clean cache: {0}"
+msgstr "Impossible de nettoyer le cache : {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 552
+#: NEEDS WORK
+msgid "Requesting sudo access for file operations..."
+msgstr "Demande d'accès sudo pour les opérations sur les fichiers..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 557
+#: NEEDS WORK
+msgid "Sudo access required for local builds"
+msgstr "Accès Sudo requis pour les builds locaux"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 569
+#: NEEDS WORK
+msgid "Docker or Podman not found"
+msgstr "Docker ou Podman non trouvé"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 570
+#: NEEDS WORK
+msgid "Install with: sudo pacman -S docker"
+msgstr "Installez avec : sudo pacman -S docker"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 571
+#: NEEDS WORK
+msgid "Or install Podman: sudo pacman -S podman"
+msgstr "Ou installez Podman : sudo pacman -S podman"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 591
+#: NEEDS WORK
+msgid "Build failed inside container"
+msgstr "Échec de la construction à l'intérieur du conteneur"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 592
+#: NEEDS WORK
+#, python-brace-format
+msgid "Work directory preserved for debugging: {0}"
+msgstr "Répertoire de travail préservé pour le débogage : {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 598
+#: NEEDS WORK
+msgid "Could not move ISO files, check manually"
+msgstr "Impossible de déplacer les fichiers ISO, vérifiez manuellement."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 602
+#: NEEDS WORK
+msgid "Cleaning package cache..."
+msgstr "Nettoyage du cache des paquets..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 605
+# File: usr/share/build-iso/local_builder.py, line: 609
+#: NEEDS WORK
+msgid "Cache cleaned successfully"
+msgstr "Cache nettoyé avec succès"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 620
+#: NEEDS WORK
+msgid "Cleaning up containers..."
+msgstr "Nettoyage des conteneurs..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 633
+#: NEEDS WORK
+msgid "Local build completed successfully!"
+msgstr "La construction locale a été complétée avec succès !"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 634
+#: NEEDS WORK
+#, python-brace-format
+msgid "ISO files saved to: {0}"
+msgstr "Fichiers ISO enregistrés dans : {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 640
+#: NEEDS WORK
+#, python-brace-format
+msgid "Work directory preserved at: {0}"
+msgstr "Répertoire de travail préservé à : {0}"
 # 
 # File: usr/share/build-iso/config.py, line: 96
 #: NEEDS WORK

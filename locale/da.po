@@ -119,6 +119,12 @@ msgstr "Udfør/push og generer pakke"
 msgid "Just commit/push with the specified message"
 msgstr "Bare commit/push med den angivne besked"
 # 
+# File: usr/share/build-package/core/build_package.py, line: 192
+# File: usr/share/build-package/core/build_package.py, line: 254
+#: NEEDS WORK
+msgid "Read commit message from file (multi-line support)"
+msgstr "Læs commit-besked fra fil (understøttelse af flere linjer)"
+# 
 # File: usr/share/build-package/build_package.py, line: 97
 # File: usr/share/build-package/build_package.py, line: 537
 # File: usr/share/build-package/build_package.py, line: 543
@@ -150,6 +156,11 @@ msgstr "Åbn i GUI-tilstand"
 #: NEEDS WORK
 msgid "Quick commit with message"
 msgstr "Hurtig commit med besked"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 216
+#: NEEDS WORK
+msgid "Commit with message from file"
+msgstr "Commit med besked fra fil"
 # 
 # File: usr/share/build-package/core/build_package.py, line: 178
 #: NEEDS WORK
@@ -380,11 +391,24 @@ msgstr "Bevarer dine ændringer, mens du skifter til målgren..."
 msgid "Failed to stash changes. Cannot proceed safely."
 msgstr "Mislykkedes at gemme ændringer. Kan ikke fortsætte sikkert."
 # 
-# File: usr/share/build-package/core/build_package.py, line: 628
-# File: usr/share/build-package/core/build_package.py, line: 654
+# File: usr/share/build-package/core/build_package.py, line: 640
+# File: usr/share/build-package/core/build_package.py, line: 677
 #: NEEDS WORK
-msgid "Failed to switch to main branch"
-msgstr "Mislykkedes at skifte til hovedgrenen"
+msgid "Creating main branch (doesn't exist yet)..."
+msgstr "Opretter hovedgren (eksisterer endnu ikke)..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 646
+# File: usr/share/build-package/core/build_package.py, line: 683
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to create main branch: {0}"
+msgstr "Mislykkedes i at oprette hovedgren: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 648
+# File: usr/share/build-package/core/build_package.py, line: 685
+#: NEEDS WORK
+msgid "✓ Created new main branch"
+msgstr "✓ Oprettet ny hovedgren"
 # 
 # File: usr/share/build-package/build_package.py, line: 588
 # File: usr/share/build-package/build_package.py, line: 1169
@@ -533,6 +557,45 @@ msgstr "Succesfuldt hentet seneste hoved"
 #: NEEDS WORK
 msgid "Failed to pull, but continuing..."
 msgstr "Mislykkedes at hente, men fortsætter..."
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 830
+# File: usr/share/build-package/core/build_package.py, line: 1427
+# File: usr/share/build-package/core/commit_operations.py, line: 246
+#: NEEDS WORK
+msgid "Commit message file is empty."
+msgstr "Commitbeskedfilen er tom."
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 832
+# File: usr/share/build-package/core/build_package.py, line: 1429
+# File: usr/share/build-package/core/commit_operations.py, line: 248
+#: NEEDS WORK
+#, python-brace-format
+msgid "Using commit message from file: {0}"
+msgstr "Bruger commit-besked fra fil: {0}"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 834
+# File: usr/share/build-package/core/build_package.py, line: 1431
+# File: usr/share/build-package/core/commit_operations.py, line: 250
+#: NEEDS WORK
+#, python-brace-format
+msgid "Commit message file not found: {0}"
+msgstr "Commitbeskedfil ikke fundet: {0}"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 837
+# File: usr/share/build-package/core/build_package.py, line: 1434
+# File: usr/share/build-package/core/commit_operations.py, line: 253
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error reading commit message file: {0}"
+msgstr "Fejl ved læsning af commit-beskedfil: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 190
 # File: usr/share/build-package/build_package.py, line: 368
@@ -979,14 +1042,14 @@ msgstr "Kunne ikke opdatere gren, fortsætter med nuværende tilstand"
 msgid "Successfully pulled latest changes"
 msgstr "Succesfuldt hentet de nyeste ændringer"
 # 
-# File: usr/share/build-package/build_package.py, line: 376
+# File: usr/share/build-package/core/build_package.py, line: 1448
 #: NEEDS WORK
 msgid ""
-"When using the '-b|--build' parameter and there are changes, the '-c|--commit' parameter is also "
-"required."
+"When using the '-b|--build' parameter and there are changes, the '-c|--commit' or "
+"'-F|--commit-file' parameter is also required."
 msgstr ""
-"Når du bruger parameteren '-b|--build' og der er ændringer, er parameteren '-c|--commit' også "
-"påkrævet."
+"Når du bruger parameteren '-b|--build', og der er ændringer, er parameteren '-c|--commit' eller "
+"'-F|--commit-file' også påkrævet."
 # 
 # File: usr/share/build-package/build_package.py, line: 683
 #: NEEDS WORK
@@ -4597,6 +4660,28 @@ msgstr "Skift til min gren og hent der."
 msgid "Pull to current branch"
 msgstr "Hent til nuværende gren"
 # 
+# File: usr/share/build-package/core/pull_operations.py, line: 249
+#: NEEDS WORK
+msgid "Local changes stashed"
+msgstr "Lokale ændringer gemt"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 255
+#: NEEDS WORK
+msgid "No changes to stash"
+msgstr "Ingen ændringer til stash"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 257
+# File: usr/share/build-package/core/pull_operations.py, line: 261
+#: NEEDS WORK
+#, python-brace-format
+msgid "⚠ Could not stash changes: {0}"
+msgstr "⚠ Kunne ikke gemme ændringer: {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 258
+#: NEEDS WORK
+msgid "unknown error"
+msgstr "ukendt fejl"
+# 
 # File: usr/share/build-package/core/pull_operations.py, line: 256
 #: NEEDS WORK
 #, python-brace-format
@@ -4608,6 +4693,11 @@ msgstr "Opretter lokal gren {0} fra fjernlager"
 #, python-brace-format
 msgid "Creating new branch {0}"
 msgstr "Opretter ny gren {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 355
+#: NEEDS WORK
+msgid "No commits yet, removing untracked files only..."
+msgstr "Ingen commits endnu, fjerner kun uovervågede filer..."
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 166
 #: NEEDS WORK
@@ -4624,6 +4714,28 @@ msgstr "Finder den nyeste kode..."
 #, python-brace-format
 msgid "Most recent branch: {0}"
 msgstr "Seneste gren: {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 402
+#: NEEDS WORK
+#, python-brace-format
+msgid "Branch '{0}' does not exist on remote yet"
+msgstr "Gren '{0}' eksisterer endnu ikke på fjernlageret."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 418
+#: NEEDS WORK
+#, python-brace-format
+msgid "Pulling latest from '{0}' into your branch..."
+msgstr "Henter det nyeste fra '{0}' ind i din gren..."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 434
+#: NEEDS WORK
+msgid "✓ Your branch is up to date (no remote branch to pull from)"
+msgstr "✓ Din gren er opdateret (ingen fjerngren at hente fra)"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 435
+#: NEEDS WORK
+msgid "Use 'Commit and Push' to send your branch to the server."
+msgstr "Brug 'Commit and Push' til at sende din gren til serveren."
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 282
 #: NEEDS WORK
@@ -5006,6 +5118,11 @@ msgstr "<span foreground='#888888'>Din udviklingsgren:</span> <span foreground='
 msgid "Use {0}"
 msgstr "Brug {0}"
 # 
+# File: usr/share/build-package/gui/main_window.py, line: 454
+#: NEEDS WORK
+msgid "Send to main"
+msgstr "Send til hoved"
+# 
 # File: usr/share/build-package/gui/main_window.py, line: 452
 #: NEEDS WORK
 #, python-brace-format
@@ -5093,6 +5210,21 @@ msgstr "Forpligte ændringer"
 #, python-brace-format
 msgid "Committing to {0}..."
 msgstr "Forpligtelse til {0}..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 635
+#: NEEDS WORK
+msgid "✗ Could not determine branch name!"
+msgstr "✗ Kunne ikke bestemme gren navn!"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 636
+#: NEEDS WORK
+msgid "Please check your git repository state."
+msgstr "Kontroller venligst tilstanden af dit git-repositorium."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 637
+#: NEEDS WORK
+msgid "Could not determine branch name for push"
+msgstr "Kunne ikke bestemme gren navn til push"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 588
 #: NEEDS WORK
@@ -5556,6 +5688,187 @@ msgstr "Skiftet til gren: {0}"
 msgid "Error switching branch: {0}"
 msgstr "Fejl ved skift af gren: {0}"
 # 
+# File: usr/share/build-package/gui/main_window.py, line: 1147
+#: NEEDS WORK
+#, python-brace-format
+msgid "Create Branch '{0}'?"
+msgstr "Opret gren '{0}'?"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1149
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"The branch '{0}' doesn't exist yet.\n"
+"\n"
+"Would you like to create it from '{1}' and push to remote?"
+msgstr ""
+"Grenen '{0}' eksisterer endnu ikke.\n"
+"\n"
+"Vil du oprette den fra '{1}' og pushe til remote?"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 796
+#: NEEDS WORK
+#, python-brace-format
+msgid "<span foreground='#FFA500'><b>{0}</b></span>"
+msgstr "<span foreground='#FFA500'><b>{0}</b></span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1176
+#: NEEDS WORK
+#, python-brace-format
+msgid "<span foreground='#32CD32'><b>{0}</b></span> <span foreground='#888888'>(new)</span>"
+msgstr "<span foreground='#32CD32'><b>{0}</b></span> <span foreground='#888888'>(ny)</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1182
+#: NEEDS WORK
+#, python-brace-format
+msgid "<span foreground='#00CED1'>This will copy all code from '{0}' to the new '{1}' branch</span>"
+msgstr "<span foreground='#00CED1'>Dette vil kopiere al kode fra '{0}' til den nye '{1}' gren</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1192
+#: NEEDS WORK
+msgid "Create and Push"
+msgstr "Opret og Push"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1220
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switching to source branch: {0}"
+msgstr "Skifter til kildegren: {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1224
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating branch: {0}"
+msgstr "Opretter gren: {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1233
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to create branch: {0}"
+msgstr "Mislykkedes i at oprette gren: {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1236
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Branch '{0}' created"
+msgstr "✓ Gren '{0}' oprettet"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1248
+# File: usr/share/build-package/gui/main_window.py, line: 1373
+#: NEEDS WORK
+#, python-brace-format
+msgid "Push failed: {0}"
+msgstr "Push mislykkedes: {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1251
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Successfully pushed '{0}' to remote!"
+msgstr "✓ Successfully pushed '{0}' til fjernbetjening!"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1252
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ All code from '{0}' is now in '{1}'"
+msgstr "✓ Al koden fra '{0}' er nu i '{1}'"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1262
+#: NEEDS WORK
+msgid "Creating Branch"
+msgstr "Opretter gren"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1263
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating '{0}' from '{1}' and pushing..."
+msgstr "Opretter '{0}' fra '{1}' og skubber..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1273
+#: NEEDS WORK
+msgid "⚠️ Remote Not Configured"
+msgstr "⚠️ Fjernbetjening ikke konfigureret"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1274
+#: NEEDS WORK
+msgid "This repository has no remote origin configured. Would you like to configure it now?"
+msgstr "Dette repository har ikke nogen fjernoprindelse konfigureret. Vil du konfigurere det nu?"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1290
+#: NEEDS WORK
+msgid "Repository URL"
+msgstr "Repository-URL"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1293
+#: NEEDS WORK
+msgid "GitHub URL"
+msgstr "GitHub URL"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1301
+#: NEEDS WORK
+msgid ""
+"<span foreground='#888888'>Tip: Create the repository on GitHub first, then paste the URL "
+"here</span>"
+msgstr ""
+"<span foreground='#888888'>Tip: Opret først repositoryet på GitHub, og indsæt derefter URL'en "
+"her</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1309
+#: NEEDS WORK
+msgid "Configure Remote"
+msgstr "Konfigurer fjernbetjening"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1325
+#: NEEDS WORK
+msgid "Please enter a valid URL"
+msgstr "Indtast venligst en gyldig URL"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1337
+#: NEEDS WORK
+msgid "Configuring remote origin..."
+msgstr "Konfigurerer fjernoprindelse..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1348
+#: NEEDS WORK
+msgid "Remote 'origin' already exists, updating URL..."
+msgstr "Fjernbetjening 'origin' eksisterer allerede, opdaterer URL..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1354
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to update remote: {0}"
+msgstr "Mislykkedes med at opdatere fjernbetjening: {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1357
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to add remote: {0}"
+msgstr "Mislykkedes at tilføje fjernbetjening: {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1360
+#: NEEDS WORK
+msgid "✓ Remote origin configured successfully"
+msgstr "✓ Fjernoprindelse konfigureret med succes"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1374
+#: NEEDS WORK
+msgid "You may need to create the repository on GitHub first"
+msgstr "Du skal muligvis oprette repositoryet på GitHub først."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1377
+#: NEEDS WORK
+msgid "✓ Successfully pushed to remote!"
+msgstr "✓ Succesfuldt sendt til fjernbetjening!"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1382
+#: NEEDS WORK
+msgid "Configuring Remote"
+msgstr "Konfigurerer fjernbetjening"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1383
+#: NEEDS WORK
+msgid "Setting up remote origin and pushing..."
+msgstr "Opsætning af fjernoprindelse og pushing..."
+# 
 # File: usr/share/build-package/gui/main_window.py, line: 778
 #: NEEDS WORK
 msgid "Confirm Pull Request"
@@ -5565,12 +5878,6 @@ msgstr "Bekræft Pull Request"
 #: NEEDS WORK
 msgid "Create a Pull Request to merge changes?"
 msgstr "Opret en Pull Request for at flette ændringer?"
-# 
-# File: usr/share/build-package/gui/main_window.py, line: 796
-#: NEEDS WORK
-#, python-brace-format
-msgid "<span foreground='#FFA500'><b>{0}</b></span>"
-msgstr "<span foreground='#FFA500'><b>{0}</b></span>"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 804
 #: NEEDS WORK
@@ -5771,6 +6078,26 @@ msgstr "Gren med de nyeste commits"
 msgid "Available Branches"
 msgstr "Tilgængelige grene"
 # 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 152
+#: NEEDS WORK
+msgid "Quick Actions"
+msgstr "Hurtige handlinger"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 131
+#: NEEDS WORK
+msgid "Main Branch"
+msgstr "Hovedgren"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 132
+#: NEEDS WORK
+msgid "Switch to main or create if it doesn't exist"
+msgstr "Skift til hoved eller opret, hvis det ikke findes"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 136
+#: NEEDS WORK
+msgid "Use main"
+msgstr "Brug hoved"
+# 
 # File: usr/share/build-package/gui/widgets/branch_widget.py, line: 122
 #: NEEDS WORK
 msgid "Merge Operations"
@@ -5939,6 +6266,19 @@ msgstr "Repository Størrelse"
 msgid "Revert Selected"
 msgstr "Gendan valgte"
 # 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 228
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 280
+#: NEEDS WORK
+msgid "No commits yet"
+msgstr "Ingen commits endnu"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 230
+#: NEEDS WORK
+msgid "Create your first commit to see history"
+msgstr "Opret dit første commit for at se historik"
+# 
 # File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 326
 #: NEEDS WORK
 msgid "Confirm Cleanup Operation"
@@ -6064,10 +6404,10 @@ msgstr "Vælg typen af ændring"
 msgid "Commit Message"
 msgstr "Commit-besked"
 # 
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 119
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 152
 #: NEEDS WORK
-msgid "Description"
-msgstr "Beskrivelse"
+msgid "Description (supports multiple lines)"
+msgstr "Beskrivelse (understøtter flere linjer)"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -6108,22 +6448,27 @@ msgstr "Arbejdsmappen er ren"
 msgid "No pending changes - working directory is clean"
 msgstr "Ingen ventende ændringer - arbejdsbiblioteket er rent"
 # 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 264
+#: NEEDS WORK
+msgid "No commits yet (this will be your first!)"
+msgstr "Ingen commits endnu (dette vil være din første!)"
+# 
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 246
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 249
 #: NEEDS WORK
 msgid "No commits"
 msgstr "Ingen commits"
 # 
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 184
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 338
 #: NEEDS WORK
-msgid "Custom message"
-msgstr "Brugerdefineret besked"
+msgid "Custom message (supports multiple lines)"
+msgstr "Brugerdefineret besked (understøtter flere linjer)"
 # 
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 187
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 340
 #: NEEDS WORK
 #, python-brace-format
-msgid "Description for {0}"
-msgstr "Beskrivelse for {0}"
+msgid "Description for {0} (supports multiple lines)"
+msgstr "Beskrivelse for {0} (understøtter flere linjer)"
 # 
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 354
 #: NEEDS WORK
@@ -6289,11 +6634,6 @@ msgstr "Ændringer"
 msgid "Commits"
 msgstr "Forpligtelser"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 152
-#: NEEDS WORK
-msgid "Quick Actions"
-msgstr "Hurtige handlinger"
-# 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 164
 #: NEEDS WORK
 msgid "Pull latest changes from remote repository"
@@ -6396,6 +6736,11 @@ msgstr "Ændret"
 msgid "No changes"
 msgstr "Ingen ændringer"
 # 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 281
+#: NEEDS WORK
+msgid "Create your first commit to start tracking activity"
+msgstr "Opret dit første commit for at begynde at spore aktivitet"
+# 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 311
 #: NEEDS WORK
 msgid "Last commit"
@@ -6455,6 +6800,11 @@ msgstr "Commit ændringer"
 #: NEEDS WORK
 msgid "Required when uncommitted changes are present"
 msgstr "Påkrævet, når der er ikke-committerede ændringer til stede"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 180
+#: NEEDS WORK
+msgid "Commit Message (supports multiple lines)"
+msgstr "Commitbesked (understøtter flere linjer)"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -6956,10 +7306,10 @@ msgstr "Starter..."
 msgid "Terminal Log"
 msgstr "Terminal Log"
 # 
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 290
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 300
 #: NEEDS WORK
-msgid "Operation returned failure status"
-msgstr "Operation returnerede fejlsituation"
+msgid "Operation failed - check terminal log for details"
+msgstr "Operationen mislykkedes - tjek terminalloggen for detaljer"
 # 
 # File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 309
 #: NEEDS WORK
@@ -7043,6 +7393,21 @@ msgstr "Indstil kerntypen"
 #: NEEDS WORK
 msgid "Automatic mode using default values"
 msgstr "Automatisk tilstand ved brug af standardværdier"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 138
+#: NEEDS WORK
+msgid "Use local build mode"
+msgstr "Brug lokal bygge-tilstand"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 141
+#: NEEDS WORK
+msgid "Output directory for local builds"
+msgstr "Output-mappe til lokale builds"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 145
+#: NEEDS WORK
+msgid "Clean cache after build (local mode)"
+msgstr "Ryd cache efter bygning (lokal tilstand)"
 # 
 # File: usr/share/build-iso/build_iso.py, line: 173
 #: NEEDS WORK
@@ -7140,6 +7505,84 @@ msgstr "Vælg {0} grenen for {1}:"
 msgid "Choose the {0} version:"
 msgstr "Vælg {0} version:"
 # 
+# File: usr/share/build-iso/build_iso.py, line: 459
+#: NEEDS WORK
+msgid "Local Build"
+msgstr "Lokal bygning"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 459
+#: NEEDS WORK
+msgid "Remote Build (GitHub Actions)"
+msgstr "Fjernbygning (GitHub-handlinger)"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 477
+#: NEEDS WORK
+msgid "Output directory configuration:"
+msgstr "Output-katalogkonfiguration:"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 479
+#: NEEDS WORK
+#, python-brace-format
+msgid "Keep current: {0}"
+msgstr "Behold nuværende: {0}"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 480
+#: NEEDS WORK
+msgid "Change directory"
+msgstr "Skift mappe"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 490
+#: NEEDS WORK
+msgid "Enter new output directory"
+msgstr "Indtast ny output-mappe"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 497
+#: NEEDS WORK
+#, python-brace-format
+msgid "Directory configured: {0}"
+msgstr "Katalog konfigureret: {0}"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 499
+#: NEEDS WORK
+msgid "Failed to configure directory"
+msgstr "Mislykkedes med at konfigurere bibliotek"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 509
+#: NEEDS WORK
+msgid "Clean package cache after build?"
+msgstr "Ryd pakke-cache efter bygning?"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 511
+#: NEEDS WORK
+msgid "Keep cache (faster future builds, uses ~15GB disk)"
+msgstr "Behold cache (hurtigere fremtidige builds, bruger ~15GB disk)"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 512
+#: NEEDS WORK
+msgid "Clean cache (frees disk space, slower future builds)"
+msgstr "Ryd cache (frigiver diskplads, langsommere fremtidige builds)"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 523
+#: NEEDS WORK
+msgid "cleaned"
+msgstr "renset"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 523
+#: NEEDS WORK
+msgid "kept"
+msgstr "beholdt"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 524
+#: NEEDS WORK
+#, python-brace-format
+msgid "Cache will be {0} after build"
+msgstr "Cache vil være {0} efter bygning"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 537
+#: NEEDS WORK
+msgid "Build Mode"
+msgstr "Byggemodus"
+# 
 # File: usr/share/build-iso/build_iso.py, line: 473
 #: NEEDS WORK
 msgid "Distribution"
@@ -7180,10 +7623,30 @@ msgstr "BigLinux Gren"
 msgid "Kernel"
 msgstr "Kerner"
 # 
+# File: usr/share/build-iso/build_iso.py, line: 546
+#: NEEDS WORK
+msgid "Output Directory"
+msgstr "Output-mappe"
+# 
 # File: usr/share/build-iso/build_iso.py, line: 485
 #: NEEDS WORK
 msgid "Release Tag"
 msgstr "Udgivelsesmærke"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 550
+#: NEEDS WORK
+msgid "Local ISO Build Configuration"
+msgstr "Lokal ISO Byggekonstruktion"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 552
+#: NEEDS WORK
+msgid "Do you want to proceed with local build?"
+msgstr "Vil du fortsætte med lokal bygning?"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 553
+#: NEEDS WORK
+msgid "Local build cancelled."
+msgstr "Lokal bygning annulleret."
 # 
 # File: usr/share/build-iso/build_iso.py, line: 490
 #: NEEDS WORK
@@ -7205,6 +7668,12 @@ msgstr "ISO bygning annulleret."
 #, python-brace-format
 msgid "No default configuration found for organization '{0}'."
 msgstr "Ingen standardkonfiguration fundet for organisation '{0}'."
+# 
+# File: usr/share/build-iso/build_iso.py, line: 667
+#: NEEDS WORK
+#, python-brace-format
+msgid "Invalid output directory: {0}"
+msgstr "Ugyldig output-mappe: {0}"
 # 
 # File: usr/share/build-iso/build_iso.py, line: 614
 #: NEEDS WORK
@@ -7248,6 +7717,296 @@ msgstr "TMATE-session vil blive aktiveret. Se GitHub Actions-loggene for forbind
 #: NEEDS WORK
 msgid "Waiting 3 seconds for the API to trigger the Action to get the 'id'."
 msgstr "Venter 3 sekunder på, at API'en udløser handlingen for at få 'id'."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 88
+#: NEEDS WORK
+#, python-brace-format
+msgid "Container engine found: {0}"
+msgstr "Container motor fundet: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 103
+#: NEEDS WORK
+#, python-brace-format
+msgid "Stopping {0} old container(s)..."
+msgstr "Stopper {0} gamle container(e)..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 142
+#: NEEDS WORK
+#, python-brace-format
+msgid "Warning: Only {0:.1f} GB free. 20 GB recommended."
+msgstr "Advarsel: Kun {0:.1f} GB ledig. 20 GB anbefales."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 145
+#: NEEDS WORK
+#, python-brace-format
+msgid "Disk space available: {0:.1f} GB"
+msgstr "Diskplads tilgængelig: {0:.1f} GB"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 148
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not check disk space: {0}"
+msgstr "Kunne ikke kontrollere diskplads: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 158
+#: NEEDS WORK
+#, python-brace-format
+msgid "Pulling container image: {0}"
+msgstr "Henter containerbillede: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 172
+#: NEEDS WORK
+msgid "Container image pulled successfully"
+msgstr "Containerbillede trukket med succes"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 175
+#: NEEDS WORK
+msgid "Failed to pull container image"
+msgstr "Mislykkedes med at hente containerbillede"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 180
+# File: usr/share/build-iso/local_builder.py, line: 293
+#: NEEDS WORK
+msgid "Retrying..."
+msgstr "Forsøger igen..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 185
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error pulling container image: {0}"
+msgstr "Fejl ved hentning af containerbillede: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 197
+#: NEEDS WORK
+msgid "Preparing build directories..."
+msgstr "Forbereder bygge-mapper..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 202
+#: NEEDS WORK
+msgid "Cleaning work directory..."
+msgstr "Rydder arbejdsmappe..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 210
+#: NEEDS WORK
+msgid "Cleaning cache directory (--clean flag)..."
+msgstr "Rydder cache-mappe (--clean flag)..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 238
+#: NEEDS WORK
+#, python-brace-format
+msgid "Created: {0}"
+msgstr "Oprettet: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 251
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating directories: {0}"
+msgstr "Fejl ved oprettelse af mapper: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 261
+#: NEEDS WORK
+msgid "Cloning build-iso repository..."
+msgstr "Kloner build-iso-repositoriet..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 270
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not remove old build-iso: {0}"
+msgstr "Kunne ikke fjerne gammel build-iso: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 285
+#: NEEDS WORK
+msgid "Build script prepared"
+msgstr "Bygget script forberedt"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 288
+#: NEEDS WORK
+msgid "Failed to clone build-iso repository"
+msgstr "Mislykkedes med at klone build-iso-repositoriet"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 298
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error cloning repository: {0}"
+msgstr "Fejl ved kloning af repository: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 378
+#: NEEDS WORK
+msgid "Starting container build..."
+msgstr "Starter containerbygning..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 379
+#: NEEDS WORK
+msgid "This may take 30-120 minutes depending on your hardware and network."
+msgstr "Dette kan tage 30-120 minutter afhængigt af dit hardware og netværk."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 420
+#: NEEDS WORK
+msgid "Container build completed successfully"
+msgstr "Containerbygning afsluttet med succes"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 423
+#: NEEDS WORK
+#, python-brace-format
+msgid "Container build failed with exit code {0}"
+msgstr "Containerbygning mislykkedes med exitkode {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 427
+#: NEEDS WORK
+msgid "Error running container"
+msgstr "Fejl ved kørsel af container"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 438
+#: NEEDS WORK
+msgid "Moving ISO files to output directory..."
+msgstr "Flytter ISO-filer til output-mappe..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 448
+#: NEEDS WORK
+msgid "No ISO files found in work directory"
+msgstr "Ingen ISO-filer fundet i arbejdsbiblioteket"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 458
+#: NEEDS WORK
+#, python-brace-format
+msgid "Moving: {0}"
+msgstr "Bevægelse: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 485
+#: NEEDS WORK
+msgid "Generating MD5 checksum..."
+msgstr "Genererer MD5 checksum..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 497
+#: NEEDS WORK
+#, python-brace-format
+msgid "Moved: {0}"
+msgstr "Flyttet: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 498
+#: NEEDS WORK
+#, python-brace-format
+msgid "MD5: {0}"
+msgstr "MD5: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 501
+#: NEEDS WORK
+msgid "Cleaning up work directory..."
+msgstr "Rydder op i arbejdsbiblioteket..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 504
+# File: usr/share/build-iso/local_builder.py, line: 507
+#: NEEDS WORK
+msgid "Work directory removed"
+msgstr "Arbejdsmappen er fjernet"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 509
+#: NEEDS WORK
+msgid "Cleanup completed"
+msgstr "Rydning fuldført"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 513
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error moving ISO files: {0}"
+msgstr "Fejl ved flytning af ISO-filer: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 523
+#: NEEDS WORK
+msgid "Cleaning up cache directories..."
+msgstr "Rydder op i cache-mapper..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 528
+#: NEEDS WORK
+msgid "Cache cleaned"
+msgstr "Cache renset"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 532
+#: NEEDS WORK
+msgid "Work directory cleaned"
+msgstr "Arbejdsmappen er renset"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 537
+# File: usr/share/build-iso/local_builder.py, line: 611
+# File: usr/share/build-iso/local_builder.py, line: 613
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not clean cache: {0}"
+msgstr "Kunne ikke rense cache: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 552
+#: NEEDS WORK
+msgid "Requesting sudo access for file operations..."
+msgstr "Anmoder om sudo-adgang til filoperationer..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 557
+#: NEEDS WORK
+msgid "Sudo access required for local builds"
+msgstr "Sudo-adgang kræves for lokale builds"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 569
+#: NEEDS WORK
+msgid "Docker or Podman not found"
+msgstr "Docker eller Podman ikke fundet"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 570
+#: NEEDS WORK
+msgid "Install with: sudo pacman -S docker"
+msgstr "Installer med: sudo pacman -S docker"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 571
+#: NEEDS WORK
+msgid "Or install Podman: sudo pacman -S podman"
+msgstr "Eller installer Podman: sudo pacman -S podman"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 591
+#: NEEDS WORK
+msgid "Build failed inside container"
+msgstr "Bygning mislykkedes inde i container"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 592
+#: NEEDS WORK
+#, python-brace-format
+msgid "Work directory preserved for debugging: {0}"
+msgstr "Arbejdsmappen er bevaret til fejlfinding: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 598
+#: NEEDS WORK
+msgid "Could not move ISO files, check manually"
+msgstr "Kunne ikke flytte ISO-filer, tjek manuelt"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 602
+#: NEEDS WORK
+msgid "Cleaning package cache..."
+msgstr "Rydder pakke-cache..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 605
+# File: usr/share/build-iso/local_builder.py, line: 609
+#: NEEDS WORK
+msgid "Cache cleaned successfully"
+msgstr "Cache renset med succes"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 620
+#: NEEDS WORK
+msgid "Cleaning up containers..."
+msgstr "Rydder op i containere..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 633
+#: NEEDS WORK
+msgid "Local build completed successfully!"
+msgstr "Lokal bygning afsluttet med succes!"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 634
+#: NEEDS WORK
+#, python-brace-format
+msgid "ISO files saved to: {0}"
+msgstr "ISO-filer gemt til: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 640
+#: NEEDS WORK
+#, python-brace-format
+msgid "Work directory preserved at: {0}"
+msgstr "Arbejdsmappen er bevaret på: {0}"
 # 
 # File: usr/share/build-iso/config.py, line: 96
 #: NEEDS WORK
