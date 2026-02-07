@@ -210,7 +210,7 @@ class OverviewWidget(Gtk.Box):
             self.update_recent_activity()
             
         except Exception as e:
-            print(f"Error refreshing overview: {e}")
+            print(_("Error refreshing overview: {0}").format(e))
     
     def update_status_cards(self):
         """Update status cards with current information"""
@@ -268,7 +268,7 @@ class OverviewWidget(Gtk.Box):
                     self.commits_card.value_label.set_text("—")
                 
         except Exception as e:
-            print(f"Error updating status cards: {e}")
+            print(_("Error updating status cards: {0}").format(e))
     
     def update_recent_activity(self):
         """Update recent activity information"""

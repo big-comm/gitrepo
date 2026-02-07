@@ -73,7 +73,7 @@ class GTKConflictResolver(ConflictResolver):
 
     def show_conflict_info(self, conflict_files):
         """Show information about conflicts"""
-        message = _("Found {0} conflicted files:\n\n").format(len(conflict_files))
+        message = _("Found {0} conflicted files:").format(len(conflict_files)) + "\n\n"
         message += "\n".join(f"  • {f}" for f in conflict_files[:10])
 
         if len(conflict_files) > 10:

@@ -26,7 +26,7 @@ class PreviewOperationRow(Adw.ActionRow):
         self.destructive = destructive
 
         # Set title with number
-        self.set_title(f"[{index}/{total}] {description}")
+        self.set_title(_("[{0}/{1}] {2}").format(index, total, description))
 
         # Icon prefix
         icon_name = "dialog-warning-symbolic" if destructive else "emblem-ok-symbolic"

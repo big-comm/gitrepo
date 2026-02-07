@@ -280,7 +280,7 @@ class BranchWidget(Gtk.Box):
             self.update_combo_boxes(all_branches)
             
         except Exception as e:
-            print(f"Error refreshing branches: {e}")
+            print(_("Error refreshing branches: {0}").format(e))
         finally:
             # Always unblock signal after refresh
             self._block_selection_signal = False
@@ -407,7 +407,7 @@ class BranchWidget(Gtk.Box):
                     capture_output=True, text=True, check=False
                 )
                 if create_result.returncode != 0:
-                    print(f"Error creating main branch: {create_result.stderr}")
+                    print(_("Error creating main branch: {0}").format(create_result.stderr))
                     if stashed:
                         subprocess.run(["git", "stash", "pop"], capture_output=True, check=False)
                     return
@@ -423,6 +423,6 @@ class BranchWidget(Gtk.Box):
             self.emit('branch-selected', 'main')
             
         except Exception as e:
-            print(f"Error switching to main: {e}")
+            print(_("Error switching to main: {0}").format(e))
             if stashed:
                 subprocess.run(["git", "stash", "pop"], capture_output=True, check=False)

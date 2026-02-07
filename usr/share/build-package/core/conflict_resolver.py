@@ -426,7 +426,7 @@ class ConflictResolver:
         # Interactive resolution: file by file
         self.logger.log("cyan", _("Starting interactive conflict resolution..."))
         self.logger.log("dim", _("You'll review each file and choose which version to keep"))
-        input(_("\nPress Enter to start..."))
+        input("\n" + _("Press Enter to start..."))
 
         for idx, file_path in enumerate(conflict_files):
             self.logger.log("cyan", "")
@@ -531,7 +531,7 @@ class ConflictResolver:
             for file in remaining_conflicts:
                 self.logger.log("yellow", f"  • {file}")
             self.logger.log("white", _("Please resolve them manually and run 'git add <file>'"))
-            input(_("\nPress Enter to continue..."))
+            input("\n" + _("Press Enter to continue..."))
             return False
 
         # All resolved!
@@ -539,7 +539,7 @@ class ConflictResolver:
         self.logger.log("green", "═" * 70)
         self.logger.log("green", _("✓ All conflicts resolved successfully!"))
         self.logger.log("green", "═" * 70)
-        input(_("\nPress Enter to continue..."))
+        input("\n" + _("Press Enter to continue..."))
         return True
 
     def _resolve_file_with_branch(self, file_path, branch_to_use, current_branch):
@@ -592,7 +592,7 @@ class ConflictResolver:
             self.logger.log("green", _("✓ All conflicts auto-resolved using {0} version").format(
                 self.logger.format_branch_name(branch_to_use)
             ))
-            input(_("\nPress Enter to continue..."))
+            input("\n" + _("Press Enter to continue..."))
             return True
         except Exception as e:
             self.logger.log("red", _("Error during auto-resolution: {0}").format(e))

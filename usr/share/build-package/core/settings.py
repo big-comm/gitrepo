@@ -69,7 +69,7 @@ class Settings:
                 json.dump(self.settings, f, indent=2)
             return True
         except Exception as e:
-            print(f"Error saving settings: {e}")
+            print(_("Error saving settings: {0}").format(e))
             return False
 
     def get(self, key, default=None):
