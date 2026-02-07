@@ -119,6 +119,12 @@ msgstr "Vahvista/push ja luo paketti"
 msgid "Just commit/push with the specified message"
 msgstr "Vain sitoudu/pushaa määritetyllä viestillä"
 # 
+# File: usr/share/build-package/core/build_package.py, line: 192
+# File: usr/share/build-package/core/build_package.py, line: 254
+#: NEEDS WORK
+msgid "Read commit message from file (multi-line support)"
+msgstr "Lue commit-viesti tiedostosta (monirivinen tuki)"
+# 
 # File: usr/share/build-package/build_package.py, line: 97
 # File: usr/share/build-package/build_package.py, line: 537
 # File: usr/share/build-package/build_package.py, line: 543
@@ -150,6 +156,11 @@ msgstr "Avaa GUI-tilassa"
 #: NEEDS WORK
 msgid "Quick commit with message"
 msgstr "Nopea sitoumus viestillä"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 216
+#: NEEDS WORK
+msgid "Commit with message from file"
+msgstr "Vahvista viesti tiedostosta"
 # 
 # File: usr/share/build-package/core/build_package.py, line: 178
 #: NEEDS WORK
@@ -379,11 +390,24 @@ msgstr "Muutoksiesi säilyttäminen siirryttäessä kohdehaaraan..."
 msgid "Failed to stash changes. Cannot proceed safely."
 msgstr "Muuttujien tallentaminen epäonnistui. Ei voida jatkaa turvallisesti."
 # 
-# File: usr/share/build-package/core/build_package.py, line: 628
-# File: usr/share/build-package/core/build_package.py, line: 654
+# File: usr/share/build-package/core/build_package.py, line: 640
+# File: usr/share/build-package/core/build_package.py, line: 677
 #: NEEDS WORK
-msgid "Failed to switch to main branch"
-msgstr "Siirtyminen päähaaraan epäonnistui"
+msgid "Creating main branch (doesn't exist yet)..."
+msgstr "Luodaan päähaaraa (ei vielä olemassa)..."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 646
+# File: usr/share/build-package/core/build_package.py, line: 683
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to create main branch: {0}"
+msgstr "Päähaaran luominen epäonnistui: {0}"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 648
+# File: usr/share/build-package/core/build_package.py, line: 685
+#: NEEDS WORK
+msgid "✓ Created new main branch"
+msgstr "✓ Luotiin uusi päähaara"
 # 
 # File: usr/share/build-package/build_package.py, line: 588
 # File: usr/share/build-package/build_package.py, line: 1169
@@ -532,6 +556,45 @@ msgstr "Onnistuneesti haettu uusin päähaara"
 #: NEEDS WORK
 msgid "Failed to pull, but continuing..."
 msgstr "Vedon lataaminen epäonnistui, mutta jatketaan..."
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 830
+# File: usr/share/build-package/core/build_package.py, line: 1427
+# File: usr/share/build-package/core/commit_operations.py, line: 246
+#: NEEDS WORK
+msgid "Commit message file is empty."
+msgstr "Commit-viestin tiedosto on tyhjö."
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 832
+# File: usr/share/build-package/core/build_package.py, line: 1429
+# File: usr/share/build-package/core/commit_operations.py, line: 248
+#: NEEDS WORK
+#, python-brace-format
+msgid "Using commit message from file: {0}"
+msgstr "Käytetään sitoumusviestiä tiedostosta: {0}"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 834
+# File: usr/share/build-package/core/build_package.py, line: 1431
+# File: usr/share/build-package/core/commit_operations.py, line: 250
+#: NEEDS WORK
+#, python-brace-format
+msgid "Commit message file not found: {0}"
+msgstr "Commit-viestin tiedostoa ei löytynyt: {0}"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 837
+# File: usr/share/build-package/core/build_package.py, line: 1434
+# File: usr/share/build-package/core/commit_operations.py, line: 253
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error reading commit message file: {0}"
+msgstr "Virhe commit-viestin tiedoston lukemisessa: {0}"
 # 
 # File: usr/share/build-package/build_package.py, line: 190
 # File: usr/share/build-package/build_package.py, line: 368
@@ -978,12 +1041,14 @@ msgstr "Ei voitu päivittää haaraa, jatketaan nykyisellä tilalla."
 msgid "Successfully pulled latest changes"
 msgstr "Viimeisimmät muutokset on onnistuneesti haettu."
 # 
-# File: usr/share/build-package/build_package.py, line: 376
+# File: usr/share/build-package/core/build_package.py, line: 1448
 #: NEEDS WORK
 msgid ""
-"When using the '-b|--build' parameter and there are changes, the '-c|--commit' parameter is also "
-"required."
-msgstr "Kun käytät '-b|--build' -parametria ja muutoksia on, '-c|--commit' -parametri on myös vaadittu."
+"When using the '-b|--build' parameter and there are changes, the '-c|--commit' or "
+"'-F|--commit-file' parameter is also required."
+msgstr ""
+"Kun käytät '-b|--build' -parametria ja muutoksia on, '-c|--commit' tai '-F|--commit-file' "
+"-parametri on myös vaadittu."
 # 
 # File: usr/share/build-package/build_package.py, line: 683
 #: NEEDS WORK
@@ -4594,6 +4659,28 @@ msgstr "Vaihda minun haaraani ja hae sieltä"
 msgid "Pull to current branch"
 msgstr "Hae nykyiseen haaraan"
 # 
+# File: usr/share/build-package/core/pull_operations.py, line: 249
+#: NEEDS WORK
+msgid "Local changes stashed"
+msgstr "Paikalliset muutokset piilotettu"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 255
+#: NEEDS WORK
+msgid "No changes to stash"
+msgstr "Ei muutoksia varastoon"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 257
+# File: usr/share/build-package/core/pull_operations.py, line: 261
+#: NEEDS WORK
+#, python-brace-format
+msgid "⚠ Could not stash changes: {0}"
+msgstr "⚠ Muutoksia ei voitu tallentaa: {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 258
+#: NEEDS WORK
+msgid "unknown error"
+msgstr "tuntematon virhe"
+# 
 # File: usr/share/build-package/core/pull_operations.py, line: 256
 #: NEEDS WORK
 #, python-brace-format
@@ -4605,6 +4692,11 @@ msgstr "Luodaan paikallista haaraa {0} etäyhteydestä"
 #, python-brace-format
 msgid "Creating new branch {0}"
 msgstr "Uuden haarauman luominen {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 355
+#: NEEDS WORK
+msgid "No commits yet, removing untracked files only..."
+msgstr "Ei vielä committeja, poistetaan vain seurannassa olevat tiedostot..."
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 166
 #: NEEDS WORK
@@ -4621,6 +4713,28 @@ msgstr "Etsitään uusinta koodia..."
 #, python-brace-format
 msgid "Most recent branch: {0}"
 msgstr "Viimeisin haara: {0}"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 402
+#: NEEDS WORK
+#, python-brace-format
+msgid "Branch '{0}' does not exist on remote yet"
+msgstr "Haara '{0}' ei vielä ole olemassa etäpalvelimella."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 418
+#: NEEDS WORK
+#, python-brace-format
+msgid "Pulling latest from '{0}' into your branch..."
+msgstr "Vetää uusimmat tiedot '{0}' haaraasi..."
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 434
+#: NEEDS WORK
+msgid "✓ Your branch is up to date (no remote branch to pull from)"
+msgstr "✓ Oksasi on ajan tasalla (ei etähaaraa, josta vetää)"
+# 
+# File: usr/share/build-package/core/pull_operations.py, line: 435
+#: NEEDS WORK
+msgid "Use 'Commit and Push' to send your branch to the server."
+msgstr "Käytä 'Commit and Push' -toimintoa lähettääksesi haarasi palvelimelle."
 # 
 # File: usr/share/build-package/core/pull_operations.py, line: 282
 #: NEEDS WORK
@@ -5003,6 +5117,11 @@ msgstr "<span foreground='#888888'>Kehitysversiosi:</span> <span foreground='#32
 msgid "Use {0}"
 msgstr "Käytä {0}"
 # 
+# File: usr/share/build-package/gui/main_window.py, line: 454
+#: NEEDS WORK
+msgid "Send to main"
+msgstr "Lähetä pääsivulle"
+# 
 # File: usr/share/build-package/gui/main_window.py, line: 452
 #: NEEDS WORK
 #, python-brace-format
@@ -5090,6 +5209,21 @@ msgstr "Muutosten sitominen"
 #, python-brace-format
 msgid "Committing to {0}..."
 msgstr "Sitoutuminen {0}..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 635
+#: NEEDS WORK
+msgid "✗ Could not determine branch name!"
+msgstr "✗ Haaraa nimeä ei voitu määrittää!"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 636
+#: NEEDS WORK
+msgid "Please check your git repository state."
+msgstr "Ole hyvä ja tarkista git-repositoriosi tila."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 637
+#: NEEDS WORK
+msgid "Could not determine branch name for push"
+msgstr "Ei voitu määrittää haara nimeä työntämistä varten"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 588
 #: NEEDS WORK
@@ -5553,6 +5687,187 @@ msgstr "Vaihdettu haaraan: {0}"
 msgid "Error switching branch: {0}"
 msgstr "Virhe vaihtaessa haaraa: {0}"
 # 
+# File: usr/share/build-package/gui/main_window.py, line: 1147
+#: NEEDS WORK
+#, python-brace-format
+msgid "Create Branch '{0}'?"
+msgstr "Luo haara '{0}'?"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1149
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"The branch '{0}' doesn't exist yet.\n"
+"\n"
+"Would you like to create it from '{1}' and push to remote?"
+msgstr ""
+"Haara '{0}' ei vielä olemassa.\n"
+"\n"
+"Haluatko luoda sen '{1}' perusteella ja työntää sen etäpalvelimelle?"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 796
+#: NEEDS WORK
+#, python-brace-format
+msgid "<span foreground='#FFA500'><b>{0}</b></span>"
+msgstr "<span foreground='#FFA500'><b>{0}</b></span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1176
+#: NEEDS WORK
+#, python-brace-format
+msgid "<span foreground='#32CD32'><b>{0}</b></span> <span foreground='#888888'>(new)</span>"
+msgstr "<span foreground='#32CD32'><b>{0}</b></span> <span foreground='#888888'>(uusi)</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1182
+#: NEEDS WORK
+#, python-brace-format
+msgid "<span foreground='#00CED1'>This will copy all code from '{0}' to the new '{1}' branch</span>"
+msgstr "<span foreground='#00CED1'>Tämä kopioi kaiken koodin '{0}' uudelle '{1}' haara</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1192
+#: NEEDS WORK
+msgid "Create and Push"
+msgstr "Luo ja Työnnä"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1220
+#: NEEDS WORK
+#, python-brace-format
+msgid "Switching to source branch: {0}"
+msgstr "Siirtyminen lähdehaaraan: {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1224
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating branch: {0}"
+msgstr "Luodaan haara: {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1233
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to create branch: {0}"
+msgstr "Haara oksan luominen epäonnistui: {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1236
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Branch '{0}' created"
+msgstr "✓ Haara '{0}' luotu"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1248
+# File: usr/share/build-package/gui/main_window.py, line: 1373
+#: NEEDS WORK
+#, python-brace-format
+msgid "Push failed: {0}"
+msgstr "Työnnön epäonnistuminen: {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1251
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Successfully pushed '{0}' to remote!"
+msgstr "✓ Onnistuneesti siirretty '{0}' etäpalvelimelle!"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1252
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ All code from '{0}' is now in '{1}'"
+msgstr "✓ Kaikki koodi '{0}' on nyt '{1}'"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1262
+#: NEEDS WORK
+msgid "Creating Branch"
+msgstr "Luodaan haara"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1263
+#: NEEDS WORK
+#, python-brace-format
+msgid "Creating '{0}' from '{1}' and pushing..."
+msgstr "Luodaan '{0}' '{1}':stä ja työntämällä..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1273
+#: NEEDS WORK
+msgid "⚠️ Remote Not Configured"
+msgstr "⚠️ Etäyhteyttä ei ole määritetty"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1274
+#: NEEDS WORK
+msgid "This repository has no remote origin configured. Would you like to configure it now?"
+msgstr "Tässä repositoriossa ei ole määritetty etäoriginia. Haluaisitko määrittää sen nyt?"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1290
+#: NEEDS WORK
+msgid "Repository URL"
+msgstr "Tietovaraston URL"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1293
+#: NEEDS WORK
+msgid "GitHub URL"
+msgstr "GitHub-URL"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1301
+#: NEEDS WORK
+msgid ""
+"<span foreground='#888888'>Tip: Create the repository on GitHub first, then paste the URL "
+"here</span>"
+msgstr ""
+"<span foreground='#888888'>Vinkki: Luo ensin repositorio GitHubissa, ja liitä sitten URL-osoite "
+"tänne</span>"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1309
+#: NEEDS WORK
+msgid "Configure Remote"
+msgstr "Määritä etäyhteys"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1325
+#: NEEDS WORK
+msgid "Please enter a valid URL"
+msgstr "Ole hyvä ja syötä voimassa oleva URL-osoite"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1337
+#: NEEDS WORK
+msgid "Configuring remote origin..."
+msgstr "Määritetään etäoriginia..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1348
+#: NEEDS WORK
+msgid "Remote 'origin' already exists, updating URL..."
+msgstr "Etä 'origin' on jo olemassa, päivitetään URL-osoitetta..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1354
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to update remote: {0}"
+msgstr "Päivitys etäpalvelimelle epäonnistui: {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1357
+#: NEEDS WORK
+#, python-brace-format
+msgid "Failed to add remote: {0}"
+msgstr "Etäyhteyden lisääminen epäonnistui: {0}"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1360
+#: NEEDS WORK
+msgid "✓ Remote origin configured successfully"
+msgstr "✓ Etäorigin konfiguroitu onnistuneesti"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1374
+#: NEEDS WORK
+msgid "You may need to create the repository on GitHub first"
+msgstr "Saatat joutua luomaan repositorion ensin GitHubissa."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1377
+#: NEEDS WORK
+msgid "✓ Successfully pushed to remote!"
+msgstr "✓ Onnistuneesti työnnetty etäpalvelimelle!"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1382
+#: NEEDS WORK
+msgid "Configuring Remote"
+msgstr "Etäyhteyden määrittäminen"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1383
+#: NEEDS WORK
+msgid "Setting up remote origin and pushing..."
+msgstr "Etäalkuperän määrittäminen ja työntäminen..."
+# 
 # File: usr/share/build-package/gui/main_window.py, line: 778
 #: NEEDS WORK
 msgid "Confirm Pull Request"
@@ -5562,12 +5877,6 @@ msgstr "Vahvista vetopyyntö"
 #: NEEDS WORK
 msgid "Create a Pull Request to merge changes?"
 msgstr "Luo vetopyyntö yhdistää muutokset?"
-# 
-# File: usr/share/build-package/gui/main_window.py, line: 796
-#: NEEDS WORK
-#, python-brace-format
-msgid "<span foreground='#FFA500'><b>{0}</b></span>"
-msgstr "<span foreground='#FFA500'><b>{0}</b></span>"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 804
 #: NEEDS WORK
@@ -5768,6 +6077,26 @@ msgstr "Haara, jossa on uusimmat sitoumukset"
 msgid "Available Branches"
 msgstr "Saatavilla olevat haarat"
 # 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 152
+#: NEEDS WORK
+msgid "Quick Actions"
+msgstr "Nopeat toiminnot"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 131
+#: NEEDS WORK
+msgid "Main Branch"
+msgstr "Päähaara"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 132
+#: NEEDS WORK
+msgid "Switch to main or create if it doesn't exist"
+msgstr "Vaihda pääasialliseksi tai luo, jos sitä ei ole olemassa"
+# 
+# File: usr/share/build-package/gui/widgets/branch_widget.py, line: 136
+#: NEEDS WORK
+msgid "Use main"
+msgstr "Käytä pää-"
+# 
 # File: usr/share/build-package/gui/widgets/branch_widget.py, line: 122
 #: NEEDS WORK
 msgid "Merge Operations"
@@ -5936,6 +6265,19 @@ msgstr "Tietovaraston koko"
 msgid "Revert Selected"
 msgstr "Palauta valittu"
 # 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 228
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 280
+#: NEEDS WORK
+msgid "No commits yet"
+msgstr "Ei vielä committeja"
+# 
+# File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 230
+#: NEEDS WORK
+msgid "Create your first commit to see history"
+msgstr "Luo ensimmäinen commitisi nähdäksesi historian"
+# 
 # File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 326
 #: NEEDS WORK
 msgid "Confirm Cleanup Operation"
@@ -6061,10 +6403,10 @@ msgstr "Valitse muutoksen tyyppi"
 msgid "Commit Message"
 msgstr "Viestin sitoutuminen"
 # 
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 119
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 152
 #: NEEDS WORK
-msgid "Description"
-msgstr "Kuvaus"
+msgid "Description (supports multiple lines)"
+msgstr "Kuvaus (tukee useita rivejä)"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -6105,22 +6447,27 @@ msgstr "Työhakemisto puhdas"
 msgid "No pending changes - working directory is clean"
 msgstr "Ei odottavia muutoksia - työskentelyhakemisto on puhdas"
 # 
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 264
+#: NEEDS WORK
+msgid "No commits yet (this will be your first!)"
+msgstr "Ei vielä committeja (tämä on ensimmäisesi!)"
+# 
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 246
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 249
 #: NEEDS WORK
 msgid "No commits"
 msgstr "Ei sitoumuksia"
 # 
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 184
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 338
 #: NEEDS WORK
-msgid "Custom message"
-msgstr "Mukautettu viesti"
+msgid "Custom message (supports multiple lines)"
+msgstr "Mukautettu viesti (tukee useita rivejä)"
 # 
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 187
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 340
 #: NEEDS WORK
 #, python-brace-format
-msgid "Description for {0}"
-msgstr "Kuvaus {0} varten"
+msgid "Description for {0} (supports multiple lines)"
+msgstr "Kuvaus {0}:lle (tukee useita rivejä)"
 # 
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 354
 #: NEEDS WORK
@@ -6286,11 +6633,6 @@ msgstr "Muutokset"
 msgid "Commits"
 msgstr "Sitoumukset"
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 152
-#: NEEDS WORK
-msgid "Quick Actions"
-msgstr "Nopeat toiminnot"
-# 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 164
 #: NEEDS WORK
 msgid "Pull latest changes from remote repository"
@@ -6393,6 +6735,11 @@ msgstr "Muokattu"
 msgid "No changes"
 msgstr "Ei muutoksia"
 # 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 281
+#: NEEDS WORK
+msgid "Create your first commit to start tracking activity"
+msgstr "Luo ensimmäinen commitisi aloittaaksesi toiminnan seurannan"
+# 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 311
 #: NEEDS WORK
 msgid "Last commit"
@@ -6452,6 +6799,11 @@ msgstr "Vahvista muutokset"
 #: NEEDS WORK
 msgid "Required when uncommitted changes are present"
 msgstr "Vaaditaan, kun ei-vahvistettuja muutoksia on läsnä"
+# 
+# File: usr/share/build-package/gui/widgets/package_widget.py, line: 180
+#: NEEDS WORK
+msgid "Commit Message (supports multiple lines)"
+msgstr "Viestin sitoutuminen (tukee useita rivejä)"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -6953,10 +7305,10 @@ msgstr "Aloitetaan..."
 msgid "Terminal Log"
 msgstr "Päätteentiedosto"
 # 
-# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 290
+# File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 300
 #: NEEDS WORK
-msgid "Operation returned failure status"
-msgstr "Toiminto palautti virhetilan"
+msgid "Operation failed - check terminal log for details"
+msgstr "Toiminto epäonnistui - tarkista terminaaliloki saadaksesi lisätietoja"
 # 
 # File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 309
 #: NEEDS WORK
@@ -7040,6 +7392,21 @@ msgstr "Aseta ydin tyyppi"
 #: NEEDS WORK
 msgid "Automatic mode using default values"
 msgstr "Automaattinen tila oletusarvoilla"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 138
+#: NEEDS WORK
+msgid "Use local build mode"
+msgstr "Käytä paikallista rakennustilaa"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 141
+#: NEEDS WORK
+msgid "Output directory for local builds"
+msgstr "Lähtöhakemisto paikallisille rakennuksille"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 145
+#: NEEDS WORK
+msgid "Clean cache after build (local mode)"
+msgstr "Tyhjennä välimuisti käännöksen jälkeen (paikallinen tila)"
 # 
 # File: usr/share/build-iso/build_iso.py, line: 173
 #: NEEDS WORK
@@ -7137,6 +7504,84 @@ msgstr "Valitse {0} haara kohteelle {1}:"
 msgid "Choose the {0} version:"
 msgstr "Valitse {0} versio:"
 # 
+# File: usr/share/build-iso/build_iso.py, line: 459
+#: NEEDS WORK
+msgid "Local Build"
+msgstr "Paikallinen rakennus"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 459
+#: NEEDS WORK
+msgid "Remote Build (GitHub Actions)"
+msgstr "Etäbuild (GitHub Actions)"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 477
+#: NEEDS WORK
+msgid "Output directory configuration:"
+msgstr "Tulostushakemiston asetukset:"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 479
+#: NEEDS WORK
+#, python-brace-format
+msgid "Keep current: {0}"
+msgstr "Pidä nykyinen: {0}"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 480
+#: NEEDS WORK
+msgid "Change directory"
+msgstr "Vaihda hakemistoa"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 490
+#: NEEDS WORK
+msgid "Enter new output directory"
+msgstr "Syötä uusi tulostuskansio"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 497
+#: NEEDS WORK
+#, python-brace-format
+msgid "Directory configured: {0}"
+msgstr "Hakemisto on määritetty: {0}"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 499
+#: NEEDS WORK
+msgid "Failed to configure directory"
+msgstr "Hakemiston konfigurointi epäonnistui"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 509
+#: NEEDS WORK
+msgid "Clean package cache after build?"
+msgstr "Puhdista pakettivälimuisti rakentamisen jälkeen?"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 511
+#: NEEDS WORK
+msgid "Keep cache (faster future builds, uses ~15GB disk)"
+msgstr "Pidä välimuisti (nopeammat tulevat käännökset, käyttää ~15GB levytilaa)"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 512
+#: NEEDS WORK
+msgid "Clean cache (frees disk space, slower future builds)"
+msgstr "Tyhjennä välimuisti (vapauttaa levytilaa, hidastaa tulevia käännöksiä)"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 523
+#: NEEDS WORK
+msgid "cleaned"
+msgstr "siivottu"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 523
+#: NEEDS WORK
+msgid "kept"
+msgstr "pidetty"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 524
+#: NEEDS WORK
+#, python-brace-format
+msgid "Cache will be {0} after build"
+msgstr "Välimuisti on {0} rakennuksen jälkeen"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 537
+#: NEEDS WORK
+msgid "Build Mode"
+msgstr "Rakennustila"
+# 
 # File: usr/share/build-iso/build_iso.py, line: 473
 #: NEEDS WORK
 msgid "Distribution"
@@ -7177,10 +7622,30 @@ msgstr "BigLinux-haara"
 msgid "Kernel"
 msgstr "Ydin"
 # 
+# File: usr/share/build-iso/build_iso.py, line: 546
+#: NEEDS WORK
+msgid "Output Directory"
+msgstr "Tulostushakemisto"
+# 
 # File: usr/share/build-iso/build_iso.py, line: 485
 #: NEEDS WORK
 msgid "Release Tag"
 msgstr "Julkaisutunnus"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 550
+#: NEEDS WORK
+msgid "Local ISO Build Configuration"
+msgstr "Paikallinen ISO-rakennuskonfiguraatio"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 552
+#: NEEDS WORK
+msgid "Do you want to proceed with local build?"
+msgstr "Haluatko jatkaa paikallista rakennetta?"
+# 
+# File: usr/share/build-iso/build_iso.py, line: 553
+#: NEEDS WORK
+msgid "Local build cancelled."
+msgstr "Paikallinen rakennus peruutettu."
 # 
 # File: usr/share/build-iso/build_iso.py, line: 490
 #: NEEDS WORK
@@ -7202,6 +7667,12 @@ msgstr "ISO-kokoaminen peruutettu."
 #, python-brace-format
 msgid "No default configuration found for organization '{0}'."
 msgstr "Oletuskonfiguraatiota ei löytynyt organisaatiolle '{0}'."
+# 
+# File: usr/share/build-iso/build_iso.py, line: 667
+#: NEEDS WORK
+#, python-brace-format
+msgid "Invalid output directory: {0}"
+msgstr "Virheellinen tulostuskansio: {0}"
 # 
 # File: usr/share/build-iso/build_iso.py, line: 614
 #: NEEDS WORK
@@ -7245,6 +7716,296 @@ msgstr "TMATE-istunto otetaan käyttöön. Tarkista GitHub Actions -lokit yhteys
 #: NEEDS WORK
 msgid "Waiting 3 seconds for the API to trigger the Action to get the 'id'."
 msgstr "Odotetaan 3 sekuntia, että API laukaisee toiminnon saadakseen 'id'."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 88
+#: NEEDS WORK
+#, python-brace-format
+msgid "Container engine found: {0}"
+msgstr "Kontti-moottori löytyi: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 103
+#: NEEDS WORK
+#, python-brace-format
+msgid "Stopping {0} old container(s)..."
+msgstr "Pysäytetään {0} vanhaa säiliötä..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 142
+#: NEEDS WORK
+#, python-brace-format
+msgid "Warning: Only {0:.1f} GB free. 20 GB recommended."
+msgstr "Varoitus: Vain {0:.1f} GB vapaata. Suositellaan 20 GB."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 145
+#: NEEDS WORK
+#, python-brace-format
+msgid "Disk space available: {0:.1f} GB"
+msgstr "Vapaata levytilaa: {0:.1f} GB"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 148
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not check disk space: {0}"
+msgstr "Ei voitu tarkistaa levyn tilaa: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 158
+#: NEEDS WORK
+#, python-brace-format
+msgid "Pulling container image: {0}"
+msgstr "Vetää säilökuvaa: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 172
+#: NEEDS WORK
+msgid "Container image pulled successfully"
+msgstr "Konteinerikuvan lataaminen onnistui"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 175
+#: NEEDS WORK
+msgid "Failed to pull container image"
+msgstr "Konttikuvan lataaminen epäonnistui"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 180
+# File: usr/share/build-iso/local_builder.py, line: 293
+#: NEEDS WORK
+msgid "Retrying..."
+msgstr "Uudelleenyritys..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 185
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error pulling container image: {0}"
+msgstr "Virhe säilökuvan lataamisessa: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 197
+#: NEEDS WORK
+msgid "Preparing build directories..."
+msgstr "Valmistellaan rakennushakemistoja..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 202
+#: NEEDS WORK
+msgid "Cleaning work directory..."
+msgstr "Siivoo työhakemistoa..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 210
+#: NEEDS WORK
+msgid "Cleaning cache directory (--clean flag)..."
+msgstr "Tyhjennetään välimuistin hakemisto (--clean-lippu)..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 238
+#: NEEDS WORK
+#, python-brace-format
+msgid "Created: {0}"
+msgstr "Luotu: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 251
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error creating directories: {0}"
+msgstr "Virhe kansioiden luomisessa: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 261
+#: NEEDS WORK
+msgid "Cloning build-iso repository..."
+msgstr "Kloonataan build-iso-repositoriota..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 270
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not remove old build-iso: {0}"
+msgstr "Ei voitu poistaa vanhaa build-iso: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 285
+#: NEEDS WORK
+msgid "Build script prepared"
+msgstr "Rakennusskripti valmisteltu"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 288
+#: NEEDS WORK
+msgid "Failed to clone build-iso repository"
+msgstr "Epäonnistui build-iso-repositorion kloonaaminen"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 298
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error cloning repository: {0}"
+msgstr "Virhe kloonattaessa varastoa: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 378
+#: NEEDS WORK
+msgid "Starting container build..."
+msgstr "Aloitetaan säilön rakentaminen..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 379
+#: NEEDS WORK
+msgid "This may take 30-120 minutes depending on your hardware and network."
+msgstr "Tämä voi kestää 30-120 minuuttia riippuen laitteistostasi ja verkostasi."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 420
+#: NEEDS WORK
+msgid "Container build completed successfully"
+msgstr "Säilön rakentaminen onnistui."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 423
+#: NEEDS WORK
+#, python-brace-format
+msgid "Container build failed with exit code {0}"
+msgstr "Kontin rakentaminen epäonnistui poistumiskoodilla {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 427
+#: NEEDS WORK
+msgid "Error running container"
+msgstr "Virhe säilön suorittamisessa"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 438
+#: NEEDS WORK
+msgid "Moving ISO files to output directory..."
+msgstr "Siirretään ISO-tiedostoja lähtöhakemistoon..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 448
+#: NEEDS WORK
+msgid "No ISO files found in work directory"
+msgstr "Ei ISO-tiedostoja löytynyt työhakemistosta"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 458
+#: NEEDS WORK
+#, python-brace-format
+msgid "Moving: {0}"
+msgstr "Siirtäminen: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 485
+#: NEEDS WORK
+msgid "Generating MD5 checksum..."
+msgstr "MD5-tarkistussumman luominen..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 497
+#: NEEDS WORK
+#, python-brace-format
+msgid "Moved: {0}"
+msgstr "Siirretty: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 498
+#: NEEDS WORK
+#, python-brace-format
+msgid "MD5: {0}"
+msgstr "MD5: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 501
+#: NEEDS WORK
+msgid "Cleaning up work directory..."
+msgstr "Työskentelyhakemiston siivoaminen..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 504
+# File: usr/share/build-iso/local_builder.py, line: 507
+#: NEEDS WORK
+msgid "Work directory removed"
+msgstr "Työhakemisto poistettu"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 509
+#: NEEDS WORK
+msgid "Cleanup completed"
+msgstr "Siivous valmis"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 513
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error moving ISO files: {0}"
+msgstr "Virhe ISO-tiedostojen siirtämisessä: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 523
+#: NEEDS WORK
+msgid "Cleaning up cache directories..."
+msgstr "Tyhjennetään välimuistihakemistoja..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 528
+#: NEEDS WORK
+msgid "Cache cleaned"
+msgstr "Välimuisti tyhjennetty"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 532
+#: NEEDS WORK
+msgid "Work directory cleaned"
+msgstr "Työhakemisto puhdistettu"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 537
+# File: usr/share/build-iso/local_builder.py, line: 611
+# File: usr/share/build-iso/local_builder.py, line: 613
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not clean cache: {0}"
+msgstr "Ei voitu tyhjentää välimuistia: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 552
+#: NEEDS WORK
+msgid "Requesting sudo access for file operations..."
+msgstr "Pyydetään sudo-oikeuksia tiedosto-operaatioille..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 557
+#: NEEDS WORK
+msgid "Sudo access required for local builds"
+msgstr "Sudo-oikeudet vaaditaan paikallisia rakennuksia varten"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 569
+#: NEEDS WORK
+msgid "Docker or Podman not found"
+msgstr "Dockeria tai Podmania ei löytynyt"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 570
+#: NEEDS WORK
+msgid "Install with: sudo pacman -S docker"
+msgstr "Asenna komennolla: sudo pacman -S docker"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 571
+#: NEEDS WORK
+msgid "Or install Podman: sudo pacman -S podman"
+msgstr "Tai asenna Podman: sudo pacman -S podman"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 591
+#: NEEDS WORK
+msgid "Build failed inside container"
+msgstr "Kokoaminen epäonnistui säilössä"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 592
+#: NEEDS WORK
+#, python-brace-format
+msgid "Work directory preserved for debugging: {0}"
+msgstr "Työhakemisto säilytetty vianetsintää varten: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 598
+#: NEEDS WORK
+msgid "Could not move ISO files, check manually"
+msgstr "Ei voitu siirtää ISO-tiedostoja, tarkista manuaalisesti"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 602
+#: NEEDS WORK
+msgid "Cleaning package cache..."
+msgstr "Puhdistetaan pakettivälimuistia..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 605
+# File: usr/share/build-iso/local_builder.py, line: 609
+#: NEEDS WORK
+msgid "Cache cleaned successfully"
+msgstr "Välimuisti tyhjennetty onnistuneesti"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 620
+#: NEEDS WORK
+msgid "Cleaning up containers..."
+msgstr "Siivoaa säiliöitä..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 633
+#: NEEDS WORK
+msgid "Local build completed successfully!"
+msgstr "Paikallinen käännös valmis onnistuneesti!"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 634
+#: NEEDS WORK
+#, python-brace-format
+msgid "ISO files saved to: {0}"
+msgstr "ISO-tiedostot tallennettu: {0}"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 640
+#: NEEDS WORK
+#, python-brace-format
+msgid "Work directory preserved at: {0}"
+msgstr "Työhakemisto säilytetty kohdassa: {0}"
 # 
 # File: usr/share/build-iso/config.py, line: 96
 #: NEEDS WORK
