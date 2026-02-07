@@ -287,8 +287,12 @@ class BranchWidget(Gtk.Box):
     
     def update_combo_boxes(self, branches):
         """Update merge combo boxes with branch list"""
-        # Always include 'main' in the list even if it doesn't exist
-        if "main" not in branches:
+        # Check if 'main' or 'master' exists in the branches list
+        has_main = "main" in branches
+        has_master = "master" in branches
+        
+        # Only add 'main (create new)' if neither main nor master exists
+        if not has_main and not has_master:
             branches = [self.MAIN_CREATE_NEW] + branches
         
         # Create string list for branches
@@ -300,9 +304,12 @@ class BranchWidget(Gtk.Box):
         self.source_branch_row.set_model(branch_list)
         self.target_branch_row.set_model(branch_list)
         
-        # Set default selections - prefer main for target
+        # Set default selections - prefer main/master for target
         if "main" in branches:
             main_index = branches.index("main")
+            self.target_branch_row.set_selected(main_index)
+        elif "master" in branches:
+            main_index = branches.index("master")
             self.target_branch_row.set_selected(main_index)
         elif self.MAIN_CREATE_NEW in branches:
             main_index = branches.index(self.MAIN_CREATE_NEW)
