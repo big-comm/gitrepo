@@ -449,6 +449,10 @@ class MainWindow(Adw.ApplicationWindow):
             dialog.add_response("dev", _("Use {0}").format(dev_branch))
             dialog.set_response_appearance("dev", Adw.ResponseAppearance.SUGGESTED)
         
+        # Add main branch option if not already on main
+        if current_branch not in ["main", "master"]:
+            dialog.add_response("main", _("Send to main"))
+        
         if is_protected:
             dialog.add_response("current", _("Commit to {0} anyway").format(current_branch))
             dialog.set_response_appearance("current", Adw.ResponseAppearance.DESTRUCTIVE)
@@ -469,7 +473,13 @@ class MainWindow(Adw.ApplicationWindow):
             self._pending_commit_message = None
             return
         
-        target_branch = dev_branch if response == "dev" else current_branch
+        # Determine target branch based on response
+        if response == "main":
+            target_branch = "main"
+        elif response == "dev":
+            target_branch = dev_branch
+        else:
+            target_branch = current_branch
         
         # If we need to switch branches first
         if target_branch != current_branch:
@@ -572,8 +582,8 @@ class MainWindow(Adw.ApplicationWindow):
                     else:
                         log("yellow", _("⚠ Conflicts while restoring stash - please resolve manually"))
                 
-                # Now do the commit
-                return self._execute_commit(commit_message)
+                # Now do the commit - pass target_branch explicitly since we just switched
+                return self._execute_commit(commit_message, target_branch)
                 
             except subprocess.CalledProcessError as e:
                 log("red", _("Error: {0}").format(str(e)))
@@ -591,7 +601,7 @@ class MainWindow(Adw.ApplicationWindow):
     def _do_commit(self, commit_message, target_branch):
         """Execute commit on current branch"""
         def commit_operation():
-            return self._execute_commit(commit_message)
+            return self._execute_commit(commit_message, target_branch)
         
         self.operation_runner.run_with_progress(
             commit_operation,
@@ -599,8 +609,14 @@ class MainWindow(Adw.ApplicationWindow):
             _("Committing to {0}...").format(target_branch)
         )
     
-    def _execute_commit(self, commit_message):
-        """Execute the actual git commit and push with intelligent error handling"""
+    def _execute_commit(self, commit_message, target_branch=None):
+        """Execute the actual git commit and push with intelligent error handling
+        
+        Args:
+            commit_message: The commit message
+            target_branch: Optional branch name. If provided, used for push.
+                          If None, will use get_current_branch().
+        """
         import subprocess
         
         logger = self.build_package.logger if hasattr(self.build_package, 'logger') else None
@@ -611,7 +627,14 @@ class MainWindow(Adw.ApplicationWindow):
             else:
                 print(f"[{style}] {msg}")
         
-        current_branch = GitUtils.get_current_branch()
+        # Use provided target_branch or get current branch
+        current_branch = target_branch if target_branch else GitUtils.get_current_branch()
+        
+        # Validate branch name is not empty
+        if not current_branch:
+            log("red", _("✗ Could not determine branch name!"))
+            log("white", _("Please check your git repository state."))
+            raise Exception(_("Could not determine branch name for push"))
         
         # Step 1: Stage all changes
         log("cyan", _("Staging all changes..."))
@@ -1084,9 +1107,281 @@ class MainWindow(Adw.ApplicationWindow):
             self.show_error_toast(_("Error switching branch: {0}").format(str(e)))
     
     def on_merge_requested(self, widget, source_branch, target_branch, auto_merge):
-        """Handle merge request - create PR with optional auto-merge"""
-        # Show confirmation dialog first
+        """Handle merge request - create PR or create branch if target doesn't exist"""
+        import subprocess
+        
+        # Check if target branch exists (locally or remotely)
+        local_check = subprocess.run(
+            ["git", "rev-parse", "--verify", target_branch],
+            capture_output=True, check=False
+        )
+        remote_check = subprocess.run(
+            ["git", "rev-parse", "--verify", f"origin/{target_branch}"],
+            capture_output=True, check=False
+        )
+        
+        target_exists = (local_check.returncode == 0 or remote_check.returncode == 0)
+        
+        if not target_exists:
+            # Target branch doesn't exist - offer to create it and push
+            self._show_create_branch_dialog(source_branch, target_branch)
+            return
+        
+        # Target exists - proceed with normal PR flow
+        # Pre-check: Verify repository has remote configured for PRs
+        repo_name = GitUtils.get_repo_name()
+        if not repo_name:
+            self._show_no_remote_error()
+            return
+        
+        # Show confirmation dialog
         self._show_merge_confirmation(source_branch, target_branch, auto_merge)
+    
+    def _show_create_branch_dialog(self, source_branch, target_branch):
+        """Show dialog to create a branch that doesn't exist and push to remote"""
+        dialog = Adw.MessageDialog(
+            transient_for=self,
+            modal=True
+        )
+        
+        dialog.set_heading(_("Create Branch '{0}'?").format(target_branch))
+        dialog.set_body(
+            _("The branch '{0}' doesn't exist yet.\n\n"
+              "Would you like to create it from '{1}' and push to remote?").format(target_branch, source_branch)
+        )
+        
+        # Visual content - wrapper for consistent width
+        wrapper = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+        wrapper.set_size_request(420, -1)
+        
+        content_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        content_box.set_margin_top(12)
+        content_box.set_margin_bottom(12)
+        content_box.set_margin_start(24)
+        content_box.set_margin_end(24)
+        
+        # Flow visualization
+        flow_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
+        flow_box.set_halign(Gtk.Align.CENTER)
+        
+        source_label = Gtk.Label()
+        source_label.set_markup(_("<span foreground='#FFA500'><b>{0}</b></span>").format(source_branch))
+        flow_box.append(source_label)
+        
+        arrow = Gtk.Image.new_from_icon_name("go-next-symbolic")
+        arrow.set_pixel_size(24)
+        flow_box.append(arrow)
+        
+        target_label = Gtk.Label()
+        target_label.set_markup(_("<span foreground='#32CD32'><b>{0}</b></span> <span foreground='#888888'>(new)</span>").format(target_branch))
+        flow_box.append(target_label)
+        
+        content_box.append(flow_box)
+        
+        info_label = Gtk.Label()
+        info_label.set_markup(_("<span foreground='#00CED1'>This will copy all code from '{0}' to the new '{1}' branch</span>").format(source_branch, target_branch))
+        info_label.set_wrap(True)
+        info_label.set_margin_top(8)
+        content_box.append(info_label)
+        
+        wrapper.append(content_box)
+        dialog.set_extra_child(wrapper)
+        
+        # Responses
+        dialog.add_response("cancel", _("Cancel"))
+        dialog.add_response("create", _("Create and Push"))
+        
+        dialog.set_response_appearance("create", Adw.ResponseAppearance.SUGGESTED)
+        dialog.set_default_response("create")
+        dialog.set_close_response("cancel")
+        
+        dialog.connect("response", self._on_create_branch_response, source_branch, target_branch)
+        dialog.present()
+    
+    def _on_create_branch_response(self, dialog, response, source_branch, target_branch):
+        """Handle create branch dialog response"""
+        if response != "create":
+            return
+        
+        import subprocess
+        
+        def create_and_push():
+            logger = self.build_package.logger if hasattr(self.build_package, 'logger') else None
+            
+            def log(style, msg):
+                if logger:
+                    logger.log(style, msg)
+            
+            current_branch = GitUtils.get_current_branch()
+            
+            try:
+                # Step 1: Switch to source branch if not already there
+                if current_branch != source_branch:
+                    log("cyan", _("Switching to source branch: {0}").format(source_branch))
+                    subprocess.run(["git", "checkout", source_branch], capture_output=True, check=True)
+                
+                # Step 2: Create the new branch from source
+                log("cyan", _("Creating branch: {0}").format(target_branch))
+                log("dim", f"    git checkout -b {target_branch}")
+                
+                result = subprocess.run(
+                    ["git", "checkout", "-b", target_branch],
+                    capture_output=True, text=True, check=False
+                )
+                
+                if result.returncode != 0:
+                    log("red", _("Failed to create branch: {0}").format(result.stderr))
+                    return False
+                
+                log("green", _("✓ Branch '{0}' created").format(target_branch))
+                
+                # Step 3: Push to remote
+                log("cyan", _("Pushing to remote..."))
+                log("dim", f"    git push -u origin {target_branch}")
+                
+                push_result = subprocess.run(
+                    ["git", "push", "-u", "origin", target_branch],
+                    capture_output=True, text=True, check=False
+                )
+                
+                if push_result.returncode != 0:
+                    log("red", _("Push failed: {0}").format(push_result.stderr))
+                    return False
+                
+                log("green", _("✓ Successfully pushed '{0}' to remote!").format(target_branch))
+                log("green", _("✓ All code from '{0}' is now in '{1}'").format(source_branch, target_branch))
+                
+                return True
+                
+            except subprocess.CalledProcessError as e:
+                log("red", _("Error: {0}").format(str(e)))
+                return False
+        
+        self.operation_runner.run_with_progress(
+            create_and_push,
+            _("Creating Branch"),
+            _("Creating '{0}' from '{1}' and pushing...").format(target_branch, source_branch)
+        )
+    
+    def _show_no_remote_error(self):
+        """Show dialog to configure remote origin when not configured"""
+        dialog = Adw.MessageDialog(
+            transient_for=self,
+            modal=True
+        )
+        
+        dialog.set_heading(_("⚠️ Remote Not Configured"))
+        dialog.set_body(_("This repository has no remote origin configured. Would you like to configure it now?"))
+        
+        # Input for repository URL
+        content_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        content_box.set_margin_top(12)
+        content_box.set_margin_bottom(12)
+        content_box.set_margin_start(24)
+        content_box.set_margin_end(24)
+        
+        # GitHub username info
+        username = self.build_package.github_user_name or "your-username"
+        folder_name = os.path.basename(os.getcwd())
+        suggested_url = f"https://github.com/{username}/{folder_name}.git"
+        
+        # URL entry
+        url_group = Adw.PreferencesGroup()
+        url_group.set_title(_("Repository URL"))
+        
+        self._remote_url_entry = Adw.EntryRow()
+        self._remote_url_entry.set_title(_("GitHub URL"))
+        self._remote_url_entry.set_text(suggested_url)
+        url_group.add(self._remote_url_entry)
+        
+        content_box.append(url_group)
+        
+        # Info label
+        info_label = Gtk.Label()
+        info_label.set_markup(_("<span foreground='#888888'>Tip: Create the repository on GitHub first, then paste the URL here</span>"))
+        info_label.set_wrap(True)
+        content_box.append(info_label)
+        
+        dialog.set_extra_child(content_box)
+        
+        # Responses
+        dialog.add_response("cancel", _("Cancel"))
+        dialog.add_response("configure", _("Configure Remote"))
+        
+        dialog.set_response_appearance("configure", Adw.ResponseAppearance.SUGGESTED)
+        dialog.set_default_response("configure")
+        dialog.set_close_response("cancel")
+        
+        dialog.connect("response", self._on_configure_remote_response)
+        dialog.present()
+    
+    def _on_configure_remote_response(self, dialog, response):
+        """Handle configure remote dialog response"""
+        if response != "configure":
+            return
+        
+        url = self._remote_url_entry.get_text().strip()
+        if not url:
+            self.show_error_toast(_("Please enter a valid URL"))
+            return
+        
+        import subprocess
+        
+        def configure_remote():
+            logger = self.build_package.logger if hasattr(self.build_package, 'logger') else None
+            
+            def log(style, msg):
+                if logger:
+                    logger.log(style, msg)
+            
+            log("cyan", _("Configuring remote origin..."))
+            log("dim", f"    git remote add origin {url}")
+            
+            # Add remote
+            result = subprocess.run(
+                ["git", "remote", "add", "origin", url],
+                capture_output=True, text=True, check=False
+            )
+            
+            if result.returncode != 0:
+                if "already exists" in result.stderr:
+                    log("yellow", _("Remote 'origin' already exists, updating URL..."))
+                    result = subprocess.run(
+                        ["git", "remote", "set-url", "origin", url],
+                        capture_output=True, text=True, check=False
+                    )
+                    if result.returncode != 0:
+                        log("red", _("Failed to update remote: {0}").format(result.stderr))
+                        return False
+                else:
+                    log("red", _("Failed to add remote: {0}").format(result.stderr))
+                    return False
+            
+            log("green", _("✓ Remote origin configured successfully"))
+            
+            # Now push the current branch
+            current_branch = GitUtils.get_current_branch() or "main"
+            log("cyan", _("Pushing to remote..."))
+            log("dim", f"    git push -u origin {current_branch}")
+            
+            push_result = subprocess.run(
+                ["git", "push", "-u", "origin", current_branch],
+                capture_output=True, text=True, check=False
+            )
+            
+            if push_result.returncode != 0:
+                log("red", _("Push failed: {0}").format(push_result.stderr))
+                log("yellow", _("You may need to create the repository on GitHub first"))
+                return False
+            
+            log("green", _("✓ Successfully pushed to remote!"))
+            return True
+        
+        self.operation_runner.run_with_progress(
+            configure_remote,
+            _("Configuring Remote"),
+            _("Setting up remote origin and pushing...")
+        )
     
     def _show_merge_confirmation(self, source_branch, target_branch, auto_merge):
         """Show merge confirmation dialog"""
