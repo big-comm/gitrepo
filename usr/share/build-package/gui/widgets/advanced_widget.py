@@ -210,6 +210,29 @@ class AdvancedWidget(Gtk.Box):
         if not self.build_package.is_git_repo:
             return
         
+        # Clear existing commits first
+        while True:
+            row = self.commits_list.get_row_at_index(0)
+            if row:
+                self.commits_list.remove(row)
+            else:
+                break
+        
+        self.recent_commits = []
+        
+        # Check if repo has commits
+        if not GitUtils.has_commits():
+            # Empty repository - show placeholder
+            placeholder_row = CommitRow(
+                "--------",
+                _("No commits yet"),
+                "",
+                _("Create your first commit to see history")
+            )
+            self.commits_list.append(placeholder_row)
+            self.refresh_stats()
+            return
+        
         try:
             import subprocess
             
@@ -217,20 +240,16 @@ class AdvancedWidget(Gtk.Box):
             result = subprocess.run(
                 ["git", "log", "-10", "--pretty=format:%H|%an|%ad|%s", "--date=short"],
                 stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 text=True,
-                check=True
+                check=False
             )
             
-            # Clear existing commits
-            while True:
-                row = self.commits_list.get_row_at_index(0)
-                if row:
-                    self.commits_list.remove(row)
-                else:
-                    break
+            if result.returncode != 0:
+                # Handle error gracefully
+                return
             
             # Parse and add commits
-            self.recent_commits = []
             for line in result.stdout.strip().split('\n'):
                 if line:
                     parts = line.split('|', 3)
@@ -275,18 +294,25 @@ class AdvancedWidget(Gtk.Box):
             except subprocess.SubprocessError:
                 self.branch_count_row.set_subtitle(_("Unknown"))
             
-            # Commit count
-            try:
-                result = subprocess.run(
-                    ["git", "rev-list", "--count", "HEAD"],
-                    stdout=subprocess.PIPE,
-                    text=True,
-                    check=True
-                )
-                commit_count = result.stdout.strip()
-                self.commit_count_row.set_subtitle(commit_count)
-            except subprocess.SubprocessError:
-                self.commit_count_row.set_subtitle(_("Unknown"))
+            # Commit count - check for empty repo first
+            if not GitUtils.has_commits():
+                self.commit_count_row.set_subtitle("0")
+            else:
+                try:
+                    result = subprocess.run(
+                        ["git", "rev-list", "--count", "HEAD"],
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        text=True,
+                        check=False
+                    )
+                    if result.returncode == 0:
+                        commit_count = result.stdout.strip()
+                        self.commit_count_row.set_subtitle(commit_count)
+                    else:
+                        self.commit_count_row.set_subtitle("0")
+                except subprocess.SubprocessError:
+                    self.commit_count_row.set_subtitle(_("Unknown"))
             
             # Repository size
             try:

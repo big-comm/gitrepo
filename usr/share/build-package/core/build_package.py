@@ -630,12 +630,22 @@ the specific source code used to create this copy."""), style="white")
 
                 # Ensure target branch exists and switch
                 if target_branch == "main":
-                    # For main branch, just checkout (should already exist)
-                    try:
-                        subprocess.run(["git", "checkout", target_branch], check=True)
-                    except subprocess.CalledProcessError:
-                        self.logger.log("red", _("Failed to switch to main branch"))
-                        return False
+                    # For main branch, try to checkout or create if it doesn't exist
+                    checkout_result = subprocess.run(
+                        ["git", "checkout", target_branch], 
+                        capture_output=True, text=True, check=False
+                    )
+                    if checkout_result.returncode != 0:
+                        # Branch doesn't exist, create it
+                        self.logger.log("cyan", _("Creating main branch (doesn't exist yet)..."))
+                        create_result = subprocess.run(
+                            ["git", "checkout", "-b", target_branch],
+                            capture_output=True, text=True, check=False
+                        )
+                        if create_result.returncode != 0:
+                            self.logger.log("red", _("Failed to create main branch: {0}").format(create_result.stderr))
+                            return False
+                        self.logger.log("green", _("✓ Created new main branch"))
                 else:
                     # For user branch, ensure it exists
                     if not self.ensure_user_branch_exists(target_branch):
@@ -657,11 +667,22 @@ the specific source code used to create this copy."""), style="white")
             else:
                 # No changes, just ensure we're on target branch
                 if target_branch == "main":
-                    try:
-                        subprocess.run(["git", "checkout", target_branch], check=True)
-                    except subprocess.CalledProcessError:
-                        self.logger.log("red", _("Failed to switch to main branch"))
-                        return False
+                    # For main branch, try to checkout or create if it doesn't exist
+                    checkout_result = subprocess.run(
+                        ["git", "checkout", target_branch], 
+                        capture_output=True, text=True, check=False
+                    )
+                    if checkout_result.returncode != 0:
+                        # Branch doesn't exist, create it
+                        self.logger.log("cyan", _("Creating main branch (doesn't exist yet)..."))
+                        create_result = subprocess.run(
+                            ["git", "checkout", "-b", target_branch],
+                            capture_output=True, text=True, check=False
+                        )
+                        if create_result.returncode != 0:
+                            self.logger.log("red", _("Failed to create main branch: {0}").format(create_result.stderr))
+                            return False
+                        self.logger.log("green", _("✓ Created new main branch"))
                 else:
                     if not self.ensure_user_branch_exists(target_branch):
                         return False

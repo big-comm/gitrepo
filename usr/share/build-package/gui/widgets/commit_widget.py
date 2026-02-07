@@ -259,32 +259,36 @@ class CommitWidget(Gtk.Box):
         else:
             self.branch_row.set_subtitle(_("Unknown"))
         
-        # Last commit info
-        try:
-            result = subprocess.run(
-                ["git", "log", "-1", "--pretty=format:%h|%s"],
-                capture_output=True, text=True, check=False
-            )
-            if result.returncode == 0 and result.stdout.strip():
-                parts = result.stdout.strip().split("|", 1)
-                if len(parts) == 2:
-                    commit_hash, commit_msg = parts
-                    # Truncate long messages
-                    display_msg = commit_msg[:50] + "..." if len(commit_msg) > 50 else commit_msg
-                    self.last_commit_row.set_subtitle(f"{commit_hash}: {display_msg}")
-                    
-                    # Check if we're ahead of remote (commit can be undone)
-                    can_undo = self._check_can_undo_commit(current_branch)
-                    self.undo_button.set_visible(can_undo)
+        # Last commit info - check for empty repo first
+        if not GitUtils.has_commits():
+            self.last_commit_row.set_subtitle(_("No commits yet (this will be your first!)"))
+            self.undo_button.set_visible(False)
+        else:
+            try:
+                result = subprocess.run(
+                    ["git", "log", "-1", "--pretty=format:%h|%s"],
+                    capture_output=True, text=True, check=False
+                )
+                if result.returncode == 0 and result.stdout.strip():
+                    parts = result.stdout.strip().split("|", 1)
+                    if len(parts) == 2:
+                        commit_hash, commit_msg = parts
+                        # Truncate long messages
+                        display_msg = commit_msg[:50] + "..." if len(commit_msg) > 50 else commit_msg
+                        self.last_commit_row.set_subtitle(f"{commit_hash}: {display_msg}")
+                        
+                        # Check if we're ahead of remote (commit can be undone)
+                        can_undo = self._check_can_undo_commit(current_branch)
+                        self.undo_button.set_visible(can_undo)
+                    else:
+                        self.last_commit_row.set_subtitle(_("No commits"))
+                        self.undo_button.set_visible(False)
                 else:
                     self.last_commit_row.set_subtitle(_("No commits"))
                     self.undo_button.set_visible(False)
-            else:
-                self.last_commit_row.set_subtitle(_("No commits"))
+            except Exception:
+                self.last_commit_row.set_subtitle(_("Unknown"))
                 self.undo_button.set_visible(False)
-        except Exception:
-            self.last_commit_row.set_subtitle(_("Unknown"))
-            self.undo_button.set_visible(False)
         
         # Update commit button state
         self.update_commit_button_state()

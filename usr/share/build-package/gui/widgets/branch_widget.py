@@ -38,8 +38,12 @@ class BranchRow(Adw.ActionRow):
             remote_icon = Gtk.Image.new_from_icon_name("network-server-symbolic")
             self.add_suffix(remote_icon)
 
+
 class BranchWidget(Gtk.Box):
     """Widget for branch management operations"""
+    
+    # Constant for main branch creation option
+    MAIN_CREATE_NEW = "main (create new)"
     
     __gsignals__ = {
         'branch-selected': (GObject.SignalFlags.RUN_FIRST, None, (str,)),
@@ -117,6 +121,26 @@ class BranchWidget(Gtk.Box):
         branches_group.add(scrolled)
         
         self.append(branches_group)
+        
+        # Quick actions for branch management
+        quick_actions_group = Adw.PreferencesGroup()
+        quick_actions_group.set_title(_("Quick Actions"))
+        
+        # Create/Switch to main button
+        self.switch_main_row = Adw.ActionRow()
+        self.switch_main_row.set_title(_("Main Branch"))
+        self.switch_main_row.set_subtitle(_("Switch to main or create if it doesn't exist"))
+        self.switch_main_row.set_activatable(True)
+        
+        switch_main_button = Gtk.Button()
+        switch_main_button.set_label(_("Use main"))
+        switch_main_button.set_valign(Gtk.Align.CENTER)
+        switch_main_button.add_css_class("suggested-action")
+        switch_main_button.connect('clicked', self.on_switch_main_clicked)
+        self.switch_main_row.add_suffix(switch_main_button)
+        
+        quick_actions_group.add(self.switch_main_row)
+        self.append(quick_actions_group)
         
         # Merge operations
         merge_group = Adw.PreferencesGroup()
@@ -201,25 +225,36 @@ class BranchWidget(Gtk.Box):
             local_result = subprocess.run(
                 ["git", "branch"],
                 stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 text=True,
-                check=True
+                check=False
             )
-            local_branches = [
-                b.strip('* ').strip() for b in local_result.stdout.strip().split('\n') 
-                if b.strip()
-            ]
+            
+            if local_result.returncode != 0:
+                # Empty repo or error - just show empty list
+                local_branches = []
+            else:
+                local_branches = [
+                    b.strip('* ').strip() for b in local_result.stdout.strip().split('\n') 
+                    if b.strip()
+                ]
             
             # Get remote branches
             remote_result = subprocess.run(
                 ["git", "branch", "-r"],
                 stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 text=True,
-                check=True
+                check=False
             )
-            remote_branches = [
-                b.strip().replace('origin/', '') for b in remote_result.stdout.strip().split('\n')
-                if b.strip() and 'HEAD' not in b
-            ]
+            
+            if remote_result.returncode != 0:
+                remote_branches = []
+            else:
+                remote_branches = [
+                    b.strip().replace('origin/', '') for b in remote_result.stdout.strip().split('\n')
+                    if b.strip() and 'HEAD' not in b
+                ]
             
             # Combine and deduplicate
             all_branches = list(set(local_branches + remote_branches))
@@ -252,6 +287,10 @@ class BranchWidget(Gtk.Box):
     
     def update_combo_boxes(self, branches):
         """Update merge combo boxes with branch list"""
+        # Always include 'main' in the list even if it doesn't exist
+        if "main" not in branches:
+            branches = [self.MAIN_CREATE_NEW] + branches
+        
         # Create string list for branches
         branch_list = Gtk.StringList()
         for branch in branches:
@@ -261,9 +300,12 @@ class BranchWidget(Gtk.Box):
         self.source_branch_row.set_model(branch_list)
         self.target_branch_row.set_model(branch_list)
         
-        # Set default selections
+        # Set default selections - prefer main for target
         if "main" in branches:
             main_index = branches.index("main")
+            self.target_branch_row.set_selected(main_index)
+        elif self.MAIN_CREATE_NEW in branches:
+            main_index = branches.index(self.MAIN_CREATE_NEW)
             self.target_branch_row.set_selected(main_index)
         
         if self.current_branch and self.current_branch in branches:
@@ -307,6 +349,12 @@ class BranchWidget(Gtk.Box):
         source_branch = source_model.get_string(source_index)
         target_branch = target_model.get_string(target_index)
         
+        # Convert "main (create new)" to "main"
+        if source_branch == self.MAIN_CREATE_NEW:
+            source_branch = "main"
+        if target_branch == self.MAIN_CREATE_NEW:
+            target_branch = "main"
+        
         if source_branch == target_branch:
             # Show error - cannot merge branch into itself
             return
@@ -315,3 +363,59 @@ class BranchWidget(Gtk.Box):
         auto_merge = self.auto_merge_row.get_active()
         
         self.emit('merge-requested', source_branch, target_branch, auto_merge)
+    
+    def on_switch_main_clicked(self, button):
+        """Handle switch to main branch button click - creates main if it doesn't exist"""
+        import subprocess
+        
+        current = GitUtils.get_current_branch()
+        if current == "main":
+            # Already on main
+            return
+        
+        # Check if there are changes to stash
+        has_changes = GitUtils.has_changes()
+        stashed = False
+        
+        try:
+            # Stash changes if needed
+            if has_changes:
+                stash_result = subprocess.run(
+                    ["git", "stash", "push", "-u", "-m", "auto-stash-switch-to-main"],
+                    capture_output=True, text=True, check=False
+                )
+                if stash_result.returncode == 0:
+                    stashed = True
+            
+            # Try to checkout main
+            checkout_result = subprocess.run(
+                ["git", "checkout", "main"],
+                capture_output=True, text=True, check=False
+            )
+            
+            if checkout_result.returncode != 0:
+                # Main doesn't exist, create it
+                create_result = subprocess.run(
+                    ["git", "checkout", "-b", "main"],
+                    capture_output=True, text=True, check=False
+                )
+                if create_result.returncode != 0:
+                    print(f"Error creating main branch: {create_result.stderr}")
+                    if stashed:
+                        subprocess.run(["git", "stash", "pop"], capture_output=True, check=False)
+                    return
+            
+            # Restore stash if we stashed
+            if stashed:
+                subprocess.run(["git", "stash", "pop"], capture_output=True, check=False)
+            
+            # Refresh the branch list
+            self.refresh_branches()
+            
+            # Emit signal that branch was selected
+            self.emit('branch-selected', 'main')
+            
+        except Exception as e:
+            print(f"Error switching to main: {e}")
+            if stashed:
+                subprocess.run(["git", "stash", "pop"], capture_output=True, check=False)
