@@ -1270,7 +1270,7 @@ msgstr  ""
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/core/build_package.py, line: 1414
-# File: usr/share/build-package/gui/main_window.py, line: 1533
+# File: usr/share/build-package/gui/main_window.py, line: 1678
 msgid   "Successfully pulled latest changes"
 msgstr  ""
 
@@ -1963,22 +1963,34 @@ msgid   "Getting commit information..."
 msgstr  ""
 
 #
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
 # File: usr/share/build-package/core/build_package.py, line: 2173
+# File: usr/share/build-package/gui/main_window.py, line: 1545
 msgid   "Restoring code state from selected commit..."
 msgstr  ""
 
 #
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
 # File: usr/share/build-package/core/build_package.py, line: 2180
+# File: usr/share/build-package/gui/main_window.py, line: 1560
 msgid   "Staging restored files..."
 msgstr  ""
 
 #
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
 # File: usr/share/build-package/core/build_package.py, line: 2192
+# File: usr/share/build-package/gui/main_window.py, line: 1572
 msgid   "No changes detected - code is already at selected state"
 msgstr  ""
 
 #
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
 # File: usr/share/build-package/core/build_package.py, line: 2198
+# File: usr/share/build-package/gui/main_window.py, line: 1578
 msgid   "Creating revert commit..."
 msgstr  ""
 
@@ -2026,7 +2038,10 @@ msgid   "Reset completed and force pushed"
 msgstr  ""
 
 #
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
 # File: usr/share/build-package/core/build_package.py, line: 2233
+# File: usr/share/build-package/gui/main_window.py, line: 1641
 msgid   "Reset completed locally only (remote unchanged)"
 msgstr  ""
 
@@ -2063,7 +2078,10 @@ msgid   "Revert continue timed out - aborting"
 msgstr  ""
 
 #
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
 # File: usr/share/build-package/core/build_package.py, line: 2299
+# File: usr/share/build-package/gui/main_window.py, line: 1594
 msgid   "Pushing revert changes..."
 msgstr  ""
 
@@ -6381,35 +6399,122 @@ msgid   "Removing all repository tags..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 1514
+# File: usr/share/build-package/gui/main_window.py, line: 1520
+msgid   "✗ Could not determine current branch"
+msgstr  ""
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 1556
+#, python-brace-format
+msgid   "✗ Failed to checkout commit: {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 1587
+#, python-brace-format
+msgid   "✗ Failed to create revert commit: {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 1590
+msgid   "✓ Revert commit created successfully"
+msgstr  ""
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 1603
+#, python-brace-format
+msgid   "✗ Failed to push: {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 1606
+msgid   "✓ Revert changes pushed successfully"
+msgstr  ""
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 1608
+msgid   "✓ Revert completed (commit was only local)"
+msgstr  ""
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 1613
+msgid   "Resetting to selected commit..."
+msgstr  ""
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 1624
+#, python-brace-format
+msgid   "✗ Failed to reset: {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 1627
+msgid   "✓ Reset completed locally"
+msgstr  ""
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 1631
+msgid   "Commit exists in remote - force pushing..."
+msgstr  ""
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 1640
+#, python-brace-format
+msgid   "✗ Force push failed: {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 1644
+msgid   "✓ Reset force pushed to remote"
+msgstr  ""
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 1646
+msgid   "✓ Reset completed (commit was only local)"
+msgstr  ""
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 1651
+#, python-brace-format
+msgid   "✗ Error during {0}: {1}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 1654
+#, python-brace-format
+msgid   "✗ Unexpected error: {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-package/gui/main_window.py, line: 1659
 msgid   "Reverting Commit"
 msgstr  ""
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 1515
+# File: usr/share/build-package/gui/main_window.py, line: 1660
 #, python-brace-format
 msgid   "Reverting commit {0} using {1} method..."
 msgstr  ""
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 1521
+# File: usr/share/build-package/gui/main_window.py, line: 1666
 msgid   "Status refreshed"
 msgstr  ""
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 1526
+# File: usr/share/build-package/gui/main_window.py, line: 1671
 msgid   "Not in a Git repository"
 msgstr  ""
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 1534
+# File: usr/share/build-package/gui/main_window.py, line: 1679
 msgid   "Failed to pull changes"
 msgstr  ""
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/main_window.py, line: 1551
+# File: usr/share/build-package/gui/main_window.py, line: 1696
 # File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 567
 # File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 577
 #, python-brace-format
@@ -6417,7 +6522,7 @@ msgid   "Operation failed: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 1642
+# File: usr/share/build-package/gui/main_window.py, line: 1787
 #, python-brace-format
 msgid   "Error updating nav badges: {0}"
 msgstr  ""
