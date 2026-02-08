@@ -101,10 +101,11 @@ class PreferencesDialog(Adw.PreferencesDialog):
         
         # Create string list with predefined + custom option
         org_list = Gtk.StringList()
-        org_list.append(_("Auto-detect from remote"))
+        org_list.append(_("Auto-detect"))
         for org in Settings.PREDEFINED_ORGANIZATIONS:
-            org_list.append(f"{org['name']} ({org['value']})")
-        org_list.append(_("Custom..."))
+            # Use simple name for better display
+            org_list.append(org['name'])
+        org_list.append(_("Custom"))
         
         self.org_combo.set_model(org_list)
         
@@ -249,12 +250,19 @@ class PreferencesDialog(Adw.PreferencesDialog):
         if selected == 0:
             # Auto-detect
             self.settings.set("organization_name", "")
+            self.settings.set("workflow_repository", "")  # Clear workflow too
+            self.workflow_row.set_text("")
             self.custom_org_row.set_visible(False)
         elif selected <= len(Settings.PREDEFINED_ORGANIZATIONS):
             # Predefined organization
             org = Settings.PREDEFINED_ORGANIZATIONS[selected - 1]
             self.settings.set("organization_name", org['value'])
             self.custom_org_row.set_visible(False)
+            
+            # Auto-fill workflow repository
+            workflow = f"{org['value']}/build-package"
+            self.settings.set("workflow_repository", workflow)
+            self.workflow_row.set_text(workflow)
         else:
             # Custom
             self.custom_org_row.set_visible(True)
