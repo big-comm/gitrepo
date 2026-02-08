@@ -109,7 +109,7 @@ class WelcomeDialog(Adw.Window):
         features_box.append(features_title)
         
         features = [
-            ("document-save-symbolic", _("Commit & Push"), 
+            ("document-save-symbolic", _("Commit and Push"), 
              _("Stage changes and push to your development branch with semantic commit messages")),
             ("package-x-generic-symbolic", _("Build Packages"), 
              _("Build and deploy packages to testing, stable, or extra repositories")),
