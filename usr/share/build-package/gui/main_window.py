@@ -330,7 +330,7 @@ class MainWindow(Adw.ApplicationWindow):
     def on_preferences_activated(self, action, param):
         """Handle preferences action - show Preferences dialog"""
         dialog = PreferencesDialog(self, self.settings)
-        dialog.present()
+        dialog.present(self)  # Pass parent for modal behavior
     
     def on_about_activated(self, action, param):
         """Handle about action - show About dialog"""
