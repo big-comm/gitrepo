@@ -1627,14 +1627,12 @@ the specific source code used to create this copy."""), style="white")
         
         self.logger.log("cyan", _("Starting AUR package build..."))
         
-        # Create branch and push if in a Git repository
-        new_branch = ""
-        if self.is_git_repo:
-            new_branch = GitUtils.create_branch_and_push("dev", self.logger)
+        # AUR builds don't need local branches - they just trigger the GitHub workflow
+        # The aur-build workflow clones the AUR package directly from aur.archlinux.org
         
-        # Trigger workflow
+        # Trigger workflow (no branch needed for AUR)
         return self.github_api.trigger_workflow(
-            aur_package_name, "aur", new_branch, True, self.tmate_option, self.logger
+            aur_package_name, "aur", "", True, self.tmate_option, self.logger
         )
     
     def show_build_summary(self, package_name: str, branch_type: str, working_branch=None):
@@ -1732,7 +1730,7 @@ the specific source code used to create this copy."""), style="white")
                 self.logger.log("yellow", _("Operation cancelled by user."))
                 return
             
-            choice, _ = result
+            choice, ignored = result
             action = actions[choice]
             
             # Handle actions by name instead of index
