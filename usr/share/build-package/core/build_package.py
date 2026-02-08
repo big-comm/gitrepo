@@ -1682,122 +1682,126 @@ the specific source code used to create this copy."""), style="white")
         self.logger.display_summary(_("AUR - Summary of Choices"), data)
     
     def main_menu(self):
-        """Displays interactive main menu"""
+        """Displays interactive main menu respecting feature flags"""
         while True:
+            # Build menu dynamically based on feature flags
+            options = []
+            actions = []  # Track which action each option corresponds to
+            
             if self.is_git_repo:
-                options = [
-                    _("Pull latest"),
-                    _("Commit and push"),
-                    _("Generate package (commit + branch + build)"),
-                    _("Build AUR package"),
-                    _("Settings"),
-                    _("Advanced menu"),
-                    _("Exit")
-                ]
+                # Core git operations (always available)
+                options.append(_("Pull latest"))
+                actions.append("pull")
+                
+                options.append(_("Commit and push"))
+                actions.append("commit")
+                
+                # Package generation (only if enabled)
+                if self.settings and self.settings.get("package_features_enabled", False):
+                    options.append(_("Generate package (commit + branch + build)"))
+                    actions.append("package")
+                
+                # AUR package (only if enabled)
+                if self.settings and self.settings.get("aur_features_enabled", False):
+                    options.append(_("Build AUR package"))
+                    actions.append("aur")
+                
+                # Settings and Advanced (always available)
+                options.append(_("Settings"))
+                actions.append("settings")
+                
+                options.append(_("Advanced menu"))
+                actions.append("advanced")
+                
+                options.append(_("Exit"))
+                actions.append("exit")
             else:
-                options = [
-                    _("Build AUR package"),
-                    _("Settings"),
-                    _("Exit")
-                ]
+                # Non-git repo - limited options
+                if self.settings and self.settings.get("aur_features_enabled", False):
+                    options.append(_("Build AUR package"))
+                    actions.append("aur")
+                
+                options.append(_("Settings"))
+                actions.append("settings")
+                
+                options.append(_("Exit"))
+                actions.append("exit")
             
             result = self.menu.show_menu(_("Main Menu"), options)
             if result is None:
                 self.logger.log("yellow", _("Operation cancelled by user."))
                 return
             
-            choice, ignore = result
+            choice, _ = result
+            action = actions[choice]
             
-            if self.is_git_repo:
-                if choice == 0:  # Pull latest
-                    from .pull_operations import pull_latest_v2
-                    pull_latest_v2(self)
-                    # pull_latest_v2 already shows completion message and waits for user input
+            # Handle actions by name instead of index
+            if action == "pull":
+                from .pull_operations import pull_latest_v2
+                pull_latest_v2(self)
+                continue
+
+            elif action == "commit":
+                from .commit_operations import commit_and_push_v2
+                commit_and_push_v2(self)
+                return
+
+            elif action == "package":
+                # Select branch type
+                branch_options = ["testing", "stable", "extra", _("Back")]
+                branch_result = self.menu.show_menu(_("Select repository"), branch_options)
+
+                if branch_result is None or branch_options[branch_result[0]] == _("Back"):
                     continue
 
-                elif choice == 1:  # Commit and push
-                    # Use improved version if available
-                    from .commit_operations import commit_and_push_v2
-                    commit_and_push_v2(self)
-                    return
+                branch_type = branch_options[branch_result[0]]
 
-                elif choice == 2:  # Generate package
-                    # Select branch type
-                    branch_options = ["testing", "stable", "extra", _("Back")]
-                    branch_result = self.menu.show_menu(_("Select repository"), branch_options)
-
-                    if branch_result is None or branch_options[branch_result[0]] == _("Back"):
-                        continue
-
-                    branch_type = branch_options[branch_result[0]]
-
-                    # Enable or disable tmate for debug
-                    debug_result = self.menu.show_menu(_("Enable TMATE debug session?"), [_("No"), _("Yes")])
-                    if debug_result is None:
-                        continue
-
-                    tmate_option = (debug_result[0] == 1)  # Yes = index 1
-
-                    # Get commit message if there are changes
-                    has_changes = GitUtils.has_changes()
-                    commit_message = None
-
-                    if has_changes:
-                        commit_message = self.custom_commit_prompt()
-                        if not commit_message:
-                            self.logger.log("red", _("Commit message cannot be empty."))
-                            continue
-
-                    # Use improved version
-                    from .package_operations import commit_and_generate_package_v2
-                    commit_and_generate_package_v2(self, branch_type, commit_message, tmate_option)
-                    return
-                
-                elif choice == 3:  # Build AUR package
-                    # Enable or disable tmate for debug
-                    debug_result = self.menu.show_menu(_("Enable TMATE debug session?"), [_("No"), _("Yes")])
-                    if debug_result is None:
-                        continue
-
-                    self.tmate_option = (debug_result[0] == 1)  # Yes = index 1
-
-                    self.args.aur = None  # Force package name request
-                    self.build_aur_package()
-                    return
-
-                elif choice == 4:  # Settings
-                    if self.settings_menu:
-                        self.settings_menu.show()
+                # Enable or disable tmate for debug
+                debug_result = self.menu.show_menu(_("Enable TMATE debug session?"), [_("No"), _("Yes")])
+                if debug_result is None:
                     continue
 
-                elif choice == 5:  # Advanced menu
-                    self.advanced_menu()
-                    continue
+                tmate_option = (debug_result[0] == 1)  # Yes = index 1
 
-                elif choice == 6:  # Exit
-                    self.logger.log("yellow", _("Exiting script. No action was performed."))
-                    return
-            else:
-                if choice == 0:  # Build AUR package
-                    # Enable or disable tmate for debug
-                    debug_result = self.menu.show_menu(_("Enable TMATE debug session?"), [_("No"), _("Yes")])
-                    if debug_result is None:
+                # Get commit message if there are changes
+                has_changes = GitUtils.has_changes()
+                commit_message = None
+
+                if has_changes:
+                    commit_message = self.custom_commit_prompt()
+                    if not commit_message:
+                        self.logger.log("red", _("Commit message cannot be empty."))
                         continue
 
-                    self.tmate_option = (debug_result[0] == 1)  # Yes = index 1
-
-                    self.args.aur = None  # Force package name request
-                    self.build_aur_package()
-                    return
-
-                elif choice == 1:  # Settings
-                    if self.settings_menu:
-                        self.settings_menu.show()
+                # Use improved version
+                from .package_operations import commit_and_generate_package_v2
+                commit_and_generate_package_v2(self, branch_type, commit_message, tmate_option)
+                return
+            
+            elif action == "aur":
+                # Enable or disable tmate for debug
+                debug_result = self.menu.show_menu(_("Enable TMATE debug session?"), [_("No"), _("Yes")])
+                if debug_result is None:
                     continue
 
-                elif choice == 2:  # Exit
-                    self.logger.log("yellow", _("Exiting script. No action was performed."))
-                    return
+                self.tmate_option = (debug_result[0] == 1)  # Yes = index 1
+
+                self.args.aur = None  # Force package name request
+                self.build_aur_package()
+                return
+
+            elif action == "settings":
+                if self.settings_menu:
+                    self.settings_menu.show()
+                continue
+
+            elif action == "advanced":
+                self.advanced_menu()
+                continue
+
+            elif action == "exit":
+                self.logger.log("yellow", _("Exiting script. No action was performed."))
+                return
     
     def advanced_menu(self):
         """Displays advanced options menu"""

@@ -20,6 +20,7 @@ from .gtk_menu import GTKMenu
 from .gtk_adapters import GTKMenuSystem, GTKConflictResolver
 from .dialogs.settings_dialog import SettingsDialog
 from .dialogs.welcome_dialog import WelcomeDialog, should_show_welcome
+from .dialogs.preferences_dialog import PreferencesDialog
 from .widgets.overview_widget import OverviewWidget
 from .widgets.commit_widget import CommitWidget
 from .widgets.package_widget import PackageWidget
@@ -157,28 +158,47 @@ class MainWindow(Adw.ApplicationWindow):
             self.show_error_toast(_("Failed to initialize: {0}").format(str(e)))
     
     def create_navigation_and_pages(self):
-        """Create navigation items and corresponding pages"""
+        """Create navigation items and corresponding pages based on enabled features"""
         
-        # Create widgets for each page
+        # Core widgets (always visible)
         self.overview_widget = OverviewWidget(self.build_package)
-        self.commit_widget = CommitWidget(self.build_package) 
-        self.package_widget = PackageWidget(self.build_package)
-        self.aur_widget = AURWidget(self.build_package)
+        self.commit_widget = CommitWidget(self.build_package)
         self.branch_widget = BranchWidget(self.build_package)
         self.advanced_widget = AdvancedWidget(self.build_package)
+        
+        # Optional widgets (based on feature flags)
+        if self.settings.get("package_features_enabled", False):
+            self.package_widget = PackageWidget(self.build_package)
+        else:
+            self.package_widget = None
+        
+        if self.settings.get("aur_features_enabled", False):
+            self.aur_widget = AURWidget(self.build_package)
+        else:
+            self.aur_widget = None
         
         # Connect widget signals
         self.connect_widget_signals()
         
-        # Add pages to stack
+        # Build pages list dynamically
         pages = [
             (self.overview_widget, "overview", _("Overview"), "view-list-symbolic"),
-            (self.commit_widget, "commit", _("Commit & Push"), "document-save-symbolic"),
-            (self.package_widget, "package", _("Generate Package"), "package-x-generic-symbolic"),
-            (self.aur_widget, "aur", _("AUR Package"), "system-software-install-symbolic"),
+            (self.commit_widget, "commit", _("Commit and Push"), "document-save-symbolic"),
+        ]
+        
+        # Add package feature if enabled
+        if self.package_widget:
+            pages.append((self.package_widget, "package", _("Generate Package"), "package-x-generic-symbolic"))
+        
+        # Add AUR feature if enabled
+        if self.aur_widget:
+            pages.append((self.aur_widget, "aur", _("AUR Package"), "system-software-install-symbolic"))
+        
+        # Always show branches and advanced
+        pages.extend([
             (self.branch_widget, "branches", _("Branches"), "git-branch-symbolic"),
             (self.advanced_widget, "advanced", _("Advanced"), "preferences-system-symbolic")
-        ]
+        ])
         
         # Store nav rows for badge updates
         self.nav_rows = {}
@@ -227,12 +247,14 @@ class MainWindow(Adw.ApplicationWindow):
         self.commit_widget.connect('push-requested', self.on_pull_requested)
         self.commit_widget.connect('undo-commit-requested', self.on_undo_commit_requested)
         
-        # Package widget signals
-        self.package_widget.connect('package-build-requested', self.on_package_build_requested)
-        self.package_widget.connect('commit-and-build-requested', self.on_commit_and_build_requested)
+        # Package widget signals (only if enabled)
+        if self.package_widget:
+            self.package_widget.connect('package-build-requested', self.on_package_build_requested)
+            self.package_widget.connect('commit-and-build-requested', self.on_commit_and_build_requested)
         
-        # AUR widget signals
-        self.aur_widget.connect('aur-build-requested', self.on_aur_build_requested)
+        # AUR widget signals (only if enabled)
+        if self.aur_widget:
+            self.aur_widget.connect('aur-build-requested', self.on_aur_build_requested)
         
         # Branch widget signals
         self.branch_widget.connect('branch-selected', self.on_branch_selected)
@@ -246,11 +268,12 @@ class MainWindow(Adw.ApplicationWindow):
         self.advanced_widget.connect('revert-commit-requested', self.on_revert_commit_requested)
     
     def _create_hamburger_menu(self):
-        """Create hamburger menu button with About option"""
+        """Create hamburger menu button with Preferences and About options"""
         # Create menu model
         menu = Gio.Menu()
         
         # Add menu items
+        menu.append(_("Preferences"), "win.preferences")
         menu.append(_("About"), "win.about")
         
         # Create menu button with hamburger icon
@@ -279,6 +302,11 @@ class MainWindow(Adw.ApplicationWindow):
         welcome_action.connect("activate", self.on_show_welcome_activated)
         self.add_action(welcome_action)
         
+        # Preferences action
+        preferences_action = Gio.SimpleAction.new("preferences", None)
+        preferences_action.connect("activate", self.on_preferences_activated)
+        self.add_action(preferences_action)
+        
         # About action
         about_action = Gio.SimpleAction.new("about", None)
         about_action.connect("activate", self.on_about_activated)
@@ -298,6 +326,11 @@ class MainWindow(Adw.ApplicationWindow):
     def on_show_welcome_activated(self, action, param):
         """Handle show welcome action"""
         self.show_welcome_dialog()
+    
+    def on_preferences_activated(self, action, param):
+        """Handle preferences action - show Preferences dialog"""
+        dialog = PreferencesDialog(self, self.settings)
+        dialog.present()
     
     def on_about_activated(self, action, param):
         """Handle about action - show About dialog"""
@@ -594,7 +627,7 @@ class MainWindow(Adw.ApplicationWindow):
         
         self.operation_runner.run_with_progress(
             switch_and_commit,
-            _("Switching & Committing"),
+            _("Switching and Committing"),
             _("Switching to {0} and committing...").format(target_branch)
         )
     
@@ -1002,8 +1035,8 @@ class MainWindow(Adw.ApplicationWindow):
         
         # Responses
         dialog.add_response("cancel", _("Cancel"))
-        dialog.add_response("discard", _("Discard & Switch"))
-        dialog.add_response("stash", _("Stash & Switch"))
+        dialog.add_response("discard", _("Discard and Switch"))
+        dialog.add_response("stash", _("Stash and Switch"))
         
         dialog.set_response_appearance("stash", Adw.ResponseAppearance.SUGGESTED)
         dialog.set_response_appearance("discard", Adw.ResponseAppearance.DESTRUCTIVE)
