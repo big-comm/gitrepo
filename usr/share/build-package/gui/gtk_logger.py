@@ -110,19 +110,25 @@ class GTKLogger:
     
     def display_summary(self, title: str, data: list):
         """Display summary information in GUI format"""
-        # For now, show as info toast with title
-        # Later this could be a proper dialog or info panel
         summary_text = f"{title}:\n"
         for key, value in data:
             summary_text += f"• {key}: {value}\n"
         
-        # Show in console for now (later could be a proper dialog)
+        # Show in console for debugging
         print("=== {0} ===".format(title))
         for key, value in data:
             print(f"{key}: {value}")
         
-        # Show notification
-        self.main_window.show_info_toast(_("Summary: {0}").format(title))
+        if self.progress_dialog:
+            # When ProgressDialog is active, send summary to embedded terminal
+            self.progress_dialog.append_detail("", style="cyan")
+            self.progress_dialog.append_detail(f"═══ {title} ═══", style="cyan")
+            for key, value in data:
+                self.progress_dialog.append_detail(f"  {key}: {value}", style="white")
+            self.progress_dialog.append_detail("", style="cyan")
+        else:
+            # Show notification only when no dialog is active
+            self.main_window.show_info_toast(_("Summary: {0}").format(title))
     
     def format_branch_name(self, branch_name: str) -> str:
         """Format branch names for display (GUI doesn't need markup)"""
