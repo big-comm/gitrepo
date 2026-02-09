@@ -981,6 +981,14 @@ msgstr "Cambiado con éxito a la rama más reciente."
 msgid "Error switching to most recent branch."
 msgstr "Error al cambiar a la rama más reciente."
 # 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1275
+# File: usr/share/build-package/core/package_operations.py, line: 38
+#: NEEDS WORK
+msgid "✗ Cannot generate package without a GitHub token."
+msgstr "✗ No se puede generar el paquete sin un token de GitHub."
+# 
 # File: usr/share/build-package/core/build_package.py, line: 1272
 msgid "Branch type not specified."
 msgstr "Tipo de rama no especificado."
@@ -1212,6 +1220,11 @@ msgstr "¿Desea continuar con la construcción del PAQUETE?"
 # File: usr/share/build-package/core/build_package.py, line: 1625
 msgid "Package build cancelled."
 msgstr "Construcción del paquete cancelada."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1609
+#: NEEDS WORK
+msgid "✗ Cannot build AUR package without a GitHub token."
+msgstr "✗ No se puede construir el paquete AUR sin un token de GitHub."
 # 
 # File: usr/share/build-package/core/build_package.py, line: 1601
 msgid "Enter the AUR package name (ex: showtime): type EXIT to exit"
@@ -2710,29 +2723,87 @@ msgstr ""
 msgid "Error triggering workflow: {0}"
 msgstr ""
 # 
+# File: usr/share/build-package/core/github_api.py, line: 626
+#: NEEDS WORK
+msgid "GitHub token not configured. Package operations will require token setup."
+msgstr "Token de GitHub no configurado. Las operaciones de paquete requerirán la configuración del token."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 689
+#: NEEDS WORK
+msgid "═══ GitHub Token Setup Required ═══"
+msgstr "═══ Se requiere configuración del token de GitHub ═══"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 691
+#: NEEDS WORK
+msgid "A GitHub Personal Access Token is required for this operation."
+msgstr "Se requiere un token de acceso personal de GitHub para esta operación."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 693
+#: NEEDS WORK
+msgid "To create a Personal Access Token:"
+msgstr "Para crear un Token de Acceso Personal:"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 694
+#: NEEDS WORK
+msgid "  1. Go to: https://github.com/settings/tokens"
+msgstr "1. Ve a: https://github.com/settings/tokens"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 695
+#: NEEDS WORK
+msgid "  2. Click 'Generate new token (classic)'"
+msgstr "2. Haga clic en 'Generar nuevo token (clásico)'"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 696
+#: NEEDS WORK
+msgid "  3. Name: 'gitrepo' | Expiration: your choice"
+msgstr "3. Nombre: 'gitrepo' | Expiración: tu elección"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 697
+#: NEEDS WORK
+msgid "  4. Select scopes: 'repo' and 'workflow'"
+msgstr "4. Seleccionar ámbitos: 'repo' y 'workflow'"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 698
+#: NEEDS WORK
+msgid "  5. Click 'Generate token' and copy it"
+msgstr "5. Haz clic en 'Generar token' y cópialo"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 703
+#: NEEDS WORK
+msgid "GitHub username (or press Enter to cancel): "
+msgstr "Nombre de usuario de GitHub (o presiona Enter para cancelar):"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 705
+# File: usr/share/build-package/core/github_api.py, line: 710
+# File: usr/share/build-package/core/github_api.py, line: 739
+#: NEEDS WORK
+msgid "Token setup cancelled."
+msgstr "Configuración de token cancelada."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 708
+#: NEEDS WORK
+msgid "GitHub token (or press Enter to cancel): "
+msgstr "Token de GitHub (o presiona Enter para cancelar):"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 722
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Token saved to {0}"
+msgstr "✓ Token guardado en {0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 723
+#: NEEDS WORK
+msgid "✓ File permissions set to 600 (owner read/write only)"
+msgstr "✓ Permisos de archivo establecidos en 600 (solo lectura/escritura para el propietario)"
+# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
-# File: usr/share/build-package/core/github_api.py, line: 627
-# File: usr/share/build-iso/github_api.py, line: 30
+# File: usr/share/build-package/core/github_api.py, line: 734
+# File: usr/share/build-package/gui/main_window.py, line: 1093
+#: NEEDS WORK
 #, python-brace-format
-msgid "Token file '{0}' not found."
-msgstr ""
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-package/core/github_api.py, line: 645
-# File: usr/share/build-iso/github_api.py, line: 48
-#, python-brace-format
-msgid "Token for organization '{0}' not found."
-msgstr ""
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-package/core/github_api.py, line: 648
-# File: usr/share/build-iso/github_api.py, line: 51
-#, python-brace-format
-msgid "Error reading token: {0}"
-msgstr ""
+msgid "Error saving token: {0}"
+msgstr "Error al guardar el token: {0}"
 # 
 # File: usr/share/build-package/core/github_api.py, line: 659
 #, python-brace-format
@@ -3411,6 +3482,11 @@ msgid ""
 "A comprehensive tool for package building, testing, and deployment. Streamlines Git operations, "
 "automates builds and manages package workflows for BigCommunity repositories and AUR packages."
 msgstr ""
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 39
+#: NEEDS WORK
+msgid "Please configure your token and try again."
+msgstr "Por favor, configure su token e inténtelo de nuevo."
 # 
 # File: usr/share/build-package/core/package_operations.py, line: 39
 msgid "🔍 DRY-RUN MODE - Package generation simulation:"
@@ -5074,6 +5150,65 @@ msgstr ""
 #, python-brace-format
 msgid "Building AUR package: {0}"
 msgstr ""
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1011
+#: NEEDS WORK
+msgid "GitHub Token Setup"
+msgstr "Configuración del token de GitHub"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1013
+#: NEEDS WORK
+msgid ""
+"A GitHub Personal Access Token is required for package operations.\n"
+"\n"
+"To create one:\n"
+"1. Go to: github.com/settings/tokens\n"
+"2. Click 'Generate new token (classic)'\n"
+"3. Select scopes: 'repo' and 'workflow'\n"
+"4. Copy the generated token"
+msgstr ""
+"Se requiere un token de acceso personal de GitHub para las operaciones de paquetes.\n"
+"\n"
+"Para crear uno:\n"
+"1. Ve a: github.com/settings/tokens\n"
+"2. Haz clic en 'Generar nuevo token (clásico)'\n"
+"3. Selecciona los alcances: 'repo' y 'workflow'\n"
+"4. Copia el token generado"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1027
+#: NEEDS WORK
+msgid "GitHub Username:"
+msgstr "Nombre de usuario de GitHub:"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1029
+#: NEEDS WORK
+msgid "your-username"
+msgstr "tu-nombre-de-usuario"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1034
+#: NEEDS WORK
+msgid "GitHub Token:"
+msgstr "Token de GitHub:"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1045
+#: NEEDS WORK
+msgid "Open GitHub Token Settings"
+msgstr "Abrir la configuración del token de GitHub"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1053
+#: NEEDS WORK
+msgid "Save and Continue"
+msgstr "Guardar y continuar"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1063
+#: NEEDS WORK
+msgid "Username and token are required"
+msgstr "Se requieren nombre de usuario y token."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1084
+#: NEEDS WORK
+msgid "✓ Token saved successfully"
+msgstr "✓ Token guardado con éxito"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 963
 msgid "Uncommitted Changes Detected"
@@ -7064,6 +7199,30 @@ msgstr ""
 # File: usr/share/build-iso/build_iso.py, line: 750
 #, python-brace-format
 msgid "{0} (version {1})"
+msgstr ""
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/github_api.py, line: 627
+# File: usr/share/build-iso/github_api.py, line: 30
+#, python-brace-format
+msgid "Token file '{0}' not found."
+msgstr ""
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/github_api.py, line: 645
+# File: usr/share/build-iso/github_api.py, line: 48
+#, python-brace-format
+msgid "Token for organization '{0}' not found."
+msgstr ""
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/github_api.py, line: 648
+# File: usr/share/build-iso/github_api.py, line: 51
+#, python-brace-format
+msgid "Error reading token: {0}"
 msgstr ""
 # 
 # File: usr/share/build-iso/github_api.py, line: 112
