@@ -983,6 +983,14 @@ msgstr "Edukalt lülituti kõige värskemale harule."
 msgid "Error switching to most recent branch."
 msgstr "Viga kõige värskemale harule lülitumisel."
 # 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1275
+# File: usr/share/build-package/core/package_operations.py, line: 38
+#: NEEDS WORK
+msgid "✗ Cannot generate package without a GitHub token."
+msgstr "✗ Paketti ei saa genereerida ilma GitHubi tokenita."
+# 
 # File: usr/share/build-package/core/build_package.py, line: 1272
 msgid "Branch type not specified."
 msgstr "Haru tüüp on määramata."
@@ -1214,6 +1222,11 @@ msgstr "Kas soovid jätkata PAKETI loomisega?"
 # File: usr/share/build-package/core/build_package.py, line: 1625
 msgid "Package build cancelled."
 msgstr "Paketi loomine tühistati."
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1609
+#: NEEDS WORK
+msgid "✗ Cannot build AUR package without a GitHub token."
+msgstr "✗ AUR paketti ei saa ehitada ilma GitHubi tokenita."
 # 
 # File: usr/share/build-package/core/build_package.py, line: 1601
 msgid "Enter the AUR package name (ex: showtime): type EXIT to exit"
@@ -2712,29 +2725,87 @@ msgstr ""
 msgid "Error triggering workflow: {0}"
 msgstr ""
 # 
+# File: usr/share/build-package/core/github_api.py, line: 626
+#: NEEDS WORK
+msgid "GitHub token not configured. Package operations will require token setup."
+msgstr "GitHubi token ei ole konfigureeritud. Paketi toimingud nõuavad tokeni seadistamist."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 689
+#: NEEDS WORK
+msgid "═══ GitHub Token Setup Required ═══"
+msgstr "═══ GitHubi tokeni seadistamine vajalik ═══"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 691
+#: NEEDS WORK
+msgid "A GitHub Personal Access Token is required for this operation."
+msgstr "GitHubi isikliku juurdepääsu token on selle toimingu jaoks vajalik."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 693
+#: NEEDS WORK
+msgid "To create a Personal Access Token:"
+msgstr "Isikliku juurdepääsu märgi loomiseks:"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 694
+#: NEEDS WORK
+msgid "  1. Go to: https://github.com/settings/tokens"
+msgstr "1. Mine: https://github.com/settings/tokens"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 695
+#: NEEDS WORK
+msgid "  2. Click 'Generate new token (classic)'"
+msgstr "2. Klõpsa 'Loo uus token (klassikaline)'"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 696
+#: NEEDS WORK
+msgid "  3. Name: 'gitrepo' | Expiration: your choice"
+msgstr "3. Nimi: 'gitrepo' | Aegumine: teie valik"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 697
+#: NEEDS WORK
+msgid "  4. Select scopes: 'repo' and 'workflow'"
+msgstr "4. Valige ulatused: 'repo' ja 'töövoog'"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 698
+#: NEEDS WORK
+msgid "  5. Click 'Generate token' and copy it"
+msgstr "5. Klõpsa 'Genereeri token' ja kopeeri see"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 703
+#: NEEDS WORK
+msgid "GitHub username (or press Enter to cancel): "
+msgstr "GitHubi kasutajanimi (või vajuta Enter, et tühistada):"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 705
+# File: usr/share/build-package/core/github_api.py, line: 710
+# File: usr/share/build-package/core/github_api.py, line: 739
+#: NEEDS WORK
+msgid "Token setup cancelled."
+msgstr "Tokeni seadistamine tühistatud."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 708
+#: NEEDS WORK
+msgid "GitHub token (or press Enter to cancel): "
+msgstr "GitHubi token (või vajutage Enter, et tühistada):"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 722
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Token saved to {0}"
+msgstr "✓ Token salvestatud {0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 723
+#: NEEDS WORK
+msgid "✓ File permissions set to 600 (owner read/write only)"
+msgstr "✓ Faili õigused on seadistatud 600 (omanik ainult lugemiseks/kirjutamiseks)"
+# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
-# File: usr/share/build-package/core/github_api.py, line: 627
-# File: usr/share/build-iso/github_api.py, line: 30
+# File: usr/share/build-package/core/github_api.py, line: 734
+# File: usr/share/build-package/gui/main_window.py, line: 1093
+#: NEEDS WORK
 #, python-brace-format
-msgid "Token file '{0}' not found."
-msgstr ""
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-package/core/github_api.py, line: 645
-# File: usr/share/build-iso/github_api.py, line: 48
-#, python-brace-format
-msgid "Token for organization '{0}' not found."
-msgstr ""
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-package/core/github_api.py, line: 648
-# File: usr/share/build-iso/github_api.py, line: 51
-#, python-brace-format
-msgid "Error reading token: {0}"
-msgstr ""
+msgid "Error saving token: {0}"
+msgstr "Viga tokeni salvestamisel: {0}"
 # 
 # File: usr/share/build-package/core/github_api.py, line: 659
 #, python-brace-format
@@ -3413,6 +3484,11 @@ msgid ""
 "A comprehensive tool for package building, testing, and deployment. Streamlines Git operations, "
 "automates builds and manages package workflows for BigCommunity repositories and AUR packages."
 msgstr ""
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 39
+#: NEEDS WORK
+msgid "Please configure your token and try again."
+msgstr "Palun seadistage oma token ja proovige uuesti."
 # 
 # File: usr/share/build-package/core/package_operations.py, line: 39
 msgid "🔍 DRY-RUN MODE - Package generation simulation:"
@@ -5076,6 +5152,65 @@ msgstr ""
 #, python-brace-format
 msgid "Building AUR package: {0}"
 msgstr ""
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1011
+#: NEEDS WORK
+msgid "GitHub Token Setup"
+msgstr "GitHubi tokeni seadistamine"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1013
+#: NEEDS WORK
+msgid ""
+"A GitHub Personal Access Token is required for package operations.\n"
+"\n"
+"To create one:\n"
+"1. Go to: github.com/settings/tokens\n"
+"2. Click 'Generate new token (classic)'\n"
+"3. Select scopes: 'repo' and 'workflow'\n"
+"4. Copy the generated token"
+msgstr ""
+"GitHubi isikliku juurdepääsu token on vajalik pakettide toimingute jaoks.\n"
+"\n"
+"Ühe loomiseks:\n"
+"1. Mine aadressile: github.com/settings/tokens\n"
+"2. Klõpsa 'Loo uus token (klassikaline)'\n"
+"3. Vali ulatused: 'repo' ja 'workflow'\n"
+"4. Kopeeri genereeritud token"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1027
+#: NEEDS WORK
+msgid "GitHub Username:"
+msgstr "GitHubi kasutajanimi:"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1029
+#: NEEDS WORK
+msgid "your-username"
+msgstr "teie-kasutajanimi"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1034
+#: NEEDS WORK
+msgid "GitHub Token:"
+msgstr "GitHubi token:"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1045
+#: NEEDS WORK
+msgid "Open GitHub Token Settings"
+msgstr "Ava GitHubi tokeni seadeid"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1053
+#: NEEDS WORK
+msgid "Save and Continue"
+msgstr "Salvesta ja Jätka"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1063
+#: NEEDS WORK
+msgid "Username and token are required"
+msgstr "Kasutajanimi ja token on vajalikud"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1084
+#: NEEDS WORK
+msgid "✓ Token saved successfully"
+msgstr "✓ Token salvestatud edukalt"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 963
 msgid "Uncommitted Changes Detected"
@@ -7066,6 +7201,30 @@ msgstr ""
 # File: usr/share/build-iso/build_iso.py, line: 750
 #, python-brace-format
 msgid "{0} (version {1})"
+msgstr ""
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/github_api.py, line: 627
+# File: usr/share/build-iso/github_api.py, line: 30
+#, python-brace-format
+msgid "Token file '{0}' not found."
+msgstr ""
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/github_api.py, line: 645
+# File: usr/share/build-iso/github_api.py, line: 48
+#, python-brace-format
+msgid "Token for organization '{0}' not found."
+msgstr ""
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/github_api.py, line: 648
+# File: usr/share/build-iso/github_api.py, line: 51
+#, python-brace-format
+msgid "Error reading token: {0}"
 msgstr ""
 # 
 # File: usr/share/build-iso/github_api.py, line: 112

@@ -1003,6 +1003,14 @@ msgstr "Vaše zmeny boli úspešne presunuté do cieľovej vetvy!"
 msgid "Error switching to most recent branch."
 msgstr "Chyba pri hľadaní najnovšej vetvy: {0}"
 # 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1275
+# File: usr/share/build-package/core/package_operations.py, line: 38
+#: NEEDS WORK
+msgid "✗ Cannot generate package without a GitHub token."
+msgstr "✗ Nie je možné vygenerovať balík bez tokenu GitHub."
+# 
 # File: usr/share/build-package/core/build_package.py, line: 1272
 msgid "Branch type not specified."
 msgstr ""
@@ -1246,6 +1254,11 @@ msgstr ""
 #, fuzzy
 msgid "Package build cancelled."
 msgstr "Zostavenie balíka bolo zrušené"
+# 
+# File: usr/share/build-package/core/build_package.py, line: 1609
+#: NEEDS WORK
+msgid "✗ Cannot build AUR package without a GitHub token."
+msgstr "✗ Nie je možné zostaviť AUR balík bez GitHub tokenu."
 # 
 # File: usr/share/build-package/core/build_package.py, line: 1601
 msgid "Enter the AUR package name (ex: showtime): type EXIT to exit"
@@ -2812,29 +2825,87 @@ msgstr "URL na sledovanie zostavenia: {0}"
 msgid "Error triggering workflow: {0}"
 msgstr "Chyba pri spúšťaní workflow: {0}"
 # 
+# File: usr/share/build-package/core/github_api.py, line: 626
+#: NEEDS WORK
+msgid "GitHub token not configured. Package operations will require token setup."
+msgstr "Token GitHub nie je nakonfigurovaný. Operácie s balíkmi si vyžadujú nastavenie tokenu."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 689
+#: NEEDS WORK
+msgid "═══ GitHub Token Setup Required ═══"
+msgstr "════ Nastavenie tokenu GitHub je potrebné ═══"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 691
+#: NEEDS WORK
+msgid "A GitHub Personal Access Token is required for this operation."
+msgstr "Na túto operáciu je potrebný osobný prístupový token GitHub."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 693
+#: NEEDS WORK
+msgid "To create a Personal Access Token:"
+msgstr "Na vytvorenie osobného prístupového tokenu:"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 694
+#: NEEDS WORK
+msgid "  1. Go to: https://github.com/settings/tokens"
+msgstr "1. Prejdite na: https://github.com/settings/tokens"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 695
+#: NEEDS WORK
+msgid "  2. Click 'Generate new token (classic)'"
+msgstr "2. Kliknite na 'Vytvoriť nový token (klasický)'"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 696
+#: NEEDS WORK
+msgid "  3. Name: 'gitrepo' | Expiration: your choice"
+msgstr "3. Názov: 'gitrepo' | Expirácia: váš výber"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 697
+#: NEEDS WORK
+msgid "  4. Select scopes: 'repo' and 'workflow'"
+msgstr "4. Vyberte rozsahy: 'repo' a 'workflow'"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 698
+#: NEEDS WORK
+msgid "  5. Click 'Generate token' and copy it"
+msgstr "5. Kliknite na 'Vygenerovať token' a skopírujte ho"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 703
+#: NEEDS WORK
+msgid "GitHub username (or press Enter to cancel): "
+msgstr "Používateľské meno GitHub (alebo stlačte Enter pre zrušenie):"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 705
+# File: usr/share/build-package/core/github_api.py, line: 710
+# File: usr/share/build-package/core/github_api.py, line: 739
+#: NEEDS WORK
+msgid "Token setup cancelled."
+msgstr "Nastavenie tokenu zrušené."
+# 
+# File: usr/share/build-package/core/github_api.py, line: 708
+#: NEEDS WORK
+msgid "GitHub token (or press Enter to cancel): "
+msgstr "Token GitHub (alebo stlačte Enter pre zrušenie):"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 722
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Token saved to {0}"
+msgstr "✓ Token uložený do {0}"
+# 
+# File: usr/share/build-package/core/github_api.py, line: 723
+#: NEEDS WORK
+msgid "✓ File permissions set to 600 (owner read/write only)"
+msgstr "✓ Oprávnenia súboru nastavené na 600 (iba čítanie/zápis pre vlastníka)"
+# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
-# File: usr/share/build-package/core/github_api.py, line: 627
-# File: usr/share/build-iso/github_api.py, line: 30
+# File: usr/share/build-package/core/github_api.py, line: 734
+# File: usr/share/build-package/gui/main_window.py, line: 1093
+#: NEEDS WORK
 #, python-brace-format
-msgid "Token file '{0}' not found."
-msgstr "Súbor s tokenom '{0}' nebol nájdený."
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-package/core/github_api.py, line: 645
-# File: usr/share/build-iso/github_api.py, line: 48
-#, python-brace-format
-msgid "Token for organization '{0}' not found."
-msgstr "Token pre organizáciu '{0}' nebol nájdený."
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-package/core/github_api.py, line: 648
-# File: usr/share/build-iso/github_api.py, line: 51
-#, python-brace-format
-msgid "Error reading token: {0}"
-msgstr "Chyba pri čítaní tokenu: {0}"
+msgid "Error saving token: {0}"
+msgstr "Chyba pri ukladaní tokenu: {0}"
 # 
 # File: usr/share/build-package/core/github_api.py, line: 659
 #, python-brace-format
@@ -3528,6 +3599,11 @@ msgid ""
 "A comprehensive tool for package building, testing, and deployment. Streamlines Git operations, "
 "automates builds and manages package workflows for BigCommunity repositories and AUR packages."
 msgstr ""
+# 
+# File: usr/share/build-package/core/package_operations.py, line: 39
+#: NEEDS WORK
+msgid "Please configure your token and try again."
+msgstr "Prosím, nakonfigurujte svoj token a skúste to znova."
 # 
 # File: usr/share/build-package/core/package_operations.py, line: 39
 msgid "🔍 DRY-RUN MODE - Package generation simulation:"
@@ -5236,6 +5312,65 @@ msgstr "Zostaviť AUR balík"
 #, fuzzy, python-brace-format
 msgid "Building AUR package: {0}"
 msgstr "Zostaviť AUR balík"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1011
+#: NEEDS WORK
+msgid "GitHub Token Setup"
+msgstr "Nastavenie GitHub tokenu"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1013
+#: NEEDS WORK
+msgid ""
+"A GitHub Personal Access Token is required for package operations.\n"
+"\n"
+"To create one:\n"
+"1. Go to: github.com/settings/tokens\n"
+"2. Click 'Generate new token (classic)'\n"
+"3. Select scopes: 'repo' and 'workflow'\n"
+"4. Copy the generated token"
+msgstr ""
+"Na vykonávanie operácií s balíčkami je potrebný osobný prístupový token GitHub.\n"
+"\n"
+"Na jeho vytvorenie:\n"
+"1. Prejdite na: github.com/settings/tokens\n"
+"2. Kliknite na 'Vytvoriť nový token (klasický)'\n"
+"3. Vyberte rozsahy: 'repo' a 'workflow'\n"
+"4. Skopírujte vygenerovaný token"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1027
+#: NEEDS WORK
+msgid "GitHub Username:"
+msgstr "Používateľské meno na GitHub:"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1029
+#: NEEDS WORK
+msgid "your-username"
+msgstr "tvoje-užívateľské-meno"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1034
+#: NEEDS WORK
+msgid "GitHub Token:"
+msgstr "GitHub token:"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1045
+#: NEEDS WORK
+msgid "Open GitHub Token Settings"
+msgstr "Otvorenie nastavení tokenu GitHub"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1053
+#: NEEDS WORK
+msgid "Save and Continue"
+msgstr "Uložiť a pokračovať"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1063
+#: NEEDS WORK
+msgid "Username and token are required"
+msgstr "Používateľské meno a token sú povinné"
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 1084
+#: NEEDS WORK
+msgid "✓ Token saved successfully"
+msgstr "✓ Token bol úspešne uložený"
 # 
 # File: usr/share/build-package/gui/main_window.py, line: 963
 msgid "Uncommitted Changes Detected"
@@ -7291,6 +7426,30 @@ msgstr ""
 #, python-brace-format
 msgid "{0} (version {1})"
 msgstr ""
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/github_api.py, line: 627
+# File: usr/share/build-iso/github_api.py, line: 30
+#, python-brace-format
+msgid "Token file '{0}' not found."
+msgstr "Súbor s tokenom '{0}' nebol nájdený."
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/github_api.py, line: 645
+# File: usr/share/build-iso/github_api.py, line: 48
+#, python-brace-format
+msgid "Token for organization '{0}' not found."
+msgstr "Token pre organizáciu '{0}' nebol nájdený."
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/core/github_api.py, line: 648
+# File: usr/share/build-iso/github_api.py, line: 51
+#, python-brace-format
+msgid "Error reading token: {0}"
+msgstr "Chyba pri čítaní tokenu: {0}"
 # 
 # File: usr/share/build-iso/github_api.py, line: 112
 #, fuzzy
