@@ -77,8 +77,11 @@ class BuildPackage:
     
     def setup_environment(self):
         """Configures the execution environment"""
-        # Get GitHub token
-        token = GitHubAPI(None, self.organization).get_github_token(self.logger)
+        # Try to get GitHub token (optional - not required for basic Git operations)
+        # Basic Git operations (commit, push, pull, branches) work without a token.
+        # The token is only needed for GitHub API operations (package generation,
+        # PR creation, workflow triggers).
+        token = GitHubAPI(None, self.organization).get_github_token_optional()
         self.github_api = GitHubAPI(token, self.organization)
         
         # Additional settings
@@ -1267,6 +1270,11 @@ the specific source code used to create this copy."""), style="white")
             self.logger.die("red", _("This operation is only available in git repositories."))
             return False
         
+        # Ensure GitHub token is available (required for triggering workflows)
+        if not self.github_api.ensure_github_token(self.logger):
+            self.logger.log("red", _("✗ Cannot generate package without a GitHub token."))
+            return False
+        
         branch_type = self.args.build
         if not branch_type:
             self.logger.die("red", _("Branch type not specified."))
@@ -1596,6 +1604,11 @@ the specific source code used to create this copy."""), style="white")
     
     def build_aur_package(self):
         """Triggers workflow to build an AUR package"""
+        # Ensure GitHub token is available (required for triggering workflows)
+        if not self.github_api.ensure_github_token(self.logger):
+            self.logger.log("red", _("✗ Cannot build AUR package without a GitHub token."))
+            return False
+        
         aur_package_name = self.args.aur
         if not aur_package_name:
             self.logger.log("purple", _("Enter the AUR package name (ex: showtime): type EXIT to exit"))

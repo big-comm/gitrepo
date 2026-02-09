@@ -87,13 +87,20 @@ class GTKLogger:
     def die(self, style: str, message: str, exit_code: int = 1):
         """Displays error message in GUI and exits"""
         error_msg = f"{_('ERROR')}: {message}"
-        self.main_window.show_error_toast(error_msg)
         
         # Also show in console for debugging
         print("[FATAL] {0}".format(error_msg))
         
-        # For GUI, we might want to show a modal dialog instead of exiting immediately
-        self._show_fatal_error_dialog(error_msg, exit_code)
+        if self.progress_dialog:
+            # When ProgressDialog is active, route through it instead of showing
+            # toasts behind the dialog (which causes visual clutter)
+            self.progress_dialog.set_status(error_msg)
+            self.progress_dialog.append_detail(error_msg, style="red")
+        else:
+            # No ProgressDialog - show toast and fatal dialog as usual
+            self.main_window.show_error_toast(error_msg)
+            # Show modal dialog for fatal errors
+            self._show_fatal_error_dialog(error_msg, exit_code)
     
     def draw_app_header(self):
         """For GUI, this updates the window title instead of drawing terminal header"""

@@ -930,7 +930,8 @@ class MainWindow(Adw.ApplicationWindow):
                 tmate_option=tmate
             )
 
-        self.operation_runner.run_with_progress(
+        # Check token before starting - if missing, show setup dialog
+        self._ensure_token_and_run(
             build_operation,
             _("Building Package"),
             _("Building {0} package...").format(package_type)
@@ -950,7 +951,8 @@ class MainWindow(Adw.ApplicationWindow):
                 tmate_option=tmate
             )
 
-        self.operation_runner.run_with_progress(
+        # Check token before starting - if missing, show setup dialog
+        self._ensure_token_and_run(
             commit_and_build_operation,
             _("Commit and Build"),
             _("Committing changes and building {0} package...").format(package_type)
@@ -963,11 +965,138 @@ class MainWindow(Adw.ApplicationWindow):
             self.build_package.args.tmate = tmate
             return self.build_package.build_aur_package()
         
-        self.operation_runner.run_with_progress(
+        # Check token before starting - if missing, show setup dialog
+        self._ensure_token_and_run(
             aur_build_operation,
             _("Building AUR Package"),
             _("Building AUR package: {0}").format(package_name)
         )
+    
+    def _ensure_token_and_run(self, operation, title, description):
+        """Ensure GitHub token is available before running a package operation.
+        
+        If token is missing, shows a GTK dialog to guide the user through setup.
+        If token is available (or setup succeeds), runs the operation.
+        """
+        github_api = self.build_package.github_api
+        
+        # Check if token is already available
+        if github_api.token:
+            self.operation_runner.run_with_progress(operation, title, description)
+            return
+        
+        # Try to read from file (in case it was created externally)
+        token = github_api.get_github_token_optional()
+        if token:
+            github_api.token = token
+            github_api.headers = {
+                "Accept": "application/vnd.github.v3+json",
+                "Authorization": f"token {token}"
+            }
+            self.operation_runner.run_with_progress(operation, title, description)
+            return
+        
+        # Token not found - show setup dialog
+        self._show_token_setup_dialog(operation, title, description)
+    
+    def _show_token_setup_dialog(self, pending_operation, pending_title, pending_description):
+        """Show GTK dialog to set up GitHub token"""
+        import os
+        from core.config import TOKEN_FILE
+        
+        dialog = Adw.MessageDialog(
+            transient_for=self,
+            modal=True
+        )
+        dialog.set_heading(_("GitHub Token Setup"))
+        dialog.set_body(
+            _("A GitHub Personal Access Token is required for package operations.\n\n"
+              "To create one:\n"
+              "1. Go to: github.com/settings/tokens\n"
+              "2. Click 'Generate new token (classic)'\n"
+              "3. Select scopes: 'repo' and 'workflow'\n"
+              "4. Copy the generated token")
+        )
+        
+        # Create content box with entry fields
+        content_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        content_box.set_margin_start(24)
+        content_box.set_margin_end(24)
+        
+        # Username field
+        username_label = Gtk.Label(label=_("GitHub Username:"), xalign=0)
+        username_entry = Gtk.Entry()
+        username_entry.set_placeholder_text(_("your-username"))
+        content_box.append(username_label)
+        content_box.append(username_entry)
+        
+        # Token field
+        token_label = Gtk.Label(label=_("GitHub Token:"), xalign=0)
+        token_entry = Gtk.PasswordEntry()
+        token_entry.set_show_peek_icon(True)
+        token_entry.set_placeholder_text("ghp_...")
+        content_box.append(token_label)
+        content_box.append(token_entry)
+        
+        # Link to GitHub settings
+        link_label = Gtk.Label()
+        link_label.set_markup(
+            '<a href="https://github.com/settings/tokens">'
+            + _("Open GitHub Token Settings") + '</a>'
+        )
+        link_label.set_margin_top(8)
+        content_box.append(link_label)
+        
+        dialog.set_extra_child(content_box)
+        
+        dialog.add_response("cancel", _("Cancel"))
+        dialog.add_response("save", _("Save and Continue"))
+        dialog.set_response_appearance("save", Adw.ResponseAppearance.SUGGESTED)
+        dialog.set_default_response("save")
+        
+        def on_response(dialog, response):
+            if response == "save":
+                username = username_entry.get_text().strip()
+                token_text = token_entry.get_text().strip()
+                
+                if not username or not token_text:
+                    self.show_error_toast(_("Username and token are required"))
+                    dialog.close()
+                    return
+                
+                # Save token to file
+                token_file = os.path.expanduser(TOKEN_FILE)
+                try:
+                    organization = self.build_package.organization
+                    mode = 'a' if os.path.exists(token_file) else 'w'
+                    with open(token_file, mode) as f:
+                        f.write(f"{organization}={token_text}\n")
+                    os.chmod(token_file, 0o600)
+                    
+                    # Update the API instance
+                    github_api = self.build_package.github_api
+                    github_api.token = token_text
+                    github_api.headers = {
+                        "Accept": "application/vnd.github.v3+json",
+                        "Authorization": f"token {token_text}"
+                    }
+                    
+                    self.show_error_toast(_("✓ Token saved successfully"))
+                    dialog.close()
+                    
+                    # Now run the pending operation
+                    self.operation_runner.run_with_progress(
+                        pending_operation, pending_title, pending_description
+                    )
+                    
+                except Exception as e:
+                    self.show_error_toast(_("Error saving token: {0}").format(e))
+                    dialog.close()
+            else:
+                dialog.close()
+        
+        dialog.connect("response", on_response)
+        dialog.present()
     
     def on_branch_selected(self, widget, branch_name):
         """Handle branch selection - switch to selected branch intelligently"""

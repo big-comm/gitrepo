@@ -33,6 +33,12 @@ def commit_and_generate_package_v2(build_package_instance, branch_type, commit_m
         bp.logger.die("red", _("This operation is only available in git repositories."))
         return False
 
+    # Ensure GitHub token is available (required for triggering workflows)
+    if not bp.github_api.ensure_github_token(bp.logger):
+        bp.logger.log("red", _("✗ Cannot generate package without a GitHub token."))
+        bp.logger.log("white", _("Please configure your token and try again."))
+        return False
+
     # Check dry-run mode
     if getattr(bp, 'dry_run_mode', False):
         bp.logger.log("yellow", "")
