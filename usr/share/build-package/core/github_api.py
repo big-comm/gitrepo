@@ -620,11 +620,23 @@ class GitHubAPI:
             return False
     
     def get_github_token(self, logger) -> str:
-        """Gets the GitHub token saved locally"""
+        """Gets the GitHub token saved locally (non-fatal if missing)"""
+        token = self.get_github_token_optional()
+        if not token:
+            logger.log("yellow", _("GitHub token not configured. Package operations will require token setup."))
+        return token
+    
+    def get_github_token_optional(self) -> str:
+        """Gets GitHub token if available, returns empty string if not (no error).
+        
+        This allows the application to start and function for basic Git operations
+        (commit, push, pull, branches) without requiring a GitHub token.
+        The token is only needed for GitHub API operations like package generation,
+        PR creation, and workflow triggers.
+        """
         token_file = os.path.expanduser(TOKEN_FILE)
         
         if not os.path.exists(token_file):
-            logger.die("red", _("Token file '{0}' not found.").format(token_file))
             return ""
         
         try:
@@ -634,19 +646,98 @@ class GitHubAPI:
             # Look for token associated with current organization
             for line in token_lines:
                 line = line.strip()
+                if not line or line.startswith('#'):
+                    continue
                 if '=' in line:
                     org, token = line.split('=', 1)
-                    if org.lower() == self.organization.lower():
-                        return token
-                elif line and '=' not in line:
+                    if org.strip().lower() == self.organization.lower():
+                        return token.strip()
+                elif line:
                     # If it's just a token without a specific organization
-                    return line
+                    return line.strip()
             
-            logger.die("red", _("Token for organization '{0}' not found.").format(self.organization))
             return ""
-        except Exception as e:
-            logger.die("red", _("Error reading token: {0}").format(e))
+        except Exception:
             return ""
+    
+    def ensure_github_token(self, logger) -> bool:
+        """Ensures token is available, prompting user to create if missing.
+        
+        This method is called before operations that require GitHub API access
+        (package generation, PR creation, workflow triggers). If the token is
+        not available, it guides the user through creating one.
+        
+        Returns:
+            True if token is now available, False if user cancelled setup.
+        """
+        # Check if we already have a valid token
+        if self.token:
+            return True
+        
+        # Try to read existing token
+        token = self.get_github_token_optional()
+        if token:
+            self.token = token
+            self.headers = {
+                "Accept": "application/vnd.github.v3+json",
+                "Authorization": f"token {self.token}"
+            }
+            return True
+        
+        # Token not found - guide user through setup
+        logger.log("yellow", "")
+        logger.log("yellow", _("═══ GitHub Token Setup Required ═══"))
+        logger.log("yellow", "")
+        logger.log("white", _("A GitHub Personal Access Token is required for this operation."))
+        logger.log("white", "")
+        logger.log("cyan", _("To create a Personal Access Token:"))
+        logger.log("white", _("  1. Go to: https://github.com/settings/tokens"))
+        logger.log("white", _("  2. Click 'Generate new token (classic)'"))
+        logger.log("white", _("  3. Name: 'gitrepo' | Expiration: your choice"))
+        logger.log("white", _("  4. Select scopes: 'repo' and 'workflow'"))
+        logger.log("white", _("  5. Click 'Generate token' and copy it"))
+        logger.log("white", "")
+        
+        try:
+            # Prompt for username and token
+            username = input(_("GitHub username (or press Enter to cancel): ")).strip()
+            if not username:
+                logger.log("yellow", _("Token setup cancelled."))
+                return False
+            
+            token_input = input(_("GitHub token (or press Enter to cancel): ")).strip()
+            if not token_input:
+                logger.log("yellow", _("Token setup cancelled."))
+                return False
+            
+            # Save token to file
+            token_file = os.path.expanduser(TOKEN_FILE)
+            try:
+                # Append or create the token file
+                mode = 'a' if os.path.exists(token_file) else 'w'
+                with open(token_file, mode) as f:
+                    f.write(f"{self.organization}={token_input}\n")
+                os.chmod(token_file, 0o600)  # Secure permissions
+                
+                logger.log("green", _("✓ Token saved to {0}").format(token_file))
+                logger.log("green", _("✓ File permissions set to 600 (owner read/write only)"))
+                
+                # Update instance
+                self.token = token_input
+                self.headers = {
+                    "Accept": "application/vnd.github.v3+json",
+                    "Authorization": f"token {self.token}"
+                }
+                return True
+                
+            except Exception as e:
+                logger.log("red", _("Error saving token: {0}").format(e))
+                return False
+                
+        except (EOFError, KeyboardInterrupt):
+            logger.log("yellow", "")
+            logger.log("yellow", _("Token setup cancelled."))
+            return False
             
     def clean_action_jobs(self, status: str, logger) -> bool:
         """Cleans Actions jobs with specific status (success, failure)"""
