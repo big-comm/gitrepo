@@ -58,11 +58,107 @@ def commit_and_push_v2(build_package_instance):
     username = bp.github_user_name or "unknown"
     expected_branch = f"dev-{username}"
     has_changes = GitUtils.has_changes()
+    has_commits = GitUtils.has_commits()
     has_conflicts = bp.conflict_resolver.has_conflicts() if bp.conflict_resolver else False
 
     bp.logger.log("white", _("Current branch: {0}").format(bp.logger.format_branch_name(current_branch)))
     bp.logger.log("white", _("Your branch: {0}").format(bp.logger.format_branch_name(expected_branch)))
     bp.logger.log("white", _("Changes: {0}").format("✓" if has_changes else "✗"))
+
+    # === EARLY PATH: No initial commit yet ===
+    # git stash/fetch/divergence all require at least one commit.
+    # Take a simplified path: create branch, add, commit, push.
+    if not has_commits:
+        bp.logger.log("cyan", _("New repository detected (no commits yet). Creating initial commit..."))
+
+        if not has_changes:
+            bp.logger.log("yellow", _("No changes to commit"))
+            return True
+
+        # Create the target branch directly (checkout -b works without commits)
+        if current_branch != expected_branch:
+            try:
+                subprocess.run(
+                    ["git", "checkout", "-b", expected_branch],
+                    check=True,
+                    capture_output=True
+                )
+                current_branch = expected_branch
+                bp.logger.log("green", _("✓ Created branch: {0}").format(expected_branch))
+            except subprocess.CalledProcessError:
+                # Branch may already exist
+                try:
+                    subprocess.run(
+                        ["git", "checkout", expected_branch],
+                        check=True,
+                        capture_output=True
+                    )
+                    current_branch = expected_branch
+                except subprocess.CalledProcessError as e:
+                    bp.logger.log("red", _("✗ Failed to switch to branch: {0}").format(e))
+                    return False
+
+        # Get commit message
+        bp.last_commit_type = None
+        if bp.args.commit_file:
+            try:
+                with open(bp.args.commit_file, 'r', encoding='utf-8') as f:
+                    commit_message = f.read().strip()
+                if not commit_message:
+                    bp.logger.die("red", _("Commit message file is empty."))
+                    return False
+            except FileNotFoundError:
+                bp.logger.die("red", _("Commit message file not found: {0}").format(bp.args.commit_file))
+                return False
+        elif bp.args.commit:
+            commit_message = bp.args.commit
+        else:
+            commit_message = bp.custom_commit_prompt()
+            if not commit_message:
+                bp.logger.die("red", _("Commit message cannot be empty."))
+                return False
+
+        # Version bump
+        if bp.settings.get("auto_version_bump", True):
+            bp.apply_auto_version_bump(commit_message, bp.last_commit_type)
+
+        # Stage + commit + push
+        try:
+            subprocess.run(["git", "add", "--all"], check=True, capture_output=True)
+
+            if '\n' in commit_message:
+                with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False, encoding='utf-8') as f:
+                    f.write(commit_message)
+                    commit_file = f.name
+                try:
+                    subprocess.run(["git", "commit", "-F", commit_file], check=True, capture_output=True)
+                finally:
+                    os.unlink(commit_file)
+            else:
+                subprocess.run(["git", "commit", "-m", commit_message], check=True, capture_output=True)
+
+            bp.logger.log("green", _("✓ Initial commit created"))
+        except subprocess.CalledProcessError as e:
+            error_msg = e.stderr.decode() if e.stderr else str(e)
+            bp.logger.log("red", _("✗ Commit failed: {0}").format(error_msg))
+            return False
+
+        # Push
+        try:
+            subprocess.run(
+                ["git", "push", "-u", "origin", current_branch],
+                check=True,
+                capture_output=True
+            )
+        except subprocess.CalledProcessError as e:
+            error_msg = e.stderr.decode() if e.stderr else str(e)
+            bp.logger.log("yellow", _("⚠ Push failed (you may need to set up remote): {0}").format(error_msg))
+            # Don't return False - the commit itself succeeded
+
+        bp.logger.log("green", _("✓ Successfully committed and pushed to {0}!").format(
+            bp.logger.format_branch_name(current_branch)
+        ))
+        return True
 
     # === PHASE 2: HANDLE CONFLICTS FIRST ===
     if has_conflicts:

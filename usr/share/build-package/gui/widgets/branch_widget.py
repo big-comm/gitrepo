@@ -382,11 +382,12 @@ class BranchWidget(Gtk.Box):
         
         # Check if there are changes to stash
         has_changes = GitUtils.has_changes()
+        has_commits = GitUtils.has_commits()
         stashed = False
         
         try:
-            # Stash changes if needed
-            if has_changes:
+            # Stash changes if needed (only works if repo has at least one commit)
+            if has_changes and has_commits:
                 stash_result = subprocess.run(
                     ["git", "stash", "push", "-u", "-m", "auto-stash-switch-to-main"],
                     capture_output=True, text=True, check=False
