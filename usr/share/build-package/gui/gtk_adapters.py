@@ -202,7 +202,7 @@ class GTKMenuSystem:
                     dialog.set_response_appearance(response_id, Adw.ResponseAppearance.DESTRUCTIVE)
                 
                 # Suggested actions (blue) - switch, my branch, minha, mudar, atualizar
-                elif any(word in option_lower for word in ["switch", "my branch", "minha", "mudar", "atualizar", "baixar"]):
+                elif any(word in option_lower for word in ["switch", "my branch", "minha", "mudar", "atualizar", "baixar", "recommend", "recomendado"]):
                     dialog.set_response_appearance(response_id, Adw.ResponseAppearance.SUGGESTED)
 
             if back_option:
