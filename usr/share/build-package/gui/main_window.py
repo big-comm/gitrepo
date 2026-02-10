@@ -523,7 +523,17 @@ class MainWindow(Adw.ApplicationWindow):
         self._pending_commit_message = None
     
     def _switch_then_commit(self, target_branch, commit_message):
-        """Switch to target branch then commit with logging"""
+        """Switch to target branch, sync with remote, then commit with logging.
+        
+        Flow:
+        1. Stash changes
+        2. Switch to target branch
+        3. Sync target branch with remote (pull --rebase) — BEFORE restoring stash
+        4. Restore stash (user's changes on top of up-to-date branch)
+        5. Commit + push
+        6. Return to original branch
+        7. Merge target into original branch (keep dev in sync)
+        """
         import subprocess
         
         # Check for changes to stash
@@ -538,13 +548,13 @@ class MainWindow(Adw.ApplicationWindow):
         
         def switch_and_commit():
             stashed = False
-            current_branch = GitUtils.get_current_branch()
+            original_branch = GitUtils.get_current_branch()
             
             try:
                 log("cyan", _("Preparing branch switch..."))
-                log("dim", f"    From: {current_branch} → To: {target_branch}")
+                log("dim", f"    From: {original_branch} → To: {target_branch}")
                 
-                # Stash if needed
+                # === Step 1: Stash changes ===
                 if has_changes:
                     log("cyan", _("Stashing local changes..."))
                     stash_result = subprocess.run(
@@ -557,7 +567,7 @@ class MainWindow(Adw.ApplicationWindow):
                     else:
                         log("yellow", _("⚠ Could not stash (continuing anyway)"))
                 
-                # Switch branch - handle case where branch exists remotely but not locally
+                # === Step 2: Switch to target branch ===
                 log("cyan", _("Switching to branch {0}...").format(target_branch))
                 
                 # Check if branch exists locally
@@ -603,7 +613,65 @@ class MainWindow(Adw.ApplicationWindow):
                 
                 log("green", _("✓ Switched to {0}").format(target_branch))
                 
-                # Restore stash
+                # === Step 3: Sync target branch with remote BEFORE restoring stash ===
+                log("cyan", _("Syncing {0} with remote...").format(target_branch))
+                
+                # Fetch latest
+                subprocess.run(
+                    ["git", "fetch", "origin", target_branch],
+                    capture_output=True, text=True, check=False
+                )
+                
+                # Check divergence
+                divergence = GitUtils.check_branch_divergence(target_branch)
+                
+                if divergence.get('behind', 0) > 0 or divergence.get('diverged'):
+                    behind = divergence.get('behind', 0)
+                    log("cyan", _("Pulling {0} commit(s) from remote...").format(behind))
+                    
+                    # Try rebase first (working tree is clean since changes are stashed)
+                    sync_result = subprocess.run(
+                        ["git", "pull", "--rebase", "origin", target_branch],
+                        capture_output=True, text=True, check=False
+                    )
+                    
+                    if sync_result.returncode == 0:
+                        log("green", _("✓ Synced with remote"))
+                    else:
+                        # Rebase failed, abort and try merge
+                        subprocess.run(
+                            ["git", "rebase", "--abort"],
+                            capture_output=True, check=False
+                        )
+                        log("yellow", _("⚠ Rebase failed, trying merge..."))
+                        
+                        sync_result = subprocess.run(
+                            ["git", "pull", "--no-rebase", "origin", target_branch],
+                            capture_output=True, text=True, check=False
+                        )
+                        
+                        if sync_result.returncode == 0:
+                            log("green", _("✓ Merged with remote"))
+                        else:
+                            # Sync completely failed - abort, go back to original branch
+                            subprocess.run(
+                                ["git", "merge", "--abort"],
+                                capture_output=True, check=False
+                            )
+                            log("red", _("✗ Could not sync {0} with remote").format(target_branch))
+                            log("yellow", _("Returning to {0}...").format(original_branch))
+                            subprocess.run(
+                                ["git", "checkout", original_branch],
+                                capture_output=True, check=False
+                            )
+                            if stashed:
+                                subprocess.run(["git", "stash", "pop"], capture_output=True, check=False)
+                                log("yellow", _("Restored stashed changes"))
+                            raise Exception(_("Failed to sync {0} with remote - please sync manually first").format(target_branch))
+                else:
+                    log("green", _("✓ Already in sync with remote"))
+                
+                # === Step 4: Restore stash ===
                 if stashed:
                     log("cyan", _("Restoring stashed changes..."))
                     pop_result = subprocess.run(
@@ -615,8 +683,38 @@ class MainWindow(Adw.ApplicationWindow):
                     else:
                         log("yellow", _("⚠ Conflicts while restoring stash - please resolve manually"))
                 
-                # Now do the commit - pass target_branch explicitly since we just switched
-                return self._execute_commit(commit_message, target_branch)
+                # === Step 5: Commit + push ===
+                result = self._execute_commit(commit_message, target_branch)
+                
+                # === Step 6: Return to original branch ===
+                if original_branch and original_branch != target_branch:
+                    log("cyan", _("Returning to {0}...").format(original_branch))
+                    back_result = subprocess.run(
+                        ["git", "checkout", original_branch],
+                        capture_output=True, text=True, check=False
+                    )
+                    if back_result.returncode == 0:
+                        log("green", _("✓ Returned to {0}").format(original_branch))
+                        
+                        # === Step 7: Merge target into original branch ===
+                        log("cyan", _("Syncing {0} with {1}...").format(original_branch, target_branch))
+                        merge_result = subprocess.run(
+                            ["git", "merge", target_branch, "--no-edit"],
+                            capture_output=True, text=True, check=False
+                        )
+                        if merge_result.returncode == 0:
+                            log("green", _("✓ {0} is now in sync with {1}").format(original_branch, target_branch))
+                        else:
+                            log("yellow", _("⚠ Could not auto-sync {0} — you can sync later with Pull").format(original_branch))
+                            # Abort failed merge to leave clean state
+                            subprocess.run(
+                                ["git", "merge", "--abort"],
+                                capture_output=True, check=False
+                            )
+                    else:
+                        log("yellow", _("⚠ Could not return to {0} — still on {1}").format(original_branch, target_branch))
+                
+                return result
                 
             except subprocess.CalledProcessError as e:
                 log("red", _("Error: {0}").format(str(e)))
