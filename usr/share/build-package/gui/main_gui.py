@@ -116,13 +116,6 @@ class BuildPackageApplication(Adw.Application):
                 border-right: 1px solid alpha(@borders, 0.3);
             }
             
-            /* Sidebar header — blend with sidebar background */
-            .sidebar-header {
-                background-color: transparent;
-                box-shadow: none;
-                border-bottom: 1px solid alpha(@borders, 0.2);
-            }
-            
             /* Navigation container — rounded box with differentiated background */
             .sidebar-nav-container {
                 background-color: alpha(@theme_bg_color, 0.5);
