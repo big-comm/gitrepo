@@ -115,7 +115,7 @@ class WelcomeDialog(Adw.Window):
              _("Build and deploy packages to testing, stable, or extra repositories")),
             ("system-software-install-symbolic", _("AUR Packages"), 
              _("Build packages directly from the Arch User Repository")),
-            ("git-branch-symbolic", _("Branch Management"), 
+            ("media-playlist-consecutive-symbolic", _("Branch Management"), 
              _("Manage branches, create merge requests, and cleanup old branches")),
             ("preferences-system-symbolic", _("Advanced Operations"), 
              _("Cleanup GitHub Actions, tags, and revert commits")),
