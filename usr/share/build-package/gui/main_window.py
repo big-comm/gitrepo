@@ -73,24 +73,42 @@ class MainWindow(Adw.ApplicationWindow):
         self.toast_overlay = Adw.ToastOverlay()
         self.set_content(self.toast_overlay)
         
-        # Leaflet for responsive design
+        # Main vertical box: header bar on top, then leaflet below
+        main_vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        self.toast_overlay.set_child(main_vbox)
+        
+        # ── Single unified header bar ──
+        self.header_bar = Adw.HeaderBar()
+        
+        # App title with icon on the left
+        app_title_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+        app_icon = Gtk.Image.new_from_icon_name("system-software-install-symbolic")
+        app_icon.set_pixel_size(18)
+        app_title_label = Gtk.Label(label=_("Build Package"))
+        app_title_label.add_css_class("heading")
+        app_title_box.append(app_icon)
+        app_title_box.append(app_title_label)
+        self.header_bar.pack_start(app_title_box)
+        
+        # Center title: repo name + branch as subtitle
+        self.window_title = Adw.WindowTitle(title=_("GitRepo"))
+        self.header_bar.set_title_widget(self.window_title)
+        
+        # Add hamburger menu button (on the right)
+        self._create_hamburger_menu()
+        
+        main_vbox.append(self.header_bar)
+        
+        # ── Leaflet for responsive design ──
         self.leaflet = Adw.Leaflet()
         self.leaflet.set_can_unfold(True)
         self.leaflet.set_fold_threshold_policy(Adw.FoldThresholdPolicy.MINIMUM)
-        self.toast_overlay.set_child(self.leaflet)
+        main_vbox.append(self.leaflet)
         
         # Sidebar
         sidebar_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         sidebar_box.set_size_request(280, -1)
         sidebar_box.add_css_class("sidebar-nav")
-        
-        # Header bar for sidebar
-        sidebar_header = Adw.HeaderBar()
-        sidebar_header.add_css_class("sidebar-header")
-        sidebar_header.set_title_widget(Gtk.Label(label=_("Build Package")))
-        sidebar_header.set_show_start_title_buttons(False)  # Hide window controls
-        sidebar_header.set_show_end_title_buttons(False)    # Hide window controls
-        sidebar_box.append(sidebar_header)
         
         # Navigation list in a scrollable container with margins
         self.nav_list = Gtk.ListBox()
@@ -108,7 +126,7 @@ class MainWindow(Adw.ApplicationWindow):
         nav_container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         nav_container.set_margin_start(12)
         nav_container.set_margin_end(12)
-        nav_container.set_margin_top(6)
+        nav_container.set_margin_top(12)
         nav_container.set_margin_bottom(12)
         nav_container.set_vexpand(True)
         nav_container.add_css_class("sidebar-nav-container")
@@ -117,24 +135,8 @@ class MainWindow(Adw.ApplicationWindow):
         sidebar_box.append(nav_container)
         self.leaflet.append(sidebar_box)
         
-        # Content area
+        # Content area (no separate header bar)
         content_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        
-        # Header bar for content
-        self.header_bar = Adw.HeaderBar()
-        
-        # Create a Title widget to hold title and subtitle
-        self.window_title = Adw.WindowTitle(title=_("GitRepo"))
-        self.header_bar.set_title_widget(self.window_title)
-        
-        # Show title buttons only on main header (right side)
-        self.header_bar.set_show_start_title_buttons(False)  # Hide start buttons
-        self.header_bar.set_show_end_title_buttons(True)     # Show end buttons (close, etc)
-        
-        # Add hamburger menu button
-        self._create_hamburger_menu()
-        
-        content_box.append(self.header_bar)
         
         # Content stack with scroll wrapper
         scrolled_content = Gtk.ScrolledWindow()
@@ -379,16 +381,23 @@ class MainWindow(Adw.ApplicationWindow):
             repo_name = GitUtils.get_repo_name()
             self.repo_status_label.set_text(repo_name if repo_name else _("Git Repository"))
             self.repo_status_label.add_css_class("success")
+            # Update header bar title with repo name
+            if repo_name:
+                self.window_title.set_title(repo_name)
         else:
             self.repo_status_label.set_text(_("Not a Git repository"))
             self.repo_status_label.add_css_class("warning")
+            self.window_title.set_title(_("GitRepo"))
         
         # Current branch
         current_branch = GitUtils.get_current_branch()
         if current_branch:
             self.branch_status_label.set_text(current_branch)
+            # Update header bar subtitle with branch name
+            self.window_title.set_subtitle(f"⎇ {current_branch}")
         else:
             self.branch_status_label.set_text(_("Unknown"))
+            self.window_title.set_subtitle("")
         
         # Changes status
         if GitUtils.has_changes():
