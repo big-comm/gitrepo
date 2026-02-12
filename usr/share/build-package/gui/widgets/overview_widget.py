@@ -95,11 +95,7 @@ class OverviewWidget(Gtk.Box):
     
     def create_ui(self):
         """Create the widget UI"""
-        
-        # Repository status banner
-        self.status_banner = Adw.Banner()
-        self.append(self.status_banner)
-        
+
         # Status cards grid
         status_group = Adw.PreferencesGroup()
         status_group.set_title(_("Repository Status"))
@@ -190,25 +186,12 @@ class OverviewWidget(Gtk.Box):
     def refresh_overview(self):
         """Refresh overview information"""
         try:
-            # Update repository status banner
-            if self.build_package.is_git_repo:
-                repo_name = GitUtils.get_repo_name()
-                if repo_name:
-                    self.status_banner.set_title(_("Connected to repository: {0}").format(repo_name))
-                    self.status_banner.set_revealed(True)
-                else:
-                    self.status_banner.set_title(_("Git repository detected"))
-                    self.status_banner.set_revealed(True)
-            else:
-                self.status_banner.set_title(_("Not in a Git repository - some features will be limited"))
-                self.status_banner.set_revealed(True)
-            
             # Update status cards
             self.update_status_cards()
-            
+
             # Update recent activity
             self.update_recent_activity()
-            
+
         except Exception as e:
             print(_("Error refreshing overview: {0}").format(e))
     

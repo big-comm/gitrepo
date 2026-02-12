@@ -68,76 +68,84 @@ class MainWindow(Adw.ApplicationWindow):
     
     def create_ui(self):
         """Create the main UI programmatically"""
-        
-        # Main layout - Toast overlay first
+
+        # Main layout - Toast overlay as outermost wrapper
         self.toast_overlay = Adw.ToastOverlay()
         self.set_content(self.toast_overlay)
-        
-        # Main vertical box: header bar on top, then leaflet below
-        main_vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.toast_overlay.set_child(main_vbox)
-        
-        # ── Single unified header bar ──
-        self.header_bar = Adw.HeaderBar()
-        
-        # App title with icon on the left
-        app_title_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
-        app_icon = Gtk.Image.new_from_icon_name("system-software-install-symbolic")
-        app_icon.set_pixel_size(18)
-        app_title_label = Gtk.Label(label=_("Build Package"))
-        app_title_label.add_css_class("heading")
-        app_title_box.append(app_icon)
-        app_title_box.append(app_title_label)
-        self.header_bar.pack_start(app_title_box)
-        
-        # Center title: repo name + branch as subtitle
-        self.window_title = Adw.WindowTitle(title=_("GitRepo"))
-        self.header_bar.set_title_widget(self.window_title)
-        
-        # Add hamburger menu button (on the right)
-        self._create_hamburger_menu()
-        
-        main_vbox.append(self.header_bar)
-        
-        # ── Leaflet for responsive design ──
-        self.leaflet = Adw.Leaflet()
-        self.leaflet.set_can_unfold(True)
-        self.leaflet.set_fold_threshold_policy(Adw.FoldThresholdPolicy.MINIMUM)
-        main_vbox.append(self.leaflet)
-        
-        # Sidebar
-        sidebar_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        sidebar_box.set_size_request(280, -1)
-        sidebar_box.add_css_class("sidebar-nav")
-        
-        # Navigation list in a scrollable container with margins
+
+        # ── OverlaySplitView as main layout ──
+        self.split_view = Adw.OverlaySplitView()
+        self.split_view.set_min_sidebar_width(260)
+        self.split_view.set_max_sidebar_width(320)
+        self.split_view.set_sidebar_width_fraction(0.32)
+        self.toast_overlay.set_child(self.split_view)
+
+        # ══════════════════════════════════════
+        # SIDEBAR PANE
+        # ══════════════════════════════════════
+        sidebar_toolbar = Adw.ToolbarView()
+
+        # Sidebar header bar
+        sidebar_header = Adw.HeaderBar()
+        sidebar_header.set_show_end_title_buttons(False)
+
+        # App icon on the left
+        app_icon = Gtk.Image.new_from_icon_name("gitrepo")
+        app_icon.set_pixel_size(20)
+        sidebar_header.pack_start(app_icon)
+
+        # Centered app title
+        app_title = Gtk.Label(label=_("Build Package"))
+        app_title.add_css_class("heading")
+        sidebar_header.set_title_widget(app_title)
+
+        sidebar_toolbar.add_top_bar(sidebar_header)
+
+        # Scrollable sidebar content
+        sidebar_scroll = Gtk.ScrolledWindow()
+        sidebar_scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        sidebar_scroll.set_vexpand(True)
+
+        sidebar_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=18)
+        sidebar_box.set_margin_start(12)
+        sidebar_box.set_margin_end(12)
+        sidebar_box.set_margin_top(6)
+        sidebar_box.set_margin_bottom(12)
+
+        # Navigation list inside a PreferencesGroup for card-style look
         self.nav_list = Gtk.ListBox()
         self.nav_list.set_selection_mode(Gtk.SelectionMode.SINGLE)
         self.nav_list.add_css_class("navigation-sidebar")
         self.nav_list.add_css_class("sidebar-listbox")
         self.nav_list.connect('row-selected', self.on_nav_row_selected)
-        
-        nav_scroll = Gtk.ScrolledWindow()
-        nav_scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
-        nav_scroll.set_vexpand(True)
-        nav_scroll.set_child(self.nav_list)
-        
-        # Container with margins for rounded look
-        nav_container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        nav_container.set_margin_start(12)
-        nav_container.set_margin_end(12)
-        nav_container.set_margin_top(12)
-        nav_container.set_margin_bottom(12)
-        nav_container.set_vexpand(True)
-        nav_container.add_css_class("sidebar-nav-container")
-        nav_container.append(nav_scroll)
-        
-        sidebar_box.append(nav_container)
-        self.leaflet.append(sidebar_box)
-        
-        # Content area (no separate header bar)
-        content_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        
+
+        nav_group = Adw.PreferencesGroup()
+        nav_group.add(self.nav_list)
+        sidebar_box.append(nav_group)
+
+        sidebar_scroll.set_child(sidebar_box)
+        sidebar_toolbar.set_content(sidebar_scroll)
+
+        self.split_view.set_sidebar(sidebar_toolbar)
+
+        # ══════════════════════════════════════
+        # CONTENT PANE
+        # ══════════════════════════════════════
+        content_toolbar = Adw.ToolbarView()
+
+        # Content header bar
+        self.content_header = Adw.HeaderBar()
+        self.content_header.set_show_start_title_buttons(False)
+
+        # Center title: repo name + branch as subtitle
+        self.window_title = Adw.WindowTitle(title=_("No repository"))
+        self.content_header.set_title_widget(self.window_title)
+
+        # Add hamburger menu button (on the right)
+        self._create_hamburger_menu()
+
+        content_toolbar.add_top_bar(self.content_header)
+
         # Content stack with scroll wrapper
         scrolled_content = Gtk.ScrolledWindow()
         scrolled_content.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
@@ -146,11 +154,12 @@ class MainWindow(Adw.ApplicationWindow):
         scrolled_content.set_propagate_natural_height(True)
 
         self.content_stack = Adw.ViewStack()
-        self.content_stack.set_vhomogeneous(False)  # Don't force all pages to same height
+        self.content_stack.set_vhomogeneous(False)
         scrolled_content.set_child(self.content_stack)
-        content_box.append(scrolled_content)
-        
-        self.leaflet.append(content_box)
+
+        content_toolbar.set_content(scrolled_content)
+
+        self.split_view.set_content(content_toolbar)
     
     def init_build_package(self):
         """Initialize BuildPackage with GUI logger and menu"""
@@ -173,6 +182,9 @@ class MainWindow(Adw.ApplicationWindow):
 
             # Create navigation and pages after build_package is ready
             self.create_navigation_and_pages()
+
+            # Populate header title with repo info immediately
+            self.refresh_status()
 
         except Exception as e:
             self.show_error_toast(_("Failed to initialize: {0}").format(str(e)))
@@ -291,19 +303,19 @@ class MainWindow(Adw.ApplicationWindow):
         """Create hamburger menu button with Preferences and About options"""
         # Create menu model
         menu = Gio.Menu()
-        
+
         # Add menu items
         menu.append(_("Preferences"), "win.preferences")
         menu.append(_("About"), "win.about")
-        
+
         # Create menu button with hamburger icon
         menu_button = Gtk.MenuButton()
         menu_button.set_icon_name("open-menu-symbolic")
         menu_button.set_menu_model(menu)
         menu_button.set_tooltip_text(_("Main Menu"))
-        
-        # Add to header bar (pack_end places it on the right, before window controls)
-        self.header_bar.pack_end(menu_button)
+
+        # Add to content header bar (pack_end places it on the right, before window controls)
+        self.content_header.pack_end(menu_button)
     
     def setup_actions(self):
         """Setup application actions"""
@@ -375,37 +387,46 @@ class MainWindow(Adw.ApplicationWindow):
         """Refresh repository status display"""
         if not self.build_package:
             return
-            
+
         # Repository status
         if self.build_package.is_git_repo:
             repo_name = GitUtils.get_repo_name()
-            self.repo_status_label.set_text(repo_name if repo_name else _("Git Repository"))
-            self.repo_status_label.add_css_class("success")
-            # Update header bar title with repo name
+            if hasattr(self, 'repo_status_label'):
+                self.repo_status_label.set_text(repo_name if repo_name else _("Git Repository"))
+                self.repo_status_label.add_css_class("success")
+            # Update header bar title with org/repo format
             if repo_name:
-                self.window_title.set_title(repo_name)
+                org = getattr(self.build_package, 'organization', None)
+                if org:
+                    self.window_title.set_title(f"{org}/{repo_name}")
+                else:
+                    self.window_title.set_title(repo_name)
         else:
-            self.repo_status_label.set_text(_("Not a Git repository"))
-            self.repo_status_label.add_css_class("warning")
-            self.window_title.set_title(_("GitRepo"))
-        
+            if hasattr(self, 'repo_status_label'):
+                self.repo_status_label.set_text(_("Not a Git repository"))
+                self.repo_status_label.add_css_class("warning")
+            self.window_title.set_title(_("No repository"))
+
         # Current branch
         current_branch = GitUtils.get_current_branch()
         if current_branch:
-            self.branch_status_label.set_text(current_branch)
+            if hasattr(self, 'branch_status_label'):
+                self.branch_status_label.set_text(current_branch)
             # Update header bar subtitle with branch name
             self.window_title.set_subtitle(f"⎇ {current_branch}")
         else:
-            self.branch_status_label.set_text(_("Unknown"))
+            if hasattr(self, 'branch_status_label'):
+                self.branch_status_label.set_text(_("Unknown"))
             self.window_title.set_subtitle("")
-        
+
         # Changes status
-        if GitUtils.has_changes():
-            self.changes_status_label.set_text(_("Uncommitted changes"))
-            self.changes_status_label.add_css_class("warning")
-        else:
-            self.changes_status_label.set_text(_("Clean working tree"))
-            self.changes_status_label.add_css_class("success")
+        if hasattr(self, 'changes_status_label'):
+            if GitUtils.has_changes():
+                self.changes_status_label.set_text(_("Uncommitted changes"))
+                self.changes_status_label.add_css_class("warning")
+            else:
+                self.changes_status_label.set_text(_("Clean working tree"))
+                self.changes_status_label.add_css_class("success")
     
     # Signal handlers for widget operations
     def on_quick_action(self, widget, action_id):
@@ -2011,13 +2032,10 @@ class MainWindow(Adw.ApplicationWindow):
     def switch_to_page(self, page_id):
         """Switch to specific page"""
         self.content_stack.set_visible_child_name(page_id)
-        
-        # Navigate to content area in mobile/folded view
-        if self.leaflet.get_folded():
-            # Get the content box (second child of leaflet)
-            content_box = self.leaflet.get_child_at_index(1)
-            if content_box:
-                self.leaflet.set_visible_child(content_box)
+
+        # In collapsed mode, ensure sidebar overlay closes
+        if self.split_view.get_collapsed():
+            self.split_view.set_show_sidebar(False)
     
     def refresh_all_widgets(self):
         """Refresh all widgets with current status"""
@@ -2092,5 +2110,5 @@ class MainWindow(Adw.ApplicationWindow):
     
     def on_back_button_clicked(self, button):
         """Handle back button in mobile view"""
-        if self.leaflet.get_folded():
-            self.leaflet.set_visible_child(self.leaflet.get_child_at_index(0))  # sidebar
+        if self.split_view.get_collapsed():
+            self.split_view.set_show_sidebar(True)

@@ -98,31 +98,19 @@ class BuildPackageApplication(Adw.Application):
             .wide-dropdown popover.menu {
                 min-width: 280px;
             }
-            
+
             .wide-dropdown popover.menu modelbutton {
                 min-width: 260px;
             }
-            
+
             /* Ensure dropdown list items don't truncate */
             row.combo popover contents modelbutton {
                 min-width: 250px;
             }
-            
-            /* ─── Sidebar styling ─── */
-            
-            /* Sidebar background — subtle differentiation from content */
-            .sidebar-nav {
-                background-color: alpha(@headerbar_bg_color, 0.6);
-                border-right: 1px solid alpha(@borders, 0.3);
-            }
-            
-            /* Navigation container — rounded box with differentiated background */
-            .sidebar-nav-container {
-                background-color: alpha(@theme_bg_color, 0.5);
-                border-radius: 12px;
-                border: 1px solid alpha(@borders, 0.15);
-            }
-            
+
+            /* ─── Sidebar navigation styling ─── */
+            /* Note: OverlaySplitView handles sidebar bg automatically via @sidebar_bg_color */
+
             /* Navigation rows — rounded corners and padding */
             .sidebar-listbox row {
                 border-radius: 10px;
@@ -130,29 +118,29 @@ class BuildPackageApplication(Adw.Application):
                 padding: 2px 4px;
                 transition: all 200ms ease;
             }
-            
+
             /* Hover effect — subtle highlight */
             .sidebar-listbox row:hover:not(:selected) {
                 background-color: alpha(@accent_bg_color, 0.1);
             }
-            
+
             /* Selected/active item — accent color from system theme */
             .sidebar-listbox row:selected {
                 background-color: alpha(@accent_bg_color, 0.85);
                 color: @accent_fg_color;
                 border-radius: 10px;
             }
-            
+
             /* Selected row title and subtitle styling */
             .sidebar-listbox row:selected label.title {
                 color: @accent_fg_color;
                 font-weight: bold;
             }
-            
+
             .sidebar-listbox row:selected label.subtitle {
                 color: alpha(@accent_fg_color, 0.85);
             }
-            
+
             /* Selected row icon */
             .sidebar-listbox row:selected image {
                 color: @accent_fg_color;
