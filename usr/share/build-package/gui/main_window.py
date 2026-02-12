@@ -82,21 +82,39 @@ class MainWindow(Adw.ApplicationWindow):
         # Sidebar
         sidebar_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         sidebar_box.set_size_request(280, -1)
+        sidebar_box.add_css_class("sidebar-nav")
         
         # Header bar for sidebar
         sidebar_header = Adw.HeaderBar()
+        sidebar_header.add_css_class("sidebar-header")
         sidebar_header.set_title_widget(Gtk.Label(label=_("Build Package")))
         sidebar_header.set_show_start_title_buttons(False)  # Hide window controls
         sidebar_header.set_show_end_title_buttons(False)    # Hide window controls
         sidebar_box.append(sidebar_header)
         
-        # Navigation list
+        # Navigation list in a scrollable container with margins
         self.nav_list = Gtk.ListBox()
         self.nav_list.set_selection_mode(Gtk.SelectionMode.SINGLE)
         self.nav_list.add_css_class("navigation-sidebar")
+        self.nav_list.add_css_class("sidebar-listbox")
         self.nav_list.connect('row-selected', self.on_nav_row_selected)
         
-        sidebar_box.append(self.nav_list)
+        nav_scroll = Gtk.ScrolledWindow()
+        nav_scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        nav_scroll.set_vexpand(True)
+        nav_scroll.set_child(self.nav_list)
+        
+        # Container with margins for rounded look
+        nav_container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        nav_container.set_margin_start(12)
+        nav_container.set_margin_end(12)
+        nav_container.set_margin_top(6)
+        nav_container.set_margin_bottom(12)
+        nav_container.set_vexpand(True)
+        nav_container.add_css_class("sidebar-nav-container")
+        nav_container.append(nav_scroll)
+        
+        sidebar_box.append(nav_container)
         self.leaflet.append(sidebar_box)
         
         # Content area
@@ -196,7 +214,7 @@ class MainWindow(Adw.ApplicationWindow):
         
         # Always show branches and advanced
         pages.extend([
-            (self.branch_widget, "branches", _("Branches"), "git-branch-symbolic"),
+            (self.branch_widget, "branches", _("Branches"), "media-playlist-consecutive-symbolic"),
             (self.advanced_widget, "advanced", _("Advanced"), "preferences-system-symbolic")
         ])
         
