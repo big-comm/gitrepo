@@ -394,13 +394,9 @@ class MainWindow(Adw.ApplicationWindow):
             if hasattr(self, 'repo_status_label'):
                 self.repo_status_label.set_text(repo_name if repo_name else _("Git Repository"))
                 self.repo_status_label.add_css_class("success")
-            # Update header bar title with org/repo format
+            # Update header bar title with repo name (already in owner/repo format)
             if repo_name:
-                org = getattr(self.build_package, 'organization', None)
-                if org:
-                    self.window_title.set_title(f"{org}/{repo_name}")
-                else:
-                    self.window_title.set_title(repo_name)
+                self.window_title.set_title(repo_name)
         else:
             if hasattr(self, 'repo_status_label'):
                 self.repo_status_label.set_text(_("Not a Git repository"))

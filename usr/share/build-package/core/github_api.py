@@ -867,12 +867,26 @@ class GitHubAPI:
                     logger.log("yellow", _("Warning: Could not resolve conflicts automatically"))
                     logger.log("yellow", _("Trying to create PR anyway..."))
         
-        # STEP 2: Create the PR
+        # STEP 2: Check if branches are identical before creating PR
+        try:
+            compare_url = f"https://api.github.com/repos/{repo_name}/compare/{target_branch}...{source_branch}"
+            compare_resp = requests.get(compare_url, headers=self.headers)
+            if compare_resp.status_code == 200:
+                compare_data = compare_resp.json()
+                if compare_data.get('status') == 'identical':
+                    if logger:
+                        logger.log("green", _("Branches are already identical - no PR needed!"))
+                        logger.log("green", _("Code is already up to date in '{0}'").format(target_branch))
+                    return {"auto_merged": True, "already_identical": True}
+        except Exception:
+            pass  # Continue with PR creation if comparison fails
+        
+        # STEP 3: Create the PR (use English for GitHub-visible data)
         pr_data = {
-            "title": _("Merge {0} into {1}").format(source_branch, target_branch),
-            "body": _("Automated PR created by build_package.py") + "\n\n" + 
-                   _("Conflicts resolved automatically (if any)") + "\n" +
-                   _("Ready for automatic merge"),
+            "title": f"Auto-merge: {source_branch} → {target_branch}",
+            "body": "Automated PR created by build_package.py\n\n"
+                    "Conflicts resolved automatically (if any)\n"
+                    "Ready for automatic merge",
             "head": source_branch,
             "base": target_branch
         }
@@ -882,19 +896,37 @@ class GitHubAPI:
             response = requests.post(url, json=pr_data, headers=self.headers)
             
             if response.status_code not in [200, 201]:
-                if logger:
-                    error_msg = response.json().get('message', '') if response.text else _('Unknown error')
-                    logger.log("red", _("Failed to create PR: {0}").format(error_msg))
-                return {}
+                # Handle 422 Validation Failed - may be duplicate PR
+                if response.status_code == 422:
+                    existing_pr = self._find_existing_pr(repo_name, source_branch, target_branch)
+                    if existing_pr:
+                        pr_info = existing_pr
+                        pr_number = existing_pr.get('number', 0)
+                        if logger:
+                            logger.log("yellow", _("Using existing PR #{0}").format(pr_number))
+                    else:
+                        if logger:
+                            error_msg = response.json().get('message', '') if response.text else _('Unknown error')
+                            errors = response.json().get('errors', []) if response.text else []
+                            error_detail = errors[0].get('message', '') if errors else ''
+                            full_error = f"{error_msg}: {error_detail}" if error_detail else error_msg
+                            logger.log("red", _("Failed to create PR: {0}").format(full_error))
+                        return {}
+                else:
+                    if logger:
+                        error_msg = response.json().get('message', '') if response.text else _('Unknown error')
+                        logger.log("red", _("Failed to create PR: {0}").format(error_msg))
+                    return {}
+            else:
+                pr_info = response.json()
+                pr_number = pr_info.get("number", 0)
             
-            pr_info = response.json()
             pr_url = pr_info.get("html_url", "")
-            pr_number = pr_info.get("number", 0)
             
             if logger:
-                logger.log("green", _("Pull request created successfully: {0}").format(pr_url))
+                logger.log("green", _("Pull request ready: {0}").format(pr_url))
             
-            # STEP 3: Auto-merge if requested
+            # STEP 4: Auto-merge if requested
             if auto_merge and pr_number:
                 if logger:
                     logger.log("cyan", _("Starting auto-merge process..."))
@@ -903,11 +935,11 @@ class GitHubAPI:
                 is_ready, pr_state = self.wait_for_pr_checks(pr_number, logger)
                 
                 if is_ready:
-                    # Try merge with complete payload (confirmed working method)
+                    # Try merge with complete payload (use English for GitHub commit)
                     merge_url = f"https://api.github.com/repos/{repo_name}/pulls/{pr_number}/merge"
                     merge_data = {
-                        "commit_title": _("Auto-merge: {0} → {1}").format(source_branch, target_branch),
-                        "commit_message": _("Automated merge performed by build_package.py"),
+                        "commit_title": f"Auto-merge: {source_branch} → {target_branch}",
+                        "commit_message": "Automated merge performed by build_package.py",
                         "merge_method": "merge"
                     }
                     
@@ -949,6 +981,22 @@ class GitHubAPI:
             if logger:
                 logger.log("red", _("Error creating pull request: {0}").format(str(e)))
             return {}
+    
+    def _find_existing_pr(self, repo_name: str, source_branch: str, target_branch: str) -> dict:
+        """Find an existing open PR for the same branch combination"""
+        try:
+            # GitHub API requires head in format "owner:branch"
+            owner = repo_name.split('/')[0] if '/' in repo_name else repo_name
+            url = f"https://api.github.com/repos/{repo_name}/pulls"
+            params = {"head": f"{owner}:{source_branch}", "base": target_branch, "state": "open"}
+            response = requests.get(url, params=params, headers=self.headers)
+            if response.status_code == 200:
+                prs = response.json()
+                if prs:
+                    return prs[0]
+        except Exception:
+            pass
+        return {}
 
     def _show_pr_summary(self, pr_info: dict, source_branch: str, target_branch: str, auto_merge: bool, logger):
         """Show pull request operation summary"""
