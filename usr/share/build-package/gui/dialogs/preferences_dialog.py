@@ -29,6 +29,7 @@ class PreferencesDialog(Adw.PreferencesDialog):
         self.needs_restart = False
 
         self.set_title(_("Preferences"))
+        self.set_content_width(560)
 
         # Create preference pages
         self._create_features_page()
@@ -299,66 +300,133 @@ class PreferencesDialog(Adw.PreferencesDialog):
         page = Adw.PreferencesPage()
         page.set_title(_("Behavior"))
         page.set_icon_name("preferences-system-symbolic")
-        
-        # Git operations group
+
+        # ── Operation mode ────────────────────────────────────────────────
+        mode_group = Adw.PreferencesGroup()
+        mode_group.set_title(_("Operation Mode"))
+        mode_group.set_description(_("Choose how the application should operate"))
+
+        self.mode_row = Adw.ComboRow()
+        self.mode_row.set_title(_("Mode"))
+        self.mode_row.set_subtitle(_("Select your preferred operation mode"))
+        modes_list = Gtk.StringList()
+        modes_list.append(_("Safe – Show previews and confirmations"))
+        modes_list.append(_("Quick – Fast with minimal confirmations"))
+        modes_list.append(_("Expert – Maximum automation, no confirmations"))
+        self.mode_row.set_model(modes_list)
+        mode_index = {"safe": 0, "quick": 1, "expert": 2}.get(self.settings.get("operation_mode", "safe"), 0)
+        self.mode_row.set_selected(mode_index)
+        self.mode_row.connect("notify::selected", self._on_mode_changed)
+        mode_group.add(self.mode_row)
+
+        self.strategy_row = Adw.ComboRow()
+        self.strategy_row.set_title(_("Conflict Strategy"))
+        self.strategy_row.set_subtitle(_("How to resolve merge conflicts"))
+        strategies_list = Gtk.StringList()
+        strategies_list.append(_("Interactive – Ask for each file"))
+        strategies_list.append(_("Auto-ours – Always keep local changes"))
+        strategies_list.append(_("Auto-theirs – Always accept remote changes"))
+        strategies_list.append(_("Manual – Stop and let me resolve"))
+        self.strategy_row.set_model(strategies_list)
+        strategy_index = {
+            "interactive": 0,
+            "auto-ours": 1,
+            "auto-theirs": 2,
+            "manual": 3,
+        }.get(self.settings.get("conflict_strategy", "interactive"), 0)
+        self.strategy_row.set_selected(strategy_index)
+        self.strategy_row.connect("notify::selected", self._on_strategy_changed)
+        mode_group.add(self.strategy_row)
+
+        page.add(mode_group)
+
+        # ── Git operations ────────────────────────────────────────────────
         git_group = Adw.PreferencesGroup()
         git_group.set_title(_("Git Operations"))
-        
-        # Auto-fetch
+
         auto_fetch_row = Adw.SwitchRow()
         auto_fetch_row.set_title(_("Auto-fetch before operations"))
         auto_fetch_row.set_subtitle(_("Fetch remote changes before commits and merges"))
         auto_fetch_row.set_active(self.settings.get("auto_fetch", True))
         auto_fetch_row.connect("notify::active", self._on_setting_toggle, "auto_fetch")
         git_group.add(auto_fetch_row)
-        
-        # Auto-switch branch
+
         auto_switch_row = Adw.SwitchRow()
         auto_switch_row.set_title(_("Auto-switch to dev branch"))
         auto_switch_row.set_subtitle(_("Automatically switch to your development branch"))
         auto_switch_row.set_active(self.settings.get("auto_switch_branch", True))
         auto_switch_row.connect("notify::active", self._on_setting_toggle, "auto_switch_branch")
         git_group.add(auto_switch_row)
-        
-        # Confirm destructive
+
+        auto_pull_row = Adw.SwitchRow()
+        auto_pull_row.set_title(_("Auto-pull latest changes"))
+        auto_pull_row.set_subtitle(_("Automatically pull remote changes before operations"))
+        auto_pull_row.set_active(self.settings.get("auto_pull", False))
+        auto_pull_row.connect("notify::active", self._on_setting_toggle, "auto_pull")
+        git_group.add(auto_pull_row)
+
         confirm_row = Adw.SwitchRow()
         confirm_row.set_title(_("Confirm destructive operations"))
         confirm_row.set_subtitle(_("Ask before force push, reset --hard, etc"))
         confirm_row.set_active(self.settings.get("confirm_destructive", True))
         confirm_row.connect("notify::active", self._on_setting_toggle, "confirm_destructive")
         git_group.add(confirm_row)
-        
-        # Show git commands
+
         show_commands_row = Adw.SwitchRow()
         show_commands_row.set_title(_("Show git commands"))
         show_commands_row.set_subtitle(_("Display git commands before executing"))
         show_commands_row.set_active(self.settings.get("show_git_commands", False))
         show_commands_row.connect("notify::active", self._on_setting_toggle, "show_git_commands")
         git_group.add(show_commands_row)
-        
+
         page.add(git_group)
-        
-        # Reset group
+
+        # ── Version management ────────────────────────────────────────────
+        version_group = Adw.PreferencesGroup()
+        version_group.set_title(_("Version Management"))
+
+        auto_version_row = Adw.SwitchRow()
+        auto_version_row.set_title(_("Auto-version bump"))
+        auto_version_row.set_subtitle(_("Automatically increment version based on commit type"))
+        auto_version_row.set_active(self.settings.get("auto_version_bump", True))
+        auto_version_row.connect("notify::active", self._on_setting_toggle, "auto_version_bump")
+        version_group.add(auto_version_row)
+
+        page.add(version_group)
+
+        # ── Reset ─────────────────────────────────────────────────────────
         reset_group = Adw.PreferencesGroup()
         reset_group.set_title(_("Reset"))
-        
+
         reset_row = Adw.ActionRow()
         reset_row.set_title(_("Reset to Defaults"))
         reset_row.set_subtitle(_("Restore all settings to default values"))
-        reset_row.set_activatable(True)
-        
+
         reset_button = Gtk.Button()
         reset_button.set_label(_("Reset"))
         reset_button.set_valign(Gtk.Align.CENTER)
         reset_button.add_css_class("destructive-action")
         reset_button.connect("clicked", self._on_reset_clicked)
         reset_row.add_suffix(reset_button)
-        
+
         reset_group.add(reset_row)
-        
         page.add(reset_group)
-        
+
         self.add(page)
+
+    def _on_mode_changed(self, combo, pspec):
+        """Save operation_mode from combo selection."""
+        modes = ["safe", "quick", "expert"]
+        idx = combo.get_selected()
+        if idx < len(modes):
+            self.settings.set("operation_mode", modes[idx])
+
+    def _on_strategy_changed(self, combo, pspec):
+        """Save conflict_strategy from combo selection."""
+        strategies = ["interactive", "auto-ours", "auto-theirs", "manual"]
+        idx = combo.get_selected()
+        if idx < len(strategies):
+            self.settings.set("conflict_strategy", strategies[idx])
     
     def _on_feature_toggle(self, switch, pspec, setting_key):
         """Handle feature toggle change"""
@@ -441,7 +509,19 @@ class PreferencesDialog(Adw.PreferencesDialog):
         self.org_combo.set_selected(0)
         self.custom_org_row.set_text("")
         self.workflow_row.set_text("")
+        mode_index = {"safe": 0, "quick": 1, "expert": 2}.get(self.settings.get("operation_mode", "safe"), 0)
+        self.mode_row.set_selected(mode_index)
+        strategy_index = {
+            "interactive": 0,
+            "auto-ours": 1,
+            "auto-theirs": 2,
+            "manual": 3,
+        }.get(self.settings.get("conflict_strategy", "interactive"), 0)
+        self.strategy_row.set_selected(strategy_index)
     
     def _on_closed(self, dialog):
-        """Handle dialog close"""
-        pass
+        """Sync conflict_strategy to the running build_package instance."""
+        if hasattr(self.parent_window, "build_package") and self.parent_window.build_package:
+            bp = self.parent_window.build_package
+            if hasattr(bp, "conflict_resolver"):
+                bp.conflict_resolver.strategy = self.settings.get("conflict_strategy", "interactive")

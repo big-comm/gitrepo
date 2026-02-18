@@ -5,12 +5,15 @@
 #
 
 import gi
-gi.require_version('Gtk', '4.0')
-gi.require_version('Adw', '1')
 
-from gi.repository import Gtk, Adw, GObject, GLib
-from core.translation_utils import _
+gi.require_version("Gtk", "4.0")
+gi.require_version("Adw", "1")
+
 import threading
+
+from core.translation_utils import _
+from gi.repository import Adw, GLib, GObject, Gtk
+
 
 class ProgressDialog(Adw.Window):
     """Dialog for showing progress of long-running operations"""
@@ -563,9 +566,12 @@ class OperationRunner:
     def _on_operation_error(self, error):
         """Handle operation error"""
         if self.parent:
-            toast = Adw.Toast.new(_("Operation failed: {0}").format(str(error)))
-            toast.set_timeout(5)
-            if hasattr(self.parent, 'toast_overlay'):
+            msg = _("Operation failed: {0}").format(str(error))
+            if hasattr(self.parent, "show_error_dialog"):
+                self.parent.show_error_dialog(msg)
+            elif hasattr(self.parent, "toast_overlay"):
+                toast = Adw.Toast.new(msg)
+                toast.set_timeout(5)
                 self.parent.toast_overlay.add_toast(toast)
             
             # Send system notification if window is not focused

@@ -5,11 +5,13 @@
 #
 
 import os
-import requests
-from datetime import datetime
 import time
+from datetime import datetime
+
+import requests
 from config import TOKEN_FILE
 from translation_utils import _
+
 
 class GitHubAPI:
     """Interface with GitHub API for ISO building"""
@@ -115,11 +117,7 @@ class GitHubAPI:
             workflow_url = f"https://api.github.com/repos/{repo_workflow}/dispatches"
             logger.log("cyan", _("Sending request to: {0}").format(workflow_url))
             
-            response = requests.post(
-                workflow_url,
-                headers=self.headers,
-                json=data
-            )
+            response = requests.post(workflow_url, headers=self.headers, json=data, timeout=30)
             
             if response.status_code == 422:
                 logger.die("red", _("Error triggering workflow (code 422). Can't have more than 10 entries in the event."))

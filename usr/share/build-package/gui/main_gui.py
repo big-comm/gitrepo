@@ -195,28 +195,13 @@ class BuildPackageApplication(Adw.Application):
         about_dialog.present()
 
     def on_preferences_activated(self, action, param):
-        """Show preferences window"""
+        """Show preferences dialog"""
         if self.main_window and hasattr(self.main_window, "settings"):
-            from gui.dialogs.settings_dialog import SettingsDialog
+            from gui.dialogs.preferences_dialog import PreferencesDialog
 
-            # Create and show settings dialog
-            settings_dialog = SettingsDialog(self.main_window, self.main_window.settings)
-
-            def on_settings_changed(dialog):
-                # Refresh build_package settings when changed
-                if hasattr(self.main_window, "build_package") and self.main_window.build_package:
-                    # Update conflict resolver strategy
-                    if hasattr(self.main_window.build_package, "conflict_resolver"):
-                        new_strategy = self.main_window.settings.get("conflict_strategy", "interactive")
-                        self.main_window.build_package.conflict_resolver.strategy = new_strategy
-
-                # Show toast
-                self.main_window.show_toast(_("Settings updated"))
-
-            settings_dialog.connect("settings-changed", on_settings_changed)
-            settings_dialog.present()
+            dialog = PreferencesDialog(self.main_window, self.main_window.settings)
+            dialog.present(self.main_window)
         else:
-            # Fallback
             if self.main_window:
                 self.main_window.show_info_toast(_("Settings not available"))
 

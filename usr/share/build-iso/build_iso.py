@@ -3,26 +3,37 @@
 #
 # build_iso.py - Main class for ISO building management
 
-import os
-import sys
 import argparse
+import os
 import subprocess
-from rich.console import Console
+import sys
 from datetime import datetime
-import requests
-from translation_utils import _
 
+import requests
 from config import (
-    APP_NAME, APP_DESC, APP_VERSION, DEFAULT_ORGANIZATION,
-    VALID_ORGANIZATIONS, VALID_BRANCHES, VALID_KERNELS,
-    VALID_DISTROS, DISTRO_DISPLAY_NAMES, ISO_PROFILES,
-    DEFAULT_ISO_PROFILES, API_PROFILES, ORG_DEFAULT_CONFIGS,
-    BUILD_MODE_LOCAL, BUILD_MODE_REMOTE
+    API_PROFILES,
+    APP_DESC,
+    APP_NAME,
+    APP_VERSION,
+    BUILD_MODE_LOCAL,
+    BUILD_MODE_REMOTE,
+    DEFAULT_ISO_PROFILES,
+    DEFAULT_ORGANIZATION,
+    DISTRO_DISPLAY_NAMES,
+    ISO_PROFILES,
+    ORG_DEFAULT_CONFIGS,
+    VALID_BRANCHES,
+    VALID_DISTROS,
+    VALID_KERNELS,
+    VALID_ORGANIZATIONS,
 )
-from logger import RichLogger
 from git_utils import GitUtils
 from github_api import GitHubAPI
+from logger import RichLogger
 from menu_system import MenuSystem
+from rich.console import Console
+from translation_utils import _
+
 
 class BuildISO:
     """Main class for ISO building management"""
@@ -155,9 +166,9 @@ class BuildISO:
     def print_version(self):
         """Prints application version"""
         console = Console()
-        from rich.text import Text
-        from rich.panel import Panel
         from rich.box import ROUNDED
+        from rich.panel import Panel
+        from rich.text import Text
         
         version_text = Text()
         version_text.append(f"{APP_NAME} v{APP_VERSION}\n", style="bold cyan")
@@ -266,7 +277,7 @@ the specific source code used to create this copy."""), style="white")
         
         try:
             # Make API request
-            response = requests.get(api_url)
+            response = requests.get(api_url, timeout=30)
             if response.status_code != 200:
                 self.logger.log("red", _("Error: API request failed with status code {0}").format(response.status_code))
                 return False
@@ -336,7 +347,7 @@ the specific source code used to create this copy."""), style="white")
             # Make API request for subdirectories
             if "github" in api_url:
                 # GitHub API path format
-                response = requests.get(f"{api_url}{self.build_dir}")
+                response = requests.get(f"{api_url}{self.build_dir}", timeout=30)
                 if response.status_code == 200:
                     data = response.json()
                     for item in data:
@@ -344,7 +355,7 @@ the specific source code used to create this copy."""), style="white")
                             editions.append(item.get("name"))
             else:
                 # GitLab API path format
-                response = requests.get(f"{api_url}?path={self.build_dir}")
+                response = requests.get(f"{api_url}?path={self.build_dir}", timeout=30)
                 if response.status_code == 200:
                     data = response.json()
                     for item in data:
@@ -528,6 +539,7 @@ the specific source code used to create this copy."""), style="white")
     def resume_and_build_local(self) -> bool:
         """Display summary and execute local build"""
         from datetime import datetime
+
         from local_builder import LocalBuilder
 
         tag = datetime.now().strftime("%Y-%m-%d_%H-%M")

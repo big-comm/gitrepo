@@ -2,7 +2,7 @@
 
 > Gerado em: 2025 | Ferramenta: ruff, análise AST, revisão manual  
 > Escopo: `usr/share/build-package/` — 38 arquivos Python (~17.000 linhas)  
-> **Última atualização:** Sprint 1 + 2 + 3 CONCLUÍDAS. Erros ruff: 123 → **0**
+> **Última atualização:** Sprints 1–4 + UX/SEG/DT CONCLUÍDAS. Erros ruff: 123 → **0**. `build_package.py`: 2832 → **1250** linhas (−56%). `settings_dialog.py` removido (−279L). `show_error_dialog` via `Adw.AlertDialog`.
 
 ---
 
@@ -13,6 +13,8 @@
 | BUG-01: `import os` em `main_window.py` | ✅ CONCLUÍDO |
 | BUG-02: `ours_file_abs`/`theirs_file_abs` em `conflict_resolver.py` | ✅ CONCLUÍDO |
 | BUG-03: `run_async_operation` assíncrono real | ✅ CONCLUÍDO |
+| SEG-03: `os.system('clear')` → `subprocess.run(['clear'])` | ✅ VERIFICADO/CORRETO |
+| SEG-04: Token exposto em logs | ✅ AUDITADO/SEGURO |
 | SEG-05: `timeout=30` em todas as requisições HTTP | ✅ CONCLUÍDO |
 | SEG-06: Remoção do token legado `~/.GITHUB_TOKEN` | ✅ CONCLUÍDO |
 | SEC-02: `chmod 600` no arquivo de token | ✅ JÁ CORRETO |
@@ -25,12 +27,20 @@
 | QC-06: loop var `_` shadow → `_dirs` em `git_utils.py` | ✅ CONCLUÍDO |
 | A11Y-01: label acessível no botão de excluir token | ✅ CONCLUÍDO |
 | A11Y-02: tooltips em botões icon-only | ✅ JÁ CORRETO |
+| A11Y-04: AT-SPI para status dinâmico | ✅ CONCLUÍDO |
+| A11Y-06: Navegação por teclado na sidebar | ✅ VERIFICADO/CORRETO |
+| UX-02: `Adw.AlertDialog` para erros críticos | ✅ CONCLUÍDO |
 | UX-03: CSS class `"error"` no toast de erro | ✅ CONCLUÍDO |
+| UX-04: `SettingsDialog` consolidado na `PreferencesDialog` | ✅ CONCLUÍDO (−279L) |
+| UX-05: Welcome Dialog mostrado apenas uma vez | ✅ VERIFICADO/CORRETO |
 | DT-01: `operation_preview.py` — ainda usado | ✅ VERIFICADO (manter) |
-| ARQ-01: Refatorar `BuildPackage` god class | ⏳ Sprint 4 |
-| ARQ-02: Refatorar `MainWindow` monolítico | ⏳ Sprint 4 |
-| ARQ-05: Extrair `TokenStore` | ⏳ Sprint 4 |
-| A11Y-04: AT-SPI para status dinâmico | ⏳ Sprint 4 |
+| DT-03: TODO implícito em `run_async_operation` | ✅ RESOLVIDO (threading real) |
+| ARQ-01: Refatorar `BuildPackage` god class | ✅ CONCLUÍDO (2832 → 1250L, −56%) |
+| ARQ-02: Refatorar `MainWindow` monolítico | ✅ CONCLUÍDO (1484L, máx. 104L/método) |
+| ARQ-05: Extrair `TokenStore` | ✅ CONCLUÍDO |
+| ARQ-03: Funções soltas → classes | ⏳ BAIXA PRIORIDADE (diferido) |
+| DT-02: Rename `cli/menu_system.py` | ✅ CONCLUÍDO (`cli/cli_menu.py`) |
+| DT-04: `local_builder.py` / `local_config.py` em `build-iso/` | ⏳ FORA DE ESCOPO |
 
 
 
@@ -76,7 +86,7 @@ O projeto tem uma arquitetura dual (CLI + GUI) bem separada, com lógica de neg�
 
 ## 3. Bugs Críticos — Correção Imediata
 
-### BUG-01: `NameError: os` em `main_window.py` — ALTO RISCO
+### BUG-01: `NameError: os` em `main_window.py` — ✅ CONCLUÍDO
 
 **Arquivo:** [gui/main_window.py](usr/share/build-package/gui/main_window.py#L1813)  
 **Erro ruff:** `F821 Undefined name 'os'` (linhas 1813 e 1813)
@@ -92,7 +102,7 @@ import os
 
 ---
 
-### BUG-02: `NameError: ours_file / theirs_file` em `conflict_resolver.py` — CRÍTICO
+### BUG-02: `NameError: ours_file / theirs_file` em `conflict_resolver.py` — ✅ CONCLUÍDO
 
 **Arquivo:** [core/conflict_resolver.py](usr/share/build-package/core/conflict_resolver.py#L907)  
 **Erro ruff:** `F821 Undefined name 'ours_file'` (L907) e `F821 Undefined name 'theirs_file'` (L908)
@@ -112,7 +122,7 @@ self.logger.log("cyan", f"  - {theirs_file_abs} (remote version)")
 
 ---
 
-### BUG-03: `run_async_operation` é síncrono — MÉDIO RISCO
+### BUG-03: `run_async_operation` é síncrono — ✅ CONCLUÍDO
 
 **Arquivo:** [gui/main_window.py](usr/share/build-package/gui/main_window.py#L2210)
 
@@ -132,29 +142,21 @@ O arquivo `~/.config/gitrepo/github_token` é criado com `chmod 600` em `prefere
 
 Nenhuma chamada `subprocess` usa `shell=True` (verificado). Todos os comandos passam listas. Não há risco de injeção de comando.
 
-### SEG-03: `os.system('clear')` com string literal — BAIXO RISCO
+### SEG-03: `os.system('clear')` com string literal — ✅ VERIFICADO/CORRETO
 
-**Arquivo:** [cli/menu_system.py](usr/share/build-package/cli/menu_system.py#L32)
+**Verificação:** `cli/menu_system.py` já usa `subprocess.run(["clear" if os.name == "posix" else "cls"], check=False)`. Nenhuma chamada `os.system` encontrada. Item já resolvido.
 
-```python
-os.system('clear' if os.name == 'posix' else 'cls')
-```
+### SEG-04: Token exposto em logs — ✅ VERIFICADO/SEGURO
 
-Valor hardcoded, sem interpolação de dados externos. Risco mínimo, mas preferível usar `subprocess.run(['clear'])` ou `print('\033[2J\033[H')` para evitar o spawn de shell.
+**Auditoria:** Nenhum valor de token aparece em mensagens de log. Logs de token são apenas de orientação ("Token saved to {path}", "GitHub token not configured"). A mascaragem na UI (`tok[:8] + "·····"`) está correta em `preferences_dialog.py`. Nenhum `str(exc)` loga token values.
 
-### SEG-04: Token exposto em logs — MÉDIO RISCO
-
-**Arquivo:** [core/github_api.py](usr/share/build-package/core/github_api.py)
-
-Verificar se o token nunca aparece em mensagens de log (`logger.log()`). A mascaragem na UI de preferências está correta (`ghp_***...***`), mas convém auditar se o token pode aparecer em stack traces ou logs de debug.
-
-### SEG-05: Requisições HTTP sem timeout explícito — BAIXO RISCO
+### SEG-05: Requisições HTTP sem timeout explícito — ✅ CONCLUÍDO
 
 **Arquivo:** [core/github_api.py](usr/share/build-package/core/github_api.py)
 
 Chamadas `requests.get()` / `requests.post()` não definem `timeout=`. Isso pode causar hang indefinido se a API do GitHub não responder. Recomendado adicionar `timeout=30` em todas as chamadas.
 
-### SEG-06: Token file legado não é removido após migração — BAIXO RISCO
+### SEG-06: Token file legado não é removido após migração — ✅ CONCLUÍDO
 
 **Arquivo:** [core/github_api.py](usr/share/build-package/core/github_api.py)
 
@@ -166,7 +168,7 @@ A migração copia `~/.GITHUB_TOKEN` para o novo local mas não remove o arquivo
 
 ## 5. Arquitetura
 
-### ARQ-01: God Class `BuildPackage` — ALTA PRIORIDADE
+### ARQ-01: God Class `BuildPackage` — ✅ CONCLUÍDO
 
 **Arquivo:** [core/build_package.py](usr/share/build-package/core/build_package.py)  
 **Tamanho:** 2.832 linhas, 1 classe, 46 métodos
@@ -186,7 +188,7 @@ Módulos de operações já foram extraídos (`pull_operations.py`, `commit_oper
 
 ---
 
-### ARQ-02: `MainWindow` como controlador monolítico — MÉDIA PRIORIDADE
+### ARQ-02: `MainWindow` como controlador monolítico — ✅ CONCLUÍDO
 
 **Arquivo:** [gui/main_window.py](usr/share/build-package/gui/main_window.py)  
 **Tamanho:** 2.452 linhas, 80 métodos
@@ -197,17 +199,15 @@ Módulos de operações já foram extraídos (`pull_operations.py`, `commit_oper
 
 ---
 
-### ARQ-03: Módulos `pull_operations.py`, `commit_operations.py`, `package_operations.py` são funções soltas — BAIXA PRIORIDADE
+### ARQ-03: Módulos `pull_operations.py`, `commit_operations.py`, `package_operations.py` são funções soltas — BAIXA PRIORIDADE (pendente)
 
 **Arquivos:** [core/pull_operations.py](usr/share/build-package/core/pull_operations.py), [core/commit_operations.py](usr/share/build-package/core/commit_operations.py), [core/package_operations.py](usr/share/build-package/core/package_operations.py)
 
-Esses módulos têm 0 classes e poucas funções. As funções recebem `build_package` como primeiro argumento — são métodos disfarçados de funções. Isso é um antipadrão: ou deveriam ser métodos de `BuildPackage`, ou deveriam ter suas próprias classes.
-
-**Recomendação:** Criar classes `PullOperations(build_package)`, `CommitOperations(build_package)`, `PackageOperations(build_package)` para clareza.
+**Avaliação (2025):** Os módulos recebem `bp` (BuildPackage) como primeiro argumento — são métodos disfarçados de funções. O padrão atual funciona e passou pelos testes de Sprint 4. Convertê-los para classes `CommitOperations(bp)`, `PullOperations(bp)`, `PackageOperations(bp)` traria benefício de organização mas com alto risco de regressão. Diferir para refatoração futura sob cobertura de testes.
 
 ---
 
-### ARQ-04: Imports E402 são estruturais — ACEITO
+### ARQ-04: Imports E402 são estruturais — ✅ ACEITO/CONFIGURADO
 
 **Arquivos:** Todos os arquivos GUI (31 ocorrências)
 
@@ -222,7 +222,7 @@ Os imports E402 (module level import not at top) ocorrem porque os arquivos faze
 
 ---
 
-### ARQ-05: Duplicação de lógica de token — MÉDIA PRIORIDADE
+### ARQ-05: Duplicação de lógica de token — ✅ CONCLUÍDO
 
 A leitura/escrita do arquivo de token existe em:
 - `core/github_api.py` — `get_github_token_optional()`
@@ -234,7 +234,7 @@ São implementações independentes do mesmo parsing `org=token`. Deveria existi
 
 ## 6. Qualidade de Código
 
-### QC-01: 18 Bare Excepts — ALTA PRIORIDADE
+### QC-01: 18 Bare Excepts — ✅ CONCLUÍDO
 
 Distribuição por arquivo:
 - `build_package.py`: 7 bare excepts
@@ -261,7 +261,7 @@ except (subprocess.CalledProcessError, OSError) as e:
 
 ---
 
-### QC-02: 9 f-strings sem placeholders (F541) — BAIXA PRIORIDADE
+### QC-02: 9 f-strings sem placeholders (F541) — ✅ CONCLUÍDO
 
 f-strings sem `{}` são strings literais desnecessariamente prefixadas. Impacto de performance mínimo mas indica imprecisão.
 
@@ -272,7 +272,7 @@ message = f"Operation completed"  # deveria ser "Operation completed"
 
 ---
 
-### QC-03: Imports não utilizados — BAIXA PRIORIDADE
+### QC-03: Imports não utilizados — ✅ CONCLUÍDO
 
 | Arquivo | Import não usado |
 |---|---|
@@ -285,7 +285,7 @@ message = f"Operation completed"  # deveria ser "Operation completed"
 
 ---
 
-### QC-04: Variável ambígua `l` — BAIXA PRIORIDADE
+### QC-04: Variável ambígua `l` — ✅ CONCLUÍDO
 
 **Arquivo:** [gui/main_window.py](usr/share/build-package/gui/main_window.py#L2413)
 
@@ -293,7 +293,7 @@ Variável de loop chamada `l` (E741). Renomear para nome descritivo.
 
 ---
 
-### QC-05: Variável `success` atribuída mas nunca usada — BAIXA PRIORIDADE
+### QC-05: Variável `success` atribuída mas nunca usada — ✅ CONCLUÍDO
 
 **Arquivo:** [core/conflict_resolver.py](usr/share/build-package/core/conflict_resolver.py#L869)
 
@@ -305,26 +305,26 @@ success = some_operation()  # valor nunca lido
 
 ## 7. UX e GTK4/Adwaita
 
-### UX-01: `run_async_operation` é stub síncrono — ALTA PRIORIDADE
+### UX-01: `run_async_operation` é stub síncrono — ✅ CONCLUÍDO (= BUG-03)
 
 Rever **BUG-03**. Operações demoradas (pull de repositório grande, trigger de workflow, busca de branches remotas) executam na UI thread usando `run_async_operation()` que na prática é síncrono. O correto é usar `ProgressDialog` com `threading.Thread` + `GLib.idle_add` para todas essas operações.
 
 ---
 
-### UX-02: `AdwToast` para feedback de erro — MÉDIA PRIORIDADE
+### UX-02: `AdwToast` para feedback de erro — ✅ CONCLUÍDO
 
-**Padrão atual:** `show_error_toast()` usa `Adw.Toast` para erros.
-
-**Problema:** Toasts têm timeout curto (5s), são passivos e o usuário pode não ver a mensagem de erro antes que ela desapareça. Erros críticos (ex.: falha no push, token inválido) devem usar `Adw.AlertDialog` ou uma barra de status inline persistente.
-
-**Recomendação:**
-- Erros de operação longa → `Adw.AlertDialog` com `response_cancel` e detalhes expansíveis
-- Avisos menores → `Adw.Toast` com timeout maior (8-10s)
-- Sucesso → `Adw.Toast` curto (3s) — já correto
+**O que foi feito:**
+- Adicionado método `show_error_dialog(message)` em `main_window.py` usando `Adw.AlertDialog`
+- Corrigido bug: linha 860 usava `show_error_toast` para mensagem de **sucesso** ("✓ Token saved successfully") → trocado por `show_toast`
+- `run_async_operation`: erros de operação e exceções não tratadas agora usam `show_error_dialog`
+- `init_build_package`: falha de inicialização agora usa `show_error_dialog`
+- `_save_token_callback`: erro de token salvo agora usa `show_error_dialog`
+- `progress_dialog.py`: `_on_operation_error` agora usa `parent.show_error_dialog` com fallback gracioso
+- `show_error_toast` mantido para validações menores (campos inválidos, URL vazia, etc.)
 
 ---
 
-### UX-03: Linha comentada de CSS no toast de erro
+### UX-03: Linha comentada de CSS no toast de erro — ✅ CONCLUÍDO
 
 **Arquivo:** [gui/main_window.py](usr/share/build-package/gui/main_window.py#L2236)
 
@@ -336,25 +336,31 @@ A classe CSS `error` em Adw.Toast não existe na API oficial. Remover comentári
 
 ---
 
-### UX-04: `SettingsDialog` separado da `PreferencesDialog` — BAIXA PRIORIDADE
+### UX-04: `SettingsDialog` separado da `PreferencesDialog` — ✅ CONCLUÍDO
 
-**Arquivo:** [gui/dialogs/settings_dialog.py](usr/share/build-package/gui/dialogs/settings_dialog.py)
-
-Existe um `SettingsDialog` separado chamado de `main_gui.py` (tela de configuração de aparência). O padrão Adwaita recomenda uma única `Adw.PreferencesWindow` com múltiplas páginas. Avaliar consolidação com `PreferencesDialog`.
+**O que foi feito:**
+- Conteúdo único do `SettingsDialog` migrado para `PreferencesDialog._create_behavior_page()`:
+  - `operation_mode` ComboRow (safe/quick/expert)
+  - `conflict_strategy` ComboRow (interactive/auto-ours/auto-theirs/manual)
+  - `auto_pull` SwitchRow
+  - `auto_version_bump` SwitchRow
+- `_on_closed` agora sincroniza `conflict_strategy` ao `conflict_resolver` ativo
+- `_refresh_ui` atualizado para incluir `mode_row` e `strategy_row`
+- `main_gui.py`: `on_preferences_activated` reescrito para abrir `PreferencesDialog` diretamente
+- `gui/dialogs/__init__.py`: removida exportação de `SettingsDialog`
+- `settings_dialog.py` deletado (279L a menos)
 
 ---
 
-### UX-05: Welcome Dialog deve ser mostrado uma única vez
+### UX-05: Welcome Dialog deve ser mostrado uma única vez — ✅ VERIFICADO/CORRETO
 
-**Arquivo:** [gui/dialogs/welcome_dialog.py](usr/share/build-package/gui/dialogs/welcome_dialog.py)
-
-Verificar que `should_show_welcome()` persiste o estado corretamente via `Settings` para que o diálogo não apareça em toda inicialização após a primeira execução.
+**Verificação:** `should_show_welcome(settings)` retorna `settings.get("show_welcome", True)`. O default `True` garante exibição na primeira execução. Ao clicar "Get Started", o diálogo salva `settings.set("show_welcome", show_again)` onde `show_again = not dont_show_check.get_active()`. `_check_show_welcome()` em `main_window.__init__` só exibe se `should_show_welcome()` retornar `True`. Comportamento já correto, sem mudanças necessárias.
 
 ---
 
 ## 8. Acessibilidade (Orca / AT-SPI)
 
-### A11Y-01: Botão de exclusão de token sem label acessível — ALTA PRIORIDADE
+### A11Y-01: Botão de exclusão de token sem label acessível — ✅ CONCLUÍDO
 
 **Arquivo:** [gui/dialogs/preferences_dialog.py](usr/share/build-package/gui/dialogs/preferences_dialog.py#L142)
 
@@ -388,7 +394,7 @@ O uso de `Adw.PasswordEntryRow` para entrada de tokens é correto: o Orca anunci
 
 ---
 
-### A11Y-04: Labels de status dinâmico sem notificação AT-SPI — MÉDIA PRIORIDADE
+### A11Y-04: Labels de status dinâmico sem notificação AT-SPI — ✅ CONCLUÍDO
 
 **Arquivo:** [gui/widgets/overview_widget.py](usr/share/build-package/gui/widgets/overview_widget.py)
 
@@ -407,18 +413,15 @@ Uso correto de `Adw.PreferencesGroup.set_title()` e `set_description()` em todos
 
 ---
 
-### A11Y-06: Navegação por teclado na sidebar — VERIFICAR
+### A11Y-06: Navegação por teclado na sidebar — ✅ VERIFICADO/CORRETO
 
-A sidebar usa `Gtk.ListBox` com `Gtk.ListBoxRow`. Verificar que:
-- `set_can_focus(True)` está definido
-- Seleção funciona com `Enter` e `Space`
-- Foco visual é visível (anel de foco Adwaita padrão)
+A sidebar usa `Gtk.ListBox` (seleção SINGLE) com `Adw.ActionRow` (`.set_activatable(True)`). No GTK4+Adwaita os `Gtk.ListBoxRow` são focusáveis e navegáveis por teclado por padrão (Tab para entrar, setas para navegar, Enter/Space para ativar). A classe CSS `navigation-sidebar` garante o anel de foco via tema Adwaita. Nenhum `set_can_focus(False)` ou bloqueio de foco encontrado.
 
 ---
 
 ## 9. Dívida Técnica
 
-### DT-01: `operation_preview.py` — Módulo órfão
+### DT-01: `operation_preview.py` — ✅ VERIFICADO (ainda usado, manter)
 
 **Arquivo:** [core/operation_preview.py](usr/share/build-package/core/operation_preview.py)
 
@@ -426,24 +429,15 @@ A sidebar usa `Gtk.ListBox` com `Gtk.ListBoxRow`. Verificar que:
 
 ---
 
-### DT-02: `gtk_menu.py` e `menu_system.py` — Sobreposição de responsabilidade
+### DT-02: `gtk_menu.py` e `menu_system.py` — Sobreposição de responsabilidade — ✅ CONCLUÍDO
 
-**Arquivos:** [gui/gtk_menu.py](usr/share/build-package/gui/gtk_menu.py), [cli/menu_system.py](usr/share/build-package/cli/menu_system.py)
-
-Dois módulos de menu com nomes similares para contextos diferentes. A nomenclatura pode confundir futuros contribuidores. Considerar prefixo: `cli_menu_system.py` e manter `gtk_menu.py`.
+`cli/menu_system.py` renomeado para `cli/cli_menu.py`. Import em `cli/main_cli.py` atualizado. Header do arquivo atualizado. ruff: 0 erros.
 
 ---
 
-### DT-03: Comentário de TODO implícito em `run_async_operation`
+### DT-03: Comentário de TODO implícito em `run_async_operation` — ✅ RESOLVIDO
 
-```python
-def run_async_operation(self, func, *args, ...):
-    """Run an operation asynchronously with progress feedback"""
-    # This would implement async operation with threading
-    # For now, run synchronously
-```
-
-Este é um TODO não marcado. Deve virar um `# TODO:` explícito ou ser implementado (ver BUG-03).
+BUG-03 (Sprint 1) implementou threading real. O comentário antigo (`# For now, run synchronously`) não existe mais. O método atual usa `threading.Thread` com `GLib.idle_add` para retornar ao main loop.
 
 ---
 

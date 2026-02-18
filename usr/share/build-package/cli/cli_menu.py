@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# cli/menu_system.py - Interactive menu system
+# cli/cli_menu.py - Interactive menu system for CLI interface
 #
 
 import os

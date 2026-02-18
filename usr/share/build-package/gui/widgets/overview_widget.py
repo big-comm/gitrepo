@@ -41,12 +41,12 @@ class StatusCard(Gtk.Box):
 
         self.append(self.icon)
 
-        # Value (store reference)
-        self.value_label = Gtk.Label()
+        # Value (store reference) — STATUS role creates an AT-SPI live region so
+        # screen readers announce dynamic changes without user focus
+        self.value_label = Gtk.Label(accessible_role=Gtk.AccessibleRole.STATUS)
         self.value_label.set_text(str(value))
         self.value_label.add_css_class("title-3")
-        # Announce as a status region so screen readers read changes
-        self.update_property([Gtk.AccessibleProperty.LABEL], [f"{title}: {value}"])
+        self.value_label.update_property([Gtk.AccessibleProperty.LABEL], [f"{title}: {value}"])
         self.append(self.value_label)
 
         # Title
@@ -61,7 +61,7 @@ class StatusCard(Gtk.Box):
         """Update displayed value and notify AT-SPI of the change."""
         text = str(value)
         self.value_label.set_text(text)
-        self.update_property([Gtk.AccessibleProperty.LABEL], [f"{self._title}: {text}"])
+        self.value_label.update_property([Gtk.AccessibleProperty.LABEL], [f"{self._title}: {text}"])
 
 
 class QuickActionCard(Adw.ActionRow):

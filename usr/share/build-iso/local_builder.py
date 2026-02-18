@@ -8,13 +8,16 @@
 #
 
 import os
-import re
 import pwd
-import subprocess
+import re
 import shutil
+import subprocess
 import threading
 from datetime import datetime
+
+from config import BUILD_ISO_REPO, CONTAINER_IMAGE
 from translation_utils import _
+
 
 class LocalBuilder:
     """Executes local ISO builds using Docker/Podman containers"""
@@ -64,8 +67,8 @@ class LocalBuilder:
 
         # Container settings
         self.container_engine = None
-        self.container_image = "talesam/community-build:latest"
-        self.build_iso_repo = "https://github.com/talesam/build-iso.git"
+        self.container_image = CONTAINER_IMAGE
+        self.build_iso_repo = BUILD_ISO_REPO
 
     def check_container_engine(self) -> bool:
         """
