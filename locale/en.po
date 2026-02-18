@@ -568,8 +568,8 @@ msgstr "Local build cancelled."
 # File: usr/share/build-iso/build_iso.py, line: 595
 # File: usr/share/build-package/gui/widgets/aur_widget.py, line: 99
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 242
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 83
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 95
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 264
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 276
 # File: usr/share/build-package/core/build_package.py, line: 1662
 # File: usr/share/build-package/core/build_package.py, line: 1683
 # File: usr/share/build-package/core/package_operations.py, line: 221
@@ -1137,7 +1137,7 @@ msgstr "Select an option:"
 # File: usr/share/build-package/gui/main_window.py, line: 1836
 # File: usr/share/build-package/gui/main_window.py, line: 1965
 # File: usr/share/build-package/gui/dialogs/progress_dialog.py, line: 157
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 286
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 467
 # File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 153
 # File: usr/share/build-package/gui/dialogs/preview_dialog.py, line: 220
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 204
@@ -2126,7 +2126,7 @@ msgstr "Commit Message (supports multiple lines)"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 247
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 151
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 332
 msgid "Workflow Repository"
 msgstr "Workflow Repository"
 
@@ -2136,9 +2136,9 @@ msgstr "Workflow Repository"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 260
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 213
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 221
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 287
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 394
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 402
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 468
 # File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 165
 # File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 173
 # File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 268
@@ -2240,7 +2240,7 @@ msgstr "Advanced"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/gui/main_window.py, line: 350
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 29
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 31
 # File: usr/share/build-package/gui/main_gui.py, line: 165
 # File: usr/share/build-package/gui/main_gui.py, line: 256
 msgid "Preferences"
@@ -2601,10 +2601,10 @@ msgstr "Staging all changes..."
 #
 # File: usr/share/build-package/gui/main_window.py, line: 985
 # File: usr/share/build-package/gui/main_window.py, line: 1011
-# File: usr/share/build-package/core/github_api.py, line: 909
-# File: usr/share/build-package/core/github_api.py, line: 917
-# File: usr/share/build-package/core/github_api.py, line: 961
-# File: usr/share/build-package/core/github_api.py, line: 965
+# File: usr/share/build-package/core/github_api.py, line: 923
+# File: usr/share/build-package/core/github_api.py, line: 931
+# File: usr/share/build-package/core/github_api.py, line: 975
+# File: usr/share/build-package/core/github_api.py, line: 979
 msgid "Unknown error"
 msgstr "Unknown error"
 
@@ -3061,7 +3061,7 @@ msgstr "✓ Token saved successfully"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/gui/main_window.py, line: 1459
-# File: usr/share/build-package/core/github_api.py, line: 734
+# File: usr/share/build-package/core/github_api.py, line: 748
 #, python-brace-format
 msgid "Error saving token: {0}"
 msgstr "Error saving token: {0}"
@@ -3667,7 +3667,7 @@ msgstr "Build and deploy packages to testing, stable, or extra repositories"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 116
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 64
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 67
 msgid "AUR Packages"
 msgstr "AUR Packages"
 
@@ -3799,94 +3799,166 @@ msgid "Operation cancelled"
 msgstr "Operation cancelled"
 
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 42
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 45
 msgid "Features"
 msgstr "Features"
 
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 47
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 50
 msgid "Optional Features"
 msgstr "Optional Features"
 
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 48
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 51
 msgid "Enable or disable optional features."
 msgstr "Enable or disable optional features."
 
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 52
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 55
 msgid "Package Generation"
 msgstr "Package Generation"
 
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 53
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 56
 msgid "Build and deploy packages via GitHub Actions"
 msgstr "Build and deploy packages via GitHub Actions"
 
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 66
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 69
 msgid "Import and build packages from Arch User Repository"
 msgstr "Import and build packages from Arch User Repository"
 
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 88
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 128
+msgid "No tokens configured"
+msgstr "No tokens configured"
+
+#
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 129
+msgid "Use the form below to add a token"
+msgstr "Use the form below to add a token"
+
+#
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 156
+msgid "Tokens"
+msgstr "Tokens"
+
+#
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 161
+msgid "GitHub Personal Access Token"
+msgstr "GitHub Personal Access Token"
+
+#
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 163
+msgid ""
+"A Classic token is required for package build and deployment operations."
+msgstr ""
+"A Classic token is required for package build and deployment operations."
+
+#
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 167
+msgid "Generate Token (Classic)"
+msgstr "Generate Token (Classic)"
+
+#
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 178
+msgid "Required Scopes"
+msgstr "Required Scopes"
+
+#
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 188
+msgid "Configured Tokens"
+msgstr "Configured Tokens"
+
+#
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 189
+msgid "Stored in ~/.config/gitrepo/github_token"
+msgstr "Stored in ~/.config/gitrepo/github_token"
+
+#
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 196
+msgid "Add / Update Token"
+msgstr "Add / Update Token"
+
+#
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 198
+msgid "Enter the organization or username that owns the token."
+msgstr "Enter the organization or username that owns the token."
+
+#
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 202
+msgid "Organization or Username (e.g. big-comm)"
+msgstr "Organization or Username (e.g. big-comm)"
+
+#
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 206
+msgid "Token  (ghp_…)"
+msgstr "Token  (ghp_…)"
+
+#
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 211
+msgid "Save Token"
+msgstr "Save Token"
+
+#
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 269
 msgid "GitHub Organization"
 msgstr "GitHub Organization"
 
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 90
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 271
 msgid "Configure your GitHub organization for package workflows"
 msgstr "Configure your GitHub organization for package workflows"
 
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 96
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 277
 msgid "Select or enter custom organization"
 msgstr "Select or enter custom organization"
 
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 100
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 281
 msgid "Auto-detect"
 msgstr "Auto-detect"
 
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 104
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 285
 msgid "Custom"
 msgstr "Custom"
 
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 128
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 309
 msgid "Custom Organization"
 msgstr "Custom Organization"
 
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 145
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 326
 msgid "Workflow Configuration"
 msgstr "Workflow Configuration"
 
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 147
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 328
 msgid "Repository containing GitHub Actions workflows"
 msgstr "Repository containing GitHub Actions workflows"
 
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 158
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 339
 msgid "💡 Tip"
 msgstr "💡 Tip"
 
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 159
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 340
 msgid "Leave empty to use default: big-comm/build-package"
 msgstr "Leave empty to use default: big-comm/build-package"
 
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 170
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 351
 msgid "Behavior"
 msgstr "Behavior"
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 175
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 356
 # File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 99
 msgid "Git Operations"
 msgstr "Git Operations"
@@ -3894,25 +3966,25 @@ msgstr "Git Operations"
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 179
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 360
 # File: usr/share/build-package/core/settings_menu.py, line: 33
 msgid "Auto-fetch before operations"
 msgstr "Auto-fetch before operations"
 
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 180
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 361
 msgid "Fetch remote changes before commits and merges"
 msgstr "Fetch remote changes before commits and merges"
 
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 187
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 368
 msgid "Auto-switch to dev branch"
 msgstr "Auto-switch to dev branch"
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 188
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 369
 # File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 112
 msgid "Automatically switch to your development branch"
 msgstr "Automatically switch to your development branch"
@@ -3920,13 +3992,13 @@ msgstr "Automatically switch to your development branch"
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 195
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 376
 # File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 156
 msgid "Confirm destructive operations"
 msgstr "Confirm destructive operations"
 
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 196
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 377
 msgid "Ask before force push, reset --hard, etc"
 msgstr "Ask before force push, reset --hard, etc"
 
@@ -3935,31 +4007,31 @@ msgstr "Ask before force push, reset --hard, etc"
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 203
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 384
 # File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 149
 # File: usr/share/build-package/core/settings_menu.py, line: 35
 msgid "Show git commands"
 msgstr "Show git commands"
 
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 204
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 385
 msgid "Display git commands before executing"
 msgstr "Display git commands before executing"
 
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 216
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 397
 msgid "Reset to Defaults"
 msgstr "Reset to Defaults"
 
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 217
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 398
 msgid "Restore all settings to default values"
 msgstr "Restore all settings to default values"
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 282
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 463
 # File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 264
 msgid "Reset Settings?"
 msgstr "Reset Settings?"
@@ -3967,7 +4039,7 @@ msgstr "Reset Settings?"
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 284
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 465
 # File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 265
 msgid ""
 "All settings will be restored to their default values. This cannot be undone."
@@ -3975,7 +4047,7 @@ msgstr ""
 "All settings will be restored to their default values. This cannot be undone."
 
 #
-# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 305
+# File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 486
 msgid "Settings reset to defaults"
 msgstr "Settings reset to defaults"
 
@@ -7437,8 +7509,8 @@ msgstr "📦 Package Build Configuration"
 #
 # File: usr/share/build-package/core/github_api.py, line: 31
 # File: usr/share/build-package/core/github_api.py, line: 75
-# File: usr/share/build-package/core/github_api.py, line: 747
-# File: usr/share/build-package/core/github_api.py, line: 796
+# File: usr/share/build-package/core/github_api.py, line: 761
+# File: usr/share/build-package/core/github_api.py, line: 810
 msgid "Could not determine repository name."
 msgstr "Could not determine repository name."
 
@@ -7805,320 +7877,320 @@ msgstr ""
 "GitHub token not configured. Package operations will require token setup."
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 689
+# File: usr/share/build-package/core/github_api.py, line: 703
 msgid "═══ GitHub Token Setup Required ═══"
 msgstr "═══ GitHub Token Setup Required ═══"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 691
+# File: usr/share/build-package/core/github_api.py, line: 705
 msgid "A GitHub Personal Access Token is required for this operation."
 msgstr "A GitHub Personal Access Token is required for this operation."
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 693
+# File: usr/share/build-package/core/github_api.py, line: 707
 msgid "To create a Personal Access Token:"
 msgstr "To create a Personal Access Token:"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 694
+# File: usr/share/build-package/core/github_api.py, line: 708
 msgid "  1. Go to: https://github.com/settings/tokens"
 msgstr "  1. Go to: https://github.com/settings/tokens"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 695
+# File: usr/share/build-package/core/github_api.py, line: 709
 msgid "  2. Click 'Generate new token (classic)'"
 msgstr "  2. Click 'Generate new token (classic)'"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 696
+# File: usr/share/build-package/core/github_api.py, line: 710
 msgid "  3. Name: 'gitrepo' | Expiration: your choice"
 msgstr "  3. Name: 'gitrepo' | Expiration: your choice"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 697
+# File: usr/share/build-package/core/github_api.py, line: 711
 msgid "  4. Select scopes: 'repo' and 'workflow'"
 msgstr "  4. Select scopes: 'repo' and 'workflow'"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 698
+# File: usr/share/build-package/core/github_api.py, line: 712
 msgid "  5. Click 'Generate token' and copy it"
 msgstr "  5. Click 'Generate token' and copy it"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 703
+# File: usr/share/build-package/core/github_api.py, line: 717
 msgid "GitHub username (or press Enter to cancel): "
 msgstr "GitHub username (or press Enter to cancel): "
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 705
-# File: usr/share/build-package/core/github_api.py, line: 710
-# File: usr/share/build-package/core/github_api.py, line: 739
+# File: usr/share/build-package/core/github_api.py, line: 719
+# File: usr/share/build-package/core/github_api.py, line: 724
+# File: usr/share/build-package/core/github_api.py, line: 753
 msgid "Token setup cancelled."
 msgstr "Token setup cancelled."
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 708
+# File: usr/share/build-package/core/github_api.py, line: 722
 msgid "GitHub token (or press Enter to cancel): "
 msgstr "GitHub token (or press Enter to cancel): "
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 722
+# File: usr/share/build-package/core/github_api.py, line: 736
 #, python-brace-format
 msgid "✓ Token saved to {0}"
 msgstr "✓ Token saved to {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 723
+# File: usr/share/build-package/core/github_api.py, line: 737
 msgid "✓ File permissions set to 600 (owner read/write only)"
 msgstr "✓ File permissions set to 600 (owner read/write only)"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 750
+# File: usr/share/build-package/core/github_api.py, line: 764
 #, python-brace-format
 msgid "Cleaning Actions jobs with '{0}' status..."
 msgstr "Cleaning Actions jobs with '{0}' status..."
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 759
+# File: usr/share/build-package/core/github_api.py, line: 773
 #, python-brace-format
 msgid "Error fetching Actions jobs. Code: {0}"
 msgstr "Error fetching Actions jobs. Code: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 766
+# File: usr/share/build-package/core/github_api.py, line: 780
 #, python-brace-format
 msgid "No Action jobs with '{0}' status found."
 msgstr "No Action jobs with '{0}' status found."
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 773
+# File: usr/share/build-package/core/github_api.py, line: 787
 #, python-brace-format
 msgid "Deleting job {0}..."
 msgstr "Deleting job {0}..."
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 783
+# File: usr/share/build-package/core/github_api.py, line: 797
 #, python-brace-format
 msgid "Error deleting job {0}. Code: {1}"
 msgstr "Error deleting job {0}. Code: {1}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 785
+# File: usr/share/build-package/core/github_api.py, line: 799
 #, python-brace-format
 msgid "Deleted {0} Actions jobs with '{1}' status."
 msgstr "Deleted {0} Actions jobs with '{1}' status."
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 788
+# File: usr/share/build-package/core/github_api.py, line: 802
 #, python-brace-format
 msgid "Error cleaning Actions jobs: {0}"
 msgstr "Error cleaning Actions jobs: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 799
+# File: usr/share/build-package/core/github_api.py, line: 813
 msgid "Getting tag list..."
 msgstr "Getting tag list..."
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 808
+# File: usr/share/build-package/core/github_api.py, line: 822
 #, python-brace-format
 msgid "Error fetching tags. Code: {0}"
 msgstr "Error fetching tags. Code: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 814
+# File: usr/share/build-package/core/github_api.py, line: 828
 msgid "No tags found."
 msgstr "No tags found."
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 821
+# File: usr/share/build-package/core/github_api.py, line: 835
 #, python-brace-format
 msgid "Deleting tag {0}..."
 msgstr "Deleting tag {0}..."
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 832
+# File: usr/share/build-package/core/github_api.py, line: 846
 #, python-brace-format
 msgid "Error deleting tag {0}. Code: {1}"
 msgstr "Error deleting tag {0}. Code: {1}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 834
+# File: usr/share/build-package/core/github_api.py, line: 848
 #, python-brace-format
 msgid "Deleted {0} tags."
 msgstr "Deleted {0} tags."
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 837
+# File: usr/share/build-package/core/github_api.py, line: 851
 #, python-brace-format
 msgid "Error cleaning tags: {0}"
 msgstr "Error cleaning tags: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 846
+# File: usr/share/build-package/core/github_api.py, line: 860
 msgid "Source branch name is required to create a pull request"
 msgstr "Source branch name is required to create a pull request"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 853
+# File: usr/share/build-package/core/github_api.py, line: 867
 msgid "Repository name could not be determined"
 msgstr "Repository name could not be determined"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 857
+# File: usr/share/build-package/core/github_api.py, line: 871
 #, python-brace-format
 msgid "Creating pull request: {0} → {1}"
 msgstr "Creating pull request: {0} → {1}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 862
+# File: usr/share/build-package/core/github_api.py, line: 876
 msgid "Resolving possible conflicts before merge..."
 msgstr "Resolving possible conflicts before merge..."
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 867
+# File: usr/share/build-package/core/github_api.py, line: 881
 msgid "Warning: Could not resolve conflicts automatically"
 msgstr "Warning: Could not resolve conflicts automatically"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 868
+# File: usr/share/build-package/core/github_api.py, line: 882
 msgid "Trying to create PR anyway..."
 msgstr "Trying to create PR anyway..."
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 878
+# File: usr/share/build-package/core/github_api.py, line: 892
 msgid "Branches are already identical - no PR needed!"
 msgstr "Branches are already identical - no PR needed!"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 879
+# File: usr/share/build-package/core/github_api.py, line: 893
 #, python-brace-format
 msgid "Code is already up to date in '{0}'"
 msgstr "Code is already up to date in '{0}'"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 906
+# File: usr/share/build-package/core/github_api.py, line: 920
 #, python-brace-format
 msgid "Using existing PR #{0}"
 msgstr "Using existing PR #{0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 913
-# File: usr/share/build-package/core/github_api.py, line: 918
+# File: usr/share/build-package/core/github_api.py, line: 927
+# File: usr/share/build-package/core/github_api.py, line: 932
 #, python-brace-format
 msgid "Failed to create PR: {0}"
 msgstr "Failed to create PR: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 927
+# File: usr/share/build-package/core/github_api.py, line: 941
 #, python-brace-format
 msgid "Pull request ready: {0}"
 msgstr "Pull request ready: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 932
+# File: usr/share/build-package/core/github_api.py, line: 946
 msgid "Starting auto-merge process..."
 msgstr "Starting auto-merge process..."
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 951
+# File: usr/share/build-package/core/github_api.py, line: 965
 msgid "AUTO-MERGE COMPLETED SUCCESSFULLY!"
 msgstr "AUTO-MERGE COMPLETED SUCCESSFULLY!"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 952
+# File: usr/share/build-package/core/github_api.py, line: 966
 #, python-brace-format
 msgid "SHA: {0}"
 msgstr "SHA: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 960
+# File: usr/share/build-package/core/github_api.py, line: 974
 #, python-brace-format
 msgid "Auto-merge failed: {0}"
 msgstr "Auto-merge failed: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 962
-# File: usr/share/build-package/core/github_api.py, line: 969
+# File: usr/share/build-package/core/github_api.py, line: 976
+# File: usr/share/build-package/core/github_api.py, line: 983
 msgid "PR created but must be merged manually"
 msgstr "PR created but must be merged manually"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 968
+# File: usr/share/build-package/core/github_api.py, line: 982
 #, python-brace-format
 msgid "PR not ready for merge (state: {0})"
 msgstr "PR not ready for merge (state: {0})"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 972
+# File: usr/share/build-package/core/github_api.py, line: 986
 #, python-brace-format
 msgid "PR not ready: {0}"
 msgstr "PR not ready: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 982
+# File: usr/share/build-package/core/github_api.py, line: 996
 #, python-brace-format
 msgid "Error creating pull request: {0}"
 msgstr "Error creating pull request: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 1007
-# File: usr/share/build-package/core/github_api.py, line: 1018
+# File: usr/share/build-package/core/github_api.py, line: 1021
+# File: usr/share/build-package/core/github_api.py, line: 1032
 msgid "unknown"
 msgstr "unknown"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 1011
+# File: usr/share/build-package/core/github_api.py, line: 1025
 msgid "PULL REQUEST COMPLETED SUCCESSFULLY!"
 msgstr "PULL REQUEST COMPLETED SUCCESSFULLY!"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 1013
+# File: usr/share/build-package/core/github_api.py, line: 1027
 #, python-brace-format
 msgid "PR #{0} created"
 msgstr "PR #{0} created"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 1014
+# File: usr/share/build-package/core/github_api.py, line: 1028
 #, python-brace-format
 msgid "Flow: {0} → {1}"
 msgstr "Flow: {0} → {1}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 1017
+# File: usr/share/build-package/core/github_api.py, line: 1031
 msgid "Auto-merge: SUCCESS"
 msgstr "Auto-merge: SUCCESS"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 1018
+# File: usr/share/build-package/core/github_api.py, line: 1032
 #, python-brace-format
 msgid "Merge SHA: {0}"
 msgstr "Merge SHA: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 1020
+# File: usr/share/build-package/core/github_api.py, line: 1034
 msgid "Manual merge required"
 msgstr "Manual merge required"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 1021
+# File: usr/share/build-package/core/github_api.py, line: 1035
 #, python-brace-format
 msgid "URL: {0}"
 msgstr "URL: {0}"
 
 #
-# File: usr/share/build-package/core/github_api.py, line: 1025
+# File: usr/share/build-package/core/github_api.py, line: 1039
 #, python-brace-format
 msgid "Could not show PR summary: {0}"
 msgstr "Could not show PR summary: {0}"
 
 #
-# File: usr/share/build-package/core/config.py, line: 49
+# File: usr/share/build-package/core/config.py, line: 51
 msgid "BUILD PACKAGE"
 msgstr "BUILD PACKAGE"
 
 #
-# File: usr/share/build-package/core/config.py, line: 50
+# File: usr/share/build-package/core/config.py, line: 52
 msgid ""
 "A comprehensive tool for package building, testing, and deployment. "
 "Streamlines Git operations, automates builds and manages package workflows "
