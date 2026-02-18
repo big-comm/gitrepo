@@ -10,7 +10,6 @@ gi.require_version('Adw', '1')
 
 from gi.repository import Gtk, Adw, GObject
 from core.translation_utils import _
-from core.settings import Settings
 
 class SettingsDialog(Adw.PreferencesWindow):
     """Visual settings dialog using libadwaita"""

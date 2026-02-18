@@ -88,7 +88,7 @@ class GTKConflictResolver(ConflictResolver):
                 dialog.connect('conflicts-resolved', on_conflicts_resolved)
                 dialog.connect('destroy', on_dialog_destroy)
                 dialog.present()
-            except Exception as e:
+            except Exception:
                 self.dialog_result = False
                 self._result_event.set()
             return False  # Don't repeat

@@ -7,11 +7,13 @@
 # All rights reserved.
 #
 
-import subprocess
 import os
+import subprocess
 from datetime import datetime
-from .translation_utils import _
+
 from .git_utils import GitUtils
+from .translation_utils import _
+
 
 class ConflictResolver:
     """
@@ -115,7 +117,7 @@ class ConflictResolver:
                 return int(result.stdout.strip())
 
             return 0
-        except:
+        except (subprocess.CalledProcessError, ValueError):
             return 0
 
     @staticmethod
@@ -643,7 +645,7 @@ class ConflictResolver:
                     f.write(result.stdout)
                 subprocess.run(["git", "add", file_path], check=True, cwd=self.repo_root)
                 return True
-            except:
+            except (subprocess.CalledProcessError, OSError):
                 return False
 
     def _resolve_with_branch(self, branch_to_use, current_branch, conflict_files):
@@ -704,8 +706,8 @@ class ConflictResolver:
 
     def _show_detailed_diff(self, file):
         """Show detailed diff for a file using an interactive viewer"""
-        import tempfile
         import os
+        import tempfile
 
         viewers_tried = []  # Define here to avoid UnboundLocalError
 
@@ -769,7 +771,7 @@ class ConflictResolver:
             except UnicodeDecodeError:
                 try:
                     ours_text = result_ours.stdout.decode('latin-1')
-                except:
+                except Exception:
                     # Still binary
                     self.logger.log("yellow", _("⚠️  File appears to be binary - cannot show diff"))
                     self.logger.log("cyan", _("File: {0}").format(file))
@@ -781,7 +783,7 @@ class ConflictResolver:
             except UnicodeDecodeError:
                 try:
                     theirs_text = result_theirs.stdout.decode('latin-1')
-                except:
+                except Exception:
                     # Still binary
                     self.logger.log("yellow", _("⚠️  File appears to be binary - cannot show diff"))
                     self.logger.log("cyan", _("File: {0}").format(file))
@@ -792,7 +794,7 @@ class ConflictResolver:
             with tempfile.NamedTemporaryFile(mode='w', suffix='__YOUR_VERSION.txt', delete=False, prefix=f'{os.path.basename(file)}_') as f_ours:
                 # Add clear header
                 f_ours.write("=" * 80 + "\n")
-                f_ours.write(f"YOUR VERSION (OURS) - Current branch\n")
+                f_ours.write("YOUR VERSION (OURS) - Current branch\n")
                 f_ours.write(f"File: {file}\n")
                 f_ours.write("=" * 80 + "\n\n")
                 f_ours.write(ours_text)
@@ -801,7 +803,7 @@ class ConflictResolver:
             with tempfile.NamedTemporaryFile(mode='w', suffix='__REMOTE_VERSION.txt', delete=False, prefix=f'{os.path.basename(file)}_') as f_theirs:
                 # Add clear header
                 f_theirs.write("=" * 80 + "\n")
-                f_theirs.write(f"REMOTE VERSION (THEIRS) - Incoming from server\n")
+                f_theirs.write("REMOTE VERSION (THEIRS) - Incoming from server\n")
                 f_theirs.write(f"File: {file}\n")
                 f_theirs.write("=" * 80 + "\n\n")
                 f_theirs.write(theirs_text)
@@ -828,13 +830,11 @@ class ConflictResolver:
                 viewers_tried.append("vimdiff")
                 # Left=ours (your version), Right=theirs (remote version)
                 subprocess.run(["vimdiff", "-R", "-c", "wincmd w", ours_path, theirs_path])
-                success = True
             # 2. Try nvim diff mode
             elif subprocess.run(["which", "nvim"], capture_output=True).returncode == 0:
                 viewers_tried.append("nvim")
                 # Left=ours (your version), Right=theirs (remote version)
                 subprocess.run(["nvim", "-d", "-R", ours_path, theirs_path])
-                success = True
             # 3. Try diff with side-by-side and less
             else:
                 viewers_tried.append("diff + less")
@@ -853,7 +853,7 @@ class ConflictResolver:
                         f_diff.write("=" * 80 + "\n")
                         f_diff.write(f"SIDE-BY-SIDE COMPARISON: {file}\n")
                         f_diff.write("=" * 80 + "\n")
-                        f_diff.write(f"LEFT: OUR VERSION     |     RIGHT: THEIR VERSION\n")
+                        f_diff.write("LEFT: OUR VERSION     |     RIGHT: THEIR VERSION\n")
                         f_diff.write("=" * 80 + "\n\n")
                         f_diff.write(diff_result.stdout)
                         f_diff.write("\n\n" + "=" * 80 + "\n")
@@ -862,17 +862,15 @@ class ConflictResolver:
 
                     subprocess.run(["less", "-R", diff_path])
                     os.unlink(diff_path)
-                    success = True
                 else:
                     # Files are identical (no differences)
                     self.logger.log("green", _("Files are identical (no differences)"))
-                    success = True
 
             # Clean up temp files
             try:
                 os.unlink(ours_path)
                 os.unlink(theirs_path)
-            except:
+            except OSError:
                 pass
 
             self.logger.log("cyan", "")
@@ -904,8 +902,8 @@ class ConflictResolver:
             subprocess.run(["git", "add", file], check=True, cwd=self.repo_root)
 
             self.logger.log("cyan", _("Created files:"))
-            self.logger.log("cyan", f"  - {ours_file} (our version)")
-            self.logger.log("cyan", f"  - {theirs_file} (remote version)")
+            self.logger.log("cyan", f"  - {ours_file_abs} (our version)")
+            self.logger.log("cyan", f"  - {theirs_file_abs} (remote version)")
             self.logger.log("cyan", f"  - {file} (using remote version)")
 
         except subprocess.CalledProcessError as e:

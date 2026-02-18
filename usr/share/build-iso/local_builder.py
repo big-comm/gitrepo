@@ -8,7 +8,6 @@
 #
 
 import os
-import sys
 import re
 import pwd
 import subprocess
@@ -394,7 +393,7 @@ sudo mknod -m 660 /dev/loop-control c 10 237 2>/dev/null || true
             "-v", f"{self.work_path}:/work",
             "-v", f"{os.path.join(self.cache_path, 'var_lib_manjaro_tools_buildiso')}:/var/lib/manjaro-tools/buildiso",
             "-v", f"{os.path.join(self.cache_path, 'var_cache_manjaro_tools_iso')}:/var/cache/manjaro-tools/iso",
-            "-e", f"USERNAME=builduser",
+            "-e", "USERNAME=builduser",
             "-e", f"DISTRONAME={self.distroname}",
             "-e", f"EDITION={self.edition}",
             "-e", f"MANJARO_BRANCH={self.branches.get('manjaro', 'stable')}",
@@ -430,7 +429,7 @@ sudo mknod -m 660 /dev/loop-control c 10 237 2>/dev/null || true
                 self.logger.log("red", _("Container build failed with exit code {0}").format(result.returncode))
                 return False
 
-        except Exception as e:
+        except Exception:
             self.logger.log("red", _("Error running container"))
             return False
 

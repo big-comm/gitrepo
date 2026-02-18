@@ -1,0 +1,17 @@
+[tool.ruff]
+target-version = "py39"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F"]
+ignore = [
+    "E501",  # line too long - handled by formatter
+]
+
+[tool.ruff.lint.per-file-ignores]
+# GTK/GI requires gi.require_version() before gi.repository imports — E402 is structural
+"usr/share/build-package/gui/**/*.py" = ["E402"]
+"usr/share/build-package/cli/**/*.py" = ["E402"]
+"usr/share/build-package/core/build_package.py" = ["E402"]
+"usr/share/build-package/main.py" = ["E402"]
+"usr/share/build-iso/**/*.py" = ["E402"]

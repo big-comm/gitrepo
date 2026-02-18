@@ -235,7 +235,6 @@ class ConflictDialog(Adw.Window):
 
     def on_edit_file(self, row):
         """Open file in external editor for manual editing"""
-        import os
         filepath = row.filepath
         
         # Try different editors in order of preference

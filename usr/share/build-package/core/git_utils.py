@@ -7,10 +7,13 @@
 import os
 import re
 import subprocess
-import requests
-from .config import TOKEN_FILE
 from datetime import datetime
+
+import requests
+
+from .config import TOKEN_FILE
 from .translation_utils import _
+
 
 class GitUtils:
     """Utilities for Git repository operations"""
@@ -110,34 +113,30 @@ class GitUtils:
         """Gets the real GitHub username from authenticated user"""
         try:
             # First: try to get authenticated user from GitHub API
-            
-            
+
             token_file = os.path.expanduser(TOKEN_FILE)
             if os.path.exists(token_file):
                 try:
-                    with open(token_file, 'r') as f:
+                    with open(token_file, "r") as f:
                         token_lines = f.readlines()
-                    
+
                     # Get token (try organization-specific or general token)
                     token = None
                     for line in token_lines:
                         line = line.strip()
-                        if '=' in line:
-                            org, t = line.split('=', 1)
+                        if "=" in line:
+                            org, t = line.split("=", 1)
                             token = t
                             break
-                        elif line and '=' not in line:
+                        elif line and "=" not in line:
                             token = line
                             break
-                    
+
                     if token:
                         # Use GitHub API to get authenticated user
-                        headers = {
-                            "Authorization": f"token {token}",
-                            "Accept": "application/vnd.github.v3+json"
-                        }
-                        
-                        response = requests.get("https://api.github.com/user", headers=headers)
+                        headers = {"Authorization": f"token {token}", "Accept": "application/vnd.github.v3+json"}
+
+                        response = requests.get("https://api.github.com/user", headers=headers, timeout=30)
                         if response.status_code == 200:
                             user_data = response.json()
                             username = user_data.get('login', '')
@@ -425,25 +424,25 @@ class GitUtils:
         # Look for PKGBUILD file
         repo_path = GitUtils.get_repo_root_path()
         pkgbuild_path = None
-        
-        for root, _, files in os.walk(repo_path):
+
+        for root, _dirs, files in os.walk(repo_path):
             if "PKGBUILD" in files:
                 pkgbuild_path = os.path.join(root, "PKGBUILD")
                 break
-        
+
         if not pkgbuild_path:
             return "error2"  # Error: PKGBUILD not found
-        
+
         # Extract package name from PKGBUILD
         try:
-            with open(pkgbuild_path, 'r') as f:
+            with open(pkgbuild_path, "r") as f:
                 pkgbuild_content = f.read()
-            
+
             # Look for pkgname definition
             match = re.search(r'pkgname\s*=\s*[\'"]?([^\'"\n]+)[\'"]?', pkgbuild_content)
             if match:
                 return match.group(1).strip()
-            
+
             return "error3"  # Error: Package name not found
         except Exception:
             return "error3"  # Error in case of exception
@@ -454,47 +453,44 @@ class GitUtils:
         if not GitUtils.is_git_repo():
             logger.die("red", _("This operation is only available in Git repositories."))
             return False
-            
+
         try:
             # Get all branches
             logger.log("cyan", _("Getting branch list..."))
-            
+
             # Update remote branches locally
             subprocess.run(["git", "fetch", "--all", "--prune"], check=True)
-            
+
             # Get local branches
-            branches_local = subprocess.run(
-                ["git", "branch"],
-                stdout=subprocess.PIPE,
-                text=True,
-                check=True
-            ).stdout.strip().split('\n')
-            
+            branches_local = (
+                subprocess
+                .run(["git", "branch"], stdout=subprocess.PIPE, text=True, check=True)
+                .stdout.strip()
+                .split("\n")
+            )
+
             # Clean formatting
-            branches_local = [b.strip('* ') for b in branches_local if b.strip()]
-            
+            branches_local = [b.strip("* ") for b in branches_local if b.strip()]
+
             # Get remote branches
-            branches_remote = subprocess.run(
-                ["git", "branch", "-r"],
-                stdout=subprocess.PIPE,
-                text=True,
-                check=True
-            ).stdout.strip().split('\n')
-            
+            branches_remote = (
+                subprocess
+                .run(["git", "branch", "-r"], stdout=subprocess.PIPE, text=True, check=True)
+                .stdout.strip()
+                .split("\n")
+            )
+
             # Clean formatting (remove "origin/")
-            branches_remote = [b.strip().replace('origin/', '') for b in branches_remote if b.strip()]
-            
+            branches_remote = [b.strip().replace("origin/", "") for b in branches_remote if b.strip()]
+
             # Filter branches to keep
-            to_keep = ['main', 'dev', 'master']
-            
+            to_keep = ["main", "dev", "master"]
+
             # Filter branches to keep - manter apenas os branches principais
-            to_keep = ['main', 'master', 'dev']  # Branches permanentes
+            to_keep = ["main", "master", "dev"]  # Branches permanentes
 
             # Add the most recent dev branch based on dev
-            dev_branches = [
-                b for b in branches_local + branches_remote 
-                if b.startswith('dev-')
-            ]
+            dev_branches = [b for b in branches_local + branches_remote if b.startswith("dev-")]
 
             # Sort chronologically (assuming format dev-YY.MM.DD-HHMM)
             dev_branches.sort(reverse=True)
@@ -504,67 +500,61 @@ class GitUtils:
                 to_keep.append(dev_branches[0])
                 if len(dev_branches) > 1:
                     logger.log("yellow", _("Keeping only the most recent dev branch: {0}").format(dev_branches[0]))
-            
+
             # Remove local branches
             for branch in branches_local:
-                if branch not in to_keep and branch not in ['main', 'master']:
+                if branch not in to_keep and branch not in ["main", "master"]:
                     logger.log("yellow", _("Removing local branch: {0}").format(branch))
                     try:
                         # Check if we're not on the branch
                         current_branch = subprocess.run(
-                            ["git", "rev-parse", "--abbrev-ref", "HEAD"],
-                            stdout=subprocess.PIPE,
-                            text=True,
-                            check=True
+                            ["git", "rev-parse", "--abbrev-ref", "HEAD"], stdout=subprocess.PIPE, text=True, check=True
                         ).stdout.strip()
-                        
+
                         if current_branch == branch:
                             # Switch to main/master
-                            if 'main' in branches_local:
+                            if "main" in branches_local:
                                 subprocess.run(["git", "checkout", "main"], check=True)
-                            elif 'master' in branches_local:
+                            elif "master" in branches_local:
                                 subprocess.run(["git", "checkout", "master"], check=True)
-                        
+
                         # Remove local branch
                         subprocess.run(["git", "branch", "-D", branch], check=True)
                     except subprocess.CalledProcessError as e:
                         logger.log("red", _("Error removing local branch {0}: {1}").format(branch, e))
-            
+
             # Remove remote branches
             for branch in branches_remote:
-                if branch not in to_keep and branch not in ['main', 'master']:
+                if branch not in to_keep and branch not in ["main", "master"]:
                     logger.log("yellow", _("Removing remote branch: {0}").format(branch))
                     try:
                         subprocess.run(["git", "push", "origin", "--delete", branch], check=True)
                     except subprocess.CalledProcessError as e:
                         logger.log("red", _("Error removing remote branch {0}: {1}").format(branch, e))
-            
+
             logger.log("green", _("Branch cleanup completed successfully!"))
             return True
         except Exception as e:
             logger.log("red", _("Error during branch cleanup: {0}").format(e))
             return False
-        
+
     @staticmethod
     def get_current_commit_sha() -> str:
         """Gets the SHA of the current commit"""
         if not GitUtils.is_git_repo():
             return ""
-        
+
         try:
             result = subprocess.run(
-                ["git", "rev-parse", "HEAD"],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                check=False
+                ["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False
             )
-            
+
             if result.returncode == 0:
                 return result.stdout.strip()
             return ""
         except Exception:
             return ""
+
     @staticmethod
     def get_current_branch() -> str:
         """Gets the name of the current branch"""
@@ -863,3 +853,43 @@ class GitUtils:
             if logger:
                 logger.log("red", _("Error resolving divergence: {0}").format(e))
             return False
+
+    @staticmethod
+    def count_changed_files() -> int:
+        """Return the number of changed (uncommitted) files in the working tree."""
+        try:
+            result = subprocess.run(
+                ["git", "status", "--porcelain"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.DEVNULL,
+                text=True,
+                check=False,
+            )
+            if result.returncode != 0:
+                return 0
+            return sum(1 for line in result.stdout.splitlines() if line.strip())
+        except Exception:
+            return 0
+
+    @staticmethod
+    def branch_exists(branch: str) -> bool:
+        """Return True if *branch* exists locally or as a remote-tracking branch."""
+        local = (
+            subprocess.run(
+                ["git", "rev-parse", "--verify", branch],
+                capture_output=True,
+                check=False,
+            ).returncode
+            == 0
+        )
+        if local:
+            return True
+        remote = (
+            subprocess.run(
+                ["git", "rev-parse", "--verify", f"origin/{branch}"],
+                capture_output=True,
+                check=False,
+            ).returncode
+            == 0
+        )
+        return remote

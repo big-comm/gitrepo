@@ -3,31 +3,28 @@
 #
 # build_package.py - Main class for package management
 
-import sys
-import os
-import re
 import argparse
+import os
 import subprocess
-from rich.console import Console
-from rich.prompt import Prompt
+import sys
 import tempfile
 from datetime import datetime
-from .translation_utils import _
 
-from .config import (
-    APP_NAME, APP_DESC, APP_VERSION, DEFAULT_ORGANIZATION,
-    VALID_ORGANIZATIONS, VALID_BRANCHES
-)
+from rich.console import Console
+from rich.prompt import Prompt
+
+from .config import APP_DESC, APP_NAME, APP_VERSION, DEFAULT_ORGANIZATION, VALID_BRANCHES, VALID_ORGANIZATIONS
+from .conflict_resolver import ConflictResolver
 from .git_utils import GitUtils
 from .github_api import GitHubAPI
 from .settings import Settings
-from .conflict_resolver import ConflictResolver
-from .operation_preview import OperationPlan, QuickPlan
 from .settings_menu import SettingsMenu
+from .translation_utils import _
+
 
 class BuildPackage:
     """Main class for package management"""
-    
+
     def __init__(self, logger=None, menu_system=None):
         self.args = self.parse_arguments()
         self.logger = logger
@@ -74,7 +71,7 @@ class BuildPackage:
             conflict_strategy = self.settings.get("conflict_strategy", "interactive")
             self.conflict_resolver = ConflictResolver(self.logger, self.menu, conflict_strategy)
             self.settings_menu = SettingsMenu(self.settings, self.logger, self.menu)
-    
+
     def setup_environment(self):
         """Configures the execution environment"""
         # Try to get GitHub token (optional - not required for basic Git operations)
@@ -83,196 +80,163 @@ class BuildPackage:
         # PR creation, workflow triggers).
         token = GitHubAPI(None, self.organization).get_github_token_optional()
         self.github_api = GitHubAPI(token, self.organization)
-        
+
         # Additional settings
         self.github_user_name = GitUtils.get_github_username()
         self.repo_name = GitUtils.get_repo_name()
         self.repo_path = GitUtils.get_repo_root_path()
         self.is_aur_package = False
         self.tmate_option = self.args.tmate
-        
+
         # Check dependencies
         self.check_dependencies()
-    
+
     def check_dependencies(self):
         """Checks if all dependencies are installed"""
         dependencies = ["git", "curl"]
-        
+
         for dep in dependencies:
             try:
-                subprocess.run(
-                    ["which", dep],
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE,
-                    check=True
-                )
+                subprocess.run(["which", dep], stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
             except subprocess.CalledProcessError:
-                self.logger.die("red", _("Dependency '{0}' not found. Please install it before continuing.").format(dep))
-    
+                self.logger.die(
+                    "red", _("Dependency '{0}' not found. Please install it before continuing.").format(dep)
+                )
+
     def parse_arguments(self) -> argparse.Namespace:
         """Parses command line arguments with colored help"""
-        
+
         # Custom help action that shows colored help
         class ColoredHelpAction(argparse.Action):
             def __init__(self, option_strings, dest=argparse.SUPPRESS, default=argparse.SUPPRESS, help=None):
                 super().__init__(option_strings=option_strings, dest=dest, default=default, nargs=0, help=help)
-            
+
             def __call__(self, parser, namespace, values, option_string=None):
+                from rich.box import ROUNDED
                 from rich.console import Console
                 from rich.panel import Panel
-                from rich.text import Text
                 from rich.table import Table
-                from rich.box import ROUNDED
-                
+                from rich.text import Text
+
                 console = Console()
-                
+
                 # Header - compact version like main menu
                 header = Text()
                 header.append(f"{APP_NAME} ", style="bold cyan")
                 header.append(f"v{APP_VERSION}\n", style="bold white")
                 header.append(f"{APP_DESC}", style="white")
 
-                console.print(Panel(
-                    header, 
-                    border_style="cyan", 
-                    box=ROUNDED, 
-                    padding=(0, 1),
-                    title="BigCommunity",
-                    width=70  # Fixed width like other menus
-                ))
+                console.print(
+                    Panel(
+                        header,
+                        border_style="cyan",
+                        box=ROUNDED,
+                        padding=(0, 1),
+                        title="BigCommunity",
+                        width=70,  # Fixed width like other menus
+                    )
+                )
                 console.print()
-                
+
                 # Usage
                 console.print("[bold yellow]USAGE:[/]")
-                console.print(f"  [cyan]python main.py[/] [dim]\\[OPTIONS][/]\n")
-                
+                console.print("  [cyan]python main.py[/] [dim]\\[OPTIONS][/]\n")
+
                 # Interface Mode Flags (special flags processed before argparse)
                 console.print("[bold yellow]INTERFACE MODE:[/]")
                 table_interface = Table(show_header=False, box=None, padding=(0, 2))
                 table_interface.add_column(style="green bold", no_wrap=True)
                 table_interface.add_column(style="white")
-                
-                table_interface.add_row(
-                    "--cli, --no-gui",
-                    _("Force CLI mode (terminal interface)")
-                )
-                table_interface.add_row(
-                    "--gui",
-                    _("Force GUI mode (graphical interface)")
-                )
+
+                table_interface.add_row("--cli, --no-gui", _("Force CLI mode (terminal interface)"))
+                table_interface.add_row("--gui", _("Force GUI mode (graphical interface)"))
                 console.print(table_interface)
                 console.print()
-                
+
                 # Main Options
                 console.print("[bold yellow]OPTIONS:[/]")
                 table = Table(show_header=False, box=None, padding=(0, 2))
                 table.add_column(style="green bold", no_wrap=True)
                 table.add_column(style="white")
-                
-                table.add_row(
-                    "-h, --help",
-                    _("Show this help message and exit")
-                )
-                table.add_row(
-                    "-V, --version",
-                    _("Print application version")
-                )
+
+                table.add_row("-h, --help", _("Show this help message and exit"))
+                table.add_row("-V, --version", _("Print application version"))
                 table.add_row(
                     "-o, --org, --organization",
-                    _("Configure GitHub organization") + " [dim](default: big-comm)[/]\n" +
-                    _("Choices: {big-comm, biglinux}")
+                    _("Configure GitHub organization")
+                    + " [dim](default: big-comm)[/]\n"
+                    + _("Choices: {big-comm, biglinux}"),
                 )
-                table.add_row(
-                    "-b, --build {dev}",
-                    _("Commit/push and generate package")
-                )
-                table.add_row(
-                    "-c, --commit MSG",
-                    _("Just commit/push with the specified message")
-                )
-                table.add_row(
-                    "-F, --commit-file FILE",
-                    _("Read commit message from file (multi-line support)")
-                )
-                table.add_row(
-                    "-a, --aur PACKAGE",
-                    _("Build AUR package")
-                )
-                table.add_row(
-                    "-t, --tmate",
-                    _("Enable tmate for debugging")
-                )
-                table.add_row(
-                    "-n, --nocolor",
-                    _("Suppress color printing")
-                )
-                
+                table.add_row("-b, --build {dev}", _("Commit/push and generate package"))
+                table.add_row("-c, --commit MSG", _("Just commit/push with the specified message"))
+                table.add_row("-F, --commit-file FILE", _("Read commit message from file (multi-line support)"))
+                table.add_row("-a, --aur PACKAGE", _("Build AUR package"))
+                table.add_row("-t, --tmate", _("Enable tmate for debugging"))
+                table.add_row("-n, --nocolor", _("Suppress color printing"))
+
                 console.print(table)
                 console.print()
-                
+
                 # Examples
                 console.print("[bold yellow]EXAMPLES:[/]")
                 examples = [
                     ("python main.py --cli", _("Open in CLI mode")),
                     ("python main.py --gui", _("Open in GUI mode")),
-                    ("python main.py -c \"fix: bug fix\"", _("Quick commit with message")),
+                    ('python main.py -c "fix: bug fix"', _("Quick commit with message")),
                     ("python main.py -F commit_msg.txt", _("Commit with message from file")),
-                    ("python main.py -b dev -c \"feat: new feature\"", _("Build development package")),
+                    ('python main.py -b dev -c "feat: new feature"', _("Build development package")),
                     ("python main.py -a package-name", _("Build AUR package")),
                 ]
-                
+
                 for cmd, desc in examples:
                     console.print(f"  [cyan]{cmd}[/]")
                     console.print(f"    [dim]{desc}[/]\n")
-                
+
                 # Footer
-                console.print(f"[dim]For more information, visit: https://github.com/big-comm[/]")
-                
+                console.print("[dim]For more information, visit: https://github.com/big-comm[/]")
+
                 parser.exit()
-        
+
         parser = argparse.ArgumentParser(
             description=f"{APP_NAME} v{APP_VERSION} - {APP_DESC}",
             formatter_class=argparse.RawDescriptionHelpFormatter,
-            add_help=False  # Disable default help to use custom one
+            add_help=False,  # Disable default help to use custom one
         )
-        
+
         # Add custom help
-        parser.add_argument("-h", "--help", action=ColoredHelpAction,
-                        help=_("Show this help message and exit"))
-        
-        parser.add_argument("-o", "--org", "--organization", 
-                        dest="organization", 
-                        help=_("Configure GitHub organization (default: big-comm)"),
-                        choices=VALID_ORGANIZATIONS,
-                        default=DEFAULT_ORGANIZATION)
-        
-        parser.add_argument("-b", "--build",
-                        help=_("Commit/push and generate package"),
-                        choices=VALID_BRANCHES)
-        
-        parser.add_argument("-c", "--commit",
-                        help=_("Just commit/push with the specified message"))
-        
-        parser.add_argument("-F", "--commit-file",
-                        help=_("Read commit message from file (multi-line support)"))
-        
-        parser.add_argument("-a", "--aur",
-                        help=_("Build AUR package"))
-        
-        parser.add_argument("-n", "--nocolor", action="store_true",
-                        help=_("Suppress color printing"))
-        
-        parser.add_argument("-V", "--version", action="store_true",
-                        help=_("Print application version"))
-        
-        parser.add_argument("-t", "--tmate", action="store_true",
-                        help=_("Enable tmate for debugging"))
+        parser.add_argument("-h", "--help", action=ColoredHelpAction, help=_("Show this help message and exit"))
 
-        parser.add_argument("--mode", choices=['safe', 'quick', 'expert'],
-                        help=_("Operation mode: safe (default), quick (fast), expert (max automation)"))
+        parser.add_argument(
+            "-o",
+            "--org",
+            "--organization",
+            dest="organization",
+            help=_("Configure GitHub organization (default: big-comm)"),
+            choices=VALID_ORGANIZATIONS,
+            default=DEFAULT_ORGANIZATION,
+        )
 
-        parser.add_argument("--dry-run", action="store_true",
-                        help=_("Simulate operations without executing"))
+        parser.add_argument("-b", "--build", help=_("Commit/push and generate package"), choices=VALID_BRANCHES)
+
+        parser.add_argument("-c", "--commit", help=_("Just commit/push with the specified message"))
+
+        parser.add_argument("-F", "--commit-file", help=_("Read commit message from file (multi-line support)"))
+
+        parser.add_argument("-a", "--aur", help=_("Build AUR package"))
+
+        parser.add_argument("-n", "--nocolor", action="store_true", help=_("Suppress color printing"))
+
+        parser.add_argument("-V", "--version", action="store_true", help=_("Print application version"))
+
+        parser.add_argument("-t", "--tmate", action="store_true", help=_("Enable tmate for debugging"))
+
+        parser.add_argument(
+            "--mode",
+            choices=["safe", "quick", "expert"],
+            help=_("Operation mode: safe (default), quick (fast), expert (max automation)"),
+        )
+
+        parser.add_argument("--dry-run", action="store_true", help=_("Simulate operations without executing"))
 
         args = parser.parse_args()
 
@@ -281,14 +245,14 @@ class BuildPackage:
             sys.exit(0)
 
         return args
-    
+
     def print_version(self):
         """Prints application version"""
         console = Console()
-        from rich.text import Text
-        from rich.panel import Panel
         from rich.box import ROUNDED
-        
+        from rich.panel import Panel
+        from rich.text import Text
+
         version_text = Text()
         version_text.append(f"{APP_NAME} v{APP_VERSION}\n", style="bold cyan")
         version_text.append(f"{APP_DESC}\n\n", style="white")
@@ -298,21 +262,19 @@ class BuildPackage:
         version_text.append(f"{APP_NAME}", style="cyan")
         version_text.append(_(" is provided to you under the "), style="white")
         version_text.append(_("MIT License"), style="yellow")
-        version_text.append(_(""", and includes open source software under a variety of other licenses.
+        version_text.append(
+            _(""", and includes open source software under a variety of other licenses.
 You can read instructions about how to download and build for yourself
-the specific source code used to create this copy."""), style="white")
+the specific source code used to create this copy."""),
+            style="white",
+        )
         version_text.append("\n", style="white")
         version_text.append(_("This program comes with absolutely NO warranty."), style="red")
-        
-        panel = Panel(
-            version_text,
-            box=ROUNDED,
-            border_style="blue",
-            padding=(1, 2)
-        )
-        
+
+        panel = Panel(version_text, box=ROUNDED, border_style="blue", padding=(1, 2))
+
         console.print(panel)
-    
+
     def get_commit_types(self):
         """Returns available commit types with emojis and descriptions"""
         return [
@@ -326,13 +288,13 @@ the specific source code used to create this copy."""), style="white")
             ("📦", "build", _("Changes that affect the build system or external dependencies")),
             ("👷", "ci", _("Changes to CI configuration files and scripts")),
             ("🔧", "chore", _("Other changes that don't modify src or test files")),
-            ("✏️", "custom", _("Custom commit message (free text)"))
+            ("✏️", "custom", _("Custom commit message (free text)")),
         ]
 
     def show_commit_type_menu(self):
         """Shows interactive menu for commit type selection"""
         commit_types = self.get_commit_types()
-        
+
         # Create menu options
         options = []
         for emoji, commit_type, description in commit_types:
@@ -340,27 +302,27 @@ the specific source code used to create this copy."""), style="white")
                 options.append(f"{emoji} {commit_type}: {description}")
             else:
                 options.append(f"{emoji} {commit_type}: {description}")
-        
+
         # Show menu
         result = self.menu.show_menu(_("Select commit type"), options)
-        
+
         if result is None:
             return None, None
-        
+
         choice_index, selected_option = result
         emoji, commit_type, description = commit_types[choice_index]
-        
+
         return emoji, commit_type
 
     def get_commit_message_with_type(self):
         """Gets commit message with type selection"""
         # Step 1: Select commit type
         emoji, commit_type = self.show_commit_type_menu()
-        
+
         if emoji is None or commit_type is None:
             self.last_commit_type = None
             return None
-        
+
         # Step 2: Get commit description
         if commit_type == "custom":
             # For custom, allow free text
@@ -368,11 +330,11 @@ the specific source code used to create this copy."""), style="white")
             self.console.print(_("Enter your custom commit message:"), style="cyan")
             print("\033[1;36m> \033[0m", end="")
             description = input()
-            
+
             if not description:
                 self.last_commit_type = None
                 return None
-            
+
             self.last_commit_type = None
             return description
         else:
@@ -381,11 +343,11 @@ the specific source code used to create this copy."""), style="white")
             self.console.print(_("{0} {1}: Enter description").format(emoji, commit_type), style="cyan")
             print(f"\033[1;36m{emoji} {commit_type}: \033[0m", end="")
             description = input()
-            
+
             if not description:
                 self.last_commit_type = None
                 return None
-            
+
             self.last_commit_type = commit_type
             return f"{emoji} {commit_type}: {description}"
 
@@ -393,177 +355,12 @@ the specific source code used to create this copy."""), style="white")
         """Gets commit message from user with type selection"""
         return self.get_commit_message_with_type()
 
-    def _extract_commit_metadata(self, commit_message, explicit_type=None):
-        """Extracts commit type and breaking change info from message"""
-        commit_type = explicit_type if explicit_type not in (None, "custom") else None
-        breaking_change = False
-        message = (commit_message or "").strip()
-        
-        if message:
-            first_line = message.splitlines()[0].strip()
-            # Remove leading emojis/symbols before analysing the commit header
-            cleaned_header = re.sub(r'^[^\w]+', '', first_line)
-            match = re.match(r'(?P<type>[a-zA-Z]+)(?:\([^\)]*\))?(?P<breaking>!?):', cleaned_header)
-            if match:
-                if not commit_type:
-                    commit_type = match.group('type').lower()
-                if match.group('breaking'):
-                    breaking_change = True
-            if not breaking_change and "BREAKING CHANGE" in message.upper():
-                breaking_change = True
-        
-        return commit_type.lower() if commit_type else None, breaking_change
-
-    def _infer_bump_level(self, commit_type, breaking_change):
-        """Maps commit metadata to semantic version bump level"""
-        if breaking_change:
-            return "major"
-        
-        if not commit_type:
-            return None
-        
-        commit_type = commit_type.lower()
-        if commit_type == "feat":
-            return "minor"
-        
-        patch_types = {"fix", "perf", "docs", "style", "refactor", "test", "build", "ci", "chore"}
-        if commit_type in patch_types:
-            return "patch"
-        
-        return None
-
-    def _locate_app_version_entry(self):
-        """Finds the file and match object for APP_VERSION assignment"""
-        pattern = re.compile(r'(APP_VERSION\s*=\s*)(["\'])(\d+\.\d+\.\d+)(["\'])')
-        repo_path = self.repo_path or GitUtils.get_repo_root_path()
-        
-        # Try cached path first
-        if self._app_version_cache:
-            try:
-                with open(self._app_version_cache, 'r', encoding='utf-8') as cached_file:
-                    cached_content = cached_file.read()
-                cached_match = pattern.search(cached_content)
-                if cached_match:
-                    return self._app_version_cache, cached_content, cached_match
-            except (OSError, UnicodeDecodeError):
-                self._app_version_cache = None
-        
-        if not repo_path or not os.path.isdir(repo_path):
-            return None, None, None
-        
-        ignore_dirs = {
-            '.git', '__pycache__', 'node_modules', 'vendor', 'venv', '.venv', 'env',
-            'build', 'dist', '.idea', '.vscode'
-        }
-        allowed_extensions = {
-            "", ".py", ".cfg", ".conf", ".ini", ".json", ".toml", ".yaml", ".yml",
-            ".txt", ".sh", ".bash", ".zsh", ".fish"
-        }
-        
-        for root, dirs, files in os.walk(repo_path):
-            dirs[:] = [d for d in dirs if d not in ignore_dirs]
-            dirs.sort()
-            for filename in sorted(files):
-                ext = os.path.splitext(filename)[1].lower()
-                if ext not in allowed_extensions:
-                    continue
-                
-                file_path = os.path.join(root, filename)
-                
-                try:
-                    if os.path.getsize(file_path) > 1_000_000:  # Skip files larger than ~1MB
-                        continue
-                except OSError:
-                    continue
-                
-                try:
-                    with open(file_path, 'r', encoding='utf-8') as file_handle:
-                        content = file_handle.read()
-                except (OSError, UnicodeDecodeError):
-                    continue
-                
-                for match in pattern.finditer(content):
-                    line_start = content.rfind('\n', 0, match.start()) + 1
-                    line_prefix = content[line_start:match.start()]
-                    stripped_prefix = line_prefix.strip()
-                    
-                    if stripped_prefix.startswith(("#", "//", ";", "/*")):
-                        continue
-                    
-                    prefix_no_trailing = line_prefix.rstrip()
-                    if prefix_no_trailing and prefix_no_trailing[-1] in ("'", '"'):
-                        continue
-                    
-                    self._app_version_cache = file_path
-                    return file_path, content, match
-        
-        return None, None, None
-
-    def _bump_semver(self, current_version, bump_level):
-        """Returns bumped semantic version string"""
-        try:
-            major, minor, patch = [int(part) for part in current_version.split('.')]
-        except (ValueError, AttributeError):
-            return current_version
-        
-        if bump_level == "major":
-            major += 1
-            minor = 0
-            patch = 0
-        elif bump_level == "minor":
-            minor += 1
-            patch = 0
-        else:  # patch
-            patch += 1
-        
-        return f"{major}.{minor}.{patch}"
-
     def apply_auto_version_bump(self, commit_message, explicit_type=None):
-        """Automatically bumps APP_VERSION based on commit metadata"""
-        commit_type, breaking_change = self._extract_commit_metadata(commit_message, explicit_type)
-        bump_level = self._infer_bump_level(commit_type, breaking_change)
-        
-        if not bump_level:
-            return None
-        
-        file_path, content, match = self._locate_app_version_entry()
-        if not file_path or not match:
-            if not self._app_version_warning_shown and self.logger:
-                self.logger.log("yellow", _("APP_VERSION constant not found. Skipping automatic version bump."))
-                self._app_version_warning_shown = True
-            return None
-        
-        current_version = match.group(3)
-        new_version = self._bump_semver(current_version, bump_level)
-        
-        if current_version == new_version:
-            return None
-        
-        new_assignment = f"{match.group(1)}{match.group(2)}{new_version}{match.group(4)}"
-        updated_content = content[:match.start()] + new_assignment + content[match.end():]
-        
-        try:
-            with open(file_path, 'w', encoding='utf-8') as file_handle:
-                file_handle.write(updated_content)
-        except OSError as exc:
-            if self.logger:
-                self.logger.log(
-                    "yellow",
-                    _("Could not update APP_VERSION ({0}). Reason: {1}").format(file_path, exc)
-                )
-            return None
-        
-        relative_path = os.path.relpath(file_path, self.repo_path or GitUtils.get_repo_root_path())
-        if self.logger:
-            self.logger.log(
-                "green",
-                _("APP_VERSION bumped from {0} to {1} ({2} bump) in {3}").format(
-                    current_version, new_version, bump_level, relative_path
-                )
-            )
-        
-        return new_version
-    
+        """Automatically bumps APP_VERSION based on commit metadata."""
+        from .version_bumper import apply_auto_version_bump as _bump
+
+        return _bump(self, commit_message, explicit_type)
+
     def commit_and_push(self):
         """Performs commit on user's own dev branch with proper isolation"""
         if not self.is_git_repo:
@@ -1088,7 +885,7 @@ the specific source code used to create this copy."""), style="white")
                     try:
                         if current_branch != "dev":
                             subprocess.run(["git", "checkout", current_branch], check=True)
-                    except:
+                    except subprocess.CalledProcessError:
                         pass
                     
                     # Apply stashed changes if any
@@ -1096,7 +893,7 @@ the specific source code used to create this copy."""), style="white")
                         try:
                             self.logger.log("cyan", _("Applying stashed changes..."))
                             subprocess.run(["git", "stash", "pop"], check=True)
-                        except:
+                        except subprocess.CalledProcessError:
                             self.logger.log("red", _("Could not apply stashed changes. Your changes are in the stash."))
                     
                     return False
@@ -1376,7 +1173,7 @@ the specific source code used to create this copy."""), style="white")
                 self.logger.log("cyan", _("Step 2/4: Switching to most recent branch..."))
                 try:
                     self._switch_to_branch_safely(most_recent_branch)
-                except subprocess.CalledProcessError as e:
+                except subprocess.CalledProcessError:
                     self.logger.log("red", _("Failed to switch branches. Your changes are safe in stash."))
                     return False
                 
@@ -1560,7 +1357,7 @@ the specific source code used to create this copy."""), style="white")
                             break
                         except subprocess.CalledProcessError:
                             if i < len(merge_strategies) - 1:
-                                self.logger.log("yellow", _("Merge strategy {0} failed, trying next...").format(i+1))
+                                self.logger.log("yellow", _("Merge strategy {0} failed, trying next...").format(i + 1))
                                 # Abort any partial merge before trying next strategy
                                 subprocess.run(["git", "merge", "--abort"], capture_output=True, check=False)
                             continue
@@ -1936,523 +1733,35 @@ the specific source code used to create this copy."""), style="white")
             self.logger.log("red", _("Unexpected error: {0}").format(str(e)))
     
     def revert_commit_menu(self):
-        """Displays menu for reverting commits"""
-        if not self.is_git_repo:
-            self.logger.log("red", _("This operation is only available in git repositories."))
-            return
-        
-        # Get current branch and username
-        current_branch = GitUtils.get_current_branch()
-        username = self.github_user_name or "unknown"
-        my_branch = f"dev-{username}"
-        
-        # Check if user can revert on this branch
-        if current_branch != "main" and current_branch != my_branch:
-            self.logger.log("red", _("You can only revert commits on your own branch ({0}) or main branch.").format(my_branch))
-            return
-        
-        # Determine revert options based on branch
-        revert_options = []
-        if current_branch == my_branch:
-            # Own branch: both options available
-            revert_options = [
-                _("Revert (keep history)"),
-                _("Reset (remove from history)"),
-                _("Back")
-            ]
-            
-            # Ask for revert type
-            revert_result = self.menu.show_menu(
-                _("Branch: {0} - Select revert method").format(current_branch), 
-                revert_options
-            )
-            
-            if revert_result is None or revert_result[0] == 2:  # Back
-                return
-            
-            revert_method = "revert" if revert_result[0] == 0 else "reset"
-        else:
-            # Main branch: only revert available
-            revert_method = "revert"
-            self.logger.log("cyan", _("Main branch detected - only revert method available (safer for shared branch)"))
-        
-        # Get and display commit list
-        commits = self.get_recent_commits(10)
-        if not commits:
-            self.logger.log("yellow", _("No commits found to revert."))
-            return
-        
-        # Show commit selection menu
-        commit_options = []
-        for i, commit in enumerate(commits):
-            short_hash = commit['hash'][:7]
-            author = commit['author']
-            date = commit['date']
-            message = commit['message'][:60] + "..." if len(commit['message']) > 60 else commit['message']
-            
-            commit_options.append(f"{short_hash} - {author} - {date}\n    {message}")
-        
-        commit_options.append(_("Back"))
-        
-        # Show commit selection
-        commit_result = self.menu.show_menu(
-            _("Select commit to revert ({0})").format(revert_method), 
-            commit_options
-        )
-        
-        if commit_result is None or commit_result[0] == len(commits):  # Back
-            return
-        
-        selected_commit = commits[commit_result[0]]
-        
-        # Show preview and confirm
-        self.show_revert_preview(selected_commit, revert_method)
+        """Display menu for reverting / resetting commits."""
+        from .revert_operations import revert_commit_menu as _revert
 
-        confirm_result = self.menu.confirm(_("Do you want to proceed with this {0}?").format(revert_method))
+        _revert(self)
 
-        if not confirm_result:
-            self.logger.log("yellow", _("Operation cancelled by user."))
-            return
-
-        # Execute revert/reset
-        success = self.execute_revert(selected_commit, revert_method, current_branch)
-
-        if success:
-            # Get details from executed operation
-            details = getattr(self, 'last_revert_details', {})
-            
-            # Show operation summary
-            self.show_operation_summary(revert_method, selected_commit, details)
-            
-            # Clean up
-            if hasattr(self, 'last_revert_details'):
-                delattr(self, 'last_revert_details')
-        else:
-            self.logger.log("red", _("Failed to {0} commit.").format(revert_method))
-            
     def get_recent_commits(self, count: int = 10) -> list:
-        """Gets recent commits from current branch"""
-        try:
-            # Get commits with custom format
-            # Format: hash|author|date|message
-            result = subprocess.run(
-                ["git", "log", f"-{count}", "--pretty=format:%H|%an|%ad|%s", "--date=short"],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                check=True
-            )
-            
-            commits = []
-            for line in result.stdout.strip().split('\n'):
-                if line:
-                    parts = line.split('|', 3)
-                    if len(parts) == 4:
-                        commits.append({
-                            'hash': parts[0],
-                            'author': parts[1],
-                            'date': parts[2],
-                            'message': parts[3]
-                        })
-            
-            return commits
-        except subprocess.CalledProcessError as e:
-            self.logger.log("red", _("Error getting commit history: {0}").format(e))
-            return []
-        except Exception as e:
-            self.logger.log("red", _("Unexpected error getting commits: {0}").format(e))
-            return []
-        
-    def show_revert_preview(self, commit: dict, revert_method: str):
-        """Shows preview of what will be reverted"""
-        try:
-            # Get commit details
-            commit_hash = commit['hash']
-            short_hash = commit_hash[:7]
-            
-            # Get current commit for comparison
-            current_commit_result = subprocess.run(
-                ["git", "rev-parse", "HEAD"],
-                stdout=subprocess.PIPE,
-                text=True,
-                check=True
-            )
-            current_commit = current_commit_result.stdout.strip()[:7]
-            
-            # Prepare preview data
-            preview_data = [
-                (_("Target Commit Hash"), short_hash),
-                (_("Author"), commit['author']),
-                (_("Date"), commit['date']),
-                (_("Message"), commit['message']),
-                (_("Method"), revert_method.upper()),
-            ]
-            
-            if revert_method == "revert":
-                preview_data.append((_("Result"), _("Code will be restored to this commit's exact state")))
-                preview_data.append((_("New Commit"), _("Will create new commit with restored state")))
-                preview_data.append((_("History"), _("All commits remain in history (non-destructive)")))
-                preview_data.append((_("Current Code"), f"From {current_commit} → To {short_hash}"))
-            else:  # reset
-                preview_data.append((_("Result"), _("Repository will be reset to this commit")))
-                preview_data.append((_("History"), _("Commits after this will be removed from history")))
-            
-            # Show preview summary
-            self.logger.display_summary(_("Revert Preview"), preview_data)
-            
-            # Show what will change (files that differ between current and target)
-            if revert_method == "revert":
-                try:
-                    diff_result = subprocess.run(
-                        ["git", "diff", "--name-status", commit_hash, "HEAD"],
-                        stdout=subprocess.PIPE,
-                        text=True,
-                        check=True
-                    )
-                    
-                    if diff_result.stdout.strip():
-                        self.logger.log("cyan", _("Files that will be restored to target state:"))
-                        diff_lines = diff_result.stdout.strip().split('\n')
-                        for i, line in enumerate(diff_lines[:10]):
-                            if line.strip():
-                                status = line[0] if line else ""
-                                filename = line[2:] if len(line) > 2 else ""
-                                status_text = {"M": "Modified", "A": "Added", "D": "Deleted"}.get(status, status)
-                                self.logger.log("white", f"  {status_text}: {filename}")
-                        
-                        if len(diff_lines) > 10:
-                            self.logger.log("yellow", f"  ... and {len(diff_lines) - 10} more files")
-                    else:
-                        self.logger.log("yellow", _("No differences detected - code is already at target state"))
-                except subprocess.CalledProcessError:
-                    self.logger.log("yellow", _("Could not analyze file differences"))
-            
-        except subprocess.CalledProcessError as e:
-            self.logger.log("yellow", _("Could not show commit details: {0}").format(e))
-        except Exception as e:
-            self.logger.log("yellow", _("Error showing preview: {0}").format(e))
-            
+        """Return the *count* most recent commits as a list of dicts."""
+        from .revert_operations import get_recent_commits as _get
+
+        return _get(self, count)
+
     def execute_revert(self, commit: dict, revert_method: str, current_branch: str) -> bool:
-        """Executes the revert or reset operation"""
-        try:
-            commit_hash = commit['hash']
-            short_hash = commit_hash[:7]
-            
-            # Check if commit exists in remote
-            remote_exists = self.check_commit_in_remote(commit_hash)
-            
-            self.logger.log("cyan", _("Executing {0} for commit {1}...").format(revert_method, short_hash))
-            
-            if revert_method == "revert":
-                success = self._execute_revert_method(commit_hash, current_branch, remote_exists)
-            else:  # reset
-                success = self._execute_reset_method(commit_hash, current_branch, remote_exists)
-            
-            if success:
-                # Get details if it was a reset operation
-                details = getattr(self, 'last_operation_details', {})
-                
-                # Store details for caller
-                self.last_revert_details = details
-                
-                # Clean up details
-                if hasattr(self, 'last_operation_details'):
-                    delattr(self, 'last_operation_details')
-                
-            return success
-                
-        except subprocess.CalledProcessError as e:
-            error_msg = e.stderr.strip() if hasattr(e, 'stderr') and e.stderr else str(e)
-            self.logger.log("red", _("Error during {0}: {1}").format(revert_method, error_msg))
-            self._cleanup_revert_state()
-            return False
-        except Exception as e:
-            self.logger.log("red", _("Unexpected error during {0}: {1}").format(revert_method, str(e)))
-            return False
+        """Perform the revert or reset and return success status."""
+        from .revert_operations import execute_revert as _exec
 
-    def _execute_revert_method(self, commit_hash: str, current_branch: str, remote_exists: bool) -> bool:
-        """Execute revert by restoring complete state from selected commit"""
-        
-        try:
-            # Step 1: Get commit message for the new commit
-            self.logger.log("cyan", _("Getting commit information..."))
-            commit_message_result = subprocess.run(
-                ["git", "log", "-1", "--pretty=format:%s", commit_hash],
-                stdout=subprocess.PIPE,
-                text=True,
-                check=True
-            )
-            original_message = commit_message_result.stdout.strip()
-            
-            # Step 2: Restore complete state from selected commit
-            self.logger.log("cyan", _("Restoring code state from selected commit..."))
-            subprocess.run(
-                ["git", "checkout", commit_hash, "--", "."],
-                check=True
-            )
-            
-            # Step 3: Stage all changes
-            self.logger.log("cyan", _("Staging restored files..."))
-            subprocess.run(["git", "add", "."], check=True)
-            
-            # Step 4: Check if there are actually changes to commit
-            status_result = subprocess.run(
-                ["git", "status", "--porcelain"],
-                stdout=subprocess.PIPE,
-                text=True,
-                check=True
-            )
-            
-            if not status_result.stdout.strip():
-                self.logger.log("yellow", _("No changes detected - code is already at selected state"))
-                return True
-            
-            # Step 5: Create new commit with restored state
-            new_commit_message = f"Revert to: {original_message}\n\nThis restores the complete state from commit {commit_hash[:7]}."
-            
-            self.logger.log("cyan", _("Creating revert commit..."))
-            subprocess.run(
-                ["git", "commit", "-m", new_commit_message],
-                check=True
-            )
-            
-            self.logger.log("green", _("Revert completed successfully - code restored to selected commit state"))
-            return self._push_revert_changes(current_branch, remote_exists)
-            
-        except subprocess.CalledProcessError as e:
-            self.logger.log("red", _("Error during revert operation: {0}").format(e))
-            self._cleanup_revert_state()
-            return False
-        except Exception as e:
-            self.logger.log("red", _("Unexpected error during revert: {0}").format(e))
-            return False
+        return _exec(self, commit, revert_method, current_branch)
 
-    def _execute_reset_method(self, commit_hash: str, current_branch: str, remote_exists: bool) -> bool:
-        """Execute git reset"""
-        self.logger.log("cyan", _("Resetting to previous commit..."))
-        
-        # Reset to the target commit itself (user selects where they want to be)
-        reset_target = commit_hash
-        subprocess.run(["git", "reset", "--hard", reset_target], check=True)
-        
-        # Handle push based on remote existence
-        details = {}
-        if remote_exists:
-            self.logger.log("yellow", _("Commit exists in remote - force push required"))
-            if self.menu.confirm(_("This will force push and rewrite remote history. Continue?")):
-                self.logger.log("cyan", _("Force pushing changes..."))
-                subprocess.run(["git", "push", "origin", current_branch, "--force"], check=True)
-                self.logger.log("green", _("Reset completed and force pushed"))
-                details['force_pushed'] = True
-            else:
-                self.logger.log("yellow", _("Reset completed locally only (remote unchanged)"))
-                details['local_only'] = True
-        else:
-            self.logger.log("green", _("Reset completed (commit was only local)"))
-            details['local_only'] = True
+    def show_operation_summary(self, operation_type: str, commit_info: dict, details: dict = None) -> None:
+        """Show a rich post-operation summary and wait for user confirmation."""
+        from .revert_operations import show_operation_summary as _summary
 
-        # Store details for summary (will be called by execute_revert)
-        self.last_operation_details = details
-        return True
-
-    def _has_changes_to_commit(self) -> bool:
-        """Check if there are staged changes ready to commit"""
-        status_result = subprocess.run(
-            ["git", "status", "--porcelain"],
-            stdout=subprocess.PIPE,
-            text=True,
-            check=True
-        )
-        return bool(status_result.stdout.strip())
-
-    def _skip_revert(self) -> bool:
-        """Skip the current revert operation"""
-        skip_result = subprocess.run(
-            ["git", "revert", "--skip"],
-            capture_output=True,
-            text=True,
-            check=False
-        )
-        
-        if skip_result.returncode == 0:
-            self.logger.log("green", _("Successfully skipped revert (no effective changes)"))
-            return True
-        else:
-            self.logger.log("red", _("Failed to skip revert: {0}").format(
-                skip_result.stderr.strip() if skip_result.stderr else "Unknown error"))
-            self._cleanup_revert_state()
-            return False
-
-    def _continue_revert(self) -> bool:
-        """Continue the revert after resolving conflicts"""
-        try:
-            continue_result = subprocess.run(
-                ["git", "revert", "--continue"],
-                capture_output=True,
-                text=True,
-                check=False,
-                timeout=30
-            )
-            
-            if continue_result.returncode == 0:
-                self.logger.log("green", _("Revert completed successfully"))
-                return True
-            else:
-                self.logger.log("red", _("Revert continue failed: {0}").format(
-                    continue_result.stderr.strip() if continue_result.stderr else "Unknown error"))
-                self._cleanup_revert_state()
-                return False
-                
-        except subprocess.TimeoutExpired:
-            self.logger.log("red", _("Revert continue timed out - aborting"))
-            self._cleanup_revert_state()
-            return False
-
-    def _push_revert_changes(self, current_branch: str, remote_exists: bool) -> bool:
-        """Push the revert changes if needed"""
-        if remote_exists:
-            self.logger.log("cyan", _("Pushing revert changes..."))
-            push_result = subprocess.run(
-                ["git", "push", "origin", current_branch],
-                capture_output=True,
-                text=True,
-                check=False
-            )
-            
-            if push_result.returncode == 0:
-                self.logger.log("green", _("Revert changes pushed successfully"))
-                return True
-            else:
-                self.logger.log("red", _("Failed to push revert: {0}").format(
-                    push_result.stderr.strip() if push_result.stderr else "Unknown error"))
-                return False
-        else:
-            self.logger.log("green", _("Revert completed (commit was only local)"))
-            return True
-
-    def _cleanup_revert_state(self):
-        """Clean up any ongoing revert operation"""
-        subprocess.run(["git", "revert", "--abort"], capture_output=True, check=False)
-        subprocess.run(["git", "reset", "--abort"], capture_output=True, check=False)
-        
-    def show_operation_summary(self, operation_type: str, commit_info: dict, details: dict = None):
-        """Shows operation summary with emojis and waits for user input"""
-        
-        # Get current commit info for summary
-        try:
-            current_commit = subprocess.run(
-                ["git", "rev-parse", "--short", "HEAD"],
-                stdout=subprocess.PIPE,
-                text=True,
-                check=True
-            ).stdout.strip()
-            
-            current_message = subprocess.run(
-                ["git", "log", "-1", "--pretty=format:%s"],
-                stdout=subprocess.PIPE,
-                text=True,
-                check=True
-            ).stdout.strip()
-        except:
-            current_commit = "unknown"
-            current_message = "unknown"
-        
-        # Get file changes if available
-        try:
-            if operation_type in ["revert", "reset"]:
-                # Show what changed in the last commit (our operation)
-                diff_result = subprocess.run(
-                    ["git", "diff", "--name-status", "HEAD~1", "HEAD"],
-                    stdout=subprocess.PIPE,
-                    text=True,
-                    check=True
-                )
-                
-                changed_files = []
-                if diff_result.stdout.strip():
-                    for line in diff_result.stdout.strip().split('\n'):
-                        if line:
-                            status = line[0]
-                            filename = line[2:] if len(line) > 2 else ""
-                            status_emoji = {"M": "📝", "A": "➕", "D": "❌"}.get(status, "📄")
-                            changed_files.append(f"    {status_emoji} {filename}")
-            else:
-                changed_files = []
-        except:
-            changed_files = []
-        
-        # Build summary message
-        summary_lines = []
-        
-        if operation_type == "revert":
-            summary_lines.extend([
-                f"🔄 **{_('REVERT COMPLETED SUCCESSFULLY!')}**",
-                f"",
-                f"✅ {_('Code restored to commit')}: {commit_info['hash'][:7]}",
-                f"📝 {_('Target commit')}: \"{commit_info['message']}\"",
-                f"🆕 {_('New commit created')}: {current_commit}",
-                f"💬 {_('New commit message')}: \"{current_message}\"",
-            ])
-            
-            if changed_files:
-                summary_lines.extend([
-                    f"",
-                    f"📁 **{_('Files restored')} ({len(changed_files)}):**"
-                ])
-                summary_lines.extend(changed_files[:10])
-                if len(changed_files) > 10:
-                    summary_lines.append(f"    ... {_('and {0} more files').format(len(changed_files) - 10)}")
-        
-        elif operation_type == "reset":
-            summary_lines.extend([
-                f"⚡ **{_('RESET COMPLETED SUCCESSFULLY!')}**",
-                f"",
-                f"🎯 {_('Repository reset to commit')}: {commit_info['hash'][:7]}",
-                f"📝 {_('Target commit')}: \"{commit_info['message']}\"",
-                f"🗑️ {_('History after this commit was removed')}",
-                f"💾 {_('Current HEAD')}: {current_commit}",
-            ])
-            
-            if details and details.get('force_pushed'):
-                summary_lines.append(f"🌐 {_('Changes force-pushed to remote')}")
-            elif details and details.get('local_only'):
-                summary_lines.append(f"🏠 {_('Reset completed locally only')}")
-        
-        # Add final instruction
-        summary_lines.extend([
-            f"",
-            f"📋 **{_('Operation completed successfully!')}**",
-            f"🏠 {_('All changes have been saved to your repository')}"
-        ])
-        
-        # Convert to string and show
-        summary_text = '\n'.join(summary_lines)
-        
-        # Show summary with menu system (waits for Enter)
-        self.menu.show_menu(
-            f"✅ {_(operation_type.upper() + ' COMPLETED')}",
-            [_("Press Enter to return to menu")],
-            additional_content=summary_text
-        )
+        _summary(self, operation_type, commit_info, details)
 
     def check_commit_in_remote(self, commit_hash: str) -> bool:
-        """Checks if commit exists in remote repository"""
-        try:
-            # Check if commit exists in any remote branch
-            result = subprocess.run(
-                ["git", "branch", "-r", "--contains", commit_hash],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                check=False
-            )
-            
-            # If command succeeds and has output, commit exists in remote
-            return result.returncode == 0 and bool(result.stdout.strip())
-        except Exception:
-            # If we can't determine, assume it exists (safer approach)
-            return True
-    
+        """Return True if *commit_hash* appears in any remote-tracking branch."""
+        from .revert_operations import check_commit_in_remote as _check
+
+        return _check(commit_hash)
+
     def run(self):
         """Executes main program flow"""
         # Check command line arguments
@@ -2487,7 +1796,7 @@ the specific source code used to create this copy."""), style="white")
                     ["git", "rev-parse", "HEAD"], 
                     stdout=subprocess.PIPE, text=True, check=True
                 ).stdout.strip()
-            except:
+            except subprocess.CalledProcessError:
                 initial_commit = None
             
             # CLEANUP - resolve any problematic state
@@ -2496,7 +1805,7 @@ the specific source code used to create this copy."""), style="white")
                 subprocess.run(["git", "merge", "--abort"], capture_output=True, check=False)
                 subprocess.run(["git", "cherry-pick", "--abort"], capture_output=True, check=False)
                 subprocess.run(["git", "am", "--abort"], capture_output=True, check=False)
-            except:
+            except subprocess.CalledProcessError:
                 pass
             
             # Fetch latest changes
@@ -2572,8 +1881,8 @@ the specific source code used to create this copy."""), style="white")
                             self.logger.log("yellow", _("⚠️  Conflicts detected while restoring your changes!"))
 
                             # Use enhanced conflict resolver
-                            from .conflict_resolver import ConflictResolver
                             from .config import CONFLICT_RESOLUTION_AUTO_ACCEPT_NEWER
+                            from .conflict_resolver import ConflictResolver
 
                             resolver = ConflictResolver(
                                 self.logger,
@@ -2653,15 +1962,15 @@ the specific source code used to create this copy."""), style="white")
                     ["git", "rev-parse", "HEAD"], 
                     stdout=subprocess.PIPE, text=True, check=True
                 ).stdout.strip()
-            except:
+            except subprocess.CalledProcessError:
                 final_commit = None
             
             # Generate changes summary
             changes_summary = self.get_update_changes_summary(initial_commit, final_commit, my_branch)
-            
+
             # CRITICAL: Check for merge conflicts using enhanced resolver
-            from .conflict_resolver import ConflictResolver
             from .config import CONFLICT_RESOLUTION_AUTO_ACCEPT_NEWER
+            from .conflict_resolver import ConflictResolver
 
             resolver = ConflictResolver(
                 self.logger,
