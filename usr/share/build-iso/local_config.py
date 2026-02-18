@@ -7,14 +7,17 @@
 # All rights reserved.
 #
 
-import os
 import json
+import os
+
+from config import LOCAL_CONFIG_DIR, LOCAL_CONFIG_FILE
+
 
 class LocalConfig:
     """Manages local build configuration stored in ~/.config/build-iso/config.json"""
 
-    CONFIG_DIR = os.path.expanduser("~/.config/build-iso")
-    CONFIG_FILE = os.path.join(CONFIG_DIR, "config.json")
+    CONFIG_DIR = LOCAL_CONFIG_DIR
+    CONFIG_FILE = LOCAL_CONFIG_FILE
 
     DEFAULT_CONFIG = {
         "output_dir": os.path.expanduser("~/ISO"),

@@ -14,7 +14,7 @@ from translation_utils import _
 
 # Repository settings
 REPO_WORKFLOW = "big-comm/build-iso"        # Repository containing workflows
-DEFAULT_ORGANIZATION = "big-comm"            # Default organization
+DEFAULT_ORGANIZATION = "talesam"  # Default organization
 VALID_ORGANIZATIONS = [
     # "big-comm",                              # Former communitybig
     "talesam",
@@ -153,7 +153,7 @@ ORG_DEFAULT_CONFIGS = {
 }
 
 # Script version
-APP_VERSION = "3.6.0"
+APP_VERSION = "3.6.1"
 APP_NAME = _("BUILD ISO")
 APP_DESC = _("Wrapper for ISO building using GitHub Actions. Streamlines the process of creating custom Linux distribution ISO images through automation.")
 

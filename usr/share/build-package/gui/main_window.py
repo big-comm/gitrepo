@@ -191,7 +191,7 @@ class MainWindow(Adw.ApplicationWindow):
             self.refresh_status()
 
         except Exception as e:
-            self.show_error_toast(_("Failed to initialize: {0}").format(str(e)))
+            self.show_error_dialog(_("Failed to initialize: {0}").format(str(e)))
 
     def create_navigation_and_pages(self):
         """Create navigation items and corresponding pages based on enabled features"""
@@ -856,8 +856,8 @@ class MainWindow(Adw.ApplicationWindow):
                         "Accept": "application/vnd.github.v3+json",
                         "Authorization": f"token {token_text}"
                     }
-                    
-                    self.show_error_toast(_("✓ Token saved successfully"))
+
+                    self.show_toast(_("✓ Token saved successfully"))
                     dialog.close()
                     
                     # Now run the pending operation
@@ -866,7 +866,7 @@ class MainWindow(Adw.ApplicationWindow):
                     )
                     
                 except Exception as e:
-                    self.show_error_toast(_("Error saving token: {0}").format(e))
+                    self.show_error_dialog(_("Error saving token: {0}").format(e))
                     dialog.close()
             else:
                 dialog.close()
@@ -1250,14 +1250,14 @@ class MainWindow(Adw.ApplicationWindow):
                     if result:
                         self.show_toast(success_message or _("Operation completed"))
                     else:
-                        self.show_error_toast(error_message or _("Operation failed"))
+                        self.show_error_dialog(error_message or _("Operation failed"))
                     self.refresh_status()
                     return False
 
                 GLib.idle_add(_on_done)
             except Exception as exc:
                 err_msg = _("Operation failed: {0}").format(str(exc))
-                GLib.idle_add(lambda msg=err_msg: self.show_error_toast(msg) or False)
+                GLib.idle_add(lambda msg=err_msg: self.show_error_dialog(msg) or False)
 
         thread = threading.Thread(target=_thread_func, daemon=True)
         thread.start()
@@ -1269,12 +1269,24 @@ class MainWindow(Adw.ApplicationWindow):
         self.toast_overlay.add_toast(toast)
     
     def show_error_toast(self, message):
-        """Show error toast message"""
+        """Show error toast for minor validation messages (5 s timeout)."""
         toast = Adw.Toast.new(message)
         toast.set_timeout(5)
         toast.add_css_class("error")
         self.toast_overlay.add_toast(toast)
-    
+
+    def show_error_dialog(self, message: str) -> None:
+        """Show persistent AlertDialog for critical operation failures.
+
+        Use instead of show_error_toast when the error requires user
+        acknowledgement: failed push/pull, auth errors, init failures.
+        """
+        dialog = Adw.AlertDialog(heading=_("Error"), body=message)
+        dialog.add_response("close", _("Close"))
+        dialog.set_default_response("close")
+        dialog.set_close_response("close")
+        dialog.present(self)
+
     def show_info_toast(self, message):
         """Show info toast message"""
         toast = Adw.Toast.new(message)
