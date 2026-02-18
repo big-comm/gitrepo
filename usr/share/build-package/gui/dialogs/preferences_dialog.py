@@ -8,77 +8,73 @@
 #
 
 import gi
-gi.require_version('Gtk', '4.0')
-gi.require_version('Adw', '1')
 
-from gi.repository import Gtk, Adw
-from core.translation_utils import _
+gi.require_version("Gtk", "4.0")
+gi.require_version("Adw", "1")
+
 from core.settings import Settings
+from core.translation_utils import _
+from gi.repository import Adw, Gtk
 
 
 class PreferencesDialog(Adw.PreferencesDialog):
     """Preferences dialog for configuring GitRepo features and behavior"""
-    
+
     def __init__(self, parent_window, settings):
         super().__init__()
         self.settings = settings
         self.parent_window = parent_window
         self.needs_restart = False
-        
+
         self.set_title(_("Preferences"))
-        
+
         # Create preference pages
         self._create_features_page()
         self._create_organization_page()
         self._create_behavior_page()
-        
+
         # Connect close signal
         self.connect("closed", self._on_closed)
-    
+
     def _create_features_page(self):
         """Create Features page with feature toggles"""
         page = Adw.PreferencesPage()
         page.set_title(_("Features"))
         page.set_icon_name("applications-system-symbolic")
-        
+
         # Feature toggles group
         features_group = Adw.PreferencesGroup()
         features_group.set_title(_("Optional Features"))
-        features_group.set_description(
-            _("Enable or disable optional features. Changes require restart.")
-        )
-        
+        features_group.set_description(_("Enable or disable optional features."))
+
         # Package Generation toggle
         self.package_row = Adw.SwitchRow()
         self.package_row.set_title(_("Package Generation"))
         self.package_row.set_subtitle(_("Build and deploy packages via GitHub Actions"))
-        self.package_row.set_active(self.settings.get("package_features_enabled", False))
-        self.package_row.connect("notify::active", self._on_feature_toggle, "package_features_enabled")
+        self.package_row.set_active(
+            self.settings.get("package_features_enabled", False)
+        )
+        self.package_row.connect(
+            "notify::active", self._on_feature_toggle, "package_features_enabled"
+        )
         features_group.add(self.package_row)
-        
+
         # AUR Package toggle
         self.aur_row = Adw.SwitchRow()
         self.aur_row.set_title(_("AUR Packages"))
-        self.aur_row.set_subtitle(_("Import and build packages from Arch User Repository"))
+        self.aur_row.set_subtitle(
+            _("Import and build packages from Arch User Repository")
+        )
         self.aur_row.set_active(self.settings.get("aur_features_enabled", False))
-        self.aur_row.connect("notify::active", self._on_feature_toggle, "aur_features_enabled")
+        self.aur_row.connect(
+            "notify::active", self._on_feature_toggle, "aur_features_enabled"
+        )
         features_group.add(self.aur_row)
-        
+
         # Note: ISO Builder is a separate project (build-iso)
-        
+
         page.add(features_group)
-        
-        # Info about restart
-        info_group = Adw.PreferencesGroup()
-        
-        info_row = Adw.ActionRow()
-        info_row.set_title(_("ℹ️ Restart Required"))
-        info_row.set_subtitle(_("Feature changes will take effect after restarting GitRepo"))
-        info_row.set_activatable(False)
-        info_group.add(info_row)
-        
-        page.add(info_group)
-        
+
         self.add(page)
     
     def _create_organization_page(self):
@@ -237,7 +233,8 @@ class PreferencesDialog(Adw.PreferencesDialog):
     def _on_feature_toggle(self, switch, pspec, setting_key):
         """Handle feature toggle change"""
         self.settings.set(setting_key, switch.get_active())
-        self.needs_restart = True
+        if hasattr(self.parent_window, "refresh_features"):
+            self.parent_window.refresh_features()
     
     def _on_setting_toggle(self, switch, pspec, setting_key):
         """Handle setting toggle change"""
@@ -299,10 +296,10 @@ class PreferencesDialog(Adw.PreferencesDialog):
         """Handle reset confirmation response"""
         if response == "reset":
             self.settings.reset()
-            self.needs_restart = True
             # Refresh UI
             self._refresh_ui()
-            
+            if hasattr(self.parent_window, "refresh_features"):
+                self.parent_window.refresh_features()
             # Show toast
             if hasattr(self.parent_window, 'show_toast'):
                 self.parent_window.show_toast(_("Settings reset to defaults"))
@@ -317,9 +314,4 @@ class PreferencesDialog(Adw.PreferencesDialog):
     
     def _on_closed(self, dialog):
         """Handle dialog close"""
-        if self.needs_restart:
-            # Show restart hint
-            if hasattr(self.parent_window, 'show_toast'):
-                self.parent_window.show_toast(
-                    _("Restart GitRepo to apply feature changes")
-                )
+        pass
