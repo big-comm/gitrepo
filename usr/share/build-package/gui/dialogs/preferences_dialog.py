@@ -12,9 +12,11 @@ import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
+import os
+from gi.repository import Adw, Gio, Gtk
+from core.config import TOKEN_FILE
 from core.settings import Settings
 from core.translation_utils import _
-from gi.repository import Adw, Gtk
 
 
 class PreferencesDialog(Adw.PreferencesDialog):
@@ -30,6 +32,7 @@ class PreferencesDialog(Adw.PreferencesDialog):
 
         # Create preference pages
         self._create_features_page()
+        self._create_tokens_page()
         self._create_organization_page()
         self._create_behavior_page()
 
@@ -76,7 +79,185 @@ class PreferencesDialog(Adw.PreferencesDialog):
         page.add(features_group)
 
         self.add(page)
-    
+
+    # ── helpers for token file ─────────────────────────────────────────────
+
+    def _read_token_file(self):
+        """Read all entries from the token file as list of (org, token) tuples."""
+        token_file = os.path.expanduser(TOKEN_FILE)
+        entries = []
+        if not os.path.exists(token_file):
+            return entries
+        try:
+            with open(token_file, 'r') as f:
+                for line in f:
+                    line = line.strip()
+                    if not line or line.startswith('#'):
+                        continue
+                    if '=' in line:
+                        org, tok = line.split('=', 1)
+                        entries.append((org.strip(), tok.strip()))
+                    else:
+                        entries.append(("default", line.strip()))
+        except Exception:
+            pass
+        return entries
+
+    def _write_token_file(self, entries):
+        """Write (org, token) list back to the token file with secure perms."""
+        token_file = os.path.expanduser(TOKEN_FILE)
+        try:
+            with open(token_file, 'w') as f:
+                for org, tok in entries:
+                    f.write(f"{tok}\n" if org == "default" else f"{org}={tok}\n")
+            os.chmod(token_file, 0o600)
+            return True
+        except Exception:
+            return False
+
+    def _refresh_token_rows(self):
+        """Rebuild the token list rows inside tokens_group."""
+        if hasattr(self, '_token_rows'):
+            for row in self._token_rows:
+                self.tokens_group.remove(row)
+        self._token_rows = []
+
+        entries = self._read_token_file()
+        if not entries:
+            row = Adw.ActionRow()
+            row.set_title(_("No tokens configured"))
+            row.set_subtitle(_("Use the form below to add a token"))
+            self.tokens_group.add(row)
+            self._token_rows.append(row)
+            return
+
+        for org, tok in entries:
+            row = Adw.ActionRow()
+            row.set_title(org)
+            masked = tok[:8] + "·····" if len(tok) > 8 else tok
+            row.set_subtitle(masked)
+
+            del_btn = Gtk.Button()
+            del_btn.set_icon_name("edit-delete-symbolic")
+            del_btn.set_valign(Gtk.Align.CENTER)
+            del_btn.add_css_class("destructive-action")
+            del_btn.add_css_class("flat")
+            del_btn.connect('clicked', self._on_delete_token, org)
+            row.add_suffix(del_btn)
+
+            self.tokens_group.add(row)
+            self._token_rows.append(row)
+
+    # ── page builder ──────────────────────────────────────────────────────
+
+    def _create_tokens_page(self):
+        """Create GitHub Tokens page"""
+        page = Adw.PreferencesPage()
+        page.set_title(_("Tokens"))
+        page.set_icon_name("dialog-password-symbolic")
+
+        # — Guide group —
+        guide_group = Adw.PreferencesGroup()
+        guide_group.set_title(_("GitHub Personal Access Token"))
+        guide_group.set_description(
+            _("A Classic token is required for package build and deployment operations.")
+        )
+
+        link_row = Adw.ActionRow()
+        link_row.set_title(_("Generate Token (Classic)"))
+        link_row.set_subtitle("github.com/settings/tokens → Generate new token (classic)")
+        link_row.set_activatable(True)
+        link_row.add_prefix(Gtk.Image.new_from_icon_name("web-browser-symbolic"))
+        link_row.add_suffix(Gtk.Image.new_from_icon_name("go-next-symbolic"))
+        link_row.connect('activated', lambda _r: Gio.AppInfo.launch_default_for_uri(
+            "https://github.com/settings/tokens", None
+        ))
+        guide_group.add(link_row)
+
+        scopes_row = Adw.ActionRow()
+        scopes_row.set_title(_("Required Scopes"))
+        scopes_row.set_subtitle("repo  ·  workflow  ·  write:packages  ·  delete:packages  ·  read:org")
+        scopes_row.set_activatable(False)
+        scopes_row.add_prefix(Gtk.Image.new_from_icon_name("emblem-ok-symbolic"))
+        guide_group.add(scopes_row)
+
+        page.add(guide_group)
+
+        # — Configured tokens —
+        self.tokens_group = Adw.PreferencesGroup()
+        self.tokens_group.set_title(_("Configured Tokens"))
+        self.tokens_group.set_description(_("Stored in ~/.config/gitrepo/github_token"))
+        self._token_rows = []
+        self._refresh_token_rows()
+        page.add(self.tokens_group)
+
+        # — Add / update token —
+        add_group = Adw.PreferencesGroup()
+        add_group.set_title(_("Add / Update Token"))
+        add_group.set_description(
+            _("Enter the organization or username that owns the token.")
+        )
+
+        self.token_org_entry = Adw.EntryRow()
+        self.token_org_entry.set_title(_("Organization or Username (e.g. big-comm)"))
+        add_group.add(self.token_org_entry)
+
+        self.token_value_entry = Adw.PasswordEntryRow()
+        self.token_value_entry.set_title(_("Token  (ghp_…)"))
+        add_group.add(self.token_value_entry)
+
+        save_row = Adw.ActionRow()
+        save_btn = Gtk.Button()
+        save_btn.set_label(_("Save Token"))
+        save_btn.set_valign(Gtk.Align.CENTER)
+        save_btn.add_css_class("suggested-action")
+        save_btn.connect('clicked', self._on_save_token)
+        save_row.add_suffix(save_btn)
+        add_group.add(save_row)
+
+        page.add(add_group)
+        self.add(page)
+
+    # ── token callbacks ───────────────────────────────────────────────────
+
+    def _on_save_token(self, _button):
+        """Save or update a token entry."""
+        org = self.token_org_entry.get_text().strip()
+        tok = self.token_value_entry.get_text().strip()
+        if not org or not tok:
+            return
+
+        entries = self._read_token_file()
+        updated = False
+        for i, (o, _t) in enumerate(entries):
+            if o.lower() == org.lower():
+                entries[i] = (org, tok)
+                updated = True
+                break
+        if not updated:
+            entries.append((org, tok))
+
+        if self._write_token_file(entries):
+            # Update live token in github_api if org matches current session
+            if hasattr(self.parent_window, 'build_package') and self.parent_window.build_package:
+                api = self.parent_window.build_package.github_api
+                if api.organization.lower() == org.lower():
+                    api.token = tok
+                    api.headers = {
+                        "Accept": "application/vnd.github.v3+json",
+                        "Authorization": f"token {tok}",
+                    }
+
+            self.token_org_entry.set_text("")
+            self.token_value_entry.set_text("")
+            self._refresh_token_rows()
+
+    def _on_delete_token(self, _button, org):
+        """Remove a token entry from the file."""
+        entries = [(o, t) for o, t in self._read_token_file() if o.lower() != org.lower()]
+        self._write_token_file(entries)
+        self._refresh_token_rows()
+
     def _create_organization_page(self):
         """Create Organization page for GitHub settings"""
         page = Adw.PreferencesPage()
