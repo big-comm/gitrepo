@@ -9,7 +9,7 @@ import requests
 import subprocess
 import time
 from .git_utils import GitUtils
-from .config import TOKEN_FILE
+from .config import TOKEN_FILE, TOKEN_FILE_LEGACY
 from .translation_utils import _
 
 class GitHubAPI:
@@ -626,16 +626,30 @@ class GitHubAPI:
             logger.log("yellow", _("GitHub token not configured. Package operations will require token setup."))
         return token
     
+    @staticmethod
+    def _migrate_token_file_if_needed() -> None:
+        """One-time migration: copy ~/.GITHUB_TOKEN → ~/.config/gitrepo/github_token"""
+        new_path = os.path.expanduser(TOKEN_FILE)
+        old_path = os.path.expanduser(TOKEN_FILE_LEGACY)
+        if not os.path.exists(new_path) and os.path.exists(old_path):
+            try:
+                os.makedirs(os.path.dirname(new_path), exist_ok=True)
+                import shutil
+                shutil.copy2(old_path, new_path)
+                os.chmod(new_path, 0o600)
+            except Exception:
+                pass
+
     def get_github_token_optional(self) -> str:
         """Gets GitHub token if available, returns empty string if not (no error).
-        
-        This allows the application to start and function for basic Git operations
-        (commit, push, pull, branches) without requiring a GitHub token.
+
+        Automatically migrates from ~/.GITHUB_TOKEN on first call if needed.
         The token is only needed for GitHub API operations like package generation,
         PR creation, and workflow triggers.
         """
+        GitHubAPI._migrate_token_file_if_needed()
         token_file = os.path.expanduser(TOKEN_FILE)
-        
+
         if not os.path.exists(token_file):
             return ""
         
