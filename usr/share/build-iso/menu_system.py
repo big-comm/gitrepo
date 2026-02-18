@@ -5,15 +5,18 @@
 #
 
 import os
+import subprocess
 import sys
 import termios
 import tty
 from typing import Optional, Tuple
+
+from rich.box import ROUNDED
 from rich.console import Console
 from rich.panel import Panel
 from rich.prompt import Confirm
 from translation_utils import _
-from rich.box import ROUNDED
+
 
 class MenuSystem:
     """Menu system using Rich"""
@@ -24,12 +27,11 @@ class MenuSystem:
     
     def show_menu(self, title: str, options: list, default_index: int = 0) -> Optional[Tuple[int, str]]:
         """Displays an interactive menu using Rich"""
-        import sys
         
         # Function to draw the menu
         def draw_menu(selected_index):
             # Clear screen
-            os.system('clear' if os.name == 'posix' else 'cls')
+            subprocess.run(["clear" if os.name == "posix" else "cls"], check=False)
             
             # Display header
             self.logger.draw_app_header()

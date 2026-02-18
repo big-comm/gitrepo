@@ -12,11 +12,11 @@ import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
-import os
-from gi.repository import Adw, Gio, Gtk
-from core.config import TOKEN_FILE
+
 from core.settings import Settings
+from core.token_store import TokenStore
 from core.translation_utils import _
+from gi.repository import Adw, Gio, Gtk
 
 
 class PreferencesDialog(Adw.PreferencesDialog):
@@ -54,24 +54,16 @@ class PreferencesDialog(Adw.PreferencesDialog):
         self.package_row = Adw.SwitchRow()
         self.package_row.set_title(_("Package Generation"))
         self.package_row.set_subtitle(_("Build and deploy packages via GitHub Actions"))
-        self.package_row.set_active(
-            self.settings.get("package_features_enabled", False)
-        )
-        self.package_row.connect(
-            "notify::active", self._on_feature_toggle, "package_features_enabled"
-        )
+        self.package_row.set_active(self.settings.get("package_features_enabled", False))
+        self.package_row.connect("notify::active", self._on_feature_toggle, "package_features_enabled")
         features_group.add(self.package_row)
 
         # AUR Package toggle
         self.aur_row = Adw.SwitchRow()
         self.aur_row.set_title(_("AUR Packages"))
-        self.aur_row.set_subtitle(
-            _("Import and build packages from Arch User Repository")
-        )
+        self.aur_row.set_subtitle(_("Import and build packages from Arch User Repository"))
         self.aur_row.set_active(self.settings.get("aur_features_enabled", False))
-        self.aur_row.connect(
-            "notify::active", self._on_feature_toggle, "aur_features_enabled"
-        )
+        self.aur_row.connect("notify::active", self._on_feature_toggle, "aur_features_enabled")
         features_group.add(self.aur_row)
 
         # Note: ISO Builder is a separate project (build-iso)
@@ -82,39 +74,6 @@ class PreferencesDialog(Adw.PreferencesDialog):
 
     # ── helpers for token file ─────────────────────────────────────────────
 
-    def _read_token_file(self):
-        """Read all entries from the token file as list of (org, token) tuples."""
-        token_file = os.path.expanduser(TOKEN_FILE)
-        entries = []
-        if not os.path.exists(token_file):
-            return entries
-        try:
-            with open(token_file, 'r') as f:
-                for line in f:
-                    line = line.strip()
-                    if not line or line.startswith('#'):
-                        continue
-                    if '=' in line:
-                        org, tok = line.split('=', 1)
-                        entries.append((org.strip(), tok.strip()))
-                    else:
-                        entries.append(("default", line.strip()))
-        except Exception:
-            pass
-        return entries
-
-    def _write_token_file(self, entries):
-        """Write (org, token) list back to the token file with secure perms."""
-        token_file = os.path.expanduser(TOKEN_FILE)
-        try:
-            with open(token_file, 'w') as f:
-                for org, tok in entries:
-                    f.write(f"{tok}\n" if org == "default" else f"{org}={tok}\n")
-            os.chmod(token_file, 0o600)
-            return True
-        except Exception:
-            return False
-
     def _refresh_token_rows(self):
         """Rebuild the token list rows inside tokens_group."""
         if hasattr(self, '_token_rows'):
@@ -122,7 +81,7 @@ class PreferencesDialog(Adw.PreferencesDialog):
                 self.tokens_group.remove(row)
         self._token_rows = []
 
-        entries = self._read_token_file()
+        entries = TokenStore.read_all()
         if not entries:
             row = Adw.ActionRow()
             row.set_title(_("No tokens configured"))
@@ -142,6 +101,7 @@ class PreferencesDialog(Adw.PreferencesDialog):
             del_btn.set_valign(Gtk.Align.CENTER)
             del_btn.add_css_class("destructive-action")
             del_btn.add_css_class("flat")
+            del_btn.update_property([Gtk.AccessibleProperty.LABEL], [_("Delete token for {0}").format(org)])
             del_btn.connect('clicked', self._on_delete_token, org)
             row.add_suffix(del_btn)
 
@@ -227,17 +187,7 @@ class PreferencesDialog(Adw.PreferencesDialog):
         if not org or not tok:
             return
 
-        entries = self._read_token_file()
-        updated = False
-        for i, (o, _t) in enumerate(entries):
-            if o.lower() == org.lower():
-                entries[i] = (org, tok)
-                updated = True
-                break
-        if not updated:
-            entries.append((org, tok))
-
-        if self._write_token_file(entries):
+        if TokenStore.upsert(org, tok):
             # Update live token in github_api if org matches current session
             if hasattr(self.parent_window, 'build_package') and self.parent_window.build_package:
                 api = self.parent_window.build_package.github_api
@@ -254,8 +204,7 @@ class PreferencesDialog(Adw.PreferencesDialog):
 
     def _on_delete_token(self, _button, org):
         """Remove a token entry from the file."""
-        entries = [(o, t) for o, t in self._read_token_file() if o.lower() != org.lower()]
-        self._write_token_file(entries)
+        TokenStore.delete(org)
         self._refresh_token_rows()
 
     def _create_organization_page(self):

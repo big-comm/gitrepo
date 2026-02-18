@@ -9,7 +9,7 @@ import sys
 from datetime import datetime
 
 from core.translation_utils import _
-from core.config import APP_NAME, APP_DESC, LOG_DIR_BASE
+from core.config import APP_NAME, LOG_DIR_BASE
 
 class GTKLogger:
     """Logger implementation for GTK4 GUI interface"""
@@ -141,7 +141,7 @@ class GTKLogger:
             import gi
             gi.require_version('Gtk', '4.0')
             gi.require_version('Adw', '1')
-            from gi.repository import Gtk, Adw
+            from gi.repository import Adw
             
             # Create error dialog
             dialog = Adw.MessageDialog.new(

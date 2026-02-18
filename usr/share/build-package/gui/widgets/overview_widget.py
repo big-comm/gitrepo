@@ -20,6 +20,8 @@ class StatusCard(Gtk.Box):
     def __init__(self, title, value, icon_name, status_type="info"):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=8)
 
+        self._title = title  # kept for accessible label updates
+
         self.set_size_request(160, 80)
         self.add_css_class("card")
         self.set_margin_top(3)
@@ -43,6 +45,8 @@ class StatusCard(Gtk.Box):
         self.value_label = Gtk.Label()
         self.value_label.set_text(str(value))
         self.value_label.add_css_class("title-3")
+        # Announce as a status region so screen readers read changes
+        self.update_property([Gtk.AccessibleProperty.LABEL], [f"{title}: {value}"])
         self.append(self.value_label)
 
         # Title
@@ -52,6 +56,12 @@ class StatusCard(Gtk.Box):
         title_label.set_wrap(True)
         title_label.set_justify(Gtk.Justification.CENTER)
         self.append(title_label)
+
+    def update_value(self, value: str) -> None:
+        """Update displayed value and notify AT-SPI of the change."""
+        text = str(value)
+        self.value_label.set_text(text)
+        self.update_property([Gtk.AccessibleProperty.LABEL], [f"{self._title}: {text}"])
 
 
 class QuickActionCard(Adw.ActionRow):
@@ -228,7 +238,7 @@ class OverviewWidget(Gtk.Box):
     def update_status_cards(self):
         """Update status cards with current information"""
         if not self.build_package.is_git_repo:
-            self.repo_card.value_label.set_text(_("Not a Git repo"))
+            self.repo_card.update_value(_("Not a Git repo"))
             return
         
         try:
@@ -236,32 +246,32 @@ class OverviewWidget(Gtk.Box):
             repo_name = GitUtils.get_repo_name()
             if repo_name:
                 repo_display = repo_name.split('/')[-1]  # Show only repo name, not org/repo
-                self.repo_card.value_label.set_text(repo_display)
+                self.repo_card.update_value(repo_display)
             else:
-                self.repo_card.value_label.set_text(_("Local repo"))
+                self.repo_card.update_value(_("Local repo"))
             
             # Branch card
             current_branch = GitUtils.get_current_branch()
             if current_branch:
-                self.branch_card.value_label.set_text(current_branch)
+                self.branch_card.update_value(current_branch)
             else:
-                self.branch_card.value_label.set_text(_("Unknown"))
+                self.branch_card.update_value(_("Unknown"))
             
             # Changes card - clear previous CSS classes first
             self.changes_card.icon.remove_css_class("warning")
             self.changes_card.icon.remove_css_class("success")
             
             if GitUtils.has_changes():
-                self.changes_card.value_label.set_text(_("Modified"))
+                self.changes_card.update_value(_("Modified"))
                 self.changes_card.icon.add_css_class("warning")
             else:
                 # TRANSLATORS: Status when working directory has no modifications
-                self.changes_card.value_label.set_text(_("No changes"))
+                self.changes_card.update_value(_("No changes"))
                 self.changes_card.icon.add_css_class("success")
             
             # Commits card - check for empty repo first
             if not GitUtils.has_commits():
-                self.commits_card.value_label.set_text("0")
+                self.commits_card.update_value("0")
             else:
                 try:
                     import subprocess
@@ -274,11 +284,11 @@ class OverviewWidget(Gtk.Box):
                     )
                     if result.returncode == 0:
                         commit_count = result.stdout.strip()
-                        self.commits_card.value_label.set_text(commit_count)
+                        self.commits_card.update_value(commit_count)
                     else:
-                        self.commits_card.value_label.set_text("0")
+                        self.commits_card.update_value("0")
                 except subprocess.SubprocessError:
-                    self.commits_card.value_label.set_text("—")
+                    self.commits_card.update_value("—")
                 
         except Exception as e:
             print(_("Error updating status cards: {0}").format(e))

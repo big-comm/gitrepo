@@ -4,6 +4,9 @@
 # gui/main_window.py - Main window for GTK4 interface
 #
 
+import os
+import threading
+
 import gi
 
 gi.require_version('Gtk', '4.0')
@@ -270,8 +273,9 @@ class MainWindow(Adw.ApplicationWindow):
             nav_row.set_activatable(True)
             nav_row.page_id = page_id
 
-            # Add icon
+            # Add icon (decorative — row title is the accessible label)
             icon = Gtk.Image.new_from_icon_name(icon_name)
+            icon.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
             nav_row.add_prefix(icon)
 
             # Add badge placeholder (hidden by default)
@@ -628,305 +632,11 @@ class MainWindow(Adw.ApplicationWindow):
         self._pending_commit_message = None
 
     def _switch_then_commit(self, target_branch, commit_message):
-        """Switch to target branch, sync with remote, then commit with logging.
-
-        Flow:
-        1. Stash changes
-        2. Switch to target branch
-        3. Sync target branch with remote (pull --rebase) — BEFORE restoring stash
-        4. Restore stash (user's changes on top of up-to-date branch)
-        5. Commit + push
-        6. Return to original branch
-        7. Merge target into original branch (keep dev in sync)
-        """
-        import subprocess
-
-        # Check for changes to stash
-        has_changes = GitUtils.has_changes()
-        logger = (
-            self.build_package.logger if hasattr(self.build_package, "logger") else None
-        )
-
-        def log(style, msg):
-            if logger:
-                logger.log(style, msg)
-            else:
-                print("[{0}] {1}".format(style, msg))
-
-        def switch_and_commit():
-            stashed = False
-            original_branch = GitUtils.get_current_branch()
-
-            try:
-                log("cyan", _("Preparing branch switch..."))
-                log("dim", f"    From: {original_branch} → To: {target_branch}")
-
-                # === Step 1: Stash changes ===
-                if has_changes:
-                    log("cyan", _("Stashing local changes..."))
-                    stash_result = subprocess.run(
-                        [
-                            "git",
-                            "stash",
-                            "push",
-                            "-u",
-                            "-m",
-                            f"auto-stash-commit-to-{target_branch}",
-                        ],
-                        capture_output=True,
-                        text=True,
-                        check=False,
-                    )
-                    if stash_result.returncode == 0:
-                        stashed = True
-                        log("green", _("✓ Changes stashed"))
-                    else:
-                        log("yellow", _("⚠ Could not stash (continuing anyway)"))
-
-                # === Step 2: Switch to target branch ===
-                log("cyan", _("Switching to branch {0}...").format(target_branch))
-
-                # Check if branch exists locally
-                local_check = subprocess.run(
-                    ["git", "rev-parse", "--verify", target_branch],
-                    capture_output=True,
-                    check=False,
-                )
-
-                # Check if branch exists remotely
-                remote_check = subprocess.run(
-                    ["git", "rev-parse", "--verify", f"origin/{target_branch}"],
-                    capture_output=True,
-                    check=False,
-                )
-
-                if remote_check.returncode == 0 and local_check.returncode != 0:
-                    # Exists remotely but NOT locally - create local branch tracking remote
-                    log(
-                        "cyan",
-                        _("Creating local branch from remote: {0}").format(
-                            target_branch
-                        ),
-                    )
-                    checkout_result = subprocess.run(
-                        [
-                            "git",
-                            "checkout",
-                            "-b",
-                            target_branch,
-                            f"origin/{target_branch}",
-                        ],
-                        capture_output=True,
-                        text=True,
-                        check=False,
-                    )
-                elif local_check.returncode == 0 or remote_check.returncode == 0:
-                    # Exists locally or both - normal checkout
-                    checkout_result = subprocess.run(
-                        ["git", "checkout", target_branch],
-                        capture_output=True,
-                        text=True,
-                        check=False,
-                    )
-                else:
-                    # Doesn't exist anywhere - create new branch
-                    log("cyan", _("Creating new branch: {0}").format(target_branch))
-                    checkout_result = subprocess.run(
-                        ["git", "checkout", "-b", target_branch],
-                        capture_output=True,
-                        text=True,
-                        check=False,
-                    )
-
-                if checkout_result.returncode != 0:
-                    error_msg = (
-                        checkout_result.stderr.strip() or checkout_result.stdout.strip()
-                    )
-                    log("red", _("✗ Failed to switch branch: {0}").format(error_msg))
-                    if stashed:
-                        subprocess.run(
-                            ["git", "stash", "pop"], capture_output=True, check=False
-                        )
-                        log("yellow", _("Restored stashed changes"))
-                    raise Exception(
-                        _("Failed to switch to branch {0}").format(target_branch)
-                    )
-
-                log("green", _("✓ Switched to {0}").format(target_branch))
-
-                # === Step 3: Sync target branch with remote BEFORE restoring stash ===
-                log("cyan", _("Syncing {0} with remote...").format(target_branch))
-
-                # Fetch latest
-                subprocess.run(
-                    ["git", "fetch", "origin", target_branch],
-                    capture_output=True,
-                    text=True,
-                    check=False,
-                )
-
-                # Check divergence
-                divergence = GitUtils.check_branch_divergence(target_branch)
-
-                if divergence.get("behind", 0) > 0 or divergence.get("diverged"):
-                    behind = divergence.get("behind", 0)
-                    log(
-                        "cyan", _("Pulling {0} commit(s) from remote...").format(behind)
-                    )
-
-                    # Try rebase first (working tree is clean since changes are stashed)
-                    sync_result = subprocess.run(
-                        ["git", "pull", "--rebase", "origin", target_branch],
-                        capture_output=True,
-                        text=True,
-                        check=False,
-                    )
-
-                    if sync_result.returncode == 0:
-                        log("green", _("✓ Synced with remote"))
-                    else:
-                        # Rebase failed, abort and try merge
-                        subprocess.run(
-                            ["git", "rebase", "--abort"],
-                            capture_output=True,
-                            check=False,
-                        )
-                        log("yellow", _("⚠ Rebase failed, trying merge..."))
-
-                        sync_result = subprocess.run(
-                            ["git", "pull", "--no-rebase", "origin", target_branch],
-                            capture_output=True,
-                            text=True,
-                            check=False,
-                        )
-
-                        if sync_result.returncode == 0:
-                            log("green", _("✓ Merged with remote"))
-                        else:
-                            # Sync completely failed - abort, go back to original branch
-                            subprocess.run(
-                                ["git", "merge", "--abort"],
-                                capture_output=True,
-                                check=False,
-                            )
-                            log(
-                                "red",
-                                _("✗ Could not sync {0} with remote").format(
-                                    target_branch
-                                ),
-                            )
-                            log(
-                                "yellow",
-                                _("Returning to {0}...").format(original_branch),
-                            )
-                            subprocess.run(
-                                ["git", "checkout", original_branch],
-                                capture_output=True,
-                                check=False,
-                            )
-                            if stashed:
-                                subprocess.run(
-                                    ["git", "stash", "pop"],
-                                    capture_output=True,
-                                    check=False,
-                                )
-                                log("yellow", _("Restored stashed changes"))
-                            raise Exception(
-                                _(
-                                    "Failed to sync {0} with remote - please sync manually first"
-                                ).format(target_branch)
-                            )
-                else:
-                    log("green", _("✓ Already in sync with remote"))
-
-                # === Step 4: Restore stash ===
-                if stashed:
-                    log("cyan", _("Restoring stashed changes..."))
-                    pop_result = subprocess.run(
-                        ["git", "stash", "pop"],
-                        capture_output=True,
-                        text=True,
-                        check=False,
-                    )
-                    if pop_result.returncode == 0:
-                        log("green", _("✓ Stash restored"))
-                    else:
-                        log(
-                            "yellow",
-                            _(
-                                "⚠ Conflicts while restoring stash - please resolve manually"
-                            ),
-                        )
-
-                # === Step 5: Commit + push ===
-                result = self._execute_commit(commit_message, target_branch)
-
-                # === Step 6: Return to original branch ===
-                if original_branch and original_branch != target_branch:
-                    log("cyan", _("Returning to {0}...").format(original_branch))
-                    back_result = subprocess.run(
-                        ["git", "checkout", original_branch],
-                        capture_output=True,
-                        text=True,
-                        check=False,
-                    )
-                    if back_result.returncode == 0:
-                        log("green", _("✓ Returned to {0}").format(original_branch))
-
-                        # === Step 7: Merge target into original branch ===
-                        log(
-                            "cyan",
-                            _("Syncing {0} with {1}...").format(
-                                original_branch, target_branch
-                            ),
-                        )
-                        merge_result = subprocess.run(
-                            ["git", "merge", target_branch, "--no-edit"],
-                            capture_output=True,
-                            text=True,
-                            check=False,
-                        )
-                        if merge_result.returncode == 0:
-                            log(
-                                "green",
-                                _("✓ {0} is now in sync with {1}").format(
-                                    original_branch, target_branch
-                                ),
-                            )
-                        else:
-                            log(
-                                "yellow",
-                                _(
-                                    "⚠ Could not auto-sync {0} — you can sync later with Pull"
-                                ).format(original_branch),
-                            )
-                            # Abort failed merge to leave clean state
-                            subprocess.run(
-                                ["git", "merge", "--abort"],
-                                capture_output=True,
-                                check=False,
-                            )
-                    else:
-                        log(
-                            "yellow",
-                            _("⚠ Could not return to {0} — still on {1}").format(
-                                original_branch, target_branch
-                            ),
-                        )
-
-                return result
-
-            except subprocess.CalledProcessError as e:
-                log("red", _("Error: {0}").format(str(e)))
-                if stashed:
-                    subprocess.run(
-                        ["git", "stash", "pop"], capture_output=True, check=False
-                    )
-                    log("yellow", _("Restored stashed changes"))
-                raise e
+        """Switch branch, sync remote, restore stash, commit — delegates to core/branch_handler.py."""
+        from core.branch_handler import switch_and_commit
 
         self.operation_runner.run_with_progress(
-            switch_and_commit,
+            lambda: switch_and_commit(self.build_package, target_branch, commit_message),
             _("Switching and Committing"),
             _("Switching to {0} and committing...").format(target_branch),
         )
@@ -944,280 +654,10 @@ class MainWindow(Adw.ApplicationWindow):
         )
 
     def _execute_commit(self, commit_message, target_branch=None):
-        """Execute the actual git commit and push with intelligent error handling
+        """Stage, commit, and push — delegates to core/commit_handler.py."""
+        from core.commit_handler import execute_commit as _execute
 
-        Args:
-            commit_message: The commit message
-            target_branch: Optional branch name. If provided, used for push.
-                          If None, will use get_current_branch().
-        """
-        import subprocess
-
-        logger = (
-            self.build_package.logger if hasattr(self.build_package, "logger") else None
-        )
-
-        def log(style, msg):
-            if logger:
-                logger.log(style, msg)
-            else:
-                print("[{0}] {1}".format(style, msg))
-
-        # Use provided target_branch or get current branch
-        current_branch = (
-            target_branch if target_branch else GitUtils.get_current_branch()
-        )
-
-        # Validate branch name is not empty
-        if not current_branch:
-            log("red", _("✗ Could not determine branch name!"))
-            log("white", _("Please check your git repository state."))
-            raise Exception(_("Could not determine branch name for push"))
-
-        # Step 1: Stage all changes
-        log("cyan", _("Staging all changes..."))
-        try:
-            result = subprocess.run(
-                ["git", "add", "-A"], capture_output=True, text=True, check=False
-            )
-            if result.returncode != 0:
-                error_msg = (
-                    result.stderr.strip() or result.stdout.strip() or _("Unknown error")
-                )
-                log("red", _("Failed to stage changes: {0}").format(error_msg))
-                raise Exception(_("Failed to stage changes: {0}").format(error_msg))
-            log("green", _("✓ Changes staged"))
-        except Exception as e:
-            log("red", str(e))
-            raise
-
-        # Step 2: Commit
-        log("cyan", _("Creating commit..."))
-        log(
-            "dim",
-            f'    git commit -m "{commit_message[:50]}..."'
-            if len(commit_message) > 50
-            else f'    git commit -m "{commit_message}"',
-        )
-        try:
-            result = subprocess.run(
-                ["git", "commit", "-m", commit_message],
-                capture_output=True,
-                text=True,
-                check=False,
-            )
-            if result.returncode != 0:
-                error_msg = (
-                    result.stderr.strip() or result.stdout.strip() or _("Unknown error")
-                )
-                # Check for common issues
-                if "nothing to commit" in error_msg.lower():
-                    log("yellow", _("⚠ No changes to commit"))
-                    return True  # Not really an error
-                log("red", _("Failed to commit: {0}").format(error_msg))
-                raise Exception(_("Failed to commit: {0}").format(error_msg))
-            log("green", _("✓ Commit created successfully"))
-        except Exception as e:
-            if "No changes to commit" not in str(e):
-                log("red", str(e))
-                raise
-
-        # Step 3: Check for divergence and sync before push
-        log("cyan", _("Checking remote status..."))
-        divergence = GitUtils.check_branch_divergence(current_branch)
-
-        if divergence.get("error"):
-            log(
-                "yellow",
-                _("⚠ Could not check remote status: {0}").format(divergence["error"]),
-            )
-            log("dim", _("    Proceeding with push anyway..."))
-        elif divergence.get("diverged") or divergence.get("behind", 0) > 0:
-            # Need to sync with remote first
-            behind_count = divergence.get("behind", 0)
-            ahead_count = divergence.get("ahead", 0)
-
-            if divergence.get("diverged"):
-                log("yellow", _("⚠ Branch has diverged from remote"))
-                log("dim", _("    Local: {0} commit(s) ahead").format(ahead_count))
-                log("dim", _("    Remote: {0} commit(s) to sync").format(behind_count))
-            else:
-                log(
-                    "cyan",
-                    _("Remote has {0} new commit(s) - syncing...").format(behind_count),
-                )
-
-            log("cyan", _("Pulling with rebase to sync..."))
-            log("dim", _("    git pull --rebase origin {0}").format(current_branch))
-
-            # Try to auto-resolve with rebase
-            if GitUtils.resolve_divergence(current_branch, "rebase", logger):
-                log("green", _("✓ Synced with remote successfully"))
-            else:
-                # Rebase failed, try merge
-                log("yellow", _("⚠ Rebase had conflicts, trying merge..."))
-                if GitUtils.resolve_divergence(current_branch, "merge", logger):
-                    log("green", _("✓ Merged with remote successfully"))
-                else:
-                    log("red", _("✗ Could not sync with remote automatically"))
-                    log("white", _("Please resolve conflicts manually and try again"))
-                    raise Exception(
-                        _(
-                            "Failed to sync with remote - conflicts need manual resolution"
-                        )
-                    )
-        else:
-            log("green", _("✓ Already in sync with remote"))
-
-        # Step 4: Push
-        log("cyan", _("Pushing to remote..."))
-        log("dim", f"    git push -u origin {current_branch}")
-        try:
-            result = subprocess.run(
-                ["git", "push", "-u", "origin", current_branch],
-                capture_output=True,
-                text=True,
-                check=False,
-            )
-
-            if result.returncode != 0:
-                error_output = result.stderr.strip() or result.stdout.strip() or ""
-
-                # Detect specific error types and provide helpful messages
-                error_info = self._analyze_push_error(error_output, current_branch)
-
-                log("red", _("✗ Push failed!"))
-                log("red", _("Error: {0}").format(error_output))
-                log("yellow", "")
-                log("yellow", _("═══ Diagnosis ═══"))
-                log("orange", error_info["diagnosis"])
-                log("yellow", "")
-                log("yellow", _("═══ Suggested Solutions ═══"))
-                for solution in error_info["solutions"]:
-                    log("white", f"  • {solution}")
-
-                raise Exception(error_info["diagnosis"])
-
-            log("green", _("✓ Pushed to origin/{0}").format(current_branch))
-        except Exception:
-            # Re-raise to show in UI
-            raise
-
-        log("green", "")
-        log("green", _("═══ Commit Complete ═══"))
-        log("white", _("Branch: {0}").format(current_branch))
-        log(
-            "white",
-            _("Message: {0}").format(
-                commit_message[:60] + "..."
-                if len(commit_message) > 60
-                else commit_message
-            ),
-        )
-
-        return True
-
-    def _analyze_push_error(self, error_output, branch):
-        """Analyze push error and provide helpful diagnosis and solutions"""
-        error_lower = error_output.lower()
-
-        # Authentication errors
-        if any(
-            x in error_lower
-            for x in [
-                "authentication",
-                "permission denied",
-                "403",
-                "401",
-                "could not read username",
-            ]
-        ):
-            return {
-                "diagnosis": _(
-                    "Authentication failed - credentials may be expired or invalid"
-                ),
-                "solutions": [
-                    _("Run 'gh auth login' to authenticate with GitHub CLI"),
-                    _("Check if your SSH key is added: ssh -T git@github.com"),
-                    _("For HTTPS, run: git credential reject"),
-                    _("Generate a new Personal Access Token on GitHub"),
-                ],
-            }
-
-        # Remote branch ahead (need to pull)
-        if any(
-            x in error_lower
-            for x in ["non-fast-forward", "updates were rejected", "fetch first"]
-        ):
-            return {
-                "diagnosis": _("Remote branch has changes you don't have locally"),
-                "solutions": [
-                    _("Use 'Pull Latest' button first to get remote changes"),
-                    _("Or run: git pull --rebase origin {0}").format(branch),
-                    _("Then try pushing again"),
-                ],
-            }
-
-        # Protected branch
-        if any(
-            x in error_lower
-            for x in ["protected branch", "required status", "review required"]
-        ):
-            return {
-                "diagnosis": _(
-                    "This branch has protection rules - direct push is not allowed"
-                ),
-                "solutions": [
-                    _("Push to a development branch instead (e.g., dev-yourname)"),
-                    _("Create a Pull Request to merge your changes"),
-                    _("Ask a maintainer to temporarily disable branch protection"),
-                ],
-            }
-
-        # Network errors
-        if any(
-            x in error_lower
-            for x in ["could not resolve", "network", "connection refused", "timed out"]
-        ):
-            return {
-                "diagnosis": _("Network error - cannot reach remote server"),
-                "solutions": [
-                    _("Check your internet connection"),
-                    _("Try again in a few moments"),
-                    _("Check if GitHub/remote is accessible"),
-                ],
-            }
-
-        # Repository access
-        if any(x in error_lower for x in ["repository not found", "does not exist"]):
-            return {
-                "diagnosis": _("Remote repository not found or you don't have access"),
-                "solutions": [
-                    _("Verify the remote URL: git remote -v"),
-                    _("Check if you have write access to the repository"),
-                    _("Request access from the repository owner"),
-                ],
-            }
-
-        # Branch doesn't exist on remote
-        if "src refspec" in error_lower and "does not match any" in error_lower:
-            return {
-                "diagnosis": _("Local branch configuration issue"),
-                "solutions": [
-                    _("Try: git push --set-upstream origin {0}").format(branch),
-                    _("Or verify you have commits on this branch"),
-                ],
-            }
-
-        # Default / unknown error
-        return {
-            "diagnosis": _("Push failed with error: {0}").format(error_output[:200]),
-            "solutions": [
-                _("Check the error message above for details"),
-                _("Try running 'git push' in terminal to see full output"),
-                _("Check GitHub status: https://githubstatus.com"),
-            ],
-        }
+        return _execute(self.build_package, commit_message, target_branch)
 
     def on_pull_requested(self, widget):
         """Handle pull request"""
@@ -1236,40 +676,11 @@ class MainWindow(Adw.ApplicationWindow):
         )
 
     def on_undo_commit_requested(self, widget):
-        """Handle undo last commit request - executes git reset HEAD~1"""
-        import subprocess
-
-        logger = (
-            self.build_package.logger if hasattr(self.build_package, "logger") else None
-        )
-
-        def log(style, msg):
-            if logger:
-                logger.log(style, msg)
-            else:
-                print("[{0}] {1}".format(style, msg))
-
-        def undo_operation():
-            log("cyan", _("Undoing last commit..."))
-            log("dim", "    git reset HEAD~1")
-
-            result = subprocess.run(
-                ["git", "reset", "HEAD~1"], capture_output=True, text=True, check=False
-            )
-
-            if result.returncode != 0:
-                error_msg = result.stderr.strip() or result.stdout.strip()
-                log("red", _("✗ Failed to undo commit: {0}").format(error_msg))
-                raise Exception(_("Failed to undo commit: {0}").format(error_msg))
-
-            log("green", _("✓ Last commit undone successfully"))
-            log("white", _("Your changes are now in the working directory"))
-            log("yellow", _("You can modify files and commit again"))
-
-            return True
+        """Handle undo last commit request — delegates to core/branch_handler.py."""
+        from core.branch_handler import undo_last_commit
 
         self.operation_runner.run_with_progress(
-            undo_operation,
+            lambda: undo_last_commit(self.build_package),
             _("Undoing Commit"),
             _("Undoing last commit (keeping changes)..."),
         )
@@ -1366,7 +777,6 @@ class MainWindow(Adw.ApplicationWindow):
         self, pending_operation, pending_title, pending_description
     ):
         """Show GTK dialog to set up GitHub token"""
-        import os
 
         from core.config import TOKEN_FILE
         
@@ -1550,367 +960,134 @@ class MainWindow(Adw.ApplicationWindow):
         # Cancel does nothing
     
     def _do_branch_switch(self, target_branch, stash_first=False, discard_first=False):
-        """Perform the actual branch switch with optional stash/discard"""
-        import subprocess
-        
-        stashed = False
-        
-        try:
-            # Step 1: Handle local changes if needed
-            if discard_first:
-                subprocess.run(["git", "checkout", "--", "."], check=True, capture_output=True)
-                subprocess.run(["git", "clean", "-fd"], check=True, capture_output=True)
-            elif stash_first:
-                stash_result = subprocess.run(
-                    ["git", "stash", "push", "-u", "-m", f"auto-stash-before-switch-to-{target_branch}"],
-                    capture_output=True, text=True, check=False
-                )
-                if stash_result.returncode != 0:
-                    self.show_error_toast(_("Failed to stash changes"))
-                    return
-                stashed = True
-            
-            # Step 2: Switch branch - handle case where branch exists remotely but not locally
-            # Check if branch exists locally
-            local_check = subprocess.run(
-                ["git", "rev-parse", "--verify", target_branch],
-                capture_output=True, check=False
-            )
-            
-            # Check if branch exists remotely
-            remote_check = subprocess.run(
-                ["git", "rev-parse", "--verify", f"origin/{target_branch}"],
-                capture_output=True, check=False
-            )
-            
-            if remote_check.returncode == 0 and local_check.returncode != 0:
-                # Exists remotely but NOT locally - create local branch tracking remote
-                checkout_result = subprocess.run(
-                    ["git", "checkout", "-b", target_branch, f"origin/{target_branch}"],
-                    capture_output=True, text=True, check=False
-                )
-            elif local_check.returncode == 0 or remote_check.returncode == 0:
-                # Exists locally or both - normal checkout
-                checkout_result = subprocess.run(
-                    ["git", "checkout", target_branch],
-                    capture_output=True, text=True, check=False
-                )
-            else:
-                # Doesn't exist anywhere - create new branch
-                checkout_result = subprocess.run(
-                    ["git", "checkout", "-b", target_branch],
-                    capture_output=True, text=True, check=False
-                )
-            
-            if checkout_result.returncode != 0:
-                error_msg = checkout_result.stderr.strip()
-                self.show_error_toast(_("Failed to switch: {0}").format(error_msg))
-                # Restore stash if we stashed
-                if stashed:
-                    subprocess.run(["git", "stash", "pop"], capture_output=True, check=False)
-                return
-            
-            # Step 3: Restore stash if we stashed
-            if stashed:
-                pop_result = subprocess.run(
-                    ["git", "stash", "pop"],
-                    capture_output=True, text=True, check=False
-                )
-                if pop_result.returncode != 0:
-                    if "CONFLICT" in pop_result.stdout or "CONFLICT" in pop_result.stderr:
-                        self.show_info_toast(_("Switched to {0}. Conflicts detected - resolve manually.").format(target_branch))
-                    else:
-                        self.show_info_toast(_("Switched to {0}. Check 'git stash list' for your changes.").format(target_branch))
-                else:
-                    self.show_toast(_("Switched to {0} with your changes restored.").format(target_branch))
-            else:
-                self.show_toast(_("Switched to branch: {0}").format(target_branch))
-            
-            # Step 4: Refresh UI
-            if hasattr(self, 'branch_widget'):
+        """Perform branch switch — delegates git logic to core/branch_handler.py."""
+        from core.branch_handler import switch_branch
+
+        result = switch_branch(self.build_package, target_branch, stash_first=stash_first, discard_first=discard_first)
+        msg = result["message"]
+        if result["message_type"] == "error":
+            self.show_error_toast(msg)
+        elif result["message_type"] == "info":
+            self.show_info_toast(msg)
+        else:
+            self.show_toast(msg)
+
+        if result["success"]:
+            if hasattr(self, "branch_widget"):
                 self.branch_widget.refresh_branches()
             self.refresh_all_widgets()
-            
-        except subprocess.CalledProcessError as e:
-            self.show_error_toast(_("Error switching branch: {0}").format(str(e)))
-    
+
     def on_merge_requested(self, widget, source_branch, target_branch, auto_merge):
         """Handle merge request - create PR or create branch if target doesn't exist"""
-        import subprocess
-        
-        # Check if target branch exists (locally or remotely)
-        local_check = subprocess.run(
-            ["git", "rev-parse", "--verify", target_branch],
-            capture_output=True, check=False
-        )
-        remote_check = subprocess.run(
-            ["git", "rev-parse", "--verify", f"origin/{target_branch}"],
-            capture_output=True, check=False
-        )
-        
-        target_exists = (local_check.returncode == 0 or remote_check.returncode == 0)
-        
-        if not target_exists:
-            # Target branch doesn't exist - offer to create it and push
+        if not GitUtils.branch_exists(target_branch):
             self._show_create_branch_dialog(source_branch, target_branch)
             return
-        
-        # Target exists - proceed with normal PR flow
-        # Pre-check: Verify repository has remote configured for PRs
+
         repo_name = GitUtils.get_repo_name()
         if not repo_name:
             self._show_no_remote_error()
             return
-        
-        # Show confirmation dialog
+
         self._show_merge_confirmation(source_branch, target_branch, auto_merge)
-    
+
     def _show_create_branch_dialog(self, source_branch, target_branch):
         """Show dialog to create a branch that doesn't exist and push to remote"""
-        dialog = Adw.MessageDialog(
-            transient_for=self,
-            modal=True
-        )
-        
+        dialog = Adw.MessageDialog(transient_for=self, modal=True)
+
         dialog.set_heading(_("Create Branch '{0}'?").format(target_branch))
         dialog.set_body(
-            _("The branch '{0}' doesn't exist yet.\n\n"
-              "Would you like to create it from '{1}' and push to remote?").format(target_branch, source_branch)
+            _(
+                "The branch '{0}' doesn't exist yet.\n\nWould you like to create it from '{1}' and push to remote?"
+            ).format(target_branch, source_branch)
         )
-        
+
         # Visual content - wrapper for consistent width
         wrapper = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         wrapper.set_size_request(420, -1)
-        
+
         content_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
         content_box.set_margin_top(12)
         content_box.set_margin_bottom(12)
         content_box.set_margin_start(24)
         content_box.set_margin_end(24)
-        
+
         # Flow visualization
         flow_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
         flow_box.set_halign(Gtk.Align.CENTER)
-        
+
         source_label = Gtk.Label()
         source_label.set_markup(_("<span foreground='#FFA500'><b>{0}</b></span>").format(source_branch))
         flow_box.append(source_label)
-        
+
         arrow = Gtk.Image.new_from_icon_name("go-next-symbolic")
         arrow.set_pixel_size(24)
         flow_box.append(arrow)
-        
+
         target_label = Gtk.Label()
-        target_label.set_markup(_("<span foreground='#32CD32'><b>{0}</b></span> <span foreground='#888888'>(new)</span>").format(target_branch))
+        target_label.set_markup(
+            _("<span foreground='#32CD32'><b>{0}</b></span> <span foreground='#888888'>(new)</span>").format(
+                target_branch
+            )
+        )
         flow_box.append(target_label)
-        
+
         content_box.append(flow_box)
-        
+
         info_label = Gtk.Label()
-        info_label.set_markup(_("<span foreground='#00CED1'>This will copy all code from '{0}' to the new '{1}' branch</span>").format(source_branch, target_branch))
+        info_label.set_markup(
+            _("<span foreground='#00CED1'>This will copy all code from '{0}' to the new '{1}' branch</span>").format(
+                source_branch, target_branch
+            )
+        )
         info_label.set_wrap(True)
         info_label.set_margin_top(8)
         content_box.append(info_label)
-        
+
         wrapper.append(content_box)
         dialog.set_extra_child(wrapper)
-        
+
         # Responses
         dialog.add_response("cancel", _("Cancel"))
         dialog.add_response("create", _("Create and Push"))
-        
+
         dialog.set_response_appearance("create", Adw.ResponseAppearance.SUGGESTED)
         dialog.set_default_response("create")
         dialog.set_close_response("cancel")
-        
+
         dialog.connect("response", self._on_create_branch_response, source_branch, target_branch)
         dialog.present()
-    
+
     def _on_create_branch_response(self, dialog, response, source_branch, target_branch):
-        """Handle create branch dialog response"""
+        """Handle create branch dialog response — delegates to core/branch_handler.py."""
         if response != "create":
             return
-        
-        import subprocess
-        
-        def create_and_push():
-            logger = self.build_package.logger if hasattr(self.build_package, 'logger') else None
-            
-            def log(style, msg):
-                if logger:
-                    logger.log(style, msg)
-            
-            current_branch = GitUtils.get_current_branch()
-            
-            try:
-                # Step 1: Switch to source branch if not already there
-                if current_branch != source_branch:
-                    log("cyan", _("Switching to source branch: {0}").format(source_branch))
-                    subprocess.run(["git", "checkout", source_branch], capture_output=True, check=True)
-                
-                # Step 2: Create the new branch from source
-                log("cyan", _("Creating branch: {0}").format(target_branch))
-                log("dim", f"    git checkout -b {target_branch}")
-                
-                result = subprocess.run(
-                    ["git", "checkout", "-b", target_branch],
-                    capture_output=True, text=True, check=False
-                )
-                
-                if result.returncode != 0:
-                    log("red", _("Failed to create branch: {0}").format(result.stderr))
-                    return False
-                
-                log("green", _("✓ Branch '{0}' created").format(target_branch))
-                
-                # Step 3: Push to remote
-                log("cyan", _("Pushing to remote..."))
-                log("dim", f"    git push -u origin {target_branch}")
-                
-                push_result = subprocess.run(
-                    ["git", "push", "-u", "origin", target_branch],
-                    capture_output=True, text=True, check=False
-                )
-                
-                if push_result.returncode != 0:
-                    log("red", _("Push failed: {0}").format(push_result.stderr))
-                    return False
-                
-                log("green", _("✓ Successfully pushed '{0}' to remote!").format(target_branch))
-                log("green", _("✓ All code from '{0}' is now in '{1}'").format(source_branch, target_branch))
-                
-                return True
-                
-            except subprocess.CalledProcessError as e:
-                log("red", _("Error: {0}").format(str(e)))
-                return False
-        
+
+        from core.branch_handler import create_branch_and_push
+
         self.operation_runner.run_with_progress(
-            create_and_push,
+            lambda: create_branch_and_push(self.build_package, source_branch, target_branch),
             _("Creating Branch"),
-            _("Creating '{0}' from '{1}' and pushing...").format(target_branch, source_branch)
+            _("Creating '{0}' from '{1}' and pushing...").format(target_branch, source_branch),
         )
-    
-    def _show_no_remote_error(self):
-        """Show dialog to configure remote origin when not configured"""
-        dialog = Adw.MessageDialog(
-            transient_for=self,
-            modal=True
-        )
-        
-        dialog.set_heading(_("⚠️ Remote Not Configured"))
-        dialog.set_body(_("This repository has no remote origin configured. Would you like to configure it now?"))
-        
-        # Input for repository URL
-        content_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
-        content_box.set_margin_top(12)
-        content_box.set_margin_bottom(12)
-        content_box.set_margin_start(24)
-        content_box.set_margin_end(24)
-        
-        # GitHub username info
-        username = self.build_package.github_user_name or "your-username"
-        folder_name = os.path.basename(os.getcwd())
-        suggested_url = f"https://github.com/{username}/{folder_name}.git"
-        
-        # URL entry
-        url_group = Adw.PreferencesGroup()
-        url_group.set_title(_("Repository URL"))
-        
-        self._remote_url_entry = Adw.EntryRow()
-        self._remote_url_entry.set_title(_("GitHub URL"))
-        self._remote_url_entry.set_text(suggested_url)
-        url_group.add(self._remote_url_entry)
-        
-        content_box.append(url_group)
-        
-        # Info label
-        info_label = Gtk.Label()
-        info_label.set_markup(_("<span foreground='#888888'>Tip: Create the repository on GitHub first, then paste the URL here</span>"))
-        info_label.set_wrap(True)
-        content_box.append(info_label)
-        
-        dialog.set_extra_child(content_box)
-        
-        # Responses
-        dialog.add_response("cancel", _("Cancel"))
-        dialog.add_response("configure", _("Configure Remote"))
-        
-        dialog.set_response_appearance("configure", Adw.ResponseAppearance.SUGGESTED)
-        dialog.set_default_response("configure")
-        dialog.set_close_response("cancel")
-        
-        dialog.connect("response", self._on_configure_remote_response)
-        dialog.present()
-    
+
     def _on_configure_remote_response(self, dialog, response):
-        """Handle configure remote dialog response"""
+        """Handle configure remote dialog response — delegates to core/branch_handler.py."""
         if response != "configure":
             return
-        
+
         url = self._remote_url_entry.get_text().strip()
         if not url:
             self.show_error_toast(_("Please enter a valid URL"))
             return
-        
-        import subprocess
-        
-        def configure_remote():
-            logger = self.build_package.logger if hasattr(self.build_package, 'logger') else None
-            
-            def log(style, msg):
-                if logger:
-                    logger.log(style, msg)
-            
-            log("cyan", _("Configuring remote origin..."))
-            log("dim", f"    git remote add origin {url}")
-            
-            # Add remote
-            result = subprocess.run(
-                ["git", "remote", "add", "origin", url],
-                capture_output=True, text=True, check=False
-            )
-            
-            if result.returncode != 0:
-                if "already exists" in result.stderr:
-                    log("yellow", _("Remote 'origin' already exists, updating URL..."))
-                    result = subprocess.run(
-                        ["git", "remote", "set-url", "origin", url],
-                        capture_output=True, text=True, check=False
-                    )
-                    if result.returncode != 0:
-                        log("red", _("Failed to update remote: {0}").format(result.stderr))
-                        return False
-                else:
-                    log("red", _("Failed to add remote: {0}").format(result.stderr))
-                    return False
-            
-            log("green", _("✓ Remote origin configured successfully"))
-            
-            # Now push the current branch
-            current_branch = GitUtils.get_current_branch() or "main"
-            log("cyan", _("Pushing to remote..."))
-            log("dim", f"    git push -u origin {current_branch}")
-            
-            push_result = subprocess.run(
-                ["git", "push", "-u", "origin", current_branch],
-                capture_output=True, text=True, check=False
-            )
-            
-            if push_result.returncode != 0:
-                log("red", _("Push failed: {0}").format(push_result.stderr))
-                log("yellow", _("You may need to create the repository on GitHub first"))
-                return False
-            
-            log("green", _("✓ Successfully pushed to remote!"))
-            return True
-        
+
+        from core.branch_handler import configure_remote_and_push
+
         self.operation_runner.run_with_progress(
-            configure_remote,
+            lambda: configure_remote_and_push(self.build_package, url),
             _("Configuring Remote"),
-            _("Setting up remote origin and pushing...")
+            _("Setting up remote origin and pushing..."),
         )
-    
+
     def _show_merge_confirmation(self, source_branch, target_branch, auto_merge):
         """Show merge confirmation dialog"""
         dialog = Adw.MessageDialog(
@@ -2031,157 +1208,12 @@ class MainWindow(Adw.ApplicationWindow):
         )
     
     def on_revert_commit_requested(self, widget, commit_hash, method):
-        """Handle commit revert request"""
+        """Handle commit revert request — delegates to revert_operations."""
+        from core.revert_operations import execute_revert_by_hash
+
         def revert_operation():
-            logger = self.build_package.logger if hasattr(self.build_package, 'logger') else None
-            
-            def log(style, msg):
-                if logger:
-                    logger.log(style, msg)
-            
-            try:
-                import subprocess
-                
-                # Get current branch
-                current_branch = GitUtils.get_current_branch()
-                if not current_branch:
-                    log("red", _("✗ Could not determine current branch"))
-                    return False
-                
-                # Get commit info for messages
-                commit_info_result = subprocess.run(
-                    ["git", "log", "-1", "--pretty=format:%s", commit_hash],
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE,
-                    text=True,
-                    check=False
-                )
-                commit_message = commit_info_result.stdout.strip() if commit_info_result.returncode == 0 else "Unknown commit"
-                
-                # Check if commit exists in remote
-                remote_check = subprocess.run(
-                    ["git", "branch", "-r", "--contains", commit_hash],
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE,
-                    text=True,
-                    check=False
-                )
-                remote_exists = bool(remote_check.stdout.strip())
-                
-                if method == "revert":
-                    # Execute revert method - restore complete state from selected commit
-                    log("cyan", _("Restoring code state from selected commit..."))
-                    
-                    # Step 1: Restore complete state from selected commit
-                    checkout_result = subprocess.run(
-                        ["git", "checkout", commit_hash, "--", "."],
-                        capture_output=True,
-                        text=True,
-                        check=False
-                    )
-                    
-                    if checkout_result.returncode != 0:
-                        log("red", _("✗ Failed to checkout commit: {0}").format(checkout_result.stderr.strip()))
-                        return False
-                    
-                    # Step 2: Stage all changes
-                    log("cyan", _("Staging restored files..."))
-                    subprocess.run(["git", "add", "."], check=True)
-                    
-                    # Step 3: Check if there are actually changes to commit
-                    status_result = subprocess.run(
-                        ["git", "status", "--porcelain"],
-                        stdout=subprocess.PIPE,
-                        text=True,
-                        check=True
-                    )
-                    
-                    if not status_result.stdout.strip():
-                        log("yellow", _("No changes detected - code is already at selected state"))
-                        return True
-                    
-                    # Step 4: Create new commit with restored state
-                    new_commit_message = f"Revert to: {commit_message}\n\nThis restores the complete state from commit {commit_hash[:7]}."
-                    
-                    log("cyan", _("Creating revert commit..."))
-                    commit_result = subprocess.run(
-                        ["git", "commit", "-m", new_commit_message],
-                        capture_output=True,
-                        text=True,
-                        check=False
-                    )
-                    
-                    if commit_result.returncode != 0:
-                        log("red", _("✗ Failed to create revert commit: {0}").format(commit_result.stderr.strip()))
-                        return False
-                    
-                    log("green", _("✓ Revert commit created successfully"))
-                    
-                    # Step 5: Push changes
-                    if remote_exists:
-                        log("cyan", _("Pushing revert changes..."))
-                        push_result = subprocess.run(
-                            ["git", "push", "origin", current_branch],
-                            capture_output=True,
-                            text=True,
-                            check=False
-                        )
-                        
-                        if push_result.returncode != 0:
-                            log("red", _("✗ Failed to push: {0}").format(push_result.stderr.strip()))
-                            return False
-                        
-                        log("green", _("✓ Revert changes pushed successfully"))
-                    else:
-                        log("green", _("✓ Revert completed (commit was only local)"))
-                    
-                    return True
-                    
-                else:  # reset method
-                    log("cyan", _("Resetting to selected commit..."))
-                    
-                    # Execute hard reset
-                    reset_result = subprocess.run(
-                        ["git", "reset", "--hard", commit_hash],
-                        capture_output=True,
-                        text=True,
-                        check=False
-                    )
-                    
-                    if reset_result.returncode != 0:
-                        log("red", _("✗ Failed to reset: {0}").format(reset_result.stderr.strip()))
-                        return False
-                    
-                    log("green", _("✓ Reset completed locally"))
-                    
-                    # Handle push for remote
-                    if remote_exists:
-                        log("yellow", _("Commit exists in remote - force pushing..."))
-                        push_result = subprocess.run(
-                            ["git", "push", "origin", current_branch, "--force"],
-                            capture_output=True,
-                            text=True,
-                            check=False
-                        )
-                        
-                        if push_result.returncode != 0:
-                            log("red", _("✗ Force push failed: {0}").format(push_result.stderr.strip()))
-                            log("yellow", _("Reset completed locally only (remote unchanged)"))
-                            return True  # Still consider local reset successful
-                        
-                        log("green", _("✓ Reset force pushed to remote"))
-                    else:
-                        log("green", _("✓ Reset completed (commit was only local)"))
-                    
-                    return True
-                    
-            except subprocess.CalledProcessError as e:
-                log("red", _("✗ Error during {0}: {1}").format(method, str(e)))
-                return False
-            except Exception as e:
-                log("red", _("✗ Unexpected error: {0}").format(str(e)))
-                return False
-        
+            return execute_revert_by_hash(self.build_package, commit_hash, method)
+
         self.operation_runner.run_with_progress(
             revert_operation,
             _("Reverting Commit"),
@@ -2208,20 +1240,27 @@ class MainWindow(Adw.ApplicationWindow):
         )
     
     def run_async_operation(self, func, *args, success_message=None, error_message=None):
-        """Run an operation asynchronously with progress feedback"""
-        # This would implement async operation with threading
-        # For now, run synchronously
-        try:
-            result = func(*args)
-            if result:
-                if success_message:
-                    self.show_toast(success_message)
-                self.refresh_status()
-            else:
-                if error_message:
-                    self.show_error_toast(error_message)
-        except Exception as e:
-            self.show_error_toast(_("Operation failed: {0}").format(str(e)))
+        """Run operation in a background thread to avoid blocking the UI."""
+
+        def _thread_func():
+            try:
+                result = func(*args)
+
+                def _on_done():
+                    if result:
+                        self.show_toast(success_message or _("Operation completed"))
+                    else:
+                        self.show_error_toast(error_message or _("Operation failed"))
+                    self.refresh_status()
+                    return False
+
+                GLib.idle_add(_on_done)
+            except Exception as exc:
+                err_msg = _("Operation failed: {0}").format(str(exc))
+                GLib.idle_add(lambda msg=err_msg: self.show_error_toast(msg) or False)
+
+        thread = threading.Thread(target=_thread_func, daemon=True)
+        thread.start()
     
     def show_toast(self, message):
         """Show success toast message"""
@@ -2233,7 +1272,7 @@ class MainWindow(Adw.ApplicationWindow):
         """Show error toast message"""
         toast = Adw.Toast.new(message)
         toast.set_timeout(5)
-        # toast.add_css_class("error")
+        toast.add_css_class("error")
         self.toast_overlay.add_toast(toast)
     
     def show_info_toast(self, message):
@@ -2354,6 +1393,7 @@ class MainWindow(Adw.ApplicationWindow):
             nav_row.page_id = page_id
 
             icon = Gtk.Image.new_from_icon_name(icon_name)
+            icon.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
             nav_row.add_prefix(icon)
 
             badge_label = Gtk.Label()
@@ -2396,37 +1436,29 @@ class MainWindow(Adw.ApplicationWindow):
         """Update badges in navigation sidebar"""
         if not hasattr(self, 'nav_rows') or not self.build_package:
             return False
-        
+
         try:
-            # Commit badge - show number of uncommitted changes
             if "commit" in self.nav_rows:
                 if self.build_package.is_git_repo and GitUtils.has_changes():
-                    # Count changed files
-                    import subprocess
-                    result = subprocess.run(
-                        ["git", "status", "--porcelain"],
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.DEVNULL,
-                        text=True
-                    )
-                    if result.returncode == 0:
-                        changes = len([l for l in result.stdout.strip().split('\n') if l.strip()])
-                        if changes > 0:
-                            self.nav_rows["commit"].badge.set_text(str(changes))
-                            self.nav_rows["commit"].badge.set_visible(True)
-                            self.nav_rows["commit"].badge.add_css_class("warning")
-                        else:
-                            self.nav_rows["commit"].badge.set_visible(False)
+                    changes = GitUtils.count_changed_files()
+                    row = self.nav_rows["commit"]
+                    if changes > 0:
+                        row.badge.set_text(str(changes))
+                        row.badge.set_visible(True)
+                        row.badge.add_css_class("warning")
+                        row.update_property(
+                            [Gtk.AccessibleProperty.LABEL],
+                            [_("Commit ({0} pending changes)").format(changes)],
+                        )
                     else:
-                        self.nav_rows["commit"].badge.set_visible(False)
+                        row.badge.set_visible(False)
+                        row.update_property(
+                            [Gtk.AccessibleProperty.LABEL],
+                            [_("Commit")],
+                        )
                 else:
                     self.nav_rows["commit"].badge.set_visible(False)
-            
-            # Branches badge - could show number of branches or active merges
-            # Package badge - could show build status
-            # AUR badge - could show available updates
-            # These remain hidden for now but infrastructure is ready
-            
+
         except Exception as e:
             print(_("Error updating nav badges: {0}").format(e))
         

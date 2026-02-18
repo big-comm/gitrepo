@@ -9,7 +9,6 @@
 
 import subprocess
 from .git_utils import GitUtils
-from .operation_preview import OperationPlan, QuickPlan
 from .translation_utils import _
 from .commit_operations import commit_and_push_v2
 
