@@ -136,6 +136,7 @@ def switch_and_commit(bp, target_branch: str, commit_message: str) -> bool:
         )
 
         divergence = GitUtils.check_branch_divergence(target_branch)
+        is_protected = target_branch in ("main", "master")
 
         if divergence.get("behind", 0) > 0 or divergence.get("diverged"):
             behind = divergence.get("behind", 0)
@@ -165,6 +166,41 @@ def switch_and_commit(bp, target_branch: str, commit_message: str) -> bool:
 
                 if sync_result.returncode == 0:
                     log("green", _("✓ Merged with remote"))
+                elif is_protected:
+                    # Protected branches (main/master): remote is source of truth
+                    subprocess.run(
+                        ["git", "merge", "--abort"], capture_output=True, check=False
+                    )
+                    log(
+                        "yellow",
+                        _("⚠ Local {0} diverged from remote — resetting to remote version").format(
+                            target_branch
+                        ),
+                    )
+                    reset_result = subprocess.run(
+                        ["git", "reset", "--hard", f"origin/{target_branch}"],
+                        capture_output=True,
+                        text=True,
+                        check=False,
+                    )
+                    if reset_result.returncode == 0:
+                        log("green", _("✓ {0} reset to origin/{0}").format(target_branch))
+                    else:
+                        log("red", _("✗ Could not reset {0}").format(target_branch))
+                        log("yellow", _("Returning to {0}...").format(original_branch))
+                        subprocess.run(
+                            ["git", "checkout", original_branch],
+                            capture_output=True,
+                            check=False,
+                        )
+                        if stashed:
+                            subprocess.run(
+                                ["git", "stash", "pop"], capture_output=True, check=False
+                            )
+                            log("yellow", _("Restored stashed changes"))
+                        raise Exception(
+                            _("Failed to sync {0} with remote").format(target_branch)
+                        )
                 else:
                     subprocess.run(
                         ["git", "merge", "--abort"], capture_output=True, check=False
@@ -242,6 +278,22 @@ def switch_and_commit(bp, target_branch: str, commit_message: str) -> bool:
                             original_branch, target_branch
                         ),
                     )
+                    # Push synced branch to remote
+                    push_sync = subprocess.run(
+                        ["git", "push", "-u", "origin", original_branch],
+                        capture_output=True,
+                        text=True,
+                        check=False,
+                    )
+                    if push_sync.returncode == 0:
+                        log("green", _("✓ {0} pushed to remote").format(original_branch))
+                    else:
+                        log(
+                            "yellow",
+                            _("⚠ Could not push {0} — you can push later").format(
+                                original_branch
+                            ),
+                        )
                 else:
                     log(
                         "yellow",
