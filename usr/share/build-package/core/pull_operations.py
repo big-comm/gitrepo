@@ -8,9 +8,11 @@
 #
 
 import subprocess
+
 from .git_utils import GitUtils
 from .operation_preview import OperationPlan, QuickPlan
 from .translation_utils import _
+
 
 def pull_latest_v2(build_package_instance):
     """
@@ -56,7 +58,7 @@ def pull_latest_v2(build_package_instance):
             )
             conflicted_files = result.stdout.strip().split('\n') if result.stdout.strip() else []
             conflict_count = len(conflicted_files)
-        except:
+        except subprocess.CalledProcessError:
             conflict_count = 0
             conflicted_files = []
 
@@ -239,10 +241,10 @@ def pull_latest_v2(build_package_instance):
                 if has_changes:
                     try:
                         stash_result = subprocess.run(
-                            ["git", "stash", "push", "-u", "-m", f"stash-before-pull"],
+                            ["git", "stash", "push", "-u", "-m", "stash-before-pull"],
                             capture_output=True,
                             text=True,
-                            check=False
+                            check=False,
                         )
                         if stash_result.returncode == 0:
                             stashed = True
@@ -374,7 +376,7 @@ def pull_latest_v2(build_package_instance):
 
     try:
         subprocess.run(["git", "fetch", "--all"], check=True, capture_output=True)
-    except:
+    except subprocess.CalledProcessError:
         pass
 
     most_recent_branch = bp.get_most_recent_branch()
@@ -462,7 +464,7 @@ def pull_latest_v2(build_package_instance):
                 check=True
             )
             commits_to_merge = int(merge_check.stdout.strip()) if merge_check.stdout.strip() else 0
-        except:
+        except (subprocess.CalledProcessError, ValueError):
             commits_to_merge = 0
 
         if commits_to_merge == 0:
@@ -565,7 +567,7 @@ def pull_latest_v2(build_package_instance):
                 bp.logger.log("green", _("✓ Merge completed"))
             else:
                 bp.logger.log("green", _("✓ Conflicts resolved and staged"))
-        except subprocess.CalledProcessError as e:
+        except subprocess.CalledProcessError:
             bp.logger.log("yellow", _("⚠ Note: You may need to complete the merge manually"))
     
     elif not result:
@@ -671,10 +673,10 @@ def pull_latest_v2(build_package_instance):
             if commits_result.returncode == 0 and commits_result.stdout.strip():
                 commit_count = len(commits_result.stdout.strip().split('\n'))
                 bp.logger.log("cyan", _("New commits pulled: {0}").format(commit_count))
-        except:
+        except subprocess.CalledProcessError:
             pass
 
-    except:
+    except Exception:
         bp.logger.log("green", _("✓ Pull completed"))
 
     bp.logger.log("green", "═" * 70)

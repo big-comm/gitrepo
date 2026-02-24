@@ -15,8 +15,10 @@ REPO_WORKFLOW = "big-comm/build-package"        # Repository containing workflow
 DEFAULT_ORGANIZATION = "big-comm"               # Default organization
 VALID_ORGANIZATIONS = ["big-comm", "biglinux"]  # Valid organizations
 
-# File containing GitHub token
-TOKEN_FILE = "~/.GITHUB_TOKEN"
+# File containing GitHub token (new location inside config dir)
+TOKEN_FILE = "~/.config/gitrepo/github_token"
+# Legacy location — kept only for one-time migration
+TOKEN_FILE_LEGACY = "~/.GITHUB_TOKEN"
 
 # Branch settings
 VALID_BRANCHES = ["dev"]

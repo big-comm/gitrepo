@@ -16,7 +16,7 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
 from cli.logger import RichLogger
-from cli.menu_system import MenuSystem
+from cli.cli_menu import MenuSystem
 from core.build_package import BuildPackage
 from core.translation_utils import _
 

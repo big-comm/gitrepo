@@ -9,7 +9,7 @@ import sys
 from datetime import datetime
 
 from core.translation_utils import _
-from core.config import APP_NAME, APP_DESC, LOG_DIR_BASE
+from core.config import APP_NAME, LOG_DIR_BASE
 
 class GTKLogger:
     """Logger implementation for GTK4 GUI interface"""
@@ -46,7 +46,7 @@ class GTKLogger:
             self.progress_dialog.set_status(message)
             self.progress_dialog.append_detail(message, style=style)
             # Print to console for debugging
-            print(f"[{style.upper()}] {message}")
+            print("[{0}] {1}".format(style.upper(), message))
         else:
             # Map styles to toast types and terminal output
             style_map = {
@@ -77,7 +77,7 @@ class GTKLogger:
                 self.main_window.show_info_toast(message)
             
             # Also print to console for debugging
-            print(f"[{style.upper()}] {message}")
+            print("[{0}] {1}".format(style.upper(), message))
         
         # Save to log file (without colors)
         if self.log_file:
@@ -87,13 +87,20 @@ class GTKLogger:
     def die(self, style: str, message: str, exit_code: int = 1):
         """Displays error message in GUI and exits"""
         error_msg = f"{_('ERROR')}: {message}"
-        self.main_window.show_error_toast(error_msg)
         
         # Also show in console for debugging
-        print(f"[FATAL] {error_msg}")
+        print("[FATAL] {0}".format(error_msg))
         
-        # For GUI, we might want to show a modal dialog instead of exiting immediately
-        self._show_fatal_error_dialog(error_msg, exit_code)
+        if self.progress_dialog:
+            # When ProgressDialog is active, route through it instead of showing
+            # toasts behind the dialog (which causes visual clutter)
+            self.progress_dialog.set_status(error_msg)
+            self.progress_dialog.append_detail(error_msg, style="red")
+        else:
+            # No ProgressDialog - show toast and fatal dialog as usual
+            self.main_window.show_error_toast(error_msg)
+            # Show modal dialog for fatal errors
+            self._show_fatal_error_dialog(error_msg, exit_code)
     
     def draw_app_header(self):
         """For GUI, this updates the window title instead of drawing terminal header"""
@@ -103,19 +110,25 @@ class GTKLogger:
     
     def display_summary(self, title: str, data: list):
         """Display summary information in GUI format"""
-        # For now, show as info toast with title
-        # Later this could be a proper dialog or info panel
         summary_text = f"{title}:\n"
         for key, value in data:
             summary_text += f"• {key}: {value}\n"
         
-        # Show in console for now (later could be a proper dialog)
-        print(f"=== {title} ===")
+        # Show in console for debugging
+        print("=== {0} ===".format(title))
         for key, value in data:
             print(f"{key}: {value}")
         
-        # Show notification
-        self.main_window.show_info_toast(_("Summary: {0}").format(title))
+        if self.progress_dialog:
+            # When ProgressDialog is active, send summary to embedded terminal
+            self.progress_dialog.append_detail("", style="cyan")
+            self.progress_dialog.append_detail(f"═══ {title} ═══", style="cyan")
+            for key, value in data:
+                self.progress_dialog.append_detail(f"  {key}: {value}", style="white")
+            self.progress_dialog.append_detail("", style="cyan")
+        else:
+            # Show notification only when no dialog is active
+            self.main_window.show_info_toast(_("Summary: {0}").format(title))
     
     def format_branch_name(self, branch_name: str) -> str:
         """Format branch names for display (GUI doesn't need markup)"""
@@ -128,7 +141,7 @@ class GTKLogger:
             import gi
             gi.require_version('Gtk', '4.0')
             gi.require_version('Adw', '1')
-            from gi.repository import Gtk, Adw
+            from gi.repository import Adw
             
             # Create error dialog
             dialog = Adw.MessageDialog.new(
@@ -151,6 +164,6 @@ class GTKLogger:
             
         except Exception as e:
             # Fallback to console exit if dialog fails
-            print(f"Dialog error: {e}")
-            print(f"Fatal error: {message}")
+            print(_("Dialog error: {0}").format(e))
+            print(_("Fatal error: {0}").format(message))
             sys.exit(exit_code)

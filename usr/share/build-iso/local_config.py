@@ -7,15 +7,17 @@
 # All rights reserved.
 #
 
-import os
 import json
-from translation_utils import _
+import os
+
+from config import LOCAL_CONFIG_DIR, LOCAL_CONFIG_FILE
+
 
 class LocalConfig:
     """Manages local build configuration stored in ~/.config/build-iso/config.json"""
 
-    CONFIG_DIR = os.path.expanduser("~/.config/build-iso")
-    CONFIG_FILE = os.path.join(CONFIG_DIR, "config.json")
+    CONFIG_DIR = LOCAL_CONFIG_DIR
+    CONFIG_FILE = LOCAL_CONFIG_FILE
 
     DEFAULT_CONFIG = {
         "output_dir": os.path.expanduser("~/ISO"),
@@ -43,7 +45,7 @@ class LocalConfig:
                 config = self.DEFAULT_CONFIG.copy()
                 config.update(loaded_config)
                 return config
-        except (json.JSONDecodeError, IOError) as e:
+        except (json.JSONDecodeError, IOError):
             # If file is corrupted or unreadable, return defaults
             return self.DEFAULT_CONFIG.copy()
 
@@ -61,7 +63,7 @@ class LocalConfig:
                 json.dump(self.config, f, indent=2)
 
             return True
-        except (IOError, OSError) as e:
+        except (IOError, OSError):
             return False
 
     def get_output_dir(self) -> str:
@@ -80,7 +82,7 @@ class LocalConfig:
         # Try to create directory if it doesn't exist
         try:
             os.makedirs(expanded_path, exist_ok=True)
-        except (IOError, OSError) as e:
+        except (IOError, OSError):
             return False
 
         # Check if directory is writable

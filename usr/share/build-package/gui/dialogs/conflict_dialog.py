@@ -11,6 +11,7 @@ gi.require_version('Adw', '1')
 from gi.repository import Gtk, Adw, GObject
 from core.translation_utils import _
 import subprocess
+import os
 
 class ConflictFileRow(Adw.ActionRow):
     """Row for a single conflicted file"""
@@ -92,7 +93,7 @@ class ConflictDialog(Adw.Window):
         'conflicts-resolved': (GObject.SignalFlags.RUN_FIRST, None, (bool,)),  # success
     }
 
-    def __init__(self, parent, conflict_files):
+    def __init__(self, parent, conflict_files, repo_root=None):
         super().__init__(
             transient_for=parent,
             modal=True
@@ -101,11 +102,13 @@ class ConflictDialog(Adw.Window):
         self.conflict_files = conflict_files
         self.resolutions = {}  # filepath -> action
         self.resolved_count = 0
+        self.repo_root = repo_root  # Git repo root for subprocess cwd
 
         self.set_title(_("Resolve Conflicts"))
         self.set_default_size(800, 600)
 
         self.create_ui()
+
 
     def create_ui(self):
         """Create conflict resolution UI"""
@@ -232,7 +235,6 @@ class ConflictDialog(Adw.Window):
 
     def on_edit_file(self, row):
         """Open file in external editor for manual editing"""
-        import os
         filepath = row.filepath
         
         # Try different editors in order of preference
@@ -257,7 +259,8 @@ class ConflictDialog(Adw.Window):
                 result = subprocess.run(
                     ['which', editor],
                     capture_output=True,
-                    check=False
+                    check=False,
+                    cwd=self.repo_root
                 )
                 if result.returncode == 0:
                     # Editor found, open file
@@ -312,14 +315,16 @@ class ConflictDialog(Adw.Window):
             ours_result = subprocess.run(
                 ["git", "show", f":2:{filepath}"],
                 capture_output=True,
-                check=False
+                check=False,
+                cwd=self.repo_root
             )
             
             # Get "theirs" version (remote/incoming)
             theirs_result = subprocess.run(
                 ["git", "show", f":3:{filepath}"],
                 capture_output=True,
-                check=False
+                check=False,
+                cwd=self.repo_root
             )
             
             # Try to decode as UTF-8, fallback to latin-1
@@ -571,18 +576,28 @@ class ConflictDialog(Adw.Window):
             
             offset += len(line) + 1  # +1 for newline
     
+    def _iter_conflict_rows(self):
+        """Iterate over ConflictFileRow children in the ListBox (GTK4 compatible)"""
+        idx = 0
+        while True:
+            row = self.conflicts_list.get_row_at_index(idx)
+            if row is None:
+                break
+            if isinstance(row, ConflictFileRow):
+                yield row
+            idx += 1
+
     def _apply_choice_from_diff(self, filepath, action):
         """Apply choice made from diff dialog"""
-        # Find the row for this file
-        for child in list(self.conflicts_list):
-            if isinstance(child, ConflictFileRow) and child.filepath == filepath:
+        for child in self._iter_conflict_rows():
+            if child.filepath == filepath:
                 self.resolutions[filepath] = action
                 child.mark_resolved()
-                
+
                 # Update button state
                 self.resolved_count = len(self.resolutions)
                 self.apply_button.set_sensitive(self.resolved_count == len(self.conflict_files))
-                
+
                 # Update status
                 self.status_banner.set_title(
                     _("Resolved {0} of {1} conflicts").format(
@@ -593,11 +608,10 @@ class ConflictDialog(Adw.Window):
 
     def on_auto_ours_clicked(self, button):
         """Apply 'ours' to all unresolved conflicts"""
-        for child in list(self.conflicts_list):
-            if isinstance(child, ConflictFileRow):
-                if child.filepath not in self.resolutions:
-                    self.resolutions[child.filepath] = 'ours'
-                    child.mark_resolved()
+        for child in self._iter_conflict_rows():
+            if child.filepath not in self.resolutions:
+                self.resolutions[child.filepath] = 'ours'
+                child.mark_resolved()
 
         self.resolved_count = len(self.resolutions)
         self.apply_button.set_sensitive(True)
@@ -605,11 +619,10 @@ class ConflictDialog(Adw.Window):
 
     def on_auto_theirs_clicked(self, button):
         """Apply 'theirs' to all unresolved conflicts"""
-        for child in list(self.conflicts_list):
-            if isinstance(child, ConflictFileRow):
-                if child.filepath not in self.resolutions:
-                    self.resolutions[child.filepath] = 'theirs'
-                    child.mark_resolved()
+        for child in self._iter_conflict_rows():
+            if child.filepath not in self.resolutions:
+                self.resolutions[child.filepath] = 'theirs'
+                child.mark_resolved()
 
         self.resolved_count = len(self.resolutions)
         self.apply_button.set_sensitive(True)
@@ -633,78 +646,138 @@ class ConflictDialog(Adw.Window):
             # Mark all as resolved in git
             for filepath in self.resolutions.keys():
                 try:
+                    # Check if file exists - files resolved with 'git rm' are already staged
+                    abs_filepath = os.path.join(self.repo_root, filepath) if self.repo_root else filepath
+                    if not os.path.exists(abs_filepath):
+                        continue
                     subprocess.run(
                         ["git", "add", filepath],
                         check=True,
-                        capture_output=True
+                        capture_output=True,
+                        cwd=self.repo_root
                     )
-                except:
+                except Exception:
                     success = False
 
         self.emit('conflicts-resolved', success)
         self.close()
 
+    def _get_conflict_type(self, filepath):
+        """
+        Detect the type of conflict for a file.
+
+        Returns a dict with:
+            'ours_exists': bool - whether 'ours' (stage 2) version exists
+            'theirs_exists': bool - whether 'theirs' (stage 3) version exists
+        """
+        try:
+            result = subprocess.run(
+                ["git", "ls-files", "-u", "--", filepath],
+                capture_output=True, text=True, check=False,
+                cwd=self.repo_root
+            )
+            lines = result.stdout.strip().split('\n') if result.stdout.strip() else []
+            stages = set()
+            for line in lines:
+                parts = line.split('\t')[0].split()  # mode hash stage
+                if len(parts) >= 3:
+                    stages.add(int(parts[2]))
+
+            return {
+                'ours_exists': 2 in stages,
+                'theirs_exists': 3 in stages
+            }
+        except Exception:
+            return {'ours_exists': True, 'theirs_exists': True}
+
     def apply_resolution(self, filepath, action):
         """Apply resolution for a file"""
         try:
             if action == 'ours':
-                # Keep local version
-                subprocess.run(
-                    ["git", "checkout", "--ours", filepath],
-                    check=True,
-                    capture_output=True
-                )
+                conflict_info = self._get_conflict_type(filepath)
+                if not conflict_info['ours_exists']:
+                    # Our side deleted the file - remove it
+                    subprocess.run(
+                        ["git", "rm", "-f", filepath],
+                        check=True,
+                        capture_output=True,
+                        cwd=self.repo_root
+                    )
+                else:
+                    # Keep local version
+                    subprocess.run(
+                        ["git", "checkout", "--ours", filepath],
+                        check=True,
+                        capture_output=True,
+                        cwd=self.repo_root
+                    )
             elif action == 'theirs':
-                # Accept remote version
-                subprocess.run(
-                    ["git", "checkout", "--theirs", filepath],
-                    check=True,
-                    capture_output=True
-                )
+                conflict_info = self._get_conflict_type(filepath)
+                if not conflict_info['theirs_exists']:
+                    # Remote side deleted the file - remove it
+                    subprocess.run(
+                        ["git", "rm", "-f", filepath],
+                        check=True,
+                        capture_output=True,
+                        cwd=self.repo_root
+                    )
+                else:
+                    # Accept remote version
+                    subprocess.run(
+                        ["git", "checkout", "--theirs", filepath],
+                        check=True,
+                        capture_output=True,
+                        cwd=self.repo_root
+                    )
             elif action == 'manual':
                 # User edited the file manually
                 # Just verify it doesn't have conflict markers
                 try:
-                    with open(filepath, 'r', errors='replace') as f:
+                    abs_path = os.path.join(self.repo_root, filepath) if self.repo_root else filepath
+                    with open(abs_path, 'r', errors='replace') as f:
                         content = f.read()
                         if '<<<<<<<' in content or '=======' in content or '>>>>>>>' in content:
                             # Still has conflict markers - warn but continue
-                            print(f"Warning: {filepath} may still have conflict markers")
-                except:
+                            print(_("Warning: {0} may still have conflict markers").format(filepath))
+                except Exception:
                     pass
                 # File was edited, just return True
                 return True
             elif action == 'both':
                 # Keep both versions by creating .ours and .theirs files
-                ours_file = f"{filepath}.ours"
-                theirs_file = f"{filepath}.theirs"
+                abs_path = os.path.join(self.repo_root, filepath) if self.repo_root else filepath
+                ours_file = f"{abs_path}.ours"
+                theirs_file = f"{abs_path}.theirs"
 
                 # Copy current conflicted file as base
                 import shutil
-                shutil.copy(filepath, ours_file)
-                shutil.copy(filepath, theirs_file)
+                shutil.copy(abs_path, ours_file)
+                shutil.copy(abs_path, theirs_file)
 
                 # Checkout each version to respective file
                 subprocess.run(
                     ["git", "checkout", "--ours", ours_file],
                     check=False,
-                    capture_output=True
+                    capture_output=True,
+                    cwd=self.repo_root
                 )
                 subprocess.run(
                     ["git", "checkout", "--theirs", theirs_file],
                     check=False,
-                    capture_output=True
+                    capture_output=True,
+                    cwd=self.repo_root
                 )
 
                 # Keep ours for the original file
                 subprocess.run(
                     ["git", "checkout", "--ours", filepath],
                     check=True,
-                    capture_output=True
+                    capture_output=True,
+                    cwd=self.repo_root
                 )
 
             return True
 
         except Exception as e:
-            print(f"Error resolving {filepath}: {e}")
+            print(_("Error resolving {0}: {1}").format(filepath, e))
             return False
