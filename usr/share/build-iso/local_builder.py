@@ -8,13 +8,16 @@
 #
 
 import os
-import sys
-import re
 import pwd
-import subprocess
+import re
 import shutil
+import subprocess
+import threading
 from datetime import datetime
+
+from config import BUILD_ISO_REPO, CONTAINER_IMAGE
 from translation_utils import _
+
 
 class LocalBuilder:
     """Executes local ISO builds using Docker/Podman containers"""
@@ -64,8 +67,8 @@ class LocalBuilder:
 
         # Container settings
         self.container_engine = None
-        self.container_image = "talesam/community-build:latest"
-        self.build_iso_repo = "https://github.com/talesam/build-iso.git"
+        self.container_image = CONTAINER_IMAGE
+        self.build_iso_repo = BUILD_ISO_REPO
 
     def check_container_engine(self) -> bool:
         """
@@ -355,11 +358,17 @@ sudo pacman -S --needed --noconfirm btrfs-progs
 sudo sed -i -e 's/File/Path/' /usr/share/libalpm/hooks/*hook* 2>/dev/null || true
 """)
 
-        # 6. Create device node (from action.yml line 186-189)
+        # 6. Create device nodes (from action.yml line 186-189)
         setup_commands.append("""
 sudo mknod /dev/sr0 b 11 0 2>/dev/null || true
 sudo chmod 660 /dev/sr0 2>/dev/null || true
 sudo chown root:root /dev/sr0 2>/dev/null || true
+
+# Create loop devices (needed by buildiso for EFI image mounting)
+for i in $(seq 0 7); do
+    sudo mknod -m 660 /dev/loop$i b 7 $i 2>/dev/null || true
+done
+sudo mknod -m 660 /dev/loop-control c 10 237 2>/dev/null || true
 """)
 
         # 7. Return to build-iso directory and execute build-iso.sh
@@ -376,7 +385,7 @@ sudo chown root:root /dev/sr0 2>/dev/null || true
             bool: True if successful, False otherwise
         """
         self.logger.log("cyan", _("Starting container build..."))
-        self.logger.log("yellow", _("This may take 30-120 minutes depending on your hardware and network."))
+        self.logger.log("yellow", _("This may take 10-50 minutes depending on your hardware and network."))
 
         # Build command following edition.yml:87-93 and action.yml:191-224
         cmd = [
@@ -387,7 +396,7 @@ sudo chown root:root /dev/sr0 2>/dev/null || true
             "-v", f"{self.work_path}:/work",
             "-v", f"{os.path.join(self.cache_path, 'var_lib_manjaro_tools_buildiso')}:/var/lib/manjaro-tools/buildiso",
             "-v", f"{os.path.join(self.cache_path, 'var_cache_manjaro_tools_iso')}:/var/cache/manjaro-tools/iso",
-            "-e", f"USERNAME=builduser",
+            "-e", "USERNAME=builduser",
             "-e", f"DISTRONAME={self.distroname}",
             "-e", f"EDITION={self.edition}",
             "-e", f"MANJARO_BRANCH={self.branches.get('manjaro', 'stable')}",
@@ -423,7 +432,7 @@ sudo chown root:root /dev/sr0 2>/dev/null || true
                 self.logger.log("red", _("Container build failed with exit code {0}").format(result.returncode))
                 return False
 
-        except Exception as e:
+        except Exception:
             self.logger.log("red", _("Error running container"))
             return False
 
@@ -537,6 +546,21 @@ sudo chown root:root /dev/sr0 2>/dev/null || true
             self.logger.log("yellow", _("Could not clean cache: {0}").format(str(e)))
             return False
 
+    def _sudo_keepalive_loop(self, stop_event: threading.Event):
+        """
+        Background thread to keep sudo session alive.
+        Runs in the same process as main thread, ensuring sudo timestamps
+        are refreshed for the correct PID/tty context.
+        """
+        while not stop_event.is_set():
+            subprocess.run(
+                ["sudo", "-n", "-v"],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                check=False
+            )
+            stop_event.wait(60)
+
     def execute_build(self) -> bool:
         """
         Main orchestrator for local build process
@@ -544,25 +568,25 @@ sudo chown root:root /dev/sr0 2>/dev/null || true
         Returns:
             bool: True if successful, False otherwise
         """
-        # Keep-alive process for sudo session
-        sudo_keepalive = None
+        sudo_stop_event = None
+        sudo_thread = None
 
         try:
-            # Step 0: Get sudo access upfront (ask password once, always)
+            # Step 0: Get sudo access upfront (ask password once)
             self.logger.log("cyan", _("Requesting sudo access for file operations..."))
-            # Invalidate existing session and ask for fresh password
-            subprocess.run(["sudo", "-k"], check=False)  # Kill existing session
             result = subprocess.run(["sudo", "-v"], check=False)  # Ask for password
             if result.returncode != 0:
                 self.logger.log("red", _("Sudo access required for local builds"))
                 return False
 
-            # Start sudo keep-alive in background (refresh every 5 minutes)
-            sudo_keepalive = subprocess.Popen(
-                ["bash", "-c", "while true; do sudo -v; sleep 300; done"],
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL
+            # Start sudo keep-alive as a background thread (same process = same sudo context)
+            sudo_stop_event = threading.Event()
+            sudo_thread = threading.Thread(
+                target=self._sudo_keepalive_loop,
+                args=(sudo_stop_event,),
+                daemon=True
             )
+            sudo_thread.start()
 
             # Step 1: Check container engine
             if not self.check_container_engine():
@@ -641,13 +665,11 @@ sudo chown root:root /dev/sr0 2>/dev/null || true
             return False
 
         finally:
-            # Stop sudo keep-alive process
-            if sudo_keepalive and sudo_keepalive.poll() is None:
-                sudo_keepalive.terminate()
-                try:
-                    sudo_keepalive.wait(timeout=1)
-                except subprocess.TimeoutExpired:
-                    sudo_keepalive.kill()
+            # Stop sudo keep-alive thread
+            if sudo_stop_event:
+                sudo_stop_event.set()
+            if sudo_thread and sudo_thread.is_alive():
+                sudo_thread.join(timeout=2)
 
     @property
     def console(self):

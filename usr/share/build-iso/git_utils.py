@@ -7,7 +7,6 @@
 import os
 import re
 import subprocess
-from translation_utils import _
 
 class GitUtils:
     """Utilities for Git repository operations"""

@@ -273,7 +273,7 @@ class AdvancedWidget(Gtk.Box):
             self.refresh_stats()
             
         except Exception as e:
-            print(f"Error refreshing commits: {e}")
+            print(_("Error refreshing commits: {0}").format(e))
     
     def refresh_stats(self):
         """Refresh repository statistics"""
@@ -341,7 +341,7 @@ class AdvancedWidget(Gtk.Box):
                 self.repo_size_row.set_subtitle(_("Unknown"))
                 
         except Exception as e:
-            print(f"Error refreshing stats: {e}")
+            print(_("Error refreshing stats: {0}").format(e))
     
     def on_cleanup_operation_activated(self, list_box, row):
         """Handle cleanup operation selection"""

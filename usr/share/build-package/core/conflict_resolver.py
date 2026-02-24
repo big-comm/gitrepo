@@ -7,11 +7,13 @@
 # All rights reserved.
 #
 
-import subprocess
 import os
+import subprocess
 from datetime import datetime
-from .translation_utils import _
+
 from .git_utils import GitUtils
+from .translation_utils import _
+
 
 class ConflictResolver:
     """
@@ -31,6 +33,44 @@ class ConflictResolver:
         if os.path.isabs(file_path):
             return file_path
         return os.path.join(self.repo_root, file_path) if self.repo_root else file_path
+
+    def _get_conflict_type(self, file_path):
+        """
+        Detect the type of conflict for a file.
+
+        Returns a dict with:
+            'type': 'content' | 'modify_delete' | 'add_add'
+            'ours_exists': bool - whether 'ours' (stage 2) version exists
+            'theirs_exists': bool - whether 'theirs' (stage 3) version exists
+        """
+        try:
+            result = subprocess.run(
+                ["git", "ls-files", "-u", "--", file_path],
+                capture_output=True, text=True, check=False,
+                cwd=self.repo_root
+            )
+            lines = result.stdout.strip().split('\n') if result.stdout.strip() else []
+            stages = set()
+            for line in lines:
+                parts = line.split('\t')[0].split()  # mode hash stage
+                if len(parts) >= 3:
+                    stages.add(int(parts[2]))
+
+            ours_exists = 2 in stages
+            theirs_exists = 3 in stages
+
+            if ours_exists and theirs_exists:
+                return {'type': 'content', 'ours_exists': True, 'theirs_exists': True}
+            elif ours_exists and not theirs_exists:
+                # Ours exists but theirs doesn't = theirs deleted the file
+                return {'type': 'modify_delete', 'ours_exists': True, 'theirs_exists': False}
+            elif theirs_exists and not ours_exists:
+                # Theirs exists but ours doesn't = ours deleted the file
+                return {'type': 'modify_delete', 'ours_exists': False, 'theirs_exists': True}
+            else:
+                return {'type': 'content', 'ours_exists': True, 'theirs_exists': True}
+        except Exception:
+            return {'type': 'content', 'ours_exists': True, 'theirs_exists': True}
 
     def has_conflicts(self):
         """Check if there are unresolved conflicts"""
@@ -77,7 +117,7 @@ class ConflictResolver:
                 return int(result.stdout.strip())
 
             return 0
-        except:
+        except (subprocess.CalledProcessError, ValueError):
             return 0
 
     @staticmethod
@@ -182,8 +222,15 @@ class ConflictResolver:
             self.logger.log("cyan", _("Resolving conflicts: keeping our changes..."))
 
             for file in conflict_files:
-                subprocess.run(["git", "checkout", "--ours", file], check=True, cwd=self.repo_root)
-                subprocess.run(["git", "add", file], check=True, cwd=self.repo_root)
+                conflict_info = self._get_conflict_type(file)
+
+                if not conflict_info['ours_exists']:
+                    # Our side deleted the file - remove it
+                    self.logger.log("dim", _("  Removing {0} (deleted in our version)").format(file))
+                    subprocess.run(["git", "rm", "-f", file], check=True, cwd=self.repo_root, capture_output=True)
+                else:
+                    subprocess.run(["git", "checkout", "--ours", file], check=True, cwd=self.repo_root)
+                    subprocess.run(["git", "add", file], check=True, cwd=self.repo_root)
 
             self.logger.log("green", _("✓ Conflicts resolved (kept our changes)"))
             return True
@@ -197,8 +244,15 @@ class ConflictResolver:
             self.logger.log("cyan", _("Resolving conflicts: accepting remote changes..."))
 
             for file in conflict_files:
-                subprocess.run(["git", "checkout", "--theirs", file], check=True, cwd=self.repo_root)
-                subprocess.run(["git", "add", file], check=True, cwd=self.repo_root)
+                conflict_info = self._get_conflict_type(file)
+
+                if not conflict_info['theirs_exists']:
+                    # Remote side deleted the file - remove it
+                    self.logger.log("dim", _("  Removing {0} (deleted in remote version)").format(file))
+                    subprocess.run(["git", "rm", "-f", file], check=True, cwd=self.repo_root, capture_output=True)
+                else:
+                    subprocess.run(["git", "checkout", "--theirs", file], check=True, cwd=self.repo_root)
+                    subprocess.run(["git", "add", file], check=True, cwd=self.repo_root)
 
             self.logger.log("green", _("✓ Conflicts resolved (accepted remote)"))
             return True
@@ -426,7 +480,7 @@ class ConflictResolver:
         # Interactive resolution: file by file
         self.logger.log("cyan", _("Starting interactive conflict resolution..."))
         self.logger.log("dim", _("You'll review each file and choose which version to keep"))
-        input(_("\nPress Enter to start..."))
+        input("\n" + _("Press Enter to start..."))
 
         for idx, file_path in enumerate(conflict_files):
             self.logger.log("cyan", "")
@@ -531,7 +585,7 @@ class ConflictResolver:
             for file in remaining_conflicts:
                 self.logger.log("yellow", f"  • {file}")
             self.logger.log("white", _("Please resolve them manually and run 'git add <file>'"))
-            input(_("\nPress Enter to continue..."))
+            input("\n" + _("Press Enter to continue..."))
             return False
 
         # All resolved!
@@ -539,17 +593,34 @@ class ConflictResolver:
         self.logger.log("green", "═" * 70)
         self.logger.log("green", _("✓ All conflicts resolved successfully!"))
         self.logger.log("green", "═" * 70)
-        input(_("\nPress Enter to continue..."))
+        input("\n" + _("Press Enter to continue..."))
         return True
 
     def _resolve_file_with_branch(self, file_path, branch_to_use, current_branch):
         """Resolves a single file conflict using the specified branch's version"""
+        # Check for modify/delete conflicts first
+        conflict_info = self._get_conflict_type(file_path)
+
+        if branch_to_use == current_branch:
+            # User wants to keep "ours"
+            if not conflict_info['ours_exists']:
+                # Our side deleted the file - remove it
+                self.logger.log("dim", _("  Removing {0} (deleted in our version)").format(file_path))
+                subprocess.run(["git", "rm", "-f", file_path], check=True, cwd=self.repo_root, capture_output=True)
+                return True
+        else:
+            # User wants to keep "theirs"
+            if not conflict_info['theirs_exists']:
+                # Remote side deleted the file - remove it
+                self.logger.log("dim", _("  Removing {0} (deleted in remote version)").format(file_path))
+                subprocess.run(["git", "rm", "-f", file_path], check=True, cwd=self.repo_root, capture_output=True)
+                return True
+
+        # Normal content conflict resolution
         try:
             if branch_to_use == current_branch:
-                # Keep current version (ours)
                 subprocess.run(["git", "checkout", "--ours", file_path], check=True, cwd=self.repo_root)
             else:
-                # Keep incoming version (theirs)
                 subprocess.run(["git", "checkout", "--theirs", file_path], check=True, cwd=self.repo_root)
 
             # Stage the resolved file
@@ -559,10 +630,8 @@ class ConflictResolver:
             # git checkout failed, try extracting from index
             try:
                 if branch_to_use == current_branch:
-                    # Extract "ours" version (stage 2)
                     stage = "2"
                 else:
-                    # Extract "theirs" version (stage 3)
                     stage = "3"
 
                 result = subprocess.run(
@@ -571,14 +640,12 @@ class ConflictResolver:
                     check=True,
                     cwd=self.repo_root
                 )
-                # Write it to the file (use absolute path)
                 abs_path = self._get_absolute_path(file_path)
                 with open(abs_path, 'wb') as f:
                     f.write(result.stdout)
-                # Stage the resolved file
                 subprocess.run(["git", "add", file_path], check=True, cwd=self.repo_root)
                 return True
-            except:
+            except (subprocess.CalledProcessError, OSError):
                 return False
 
     def _resolve_with_branch(self, branch_to_use, current_branch, conflict_files):
@@ -592,7 +659,7 @@ class ConflictResolver:
             self.logger.log("green", _("✓ All conflicts auto-resolved using {0} version").format(
                 self.logger.format_branch_name(branch_to_use)
             ))
-            input(_("\nPress Enter to continue..."))
+            input("\n" + _("Press Enter to continue..."))
             return True
         except Exception as e:
             self.logger.log("red", _("Error during auto-resolution: {0}").format(e))
@@ -639,8 +706,8 @@ class ConflictResolver:
 
     def _show_detailed_diff(self, file):
         """Show detailed diff for a file using an interactive viewer"""
-        import tempfile
         import os
+        import tempfile
 
         viewers_tried = []  # Define here to avoid UnboundLocalError
 
@@ -704,7 +771,7 @@ class ConflictResolver:
             except UnicodeDecodeError:
                 try:
                     ours_text = result_ours.stdout.decode('latin-1')
-                except:
+                except Exception:
                     # Still binary
                     self.logger.log("yellow", _("⚠️  File appears to be binary - cannot show diff"))
                     self.logger.log("cyan", _("File: {0}").format(file))
@@ -716,7 +783,7 @@ class ConflictResolver:
             except UnicodeDecodeError:
                 try:
                     theirs_text = result_theirs.stdout.decode('latin-1')
-                except:
+                except Exception:
                     # Still binary
                     self.logger.log("yellow", _("⚠️  File appears to be binary - cannot show diff"))
                     self.logger.log("cyan", _("File: {0}").format(file))
@@ -727,7 +794,7 @@ class ConflictResolver:
             with tempfile.NamedTemporaryFile(mode='w', suffix='__YOUR_VERSION.txt', delete=False, prefix=f'{os.path.basename(file)}_') as f_ours:
                 # Add clear header
                 f_ours.write("=" * 80 + "\n")
-                f_ours.write(f"YOUR VERSION (OURS) - Current branch\n")
+                f_ours.write("YOUR VERSION (OURS) - Current branch\n")
                 f_ours.write(f"File: {file}\n")
                 f_ours.write("=" * 80 + "\n\n")
                 f_ours.write(ours_text)
@@ -736,7 +803,7 @@ class ConflictResolver:
             with tempfile.NamedTemporaryFile(mode='w', suffix='__REMOTE_VERSION.txt', delete=False, prefix=f'{os.path.basename(file)}_') as f_theirs:
                 # Add clear header
                 f_theirs.write("=" * 80 + "\n")
-                f_theirs.write(f"REMOTE VERSION (THEIRS) - Incoming from server\n")
+                f_theirs.write("REMOTE VERSION (THEIRS) - Incoming from server\n")
                 f_theirs.write(f"File: {file}\n")
                 f_theirs.write("=" * 80 + "\n\n")
                 f_theirs.write(theirs_text)
@@ -763,13 +830,11 @@ class ConflictResolver:
                 viewers_tried.append("vimdiff")
                 # Left=ours (your version), Right=theirs (remote version)
                 subprocess.run(["vimdiff", "-R", "-c", "wincmd w", ours_path, theirs_path])
-                success = True
             # 2. Try nvim diff mode
             elif subprocess.run(["which", "nvim"], capture_output=True).returncode == 0:
                 viewers_tried.append("nvim")
                 # Left=ours (your version), Right=theirs (remote version)
                 subprocess.run(["nvim", "-d", "-R", ours_path, theirs_path])
-                success = True
             # 3. Try diff with side-by-side and less
             else:
                 viewers_tried.append("diff + less")
@@ -788,7 +853,7 @@ class ConflictResolver:
                         f_diff.write("=" * 80 + "\n")
                         f_diff.write(f"SIDE-BY-SIDE COMPARISON: {file}\n")
                         f_diff.write("=" * 80 + "\n")
-                        f_diff.write(f"LEFT: OUR VERSION     |     RIGHT: THEIR VERSION\n")
+                        f_diff.write("LEFT: OUR VERSION     |     RIGHT: THEIR VERSION\n")
                         f_diff.write("=" * 80 + "\n\n")
                         f_diff.write(diff_result.stdout)
                         f_diff.write("\n\n" + "=" * 80 + "\n")
@@ -797,17 +862,15 @@ class ConflictResolver:
 
                     subprocess.run(["less", "-R", diff_path])
                     os.unlink(diff_path)
-                    success = True
                 else:
                     # Files are identical (no differences)
                     self.logger.log("green", _("Files are identical (no differences)"))
-                    success = True
 
             # Clean up temp files
             try:
                 os.unlink(ours_path)
                 os.unlink(theirs_path)
-            except:
+            except OSError:
                 pass
 
             self.logger.log("cyan", "")
@@ -839,8 +902,8 @@ class ConflictResolver:
             subprocess.run(["git", "add", file], check=True, cwd=self.repo_root)
 
             self.logger.log("cyan", _("Created files:"))
-            self.logger.log("cyan", f"  - {ours_file} (our version)")
-            self.logger.log("cyan", f"  - {theirs_file} (remote version)")
+            self.logger.log("cyan", f"  - {ours_file_abs} (our version)")
+            self.logger.log("cyan", f"  - {theirs_file_abs} (remote version)")
             self.logger.log("cyan", f"  - {file} (using remote version)")
 
         except subprocess.CalledProcessError as e:

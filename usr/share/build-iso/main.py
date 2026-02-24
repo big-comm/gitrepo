@@ -12,7 +12,7 @@ from translation_utils import _
 import traceback
 
 def debug_hook(type, value, tb):
-    print("\nERRO DETALHADO:")
+    print("\n" + _("DETAILED ERROR:"))
     traceback.print_exception(type, value, tb)
     print("\n")
 

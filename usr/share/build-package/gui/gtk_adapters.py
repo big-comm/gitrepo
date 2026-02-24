@@ -34,8 +34,6 @@ class GTKConflictResolver(ConflictResolver):
         Enhanced interactive resolution with branch comparison.
         For GTK, we use the same dialog but could show branch info in the future.
         """
-        # For now, use the same dialog - ConflictDialog already handles the resolution
-        # In the future, we could enhance ConflictDialog to show branch comparison
         return self._show_conflict_dialog(conflict_files, current_branch, incoming_branch)
 
     def _show_conflict_dialog(self, conflict_files, current_branch=None, incoming_branch=None):
@@ -46,20 +44,53 @@ class GTKConflictResolver(ConflictResolver):
 
         def show_dialog_on_main_thread():
             """Show dialog on GTK main thread"""
-            # Close any existing progress dialog temporarily
-            # to avoid modal dialog conflicts
-            dialog = ConflictDialog(self.parent_window, conflict_files)
-            
-            # Store branch info for future use (if dialog supports it)
-            if hasattr(dialog, 'set_branch_info') and current_branch and incoming_branch:
-                dialog.set_branch_info(current_branch, incoming_branch)
+            # CRITICAL: Hide any active ProgressDialog to avoid modal conflict.
+            # GTK4 does not allow two modal windows on the same parent simultaneously.
+            # The ProgressDialog blocks ConflictDialog from being presented.
+            progress_dialog = None
+            if hasattr(self.parent_window, 'operation_runner'):
+                progress_dialog = getattr(self.parent_window.operation_runner, 'current_dialog', None)
 
-            def on_conflicts_resolved(dlg, result):
-                self.dialog_result = result
-                self._result_event.set()  # Signal that we have a result
+            if progress_dialog:
+                # Stop pulse animation before hiding to avoid GTK warnings
+                if hasattr(progress_dialog, '_pulse_timeout_id') and progress_dialog._pulse_timeout_id:
+                    GLib.source_remove(progress_dialog._pulse_timeout_id)
+                    progress_dialog._pulse_timeout_id = None
+                if hasattr(progress_dialog, 'spinner'):
+                    progress_dialog.spinner.stop()
+                progress_dialog.set_visible(False)
 
-            dialog.connect('conflicts-resolved', on_conflicts_resolved)
-            dialog.present()
+            try:
+                dialog = ConflictDialog(self.parent_window, conflict_files, repo_root=self.repo_root)
+
+                # Store branch info for future use (if dialog supports it)
+                if hasattr(dialog, 'set_branch_info') and current_branch and incoming_branch:
+                    dialog.set_branch_info(current_branch, incoming_branch)
+
+                def on_conflicts_resolved(dlg, result):
+                    # Restore ProgressDialog after conflict resolution
+                    if progress_dialog:
+                        progress_dialog.set_visible(True)
+                        progress_dialog.set_progress_mode(indeterminate=True)
+                    self.dialog_result = result
+                    self._result_event.set()
+
+                def on_dialog_destroy(dlg):
+                    # Safety net: if dialog is destroyed (X button) without
+                    # emitting conflicts-resolved, unblock the waiting thread
+                    if not self._result_event.is_set():
+                        if progress_dialog:
+                            progress_dialog.set_visible(True)
+                            progress_dialog.set_progress_mode(indeterminate=True)
+                        self.dialog_result = False
+                        self._result_event.set()
+
+                dialog.connect('conflicts-resolved', on_conflicts_resolved)
+                dialog.connect('destroy', on_dialog_destroy)
+                dialog.present()
+            except Exception:
+                self.dialog_result = False
+                self._result_event.set()
             return False  # Don't repeat
 
         # Schedule dialog to show on main thread
@@ -73,7 +104,7 @@ class GTKConflictResolver(ConflictResolver):
 
     def show_conflict_info(self, conflict_files):
         """Show information about conflicts"""
-        message = _("Found {0} conflicted files:\n\n").format(len(conflict_files))
+        message = _("Found {0} conflicted files:").format(len(conflict_files)) + "\n\n"
         message += "\n".join(f"  • {f}" for f in conflict_files[:10])
 
         if len(conflict_files) > 10:
@@ -202,7 +233,7 @@ class GTKMenuSystem:
                     dialog.set_response_appearance(response_id, Adw.ResponseAppearance.DESTRUCTIVE)
                 
                 # Suggested actions (blue) - switch, my branch, minha, mudar, atualizar
-                elif any(word in option_lower for word in ["switch", "my branch", "minha", "mudar", "atualizar", "baixar"]):
+                elif any(word in option_lower for word in ["switch", "my branch", "minha", "mudar", "atualizar", "baixar", "recommend", "recomendado"]):
                     dialog.set_response_appearance(response_id, Adw.ResponseAppearance.SUGGESTED)
 
             if back_option:

@@ -1,20 +1,22 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# cli/menu_system.py - Interactive menu system
+# cli/cli_menu.py - Interactive menu system for CLI interface
 #
 
 import os
+import subprocess
 import sys
 import termios
 import tty
 from typing import Optional, Tuple
+
+from core.translation_utils import _
+from rich.box import ROUNDED
 from rich.console import Console
 from rich.panel import Panel
 from rich.prompt import Confirm
-from rich.box import ROUNDED
 
-from core.translation_utils import _
 
 class MenuSystem:
     """Menu system using Rich"""
@@ -29,7 +31,7 @@ class MenuSystem:
         # Function to draw the menu
         def draw_menu(selected_index):
             # Clear screen
-            os.system('clear' if os.name == 'posix' else 'cls')
+            subprocess.run(["clear" if os.name == "posix" else "cls"], check=False)
             
             # Display header
             self.logger.draw_app_header()

@@ -5,11 +5,13 @@
 #
 
 import gi
-gi.require_version('Gtk', '4.0')
-gi.require_version('Adw', '1')
 
-from gi.repository import Gtk, Adw, GObject
+gi.require_version("Gtk", "4.0")
+gi.require_version("Adw", "1")
+
 from core.translation_utils import _
+from gi.repository import Adw, GObject, Gtk
+
 
 class AURWidget(Gtk.Box):
     """Widget for AUR package building operations"""
@@ -176,7 +178,7 @@ class AURWidget(Gtk.Box):
         try:
             import webbrowser
             webbrowser.open("https://aur.archlinux.org/")
-        except:
+        except Exception:
             pass
     
     def on_url_clicked(self, row):
@@ -186,7 +188,7 @@ class AURWidget(Gtk.Box):
                 import webbrowser
                 url = f"https://aur.archlinux.org/packages/{self.package_name}/"
                 webbrowser.open(url)
-            except:
+            except Exception:
                 pass
     
     def on_clear_clicked(self, button):

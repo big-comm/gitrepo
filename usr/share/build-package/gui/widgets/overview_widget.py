@@ -5,27 +5,30 @@
 #
 
 import gi
-gi.require_version('Gtk', '4.0')
-gi.require_version('Adw', '1')
 
-from gi.repository import Gtk, Adw, GObject
-from core.translation_utils import _
+gi.require_version("Gtk", "4.0")
+gi.require_version("Adw", "1")
+
 from core.git_utils import GitUtils
-from core.config import APP_NAME, APP_VERSION, APP_DESC
+from core.translation_utils import _
+from gi.repository import Adw, GObject, Gtk
+
 
 class StatusCard(Gtk.Box):
     """Custom status card widget"""
-    
+
     def __init__(self, title, value, icon_name, status_type="info"):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=8)
-        
+
+        self._title = title  # kept for accessible label updates
+
         self.set_size_request(160, 80)
         self.add_css_class("card")
         self.set_margin_top(3)
         self.set_margin_bottom(3)
         self.set_margin_start(3)
         self.set_margin_end(3)
-        
+
         # Icon - store reference
         self.icon = Gtk.Image.new_from_icon_name(icon_name)
         self.icon.set_pixel_size(32)
@@ -37,13 +40,15 @@ class StatusCard(Gtk.Box):
             self.icon.add_css_class("success")
 
         self.append(self.icon)
-        
-        # Value (store reference)
-        self.value_label = Gtk.Label()
+
+        # Value (store reference) — STATUS role creates an AT-SPI live region so
+        # screen readers announce dynamic changes without user focus
+        self.value_label = Gtk.Label(accessible_role=Gtk.AccessibleRole.STATUS)
         self.value_label.set_text(str(value))
         self.value_label.add_css_class("title-3")
+        self.value_label.update_property([Gtk.AccessibleProperty.LABEL], [f"{title}: {value}"])
         self.append(self.value_label)
-        
+
         # Title
         title_label = Gtk.Label()
         title_label.set_text(title)
@@ -52,34 +57,42 @@ class StatusCard(Gtk.Box):
         title_label.set_justify(Gtk.Justification.CENTER)
         self.append(title_label)
 
+    def update_value(self, value: str) -> None:
+        """Update displayed value and notify AT-SPI of the change."""
+        text = str(value)
+        self.value_label.set_text(text)
+        self.value_label.update_property([Gtk.AccessibleProperty.LABEL], [f"{self._title}: {text}"])
+
+
 class QuickActionCard(Adw.ActionRow):
     """Quick action card for common operations"""
-    
+
     def __init__(self, title, description, icon_name, action_id):
         super().__init__()
-        
+
         self.action_id = action_id
-        
+
         self.set_title(title)
         self.set_subtitle(description)
         self.set_activatable(True)
-        
+
         # Add icon
         icon = Gtk.Image.new_from_icon_name(icon_name)
         self.add_prefix(icon)
-        
+
         # Add arrow
         arrow = Gtk.Image.new_from_icon_name("go-next-symbolic")
         self.add_suffix(arrow)
 
+
 class OverviewWidget(Gtk.Box):
     """Overview dashboard widget"""
-    
+
     __gsignals__ = {
-        'quick-action': (GObject.SignalFlags.RUN_FIRST, None, (str,)),
-        'refresh-requested': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "quick-action": (GObject.SignalFlags.RUN_FIRST, None, (str,)),
+        "refresh-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
-    
+
     def __init__(self, build_package):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=6)
 
@@ -89,65 +102,88 @@ class OverviewWidget(Gtk.Box):
         self.set_margin_bottom(6)
         self.set_margin_start(6)
         self.set_margin_end(6)
-        
+
         self.create_ui()
         self.refresh_overview()
-    
+
     def create_ui(self):
         """Create the widget UI"""
-        
-        # Repository status banner
-        self.status_banner = Adw.Banner()
-        self.append(self.status_banner)
-        
+
         # Status cards grid
         status_group = Adw.PreferencesGroup()
         status_group.set_title(_("Repository Status"))
-        
+
         # Cards container
         cards_flow = Gtk.FlowBox()
         cards_flow.set_max_children_per_line(4)
         cards_flow.set_min_children_per_line(2)
         cards_flow.set_selection_mode(Gtk.SelectionMode.NONE)
         cards_flow.set_homogeneous(True)
-        
+
         # Create status cards with standard GNOME icons
         self.repo_card = StatusCard(_("Repository"), "—", "folder-symbolic")
-        self.branch_card = StatusCard(_("Current Branch"), "—", "media-playlist-consecutive-symbolic")
+        self.branch_card = StatusCard(
+            _("Current Branch"), "—", "media-playlist-consecutive-symbolic"
+        )
         self.changes_card = StatusCard(_("Changes"), "—", "document-edit-symbolic")
         self.commits_card = StatusCard(_("Commits"), "—", "view-list-symbolic")
-        
+
         cards_flow.append(self.repo_card)
         cards_flow.append(self.branch_card)
         cards_flow.append(self.changes_card)
         cards_flow.append(self.commits_card)
-        
+
         status_group.add(cards_flow)
         self.append(status_group)
-        
+
         # Quick actions
         actions_group = Adw.PreferencesGroup()
         actions_group.set_title(_("Quick Actions"))
-        
+
         self.quick_actions_list = Gtk.ListBox()
         self.quick_actions_list.set_selection_mode(Gtk.SelectionMode.NONE)
         self.quick_actions_list.add_css_class("boxed-list")
-        self.quick_actions_list.connect('row-activated', self.on_quick_action_activated)
-        
+        self.quick_actions_list.connect("row-activated", self.on_quick_action_activated)
+
         # Define quick actions (order matches CLI menu)
         quick_actions = [
-            ("pull", _("Pull Latest"), _("Pull latest changes from remote repository"), 
-             "go-down-symbolic"),
-            ("commit", _("Commit and Push"), _("Stage changes and push to development branch"), 
-             "document-save-symbolic"),
-            ("package_testing", _("Build Testing Package"), _("Build and deploy to testing repository"), 
-             "package-x-generic-symbolic"),
-            ("package_stable", _("Build Stable Package"), _("Build and deploy to stable repository"), 
-             "emblem-ok-symbolic"),
-            ("aur", _("Build AUR Package"), _("Build package from Arch User Repository"), 
-             "system-software-install-symbolic"),
+            (
+                "pull",
+                _("Pull Latest"),
+                _("Pull latest changes from remote repository"),
+                "go-down-symbolic",
+            ),
+            (
+                "commit",
+                _("Commit and Push"),
+                _("Stage changes and push to development branch"),
+                "document-save-symbolic",
+            ),
         ]
-        
+
+        settings = self.build_package.settings
+        if settings.get("package_features_enabled", False):
+            quick_actions.append((
+                "package_testing",
+                _("Build Testing Package"),
+                _("Build and deploy to testing repository"),
+                "package-x-generic-symbolic",
+            ))
+            quick_actions.append((
+                "package_stable",
+                _("Build Stable Package"),
+                _("Build and deploy to stable repository"),
+                "emblem-ok-symbolic",
+            ))
+
+        if settings.get("aur_features_enabled", False):
+            quick_actions.append((
+                "aur",
+                _("Build AUR Package"),
+                _("Build package from Arch User Repository"),
+                "system-software-install-symbolic",
+            ))
+
         for action_id, title, desc, icon in quick_actions:
             card = QuickActionCard(title, desc, icon, action_id)
             self.quick_actions_list.append(card)
@@ -190,32 +226,19 @@ class OverviewWidget(Gtk.Box):
     def refresh_overview(self):
         """Refresh overview information"""
         try:
-            # Update repository status banner
-            if self.build_package.is_git_repo:
-                repo_name = GitUtils.get_repo_name()
-                if repo_name:
-                    self.status_banner.set_title(_("Connected to repository: {0}").format(repo_name))
-                    self.status_banner.set_revealed(True)
-                else:
-                    self.status_banner.set_title(_("Git repository detected"))
-                    self.status_banner.set_revealed(True)
-            else:
-                self.status_banner.set_title(_("Not in a Git repository - some features will be limited"))
-                self.status_banner.set_revealed(True)
-            
             # Update status cards
             self.update_status_cards()
-            
+
             # Update recent activity
             self.update_recent_activity()
-            
+
         except Exception as e:
-            print(f"Error refreshing overview: {e}")
+            print(_("Error refreshing overview: {0}").format(e))
     
     def update_status_cards(self):
         """Update status cards with current information"""
         if not self.build_package.is_git_repo:
-            self.repo_card.value_label.set_text(_("Not a Git repo"))
+            self.repo_card.update_value(_("Not a Git repo"))
             return
         
         try:
@@ -223,32 +246,32 @@ class OverviewWidget(Gtk.Box):
             repo_name = GitUtils.get_repo_name()
             if repo_name:
                 repo_display = repo_name.split('/')[-1]  # Show only repo name, not org/repo
-                self.repo_card.value_label.set_text(repo_display)
+                self.repo_card.update_value(repo_display)
             else:
-                self.repo_card.value_label.set_text(_("Local repo"))
+                self.repo_card.update_value(_("Local repo"))
             
             # Branch card
             current_branch = GitUtils.get_current_branch()
             if current_branch:
-                self.branch_card.value_label.set_text(current_branch)
+                self.branch_card.update_value(current_branch)
             else:
-                self.branch_card.value_label.set_text(_("Unknown"))
+                self.branch_card.update_value(_("Unknown"))
             
             # Changes card - clear previous CSS classes first
             self.changes_card.icon.remove_css_class("warning")
             self.changes_card.icon.remove_css_class("success")
             
             if GitUtils.has_changes():
-                self.changes_card.value_label.set_text(_("Modified"))
+                self.changes_card.update_value(_("Modified"))
                 self.changes_card.icon.add_css_class("warning")
             else:
                 # TRANSLATORS: Status when working directory has no modifications
-                self.changes_card.value_label.set_text(_("No changes"))
+                self.changes_card.update_value(_("No changes"))
                 self.changes_card.icon.add_css_class("success")
             
             # Commits card - check for empty repo first
             if not GitUtils.has_commits():
-                self.commits_card.value_label.set_text("0")
+                self.commits_card.update_value("0")
             else:
                 try:
                     import subprocess
@@ -261,14 +284,14 @@ class OverviewWidget(Gtk.Box):
                     )
                     if result.returncode == 0:
                         commit_count = result.stdout.strip()
-                        self.commits_card.value_label.set_text(commit_count)
+                        self.commits_card.update_value(commit_count)
                     else:
-                        self.commits_card.value_label.set_text("0")
+                        self.commits_card.update_value("0")
                 except subprocess.SubprocessError:
-                    self.commits_card.value_label.set_text("—")
+                    self.commits_card.update_value("—")
                 
         except Exception as e:
-            print(f"Error updating status cards: {e}")
+            print(_("Error updating status cards: {0}").format(e))
     
     def update_recent_activity(self):
         """Update recent activity information"""
@@ -308,7 +331,57 @@ class OverviewWidget(Gtk.Box):
         window = self.get_root()
         if window and hasattr(window, 'show_welcome_dialog'):
             window.show_welcome_dialog()
-    
+
+    def refresh_quick_actions(self):
+        """Rebuild quick actions list based on current feature settings"""
+        child = self.quick_actions_list.get_first_child()
+        while child:
+            next_child = child.get_next_sibling()
+            self.quick_actions_list.remove(child)
+            child = next_child
+
+        quick_actions = [
+            (
+                "pull",
+                _("Pull Latest"),
+                _("Pull latest changes from remote repository"),
+                "go-down-symbolic",
+            ),
+            (
+                "commit",
+                _("Commit and Push"),
+                _("Stage changes and push to development branch"),
+                "document-save-symbolic",
+            ),
+        ]
+
+        settings = self.build_package.settings
+        if settings.get("package_features_enabled", False):
+            quick_actions.append((
+                "package_testing",
+                _("Build Testing Package"),
+                _("Build and deploy to testing repository"),
+                "package-x-generic-symbolic",
+            ))
+            quick_actions.append((
+                "package_stable",
+                _("Build Stable Package"),
+                _("Build and deploy to stable repository"),
+                "emblem-ok-symbolic",
+            ))
+
+        if settings.get("aur_features_enabled", False):
+            quick_actions.append((
+                "aur",
+                _("Build AUR Package"),
+                _("Build package from Arch User Repository"),
+                "system-software-install-symbolic",
+            ))
+
+        for action_id, title, desc, icon in quick_actions:
+            card = QuickActionCard(title, desc, icon, action_id)
+            self.quick_actions_list.append(card)
+
     def on_refresh_clicked(self, button):
         """Handle refresh button click"""
         self.emit('refresh-requested')
