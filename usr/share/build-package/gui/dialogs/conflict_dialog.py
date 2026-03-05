@@ -14,48 +14,50 @@ import subprocess
 import os
 
 class ConflictFileRow(Adw.ActionRow):
-    """Row for a single conflicted file"""
+    """Row for a single conflicted file with toggle selection"""
 
     __gtype_name__ = 'ConflictFileRow'
 
-    def __init__(self, filepath):
+    # CSS classes for each action state
+    _ACTION_CLASSES = {
+        "ours": "conflict-local",
+        "theirs": "conflict-remote",
+        "both": "conflict-both",
+    }
+
+    def __init__(self, filepath: str):
         super().__init__()
 
         self.filepath = filepath
+        self.current_action: str | None = None
         self.set_title(filepath)
 
         # Status icon
         self.status_icon = Gtk.Image.new_from_icon_name("dialog-warning-symbolic")
         self.add_prefix(self.status_icon)
 
-        # Add action buttons
+        # Action buttons
         button_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
 
-        # Keep ours button
-        ours_button = Gtk.Button()
-        ours_button.set_label(_("Keep Local"))
-        ours_button.set_tooltip_text(_("Keep local version"))
-        ours_button.add_css_class("flat")
-        ours_button.connect('clicked', lambda b: self.emit('action-selected', 'ours'))
-        button_box.append(ours_button)
+        self.ours_button = Gtk.Button(label=_("Keep Local"))
+        self.ours_button.set_tooltip_text(_("Keep local version"))
+        self.ours_button.add_css_class("flat")
+        self.ours_button.connect("clicked", self._on_action_clicked, "ours")
+        button_box.append(self.ours_button)
 
-        # Keep theirs button
-        theirs_button = Gtk.Button()
-        theirs_button.set_label(_("Accept Remote"))
-        theirs_button.set_tooltip_text(_("Accept remote version"))
-        theirs_button.add_css_class("flat")
-        theirs_button.connect('clicked', lambda b: self.emit('action-selected', 'theirs'))
-        button_box.append(theirs_button)
+        self.theirs_button = Gtk.Button(label=_("Accept Remote"))
+        self.theirs_button.set_tooltip_text(_("Accept remote version"))
+        self.theirs_button.add_css_class("flat")
+        self.theirs_button.connect("clicked", self._on_action_clicked, "theirs")
+        button_box.append(self.theirs_button)
 
-        # Keep both button
-        both_button = Gtk.Button()
-        both_button.set_label(_("Keep Both"))
-        both_button.set_tooltip_text(_("Keep both versions"))
-        both_button.add_css_class("flat")
-        both_button.connect('clicked', lambda b: self.emit('action-selected', 'both'))
-        button_box.append(both_button)
+        self.both_button = Gtk.Button(label=_("Keep Both"))
+        self.both_button.set_tooltip_text(_("Keep both versions"))
+        self.both_button.add_css_class("flat")
+        self.both_button.connect("clicked", self._on_action_clicked, "both")
+        button_box.append(self.both_button)
 
-        # Show diff button (compare side-by-side)
+        # Diff button
         diff_button = Gtk.Button()
         diff_button.set_icon_name("view-dual-symbolic")
         diff_button.set_tooltip_text(_("Compare versions side-by-side"))
@@ -63,7 +65,7 @@ class ConflictFileRow(Adw.ActionRow):
         diff_button.connect('clicked', lambda b: self.emit('show-diff'))
         button_box.append(diff_button)
 
-        # Edit manually button
+        # Edit button
         edit_button = Gtk.Button()
         edit_button.set_icon_name("document-edit-symbolic")
         edit_button.set_tooltip_text(_("Edit file manually"))
@@ -73,16 +75,71 @@ class ConflictFileRow(Adw.ActionRow):
 
         self.add_suffix(button_box)
 
-    def mark_resolved(self):
-        """Mark file as resolved"""
+        # Map action -> button for styling
+        self._action_buttons = {
+            "ours": self.ours_button,
+            "theirs": self.theirs_button,
+            "both": self.both_button,
+        }
+
+    def _on_action_clicked(self, _button: Gtk.Button, action: str) -> None:
+        """Toggle action selection: click to select, click again to deselect"""
+        if self.current_action == action:
+            # Deselect
+            self._clear_visual()
+            self.current_action = None
+            self.emit("action-deselected", action)
+        else:
+            # Select (possibly replacing previous choice)
+            self._clear_visual()
+            self.current_action = action
+            self._apply_visual(action)
+            self.emit("action-selected", action)
+
+    def _clear_visual(self) -> None:
+        """Remove all action styling"""
+        for cls in self._ACTION_CLASSES.values():
+            self.remove_css_class(cls)
+        for btn in self._action_buttons.values():
+            btn.remove_css_class("conflict-btn-active-local")
+            btn.remove_css_class("conflict-btn-active-remote")
+            btn.remove_css_class("conflict-btn-active-both")
+        self.remove_css_class("success")
+        self.status_icon.set_from_icon_name("dialog-warning-symbolic")
+
+    def _apply_visual(self, action: str) -> None:
+        """Apply visual style for the selected action"""
+        row_cls = self._ACTION_CLASSES.get(action)
+        if row_cls:
+            self.add_css_class(row_cls)
+
+        btn = self._action_buttons.get(action)
+        if btn:
+            btn.add_css_class(f"conflict-btn-active-{action.replace('theirs', 'remote').replace('ours', 'local')}")
+
         self.status_icon.set_from_icon_name("emblem-ok-symbolic")
-        self.add_css_class("success")
+
+    def set_action(self, action: str) -> None:
+        """Programmatically set the action (used by bulk operations and diff dialog)"""
+        self._clear_visual()
+        self.current_action = action
+        if action in self._ACTION_CLASSES:
+            self._apply_visual(action)
+        else:
+            # Generic resolved state (e.g. 'manual')
+            self.status_icon.set_from_icon_name("emblem-ok-symbolic")
+
+    def clear_action(self) -> None:
+        """Programmatically clear the action"""
+        self._clear_visual()
+        self.current_action = None
 
     # Signals
     __gsignals__ = {
-        'action-selected': (GObject.SignalFlags.RUN_FIRST, None, (str,)),
-        'show-diff': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'edit-file': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "action-selected": (GObject.SignalFlags.RUN_FIRST, None, (str,)),
+        "action-deselected": (GObject.SignalFlags.RUN_FIRST, None, (str,)),
+        "show-diff": (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "edit-file": (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
 
@@ -107,8 +164,44 @@ class ConflictDialog(Adw.Window):
         self.set_title(_("Resolve Conflicts"))
         self.set_default_size(800, 600)
 
+        self._setup_conflict_css()
         self.create_ui()
 
+    def _setup_conflict_css(self):
+        """Register CSS for conflict row states"""
+        from gi.repository import Gdk
+
+        css = Gtk.CssProvider()
+        css.load_from_data(b"""
+            /* Row backgrounds */
+            row.conflict-local {
+                background-color: alpha(#3584e4, 0.15);
+            }
+            row.conflict-remote {
+                background-color: alpha(#2ec27e, 0.15);
+            }
+            row.conflict-both {
+                background-color: alpha(#e5a50a, 0.15);
+            }
+
+            /* Active button highlights */
+            .conflict-btn-active-local {
+                background-color: #3584e4;
+                color: white;
+            }
+            .conflict-btn-active-remote {
+                background-color: #2ec27e;
+                color: white;
+            }
+            .conflict-btn-active-both {
+                background-color: #e5a50a;
+                color: white;
+            }
+        """)
+
+        display = Gdk.Display.get_default()
+        if display:
+            Gtk.StyleContext.add_provider_for_display(display, css, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
     def create_ui(self):
         """Create conflict resolution UI"""
@@ -117,8 +210,34 @@ class ConflictDialog(Adw.Window):
         main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self.set_content(main_box)
 
-        # Header bar
+        # Custom header bar (flat - blends with background)
         header_bar = Adw.HeaderBar()
+        header_bar.set_show_start_title_buttons(False)
+        header_bar.set_show_end_title_buttons(False)
+        header_bar.add_css_class("flat")
+
+        # Title
+        title_label = Gtk.Label(label=_("Resolve Conflicts"))
+        title_label.add_css_class("heading")
+        header_bar.set_title_widget(title_label)
+
+        # Close button (rightmost - pack_end adds from right)
+        close_button = Gtk.Button()
+        close_button.set_icon_name("window-close-symbolic")
+        close_button.set_tooltip_text(_("Close"))
+        close_button.add_css_class("flat")
+        close_button.connect("clicked", lambda b: self.close())
+        header_bar.pack_end(close_button)
+
+        # Maximize button (left of close)
+        maximize_button = Gtk.Button()
+        maximize_button.set_icon_name("view-fullscreen-symbolic")
+        maximize_button.set_tooltip_text(_("Maximize"))
+        maximize_button.add_css_class("flat")
+        maximize_button.connect("clicked", self._on_maximize_clicked)
+        header_bar.pack_end(maximize_button)
+        self._maximize_button = maximize_button
+
         main_box.append(header_bar)
 
         # Toolbar view
@@ -134,13 +253,16 @@ class ConflictDialog(Adw.Window):
         content_box.set_margin_end(12)
         toolbar_view.set_content(content_box)
 
-        # Status banner
-        self.status_banner = Adw.Banner()
-        self.status_banner.set_title(
-            _("Found {0} conflicted files").format(len(self.conflict_files))
+        # Status label (subtle, centered)
+        self.status_label = Gtk.Label()
+        self.status_label.set_markup(
+            '<span alpha="70%">' + _("Found {0} conflicted files").format(len(self.conflict_files)) + "</span>"
         )
-        self.status_banner.set_revealed(True)
-        content_box.append(self.status_banner)
+        self.status_label.add_css_class("dim-label")
+        self.status_label.set_halign(Gtk.Align.CENTER)
+        self.status_label.set_margin_top(4)
+        self.status_label.set_margin_bottom(8)
+        content_box.append(self.status_label)
 
         # Strategy buttons group
         strategy_group = Adw.PreferencesGroup()
@@ -187,6 +309,7 @@ class ConflictDialog(Adw.Window):
         for filepath in self.conflict_files:
             row = ConflictFileRow(filepath)
             row.connect('action-selected', self.on_file_action_selected)
+            row.connect("action-deselected", self.on_file_action_deselected)
             row.connect('show-diff', self.on_show_diff)
             row.connect('edit-file', self.on_edit_file)
             self.conflicts_list.append(row)
@@ -213,21 +336,34 @@ class ConflictDialog(Adw.Window):
         self.apply_button.connect('clicked', self.on_apply_clicked)
         bottom_bar.append(self.apply_button)
 
+    def _on_maximize_clicked(self, _button: Gtk.Button) -> None:
+        """Toggle maximize state"""
+        if self.is_maximized():
+            self.unmaximize()
+            self._maximize_button.set_icon_name("view-fullscreen-symbolic")
+        else:
+            self.maximize()
+            self._maximize_button.set_icon_name("view-restore-symbolic")
+
     def on_file_action_selected(self, row, action):
         """Handle action selection for a file"""
         self.resolutions[row.filepath] = action
-        row.mark_resolved()
+        self._update_status()
 
-        # Update button state
+    def on_file_action_deselected(self, row, action):
+        """Handle action deselection for a file"""
+        self.resolutions.pop(row.filepath, None)
+        self._update_status()
+
+    def _update_status(self):
+        """Recalculate resolved count and update UI"""
         self.resolved_count = len(self.resolutions)
         self.apply_button.set_sensitive(self.resolved_count == len(self.conflict_files))
-
-        # Update status
-        self.status_banner.set_title(
-            _("Resolved {0} of {1} conflicts").format(
-                self.resolved_count, len(self.conflict_files)
-            )
-        )
+        if self.resolved_count == 0:
+            text = _("Found {0} conflicted files").format(len(self.conflict_files))
+        else:
+            text = _("Resolved {0} of {1} conflicts").format(self.resolved_count, len(self.conflict_files))
+        self.status_label.set_markup(f'<span alpha="70%">{text}</span>')
 
     def on_show_diff(self, row):
         """Show diff for a file"""
@@ -280,18 +416,10 @@ class ConflictDialog(Adw.Window):
                     
                     # Mark as "manual" resolution
                     self.resolutions[row.filepath] = 'manual'
-                    row.mark_resolved()
-                    
-                    # Update button state
-                    self.resolved_count = len(self.resolutions)
-                    self.apply_button.set_sensitive(self.resolved_count == len(self.conflict_files))
-                    
+                    row.set_action("manual")
+
                     # Update status
-                    self.status_banner.set_title(
-                        _("Resolved {0} of {1} conflicts (editing manually)").format(
-                            self.resolved_count, len(self.conflict_files)
-                        )
-                    )
+                    self._update_status()
                     break
                     
             except Exception:
@@ -592,18 +720,8 @@ class ConflictDialog(Adw.Window):
         for child in self._iter_conflict_rows():
             if child.filepath == filepath:
                 self.resolutions[filepath] = action
-                child.mark_resolved()
-
-                # Update button state
-                self.resolved_count = len(self.resolutions)
-                self.apply_button.set_sensitive(self.resolved_count == len(self.conflict_files))
-
-                # Update status
-                self.status_banner.set_title(
-                    _("Resolved {0} of {1} conflicts").format(
-                        self.resolved_count, len(self.conflict_files)
-                    )
-                )
+                child.set_action(action)
+                self._update_status()
                 break
 
     def on_auto_ours_clicked(self, button):
@@ -611,22 +729,24 @@ class ConflictDialog(Adw.Window):
         for child in self._iter_conflict_rows():
             if child.filepath not in self.resolutions:
                 self.resolutions[child.filepath] = 'ours'
-                child.mark_resolved()
+                child.set_action("ours")
 
-        self.resolved_count = len(self.resolutions)
-        self.apply_button.set_sensitive(True)
-        self.status_banner.set_title(_("All conflicts resolved (kept local versions)"))
+        self._update_status()
+        self.status_label.set_markup(
+            '<span alpha="70%">' + _("All conflicts resolved (kept local versions)") + "</span>"
+        )
 
     def on_auto_theirs_clicked(self, button):
         """Apply 'theirs' to all unresolved conflicts"""
         for child in self._iter_conflict_rows():
             if child.filepath not in self.resolutions:
                 self.resolutions[child.filepath] = 'theirs'
-                child.mark_resolved()
+                child.set_action("theirs")
 
-        self.resolved_count = len(self.resolutions)
-        self.apply_button.set_sensitive(True)
-        self.status_banner.set_title(_("All conflicts resolved (accepted remote versions)"))
+        self._update_status()
+        self.status_label.set_markup(
+            '<span alpha="70%">' + _("All conflicts resolved (accepted remote versions)") + "</span>"
+        )
 
     def on_cancel_clicked(self, button):
         """Handle cancel"""

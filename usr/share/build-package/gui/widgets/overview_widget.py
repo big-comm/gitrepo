@@ -186,6 +186,8 @@ class OverviewWidget(Gtk.Box):
 
         for action_id, title, desc, icon in quick_actions:
             card = QuickActionCard(title, desc, icon, action_id)
+            if action_id == "pull":
+                card.add_css_class("accent")
             self.quick_actions_list.append(card)
         
         actions_group.add(self.quick_actions_list)
