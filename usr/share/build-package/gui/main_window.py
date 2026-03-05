@@ -93,11 +93,6 @@ class MainWindow(Adw.ApplicationWindow):
         sidebar_header = Adw.HeaderBar()
         sidebar_header.set_show_end_title_buttons(False)
 
-        # App icon on the left
-        app_icon = Gtk.Image.new_from_icon_name("gitrepo")
-        app_icon.set_pixel_size(20)
-        sidebar_header.pack_start(app_icon)
-
         # Centered app title
         app_title = Gtk.Label(label=_("Build Package"))
         app_title.add_css_class("heading")
