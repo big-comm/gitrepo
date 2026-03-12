@@ -136,6 +136,17 @@ class OverviewWidget(Gtk.Box):
         status_group.add(cards_flow)
         self.append(status_group)
 
+        # Changed files section (expandable)
+        self.changed_files_group = Adw.PreferencesGroup()
+        self.changed_files_group.set_title(_("Changed Files"))
+        self.changed_files_group.set_visible(False)
+
+        self.changed_files_expander = Adw.ExpanderRow()
+        self.changed_files_expander.set_title(_("View changed files"))
+        self.changed_files_expander.set_subtitle(_("Click to expand"))
+        self.changed_files_group.add(self.changed_files_expander)
+        self.append(self.changed_files_group)
+
         # Quick actions
         actions_group = Adw.PreferencesGroup()
         actions_group.set_title(_("Quick Actions"))
@@ -188,6 +199,9 @@ class OverviewWidget(Gtk.Box):
             card = QuickActionCard(title, desc, icon, action_id)
             if action_id == "pull":
                 card.add_css_class("accent")
+            # Store commit card for dynamic highlighting
+            if action_id == "commit":
+                self.commit_quick_action = card
             self.quick_actions_list.append(card)
         
         actions_group.add(self.quick_actions_list)
@@ -264,12 +278,26 @@ class OverviewWidget(Gtk.Box):
             self.changes_card.icon.remove_css_class("success")
             
             if GitUtils.has_changes():
+                changed_files = GitUtils.get_changed_files()
+                count = len(changed_files)
                 self.changes_card.update_value(_("Modified"))
                 self.changes_card.icon.add_css_class("warning")
+
+                # Update changed files list
+                self._update_changed_files_list(changed_files)
+
+                # Highlight Commit quick action
+                if hasattr(self, 'commit_quick_action'):
+                    self.commit_quick_action.add_css_class("error")
             else:
                 # TRANSLATORS: Status when working directory has no modifications
                 self.changes_card.update_value(_("No changes"))
                 self.changes_card.icon.add_css_class("success")
+                self.changed_files_group.set_visible(False)
+
+                # Remove highlight from Commit quick action
+                if hasattr(self, 'commit_quick_action'):
+                    self.commit_quick_action.remove_css_class("error")
             
             # Commits card - check for empty repo first
             if not GitUtils.has_commits():
@@ -295,6 +323,56 @@ class OverviewWidget(Gtk.Box):
         except Exception as e:
             print(_("Error updating status cards: {0}").format(e))
     
+    def _update_changed_files_list(self, changed_files):
+        """Update the expandable list of changed files"""
+        # Clear previous rows
+        child = self.changed_files_expander.get_first_child()
+        rows_to_remove = []
+        while child:
+            if isinstance(child, Adw.ActionRow) and child is not self.changed_files_expander:
+                rows_to_remove.append(child)
+            child = child.get_next_sibling()
+        for row in rows_to_remove:
+            self.changed_files_expander.remove(row)
+
+        status_labels = {
+            "M": _("Modified"),
+            "A": _("Added"),
+            "D": _("Deleted"),
+            "R": _("Renamed"),
+            "C": _("Copied"),
+            "??": _("Untracked"),
+            "AM": _("Added+Modified"),
+            "MM": _("Modified (staged+unstaged)"),
+        }
+
+        for status, filepath in changed_files:
+            row = Adw.ActionRow()
+            row.set_title(filepath)
+            label = status_labels.get(status, status)
+            row.set_subtitle(label)
+
+            # Color-coded icon
+            if status in ("D",):
+                icon_name = "edit-delete-symbolic"
+            elif status in ("A", "AM", "??"):
+                icon_name = "list-add-symbolic"
+            elif status in ("R", "C"):
+                icon_name = "edit-copy-symbolic"
+            else:
+                icon_name = "document-edit-symbolic"
+
+            icon = Gtk.Image.new_from_icon_name(icon_name)
+            row.add_prefix(icon)
+            self.changed_files_expander.add_row(row)
+
+        count = len(changed_files)
+        self.changed_files_expander.set_title(
+            _("{0} changed file(s)").format(count)
+        )
+        self.changed_files_expander.set_subtitle(_("Click to expand"))
+        self.changed_files_group.set_visible(count > 0)
+
     def update_recent_activity(self):
         """Update recent activity information"""
         # Placeholder - could show last commit, last build, etc.
@@ -382,6 +460,8 @@ class OverviewWidget(Gtk.Box):
 
         for action_id, title, desc, icon in quick_actions:
             card = QuickActionCard(title, desc, icon, action_id)
+            if action_id == "commit":
+                self.commit_quick_action = card
             self.quick_actions_list.append(card)
 
     def on_refresh_clicked(self, button):

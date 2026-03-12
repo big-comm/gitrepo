@@ -130,6 +130,62 @@ class LocalBuilder:
 
         return False
 
+    def check_storage_driver(self) -> bool:
+        """
+        Check if Docker is using btrfs storage driver and offer to fix it.
+        The btrfs driver is deprecated and causes 'Failed to create btrfs snapshot' errors.
+
+        Returns:
+            bool: True if OK to proceed, False if user cancelled
+        """
+        if self.container_engine != "docker":
+            return True
+
+        try:
+            result = subprocess.run(
+                ["docker", "info", "--format", "{{.Driver}}"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.DEVNULL,
+                text=True,
+                check=False
+            )
+            driver = result.stdout.strip()
+
+            if driver != "btrfs":
+                return True
+
+            self.logger.log("yellow", _("Docker is using the 'btrfs' storage driver, which is deprecated"))
+            self.logger.log("yellow", _("and may cause 'Failed to create btrfs snapshot' errors."))
+            self.logger.log("cyan", _("Recommended: switch to 'overlay2' storage driver."))
+            self.logger.log("cyan", _("This requires recreating Docker storage (images will be re-downloaded)."))
+
+            response = input(_("Switch Docker to overlay2? [y/n] (y): ")).strip().lower()
+            if response in ("", "y", "yes", "s", "sim"):
+                daemon_json = '/etc/docker/daemon.json'
+                config_content = '{\n  "storage-driver": "overlay2"\n}\n'
+
+                # Write daemon.json
+                subprocess.run(
+                    ["sudo", "tee", daemon_json],
+                    input=config_content,
+                    stdout=subprocess.DEVNULL,
+                    check=True
+                )
+
+                # Stop docker, remove old storage, restart
+                subprocess.run(["sudo", "systemctl", "stop", "docker"], check=True)
+                subprocess.run(["sudo", "rm", "-rf", "/var/lib/docker"], check=True)
+                subprocess.run(["sudo", "systemctl", "start", "docker"], check=True)
+
+                self.logger.log("green", _("Docker switched to overlay2 successfully"))
+                return True
+            else:
+                self.logger.log("yellow", _("Continuing with btrfs driver (may fail)..."))
+                return True
+
+        except Exception:
+            return True
+
     def check_disk_space(self) -> bool:
         """
         Check if there's enough disk space (~20GB required)
@@ -593,6 +649,10 @@ sudo mknod -m 660 /dev/loop-control c 10 237 2>/dev/null || true
                 self.logger.log("red", _("Docker or Podman not found"))
                 self.logger.log("yellow", _("Install with: sudo pacman -S docker"))
                 self.logger.log("yellow", _("Or install Podman: sudo pacman -S podman"))
+                return False
+
+            # Step 1.1: Check Docker storage driver (btrfs → overlay2)
+            if not self.check_storage_driver():
                 return False
 
             # Step 2: Check disk space

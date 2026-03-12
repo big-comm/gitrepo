@@ -106,6 +106,13 @@ class CommitWidget(Gtk.Box):
         self.last_commit_row.add_suffix(self.undo_button)
         
         status_group.add(self.last_commit_row)
+
+        # Changed files expander
+        self.changed_files_expander = Adw.ExpanderRow()
+        self.changed_files_expander.set_title(_("Changed Files"))
+        self.changed_files_expander.set_subtitle(_("Click to view files"))
+        self.changed_files_expander.set_visible(False)
+        status_group.add(self.changed_files_expander)
         
         self.append(status_group)
         
@@ -120,6 +127,7 @@ class CommitWidget(Gtk.Box):
         self.commit_type_expander = Adw.ExpanderRow()
         self.commit_type_expander.set_title(_("Commit Type"))
         self.commit_type_expander.set_subtitle(_("Select the type of change"))
+        self.commit_type_expander.add_css_class("error")
         
         # Add commit type rows inside expander
         for idx, (emoji, commit_type, description) in enumerate(self.commit_types):
@@ -211,19 +219,8 @@ class CommitWidget(Gtk.Box):
         
         self.append(actions_box)
         
-        # Select first commit type by default
-        if len(self.commit_types) > 0:
-            # Find and select first row in expander
-            first_row = None
-            child = self.commit_type_expander.get_first_child()
-            while child:
-                if hasattr(child, 'commit_type'):
-                    first_row = child
-                    break
-                child = child.get_next_sibling()
-            
-            if first_row:
-                self._select_commit_type_row(first_row)
+        # Do NOT auto-select first type — user must choose actively
+        # The expander starts with "error" CSS class as visual alert
     
     def refresh_status(self):
         """Refresh repository status"""
@@ -245,12 +242,16 @@ class CommitWidget(Gtk.Box):
             self._status_suffix_icon.set_tooltip_text(_("You have uncommitted changes that need to be committed"))
             self.changes_row.add_suffix(self._status_suffix_icon)
             self.changes_row.add_css_class("warning")
+
+            # Populate changed files list
+            self._update_changed_files_list()
         else:
             self.changes_row.set_subtitle(_("Working directory clean"))
             self._status_suffix_icon = Gtk.Image.new_from_icon_name("emblem-ok-symbolic")
             self._status_suffix_icon.set_tooltip_text(_("No pending changes - working directory is clean"))
             self.changes_row.add_suffix(self._status_suffix_icon)
             self.changes_row.add_css_class("success")
+            self.changed_files_expander.set_visible(False)
         
         # Current branch
         current_branch = GitUtils.get_current_branch()
@@ -326,6 +327,9 @@ class CommitWidget(Gtk.Box):
         self.selected_commit_type = row.commit_type
         self.selected_emoji = row.emoji
         
+        # Remove alert highlight after selection
+        self.commit_type_expander.remove_css_class("error")
+        
         # Update expander subtitle to show selection
         self.commit_type_expander.set_subtitle(f"{row.emoji} {row.commit_type}")
         
@@ -396,6 +400,56 @@ class CommitWidget(Gtk.Box):
         buffer.set_text("")
         self.refresh_status()
     
+    def _update_changed_files_list(self):
+        """Populate the changed files expander with current git status"""
+        # Clear existing rows
+        child = self.changed_files_expander.get_first_child()
+        rows_to_remove = []
+        while child:
+            if isinstance(child, Adw.ActionRow) and child is not self.changed_files_expander:
+                rows_to_remove.append(child)
+            child = child.get_next_sibling()
+        for row in rows_to_remove:
+            self.changed_files_expander.remove(row)
+
+        changed_files = GitUtils.get_changed_files()
+
+        status_labels = {
+            "M": _("Modified"),
+            "A": _("Added"),
+            "D": _("Deleted"),
+            "R": _("Renamed"),
+            "C": _("Copied"),
+            "??": _("Untracked"),
+            "AM": _("Added+Modified"),
+            "MM": _("Modified (staged+unstaged)"),
+        }
+
+        for status, filepath in changed_files:
+            row = Adw.ActionRow()
+            row.set_title(filepath)
+            label = status_labels.get(status, status)
+            row.set_subtitle(label)
+
+            if status in ("D",):
+                icon_name = "edit-delete-symbolic"
+            elif status in ("A", "AM", "??"):
+                icon_name = "list-add-symbolic"
+            elif status in ("R", "C"):
+                icon_name = "edit-copy-symbolic"
+            else:
+                icon_name = "document-edit-symbolic"
+
+            icon = Gtk.Image.new_from_icon_name(icon_name)
+            row.add_prefix(icon)
+            self.changed_files_expander.add_row(row)
+
+        count = len(changed_files)
+        self.changed_files_expander.set_title(
+            _("{0} changed file(s)").format(count)
+        )
+        self.changed_files_expander.set_visible(count > 0)
+
     def on_undo_clicked(self, button):
         """Handle undo last commit button click with confirmation"""
         # Show confirmation dialog
