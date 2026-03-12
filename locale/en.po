@@ -661,273 +661,309 @@ msgid "Stopping {0} old container(s)..."
 msgstr "Stopping {0} old container(s)..."
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 145
+# File: usr/share/build-iso/local_builder.py, line: 157
+msgid "Docker is using the 'btrfs' storage driver, which is deprecated"
+msgstr "Docker is using the 'btrfs' storage driver, which is deprecated"
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 158
+msgid "and may cause 'Failed to create btrfs snapshot' errors."
+msgstr "and may cause 'Failed to create btrfs snapshot' errors."
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 159
+msgid "Recommended: switch to 'overlay2' storage driver."
+msgstr "Recommended: switch to 'overlay2' storage driver."
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 160
+msgid "This requires recreating Docker storage (images will be re-downloaded)."
+msgstr ""
+"This requires recreating Docker storage (images will be re-downloaded)."
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 162
+msgid "Switch Docker to overlay2? [y/n] (y): "
+msgstr "Switch Docker to overlay2? [y/n] (y): "
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 180
+msgid "Docker switched to overlay2 successfully"
+msgstr "Docker switched to overlay2 successfully"
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 183
+msgid "Continuing with btrfs driver (may fail)..."
+msgstr "Continuing with btrfs driver (may fail)..."
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 201
 #, python-brace-format
 msgid "Warning: Only {0:.1f} GB free. 20 GB recommended."
 msgstr "Warning: Only {0:.1f} GB free. 20 GB recommended."
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 148
+# File: usr/share/build-iso/local_builder.py, line: 204
 #, python-brace-format
 msgid "Disk space available: {0:.1f} GB"
 msgstr "Disk space available: {0:.1f} GB"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 151
+# File: usr/share/build-iso/local_builder.py, line: 207
 #, python-brace-format
 msgid "Could not check disk space: {0}"
 msgstr "Could not check disk space: {0}"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 161
+# File: usr/share/build-iso/local_builder.py, line: 217
 #, python-brace-format
 msgid "Pulling container image: {0}"
 msgstr "Pulling container image: {0}"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 175
+# File: usr/share/build-iso/local_builder.py, line: 231
 msgid "Container image pulled successfully"
 msgstr "Container image pulled successfully"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 178
+# File: usr/share/build-iso/local_builder.py, line: 234
 msgid "Failed to pull container image"
 msgstr "Failed to pull container image"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 183
-# File: usr/share/build-iso/local_builder.py, line: 296
+# File: usr/share/build-iso/local_builder.py, line: 239
+# File: usr/share/build-iso/local_builder.py, line: 352
 msgid "Retrying..."
 msgstr "Retrying..."
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 188
+# File: usr/share/build-iso/local_builder.py, line: 244
 #, python-brace-format
 msgid "Error pulling container image: {0}"
 msgstr "Error pulling container image: {0}"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 200
+# File: usr/share/build-iso/local_builder.py, line: 256
 msgid "Preparing build directories..."
 msgstr "Preparing build directories..."
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 205
+# File: usr/share/build-iso/local_builder.py, line: 261
 msgid "Cleaning work directory..."
 msgstr "Cleaning work directory..."
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 213
+# File: usr/share/build-iso/local_builder.py, line: 269
 msgid "Cleaning cache directory (--clean flag)..."
 msgstr "Cleaning cache directory (--clean flag)..."
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 241
+# File: usr/share/build-iso/local_builder.py, line: 297
 #, python-brace-format
 msgid "Created: {0}"
 msgstr "Created: {0}"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 254
+# File: usr/share/build-iso/local_builder.py, line: 310
 #, python-brace-format
 msgid "Error creating directories: {0}"
 msgstr "Error creating directories: {0}"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 264
+# File: usr/share/build-iso/local_builder.py, line: 320
 msgid "Cloning build-iso repository..."
 msgstr "Cloning build-iso repository..."
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 273
+# File: usr/share/build-iso/local_builder.py, line: 329
 #, python-brace-format
 msgid "Could not remove old build-iso: {0}"
 msgstr "Could not remove old build-iso: {0}"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 288
+# File: usr/share/build-iso/local_builder.py, line: 344
 msgid "Build script prepared"
 msgstr "Build script prepared"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 291
+# File: usr/share/build-iso/local_builder.py, line: 347
 msgid "Failed to clone build-iso repository"
 msgstr "Failed to clone build-iso repository"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 301
+# File: usr/share/build-iso/local_builder.py, line: 357
 #, python-brace-format
 msgid "Error cloning repository: {0}"
 msgstr "Error cloning repository: {0}"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 387
+# File: usr/share/build-iso/local_builder.py, line: 443
 msgid "Starting container build..."
 msgstr "Starting container build..."
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 388
+# File: usr/share/build-iso/local_builder.py, line: 444
 msgid "This may take 10-50 minutes depending on your hardware and network."
 msgstr "This may take 10-50 minutes depending on your hardware and network."
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 429
+# File: usr/share/build-iso/local_builder.py, line: 485
 msgid "Container build completed successfully"
 msgstr "Container build completed successfully"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 432
+# File: usr/share/build-iso/local_builder.py, line: 488
 #, python-brace-format
 msgid "Container build failed with exit code {0}"
 msgstr "Container build failed with exit code {0}"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 436
+# File: usr/share/build-iso/local_builder.py, line: 492
 msgid "Error running container"
 msgstr "Error running container"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 447
+# File: usr/share/build-iso/local_builder.py, line: 503
 msgid "Moving ISO files to output directory..."
 msgstr "Moving ISO files to output directory..."
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 457
+# File: usr/share/build-iso/local_builder.py, line: 513
 msgid "No ISO files found in work directory"
 msgstr "No ISO files found in work directory"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 467
+# File: usr/share/build-iso/local_builder.py, line: 523
 #, python-brace-format
 msgid "Moving: {0}"
 msgstr "Moving: {0}"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 494
+# File: usr/share/build-iso/local_builder.py, line: 550
 msgid "Generating MD5 checksum..."
 msgstr "Generating MD5 checksum..."
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 506
+# File: usr/share/build-iso/local_builder.py, line: 562
 #, python-brace-format
 msgid "Moved: {0}"
 msgstr "Moved: {0}"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 507
+# File: usr/share/build-iso/local_builder.py, line: 563
 #, python-brace-format
 msgid "MD5: {0}"
 msgstr "MD5: {0}"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 510
+# File: usr/share/build-iso/local_builder.py, line: 566
 msgid "Cleaning up work directory..."
 msgstr "Cleaning up work directory..."
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 513
-# File: usr/share/build-iso/local_builder.py, line: 516
+# File: usr/share/build-iso/local_builder.py, line: 569
+# File: usr/share/build-iso/local_builder.py, line: 572
 msgid "Work directory removed"
 msgstr "Work directory removed"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 518
+# File: usr/share/build-iso/local_builder.py, line: 574
 msgid "Cleanup completed"
 msgstr "Cleanup completed"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 522
+# File: usr/share/build-iso/local_builder.py, line: 578
 #, python-brace-format
 msgid "Error moving ISO files: {0}"
 msgstr "Error moving ISO files: {0}"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 532
+# File: usr/share/build-iso/local_builder.py, line: 588
 msgid "Cleaning up cache directories..."
 msgstr "Cleaning up cache directories..."
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 537
+# File: usr/share/build-iso/local_builder.py, line: 593
 msgid "Cache cleaned"
 msgstr "Cache cleaned"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 541
+# File: usr/share/build-iso/local_builder.py, line: 597
 msgid "Work directory cleaned"
 msgstr "Work directory cleaned"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 546
-# File: usr/share/build-iso/local_builder.py, line: 635
-# File: usr/share/build-iso/local_builder.py, line: 637
+# File: usr/share/build-iso/local_builder.py, line: 602
+# File: usr/share/build-iso/local_builder.py, line: 695
+# File: usr/share/build-iso/local_builder.py, line: 697
 #, python-brace-format
 msgid "Could not clean cache: {0}"
 msgstr "Could not clean cache: {0}"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 576
+# File: usr/share/build-iso/local_builder.py, line: 632
 msgid "Requesting sudo access for file operations..."
 msgstr "Requesting sudo access for file operations..."
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 579
+# File: usr/share/build-iso/local_builder.py, line: 635
 msgid "Sudo access required for local builds"
 msgstr "Sudo access required for local builds"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 593
+# File: usr/share/build-iso/local_builder.py, line: 649
 msgid "Docker or Podman not found"
 msgstr "Docker or Podman not found"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 594
+# File: usr/share/build-iso/local_builder.py, line: 650
 msgid "Install with: sudo pacman -S docker"
 msgstr "Install with: sudo pacman -S docker"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 595
+# File: usr/share/build-iso/local_builder.py, line: 651
 msgid "Or install Podman: sudo pacman -S podman"
 msgstr "Or install Podman: sudo pacman -S podman"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 615
+# File: usr/share/build-iso/local_builder.py, line: 675
 msgid "Build failed inside container"
 msgstr "Build failed inside container"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 616
+# File: usr/share/build-iso/local_builder.py, line: 676
 #, python-brace-format
 msgid "Work directory preserved for debugging: {0}"
 msgstr "Work directory preserved for debugging: {0}"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 622
+# File: usr/share/build-iso/local_builder.py, line: 682
 msgid "Could not move ISO files, check manually"
 msgstr "Could not move ISO files, check manually"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 626
+# File: usr/share/build-iso/local_builder.py, line: 686
 msgid "Cleaning package cache..."
 msgstr "Cleaning package cache..."
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 629
-# File: usr/share/build-iso/local_builder.py, line: 633
+# File: usr/share/build-iso/local_builder.py, line: 689
+# File: usr/share/build-iso/local_builder.py, line: 693
 msgid "Cache cleaned successfully"
 msgstr "Cache cleaned successfully"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 644
+# File: usr/share/build-iso/local_builder.py, line: 704
 msgid "Cleaning up containers..."
 msgstr "Cleaning up containers..."
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 657
+# File: usr/share/build-iso/local_builder.py, line: 717
 msgid "Local build completed successfully!"
 msgstr "Local build completed successfully!"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 658
+# File: usr/share/build-iso/local_builder.py, line: 718
 #, python-brace-format
 msgid "ISO files saved to: {0}"
 msgstr "ISO files saved to: {0}"
@@ -939,7 +975,7 @@ msgstr "ISO files saved to: {0}"
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-iso/local_builder.py, line: 663
+# File: usr/share/build-iso/local_builder.py, line: 723
 # File: usr/share/build-package/core/git_utils.py, line: 326
 # File: usr/share/build-package/core/build_package.py, line: 1074
 # File: usr/share/build-package/core/github_api.py, line: 299
@@ -948,7 +984,7 @@ msgid "Unexpected error: {0}"
 msgstr "Unexpected error: {0}"
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 664
+# File: usr/share/build-iso/local_builder.py, line: 724
 #, python-brace-format
 msgid "Work directory preserved at: {0}"
 msgstr "Work directory preserved at: {0}"
@@ -1141,7 +1177,7 @@ msgstr "Select an option:"
 # File: usr/share/build-package/gui/widgets/aur_widget.py, line: 272
 # File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 361
 # File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 423
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 408
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 462
 # File: usr/share/build-package/gui/gtk_adapters.py, line: 311
 # File: usr/share/build-package/gui/main_window.py, line: 573
 # File: usr/share/build-package/gui/main_window.py, line: 823
@@ -1282,8 +1318,8 @@ msgstr "Clear"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/gui/widgets/aur_widget.py, line: 130
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 182
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 378
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 193
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 456
 msgid "Build AUR Package"
 msgstr "Build AUR Package"
 
@@ -1477,7 +1513,7 @@ msgstr "Revert Selected"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
 # File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 228
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 305
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 383
 msgid "No commits yet"
 msgstr "No commits yet"
 
@@ -1504,9 +1540,9 @@ msgstr "Error refreshing commits: {0}"
 # File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 295
 # File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 315
 # File: usr/share/build-package/gui/widgets/advanced_widget.py, line: 341
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 260
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 260
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 290
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 274
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 261
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 291
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 301
 # File: usr/share/build-package/gui/main_window.py, line: 456
 msgid "Unknown"
@@ -1607,9 +1643,28 @@ msgstr "Commits"
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 141
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 112
+msgid "Changed Files"
+msgstr "Changed Files"
+
+#
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 145
+msgid "View changed files"
+msgstr "View changed files"
+
+#
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 146
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 373
+msgid "Click to expand"
+msgstr "Click to expand"
+
+#
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 141
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 152
 # File: usr/share/build-package/gui/widgets/branch_widget.py, line: 127
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 269
 msgid "Quick Actions"
@@ -1618,15 +1673,15 @@ msgstr "Quick Actions"
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 152
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 348
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 199
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 163
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 426
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 207
 msgid "Pull Latest"
 msgstr "Pull Latest"
 
 #
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 153
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 349
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 164
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 427
 msgid "Pull latest changes from remote repository"
 msgstr "Pull latest changes from remote repository"
 
@@ -1637,10 +1692,10 @@ msgstr "Pull latest changes from remote repository"
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 158
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 354
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 169
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 432
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 70
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 206
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 214
 # File: usr/share/build-package/gui/main_window.py, line: 220
 # File: usr/share/build-package/gui/main_window.py, line: 1363
 # File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 112
@@ -1648,119 +1703,188 @@ msgid "Commit and Push"
 msgstr "Commit and Push"
 
 #
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 159
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 355
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 170
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 433
 msgid "Stage changes and push to development branch"
 msgstr "Stage changes and push to development branch"
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 168
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 364
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 179
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 442
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 359
 msgid "Build Testing Package"
 msgstr "Build Testing Package"
 
 #
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 169
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 365
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 180
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 443
 msgid "Build and deploy to testing repository"
 msgstr "Build and deploy to testing repository"
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 174
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 370
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 185
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 448
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 360
 msgid "Build Stable Package"
 msgstr "Build Stable Package"
 
 #
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 175
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 371
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 186
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 449
 msgid "Build and deploy to stable repository"
 msgstr "Build and deploy to stable repository"
 
 #
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 183
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 379
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 194
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 457
 msgid "Build package from Arch User Repository"
 msgstr "Build package from Arch User Repository"
 
 #
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 198
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 212
 msgid "Recent Activity"
 msgstr "Recent Activity"
 
 #
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 201
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 215
 msgid "No recent activity"
 msgstr "No recent activity"
 
 #
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 202
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 216
 msgid "Activity will appear here after operations"
 msgstr "Activity will appear here after operations"
 
 #
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 215
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 229
 msgid "Show welcome screen"
 msgstr "Show welcome screen"
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 221
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 235
 # File: usr/share/build-package/gui/main_gui.py, line: 231
 msgid "Refresh Status"
 msgstr "Refresh Status"
 
 #
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 222
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 236
 msgid "Refresh repository status and information"
 msgstr "Refresh repository status and information"
 
 #
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 238
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 252
 #, python-brace-format
 msgid "Error refreshing overview: {0}"
 msgstr "Error refreshing overview: {0}"
 
 #
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 243
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 257
 msgid "Not a Git repo"
 msgstr "Not a Git repo"
 
 #
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 253
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 267
 msgid "Local repo"
 msgstr "Local repo"
 
 #
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 267
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 283
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 339
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 418
 msgid "Modified"
 msgstr "Modified"
 
 #
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 271
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 294
 msgid "No changes"
 msgstr "No changes"
 
 #
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 296
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 324
 #, python-brace-format
 msgid "Error updating status cards: {0}"
 msgstr "Error updating status cards: {0}"
 
 #
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 306
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 340
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 419
+msgid "Added"
+msgstr "Added"
+
+#
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 341
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 420
+msgid "Deleted"
+msgstr "Deleted"
+
+#
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 342
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 421
+msgid "Renamed"
+msgstr "Renamed"
+
+#
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 343
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 422
+msgid "Copied"
+msgstr "Copied"
+
+#
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 344
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 423
+msgid "Untracked"
+msgstr "Untracked"
+
+#
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 345
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 424
+msgid "Added+Modified"
+msgstr "Added+Modified"
+
+#
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 346
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 425
+msgid "Modified (staged+unstaged)"
+msgstr "Modified (staged+unstaged)"
+
+#
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+#
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 371
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 449
+#, python-brace-format
+msgid "{0} changed file(s)"
+msgstr "{0} changed file(s)"
+
+#
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 384
 msgid "Create your first commit to start tracking activity"
 msgstr "Create your first commit to start tracking activity"
 
 #
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 319
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 397
 msgid "Last commit"
 msgstr "Last commit"
 
@@ -1933,17 +2057,22 @@ msgid "Undo last commit (keep changes)"
 msgstr "Undo last commit (keep changes)"
 
 #
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 113
+msgid "Click to view files"
+msgstr "Click to view files"
+
+#
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 114
-# File: usr/share/build-package/gui/main_window.py, line: 1464
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 121
+# File: usr/share/build-package/gui/main_window.py, line: 1470
 msgid "Commit"
 msgstr "Commit"
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 121
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 128
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 153
 msgid "Commit Type"
 msgstr "Commit Type"
@@ -1951,36 +2080,36 @@ msgstr "Commit Type"
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 122
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 129
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 154
 msgid "Select the type of change"
 msgstr "Select the type of change"
 
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 148
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 156
 msgid "Commit Message"
 msgstr "Commit Message"
 
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 152
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 160
 msgid "Description (supports multiple lines)"
 msgstr "Description (supports multiple lines)"
 
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 200
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 208
 msgid "Pull latest changes from remote"
 msgstr "Pull latest changes from remote"
 
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 243
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 240
 # File: usr/share/build-package/gui/widgets/package_widget.py, line: 316
 msgid "Uncommitted changes present"
 msgstr "Uncommitted changes present"
 
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 245
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 242
 msgid "You have uncommitted changes that need to be committed"
 msgstr "You have uncommitted changes that need to be committed"
 
@@ -1998,34 +2127,34 @@ msgid "No pending changes - working directory is clean"
 msgstr "No pending changes - working directory is clean"
 
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 264
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 265
 msgid "No commits yet (this will be your first!)"
 msgstr "No commits yet (this will be your first!)"
 
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 284
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 287
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 285
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 288
 msgid "No commits"
 msgstr "No commits"
 
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 338
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 342
 msgid "Custom message (supports multiple lines)"
 msgstr "Custom message (supports multiple lines)"
 
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 340
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 344
 #, python-brace-format
 msgid "Description for {0} (supports multiple lines)"
 msgstr "Description for {0} (supports multiple lines)"
 
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 404
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 458
 msgid "Undo Last Commit?"
 msgstr "Undo Last Commit?"
 
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 405
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 459
 msgid ""
 "This will undo your last commit but keep all changes in your working "
 "directory.\n"
@@ -2038,7 +2167,7 @@ msgstr ""
 "You can then modify files and commit again."
 
 #
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 409
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 463
 msgid "Undo Commit"
 msgstr "Undo Commit"
 
@@ -2776,13 +2905,13 @@ msgid "Close"
 msgstr "Close"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 1458
+# File: usr/share/build-package/gui/main_window.py, line: 1464
 #, python-brace-format
 msgid "Commit ({0} pending changes)"
 msgstr "Commit ({0} pending changes)"
 
 #
-# File: usr/share/build-package/gui/main_window.py, line: 1470
+# File: usr/share/build-package/gui/main_window.py, line: 1476
 #, python-brace-format
 msgid "Error updating nav badges: {0}"
 msgstr "Error updating nav badges: {0}"
