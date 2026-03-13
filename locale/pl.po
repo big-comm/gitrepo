@@ -561,6 +561,43 @@ msgstr ""
 msgid "Stopping {0} old container(s)..."
 msgstr ""
 # 
+# File: usr/share/build-iso/local_builder.py, line: 166
+#: NEEDS WORK
+msgid "Stopping Docker services..."
+msgstr "Zatrzymywanie usług Docker..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 185
+#: NEEDS WORK
+msgid "Removing old Docker storage (btrfs)..."
+msgstr "Usuwanie starego magazynu Docker (btrfs)..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 189
+#: NEEDS WORK
+msgid "Starting Docker with overlay2..."
+msgstr "Uruchamianie Dockera z overlay2..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 180
+#: NEEDS WORK
+msgid "Docker switched to overlay2 successfully"
+msgstr "Docker pomyślnie przełączył się na overlay2"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 211
+#: NEEDS WORK
+#, python-brace-format
+msgid "Docker driver is '{0}' after migration (expected 'overlay2')"
+msgstr "Sterownik Docker to '{0}' po migracji (oczekiwano 'overlay2')"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 212
+#: NEEDS WORK
+msgid "Check /etc/docker/daemon.json and Docker logs: journalctl -u docker"
+msgstr "Sprawdź /etc/docker/daemon.json i logi Dockera: journalctl -u docker"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 216
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during Docker migration: {0}"
+msgstr "Błąd podczas migracji Dockera: {0}"
+# 
 # File: usr/share/build-iso/local_builder.py, line: 157
 #: NEEDS WORK
 msgid "Docker is using the 'btrfs' storage driver, which is deprecated"
@@ -571,30 +608,21 @@ msgstr "Docker używa sterownika magazynu 'btrfs', który jest przestarzały."
 msgid "and may cause 'Failed to create btrfs snapshot' errors."
 msgstr "i może powodować błędy 'Nie udało się utworzyć migawki btrfs'."
 # 
-# File: usr/share/build-iso/local_builder.py, line: 159
+# File: usr/share/build-iso/local_builder.py, line: 253
 #: NEEDS WORK
-msgid "Recommended: switch to 'overlay2' storage driver."
-msgstr "Zalecane: przełącz się na sterownik magazynu 'overlay2'."
+msgid "Automatically switching to 'overlay2' storage driver..."
+msgstr "Automatyczne przełączanie na sterownik magazynowania 'overlay2'..."
 # 
 # File: usr/share/build-iso/local_builder.py, line: 160
 #: NEEDS WORK
 msgid "This requires recreating Docker storage (images will be re-downloaded)."
 msgstr "To wymaga ponownego utworzenia pamięci Docker (obrazy zostaną ponownie pobrane)."
 # 
-# File: usr/share/build-iso/local_builder.py, line: 162
+# File: usr/share/build-iso/local_builder.py, line: 259
 #: NEEDS WORK
-msgid "Switch Docker to overlay2? [y/n] (y): "
-msgstr "Przełączyć Dockera na overlay2? [t/n] (t):"
-# 
-# File: usr/share/build-iso/local_builder.py, line: 180
-#: NEEDS WORK
-msgid "Docker switched to overlay2 successfully"
-msgstr "Docker pomyślnie przełączył się na overlay2"
-# 
-# File: usr/share/build-iso/local_builder.py, line: 183
-#: NEEDS WORK
-msgid "Continuing with btrfs driver (may fail)..."
-msgstr "Kontynuowanie z sterownikiem btrfs (może się nie powieść)..."
+#, python-brace-format
+msgid "Error checking Docker storage driver: {0}"
+msgstr "Błąd podczas sprawdzania sterownika pamięci Docker: {0}"
 # 
 # File: usr/share/build-iso/local_builder.py, line: 142
 #, python-brace-format

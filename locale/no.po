@@ -562,6 +562,43 @@ msgstr ""
 msgid "Stopping {0} old container(s)..."
 msgstr ""
 # 
+# File: usr/share/build-iso/local_builder.py, line: 166
+#: NEEDS WORK
+msgid "Stopping Docker services..."
+msgstr "Stopper Docker-tjenester..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 185
+#: NEEDS WORK
+msgid "Removing old Docker storage (btrfs)..."
+msgstr "Fjerner gammel Docker-lagring (btrfs)..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 189
+#: NEEDS WORK
+msgid "Starting Docker with overlay2..."
+msgstr "Starter Docker med overlay2..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 180
+#: NEEDS WORK
+msgid "Docker switched to overlay2 successfully"
+msgstr "Docker byttet til overlay2 med suksess"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 211
+#: NEEDS WORK
+#, python-brace-format
+msgid "Docker driver is '{0}' after migration (expected 'overlay2')"
+msgstr "Docker-driveren er '{0}' etter migrering (forventet 'overlay2')"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 212
+#: NEEDS WORK
+msgid "Check /etc/docker/daemon.json and Docker logs: journalctl -u docker"
+msgstr "Sjekk /etc/docker/daemon.json og Docker-loggene: journalctl -u docker"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 216
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during Docker migration: {0}"
+msgstr "Feil under Docker-migrering: {0}"
+# 
 # File: usr/share/build-iso/local_builder.py, line: 157
 #: NEEDS WORK
 msgid "Docker is using the 'btrfs' storage driver, which is deprecated"
@@ -572,30 +609,21 @@ msgstr "Docker bruker 'btrfs' lagringsdriveren, som er avviklet."
 msgid "and may cause 'Failed to create btrfs snapshot' errors."
 msgstr "og kan føre til feilene 'Mislyktes med å opprette btrfs-snapshot'."
 # 
-# File: usr/share/build-iso/local_builder.py, line: 159
+# File: usr/share/build-iso/local_builder.py, line: 253
 #: NEEDS WORK
-msgid "Recommended: switch to 'overlay2' storage driver."
-msgstr "Anbefalt: bytt til 'overlay2' lagringsdriver."
+msgid "Automatically switching to 'overlay2' storage driver..."
+msgstr "Bytter automatisk til 'overlay2' lagringsdriver..."
 # 
 # File: usr/share/build-iso/local_builder.py, line: 160
 #: NEEDS WORK
 msgid "This requires recreating Docker storage (images will be re-downloaded)."
 msgstr "Dette krever gjenoppretting av Docker-lagring (bilder vil bli lastet ned på nytt)."
 # 
-# File: usr/share/build-iso/local_builder.py, line: 162
+# File: usr/share/build-iso/local_builder.py, line: 259
 #: NEEDS WORK
-msgid "Switch Docker to overlay2? [y/n] (y): "
-msgstr "Bytt Docker til overlay2? [j/n] (j):"
-# 
-# File: usr/share/build-iso/local_builder.py, line: 180
-#: NEEDS WORK
-msgid "Docker switched to overlay2 successfully"
-msgstr "Docker byttet til overlay2 med suksess"
-# 
-# File: usr/share/build-iso/local_builder.py, line: 183
-#: NEEDS WORK
-msgid "Continuing with btrfs driver (may fail)..."
-msgstr "Fortsetter med btrfs-driver (kan feile)..."
+#, python-brace-format
+msgid "Error checking Docker storage driver: {0}"
+msgstr "Feil ved sjekk av Docker lagringsdriver: {0}"
 # 
 # File: usr/share/build-iso/local_builder.py, line: 142
 #, python-brace-format

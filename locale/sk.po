@@ -565,6 +565,43 @@ msgstr "Súbor so správou o odovzdaní nebol nájdený: {0}"
 msgid "Stopping {0} old container(s)..."
 msgstr "Automaticky zlučujem {0} do main..."
 # 
+# File: usr/share/build-iso/local_builder.py, line: 166
+#: NEEDS WORK
+msgid "Stopping Docker services..."
+msgstr "Zastavovanie služieb Docker..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 185
+#: NEEDS WORK
+msgid "Removing old Docker storage (btrfs)..."
+msgstr "Odstraňovanie starého Docker úložiska (btrfs)..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 189
+#: NEEDS WORK
+msgid "Starting Docker with overlay2..."
+msgstr "Spúšťanie Dockera s overlay2..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 180
+#: NEEDS WORK
+msgid "Docker switched to overlay2 successfully"
+msgstr "Docker sa úspešne prepol na overlay2"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 211
+#: NEEDS WORK
+#, python-brace-format
+msgid "Docker driver is '{0}' after migration (expected 'overlay2')"
+msgstr "Docker ovládač je '{0}' po migrácii (očakávané 'overlay2')"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 212
+#: NEEDS WORK
+msgid "Check /etc/docker/daemon.json and Docker logs: journalctl -u docker"
+msgstr "Skontrolujte /etc/docker/daemon.json a Docker záznamy: journalctl -u docker"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 216
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during Docker migration: {0}"
+msgstr "Chyba počas migrácie Dockeru: {0}"
+# 
 # File: usr/share/build-iso/local_builder.py, line: 157
 #: NEEDS WORK
 msgid "Docker is using the 'btrfs' storage driver, which is deprecated"
@@ -575,30 +612,21 @@ msgstr "Docker používa úložný ovládač 'btrfs', ktorý je zastaraný."
 msgid "and may cause 'Failed to create btrfs snapshot' errors."
 msgstr "a môže spôsobiť chyby 'Nepodarilo sa vytvoriť btrfs snímku'."
 # 
-# File: usr/share/build-iso/local_builder.py, line: 159
+# File: usr/share/build-iso/local_builder.py, line: 253
 #: NEEDS WORK
-msgid "Recommended: switch to 'overlay2' storage driver."
-msgstr "Odporúčané: prepnite na úložný ovládač 'overlay2'."
+msgid "Automatically switching to 'overlay2' storage driver..."
+msgstr "Automatické prepínanie na úložný ovládač 'overlay2'..."
 # 
 # File: usr/share/build-iso/local_builder.py, line: 160
 #: NEEDS WORK
 msgid "This requires recreating Docker storage (images will be re-downloaded)."
 msgstr "To je potrebné na obnovenie úložiska Docker (obrázky budú znovu stiahnuté)."
 # 
-# File: usr/share/build-iso/local_builder.py, line: 162
+# File: usr/share/build-iso/local_builder.py, line: 259
 #: NEEDS WORK
-msgid "Switch Docker to overlay2? [y/n] (y): "
-msgstr "Prepnúť Docker na overlay2? [a/n] (a):"
-# 
-# File: usr/share/build-iso/local_builder.py, line: 180
-#: NEEDS WORK
-msgid "Docker switched to overlay2 successfully"
-msgstr "Docker sa úspešne prepol na overlay2"
-# 
-# File: usr/share/build-iso/local_builder.py, line: 183
-#: NEEDS WORK
-msgid "Continuing with btrfs driver (may fail)..."
-msgstr "Pokračovanie s ovládačom btrfs (môže zlyhať)..."
+#, python-brace-format
+msgid "Error checking Docker storage driver: {0}"
+msgstr "Chyba pri kontrole ovládača úložiska Docker: {0}"
 # 
 # File: usr/share/build-iso/local_builder.py, line: 142
 #, python-brace-format

@@ -559,6 +559,43 @@ msgstr ""
 msgid "Stopping {0} old container(s)..."
 msgstr ""
 # 
+# File: usr/share/build-iso/local_builder.py, line: 166
+#: NEEDS WORK
+msgid "Stopping Docker services..."
+msgstr "停止 Docker 服务..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 185
+#: NEEDS WORK
+msgid "Removing old Docker storage (btrfs)..."
+msgstr "正在移除旧的 Docker 存储 (btrfs)..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 189
+#: NEEDS WORK
+msgid "Starting Docker with overlay2..."
+msgstr "正在使用 overlay2 启动 Docker..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 180
+#: NEEDS WORK
+msgid "Docker switched to overlay2 successfully"
+msgstr "Docker 成功切换到 overlay2"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 211
+#: NEEDS WORK
+#, python-brace-format
+msgid "Docker driver is '{0}' after migration (expected 'overlay2')"
+msgstr "迁移后Docker驱动程序为'{0}'（预期为'overlay2'）"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 212
+#: NEEDS WORK
+msgid "Check /etc/docker/daemon.json and Docker logs: journalctl -u docker"
+msgstr "检查 /etc/docker/daemon.json 和 Docker 日志：journalctl -u docker"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 216
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during Docker migration: {0}"
+msgstr "Docker迁移期间出错：{0}"
+# 
 # File: usr/share/build-iso/local_builder.py, line: 157
 #: NEEDS WORK
 msgid "Docker is using the 'btrfs' storage driver, which is deprecated"
@@ -569,30 +606,21 @@ msgstr "Docker 正在使用已弃用的 'btrfs' 存储驱动程序。"
 msgid "and may cause 'Failed to create btrfs snapshot' errors."
 msgstr "并可能导致“创建 btrfs 快照失败”错误。"
 # 
-# File: usr/share/build-iso/local_builder.py, line: 159
+# File: usr/share/build-iso/local_builder.py, line: 253
 #: NEEDS WORK
-msgid "Recommended: switch to 'overlay2' storage driver."
-msgstr "推荐：切换到 'overlay2' 存储驱动程序。"
+msgid "Automatically switching to 'overlay2' storage driver..."
+msgstr "自动切换到 'overlay2' 存储驱动..."
 # 
 # File: usr/share/build-iso/local_builder.py, line: 160
 #: NEEDS WORK
 msgid "This requires recreating Docker storage (images will be re-downloaded)."
 msgstr "这需要重新创建Docker存储（镜像将被重新下载）。"
 # 
-# File: usr/share/build-iso/local_builder.py, line: 162
+# File: usr/share/build-iso/local_builder.py, line: 259
 #: NEEDS WORK
-msgid "Switch Docker to overlay2? [y/n] (y): "
-msgstr "将 Docker 切换到 overlay2？[y/n] (y)："
-# 
-# File: usr/share/build-iso/local_builder.py, line: 180
-#: NEEDS WORK
-msgid "Docker switched to overlay2 successfully"
-msgstr "Docker 成功切换到 overlay2"
-# 
-# File: usr/share/build-iso/local_builder.py, line: 183
-#: NEEDS WORK
-msgid "Continuing with btrfs driver (may fail)..."
-msgstr "继续使用 btrfs 驱动程序（可能会失败）..."
+#, python-brace-format
+msgid "Error checking Docker storage driver: {0}"
+msgstr "检查 Docker 存储驱动程序时出错：{0}"
 # 
 # File: usr/share/build-iso/local_builder.py, line: 142
 #, python-brace-format

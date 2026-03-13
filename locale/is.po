@@ -560,6 +560,43 @@ msgstr ""
 msgid "Stopping {0} old container(s)..."
 msgstr ""
 # 
+# File: usr/share/build-iso/local_builder.py, line: 166
+#: NEEDS WORK
+msgid "Stopping Docker services..."
+msgstr "Að stöðva Docker þjónustur..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 185
+#: NEEDS WORK
+msgid "Removing old Docker storage (btrfs)..."
+msgstr "Að fjarlægja gamla Docker geymslu (btrfs)..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 189
+#: NEEDS WORK
+msgid "Starting Docker with overlay2..."
+msgstr "Að hefja Docker með overlay2..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 180
+#: NEEDS WORK
+msgid "Docker switched to overlay2 successfully"
+msgstr "Docker hefur verið skipt yfir í overlay2 með góðum árangri"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 211
+#: NEEDS WORK
+#, python-brace-format
+msgid "Docker driver is '{0}' after migration (expected 'overlay2')"
+msgstr "Docker driftið er '{0}' eftir flutning (væntanlegt 'overlay2')"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 212
+#: NEEDS WORK
+msgid "Check /etc/docker/daemon.json and Docker logs: journalctl -u docker"
+msgstr "Athugaðu /etc/docker/daemon.json og Docker skráir: journalctl -u docker"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 216
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during Docker migration: {0}"
+msgstr "Villa við Docker flutning: {0}"
+# 
 # File: usr/share/build-iso/local_builder.py, line: 157
 #: NEEDS WORK
 msgid "Docker is using the 'btrfs' storage driver, which is deprecated"
@@ -570,30 +607,21 @@ msgstr "Docker notar 'btrfs' geymslu drifir, sem er úrelt."
 msgid "and may cause 'Failed to create btrfs snapshot' errors."
 msgstr "og getur valdið 'Mistókst að búa til btrfs mynd' villum."
 # 
-# File: usr/share/build-iso/local_builder.py, line: 159
+# File: usr/share/build-iso/local_builder.py, line: 253
 #: NEEDS WORK
-msgid "Recommended: switch to 'overlay2' storage driver."
-msgstr "Mælt er með: skipta yfir í 'overlay2' geymsluþjón."
+msgid "Automatically switching to 'overlay2' storage driver..."
+msgstr "Sjálfvirkt skipt yfir í 'overlay2' geymsluþjón."
 # 
 # File: usr/share/build-iso/local_builder.py, line: 160
 #: NEEDS WORK
 msgid "This requires recreating Docker storage (images will be re-downloaded)."
 msgstr "Þetta krefst endurgerðar á Docker geymslu (myndirnar verða endurhlaðnar)."
 # 
-# File: usr/share/build-iso/local_builder.py, line: 162
+# File: usr/share/build-iso/local_builder.py, line: 259
 #: NEEDS WORK
-msgid "Switch Docker to overlay2? [y/n] (y): "
-msgstr "Viltu skipta Docker yfir í overlay2? [j/n] (j):"
-# 
-# File: usr/share/build-iso/local_builder.py, line: 180
-#: NEEDS WORK
-msgid "Docker switched to overlay2 successfully"
-msgstr "Docker hefur verið skipt yfir í overlay2 með góðum árangri"
-# 
-# File: usr/share/build-iso/local_builder.py, line: 183
-#: NEEDS WORK
-msgid "Continuing with btrfs driver (may fail)..."
-msgstr "Halda áfram með btrfs drif (gæti mistekist)..."
+#, python-brace-format
+msgid "Error checking Docker storage driver: {0}"
+msgstr "Villa að athuga Docker geymslu drif: {0}"
 # 
 # File: usr/share/build-iso/local_builder.py, line: 142
 #, python-brace-format

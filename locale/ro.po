@@ -562,6 +562,43 @@ msgstr ""
 msgid "Stopping {0} old container(s)..."
 msgstr ""
 # 
+# File: usr/share/build-iso/local_builder.py, line: 166
+#: NEEDS WORK
+msgid "Stopping Docker services..."
+msgstr "Oprirea serviciilor Docker..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 185
+#: NEEDS WORK
+msgid "Removing old Docker storage (btrfs)..."
+msgstr "Eliminarea stocării vechi Docker (btrfs)..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 189
+#: NEEDS WORK
+msgid "Starting Docker with overlay2..."
+msgstr "Pornind Docker cu overlay2..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 180
+#: NEEDS WORK
+msgid "Docker switched to overlay2 successfully"
+msgstr "Docker a trecut la overlay2 cu succes"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 211
+#: NEEDS WORK
+#, python-brace-format
+msgid "Docker driver is '{0}' after migration (expected 'overlay2')"
+msgstr "Driverul Docker este '{0}' după migrare (așteptat 'overlay2')"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 212
+#: NEEDS WORK
+msgid "Check /etc/docker/daemon.json and Docker logs: journalctl -u docker"
+msgstr "Verifica /etc/docker/daemon.json și jurnalele Docker: journalctl -u docker"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 216
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during Docker migration: {0}"
+msgstr "Eroare în timpul migrației Docker: {0}"
+# 
 # File: usr/share/build-iso/local_builder.py, line: 157
 #: NEEDS WORK
 msgid "Docker is using the 'btrfs' storage driver, which is deprecated"
@@ -572,30 +609,21 @@ msgstr "Docker folosește driverul de stocare 'btrfs', care este depreciat."
 msgid "and may cause 'Failed to create btrfs snapshot' errors."
 msgstr "și poate cauza erori de tip 'Eșec la crearea instantaneului btrfs'."
 # 
-# File: usr/share/build-iso/local_builder.py, line: 159
+# File: usr/share/build-iso/local_builder.py, line: 253
 #: NEEDS WORK
-msgid "Recommended: switch to 'overlay2' storage driver."
-msgstr "Recomandat: comutați la driverul de stocare 'overlay2'."
+msgid "Automatically switching to 'overlay2' storage driver..."
+msgstr "Comutare automat la driverul de stocare 'overlay2'..."
 # 
 # File: usr/share/build-iso/local_builder.py, line: 160
 #: NEEDS WORK
 msgid "This requires recreating Docker storage (images will be re-downloaded)."
 msgstr "Aceasta necesită recrearea stocării Docker (imaginile vor fi descărcate din nou)."
 # 
-# File: usr/share/build-iso/local_builder.py, line: 162
+# File: usr/share/build-iso/local_builder.py, line: 259
 #: NEEDS WORK
-msgid "Switch Docker to overlay2? [y/n] (y): "
-msgstr "Schimbă Docker la overlay2? [y/n] (y):"
-# 
-# File: usr/share/build-iso/local_builder.py, line: 180
-#: NEEDS WORK
-msgid "Docker switched to overlay2 successfully"
-msgstr "Docker a trecut la overlay2 cu succes"
-# 
-# File: usr/share/build-iso/local_builder.py, line: 183
-#: NEEDS WORK
-msgid "Continuing with btrfs driver (may fail)..."
-msgstr "Continuând cu driverul btrfs (poate eșua)..."
+#, python-brace-format
+msgid "Error checking Docker storage driver: {0}"
+msgstr "Eroare la verificarea driverului de stocare Docker: {0}"
 # 
 # File: usr/share/build-iso/local_builder.py, line: 142
 #, python-brace-format

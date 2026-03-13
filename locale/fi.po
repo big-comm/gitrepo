@@ -562,6 +562,43 @@ msgstr ""
 msgid "Stopping {0} old container(s)..."
 msgstr ""
 # 
+# File: usr/share/build-iso/local_builder.py, line: 166
+#: NEEDS WORK
+msgid "Stopping Docker services..."
+msgstr "Pysäytetään Docker-palvelut..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 185
+#: NEEDS WORK
+msgid "Removing old Docker storage (btrfs)..."
+msgstr "Poistetaan vanhaa Docker-tallennustilaa (btrfs)..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 189
+#: NEEDS WORK
+msgid "Starting Docker with overlay2..."
+msgstr "Käynnistetään Docker overlay2:lla..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 180
+#: NEEDS WORK
+msgid "Docker switched to overlay2 successfully"
+msgstr "Docker vaihtoi overlay2:een onnistuneesti"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 211
+#: NEEDS WORK
+#, python-brace-format
+msgid "Docker driver is '{0}' after migration (expected 'overlay2')"
+msgstr "Docker-ohjain on '{0}' siirron jälkeen (odotettu 'overlay2')"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 212
+#: NEEDS WORK
+msgid "Check /etc/docker/daemon.json and Docker logs: journalctl -u docker"
+msgstr "Tarkista /etc/docker/daemon.json ja Docker-lokit: journalctl -u docker"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 216
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during Docker migration: {0}"
+msgstr "Virhe Docker-migraatiossa: {0}"
+# 
 # File: usr/share/build-iso/local_builder.py, line: 157
 #: NEEDS WORK
 msgid "Docker is using the 'btrfs' storage driver, which is deprecated"
@@ -572,30 +609,21 @@ msgstr "Docker käyttää 'btrfs' tallennusohjainta, joka on vanhentunut."
 msgid "and may cause 'Failed to create btrfs snapshot' errors."
 msgstr "ja saattaa aiheuttaa 'Btrfs-tilannekuvan luominen epäonnistui' -virheitä."
 # 
-# File: usr/share/build-iso/local_builder.py, line: 159
+# File: usr/share/build-iso/local_builder.py, line: 253
 #: NEEDS WORK
-msgid "Recommended: switch to 'overlay2' storage driver."
-msgstr "Suositeltavaa: vaihda 'overlay2' tallennusohjaimeen."
+msgid "Automatically switching to 'overlay2' storage driver..."
+msgstr "Siirtyminen automaattisesti 'overlay2' tallennusohjaimeen..."
 # 
 # File: usr/share/build-iso/local_builder.py, line: 160
 #: NEEDS WORK
 msgid "This requires recreating Docker storage (images will be re-downloaded)."
 msgstr "Tämä vaatii Docker-tallennustilan uudelleenluomista (kuvat ladataan uudelleen)."
 # 
-# File: usr/share/build-iso/local_builder.py, line: 162
+# File: usr/share/build-iso/local_builder.py, line: 259
 #: NEEDS WORK
-msgid "Switch Docker to overlay2? [y/n] (y): "
-msgstr "Vaihda Docker overlay2:ksi? [k/e] (k):"
-# 
-# File: usr/share/build-iso/local_builder.py, line: 180
-#: NEEDS WORK
-msgid "Docker switched to overlay2 successfully"
-msgstr "Docker vaihtoi overlay2:een onnistuneesti"
-# 
-# File: usr/share/build-iso/local_builder.py, line: 183
-#: NEEDS WORK
-msgid "Continuing with btrfs driver (may fail)..."
-msgstr "Jatketaan btrfs-ohjaimen kanssa (voi epäonnistua)..."
+#, python-brace-format
+msgid "Error checking Docker storage driver: {0}"
+msgstr "Virhe tarkistaessa Docker-tallennusohjainta: {0}"
 # 
 # File: usr/share/build-iso/local_builder.py, line: 142
 #, python-brace-format

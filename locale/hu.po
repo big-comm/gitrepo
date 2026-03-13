@@ -562,6 +562,43 @@ msgstr ""
 msgid "Stopping {0} old container(s)..."
 msgstr ""
 # 
+# File: usr/share/build-iso/local_builder.py, line: 166
+#: NEEDS WORK
+msgid "Stopping Docker services..."
+msgstr "Docker szolgáltatások leállítása..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 185
+#: NEEDS WORK
+msgid "Removing old Docker storage (btrfs)..."
+msgstr "Régi Docker tároló eltávolítása (btrfs)..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 189
+#: NEEDS WORK
+msgid "Starting Docker with overlay2..."
+msgstr "Docker indítása overlay2-vel..."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 180
+#: NEEDS WORK
+msgid "Docker switched to overlay2 successfully"
+msgstr "A Docker sikeresen váltott overlay2-re."
+# 
+# File: usr/share/build-iso/local_builder.py, line: 211
+#: NEEDS WORK
+#, python-brace-format
+msgid "Docker driver is '{0}' after migration (expected 'overlay2')"
+msgstr "A Docker illesztőprogram '{0}' a migráció után (várt 'overlay2')"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 212
+#: NEEDS WORK
+msgid "Check /etc/docker/daemon.json and Docker logs: journalctl -u docker"
+msgstr "Ellenőrizze a /etc/docker/daemon.json fájlt és a Docker naplókat: journalctl -u docker"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 216
+#: NEEDS WORK
+#, python-brace-format
+msgid "Error during Docker migration: {0}"
+msgstr "Hiba a Docker migráció során: {0}"
+# 
 # File: usr/share/build-iso/local_builder.py, line: 157
 #: NEEDS WORK
 msgid "Docker is using the 'btrfs' storage driver, which is deprecated"
@@ -572,30 +609,21 @@ msgstr "A Docker a 'btrfs' tárolómeghajtót használja, amely elavult."
 msgid "and may cause 'Failed to create btrfs snapshot' errors."
 msgstr "és okozhatja a 'Btrfs pillanatkép létrehozása nem sikerült' hibákat."
 # 
-# File: usr/share/build-iso/local_builder.py, line: 159
+# File: usr/share/build-iso/local_builder.py, line: 253
 #: NEEDS WORK
-msgid "Recommended: switch to 'overlay2' storage driver."
-msgstr "Ajánlott: váltson az 'overlay2' tárolómeghajtóra."
+msgid "Automatically switching to 'overlay2' storage driver..."
+msgstr "Automatikusan váltás az 'overlay2' tárolómeghajtóra..."
 # 
 # File: usr/share/build-iso/local_builder.py, line: 160
 #: NEEDS WORK
 msgid "This requires recreating Docker storage (images will be re-downloaded)."
 msgstr "Ez a Docker tároló újraalkotását igényli (a képek újra letöltésre kerülnek)."
 # 
-# File: usr/share/build-iso/local_builder.py, line: 162
+# File: usr/share/build-iso/local_builder.py, line: 259
 #: NEEDS WORK
-msgid "Switch Docker to overlay2? [y/n] (y): "
-msgstr "Átváltja a Dockert overlay2-re? [i/n] (i):"
-# 
-# File: usr/share/build-iso/local_builder.py, line: 180
-#: NEEDS WORK
-msgid "Docker switched to overlay2 successfully"
-msgstr "A Docker sikeresen váltott overlay2-re."
-# 
-# File: usr/share/build-iso/local_builder.py, line: 183
-#: NEEDS WORK
-msgid "Continuing with btrfs driver (may fail)..."
-msgstr "Folyamatban a btrfs illesztőprogram (meghibásodhat)..."
+#, python-brace-format
+msgid "Error checking Docker storage driver: {0}"
+msgstr "Hiba a Docker tárolómeghajtó ellenőrzésekor: {0}"
 # 
 # File: usr/share/build-iso/local_builder.py, line: 142
 #, python-brace-format
