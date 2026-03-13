@@ -130,13 +130,106 @@ class LocalBuilder:
 
         return False
 
-    def check_storage_driver(self) -> bool:
+    def _migrate_docker_to_overlay2(self) -> bool:
         """
-        Check if Docker is using btrfs storage driver and offer to fix it.
-        The btrfs driver is deprecated and causes 'Failed to create btrfs snapshot' errors.
+        Migrate Docker from btrfs to overlay2 storage driver.
+        Handles daemon.json merge, proper service stop/start, and verification.
 
         Returns:
-            bool: True if OK to proceed, False if user cancelled
+            bool: True if migration succeeded, False otherwise
+        """
+        import json
+        import time
+
+        daemon_json = '/etc/docker/daemon.json'
+
+        try:
+            # 1. Read existing daemon.json and merge settings
+            existing_config = {}
+            try:
+                result = subprocess.run(
+                    ["sudo", "cat", daemon_json],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.DEVNULL,
+                    text=True,
+                    check=False
+                )
+                if result.returncode == 0 and result.stdout.strip():
+                    existing_config = json.loads(result.stdout)
+            except (json.JSONDecodeError, Exception):
+                pass  # Will create fresh config
+
+            existing_config["storage-driver"] = "overlay2"
+            config_content = json.dumps(existing_config, indent=2) + "\n"
+
+            # 2. Stop docker.socket (prevents auto-restart) and docker.service
+            self.logger.log("cyan", _("Stopping Docker services..."))
+            subprocess.run(
+                ["sudo", "systemctl", "stop", "docker.socket"],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                check=False  # socket may not exist
+            )
+            subprocess.run(["sudo", "systemctl", "stop", "docker"], check=True)
+
+            # 3. Write daemon.json
+            subprocess.run(
+                ["sudo", "tee", daemon_json],
+                input=config_content,
+                text=True,
+                stdout=subprocess.DEVNULL,
+                check=True
+            )
+
+            # 4. Remove old Docker storage (incompatible between drivers)
+            self.logger.log("cyan", _("Removing old Docker storage (btrfs)..."))
+            subprocess.run(["sudo", "rm", "-rf", "/var/lib/docker"], check=True)
+
+            # 5. Start Docker
+            self.logger.log("cyan", _("Starting Docker with overlay2..."))
+            subprocess.run(["sudo", "systemctl", "start", "docker"], check=True)
+
+            # 6. Wait for Docker to be ready
+            for attempt in range(10):
+                result = subprocess.run(
+                    ["docker", "info", "--format", "{{.Driver}}"],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.DEVNULL,
+                    text=True,
+                    check=False
+                )
+                if result.returncode == 0 and result.stdout.strip():
+                    break
+                time.sleep(1)
+
+            # 7. Verify the driver actually changed
+            new_driver = result.stdout.strip() if result.returncode == 0 else ""
+            if new_driver == "overlay2":
+                self.logger.log("green", _("Docker switched to overlay2 successfully"))
+                return True
+            else:
+                self.logger.log("red", _("Docker driver is '{0}' after migration (expected 'overlay2')").format(new_driver))
+                self.logger.log("yellow", _("Check /etc/docker/daemon.json and Docker logs: journalctl -u docker"))
+                return False
+
+        except Exception as e:
+            self.logger.log("red", _("Error during Docker migration: {0}").format(str(e)))
+            # Try to restart Docker even if migration failed
+            subprocess.run(
+                ["sudo", "systemctl", "start", "docker"],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                check=False
+            )
+            return False
+
+    def check_storage_driver(self) -> bool:
+        """
+        Check if Docker is using btrfs storage driver and auto-fix to overlay2.
+        The btrfs driver is deprecated and broken — auto-migration is mandatory.
+
+        Returns:
+            bool: True if OK to proceed, False if migration failed
         """
         if self.container_engine != "docker":
             return True
@@ -154,37 +247,31 @@ class LocalBuilder:
             if driver != "btrfs":
                 return True
 
+            # btrfs driver is deprecated and broken - auto-migrate to overlay2
             self.logger.log("yellow", _("Docker is using the 'btrfs' storage driver, which is deprecated"))
             self.logger.log("yellow", _("and may cause 'Failed to create btrfs snapshot' errors."))
-            self.logger.log("cyan", _("Recommended: switch to 'overlay2' storage driver."))
+            self.logger.log("cyan", _("Automatically switching to 'overlay2' storage driver..."))
             self.logger.log("cyan", _("This requires recreating Docker storage (images will be re-downloaded)."))
 
-            response = input(_("Switch Docker to overlay2? [y/n] (y): ")).strip().lower()
-            if response in ("", "y", "yes", "s", "sim"):
-                daemon_json = '/etc/docker/daemon.json'
-                config_content = '{\n  "storage-driver": "overlay2"\n}\n'
+            return self._migrate_docker_to_overlay2()
 
-                # Write daemon.json
-                subprocess.run(
-                    ["sudo", "tee", daemon_json],
-                    input=config_content,
-                    stdout=subprocess.DEVNULL,
-                    check=True
-                )
+        except Exception as e:
+            self.logger.log("red", _("Error checking Docker storage driver: {0}").format(str(e)))
+            return False
 
-                # Stop docker, remove old storage, restart
-                subprocess.run(["sudo", "systemctl", "stop", "docker"], check=True)
-                subprocess.run(["sudo", "rm", "-rf", "/var/lib/docker"], check=True)
-                subprocess.run(["sudo", "systemctl", "start", "docker"], check=True)
-
-                self.logger.log("green", _("Docker switched to overlay2 successfully"))
-                return True
-            else:
-                self.logger.log("yellow", _("Continuing with btrfs driver (may fail)..."))
-                return True
-
+    def _get_docker_version(self) -> str:
+        """Get Docker server version string"""
+        try:
+            result = subprocess.run(
+                ["docker", "version", "--format", "{{.Server.Version}}"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.DEVNULL,
+                text=True,
+                check=False
+            )
+            return result.stdout.strip() if result.returncode == 0 else "unknown"
         except Exception:
-            return True
+            return "unknown"
 
     def check_disk_space(self) -> bool:
         """
@@ -209,7 +296,7 @@ class LocalBuilder:
 
     def pull_container_image(self) -> bool:
         """
-        Pull container image from registry
+        Pull container image from registry, showing download progress in real-time
 
         Returns:
             bool: True if successful, False otherwise
@@ -219,23 +306,34 @@ class LocalBuilder:
         cmd = [self.container_engine, "pull", self.container_image]
 
         try:
-            result = subprocess.run(
+            # Use Popen to stream output in real-time (shows layer download progress)
+            process = subprocess.Popen(
                 cmd,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
                 text=True,
-                check=False
+                bufsize=1
             )
 
-            if result.returncode == 0:
+            last_output = ""
+            for line in process.stdout:
+                line = line.rstrip()
+                if line:
+                    last_output = line
+                    print(f"\r  {line}", end="", flush=True)
+            print()  # newline after progress
+
+            process.wait()
+
+            if process.returncode == 0:
                 self.logger.log("green", _("Container image pulled successfully"))
                 return True
             else:
                 self.logger.log("red", _("Failed to pull container image"))
-                if result.stdout:
-                    self.logger.log("red", result.stdout)
+                if last_output:
+                    self.logger.log("red", last_output)
 
-                # Retry once
+                # Retry once with direct output
                 self.logger.log("yellow", _("Retrying..."))
                 result = subprocess.run(cmd, check=False)
                 return result.returncode == 0
