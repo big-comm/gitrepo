@@ -652,309 +652,337 @@ msgid   "Stopping {0} old container(s)..."
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 157
+# File: usr/share/build-iso/local_builder.py, line: 166
+msgid   "Stopping Docker services..."
+msgstr  ""
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 185
+msgid   "Removing old Docker storage (btrfs)..."
+msgstr  ""
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 189
+msgid   "Starting Docker with overlay2..."
+msgstr  ""
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 208
+msgid   "Docker switched to overlay2 successfully"
+msgstr  ""
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 211
+#, python-brace-format
+msgid   "Docker driver is '{0}' after migration (expected 'overlay2')"
+msgstr  ""
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 212
+msgid   "Check /etc/docker/daemon.json and Docker logs: journalctl -u docker"
+msgstr  ""
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 216
+#, python-brace-format
+msgid   "Error during Docker migration: {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 251
 msgid   "Docker is using the 'btrfs' storage driver, which is deprecated"
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 158
+# File: usr/share/build-iso/local_builder.py, line: 252
 msgid   "and may cause 'Failed to create btrfs snapshot' errors."
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 159
-msgid   "Recommended: switch to 'overlay2' storage driver."
+# File: usr/share/build-iso/local_builder.py, line: 253
+msgid   "Automatically switching to 'overlay2' storage driver..."
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 160
+# File: usr/share/build-iso/local_builder.py, line: 254
 msgid   "This requires recreating Docker storage (images will be re-"
         "downloaded)."
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 162
-msgid   "Switch Docker to overlay2? [y/n] (y): "
+# File: usr/share/build-iso/local_builder.py, line: 259
+#, python-brace-format
+msgid   "Error checking Docker storage driver: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 180
-msgid   "Docker switched to overlay2 successfully"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/local_builder.py, line: 183
-msgid   "Continuing with btrfs driver (may fail)..."
-msgstr  ""
-
-#
-# File: usr/share/build-iso/local_builder.py, line: 201
+# File: usr/share/build-iso/local_builder.py, line: 288
 #, python-brace-format
 msgid   "Warning: Only {0:.1f} GB free. 20 GB recommended."
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 204
+# File: usr/share/build-iso/local_builder.py, line: 291
 #, python-brace-format
 msgid   "Disk space available: {0:.1f} GB"
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 207
+# File: usr/share/build-iso/local_builder.py, line: 294
 #, python-brace-format
 msgid   "Could not check disk space: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 217
+# File: usr/share/build-iso/local_builder.py, line: 304
 #, python-brace-format
 msgid   "Pulling container image: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 231
+# File: usr/share/build-iso/local_builder.py, line: 329
 msgid   "Container image pulled successfully"
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 234
+# File: usr/share/build-iso/local_builder.py, line: 332
 msgid   "Failed to pull container image"
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 239
-# File: usr/share/build-iso/local_builder.py, line: 352
+# File: usr/share/build-iso/local_builder.py, line: 337
+# File: usr/share/build-iso/local_builder.py, line: 450
 msgid   "Retrying..."
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 244
+# File: usr/share/build-iso/local_builder.py, line: 342
 #, python-brace-format
 msgid   "Error pulling container image: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 256
+# File: usr/share/build-iso/local_builder.py, line: 354
 msgid   "Preparing build directories..."
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 261
+# File: usr/share/build-iso/local_builder.py, line: 359
 msgid   "Cleaning work directory..."
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 269
+# File: usr/share/build-iso/local_builder.py, line: 367
 msgid   "Cleaning cache directory (--clean flag)..."
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 297
+# File: usr/share/build-iso/local_builder.py, line: 395
 #, python-brace-format
 msgid   "Created: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 310
+# File: usr/share/build-iso/local_builder.py, line: 408
 #, python-brace-format
 msgid   "Error creating directories: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 320
+# File: usr/share/build-iso/local_builder.py, line: 418
 msgid   "Cloning build-iso repository..."
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 329
+# File: usr/share/build-iso/local_builder.py, line: 427
 #, python-brace-format
 msgid   "Could not remove old build-iso: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 344
+# File: usr/share/build-iso/local_builder.py, line: 442
 msgid   "Build script prepared"
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 347
+# File: usr/share/build-iso/local_builder.py, line: 445
 msgid   "Failed to clone build-iso repository"
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 357
+# File: usr/share/build-iso/local_builder.py, line: 455
 #, python-brace-format
 msgid   "Error cloning repository: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 443
+# File: usr/share/build-iso/local_builder.py, line: 541
 msgid   "Starting container build..."
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 444
+# File: usr/share/build-iso/local_builder.py, line: 542
 msgid   "This may take 10-50 minutes depending on your hardware and network."
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 485
+# File: usr/share/build-iso/local_builder.py, line: 583
 msgid   "Container build completed successfully"
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 488
+# File: usr/share/build-iso/local_builder.py, line: 586
 #, python-brace-format
 msgid   "Container build failed with exit code {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 492
+# File: usr/share/build-iso/local_builder.py, line: 590
 msgid   "Error running container"
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 503
+# File: usr/share/build-iso/local_builder.py, line: 601
 msgid   "Moving ISO files to output directory..."
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 513
+# File: usr/share/build-iso/local_builder.py, line: 611
 msgid   "No ISO files found in work directory"
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 523
+# File: usr/share/build-iso/local_builder.py, line: 621
 #, python-brace-format
 msgid   "Moving: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 550
+# File: usr/share/build-iso/local_builder.py, line: 648
 msgid   "Generating MD5 checksum..."
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 562
+# File: usr/share/build-iso/local_builder.py, line: 660
 #, python-brace-format
 msgid   "Moved: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 563
+# File: usr/share/build-iso/local_builder.py, line: 661
 #, python-brace-format
 msgid   "MD5: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 566
+# File: usr/share/build-iso/local_builder.py, line: 664
 msgid   "Cleaning up work directory..."
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 569
-# File: usr/share/build-iso/local_builder.py, line: 572
+# File: usr/share/build-iso/local_builder.py, line: 667
+# File: usr/share/build-iso/local_builder.py, line: 670
 msgid   "Work directory removed"
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 574
+# File: usr/share/build-iso/local_builder.py, line: 672
 msgid   "Cleanup completed"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/local_builder.py, line: 578
-#, python-brace-format
-msgid   "Error moving ISO files: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/local_builder.py, line: 588
-msgid   "Cleaning up cache directories..."
-msgstr  ""
-
-#
-# File: usr/share/build-iso/local_builder.py, line: 593
-msgid   "Cache cleaned"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/local_builder.py, line: 597
-msgid   "Work directory cleaned"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/local_builder.py, line: 602
-# File: usr/share/build-iso/local_builder.py, line: 695
-# File: usr/share/build-iso/local_builder.py, line: 697
-#, python-brace-format
-msgid   "Could not clean cache: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/local_builder.py, line: 632
-msgid   "Requesting sudo access for file operations..."
-msgstr  ""
-
-#
-# File: usr/share/build-iso/local_builder.py, line: 635
-msgid   "Sudo access required for local builds"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/local_builder.py, line: 649
-msgid   "Docker or Podman not found"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/local_builder.py, line: 650
-msgid   "Install with: sudo pacman -S docker"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/local_builder.py, line: 651
-msgid   "Or install Podman: sudo pacman -S podman"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/local_builder.py, line: 675
-msgid   "Build failed inside container"
 msgstr  ""
 
 #
 # File: usr/share/build-iso/local_builder.py, line: 676
 #, python-brace-format
-msgid   "Work directory preserved for debugging: {0}"
-msgstr  ""
-
-#
-# File: usr/share/build-iso/local_builder.py, line: 682
-msgid   "Could not move ISO files, check manually"
+msgid   "Error moving ISO files: {0}"
 msgstr  ""
 
 #
 # File: usr/share/build-iso/local_builder.py, line: 686
+msgid   "Cleaning up cache directories..."
+msgstr  ""
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 691
+msgid   "Cache cleaned"
+msgstr  ""
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 695
+msgid   "Work directory cleaned"
+msgstr  ""
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 700
+# File: usr/share/build-iso/local_builder.py, line: 793
+# File: usr/share/build-iso/local_builder.py, line: 795
+#, python-brace-format
+msgid   "Could not clean cache: {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 730
+msgid   "Requesting sudo access for file operations..."
+msgstr  ""
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 733
+msgid   "Sudo access required for local builds"
+msgstr  ""
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 747
+msgid   "Docker or Podman not found"
+msgstr  ""
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 748
+msgid   "Install with: sudo pacman -S docker"
+msgstr  ""
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 749
+msgid   "Or install Podman: sudo pacman -S podman"
+msgstr  ""
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 773
+msgid   "Build failed inside container"
+msgstr  ""
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 774
+#, python-brace-format
+msgid   "Work directory preserved for debugging: {0}"
+msgstr  ""
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 780
+msgid   "Could not move ISO files, check manually"
+msgstr  ""
+
+#
+# File: usr/share/build-iso/local_builder.py, line: 784
 msgid   "Cleaning package cache..."
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 689
-# File: usr/share/build-iso/local_builder.py, line: 693
+# File: usr/share/build-iso/local_builder.py, line: 787
+# File: usr/share/build-iso/local_builder.py, line: 791
 msgid   "Cache cleaned successfully"
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 704
+# File: usr/share/build-iso/local_builder.py, line: 802
 msgid   "Cleaning up containers..."
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 717
+# File: usr/share/build-iso/local_builder.py, line: 815
 msgid   "Local build completed successfully!"
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 718
+# File: usr/share/build-iso/local_builder.py, line: 816
 #, python-brace-format
 msgid   "ISO files saved to: {0}"
 msgstr  ""
@@ -966,7 +994,7 @@ msgstr  ""
 #
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 #
-# File: usr/share/build-iso/local_builder.py, line: 723
+# File: usr/share/build-iso/local_builder.py, line: 821
 # File: usr/share/build-package/core/git_utils.py, line: 326
 # File: usr/share/build-package/core/build_package.py, line: 1074
 # File: usr/share/build-package/core/github_api.py, line: 299
@@ -975,7 +1003,7 @@ msgid   "Unexpected error: {0}"
 msgstr  ""
 
 #
-# File: usr/share/build-iso/local_builder.py, line: 724
+# File: usr/share/build-iso/local_builder.py, line: 822
 #, python-brace-format
 msgid   "Work directory preserved at: {0}"
 msgstr  ""

@@ -559,64 +559,37 @@ msgstr "Mecanismo de container encontrado: {0}"
 #, python-brace-format
 msgid "Stopping {0} old container(s)..."
 msgstr "Parando {0} container(s) antigo(s)..."
-#
-# File: usr/share/build-iso/local_builder.py - Docker btrfs/overlay2 migration
-msgid "Docker is using the 'btrfs' storage driver, which is deprecated"
-msgstr "O Docker está usando o driver de armazenamento 'btrfs', que está obsoleto."
-#
-msgid "and may cause 'Failed to create btrfs snapshot' errors."
-msgstr "e pode causar erros de 'Falha ao criar snapshot btrfs'."
-#
-msgid "Recommended: switch to 'overlay2' storage driver."
-msgstr "Recomendado: mude para o driver de armazenamento 'overlay2'."
-#
-msgid "Automatically switching to 'overlay2' storage driver..."
-msgstr "Mudando automaticamente para o driver de armazenamento 'overlay2'..."
-#
-msgid "This requires recreating Docker storage (images will be re-downloaded)."
-msgstr "Isso requer a recriação do armazenamento do Docker (as imagens serão baixadas novamente)."
-#
-msgid "Switch Docker to overlay2? [y/n] (y): "
-msgstr "Mudar o Docker para overlay2? [s/n] (s): "
-#
-msgid "Docker switched to overlay2 successfully"
-msgstr "Docker mudou para overlay2 com sucesso"
-#
+# 
+# File: usr/share/build-iso/local_builder.py, line: 166
 msgid "Stopping Docker services..."
 msgstr "Parando serviços do Docker..."
-#
+# 
+# File: usr/share/build-iso/local_builder.py, line: 185
 msgid "Removing old Docker storage (btrfs)..."
 msgstr "Removendo armazenamento antigo do Docker (btrfs)..."
-#
+# 
+# File: usr/share/build-iso/local_builder.py, line: 189
 msgid "Starting Docker with overlay2..."
 msgstr "Iniciando Docker com overlay2..."
-#
+# 
+# File: usr/share/build-iso/local_builder.py, line: 180
+#: NEEDS WORK
+msgid "Docker switched to overlay2 successfully"
+msgstr "Docker mudou para overlay2 com sucesso"
+# 
+# File: usr/share/build-iso/local_builder.py, line: 211
 #, python-brace-format
 msgid "Docker driver is '{0}' after migration (expected 'overlay2')"
 msgstr "Driver do Docker é '{0}' após migração (esperado 'overlay2')"
-#
+# 
+# File: usr/share/build-iso/local_builder.py, line: 212
 msgid "Check /etc/docker/daemon.json and Docker logs: journalctl -u docker"
 msgstr "Verifique /etc/docker/daemon.json e logs do Docker: journalctl -u docker"
-#
+# 
+# File: usr/share/build-iso/local_builder.py, line: 216
 #, python-brace-format
 msgid "Error during Docker migration: {0}"
 msgstr "Erro durante migração do Docker: {0}"
-#
-#, python-brace-format
-msgid "The btrfs storage driver is broken in Docker {0}."
-msgstr "O driver de armazenamento btrfs está quebrado no Docker {0}."
-#
-msgid "The build WILL fail with 'Failed to create btrfs snapshot' error."
-msgstr "O build VAI falhar com erro 'Failed to create btrfs snapshot'."
-#
-msgid "Switching to overlay2 is required for the build to work."
-msgstr "Mudar para overlay2 é necessário para o build funcionar."
-#
-msgid "Switch to overlay2 now? [y/n] (y): "
-msgstr "Mudar para overlay2 agora? [s/n] (s): "
-#
-msgid "Cannot proceed with btrfs driver. Build aborted."
-msgstr "Não é possível prosseguir com o driver btrfs. Build abortado."
 # 
 # File: usr/share/build-iso/local_builder.py, line: 157
 #: NEEDS WORK
@@ -628,30 +601,20 @@ msgstr "O Docker está usando o driver de armazenamento 'btrfs', que está obsol
 msgid "and may cause 'Failed to create btrfs snapshot' errors."
 msgstr "e pode causar erros de 'Falha ao criar snapshot btrfs'."
 # 
-# File: usr/share/build-iso/local_builder.py, line: 159
-#: NEEDS WORK
-msgid "Recommended: switch to 'overlay2' storage driver."
-msgstr "Recomendado: mude para o driver de armazenamento 'overlay2'."
+# File: usr/share/build-iso/local_builder.py, line: 253
+msgid "Automatically switching to 'overlay2' storage driver..."
+msgstr "Mudando automaticamente para o driver de armazenamento 'overlay2'..."
 # 
 # File: usr/share/build-iso/local_builder.py, line: 160
 #: NEEDS WORK
 msgid "This requires recreating Docker storage (images will be re-downloaded)."
 msgstr "Isso requer a recriação do armazenamento do Docker (as imagens serão baixadas novamente)."
 # 
-# File: usr/share/build-iso/local_builder.py, line: 162
+# File: usr/share/build-iso/local_builder.py, line: 259
 #: NEEDS WORK
-msgid "Switch Docker to overlay2? [y/n] (y): "
-msgstr "Mudar o Docker para overlay2? [s/n] (s):"
-# 
-# File: usr/share/build-iso/local_builder.py, line: 180
-#: NEEDS WORK
-msgid "Docker switched to overlay2 successfully"
-msgstr "Docker mudou para overlay2 com sucesso"
-# 
-# File: usr/share/build-iso/local_builder.py, line: 183
-#: NEEDS WORK
-msgid "Continuing with btrfs driver (may fail)..."
-msgstr "Continuando com o driver btrfs (pode falhar)..."
+#, python-brace-format
+msgid "Error checking Docker storage driver: {0}"
+msgstr "Erro ao verificar o driver de armazenamento do Docker: {0}"
 # 
 # File: usr/share/build-iso/local_builder.py, line: 142
 #, python-brace-format
