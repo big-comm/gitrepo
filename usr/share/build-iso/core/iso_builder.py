@@ -392,6 +392,8 @@ class ISOBuilder:
             stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, check=False,
         )
         if result.returncode == 0:
+            # Ensure container can write to cloned files (needed for sed -i inside container)
+            subprocess.run(["chmod", "-R", "777", build_iso_path], check=False)
             self._log("green", _("Build script prepared"))
             return True
         self._log("red", _("Failed to clone build-iso repository"))
