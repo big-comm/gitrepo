@@ -317,7 +317,7 @@ class ISOBuilder:
             subprocess.run(["sudo", "systemctl", "start", "docker"], check=True)
 
             # Verify
-            for _ in range(10):
+            for _attempt in range(10):
                 r = subprocess.run(["docker", "info", "--format", "{{.Driver}}"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, check=False)
                 if r.returncode == 0 and r.stdout.strip() == "overlay2":
                     self._log("green", _("Docker switched to overlay2 successfully"))
