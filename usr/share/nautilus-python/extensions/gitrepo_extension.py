@@ -22,11 +22,14 @@ from gi.repository import GObject, Nautilus
 APP_NAME = "gitrepo"
 
 try:
-    gettext.textdomain(APP_NAME)
+    gettext.bindtextdomain(APP_NAME, "/usr/share/locale")
 except Exception as e:
     print(f"GitRepo Extension: Could not set up localization: {e}")
 
-_ = gettext.gettext
+
+def _(message):
+    """Domain-specific translation to avoid conflict with Nautilus' own textdomain."""
+    return gettext.dgettext(APP_NAME, message)
 
 
 class GitRepoExtension(GObject.GObject, Nautilus.MenuProvider):
