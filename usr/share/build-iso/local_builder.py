@@ -286,6 +286,14 @@ class LocalBuilder:
 
             if result.returncode == 0:
                 self.logger.log("green", _("Build script prepared"))
+                
+                # IMPORTANT: Set permissions after clone to ensure the container 
+                # user can write temporary files in this directory (needed by sed -i)
+                try:
+                    subprocess.run(["chmod", "-R", "777", build_iso_path], check=True)
+                except Exception as e:
+                    self.logger.log("yellow", _("Warning: Could not set permissions on build-iso directory: {0}").format(str(e)))
+                    
                 return True
             else:
                 self.logger.log("red", _("Failed to clone build-iso repository"))
@@ -314,10 +322,12 @@ class LocalBuilder:
         # 1. Add community repository if bigcommunity
         if self.distroname == "bigcommunity":
             setup_commands.append("""
-echo "[community-extra]" | sudo tee -a /etc/pacman.conf
-echo "SigLevel = PackageRequired" | sudo tee -a /etc/pacman.conf
-echo "Server = https://repo.communitybig.org/extra/\\$arch" | sudo tee -a /etc/pacman.conf
-echo "" | sudo tee -a /etc/pacman.conf
+if ! grep -q "\[community-extra\]" /etc/pacman.conf; then
+    echo "[community-extra]" | sudo tee -a /etc/pacman.conf
+    echo "SigLevel = PackageRequired" | sudo tee -a /etc/pacman.conf
+    echo "Server = https://repo.communitybig.org/extra/\\$arch" | sudo tee -a /etc/pacman.conf
+    echo "" | sudo tee -a /etc/pacman.conf
+fi
 """)
 
         # 2. Install cryptographic keys
