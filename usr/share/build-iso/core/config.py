@@ -9,7 +9,7 @@ import os
 # Application info
 APP_ID = "org.bigcommunity.buildiso"
 APP_NAME = "Build ISO"
-APP_VERSION = "1.0.0"
+APP_VERSION = "3.1.5"
 APP_DESCRIPTION = "Build BigCommunity and BigLinux ISO images"
 
 # Valid options
