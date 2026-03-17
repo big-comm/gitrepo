@@ -19,7 +19,7 @@ gi.require_version('Adw', '1')
 
 from core.config import APP_DESCRIPTION, APP_ID, APP_NAME, APP_VERSION
 from core.translation_utils import _
-from gi.repository import Adw, Gio, Gtk
+from gi.repository import Adw, Gio, GLib, Gtk
 
 from gui.main_window import MainWindow
 
@@ -44,11 +44,6 @@ class BuildISOApplication(Adw.Application):
         about_action.connect("activate", self.on_about_activated)
         self.add_action(about_action)
 
-        preferences_action = Gio.SimpleAction.new("preferences", None)
-        preferences_action.connect("activate", self.on_preferences_activated)
-        self.add_action(preferences_action)
-        self.set_accels_for_action("app.preferences", ["<Ctrl>comma"])
-
         shortcuts_action = Gio.SimpleAction.new("shortcuts", None)
         shortcuts_action.connect("activate", self.on_shortcuts_activated)
         self.add_action(shortcuts_action)
@@ -68,8 +63,20 @@ class BuildISOApplication(Adw.Application):
     def do_startup(self):
         """Called when the application starts up"""
         Adw.Application.do_startup(self)
+        self._setup_icon_theme()
         self._setup_css()
         self.setup_menu()
+
+    def _setup_icon_theme(self):
+        """Add project icon directory to icon theme search path"""
+        from gi.repository import Gdk
+
+        display = Gdk.Display.get_default()
+        if display:
+            icon_theme = Gtk.IconTheme.get_for_display(display)
+            icons_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'icons'))
+            if os.path.isdir(icons_dir):
+                icon_theme.add_search_path(icons_dir)
 
     def _setup_css(self):
         """Setup custom CSS styles"""
@@ -141,7 +148,6 @@ class BuildISOApplication(Adw.Application):
         """Setup application menu"""
         menu = Gio.Menu()
         app_section = Gio.Menu()
-        app_section.append(_("Preferences"), "app.preferences")
         app_section.append(_("Keyboard Shortcuts"), "app.shortcuts")
         app_section.append(_("About Build ISO"), "app.about")
         menu.append_section(None, app_section)
@@ -154,7 +160,7 @@ class BuildISOApplication(Adw.Application):
         about_dialog = Adw.AboutWindow(
             transient_for=self.main_window,
             application_name=APP_NAME,
-            application_icon="media-optical-symbolic",
+            application_icon="build-iso",
             developer_name="BigCommunity Team",
             version=APP_VERSION,
             comments=APP_DESCRIPTION,
@@ -167,35 +173,47 @@ class BuildISOApplication(Adw.Application):
         about_dialog.set_translator_credits(_("translator-credits"))
         about_dialog.present()
 
-    def on_preferences_activated(self, action, param):
-        if self.main_window:
-            self.main_window.show_settings_page()
-
     def on_refresh_activated(self, action, param):
         if self.main_window:
             self.main_window.refresh_all()
 
     def on_shortcuts_activated(self, action, param):
-        shortcuts_window = Gtk.ShortcutsWindow(transient_for=self.main_window)
-
-        section = Gtk.ShortcutsSection(visible=True)
-        section.set_title(_("General"))
-
-        group = Gtk.ShortcutsGroup(visible=True)
-        group.set_title(_("Application"))
-
-        shortcuts = [
-            (_("Quit"), "<Ctrl>Q"),
-            (_("Preferences"), "<Ctrl>comma"),
-            (_("Keyboard Shortcuts"), "<Ctrl>question"),
-            (_("Refresh Status"), "<Ctrl>R"),
+        shortcuts_data = [
+            (_("Quit"), "&lt;Ctrl&gt;Q"),
+            (_("Keyboard Shortcuts"), "&lt;Ctrl&gt;question"),
+            (_("Refresh Status"), "&lt;Ctrl&gt;R"),
         ]
-        for title, accelerator in shortcuts:
-            shortcut = Gtk.ShortcutsShortcut(visible=True, title=title, accelerator=accelerator)
-            group.add_shortcut(shortcut)
 
-        section.add_group(group)
-        shortcuts_window.add_section(section)
+        shortcut_items = "\n".join(
+            f'<child><object class="GtkShortcutsShortcut">'
+            f'<property name="title">{GLib.markup_escape_text(title)}</property>'
+            f'<property name="accelerator">{accel}</property>'
+            f'</object></child>'
+            for title, accel in shortcuts_data
+        )
+
+        xml = f"""<?xml version="1.0" encoding="UTF-8"?>
+        <interface>
+          <object class="GtkShortcutsWindow" id="shortcuts_window">
+            <property name="modal">true</property>
+            <child>
+              <object class="GtkShortcutsSection">
+                <property name="section-name">shortcuts</property>
+                <property name="title">{GLib.markup_escape_text(_("General"))}</property>
+                <child>
+                  <object class="GtkShortcutsGroup">
+                    <property name="title">{GLib.markup_escape_text(_("Application"))}</property>
+                    {shortcut_items}
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </interface>"""
+
+        builder = Gtk.Builder.new_from_string(xml, -1)
+        shortcuts_window = builder.get_object("shortcuts_window")
+        shortcuts_window.set_transient_for(self.main_window)
         shortcuts_window.present()
 
 

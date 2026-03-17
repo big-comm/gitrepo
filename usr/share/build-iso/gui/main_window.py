@@ -188,7 +188,6 @@ class MainWindow(Adw.ApplicationWindow):
     def _create_hamburger_menu(self):
         """Create hamburger menu button"""
         menu = Gio.Menu()
-        menu.append(_("Preferences"), "app.preferences")
         menu.append(_("Keyboard Shortcuts"), "app.shortcuts")
         menu.append(_("About"), "app.about")
 

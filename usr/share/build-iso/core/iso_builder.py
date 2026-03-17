@@ -75,106 +75,14 @@ class ISOBuilder:
 
     @staticmethod
     def _resolve_engine(engine: str) -> str:
-        """Resolve engine preference to an available docker/podman binary"""
-        # If explicitly set and available, use it
-        if engine in ("docker", "podman") and shutil.which(engine):
+        """Resolve 'auto' engine to actual docker/podman binary"""
+        if engine in ("docker", "podman"):
             return engine
         # Auto-detect: prefer docker, fallback to podman
         for eng in ("docker", "podman"):
             if shutil.which(eng):
                 return eng
-        return ""  # no engine found
-
-    def _install_container_engine(self) -> bool:
-        """Install and configure Docker automatically. Requires sudo."""
-        import getpass
-
-        username = getpass.getuser()
-
-        self._log("cyan", _("Installing Docker..."))
-        proc = subprocess.run(
-            ["sudo", "pacman", "-S", "--noconfirm", "--needed", "docker"],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True,
-            check=False,
-        )
-        if proc.returncode != 0:
-            self._log("red", _("Failed to install Docker"))
-            if proc.stdout:
-                self._log("dim", proc.stdout.strip())
-            return False
-        self._log("green", _("Docker installed successfully"))
-
-        # Enable and start Docker service
-        self._log("cyan", _("Starting Docker service..."))
-        subprocess.run(
-            ["sudo", "systemctl", "enable", "--now", "docker.service"],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            check=False,
-        )
-
-        # Wait for Docker socket to be ready
-        for _attempt in range(15):
-            if os.path.exists("/var/run/docker.sock"):
-                break
-            time.sleep(1)
-        else:
-            self._log("red", _("Docker socket not found after starting service"))
-            return False
-
-        # Add user to docker group
-        self._log("cyan", _("Adding user '{0}' to docker group...").format(username))
-        subprocess.run(
-            ["sudo", "usermod", "-aG", "docker", username],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            check=False,
-        )
-
-        # Grant immediate access to Docker socket for current session
-        # (group membership only takes effect on next login, so we set ACL)
-        acl_ok = (
-            subprocess.run(
-                ["sudo", "setfacl", "-m", f"user:{username}:rw", "/var/run/docker.sock"],
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-                check=False,
-            ).returncode
-            == 0
-        )
-
-        if not acl_ok:
-            # Fallback: adjust socket group permissions directly
-            subprocess.run(
-                ["sudo", "chmod", "g+rw", "/var/run/docker.sock"],
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-                check=False,
-            )
-
-        # Verify Docker works
-        verify = subprocess.run(
-            ["docker", "info"],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            check=False,
-        )
-        if verify.returncode != 0:
-            # Try with sudo as last resort
-            verify = subprocess.run(
-                ["sudo", "docker", "info"],
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-                check=False,
-            )
-            if verify.returncode != 0:
-                self._log("red", _("Docker installed but not responding"))
-                return False
-
-        self._log("green", _("Docker configured successfully"))
-        return True
+        return "docker"  # fallback
 
     def _log(self, color: str, message: str):
         cb = self._callbacks.get("on_log")
@@ -275,21 +183,6 @@ class ISOBuilder:
             sudo_thread.start()
 
             try:
-                # Phase: Check/install container engine
-                self._phase("check_engine")
-                if not self.container_engine:
-                    self._log("yellow", _("No container engine found (docker/podman)"))
-                    if not self._install_container_engine():
-                        result["error"] = _("Failed to install container engine")
-                        return result
-                    # Re-detect engine after install
-                    self.container_engine = self._resolve_engine("auto")
-                    if not self.container_engine:
-                        result["error"] = _("Container engine still not available after installation")
-                        return result
-
-                self._log("green", _("Container engine: {0}").format(self.container_engine))
-
                 # Phase: Check storage driver
                 self._phase("check_storage")
                 if self.container_engine == "docker":
@@ -424,7 +317,7 @@ class ISOBuilder:
             subprocess.run(["sudo", "systemctl", "start", "docker"], check=True)
 
             # Verify
-            for _attempt in range(10):
+            for _ in range(10):
                 r = subprocess.run(["docker", "info", "--format", "{{.Driver}}"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, check=False)
                 if r.returncode == 0 and r.stdout.strip() == "overlay2":
                     self._log("green", _("Docker switched to overlay2 successfully"))
