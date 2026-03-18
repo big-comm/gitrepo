@@ -289,6 +289,9 @@ class BuildWidget(Gtk.Box):
         self.clean_cache_row.set_active(self.settings.get("build", "clean_cache_before", default=False))
         self.clean_after_row.set_active(self.settings.get("build", "clean_cache_after", default=False))
 
+        # Community branch visibility
+        self._update_community_branch_visibility()
+
         # ISO Profiles source
         source = self.settings.get("build", "iso_profiles_source", default="remote")
         if source == "remote":
@@ -351,9 +354,16 @@ class BuildWidget(Gtk.Box):
         return "remote", ""
 
     def _on_distro_changed(self, row, pspec):
-        """Handle distribution change - refresh editions"""
+        """Handle distribution change - refresh editions and toggle community branch"""
         self._editions_cache.clear()
         self._fetch_editions_async()
+        self._update_community_branch_visibility()
+
+    def _update_community_branch_visibility(self):
+        """Show/hide community branch based on selected distribution"""
+        distro = self._get_selected_distro()
+        # BigLinux does not have a community repository
+        self.community_branch_row.set_visible(distro != "biglinux")
 
     def _fetch_editions_async(self):
         """Fetch available editions based on selected source"""
@@ -598,7 +608,7 @@ class BuildWidget(Gtk.Box):
             "branches": {
                 "manjaro": self._get_selected_branch(self.manjaro_branch_row),
                 "biglinux": self._get_selected_branch(self.biglinux_branch_row),
-                "community": self._get_selected_branch(self.community_branch_row),
+                "community": self._get_selected_branch(self.community_branch_row) if distro != "biglinux" else "",
             },
             "iso_profiles_repo": iso_profiles_repo,
             "iso_profiles_source": source_type,
