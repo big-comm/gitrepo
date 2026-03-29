@@ -495,7 +495,14 @@ sudo install -m0644 community-keyring/community-revoked /usr/share/pacman/keyrin
 rm -rf community-keyring
 """)
 
-        # 3. Initialize pacman keys and update
+        # 3. Ensure XferCommand with curl timeout/retry in pacman.conf
+        setup_commands.append(
+            "if ! grep -q '^XferCommand' /etc/pacman.conf; then "
+            "sudo sed -i '/^\\[options\\]/a XferCommand = /usr/bin/curl -L -C - -f -o %o --connect-timeout 10 --retry 5 --retry-delay 3 %u' /etc/pacman.conf; "
+            "fi"
+        )
+
+        # 4. Initialize pacman keys and update
         setup_commands.append("""
 sudo pacman-key --init
 sudo pacman-key --populate
