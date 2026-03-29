@@ -429,14 +429,11 @@ sudo install -m0644 community-keyring/community-revoked /usr/share/pacman/keyrin
 rm -rf community-keyring
 """)
 
-        # Ensure XferCommand with curl timeout/retry in pacman.conf
+        # Rank mirrors by speed and initialize pacman keys
         parts.append("""
-if ! grep -q '^XferCommand' /etc/pacman.conf; then
-    sudo sed -i '/^\\[options\\]/a XferCommand = /usr/bin/curl -L -C - -f -o %o --connect-timeout 10 --retry 5 --retry-delay 3 %u' /etc/pacman.conf
+if command -v pacman-mirrors &>/dev/null; then
+    sudo pacman-mirrors --fasttrack 5 2>/dev/null || true
 fi
-""")
-
-        parts.append("""
 sudo pacman-key --init
 sudo pacman-key --populate
 sudo pacman -Sy --quiet --noconfirm
