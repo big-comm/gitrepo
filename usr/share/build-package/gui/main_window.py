@@ -93,11 +93,6 @@ class MainWindow(Adw.ApplicationWindow):
         sidebar_header = Adw.HeaderBar()
         sidebar_header.set_show_end_title_buttons(False)
 
-        # App icon on the left
-        app_icon = Gtk.Image.new_from_icon_name("gitrepo")
-        app_icon.set_pixel_size(20)
-        sidebar_header.pack_start(app_icon)
-
         # Centered app title
         app_title = Gtk.Label(label=_("Build Package"))
         app_title.add_css_class("heading")
@@ -1451,13 +1446,19 @@ class MainWindow(Adw.ApplicationWindow):
 
         try:
             if "commit" in self.nav_rows:
+                row = self.nav_rows["commit"]
+                # Clear previous alert styles
+                row.remove_css_class("error")
+                row.badge.remove_css_class("warning")
+
                 if self.build_package.is_git_repo and GitUtils.has_changes():
                     changes = GitUtils.count_changed_files()
-                    row = self.nav_rows["commit"]
                     if changes > 0:
                         row.badge.set_text(str(changes))
                         row.badge.set_visible(True)
                         row.badge.add_css_class("warning")
+                        # Highlight the row to alert user
+                        row.add_css_class("error")
                         row.update_property(
                             [Gtk.AccessibleProperty.LABEL],
                             [_("Commit ({0} pending changes)").format(changes)],
@@ -1469,7 +1470,7 @@ class MainWindow(Adw.ApplicationWindow):
                             [_("Commit")],
                         )
                 else:
-                    self.nav_rows["commit"].badge.set_visible(False)
+                    row.badge.set_visible(False)
 
         except Exception as e:
             print(_("Error updating nav badges: {0}").format(e))
