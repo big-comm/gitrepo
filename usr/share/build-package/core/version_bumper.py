@@ -99,6 +99,25 @@ def _locate_app_version_entry(bp):
     allowed_extensions = {
         "", ".py", ".cfg", ".conf", ".ini", ".json", ".toml", ".yaml", ".yml",
         ".txt", ".sh", ".bash", ".zsh", ".fish",
+        ".js", ".ts", ".mjs", ".cjs",          # JavaScript / TypeScript
+        ".rs",                                   # Rust
+        ".c", ".h", ".cpp", ".hpp", ".cc",       # C / C++
+        ".go",                                   # Go
+        ".rb",                                   # Ruby
+        ".lua",                                  # Lua
+        ".java", ".kt", ".kts",                  # Java / Kotlin
+        ".cs",                                   # C#
+        ".swift",                                # Swift
+        ".r",                                    # R
+        ".pl", ".pm",                            # Perl
+        ".php",                                  # PHP
+        ".ex", ".exs",                           # Elixir
+        ".zig",                                  # Zig
+        ".nim",                                  # Nim
+        ".dart",                                 # Dart
+        ".vala",                                 # Vala
+        ".cmake",                                # CMake
+        ".mk",                                   # Makefile fragments
     }
 
     for root, dirs, files in os.walk(repo_path):

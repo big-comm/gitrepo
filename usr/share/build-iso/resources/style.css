@@ -1,0 +1,94 @@
+/* Build ISO GUI - Custom styles */
+
+/* ─── Dropdown popups ─── */
+.wide-dropdown popover.menu {
+    min-width: 280px;
+}
+
+.wide-dropdown popover.menu modelbutton {
+    min-width: 260px;
+}
+
+row.combo popover contents modelbutton {
+    min-width: 250px;
+}
+
+/* ─── Sidebar navigation ─── */
+.sidebar-listbox row {
+    border-radius: 10px;
+    margin: 2px 6px;
+    padding: 2px 4px;
+    transition: all 200ms ease;
+}
+
+.sidebar-listbox row:hover:not(:selected) {
+    background-color: alpha(@accent_bg_color, 0.1);
+}
+
+.sidebar-listbox row:selected {
+    background-color: alpha(@accent_bg_color, 0.85);
+    color: @accent_fg_color;
+    border-radius: 10px;
+}
+
+.sidebar-listbox row:selected label.title {
+    color: @accent_fg_color;
+    font-weight: bold;
+}
+
+.sidebar-listbox row:selected label.subtitle {
+    color: alpha(@accent_fg_color, 0.85);
+}
+
+.sidebar-listbox row:selected image {
+    color: @accent_fg_color;
+}
+
+/* ─── Status colors ─── */
+.status-ok {
+    color: #32CD32;
+}
+
+.status-warning {
+    color: #FFD93D;
+}
+
+.status-error {
+    color: #FF6B6B;
+}
+
+/* ─── Build button ─── */
+.build-action-button {
+    min-height: 48px;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+/* ─── Terminal view ─── */
+.terminal-view {
+    font-family: monospace;
+    font-size: 0.9em;
+    background-color: #1e1e2e;
+    color: #cdd6f4;
+}
+
+/* ─── Card sections ─── */
+.dashboard-card {
+    margin: 4px 0;
+    padding: 12px;
+    border-radius: 12px;
+}
+
+/* ─── Progress phases ─── */
+.phase-active {
+    font-weight: bold;
+    color: @accent_bg_color;
+}
+
+.phase-complete {
+    color: #32CD32;
+}
+
+.phase-pending {
+    color: alpha(@accent_fg_color, 0.4);
+}

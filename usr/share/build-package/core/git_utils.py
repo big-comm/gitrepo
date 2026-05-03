@@ -872,6 +872,29 @@ class GitUtils:
             return 0
 
     @staticmethod
+    def get_changed_files() -> list:
+        """Return a list of (status, filepath) tuples for changed files."""
+        try:
+            result = subprocess.run(
+                ["git", "status", "--porcelain"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.DEVNULL,
+                text=True,
+                check=False,
+            )
+            if result.returncode != 0:
+                return []
+            files = []
+            for line in result.stdout.splitlines():
+                if line.strip():
+                    status = line[:2].strip()
+                    filepath = line[3:]
+                    files.append((status, filepath))
+            return files
+        except Exception:
+            return []
+
+    @staticmethod
     def branch_exists(branch: str) -> bool:
         """Return True if *branch* exists locally or as a remote-tracking branch."""
         local = (
