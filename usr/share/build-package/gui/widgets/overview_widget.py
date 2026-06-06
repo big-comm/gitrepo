@@ -325,15 +325,20 @@ class OverviewWidget(Gtk.Box):
     
     def _update_changed_files_list(self, changed_files):
         """Update the expandable list of changed files"""
-        # Clear previous rows
-        child = self.changed_files_expander.get_first_child()
-        rows_to_remove = []
-        while child:
-            if isinstance(child, Adw.ActionRow) and child is not self.changed_files_expander:
-                rows_to_remove.append(child)
-            child = child.get_next_sibling()
-        for row in rows_to_remove:
+        # Clear previously added rows.
+        #
+        # Adw.ExpanderRow keeps add_row() children in an internal list box, so
+        # they are NOT reachable by walking get_first_child()/get_next_sibling()
+        # on the expander itself — that traversal only sees the expander's own
+        # header widgets. The old code therefore removed nothing, and every
+        # refresh (each "Pull Latest"/status update) appended the file list
+        # again, duplicating the entries. Track the rows we add and remove them
+        # explicitly instead.
+        if not hasattr(self, "_changed_file_rows"):
+            self._changed_file_rows = []
+        for row in self._changed_file_rows:
             self.changed_files_expander.remove(row)
+        self._changed_file_rows = []
 
         status_labels = {
             "M": _("Modified"),
@@ -365,6 +370,7 @@ class OverviewWidget(Gtk.Box):
             icon = Gtk.Image.new_from_icon_name(icon_name)
             row.add_prefix(icon)
             self.changed_files_expander.add_row(row)
+            self._changed_file_rows.append(row)
 
         count = len(changed_files)
         self.changed_files_expander.set_title(
