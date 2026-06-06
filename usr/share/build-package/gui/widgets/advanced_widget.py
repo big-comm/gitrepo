@@ -236,9 +236,11 @@ class AdvancedWidget(Gtk.Box):
         try:
             import subprocess
             
-            # Get recent commits
+            # Get recent commits. Use a date format that includes the time (in
+            # local timezone) so the history shows hour:minute, not just the
+            # day — the full hash is carried too (shown truncated by CommitRow).
             result = subprocess.run(
-                ["git", "log", "-10", "--pretty=format:%H|%an|%ad|%s", "--date=short"],
+                ["git", "log", "-10", "--pretty=format:%H|%an|%ad|%s", "--date=format-local:%Y-%m-%d %H:%M"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
