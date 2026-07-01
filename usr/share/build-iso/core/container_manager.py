@@ -5,9 +5,9 @@
 #
 
 import subprocess
-import time
-
-from core.translation_utils import _
+import json
+import urllib.parse
+import urllib.request
 
 
 class ContainerManager:
@@ -163,3 +163,63 @@ class ContainerManager:
             return round(stat.free / (1024 ** 3), 1)
         except Exception:
             return 0.0
+
+    @staticmethod
+    def split_image_ref(image: str) -> tuple[str, str]:
+        """Return (repository, tag) from an image reference."""
+        ref = (image or "").strip()
+        if not ref:
+            return "", ""
+
+        ref = ref.split("@", 1)[0]
+        last_part = ref.rsplit("/", 1)[-1]
+        if ":" in last_part:
+            repo, tag = ref.rsplit(":", 1)
+            return repo, tag
+        return ref, "latest"
+
+    @staticmethod
+    def dockerhub_repository(image_or_repo: str) -> str:
+        """Return DockerHub repository path, or empty for non-DockerHub registries."""
+        repo, _tag = ContainerManager.split_image_ref(image_or_repo)
+        if not repo:
+            return ""
+
+        parts = repo.split("/")
+        if len(parts) > 1 and (("." in parts[0]) or (":" in parts[0]) or parts[0] == "localhost"):
+            registry = parts[0]
+            if registry not in ("docker.io", "index.docker.io", "registry-1.docker.io"):
+                return ""
+            repo = "/".join(parts[1:])
+
+        if "/" not in repo:
+            repo = f"library/{repo}"
+        return repo
+
+    def list_dockerhub_tags(self, image_or_repo: str, limit: int = 100) -> list[str]:
+        """Fetch DockerHub tags for an image repository."""
+        repo = self.dockerhub_repository(image_or_repo)
+        if not repo:
+            return []
+
+        tags: list[str] = []
+        encoded_repo = "/".join(urllib.parse.quote(part, safe="") for part in repo.split("/"))
+        url = f"https://hub.docker.com/v2/repositories/{encoded_repo}/tags?page_size=100"
+
+        while url and len(tags) < limit:
+            try:
+                req = urllib.request.Request(url, headers={"Accept": "application/json"})
+                with urllib.request.urlopen(req, timeout=15) as response:
+                    payload = json.loads(response.read().decode())
+            except Exception:
+                return tags
+
+            for item in payload.get("results", []):
+                name = item.get("name")
+                if name and name not in tags:
+                    tags.append(name)
+                    if len(tags) >= limit:
+                        break
+            url = payload.get("next")
+
+        return tags

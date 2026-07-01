@@ -12,7 +12,6 @@ import gi
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 
-from core.config import CONTAINER_IMAGE
 from core.container_manager import ContainerManager
 from core.translation_utils import _
 from gi.repository import Adw, GLib, GObject, Gtk
@@ -69,7 +68,7 @@ class ContainerWidget(Gtk.Box):
         # ── Image Management ──
         image_group = Adw.PreferencesGroup()
         image_group.set_title(_("Build Image"))
-        image_group.set_description(CONTAINER_IMAGE)
+        image_group.set_description(self.settings.container_image)
         image_group.set_margin_top(24)
         self.append(image_group)
 
@@ -152,6 +151,8 @@ class ContainerWidget(Gtk.Box):
         driver = ""
         image_info = None
 
+        image = self.settings.container_image
+
         if engine:
             try:
                 r = subprocess.run([engine, "--version"], capture_output=True, text=True, timeout=5, check=False)
@@ -160,8 +161,8 @@ class ContainerWidget(Gtk.Box):
                 version = _("Unknown")
 
             driver = self.container_mgr.get_storage_driver()
-            if self.container_mgr.image_exists(CONTAINER_IMAGE):
-                image_info = self.container_mgr.get_image_info(CONTAINER_IMAGE)
+            if self.container_mgr.image_exists(image):
+                image_info = self.container_mgr.get_image_info(image)
 
         GLib.idle_add(self._update_ui, engine, version, driver, image_info)
 
@@ -207,7 +208,7 @@ class ContainerWidget(Gtk.Box):
         def progress_callback(line):
             GLib.idle_add(self._update_pull_progress, line)
 
-        success = self.container_mgr.pull_image(CONTAINER_IMAGE, progress_callback)
+        success = self.container_mgr.pull_image(self.settings.container_image, progress_callback)
         GLib.idle_add(self._pull_completed, success)
 
     def _update_pull_progress(self, line):
@@ -230,7 +231,7 @@ class ContainerWidget(Gtk.Box):
         thread.start()
 
     def _cleanup_worker(self):
-        self.container_mgr.cleanup_old_containers(CONTAINER_IMAGE)
+        self.container_mgr.cleanup_old_containers(self.settings.container_image)
         GLib.idle_add(self.refresh)
 
     def _on_fix_driver_clicked(self, button):
@@ -258,5 +259,5 @@ class ContainerWidget(Gtk.Box):
             {"container_engine": "docker"},
             callbacks={"on_log": lambda c, m: GLib.idle_add(self.logger.log, c, m)},
         )
-        success = builder._check_and_fix_storage()
+        builder._check_and_fix_storage()
         GLib.idle_add(self.refresh)

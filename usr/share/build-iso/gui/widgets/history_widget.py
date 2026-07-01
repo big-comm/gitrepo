@@ -14,7 +14,7 @@ gi.require_version('Adw', '1')
 
 from core.config import HISTORY_FILE
 from core.translation_utils import _
-from gi.repository import Adw, GLib, GObject, Gtk
+from gi.repository import Adw, Gtk
 
 
 class HistoryWidget(Gtk.Box):

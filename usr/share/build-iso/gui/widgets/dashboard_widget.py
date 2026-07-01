@@ -14,7 +14,6 @@ import gi
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 
-from core.config import CONTAINER_IMAGE, DEFAULT_OUTPUT_DIR
 from core.translation_utils import _
 from gi.repository import Adw, GLib, GObject, Gtk
 
@@ -66,7 +65,7 @@ class DashboardWidget(Gtk.Box):
         # Container image status
         self.image_row = Adw.ActionRow()
         self.image_row.set_title(_("Build Image"))
-        self.image_row.set_subtitle(CONTAINER_IMAGE)
+        self.image_row.set_subtitle(self.settings.container_image)
         image_icon = Gtk.Image.new_from_icon_name("drive-harddisk-symbolic")
         self.image_row.add_prefix(image_icon)
         self.image_status = Gtk.Image.new_from_icon_name("emblem-synchronizing-symbolic")
@@ -165,10 +164,12 @@ class DashboardWidget(Gtk.Box):
 
         # Check image
         image_exists = False
+        image = self.settings.container_image
+
         if engine != "none":
             try:
                 result = subprocess.run(
-                    [engine, "image", "inspect", CONTAINER_IMAGE],
+                    [engine, "image", "inspect", image],
                     capture_output=True, text=True, timeout=10, check=False,
                 )
                 image_exists = result.returncode == 0
@@ -191,9 +192,9 @@ class DashboardWidget(Gtk.Box):
         dir_exists = os.path.exists(output_dir)
 
         # Update UI on main thread
-        GLib.idle_add(self._update_status, engine, engine_version, image_exists, free_gb, total_gb, dir_exists)
+        GLib.idle_add(self._update_status, engine, engine_version, image, image_exists, free_gb, total_gb, dir_exists)
 
-    def _update_status(self, engine, engine_version, image_exists, free_gb, total_gb, dir_exists):
+    def _update_status(self, engine, engine_version, image, image_exists, free_gb, total_gb, dir_exists):
         """Update status cards on main thread"""
         # Engine
         if engine != "none":
@@ -207,11 +208,11 @@ class DashboardWidget(Gtk.Box):
 
         # Image
         if image_exists:
-            self.image_row.set_subtitle(_("{0} (available)").format(CONTAINER_IMAGE))
+            self.image_row.set_subtitle(_("{0} (available)").format(image))
             self.image_status.set_from_icon_name("emblem-ok-symbolic")
             self.image_status.add_css_class("status-ok")
         else:
-            self.image_row.set_subtitle(_("{0} (not downloaded)").format(CONTAINER_IMAGE))
+            self.image_row.set_subtitle(_("{0} (not downloaded)").format(image))
             self.image_status.set_from_icon_name("dialog-warning-symbolic")
             self.image_status.add_css_class("status-warning")
 

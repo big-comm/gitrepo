@@ -7,16 +7,16 @@
 # that reports progress via callbacks instead of direct console output.
 #
 
-import json
 import os
 import re
 import subprocess
 import shutil
+import tempfile
 import threading
 import time
 from datetime import datetime
 
-from core.config import BUILD_ISO_REPO, CONTAINER_IMAGE, ISO_PROFILES_REPOS
+from core.config import BUILD_ISO_REPO, CONTAINER_IMAGE
 from core.translation_utils import _
 
 # Regex to strip ANSI escape codes from container output
@@ -186,9 +186,13 @@ class ISOBuilder:
                 # Phase: Check storage driver
                 self._phase("check_storage")
                 if self.container_engine == "docker":
-                    if not self._check_and_fix_storage():
-                        result["error"] = _("Failed to configure Docker storage driver")
+                    if not self._check_storage_driver():
+                        result["error"] = _("Failed to check Docker storage driver")
                         return result
+
+                if not self._check_host_build_requirements():
+                    result["error"] = _("Host system is missing required ISO build capabilities")
+                    return result
 
                 if self.is_cancelled:
                     result["error"] = _("Build cancelled")
@@ -212,6 +216,10 @@ class ISOBuilder:
                 self._log("cyan", _("Pulling container image: {0}").format(self.container_image))
                 if not self._pull_image():
                     result["error"] = _("Failed to pull container image")
+                    return result
+
+                if not self._check_container_build_requirements():
+                    result["error"] = _("Container cannot use required ISO build capabilities")
                     return result
 
                 if self.is_cancelled:
@@ -282,8 +290,37 @@ class ISOBuilder:
             subprocess.run(["sudo", "-n", "-v"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
             stop_event.wait(60)
 
+    def _check_storage_driver(self) -> bool:
+        """Check Docker storage driver without changing host configuration."""
+        try:
+            result = subprocess.run(
+                ["docker", "info", "--format", "{{.Driver}}"],
+                stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, check=False,
+            )
+            if result.returncode != 0:
+                self._log("yellow", _("Could not query Docker storage driver"))
+                return True
+
+            driver = result.stdout.strip()
+            if driver != "btrfs":
+                return True
+
+            self._log("yellow", _("Docker is using deprecated 'btrfs' storage driver"))
+            self._log("yellow", _("Use the Container page to switch to overlay2 if builds fail with storage errors."))
+            return True
+
+        except Exception as e:
+            self._log("red", _("Error checking Docker storage: {0}").format(str(e)))
+            return False
+
     def _check_and_fix_storage(self) -> bool:
-        """Check Docker storage driver and auto-fix btrfs to overlay2"""
+        """Manually migrate Docker from btrfs to overlay2.
+
+        This is only called by the explicit Container page action because it
+        removes Docker storage.
+        """
+        import json
+
         try:
             result = subprocess.run(
                 ["docker", "info", "--format", "{{.Driver}}"],
@@ -294,13 +331,11 @@ class ISOBuilder:
                 return True
 
             self._log("yellow", _("Docker is using deprecated 'btrfs' storage driver"))
-            self._log("cyan", _("Automatically switching to 'overlay2'..."))
+            self._log("cyan", _("Switching to 'overlay2'..."))
 
-            # Stop Docker
             subprocess.run(["sudo", "systemctl", "stop", "docker.socket"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
             subprocess.run(["sudo", "systemctl", "stop", "docker"], check=True)
 
-            # Write daemon.json
             daemon_json = "/etc/docker/daemon.json"
             existing = {}
             try:
@@ -312,12 +347,10 @@ class ISOBuilder:
             existing["storage-driver"] = "overlay2"
             subprocess.run(["sudo", "tee", daemon_json], input=json.dumps(existing, indent=2) + "\n", text=True, stdout=subprocess.DEVNULL, check=True)
 
-            # Remove old storage and restart
             subprocess.run(["sudo", "rm", "-rf", "/var/lib/docker"], check=True)
             subprocess.run(["sudo", "systemctl", "start", "docker"], check=True)
 
-            # Verify
-            for _ in range(10):
+            for attempt in range(10):
                 r = subprocess.run(["docker", "info", "--format", "{{.Driver}}"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, check=False)
                 if r.returncode == 0 and r.stdout.strip() == "overlay2":
                     self._log("green", _("Docker switched to overlay2 successfully"))
@@ -331,6 +364,105 @@ class ISOBuilder:
             self._log("red", _("Error fixing Docker storage: {0}").format(str(e)))
             subprocess.run(["sudo", "systemctl", "start", "docker"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
             return False
+
+    def _check_host_build_requirements(self) -> bool:
+        """Verify host kernel can provide loop devices for buildiso."""
+        self._log("cyan", _("Checking host loop device support..."))
+
+        loop_file = ""
+        loop_dev = ""
+        try:
+            with tempfile.NamedTemporaryFile(prefix="build-iso-loop-", suffix=".img", delete=False) as tmp:
+                loop_file = tmp.name
+                tmp.truncate(1024 * 1024)
+
+            result = subprocess.run(
+                ["sudo", "losetup", "-f", "--show", loop_file],
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False,
+            )
+            if result.returncode != 0:
+                stderr = result.stderr.strip() or result.stdout.strip()
+                self._log("red", _("Host loop device test failed: {0}").format(stderr))
+                self._log_host_kernel_hint()
+                return False
+
+            loop_dev = result.stdout.strip()
+            self._log("green", _("Host loop device available: {0}").format(loop_dev))
+            return True
+
+        except Exception as e:
+            self._log("red", _("Error checking host loop device support: {0}").format(str(e)))
+            return False
+        finally:
+            if loop_dev:
+                subprocess.run(["sudo", "losetup", "-d", loop_dev], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+            if loop_file:
+                try:
+                    os.unlink(loop_file)
+                except OSError:
+                    pass
+
+    def _log_host_kernel_hint(self):
+        """Log actionable kernel/module details after loop setup failure."""
+        kernel = subprocess.run(
+            ["uname", "-r"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, check=False,
+        ).stdout.strip()
+
+        if kernel:
+            self._log("yellow", _("Running kernel: {0}").format(kernel))
+            if "MANJARO" not in kernel.upper():
+                self._log("yellow", _("Non-Manjaro kernels are supported when their modules match the running kernel."))
+
+            modules_dir = f"/usr/lib/modules/{kernel}"
+            if os.path.isdir(modules_dir):
+                self._log("cyan", _("Kernel modules directory found: {0}").format(modules_dir))
+            else:
+                self._log("red", _("Kernel modules directory not found: {0}").format(modules_dir))
+                try:
+                    installed = sorted(
+                        name for name in os.listdir("/usr/lib/modules")
+                        if os.path.isdir(os.path.join("/usr/lib/modules", name))
+                    )
+                    if installed:
+                        self._log("yellow", _("Installed module directories: {0}").format(", ".join(installed[-6:])))
+                except OSError:
+                    pass
+
+        required = "loop"
+        useful = "overlay, vfat"
+        self._log("yellow", _("Required kernel capability: {0}").format(required))
+        self._log("yellow", _("Usually also needed during ISO builds: {0}").format(useful))
+        self._log("yellow", _("Reboot into a kernel that matches installed modules, or install the exact kernel package for the running kernel."))
+
+    def _check_container_build_requirements(self) -> bool:
+        """Verify privileged container can use loop devices before long build."""
+        self._log("cyan", _("Checking loop device support inside container..."))
+
+        script = r"""
+set -e
+tmp="$(mktemp /tmp/build-iso-loop-XXXXXX.img)"
+truncate -s 1M "$tmp"
+loop="$(sudo losetup -f --show "$tmp")"
+sudo losetup -d "$loop"
+rm -f "$tmp"
+"""
+        cmd = [
+            self.container_engine, "run",
+            "--privileged", "--rm", "--network=host",
+            self.container_image,
+            "bash", "-lc", script,
+        ]
+
+        result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, check=False)
+        if result.returncode == 0:
+            self._log("green", _("Container loop device test passed"))
+            return True
+
+        output = result.stdout.strip()
+        if output:
+            self._log("red", output)
+        self._log("yellow", _("The container runtime cannot use loop devices from this host."))
+        return False
 
     def _pull_image(self) -> bool:
         process = subprocess.Popen(

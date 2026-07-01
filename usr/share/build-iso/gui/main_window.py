@@ -14,7 +14,7 @@ gi.require_version('Adw', '1')
 from core.config import APP_NAME, APP_VERSION
 from core.settings import Settings
 from core.translation_utils import _
-from gi.repository import Adw, Gio, GLib, Gtk
+from gi.repository import Adw, Gio, Gtk
 
 from .gtk_logger import GTKLogger
 from .widgets.build_widget import BuildWidget

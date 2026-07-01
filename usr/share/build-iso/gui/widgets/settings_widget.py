@@ -5,11 +5,13 @@
 #
 
 import gi
+import threading
 
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 
-from core.config import CONTAINER_IMAGE, DEFAULT_OUTPUT_DIR, VALID_BRANCHES
+from core.config import VALID_BRANCHES
+from core.container_manager import ContainerManager
 from core.translation_utils import _
 from gi.repository import Adw, GLib, GObject, Gtk
 
@@ -28,6 +30,8 @@ class SettingsWidget(Gtk.Box):
 
         self.settings = settings
         self._loading = False
+        self._loading_image_tags = False
+        self._image_tags = []
 
         self.set_margin_start(24)
         self.set_margin_end(24)
@@ -72,7 +76,21 @@ class SettingsWidget(Gtk.Box):
 
         self.image_row = Adw.EntryRow()
         self.image_row.set_title(_("Container Image"))
+        refresh_tags_btn = Gtk.Button()
+        refresh_tags_btn.set_icon_name("view-refresh-symbolic")
+        refresh_tags_btn.set_valign(Gtk.Align.CENTER)
+        refresh_tags_btn.set_tooltip_text(_("Refresh available tags"))
+        refresh_tags_btn.connect("clicked", self._on_refresh_tags_clicked)
+        self.image_row.add_suffix(refresh_tags_btn)
         container_group.add(self.image_row)
+
+        self.image_tag_row = Adw.ComboRow()
+        self.image_tag_row.set_title(_("Available Tags"))
+        self.image_tag_row.set_subtitle(_("Select a DockerHub tag for the container image"))
+        self._image_tag_model = Gtk.StringList()
+        self.image_tag_row.set_model(self._image_tag_model)
+        self.image_tag_row.connect("notify::selected", self._on_image_tag_selected)
+        container_group.add(self.image_tag_row)
 
         # ── Defaults ──
         defaults_group = Adw.PreferencesGroup()
@@ -177,6 +195,59 @@ class SettingsWidget(Gtk.Box):
         self.notify_sound_row.set_active(self.settings.get("notifications", "sound", default=False))
         self.auto_cleanup_row.set_active(self.settings.get("build", "clean_cache_after", default=False))
         self._loading = False
+        GLib.idle_add(self._fetch_image_tags_async)
+
+    def _on_refresh_tags_clicked(self, button):
+        self._fetch_image_tags_async()
+
+    def _fetch_image_tags_async(self):
+        image = self.image_row.get_text().strip()
+        if not image:
+            return False
+
+        self.image_tag_row.set_sensitive(False)
+        self.image_tag_row.set_subtitle(_("Loading tags..."))
+        thread = threading.Thread(target=self._fetch_image_tags_worker, args=(image,), daemon=True)
+        thread.start()
+        return False
+
+    def _fetch_image_tags_worker(self, image):
+        tags = ContainerManager().list_dockerhub_tags(image)
+        GLib.idle_add(self._populate_image_tags, image, tags)
+
+    def _populate_image_tags(self, image, tags):
+        repo, current_tag = ContainerManager.split_image_ref(image)
+        display_tags = list(tags)
+        if current_tag and current_tag not in display_tags:
+            display_tags.insert(0, current_tag)
+
+        self._loading_image_tags = True
+        self._image_tags = display_tags
+        self._image_tag_model = Gtk.StringList()
+        for tag in display_tags:
+            self._image_tag_model.append(tag)
+        self.image_tag_row.set_model(self._image_tag_model)
+
+        if display_tags:
+            selected = display_tags.index(current_tag) if current_tag in display_tags else 0
+            self.image_tag_row.set_selected(selected)
+            self.image_tag_row.set_subtitle(repo)
+        else:
+            self.image_tag_row.set_subtitle(_("No DockerHub tags found; edit the image manually"))
+
+        self._loading_image_tags = False
+        self.image_tag_row.set_sensitive(True)
+        return False
+
+    def _on_image_tag_selected(self, row, pspec):
+        if self._loading or self._loading_image_tags:
+            return
+        idx = self.image_tag_row.get_selected()
+        if idx < 0 or idx >= len(self._image_tags):
+            return
+        repo, _current_tag = ContainerManager.split_image_ref(self.image_row.get_text())
+        if repo:
+            self.image_row.set_text(f"{repo}:{self._image_tags[idx]}")
 
     def _on_browse_output(self, button):
         dialog = Gtk.FileDialog()

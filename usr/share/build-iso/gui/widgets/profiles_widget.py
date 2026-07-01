@@ -21,7 +21,6 @@ from core.config import (
     API_PROFILES,
     DEFAULT_EDITIONS,
     EXCLUDED_EDITIONS,
-    ISO_PROFILES_REPOS,
     VALID_DISTROS,
 )
 from core.translation_utils import _
