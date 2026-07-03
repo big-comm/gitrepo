@@ -7,6 +7,7 @@
 # that reports progress via callbacks instead of direct console output.
 #
 
+import codecs
 import os
 import re
 import subprocess
@@ -20,7 +21,51 @@ from core.config import BUILD_ISO_REPO, CONTAINER_IMAGE
 from core.translation_utils import _
 
 # Regex to strip ANSI escape codes from container output
-_ANSI_RE = re.compile(r'\x1b\[[0-9;]*[a-zA-Z]|\x1b\].*?\x07')
+_ANSI_RE = re.compile(
+    r'\x1b\[[0-?]*[ -/]*[@-~]'
+    r'|\x1b\].*?(?:\x07|\x1b\\)'
+    r'|\x1b[()][A-Za-z0-9]'
+    r'|\x1b[=>]'
+)
+_NON_COLOR_ANSI_RE = re.compile(
+    r'\x1b\[(?![0-9;]*m)[0-?]*[ -/]*[@-~]'
+    r'|\x1b\].*?(?:\x07|\x1b\\)'
+    r'|\x1b[()][A-Za-z0-9]'
+    r'|\x1b[=>]'
+)
+_CONTROL_RE = re.compile(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]')
+_NON_ESC_CONTROL_RE = re.compile(r'[\x00-\x08\x0b\x0c\x0e-\x1a\x1c-\x1f\x7f]')
+
+
+def _short_status(text: str, limit: int = 110) -> str:
+    """Compact terminal status lines for progress text."""
+    compact = " ".join(text.split())
+    if len(compact) > limit:
+        return compact[:limit - 3] + "..."
+    return compact
+
+
+def _clean_terminal_text(text: str) -> str:
+    text = _ANSI_RE.sub('', text)
+    text = _CONTROL_RE.sub('', text)
+    return text.strip()
+
+
+def _clean_log_text(text: str) -> str:
+    text = _NON_COLOR_ANSI_RE.sub('', text)
+    text = _NON_ESC_CONTROL_RE.sub('', text)
+    return text.strip()
+
+
+def _looks_like_pacman_progress(text: str) -> bool:
+    lower = text.lower()
+    if not text:
+        return False
+    if lower.startswith("total (") and "%" in text:
+        return True
+    has_size = any(unit in lower for unit in (" kib", " mib", " gib", " b/s", "kib/s", "mib/s"))
+    has_bar = "[" in text and "]" in text and "%" in text
+    return has_size and has_bar
 
 
 class ISOBuilder:
@@ -561,11 +606,41 @@ sudo install -m0644 community-keyring/community-revoked /usr/share/pacman/keyrin
 rm -rf community-keyring
 """)
 
-        # Rank mirrors by speed and initialize pacman keys
+        # Rank mirrors and initialize keys
         parts.append("""
-if command -v pacman-mirrors &>/dev/null; then
-    sudo pacman-mirrors --fasttrack 5 2>/dev/null || true
-fi
+buildiso_rank_region_mirrors() {
+    local combined="/tmp/buildiso-regional-mirrorlist"
+    local branch="${MANJARO_BRANCH:-stable}"
+
+    : > "$combined"
+    if command -v pacman-mirrors &>/dev/null; then
+        for country in Brazil United_States; do
+            sudo pacman-mirrors --country "$country" --fasttrack 3 --timeout 8 2>/dev/null || true
+            awk -v country="$country" -v branch="$branch" '
+                /^## Country : / { current = $4; next }
+                current == country && /^[[:space:]]*Server[[:space:]]*=/ {
+                    url = $3
+                    sub("/(stable|testing|unstable)/[$]repo/[$]arch$", "", url)
+                    sub("/[$]repo/[$]arch$", "", url)
+                    sub("/(stable|testing|unstable)$", "", url)
+                    print "Server = " url "/" branch "/$repo/$arch"
+                }
+            ' /etc/pacman.d/mirrorlist >> "$combined"
+        done
+    fi
+    if [[ ! -s "$combined" ]]; then
+        {
+            printf 'Server = https://manjaro.c3sl.ufpr.br/%s/$repo/$arch\n' "$branch"
+            printf 'Server = https://mirror.ufam.edu.br/manjaro/%s/$repo/$arch\n' "$branch"
+            printf 'Server = https://linorg.usp.br/manjaro/%s/$repo/$arch\n' "$branch"
+            printf 'Server = https://mirror.fcix.net/manjaro/%s/$repo/$arch\n' "$branch"
+            printf 'Server = https://mirrors.sonic.net/manjaro/%s/$repo/$arch\n' "$branch"
+        } > "$combined"
+    fi
+    awk '!seen[$0]++' "$combined" > "${combined}.unique"
+    sudo install -m 0644 "${combined}.unique" /etc/pacman.d/mirrorlist
+}
+buildiso_rank_region_mirrors
 sudo pacman-key --init
 sudo pacman-key --populate
 sudo pacman -Sy --quiet --noconfirm
@@ -594,6 +669,104 @@ if [[ "${USE_LOCAL_ISO_PROFILES:-}" == "true" ]] && [[ -d /work/local-iso-profil
     # Override clone_iso_profiles function in build-iso.sh to skip cloning
     sed -i '/^clone_iso_profiles() {/,/^}/c\\clone_iso_profiles() { msg "Using local iso-profiles (clone skipped)"; git config --global --add safe.directory /work/iso-profiles 2>/dev/null || true; }' /work/build-iso/build-iso.sh
 fi
+""")
+
+        parts.append(r"""
+cat > /tmp/buildiso-pacman-hardening.inc <<'EOF_HARDENING'
+buildiso_rank_region_mirrors() {
+    local combined="/tmp/buildiso-regional-mirrorlist"
+    local branch="${MANJARO_BRANCH:-stable}"
+
+    : > "$combined"
+    if command -v pacman-mirrors &>/dev/null; then
+        for country in Brazil United_States; do
+            sudo pacman-mirrors --country "$country" --fasttrack 3 --timeout 8 2>/dev/null || true
+            awk -v country="$country" -v branch="$branch" '
+                /^## Country : / { current = $4; next }
+                current == country && /^[[:space:]]*Server[[:space:]]*=/ {
+                    url = $3
+                    sub("/(stable|testing|unstable)/[$]repo/[$]arch$", "", url)
+                    sub("/[$]repo/[$]arch$", "", url)
+                    sub("/(stable|testing|unstable)$", "", url)
+                    print "Server = " url "/" branch "/$repo/$arch"
+                }
+            ' /etc/pacman.d/mirrorlist >> "$combined"
+        done
+    fi
+    if [[ ! -s "$combined" ]]; then
+        {
+            printf 'Server = https://manjaro.c3sl.ufpr.br/%s/$repo/$arch\n' "$branch"
+            printf 'Server = https://mirror.ufam.edu.br/manjaro/%s/$repo/$arch\n' "$branch"
+            printf 'Server = https://linorg.usp.br/manjaro/%s/$repo/$arch\n' "$branch"
+            printf 'Server = https://mirror.fcix.net/manjaro/%s/$repo/$arch\n' "$branch"
+            printf 'Server = https://mirrors.sonic.net/manjaro/%s/$repo/$arch\n' "$branch"
+        } > "$combined"
+    fi
+    awk '!seen[$0]++' "$combined" > "${combined}.unique"
+    sudo install -m 0644 "${combined}.unique" /etc/pacman.d/mirrorlist
+}
+
+buildiso_set_manjaro_failover() {
+    local config_file="$1"
+    local branch="${MANJARO_BRANCH:-stable}"
+    local mirrorlist="/etc/pacman.d/mirrorlist"
+    local tmp
+
+    [[ -f "$config_file" ]] || return 0
+    tmp="$(mktemp)"
+    awk -v branch="$branch" -v mirrorlist="$mirrorlist" '
+        BEGIN {
+            while ((getline line < mirrorlist) > 0) {
+                if (line ~ /^[[:space:]]*Server[[:space:]]*=/) {
+                    servers[++server_count] = line
+                }
+            }
+            close(mirrorlist)
+
+            if (server_count == 0) {
+                servers[++server_count] = "Server = https://manjaro.c3sl.ufpr.br/" branch "/$repo/$arch"
+                servers[++server_count] = "Server = https://mirror.ufam.edu.br/manjaro/" branch "/$repo/$arch"
+                servers[++server_count] = "Server = https://linorg.usp.br/manjaro/" branch "/$repo/$arch"
+                servers[++server_count] = "Server = https://mirror.fcix.net/manjaro/" branch "/$repo/$arch"
+                servers[++server_count] = "Server = https://mirrors.sonic.net/manjaro/" branch "/$repo/$arch"
+            }
+        }
+        /# build-iso mirror failover begin/ { skip = 1; next }
+        /# build-iso mirror failover end/ { skip = 0; next }
+        skip { next }
+        /^\[(core|extra|multilib)\]$/ {
+            in_manjaro_repo = 1
+            print
+            print "# build-iso mirror failover begin"
+            for (i = 1; i <= server_count; i++) {
+                print servers[i]
+            }
+            print "# build-iso mirror failover end"
+            next
+        }
+        /^\[/ { in_manjaro_repo = 0 }
+        in_manjaro_repo && /^[[:space:]]*(Include|Server)[[:space:]]*=/ { next }
+        { print }
+    ' "$config_file" > "$tmp"
+    sudo install -m 0644 "$tmp" "$config_file"
+    rm -f "$tmp"
+}
+
+buildiso_pacman_hardening() {
+    msg_info "Configuring regional pacman mirrors"
+    buildiso_rank_region_mirrors
+    msg_info "Configuring pacman mirror failover"
+    buildiso_set_manjaro_failover "$PATH_MANJARO_TOOLS/pacman-default.conf"
+    buildiso_set_manjaro_failover "$PATH_MANJARO_TOOLS/pacman-multilib.conf"
+}
+EOF_HARDENING
+
+if ! grep -q '^buildiso_pacman_hardening()' /work/build-iso/build-iso.sh; then
+    sed -i '/^# Main build function$/r /tmp/buildiso-pacman-hardening.inc' /work/build-iso/build-iso.sh
+    sed -i '/^  configure_repositories$/a\  buildiso_pacman_hardening' /work/build-iso/build-iso.sh
+fi
+sed -i 's|sudo pacman-mirrors --fasttrack 5 2>/dev/null || msg_warning|sudo pacman-mirrors --country Brazil United_States --fasttrack 5 --timeout 3 2>/dev/null || sudo pacman-mirrors --fasttrack 5 --timeout 3 2>/dev/null || msg_warning|' /work/build-iso/build-iso.sh
+sed -i 's/^  add_manjaro_mirrors "$config_file"$/  : # Manjaro mirrors are injected into official repo sections by buildiso_pacman_hardening/' /work/build-iso/build-iso.sh
 """)
 
         parts.append("cd /work/build-iso && bash ./build-iso.sh")
@@ -628,6 +801,8 @@ fi
             "-e", "PATH_MANJARO_TOOLS=/usr/share/manjaro-tools",
             "-e", "VAR_CACHE_MANJARO_TOOLS=/var/cache/manjaro-tools",
             "-e", "VAR_CACHE_MANJARO_TOOLS_ISO=/var/cache/manjaro-tools/iso",
+            "-e", "TERM=xterm-256color",
+            "-e", "COLUMNS=120",
         ]
 
         # Mount local iso-profiles if using local source
@@ -645,7 +820,7 @@ fi
 
         cmd = [
             self.container_engine, "run",
-            "--privileged", "--rm", "--network=host",
+            "--privileged", "--rm", "--network=host", "-t",
             "--name", self._container_name,
         ] + volumes + env_vars + [
             "-w", "/work/build-iso",
@@ -654,7 +829,7 @@ fi
         ]
 
         process = subprocess.Popen(
-            cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1,
+            cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, bufsize=0,
         )
         self._build_process = process
 
@@ -664,31 +839,103 @@ fi
         import math
         build_start = time.time()
         last_progress = 0.10
+        last_status_update = 0.0
+        last_transient_log = 0.0
+        last_transient_message = ""
+        in_package_retrieval = False
         # Time constant: at 600s (10min) ~47%, at 1200s (20min) ~72%, at 1800s (30min) ~85%
         tau = 900.0
 
-        for line in process.stdout:
-            raw_line = line.rstrip()
-            clean_line = _ANSI_RE.sub('', raw_line)
-            if clean_line:
-                self._log("white", raw_line)
+        def handle_output(raw_line: str, log_line: bool):
+            nonlocal last_progress, last_status_update, last_transient_log, last_transient_message, in_package_retrieval
 
-                elapsed = time.time() - build_start
-                lower = clean_line.lower()
+            raw_line = raw_line.rstrip("\r\n")
+            clean_line = _clean_terminal_text(raw_line)
+            if not clean_line:
+                return
 
-                # Only trigger milestones for unique build-iso.sh stages
-                if "mksquashfs" in lower or "creating squashfs" in lower:
-                    target = max(last_progress, 0.70)
-                elif "xorriso" in lower or "genisoimage" in lower or "mkisofs" in lower:
-                    target = max(last_progress, 0.82)
+            lower = clean_line.lower()
+            if lower.startswith(":: retrieving packages"):
+                in_package_retrieval = True
+            elif any(marker in lower for marker in (
+                "checking keyring",
+                "checking package integrity",
+                "loading package files",
+                "checking for file conflicts",
+                "checking available disk space",
+                ":: processing package changes",
+            )):
+                in_package_retrieval = False
+
+            if log_line and (
+                _looks_like_pacman_progress(clean_line)
+                or (in_package_retrieval and not lower.startswith("::"))
+            ):
+                log_line = False
+
+            if log_line:
+                self._log("white", _clean_log_text(raw_line))
+
+            elapsed = time.time() - build_start
+
+            # Only trigger milestones for unique build-iso.sh stages
+            if "mksquashfs" in lower or "creating squashfs" in lower:
+                target = max(last_progress, 0.70)
+            elif "xorriso" in lower or "genisoimage" in lower or "mkisofs" in lower:
+                target = max(last_progress, 0.82)
+            else:
+                # Exponential decay: progress = 0.10 + 0.75 * (1 - e^(-t/tau))
+                target = 0.10 + 0.75 * (1.0 - math.exp(-elapsed / tau))
+
+            now = time.time()
+            status_text = _("Building ISO in container...")
+            if not log_line:
+                status_text = _short_status(clean_line)
+                if now - last_transient_log >= 1.0 and status_text != last_transient_message:
+                    self._log("dim", status_text)
+                    last_transient_log = now
+                    last_transient_message = status_text
+
+            should_update = target > last_progress
+            if not log_line and now - last_status_update >= 1.0:
+                should_update = True
+                last_status_update = now
+
+            if target > last_progress:
+                last_progress = target
+
+            if should_update:
+                self._progress(min(last_progress, 0.90), status_text)
+
+        decoder = codecs.getincrementaldecoder("utf-8")("replace")
+        pending = ""
+        pending_cr = False
+
+        while True:
+            chunk = os.read(process.stdout.fileno(), 4096)
+            if not chunk:
+                break
+
+            text = decoder.decode(chunk)
+            text = text.replace("\x1b[1G", "\r").replace("\x1b[0G", "\r")
+            for char in text:
+                if pending_cr:
+                    if char == "\n":
+                        handle_output(pending, True)
+                        pending = ""
+                        pending_cr = False
+                        continue
+                    handle_output(pending, False)
+                    pending = ""
+                    pending_cr = False
+
+                if char == "\n":
+                    handle_output(pending, True)
+                    pending = ""
+                elif char == "\r":
+                    pending_cr = True
                 else:
-                    # Exponential decay: progress = 0.10 + 0.75 * (1 - e^(-t/tau))
-                    target = 0.10 + 0.75 * (1.0 - math.exp(-elapsed / tau))
-
-                # Only increase, never decrease
-                if target > last_progress:
-                    last_progress = target
-                    self._progress(min(target, 0.90), _("Building ISO in container..."))
+                    pending += char
 
             if self.is_cancelled:
                 self._log("yellow", _("Stopping container..."))
@@ -703,6 +950,15 @@ fi
                     stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False,
                 )
                 return False
+
+        if pending_cr:
+            handle_output(pending, False)
+            pending = ""
+            pending_cr = False
+
+        pending += decoder.decode(b"", final=True)
+        if pending:
+            handle_output(pending, True)
 
         process.wait()
         return process.returncode == 0

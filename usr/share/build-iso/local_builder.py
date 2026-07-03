@@ -495,11 +495,41 @@ sudo install -m0644 community-keyring/community-revoked /usr/share/pacman/keyrin
 rm -rf community-keyring
 """)
 
-        # 3. Rank mirrors by speed and initialize pacman keys
+        # 3. Rank mirrors and initialize keys
         setup_commands.append("""
-if command -v pacman-mirrors &>/dev/null; then
-    sudo pacman-mirrors --fasttrack 5 2>/dev/null || true
-fi
+buildiso_rank_region_mirrors() {
+    local combined="/tmp/buildiso-regional-mirrorlist"
+    local branch="${MANJARO_BRANCH:-stable}"
+
+    : > "$combined"
+    if command -v pacman-mirrors &>/dev/null; then
+        for country in Brazil United_States; do
+            sudo pacman-mirrors --country "$country" --fasttrack 3 --timeout 8 2>/dev/null || true
+            awk -v country="$country" -v branch="$branch" '
+                /^## Country : / { current = $4; next }
+                current == country && /^[[:space:]]*Server[[:space:]]*=/ {
+                    url = $3
+                    sub("/(stable|testing|unstable)/[$]repo/[$]arch$", "", url)
+                    sub("/[$]repo/[$]arch$", "", url)
+                    sub("/(stable|testing|unstable)$", "", url)
+                    print "Server = " url "/" branch "/$repo/$arch"
+                }
+            ' /etc/pacman.d/mirrorlist >> "$combined"
+        done
+    fi
+    if [[ ! -s "$combined" ]]; then
+        {
+            printf 'Server = https://manjaro.c3sl.ufpr.br/%s/$repo/$arch\n' "$branch"
+            printf 'Server = https://mirror.ufam.edu.br/manjaro/%s/$repo/$arch\n' "$branch"
+            printf 'Server = https://linorg.usp.br/manjaro/%s/$repo/$arch\n' "$branch"
+            printf 'Server = https://mirror.fcix.net/manjaro/%s/$repo/$arch\n' "$branch"
+            printf 'Server = https://mirrors.sonic.net/manjaro/%s/$repo/$arch\n' "$branch"
+        } > "$combined"
+    fi
+    awk '!seen[$0]++' "$combined" > "${combined}.unique"
+    sudo install -m 0644 "${combined}.unique" /etc/pacman.d/mirrorlist
+}
+buildiso_rank_region_mirrors
 sudo pacman-key --init
 sudo pacman-key --populate
 sudo pacman -Sy --quiet --noconfirm
@@ -528,6 +558,104 @@ done
 sudo mknod -m 660 /dev/loop-control c 10 237 2>/dev/null || true
 """)
 
+        setup_commands.append(r"""
+cat > /tmp/buildiso-pacman-hardening.inc <<'EOF_HARDENING'
+buildiso_rank_region_mirrors() {
+    local combined="/tmp/buildiso-regional-mirrorlist"
+    local branch="${MANJARO_BRANCH:-stable}"
+
+    : > "$combined"
+    if command -v pacman-mirrors &>/dev/null; then
+        for country in Brazil United_States; do
+            sudo pacman-mirrors --country "$country" --fasttrack 3 --timeout 8 2>/dev/null || true
+            awk -v country="$country" -v branch="$branch" '
+                /^## Country : / { current = $4; next }
+                current == country && /^[[:space:]]*Server[[:space:]]*=/ {
+                    url = $3
+                    sub("/(stable|testing|unstable)/[$]repo/[$]arch$", "", url)
+                    sub("/[$]repo/[$]arch$", "", url)
+                    sub("/(stable|testing|unstable)$", "", url)
+                    print "Server = " url "/" branch "/$repo/$arch"
+                }
+            ' /etc/pacman.d/mirrorlist >> "$combined"
+        done
+    fi
+    if [[ ! -s "$combined" ]]; then
+        {
+            printf 'Server = https://manjaro.c3sl.ufpr.br/%s/$repo/$arch\n' "$branch"
+            printf 'Server = https://mirror.ufam.edu.br/manjaro/%s/$repo/$arch\n' "$branch"
+            printf 'Server = https://linorg.usp.br/manjaro/%s/$repo/$arch\n' "$branch"
+            printf 'Server = https://mirror.fcix.net/manjaro/%s/$repo/$arch\n' "$branch"
+            printf 'Server = https://mirrors.sonic.net/manjaro/%s/$repo/$arch\n' "$branch"
+        } > "$combined"
+    fi
+    awk '!seen[$0]++' "$combined" > "${combined}.unique"
+    sudo install -m 0644 "${combined}.unique" /etc/pacman.d/mirrorlist
+}
+
+buildiso_set_manjaro_failover() {
+    local config_file="$1"
+    local branch="${MANJARO_BRANCH:-stable}"
+    local mirrorlist="/etc/pacman.d/mirrorlist"
+    local tmp
+
+    [[ -f "$config_file" ]] || return 0
+    tmp="$(mktemp)"
+    awk -v branch="$branch" -v mirrorlist="$mirrorlist" '
+        BEGIN {
+            while ((getline line < mirrorlist) > 0) {
+                if (line ~ /^[[:space:]]*Server[[:space:]]*=/) {
+                    servers[++server_count] = line
+                }
+            }
+            close(mirrorlist)
+
+            if (server_count == 0) {
+                servers[++server_count] = "Server = https://manjaro.c3sl.ufpr.br/" branch "/$repo/$arch"
+                servers[++server_count] = "Server = https://mirror.ufam.edu.br/manjaro/" branch "/$repo/$arch"
+                servers[++server_count] = "Server = https://linorg.usp.br/manjaro/" branch "/$repo/$arch"
+                servers[++server_count] = "Server = https://mirror.fcix.net/manjaro/" branch "/$repo/$arch"
+                servers[++server_count] = "Server = https://mirrors.sonic.net/manjaro/" branch "/$repo/$arch"
+            }
+        }
+        /# build-iso mirror failover begin/ { skip = 1; next }
+        /# build-iso mirror failover end/ { skip = 0; next }
+        skip { next }
+        /^\[(core|extra|multilib)\]$/ {
+            in_manjaro_repo = 1
+            print
+            print "# build-iso mirror failover begin"
+            for (i = 1; i <= server_count; i++) {
+                print servers[i]
+            }
+            print "# build-iso mirror failover end"
+            next
+        }
+        /^\[/ { in_manjaro_repo = 0 }
+        in_manjaro_repo && /^[[:space:]]*(Include|Server)[[:space:]]*=/ { next }
+        { print }
+    ' "$config_file" > "$tmp"
+    sudo install -m 0644 "$tmp" "$config_file"
+    rm -f "$tmp"
+}
+
+buildiso_pacman_hardening() {
+    msg_info "Configuring regional pacman mirrors"
+    buildiso_rank_region_mirrors
+    msg_info "Configuring pacman mirror failover"
+    buildiso_set_manjaro_failover "$PATH_MANJARO_TOOLS/pacman-default.conf"
+    buildiso_set_manjaro_failover "$PATH_MANJARO_TOOLS/pacman-multilib.conf"
+}
+EOF_HARDENING
+
+if ! grep -q '^buildiso_pacman_hardening()' /work/build-iso/build-iso.sh; then
+    sed -i '/^# Main build function$/r /tmp/buildiso-pacman-hardening.inc' /work/build-iso/build-iso.sh
+    sed -i '/^  configure_repositories$/a\  buildiso_pacman_hardening' /work/build-iso/build-iso.sh
+fi
+sed -i 's|sudo pacman-mirrors --fasttrack 5 2>/dev/null || msg_warning|sudo pacman-mirrors --country Brazil United_States --fasttrack 5 --timeout 3 2>/dev/null || sudo pacman-mirrors --fasttrack 5 --timeout 3 2>/dev/null || msg_warning|' /work/build-iso/build-iso.sh
+sed -i 's/^  add_manjaro_mirrors "$config_file"$/  : # Manjaro mirrors are injected into official repo sections by buildiso_pacman_hardening/' /work/build-iso/build-iso.sh
+""")
+
         # 7. Return to build-iso directory and execute build-iso.sh
         setup_commands.append("cd /work/build-iso && bash ./build-iso.sh")
 
@@ -550,6 +678,7 @@ sudo mknod -m 660 /dev/loop-control c 10 237 2>/dev/null || true
             "--privileged",
             "--rm",
             "--network=host",
+            "-t",
             "-v", f"{self.work_path}:/work",
             "-v", f"{os.path.join(self.cache_path, 'var_lib_manjaro_tools_buildiso')}:/var/lib/manjaro-tools/buildiso",
             "-v", f"{os.path.join(self.cache_path, 'var_cache_manjaro_tools_iso')}:/var/cache/manjaro-tools/iso",
@@ -573,6 +702,8 @@ sudo mknod -m 660 /dev/loop-control c 10 237 2>/dev/null || true
             "-e", "PATH_MANJARO_TOOLS=/usr/share/manjaro-tools",
             "-e", "VAR_CACHE_MANJARO_TOOLS=/var/cache/manjaro-tools",
             "-e", "VAR_CACHE_MANJARO_TOOLS_ISO=/var/cache/manjaro-tools/iso",
+            "-e", "TERM=xterm-256color",
+            "-e", "COLUMNS=120",
             "-w", "/work/build-iso",
             self.container_image,
             "bash", "-c", self._build_setup_script()
