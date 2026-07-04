@@ -16,6 +16,8 @@ from core.config import HISTORY_FILE
 from core.translation_utils import _
 from gi.repository import Adw, Gtk
 
+from .ui_helpers import icon_tile
+
 
 class HistoryWidget(Gtk.Box):
     """Build history page"""
@@ -47,8 +49,8 @@ class HistoryWidget(Gtk.Box):
         self.empty_row = Adw.ActionRow()
         self.empty_row.set_title(_("No builds yet"))
         self.empty_row.set_subtitle(_("Build history will appear here after your first build"))
-        icon = Gtk.Image.new_from_icon_name("document-open-recent-symbolic")
-        self.empty_row.add_prefix(icon)
+        self.empty_row.add_css_class("rich-row")
+        self.empty_row.add_prefix(icon_tile("document-open-recent-symbolic", tone="purple", size=20))
         self.history_group.add(self.empty_row)
 
         # Clear history button
@@ -59,6 +61,8 @@ class HistoryWidget(Gtk.Box):
         clear_row = Adw.ActionRow()
         clear_row.set_title(_("Clear History"))
         clear_row.set_subtitle(_("Remove all build history entries"))
+        clear_row.add_css_class("rich-row")
+        clear_row.add_prefix(icon_tile("dialog-error-symbolic", tone="error", size=20))
         clear_btn = Gtk.Button()
         clear_btn.set_label(_("Clear"))
         clear_btn.set_valign(Gtk.Align.CENTER)
@@ -90,6 +94,7 @@ class HistoryWidget(Gtk.Box):
         # Add history entries (newest first)
         for entry in reversed(history[-50:]):
             row = Adw.ActionRow()
+            row.add_css_class("rich-row")
             distro = entry.get("distro", "?")
             edition = entry.get("edition", "?")
             kernel = entry.get("kernel", "?")
@@ -103,11 +108,9 @@ class HistoryWidget(Gtk.Box):
             row.set_subtitle(f"{date} | {status} | {duration_min} min")
 
             if success:
-                icon = Gtk.Image.new_from_icon_name("emblem-ok-symbolic")
-                icon.add_css_class("status-ok")
+                icon = icon_tile("emblem-ok-symbolic", tone="success", size=20)
             else:
-                icon = Gtk.Image.new_from_icon_name("dialog-error-symbolic")
-                icon.add_css_class("status-error")
+                icon = icon_tile("dialog-error-symbolic", tone="error", size=20)
             row.add_prefix(icon)
 
             iso_path = entry.get("iso_path", "")

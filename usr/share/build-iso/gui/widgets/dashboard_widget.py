@@ -17,6 +17,8 @@ gi.require_version('Adw', '1')
 from core.translation_utils import _
 from gi.repository import Adw, GLib, GObject, Gtk
 
+from .ui_helpers import icon_tile, row_arrow
+
 
 class DashboardWidget(Gtk.Box):
     """Dashboard with status cards and quick actions"""
@@ -55,7 +57,8 @@ class DashboardWidget(Gtk.Box):
         self.engine_row = Adw.ActionRow()
         self.engine_row.set_title(_("Container Engine"))
         self.engine_row.set_subtitle(_("Checking..."))
-        self.engine_icon = Gtk.Image.new_from_icon_name("system-run-symbolic")
+        self.engine_row.add_css_class("rich-row")
+        self.engine_icon = icon_tile("system-run-symbolic", tone="accent", size=20)
         self.engine_row.add_prefix(self.engine_icon)
         self.engine_status = Gtk.Image.new_from_icon_name("emblem-synchronizing-symbolic")
         self.engine_status.set_valign(Gtk.Align.CENTER)
@@ -66,8 +69,8 @@ class DashboardWidget(Gtk.Box):
         self.image_row = Adw.ActionRow()
         self.image_row.set_title(_("Build Image"))
         self.image_row.set_subtitle(self.settings.container_image)
-        image_icon = Gtk.Image.new_from_icon_name("drive-harddisk-symbolic")
-        self.image_row.add_prefix(image_icon)
+        self.image_row.add_css_class("rich-row")
+        self.image_row.add_prefix(icon_tile("drive-harddisk-symbolic", tone="purple", size=20))
         self.image_status = Gtk.Image.new_from_icon_name("emblem-synchronizing-symbolic")
         self.image_status.set_valign(Gtk.Align.CENTER)
         self.image_row.add_suffix(self.image_status)
@@ -77,8 +80,8 @@ class DashboardWidget(Gtk.Box):
         self.disk_row = Adw.ActionRow()
         self.disk_row.set_title(_("Disk Space"))
         self.disk_row.set_subtitle(_("Checking..."))
-        disk_icon = Gtk.Image.new_from_icon_name("drive-harddisk-symbolic")
-        self.disk_row.add_prefix(disk_icon)
+        self.disk_row.add_css_class("rich-row")
+        self.disk_row.add_prefix(icon_tile("drive-harddisk-symbolic", tone="warning", size=20))
         self.disk_status = Gtk.Image.new_from_icon_name("emblem-synchronizing-symbolic")
         self.disk_status.set_valign(Gtk.Align.CENTER)
         self.disk_row.add_suffix(self.disk_status)
@@ -95,11 +98,9 @@ class DashboardWidget(Gtk.Box):
         build_row.set_title(_("Build ISO"))
         build_row.set_subtitle(_("Configure and start a new ISO build"))
         build_row.set_activatable(True)
-        build_icon = Gtk.Image.new_from_icon_name("media-optical-symbolic")
-        build_row.add_prefix(build_icon)
-        arrow1 = Gtk.Image.new_from_icon_name("go-next-symbolic")
-        arrow1.set_valign(Gtk.Align.CENTER)
-        build_row.add_suffix(arrow1)
+        build_row.add_css_class("rich-row")
+        build_row.add_prefix(icon_tile("media-optical-symbolic", tone="success", size=22))
+        build_row.add_suffix(row_arrow())
         build_row.connect("activated", lambda r: self.emit("navigate-to", "build"))
         actions_group.add(build_row)
 
@@ -108,11 +109,9 @@ class DashboardWidget(Gtk.Box):
         container_row.set_title(_("Manage Container"))
         container_row.set_subtitle(_("Pull images, check storage, manage engine"))
         container_row.set_activatable(True)
-        container_icon = Gtk.Image.new_from_icon_name("system-run-symbolic")
-        container_row.add_prefix(container_icon)
-        arrow2 = Gtk.Image.new_from_icon_name("go-next-symbolic")
-        arrow2.set_valign(Gtk.Align.CENTER)
-        container_row.add_suffix(arrow2)
+        container_row.add_css_class("rich-row")
+        container_row.add_prefix(icon_tile("system-run-symbolic", tone="accent", size=22))
+        container_row.add_suffix(row_arrow())
         container_row.connect("activated", lambda r: self.emit("navigate-to", "container"))
         actions_group.add(container_row)
 
@@ -121,11 +120,9 @@ class DashboardWidget(Gtk.Box):
         history_row.set_title(_("Build History"))
         history_row.set_subtitle(_("View previous builds and results"))
         history_row.set_activatable(True)
-        history_icon = Gtk.Image.new_from_icon_name("document-open-recent-symbolic")
-        history_row.add_prefix(history_icon)
-        arrow3 = Gtk.Image.new_from_icon_name("go-next-symbolic")
-        arrow3.set_valign(Gtk.Align.CENTER)
-        history_row.add_suffix(arrow3)
+        history_row.add_css_class("rich-row")
+        history_row.add_prefix(icon_tile("document-open-recent-symbolic", tone="purple", size=22))
+        history_row.add_suffix(row_arrow())
         history_row.connect("activated", lambda r: self.emit("navigate-to", "history"))
         actions_group.add(history_row)
 

@@ -107,28 +107,54 @@ class BuildISOApplication(Adw.Application):
                 min-width: 250px;
             }
             .sidebar-listbox row {
-                border-radius: 10px;
-                margin: 2px 6px;
-                padding: 2px 4px;
-                transition: all 200ms ease;
+                min-height: 56px;
+                border-radius: 8px;
+                margin: 5px 4px;
+                padding: 4px 8px;
+                transition: all 160ms ease;
             }
             .sidebar-listbox row:hover:not(:selected) {
-                background-color: alpha(@accent_bg_color, 0.1);
+                background-color: alpha(@accent_bg_color, 0.10);
             }
             .sidebar-listbox row:selected {
-                background-color: alpha(@accent_bg_color, 0.85);
+                background-color: alpha(@accent_bg_color, 0.88);
                 color: @accent_fg_color;
-                border-radius: 10px;
             }
-            .sidebar-listbox row:selected label.title {
-                color: @accent_fg_color;
-                font-weight: bold;
-            }
-            .sidebar-listbox row:selected label.subtitle {
-                color: alpha(@accent_fg_color, 0.85);
-            }
+            .sidebar-listbox row:selected label,
             .sidebar-listbox row:selected image {
                 color: @accent_fg_color;
+            }
+            .sidebar-listbox row:selected label.title {
+                font-weight: bold;
+            }
+            .rich-row {
+                min-height: 64px;
+                padding: 4px 6px;
+            }
+            .row-arrow {
+                opacity: 0.72;
+            }
+            .icon-tile {
+                min-width: 44px;
+                min-height: 44px;
+                border-radius: 8px;
+                background-color: transparent;
+                color: @accent_color;
+            }
+            .icon-tile.success {
+                color: #57e389;
+            }
+            .icon-tile.warning {
+                color: #f8e45c;
+            }
+            .icon-tile.error {
+                color: #ff7b7b;
+            }
+            .icon-tile.purple {
+                color: #bd93ff;
+            }
+            .icon-tile.neutral {
+                color: alpha(@view_fg_color, 0.82);
             }
             .status-ok { color: #32CD32; }
             .status-warning { color: #FFD93D; }
@@ -137,6 +163,12 @@ class BuildISOApplication(Adw.Application):
                 min-height: 48px;
                 font-weight: bold;
                 font-size: 1.1em;
+            }
+            button.pill {
+                min-height: 42px;
+                padding: 0 18px;
+                border-radius: 8px;
+                font-weight: bold;
             }
             .terminal-view {
                 font-family: monospace;

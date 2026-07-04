@@ -15,6 +15,8 @@ from core.container_manager import ContainerManager
 from core.translation_utils import _
 from gi.repository import Adw, GLib, GObject, Gtk
 
+from .ui_helpers import icon_tile
+
 
 class SettingsWidget(Gtk.Box):
     """Application settings page"""
@@ -51,6 +53,8 @@ class SettingsWidget(Gtk.Box):
 
         self.output_row = Adw.EntryRow()
         self.output_row.set_title(_("Default Output Directory"))
+        self.output_row.add_css_class("rich-row")
+        self.output_row.add_prefix(icon_tile("folder-open-symbolic", tone="accent", size=20))
         self.output_row.connect("changed", self._on_output_dir_changed)
         browse_btn = Gtk.Button()
         browse_btn.set_icon_name("folder-open-symbolic")
@@ -68,6 +72,8 @@ class SettingsWidget(Gtk.Box):
         self.engine_row = Adw.ComboRow()
         self.engine_row.set_title(_("Container Engine"))
         self.engine_row.set_subtitle(_("Preferred container engine"))
+        self.engine_row.add_css_class("rich-row")
+        self.engine_row.add_prefix(icon_tile("system-run-symbolic", tone="accent", size=20))
         engine_model = Gtk.StringList()
         engine_model.append("Docker")
         engine_model.append("Podman")
@@ -76,6 +82,8 @@ class SettingsWidget(Gtk.Box):
 
         self.image_row = Adw.EntryRow()
         self.image_row.set_title(_("Container Image"))
+        self.image_row.add_css_class("rich-row")
+        self.image_row.add_prefix(icon_tile("drive-harddisk-symbolic", tone="purple", size=20))
         refresh_tags_btn = Gtk.Button()
         refresh_tags_btn.set_icon_name("view-refresh-symbolic")
         refresh_tags_btn.set_valign(Gtk.Align.CENTER)
@@ -87,6 +95,8 @@ class SettingsWidget(Gtk.Box):
         self.image_tag_row = Adw.ComboRow()
         self.image_tag_row.set_title(_("Available Tags"))
         self.image_tag_row.set_subtitle(_("Select a DockerHub tag for the container image"))
+        self.image_tag_row.add_css_class("rich-row")
+        self.image_tag_row.add_prefix(icon_tile("document-open-recent-symbolic", tone="success", size=20))
         self._image_tag_model = Gtk.StringList()
         self.image_tag_row.set_model(self._image_tag_model)
         self.image_tag_row.connect("notify::selected", self._on_image_tag_selected)
@@ -105,6 +115,8 @@ class SettingsWidget(Gtk.Box):
         self.default_manjaro_branch = Adw.ComboRow()
         self.default_manjaro_branch.set_title(_("Default Manjaro Branch"))
         self.default_manjaro_branch.set_model(branch_model)
+        self.default_manjaro_branch.add_css_class("rich-row")
+        self.default_manjaro_branch.add_prefix(icon_tile("folder-symbolic", tone="accent", size=20))
         defaults_group.add(self.default_manjaro_branch)
 
         branch_model2 = Gtk.StringList()
@@ -114,6 +126,8 @@ class SettingsWidget(Gtk.Box):
         self.default_biglinux_branch = Adw.ComboRow()
         self.default_biglinux_branch.set_title(_("Default BigLinux Branch"))
         self.default_biglinux_branch.set_model(branch_model2)
+        self.default_biglinux_branch.add_css_class("rich-row")
+        self.default_biglinux_branch.add_prefix(icon_tile("folder-symbolic", tone="success", size=20))
         defaults_group.add(self.default_biglinux_branch)
 
         branch_model3 = Gtk.StringList()
@@ -123,6 +137,8 @@ class SettingsWidget(Gtk.Box):
         self.default_community_branch = Adw.ComboRow()
         self.default_community_branch.set_title(_("Default BigCommunity Branch"))
         self.default_community_branch.set_model(branch_model3)
+        self.default_community_branch.add_css_class("rich-row")
+        self.default_community_branch.add_prefix(icon_tile("folder-symbolic", tone="purple", size=20))
         defaults_group.add(self.default_community_branch)
 
         # ── Notifications ──
@@ -134,10 +150,14 @@ class SettingsWidget(Gtk.Box):
         self.notify_complete_row = Adw.SwitchRow()
         self.notify_complete_row.set_title(_("Notify on build completion"))
         self.notify_complete_row.set_subtitle(_("Show desktop notification when build finishes"))
+        self.notify_complete_row.add_css_class("rich-row")
+        self.notify_complete_row.add_prefix(icon_tile("emblem-ok-symbolic", tone="success", size=20))
         notif_group.add(self.notify_complete_row)
 
         self.notify_sound_row = Adw.SwitchRow()
         self.notify_sound_row.set_title(_("Play sound on completion"))
+        self.notify_sound_row.add_css_class("rich-row")
+        self.notify_sound_row.add_prefix(icon_tile("preferences-system-symbolic", tone="purple", size=20))
         notif_group.add(self.notify_sound_row)
 
         # ── Advanced ──
@@ -149,6 +169,8 @@ class SettingsWidget(Gtk.Box):
         self.auto_cleanup_row = Adw.SwitchRow()
         self.auto_cleanup_row.set_title(_("Auto-cleanup old containers"))
         self.auto_cleanup_row.set_subtitle(_("Remove stopped build containers automatically"))
+        self.auto_cleanup_row.add_css_class("rich-row")
+        self.auto_cleanup_row.add_prefix(icon_tile("dialog-warning-symbolic", tone="warning", size=20))
         advanced_group.add(self.auto_cleanup_row)
 
         # ── Save/Reset ──

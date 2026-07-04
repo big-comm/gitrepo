@@ -12,6 +12,8 @@ from gi.repository import Gtk, Adw, GObject
 from core.translation_utils import _
 from core.git_utils import GitUtils
 
+from .ui_helpers import action_bar, action_button, icon_tile, page_header
+
 class PackageTypeRow(Adw.ActionRow):
     """Custom row for package type selection"""
     
@@ -43,19 +45,14 @@ class PackageWidget(Gtk.Box):
     }
     
     def __init__(self, build_package):
-        super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=18)
         
         self.build_package = build_package
         self.selected_package_type = None
         self.commit_message = ""
 
-        # Remover vexpand para evitar espaço vazio
         self.set_valign(Gtk.Align.START)
-
-        self.set_margin_top(6)
-        self.set_margin_bottom(6)
-        self.set_margin_start(6)
-        self.set_margin_end(6)
+        self.add_css_class("content-page")
         
         self.create_ui()
         self.refresh_status()
@@ -63,20 +60,10 @@ class PackageWidget(Gtk.Box):
     def create_ui(self):
         """Create the widget UI"""
         
-        # Header
-        header_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
-        
-        title_label = Gtk.Label()
-        title_label.set_text(_("Generate Package"))
-        title_label.add_css_class("title-4")
-        header_box.append(title_label)
-        
-        subtitle_label = Gtk.Label()
-        subtitle_label.set_text(_("Build and deploy packages to repositories"))
-        subtitle_label.add_css_class("subtitle")
-        header_box.append(subtitle_label)
-        
-        self.append(header_box)
+        self.append(page_header(
+            _("Generate Package"),
+            _("Build and deploy packages to repositories"),
+        ))
         
         # Repository status
         status_group = Adw.PreferencesGroup()
@@ -84,14 +71,20 @@ class PackageWidget(Gtk.Box):
         
         self.package_name_row = Adw.ActionRow()
         self.package_name_row.set_title(_("Package Name"))
+        self.package_name_row.add_css_class("rich-row")
+        self.package_name_row.add_prefix(icon_tile("package-x-generic-symbolic", tone="accent", size=20))
         status_group.add(self.package_name_row)
         
         self.working_branch_row = Adw.ActionRow()
         self.working_branch_row.set_title(_("Working Branch"))
+        self.working_branch_row.add_css_class("rich-row")
+        self.working_branch_row.add_prefix(icon_tile("media-playlist-consecutive-symbolic", tone="purple", size=20))
         status_group.add(self.working_branch_row)
         
         self.changes_status_row = Adw.ActionRow()
         self.changes_status_row.set_title(_("Changes Status"))
+        self.changes_status_row.add_css_class("rich-row")
+        self.changes_status_row.add_prefix(icon_tile("emblem-ok-symbolic", tone="success", size=20))
         status_group.add(self.changes_status_row)
         
         self.append(status_group)
@@ -118,11 +111,16 @@ class PackageWidget(Gtk.Box):
             row.set_title(title)
             row.set_subtitle(description)
             row.set_activatable(True)
+            row.add_css_class("rich-row")
             row.package_type = pkg_type
             
             # Add icon as prefix
-            icon = Gtk.Image.new_from_icon_name(icon_name)
-            row.add_prefix(icon)
+            tone = {
+                "testing": "warning",
+                "stable": "success",
+                "extra": "purple",
+            }.get(pkg_type, "accent")
+            row.add_prefix(icon_tile(icon_name, tone=tone, size=22))
             
             # Add checkmark (hidden by default)
             check_icon = Gtk.Image.new_from_icon_name("emblem-ok-symbolic")
@@ -152,6 +150,7 @@ class PackageWidget(Gtk.Box):
         self.commit_type_expander = Adw.ExpanderRow()
         self.commit_type_expander.set_title(_("Commit Type"))
         self.commit_type_expander.set_subtitle(_("Select the type of change"))
+        self.commit_type_expander.add_prefix(icon_tile("document-edit-symbolic", tone="accent", size=20))
         
         # Add commit type rows inside expander
         for idx, (emoji, commit_type, description) in enumerate(self.commit_types):
@@ -188,11 +187,12 @@ class PackageWidget(Gtk.Box):
         message_frame = Gtk.Frame()
         message_frame.set_margin_start(6)
         message_frame.set_margin_end(6)
+        message_frame.add_css_class("message-frame")
         
         # ScrolledWindow for multiline text
         message_scroll = Gtk.ScrolledWindow()
-        message_scroll.set_min_content_height(80)
-        message_scroll.set_max_content_height(120)
+        message_scroll.set_min_content_height(120)
+        message_scroll.set_max_content_height(200)
         message_scroll.set_vexpand(False)
         message_scroll.set_hexpand(True)
         
@@ -230,6 +230,8 @@ class PackageWidget(Gtk.Box):
         self.tmate_row = Adw.SwitchRow()
         self.tmate_row.set_title(_("Enable TMATE Debug"))
         self.tmate_row.set_subtitle(_("Enable terminal access for debugging build issues"))
+        self.tmate_row.add_css_class("rich-row")
+        self.tmate_row.add_prefix(icon_tile("utilities-terminal-symbolic", tone="accent", size=20))
         options_group.add(self.tmate_row)
         
         self.append(options_group)
@@ -241,29 +243,29 @@ class PackageWidget(Gtk.Box):
         self.organization_row = Adw.ActionRow()
         self.organization_row.set_title(_("Organization"))
         self.organization_row.set_subtitle(self.build_package.organization)
+        self.organization_row.add_css_class("rich-row")
+        self.organization_row.add_prefix(icon_tile("system-users-symbolic", tone="accent", size=20))
         self.summary_group.add(self.organization_row)
         
         self.workflow_row = Adw.ActionRow()
         self.workflow_row.set_title(_("Workflow Repository"))
         self.workflow_row.set_subtitle(self.build_package.repo_workflow)
+        self.workflow_row.add_css_class("rich-row")
+        self.workflow_row.add_prefix(icon_tile("media-playlist-consecutive-symbolic", tone="purple", size=20))
         self.summary_group.add(self.workflow_row)
         
         self.append(self.summary_group)
         
         # Actions
-        actions_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
-        actions_box.set_halign(Gtk.Align.END)
-        actions_box.set_margin_top(12)
+        actions_box = action_bar()
         
         # Cancel/Reset button
-        cancel_button = Gtk.Button()
-        cancel_button.set_label(_("Reset"))
+        cancel_button = action_button(_("Reset"), "edit-undo-symbolic")
         cancel_button.connect('clicked', self.on_reset_clicked)
         actions_box.append(cancel_button)
         
         # Build button
-        self.build_button = Gtk.Button()
-        self.build_button.set_label(_("Build Package"))
+        self.build_button = action_button(_("Build Package"), "package-x-generic-symbolic", "suggested-action")
         self.build_button.add_css_class("suggested-action")
         self.build_button.connect('clicked', self.on_build_clicked)
         self.build_button.set_sensitive(False)

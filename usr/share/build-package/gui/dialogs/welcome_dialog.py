@@ -15,7 +15,7 @@ gi.require_version('Adw', '1')
 
 from gi.repository import Gtk, Adw, GObject, Gdk
 from core.translation_utils import _
-from core.config import APP_NAME, APP_VERSION, APP_DESC
+from core.config import APP_VERSION, APP_DESC
 
 
 # GTK4 has no CSS blur filter, so the "blur-ish" touches are a radial accent
@@ -132,12 +132,7 @@ class WelcomeDialog(Adw.Window):
         glow.append(icon)
         box.append(glow)
 
-        # The window title bar already says "Welcome", so the hero just shows the
-        # app name. APP_NAME is intentionally all-caps for the brand (and the CLI
-        # banner), but ALL CAPS reads as shouting in a hero — soften it to title
-        # case here without touching the global constant used elsewhere.
-        display_name = APP_NAME.title() if APP_NAME.isupper() else APP_NAME
-        title = Gtk.Label(label=display_name)
+        title = Gtk.Label(label="GitRepo")
         title.add_css_class("title-1")
         title.set_justify(Gtk.Justification.CENTER)
         title.set_wrap(True)

@@ -13,6 +13,8 @@ from core.config import APP_DESCRIPTION, APP_NAME, APP_VERSION
 from core.translation_utils import _
 from gi.repository import Adw, Gtk
 
+from ..widgets.ui_helpers import icon_tile
+
 
 class WelcomeDialog(Adw.Window):
     """First-run welcome dialog with setup guidance"""
@@ -48,8 +50,7 @@ class WelcomeDialog(Adw.Window):
         toolbar.set_content(content)
 
         # App icon
-        icon = Gtk.Image.new_from_icon_name("media-optical-symbolic")
-        icon.set_pixel_size(64)
+        icon = icon_tile("media-optical-symbolic", tone="accent", size=44)
         icon.set_halign(Gtk.Align.CENTER)
         content.append(icon)
 
@@ -90,8 +91,8 @@ class WelcomeDialog(Adw.Window):
         for icon_name, text in requirements:
             row = Adw.ActionRow()
             row.set_title(text)
-            i = Gtk.Image.new_from_icon_name(icon_name)
-            row.add_prefix(i)
+            row.add_css_class("rich-row")
+            row.add_prefix(icon_tile(icon_name, tone="success", size=20))
             req_group.add(row)
 
         # Get Started button

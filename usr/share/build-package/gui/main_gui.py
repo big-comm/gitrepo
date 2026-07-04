@@ -93,7 +93,7 @@ class BuildPackageApplication(Adw.Application):
 
         css_provider = Gtk.CssProvider()
         css_data = """
-            /* Make dropdown popups wider to show full text */
+            /* Dropdown popups */
             .wide-dropdown popover.menu {
                 min-width: 280px;
             }
@@ -102,47 +102,226 @@ class BuildPackageApplication(Adw.Application):
                 min-width: 260px;
             }
 
-            /* Ensure dropdown list items don't truncate */
             row.combo popover contents modelbutton {
                 min-width: 250px;
             }
 
-            /* ─── Sidebar navigation styling ─── */
-            /* Note: OverlaySplitView handles sidebar bg automatically via @sidebar_bg_color */
+            /* Application shell */
+            .content-page {
+                margin: 28px 32px 32px 32px;
+            }
 
-            /* Navigation rows — rounded corners and padding */
+            .page-header {
+                margin-bottom: 22px;
+            }
+
+            .page-subtitle {
+                font-size: 1.05em;
+            }
+
+            .section-heading {
+                margin: 18px 0 8px 0;
+            }
+
+            .sidebar-brand {
+                margin: 4px 0;
+            }
+
+            .sidebar-brand image {
+                color: @accent_color;
+            }
+
+            .sidebar-listbox {
+                background: transparent;
+            }
+
             .sidebar-listbox row {
-                border-radius: 10px;
-                margin: 2px 6px;
-                padding: 2px 4px;
-                transition: all 200ms ease;
+                min-height: 56px;
+                border-radius: 8px;
+                margin: 5px 4px;
+                padding: 4px 8px;
+                transition: all 160ms ease;
             }
 
-            /* Hover effect — subtle highlight */
             .sidebar-listbox row:hover:not(:selected) {
-                background-color: alpha(@accent_bg_color, 0.1);
+                background-color: alpha(@accent_bg_color, 0.10);
             }
 
-            /* Selected/active item — accent color from system theme */
             .sidebar-listbox row:selected {
-                background-color: alpha(@accent_bg_color, 0.85);
+                background-color: alpha(@accent_bg_color, 0.88);
                 color: @accent_fg_color;
-                border-radius: 10px;
             }
 
-            /* Selected row title and subtitle styling */
-            .sidebar-listbox row:selected label.title {
-                color: @accent_fg_color;
-                font-weight: bold;
-            }
-
-            .sidebar-listbox row:selected label.subtitle {
-                color: alpha(@accent_fg_color, 0.85);
-            }
-
-            /* Selected row icon */
+            .sidebar-listbox row:selected label,
             .sidebar-listbox row:selected image {
                 color: @accent_fg_color;
+            }
+
+            .sidebar-listbox row:selected label.title {
+                font-weight: 700;
+            }
+
+            .sidebar-status-card {
+                margin: 12px 4px 4px 4px;
+                padding: 12px;
+                border-radius: 8px;
+                border: 1px solid alpha(@borders, 0.45);
+                background: alpha(@card_bg_color, 0.72);
+            }
+
+            .sidebar-status-card .status-title {
+                font-weight: 700;
+            }
+
+            .sidebar-status-card .status-dot {
+                color: #50d27b;
+            }
+
+            .sidebar-status-card .status-dot.warning {
+                color: #f8e45c;
+            }
+
+            .sidebar-status-card .status-dot.error {
+                color: #ff7b7b;
+            }
+
+            /* Shared cards and rows */
+            .dashboard-status-card,
+            .metric-card {
+                padding: 14px;
+                border-radius: 8px;
+                border: 1px solid alpha(@borders, 0.50);
+                background: alpha(@card_bg_color, 0.78);
+            }
+
+            .dashboard-status-card {
+                min-height: 112px;
+            }
+
+            .metric-card {
+                min-height: 96px;
+            }
+
+            .rich-row {
+                min-height: 64px;
+                padding: 4px 6px;
+            }
+
+            .boxed-list row {
+                min-height: 62px;
+            }
+
+            .boxed-list row:selected,
+            .choice-card.selected {
+                background-color: alpha(@accent_bg_color, 0.18);
+                border-color: alpha(@accent_bg_color, 0.78);
+            }
+
+            .row-arrow {
+                opacity: 0.72;
+            }
+
+            .icon-tile {
+                min-width: 44px;
+                min-height: 44px;
+                border-radius: 8px;
+                background-color: transparent;
+                color: @accent_color;
+            }
+
+            .icon-tile.success {
+                color: #57e389;
+            }
+
+            .icon-tile.warning {
+                color: #f8e45c;
+            }
+
+            .icon-tile.error {
+                color: #ff7b7b;
+            }
+
+            .icon-tile.purple {
+                color: #bd93ff;
+            }
+
+            .icon-tile.neutral {
+                color: alpha(@view_fg_color, 0.82);
+            }
+
+            .metric-value {
+                font-weight: 800;
+                font-size: 1.30em;
+            }
+
+            .muted-caption {
+                color: alpha(@view_fg_color, 0.68);
+            }
+
+            /* Choice cards */
+            .choice-grid {
+                margin: 2px 0 6px 0;
+            }
+
+            .choice-card {
+                padding: 16px;
+                margin: 4px;
+                border-radius: 8px;
+                border: 1px solid alpha(@borders, 0.48);
+                background: alpha(@card_bg_color, 0.74);
+                min-width: 148px;
+                min-height: 92px;
+            }
+
+            .choice-card:hover {
+                background-color: alpha(@accent_bg_color, 0.10);
+            }
+
+            .choice-dot {
+                color: alpha(@view_fg_color, 0.46);
+            }
+
+            .choice-card.selected .choice-dot {
+                color: @accent_color;
+            }
+
+            /* Buttons */
+            button.pill-button {
+                min-height: 42px;
+                padding: 0 18px;
+                border-radius: 8px;
+                font-weight: 700;
+            }
+
+            button.pill-button.suggested-action {
+                padding: 0 22px;
+            }
+
+            .action-bar {
+                margin-bottom: 2px;
+            }
+
+            /* Text inputs */
+            .message-frame {
+                border-radius: 8px;
+                border: 1px solid alpha(@borders, 0.55);
+                background: alpha(@card_bg_color, 0.72);
+            }
+
+            textview {
+                padding: 6px;
+            }
+
+            /* Banners and danger surfaces */
+            .danger-banner {
+                padding: 16px 18px;
+                border-radius: 8px;
+                border: 1px solid alpha(#ed333b, 0.38);
+                background-color: alpha(#ed333b, 0.13);
+            }
+
+            .danger-banner label {
+                color: #ff9a9a;
             }
         """
         css_provider.load_from_data(css_data.encode("utf-8"))

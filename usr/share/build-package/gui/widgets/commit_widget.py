@@ -12,6 +12,8 @@ from gi.repository import Gtk, Adw, GObject
 from core.translation_utils import _
 from core.git_utils import GitUtils
 
+from .ui_helpers import action_bar, action_button, git_status_icon, icon_tile, page_header
+
 class CommitTypeRow(Adw.ActionRow):
     """Custom row for commit type selection"""
     
@@ -43,19 +45,14 @@ class CommitWidget(Gtk.Box):
     }
     
     def __init__(self, build_package):
-        super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=18)
 
         self.build_package = build_package
         self.selected_commit_type = None
         self.selected_emoji = None
 
-        # Remover vexpand para evitar espaço vazio
         self.set_valign(Gtk.Align.START)
-
-        self.set_margin_top(6)
-        self.set_margin_bottom(6)
-        self.set_margin_start(6)
-        self.set_margin_end(6)
+        self.add_css_class("content-page")
         
         self.create_ui()
         self.refresh_status()
@@ -63,20 +60,10 @@ class CommitWidget(Gtk.Box):
     def create_ui(self):
         """Create the widget UI"""
         
-        # Header
-        header_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
-        
-        title_label = Gtk.Label()
-        title_label.set_text(_("Commit and Push"))
-        title_label.add_css_class("title-4")
-        header_box.append(title_label)
-        
-        subtitle_label = Gtk.Label()
-        subtitle_label.set_text(_("Stage changes and push to your development branch"))
-        subtitle_label.add_css_class("subtitle")
-        header_box.append(subtitle_label)
-        
-        self.append(header_box)
+        self.append(page_header(
+            _("Commit and Push"),
+            _("Stage changes and push to your development branch"),
+        ))
         
         # Status group
         status_group = Adw.PreferencesGroup()
@@ -84,16 +71,22 @@ class CommitWidget(Gtk.Box):
         
         self.changes_row = Adw.ActionRow()
         self.changes_row.set_title(_("Working Directory"))
+        self.changes_row.add_css_class("rich-row")
+        self.changes_row.add_prefix(icon_tile("folder-symbolic", tone="success", size=20))
         status_group.add(self.changes_row)
         
         self.branch_row = Adw.ActionRow()
         self.branch_row.set_title(_("Current Branch"))
+        self.branch_row.add_css_class("rich-row")
+        self.branch_row.add_prefix(icon_tile("media-playlist-consecutive-symbolic", tone="accent", size=20))
         status_group.add(self.branch_row)
         
         # Last commit row (for undo functionality)
         self.last_commit_row = Adw.ActionRow()
         self.last_commit_row.set_title(_("Last Commit"))
         self.last_commit_row.set_subtitle(_("No commit info"))
+        self.last_commit_row.add_css_class("rich-row")
+        self.last_commit_row.add_prefix(icon_tile("document-open-recent-symbolic", tone="purple", size=20))
         
         # Undo button as suffix
         self.undo_button = Gtk.Button()
@@ -116,39 +109,58 @@ class CommitWidget(Gtk.Box):
         
         self.append(status_group)
         
-        # Commit type selection using ExpanderRow (opens below, larger)
+        # Commit type selection
         commit_type_group = Adw.PreferencesGroup()
-        commit_type_group.set_title(_("Commit"))
+        commit_type_group.set_title(_("Commit Type"))
         
         # Get commit types
         self.commit_types = self.build_package.get_commit_types()
-        
-        # Create expander row for commit types
-        self.commit_type_expander = Adw.ExpanderRow()
-        self.commit_type_expander.set_title(_("Commit Type"))
-        self.commit_type_expander.set_subtitle(_("Select the type of change"))
-        self.commit_type_expander.add_css_class("error")
-        
-        # Add commit type rows inside expander
+
+        self.commit_type_cards = []
+        self.commit_type_flow = Gtk.FlowBox()
+        self.commit_type_flow.set_selection_mode(Gtk.SelectionMode.SINGLE)
+        self.commit_type_flow.set_max_children_per_line(6)
+        self.commit_type_flow.set_min_children_per_line(2)
+        self.commit_type_flow.set_homogeneous(True)
+        self.commit_type_flow.set_column_spacing(8)
+        self.commit_type_flow.set_row_spacing(8)
+        self.commit_type_flow.add_css_class("choice-grid")
+        self.commit_type_flow.connect("selected-children-changed", self.on_commit_type_selected)
+
         for idx, (emoji, commit_type, description) in enumerate(self.commit_types):
-            type_row = Adw.ActionRow()
-            type_row.set_title(f"{emoji} {commit_type}")
-            type_row.set_subtitle(description)
-            type_row.set_activatable(True)
-            type_row.commit_type = commit_type
-            type_row.emoji = emoji
-            type_row.idx = idx
-            
-            # Add checkmark for selected
-            check_icon = Gtk.Image.new_from_icon_name("emblem-ok-symbolic")
-            check_icon.set_visible(False)
-            type_row.check_icon = check_icon
-            type_row.add_suffix(check_icon)
-            
-            type_row.connect('activated', self.on_commit_type_row_activated)
-            self.commit_type_expander.add_row(type_row)
-        
-        commit_type_group.add(self.commit_type_expander)
+            card = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
+            card.add_css_class("choice-card")
+            card.commit_type = commit_type
+            card.emoji = emoji
+            card.idx = idx
+
+            title_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+            title_row.set_halign(Gtk.Align.FILL)
+
+            check_icon = Gtk.Image.new_from_icon_name("media-record-symbolic")
+            check_icon.set_pixel_size(14)
+            check_icon.add_css_class("choice-dot")
+            card.check_icon = check_icon
+            title_row.append(check_icon)
+
+            title_label = Gtk.Label(label=f"{emoji} {commit_type}")
+            title_label.set_halign(Gtk.Align.START)
+            title_label.set_xalign(0)
+            title_label.add_css_class("heading")
+            title_row.append(title_label)
+            card.append(title_row)
+
+            desc_label = Gtk.Label(label=description)
+            desc_label.set_halign(Gtk.Align.START)
+            desc_label.set_xalign(0)
+            desc_label.set_wrap(True)
+            desc_label.add_css_class("dim-label")
+            card.append(desc_label)
+
+            self.commit_type_cards.append(card)
+            self.commit_type_flow.append(card)
+
+        commit_type_group.add(self.commit_type_flow)
         self.append(commit_type_group)
 
         # Commit message entry - multiline support
@@ -168,11 +180,12 @@ class CommitWidget(Gtk.Box):
         message_frame = Gtk.Frame()
         message_frame.set_margin_start(6)
         message_frame.set_margin_end(6)
+        message_frame.add_css_class("message-frame")
         
         # ScrolledWindow for multiline text
         message_scroll = Gtk.ScrolledWindow()
-        message_scroll.set_min_content_height(80)
-        message_scroll.set_max_content_height(120)
+        message_scroll.set_min_content_height(150)
+        message_scroll.set_max_content_height(220)
         message_scroll.set_vexpand(False)
         message_scroll.set_hexpand(True)
         
@@ -198,20 +211,16 @@ class CommitWidget(Gtk.Box):
         self.append(message_box)
         
         # Actions
-        actions_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
-        actions_box.set_halign(Gtk.Align.END)
-        actions_box.set_margin_top(6)
+        actions_box = action_bar()
         
         # Pull button
-        self.pull_button = Gtk.Button()
-        self.pull_button.set_label(_("Pull Latest"))
+        self.pull_button = action_button(_("Pull Latest"), "go-down-symbolic")
         self.pull_button.set_tooltip_text(_("Pull latest changes from remote"))
         self.pull_button.connect('clicked', self.on_pull_clicked)
         actions_box.append(self.pull_button)
         
         # Commit button
-        self.commit_button = Gtk.Button()
-        self.commit_button.set_label(_("Commit and Push"))
+        self.commit_button = action_button(_("Commit and Push"), "go-up-symbolic", "suggested-action")
         self.commit_button.add_css_class("suggested-action")
         self.commit_button.connect('clicked', self.on_commit_clicked)
         self.commit_button.set_sensitive(False)
@@ -312,29 +321,14 @@ class CommitWidget(Gtk.Box):
     
     def _select_commit_type_row(self, row):
         """Select a commit type row and update visuals"""
-        # Hide all checkmarks first
-        child = self.commit_type_expander.get_first_child()
-        while child:
-            if hasattr(child, 'check_icon'):
-                child.check_icon.set_visible(False)
-            child = child.get_next_sibling()
+        for card in self.commit_type_cards:
+            card.remove_css_class("selected")
         
-        # Show checkmark on selected
-        if hasattr(row, 'check_icon'):
-            row.check_icon.set_visible(True)
+        row.add_css_class("selected")
         
         # Update selected values
         self.selected_commit_type = row.commit_type
         self.selected_emoji = row.emoji
-        
-        # Remove alert highlight after selection
-        self.commit_type_expander.remove_css_class("error")
-        
-        # Update expander subtitle to show selection
-        self.commit_type_expander.set_subtitle(f"{row.emoji} {row.commit_type}")
-        
-        # Collapse expander after selection
-        self.commit_type_expander.set_expanded(False)
         
         # Update message label title
         if hasattr(self, 'message_label') and self.message_label is not None:
@@ -348,6 +342,16 @@ class CommitWidget(Gtk.Box):
     def on_commit_type_row_activated(self, row):
         """Handle commit type row activation"""
         self._select_commit_type_row(row)
+
+    def on_commit_type_selected(self, flow_box):
+        """Handle commit type card selection."""
+        selected = flow_box.get_selected_children()
+        if not selected:
+            return
+
+        child = selected[0].get_child()
+        if child and hasattr(child, "commit_type"):
+            self._select_commit_type_row(child)
     
     def on_message_changed(self, entry):
         """Handle message entry changes"""
@@ -402,15 +406,11 @@ class CommitWidget(Gtk.Box):
     
     def _update_changed_files_list(self):
         """Populate the changed files expander with current git status"""
-        # Clear existing rows
-        child = self.changed_files_expander.get_first_child()
-        rows_to_remove = []
-        while child:
-            if isinstance(child, Adw.ActionRow) and child is not self.changed_files_expander:
-                rows_to_remove.append(child)
-            child = child.get_next_sibling()
-        for row in rows_to_remove:
+        if not hasattr(self, "_changed_file_rows"):
+            self._changed_file_rows = []
+        for row in self._changed_file_rows:
             self.changed_files_expander.remove(row)
+        self._changed_file_rows = []
 
         changed_files = GitUtils.get_changed_files()
 
@@ -431,18 +431,10 @@ class CommitWidget(Gtk.Box):
             label = status_labels.get(status, status)
             row.set_subtitle(label)
 
-            if status in ("D",):
-                icon_name = "edit-delete-symbolic"
-            elif status in ("A", "AM", "??"):
-                icon_name = "list-add-symbolic"
-            elif status in ("R", "C"):
-                icon_name = "edit-copy-symbolic"
-            else:
-                icon_name = "document-edit-symbolic"
-
-            icon = Gtk.Image.new_from_icon_name(icon_name)
-            row.add_prefix(icon)
+            icon_name, tone = git_status_icon(status)
+            row.add_prefix(icon_tile(icon_name, tone=tone, size=24))
             self.changed_files_expander.add_row(row)
+            self._changed_file_rows.append(row)
 
         count = len(changed_files)
         self.changed_files_expander.set_title(

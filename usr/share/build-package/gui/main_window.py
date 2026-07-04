@@ -17,7 +17,7 @@ from core.config import APP_VERSION
 from core.git_utils import GitUtils
 from core.settings import Settings
 from core.translation_utils import _
-from gi.repository import Adw, Gio, GLib, Gtk
+from gi.repository import Adw, Gio, GLib, Gtk, Pango
 
 from .dialogs.preferences_dialog import PreferencesDialog
 from .dialogs.progress_dialog import OperationRunner
@@ -63,8 +63,8 @@ class MainWindow(Adw.ApplicationWindow):
         self.setup_actions()
 
         # Set window properties
-        self.set_default_size(1000, 600)
-        self.set_size_request(800, 600)  # Force minimum size
+        self.set_default_size(1180, 760)
+        self.set_size_request(900, 640)  # Force minimum size
         self.set_title(_("Build Package"))
 
         # Show welcome dialog on first run (after window is shown)
@@ -75,13 +75,14 @@ class MainWindow(Adw.ApplicationWindow):
 
         # Main layout - Toast overlay as outermost wrapper
         self.toast_overlay = Adw.ToastOverlay()
+        self.toast_overlay.add_css_class("app-shell")
         self.set_content(self.toast_overlay)
 
         # ── OverlaySplitView as main layout ──
         self.split_view = Adw.OverlaySplitView()
-        self.split_view.set_min_sidebar_width(260)
-        self.split_view.set_max_sidebar_width(320)
-        self.split_view.set_sidebar_width_fraction(0.32)
+        self.split_view.set_min_sidebar_width(280)
+        self.split_view.set_max_sidebar_width(330)
+        self.split_view.set_sidebar_width_fraction(0.26)
         self.toast_overlay.set_child(self.split_view)
 
         # ══════════════════════════════════════
@@ -93,10 +94,19 @@ class MainWindow(Adw.ApplicationWindow):
         sidebar_header = Adw.HeaderBar()
         sidebar_header.set_show_end_title_buttons(False)
 
-        # Centered app title
-        app_title = Gtk.Label(label=_("Build Package"))
+        brand_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        brand_box.add_css_class("sidebar-brand")
+        brand_box.set_halign(Gtk.Align.CENTER)
+
+        brand_icon = Gtk.Image.new_from_icon_name("package-x-generic-symbolic")
+        brand_icon.set_pixel_size(24)
+        brand_box.append(brand_icon)
+
+        app_title = Gtk.Label(label="GitRepo")
         app_title.add_css_class("heading")
-        sidebar_header.set_title_widget(app_title)
+        brand_box.append(app_title)
+
+        sidebar_header.set_title_widget(brand_box)
 
         sidebar_toolbar.add_top_bar(sidebar_header)
 
@@ -105,11 +115,11 @@ class MainWindow(Adw.ApplicationWindow):
         sidebar_scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
         sidebar_scroll.set_vexpand(True)
 
-        sidebar_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=18)
-        sidebar_box.set_margin_start(12)
-        sidebar_box.set_margin_end(12)
-        sidebar_box.set_margin_top(6)
-        sidebar_box.set_margin_bottom(12)
+        sidebar_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        sidebar_box.set_margin_start(14)
+        sidebar_box.set_margin_end(14)
+        sidebar_box.set_margin_top(10)
+        sidebar_box.set_margin_bottom(14)
 
         # Navigation list inside a PreferencesGroup for card-style look
         self.nav_list = Gtk.ListBox()
@@ -121,6 +131,12 @@ class MainWindow(Adw.ApplicationWindow):
         nav_group = Adw.PreferencesGroup()
         nav_group.add(self.nav_list)
         sidebar_box.append(nav_group)
+
+        sidebar_spacer = Gtk.Box()
+        sidebar_spacer.set_vexpand(True)
+        sidebar_box.append(sidebar_spacer)
+
+        sidebar_box.append(self._create_sidebar_status_card())
 
         sidebar_scroll.set_child(sidebar_box)
         sidebar_toolbar.set_content(sidebar_scroll)
@@ -262,25 +278,7 @@ class MainWindow(Adw.ApplicationWindow):
         for widget, page_id, title, icon_name in pages:
             self.content_stack.add_titled_with_icon(widget, page_id, title, icon_name)
 
-            # Create navigation row
-            nav_row = Adw.ActionRow()
-            nav_row.set_title(title)
-            nav_row.set_activatable(True)
-            nav_row.page_id = page_id
-
-            # Add icon (decorative — row title is the accessible label)
-            icon = Gtk.Image.new_from_icon_name(icon_name)
-            icon.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
-            nav_row.add_prefix(icon)
-
-            # Add badge placeholder (hidden by default)
-            badge_label = Gtk.Label()
-            badge_label.add_css_class("badge")
-            badge_label.add_css_class("numeric")
-            badge_label.set_visible(False)
-            badge_label.set_valign(Gtk.Align.CENTER)
-            nav_row.add_suffix(badge_label)
-            nav_row.badge = badge_label
+            nav_row = self._create_nav_row(page_id, title, icon_name)
 
             self.nav_rows[page_id] = nav_row
             self.nav_list.append(nav_row)
@@ -357,6 +355,66 @@ class MainWindow(Adw.ApplicationWindow):
 
         # Add to content header bar (pack_end places it on the right, before window controls)
         self.content_header.pack_end(menu_button)
+
+    def _create_sidebar_status_card(self):
+        """Create compact repository status footer for the sidebar."""
+        card = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        card.add_css_class("sidebar-status-card")
+
+        self.sidebar_status_icon = Gtk.Image.new_from_icon_name("emblem-ok-symbolic")
+        self.sidebar_status_icon.set_pixel_size(16)
+        self.sidebar_status_icon.add_css_class("status-dot")
+        card.append(self.sidebar_status_icon)
+
+        text_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
+        text_box.set_hexpand(True)
+
+        self.sidebar_status_title = Gtk.Label(label=_("Repository Status"))
+        self.sidebar_status_title.set_halign(Gtk.Align.START)
+        self.sidebar_status_title.set_xalign(0)
+        self.sidebar_status_title.add_css_class("status-title")
+        text_box.append(self.sidebar_status_title)
+
+        self.sidebar_status_subtitle = Gtk.Label(label=_("Unknown"))
+        self.sidebar_status_subtitle.set_halign(Gtk.Align.START)
+        self.sidebar_status_subtitle.set_xalign(0)
+        self.sidebar_status_subtitle.set_ellipsize(Pango.EllipsizeMode.END)
+        self.sidebar_status_subtitle.add_css_class("dim-label")
+        text_box.append(self.sidebar_status_subtitle)
+
+        card.append(text_box)
+
+        refresh_button = Gtk.Button()
+        refresh_button.set_icon_name("view-refresh-symbolic")
+        refresh_button.set_tooltip_text(_("Refresh Status"))
+        refresh_button.set_valign(Gtk.Align.CENTER)
+        refresh_button.add_css_class("flat")
+        refresh_button.connect("clicked", lambda _button: self.refresh_all_widgets())
+        card.append(refresh_button)
+
+        return card
+
+    def _create_nav_row(self, page_id, title, icon_name):
+        """Create a sidebar navigation row."""
+        nav_row = Adw.ActionRow()
+        nav_row.set_title(title)
+        nav_row.set_activatable(True)
+        nav_row.page_id = page_id
+
+        icon = Gtk.Image.new_from_icon_name(icon_name)
+        icon.set_pixel_size(22)
+        icon.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
+        nav_row.add_prefix(icon)
+
+        badge_label = Gtk.Label()
+        badge_label.add_css_class("badge")
+        badge_label.add_css_class("numeric")
+        badge_label.set_visible(False)
+        badge_label.set_valign(Gtk.Align.CENTER)
+        nav_row.add_suffix(badge_label)
+        nav_row.badge = badge_label
+
+        return nav_row
 
     def setup_actions(self):
         """Setup application actions"""
@@ -464,6 +522,27 @@ class MainWindow(Adw.ApplicationWindow):
             else:
                 self.changes_status_label.set_text(_("Clean working tree"))
                 self.changes_status_label.add_css_class("success")
+
+        if hasattr(self, "sidebar_status_title"):
+            self.sidebar_status_icon.remove_css_class("success")
+            self.sidebar_status_icon.remove_css_class("warning")
+            self.sidebar_status_icon.remove_css_class("error")
+
+            if not self.build_package.is_git_repo:
+                self.sidebar_status_icon.set_from_icon_name("dialog-warning-symbolic")
+                self.sidebar_status_icon.add_css_class("error")
+                self.sidebar_status_title.set_text(_("Not a Git repository"))
+                self.sidebar_status_subtitle.set_text(_("Unknown"))
+            elif GitUtils.has_changes():
+                self.sidebar_status_icon.set_from_icon_name("dialog-warning-symbolic")
+                self.sidebar_status_icon.add_css_class("warning")
+                self.sidebar_status_title.set_text(_("Uncommitted changes"))
+                self.sidebar_status_subtitle.set_text(current_branch or _("Unknown"))
+            else:
+                self.sidebar_status_icon.set_from_icon_name("emblem-ok-symbolic")
+                self.sidebar_status_icon.add_css_class("success")
+                self.sidebar_status_title.set_text(_("Clean working tree"))
+                self.sidebar_status_subtitle.set_text(current_branch or _("Unknown"))
 
     # Signal handlers for widget operations
     def on_quick_action(self, widget, action_id):
@@ -1394,22 +1473,7 @@ class MainWindow(Adw.ApplicationWindow):
         ])
 
         for _widget, page_id, title, icon_name in pages:
-            nav_row = Adw.ActionRow()
-            nav_row.set_title(title)
-            nav_row.set_activatable(True)
-            nav_row.page_id = page_id
-
-            icon = Gtk.Image.new_from_icon_name(icon_name)
-            icon.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
-            nav_row.add_prefix(icon)
-
-            badge_label = Gtk.Label()
-            badge_label.add_css_class("badge")
-            badge_label.add_css_class("numeric")
-            badge_label.set_visible(False)
-            badge_label.set_valign(Gtk.Align.CENTER)
-            nav_row.add_suffix(badge_label)
-            nav_row.badge = badge_label
+            nav_row = self._create_nav_row(page_id, title, icon_name)
 
             self.nav_rows[page_id] = nav_row
             self.nav_list.append(nav_row)

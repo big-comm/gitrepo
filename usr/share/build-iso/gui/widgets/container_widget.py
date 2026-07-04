@@ -16,6 +16,8 @@ from core.container_manager import ContainerManager
 from core.translation_utils import _
 from gi.repository import Adw, GLib, GObject, Gtk
 
+from .ui_helpers import icon_tile
+
 
 class ContainerWidget(Gtk.Box):
     """Container engine management page"""
@@ -53,16 +55,22 @@ class ContainerWidget(Gtk.Box):
         self.engine_row = Adw.ActionRow()
         self.engine_row.set_title(_("Engine"))
         self.engine_row.set_subtitle(_("Detecting..."))
+        self.engine_row.add_css_class("rich-row")
+        self.engine_row.add_prefix(icon_tile("system-run-symbolic", tone="accent", size=20))
         info_group.add(self.engine_row)
 
         self.driver_row = Adw.ActionRow()
         self.driver_row.set_title(_("Storage Driver"))
         self.driver_row.set_subtitle(_("Checking..."))
+        self.driver_row.add_css_class("rich-row")
+        self.driver_row.add_prefix(icon_tile("drive-harddisk-symbolic", tone="warning", size=20))
         info_group.add(self.driver_row)
 
         self.version_row = Adw.ActionRow()
         self.version_row.set_title(_("Version"))
         self.version_row.set_subtitle(_("Checking..."))
+        self.version_row.add_css_class("rich-row")
+        self.version_row.add_prefix(icon_tile("document-open-recent-symbolic", tone="purple", size=20))
         info_group.add(self.version_row)
 
         # ── Image Management ──
@@ -75,6 +83,8 @@ class ContainerWidget(Gtk.Box):
         self.image_status_row = Adw.ActionRow()
         self.image_status_row.set_title(_("Image Status"))
         self.image_status_row.set_subtitle(_("Checking..."))
+        self.image_status_row.add_css_class("rich-row")
+        self.image_status_row.add_prefix(icon_tile("drive-harddisk-symbolic", tone="success", size=20))
         image_group.add(self.image_status_row)
 
         # Pull image button
@@ -82,6 +92,8 @@ class ContainerWidget(Gtk.Box):
         pull_row.set_title(_("Pull Latest Image"))
         pull_row.set_subtitle(_("Download or update the build container image"))
         pull_row.set_activatable(True)
+        pull_row.add_css_class("rich-row")
+        pull_row.add_prefix(icon_tile("emblem-synchronizing-symbolic", tone="accent", size=20))
 
         self.pull_button = Gtk.Button()
         self.pull_button.set_icon_name("emblem-synchronizing-symbolic")
@@ -102,6 +114,8 @@ class ContainerWidget(Gtk.Box):
         cleanup_row = Adw.ActionRow()
         cleanup_row.set_title(_("Cleanup Old Containers"))
         cleanup_row.set_subtitle(_("Remove stopped build containers"))
+        cleanup_row.add_css_class("rich-row")
+        cleanup_row.add_prefix(icon_tile("dialog-error-symbolic", tone="error", size=20))
         cleanup_btn = Gtk.Button()
         cleanup_btn.set_label(_("Clean"))
         cleanup_btn.set_valign(Gtk.Align.CENTER)
@@ -113,6 +127,8 @@ class ContainerWidget(Gtk.Box):
         self.fix_driver_row = Adw.ActionRow()
         self.fix_driver_row.set_title(_("Fix Storage Driver"))
         self.fix_driver_row.set_subtitle(_("Switch from btrfs to overlay2 (Docker only)"))
+        self.fix_driver_row.add_css_class("rich-row")
+        self.fix_driver_row.add_prefix(icon_tile("dialog-warning-symbolic", tone="warning", size=20))
         fix_btn = Gtk.Button()
         fix_btn.set_label(_("Fix"))
         fix_btn.set_valign(Gtk.Align.CENTER)

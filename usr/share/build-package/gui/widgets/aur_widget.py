@@ -12,6 +12,8 @@ gi.require_version("Adw", "1")
 from core.translation_utils import _
 from gi.repository import Adw, GObject, Gtk
 
+from .ui_helpers import action_bar, action_button, icon_tile, page_header
+
 
 class AURWidget(Gtk.Box):
     """Widget for AUR package building operations"""
@@ -21,38 +23,23 @@ class AURWidget(Gtk.Box):
     }
     
     def __init__(self, build_package):
-        super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=18)
         
         self.build_package = build_package
         self.package_name = ""
 
-        # Remover vexpand para evitar espaço vazio
         self.set_valign(Gtk.Align.START)
-
-        self.set_margin_top(6)
-        self.set_margin_bottom(6)
-        self.set_margin_start(6)
-        self.set_margin_end(6)
+        self.add_css_class("content-page")
         
         self.create_ui()
     
     def create_ui(self):
         """Create the widget UI"""
         
-        # Header
-        header_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
-        
-        title_label = Gtk.Label()
-        title_label.set_text(_("AUR Package Builder"))
-        title_label.add_css_class("title-4")
-        header_box.append(title_label)
-        
-        subtitle_label = Gtk.Label()
-        subtitle_label.set_text(_("Build packages from Arch User Repository"))
-        subtitle_label.add_css_class("subtitle")
-        header_box.append(subtitle_label)
-        
-        self.append(header_box)
+        self.append(page_header(
+            _("AUR Package Builder"),
+            _("Build packages from Arch User Repository"),
+        ))
         
         # Info banner
         info_banner = Adw.Banner()
@@ -69,6 +56,7 @@ class AURWidget(Gtk.Box):
         self.package_entry = Adw.EntryRow()
         self.package_entry.set_title(_("AUR Package Name"))
         self.package_entry.set_text("")
+        self.package_entry.add_css_class("rich-row")
         self.package_entry.connect('changed', self.on_package_name_changed)
         self.package_entry.connect('activate', self.on_build_clicked)
         package_group.add(self.package_entry)
@@ -77,6 +65,9 @@ class AURWidget(Gtk.Box):
         self.url_row = Adw.ActionRow()
         self.url_row.set_title(_("AUR URL"))
         self.url_row.set_activatable(True)
+        self.url_row.add_css_class("rich-row")
+        self.url_row.add_prefix(icon_tile("web-browser-symbolic", tone="accent", size=20))
+        self.url_row.add_suffix(Gtk.Image.new_from_icon_name("go-next-symbolic"))
         self.url_row.connect('activated', self.on_url_clicked)
         package_group.add(self.url_row)
         
@@ -89,6 +80,8 @@ class AURWidget(Gtk.Box):
         self.tmate_row = Adw.SwitchRow()
         self.tmate_row.set_title(_("Enable TMATE Debug"))
         self.tmate_row.set_subtitle(_("Enable terminal access for debugging build issues"))
+        self.tmate_row.add_css_class("rich-row")
+        self.tmate_row.add_prefix(icon_tile("utilities-terminal-symbolic", tone="accent", size=20))
         options_group.add(self.tmate_row)
         
         self.append(options_group)
@@ -100,11 +93,15 @@ class AURWidget(Gtk.Box):
         self.organization_row = Adw.ActionRow()
         self.organization_row.set_title(_("Organization"))
         self.organization_row.set_subtitle(self.build_package.organization)
+        self.organization_row.add_css_class("rich-row")
+        self.organization_row.add_prefix(icon_tile("system-users-symbolic", tone="accent", size=20))
         self.summary_group.add(self.organization_row)
         
         self.timestamp_row = Adw.ActionRow()
         self.timestamp_row.set_title(_("Branch Timestamp"))
         self.timestamp_row.set_subtitle(_("Will be generated automatically"))
+        self.timestamp_row.add_css_class("rich-row")
+        self.timestamp_row.add_prefix(icon_tile("document-open-recent-symbolic", tone="purple", size=20))
         self.summary_group.add(self.timestamp_row)
         
         self.append(self.summary_group)
@@ -115,19 +112,15 @@ class AURWidget(Gtk.Box):
         # self.append(spacer)
         
         # Actions
-        actions_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
-        actions_box.set_halign(Gtk.Align.END)
-        actions_box.set_margin_top(12)
+        actions_box = action_bar()
         
         # Clear button
-        clear_button = Gtk.Button()
-        clear_button.set_label(_("Clear"))
+        clear_button = action_button(_("Clear"), "edit-clear-symbolic")
         clear_button.connect('clicked', self.on_clear_clicked)
         actions_box.append(clear_button)
         
         # Build button
-        self.build_button = Gtk.Button()
-        self.build_button.set_label(_("Build AUR Package"))
+        self.build_button = action_button(_("Build AUR Package"), "package-x-generic-symbolic", "suggested-action")
         self.build_button.add_css_class("suggested-action")
         self.build_button.connect('clicked', self.on_build_clicked)
         self.build_button.set_sensitive(False)

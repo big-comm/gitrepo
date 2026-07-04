@@ -13,39 +13,38 @@ from core.git_utils import GitUtils
 from core.translation_utils import _
 from gi.repository import Adw, GObject, Gtk
 
+from .ui_helpers import action_bar, action_button, git_status_icon, icon_tile
+
 
 class StatusCard(Gtk.Box):
     """Custom status card widget"""
 
     def __init__(self, title, value, icon_name, status_type="info"):
-        super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=8)
+        super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=6)
 
         self._title = title  # kept for accessible label updates
 
-        self.set_size_request(160, 80)
-        self.add_css_class("card")
+        self.set_size_request(150, 104)
+        self.add_css_class("dashboard-status-card")
         self.set_margin_top(3)
         self.set_margin_bottom(3)
         self.set_margin_start(3)
         self.set_margin_end(3)
 
         # Icon - store reference
-        self.icon = Gtk.Image.new_from_icon_name(icon_name)
-        self.icon.set_pixel_size(32)
-        if status_type == "warning":
-            self.icon.add_css_class("warning")
-        elif status_type == "error":
-            self.icon.add_css_class("error")
-        elif status_type == "success":
-            self.icon.add_css_class("success")
+        tone = status_type if status_type in ("warning", "error", "success", "purple") else "accent"
+        self.icon_tile = icon_tile(icon_name, tone=tone, size=26)
+        self.icon = self.icon_tile
 
-        self.append(self.icon)
+        self.append(self.icon_tile)
 
         # Value (store reference) — STATUS role creates an AT-SPI live region so
         # screen readers announce dynamic changes without user focus
         self.value_label = Gtk.Label(accessible_role=Gtk.AccessibleRole.STATUS)
         self.value_label.set_text(str(value))
         self.value_label.add_css_class("title-3")
+        self.value_label.add_css_class("metric-value")
+        self.value_label.set_halign(Gtk.Align.CENTER)
         self.value_label.update_property([Gtk.AccessibleProperty.LABEL], [f"{title}: {value}"])
         self.append(self.value_label)
 
@@ -55,6 +54,8 @@ class StatusCard(Gtk.Box):
         title_label.add_css_class("subtitle")
         title_label.set_wrap(True)
         title_label.set_justify(Gtk.Justification.CENTER)
+        title_label.set_halign(Gtk.Align.CENTER)
+        title_label.add_css_class("muted-caption")
         self.append(title_label)
 
     def update_value(self, value: str) -> None:
@@ -67,7 +68,7 @@ class StatusCard(Gtk.Box):
 class QuickActionCard(Adw.ActionRow):
     """Quick action card for common operations"""
 
-    def __init__(self, title, description, icon_name, action_id):
+    def __init__(self, title, description, icon_name, action_id, tone="accent"):
         super().__init__()
 
         self.action_id = action_id
@@ -75,10 +76,10 @@ class QuickActionCard(Adw.ActionRow):
         self.set_title(title)
         self.set_subtitle(description)
         self.set_activatable(True)
+        self.add_css_class("rich-row")
 
         # Add icon
-        icon = Gtk.Image.new_from_icon_name(icon_name)
-        self.add_prefix(icon)
+        self.add_prefix(icon_tile(icon_name, tone=tone, size=24))
 
         # Add arrow
         arrow = Gtk.Image.new_from_icon_name("go-next-symbolic")
@@ -94,14 +95,11 @@ class OverviewWidget(Gtk.Box):
     }
 
     def __init__(self, build_package):
-        super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=18)
 
         self.build_package = build_package
 
-        self.set_margin_top(6)
-        self.set_margin_bottom(6)
-        self.set_margin_start(6)
-        self.set_margin_end(6)
+        self.add_css_class("content-page")
 
         self.create_ui()
         self.refresh_overview()
@@ -116,17 +114,19 @@ class OverviewWidget(Gtk.Box):
         # Cards container
         cards_flow = Gtk.FlowBox()
         cards_flow.set_max_children_per_line(4)
-        cards_flow.set_min_children_per_line(2)
+        cards_flow.set_min_children_per_line(4)
         cards_flow.set_selection_mode(Gtk.SelectionMode.NONE)
         cards_flow.set_homogeneous(True)
+        cards_flow.set_column_spacing(14)
+        cards_flow.set_row_spacing(14)
 
         # Create status cards with standard GNOME icons
         self.repo_card = StatusCard(_("Repository"), "—", "folder-symbolic")
         self.branch_card = StatusCard(
-            _("Current Branch"), "—", "media-playlist-consecutive-symbolic"
+            _("Current Branch"), "—", "media-playlist-consecutive-symbolic", "success"
         )
-        self.changes_card = StatusCard(_("Changes"), "—", "document-edit-symbolic")
-        self.commits_card = StatusCard(_("Commits"), "—", "view-list-symbolic")
+        self.changes_card = StatusCard(_("Changes"), "—", "document-edit-symbolic", "purple")
+        self.commits_card = StatusCard(_("Commits"), "—", "view-list-symbolic", "warning")
 
         cards_flow.append(self.repo_card)
         cards_flow.append(self.branch_card)
@@ -163,12 +163,14 @@ class OverviewWidget(Gtk.Box):
                 _("Pull Latest"),
                 _("Pull latest changes from remote repository"),
                 "go-down-symbolic",
+                "accent",
             ),
             (
                 "commit",
                 _("Commit and Push"),
                 _("Stage changes and push to development branch"),
                 "document-save-symbolic",
+                "success",
             ),
         ]
 
@@ -179,12 +181,14 @@ class OverviewWidget(Gtk.Box):
                 _("Build Testing Package"),
                 _("Build and deploy to testing repository"),
                 "package-x-generic-symbolic",
+                "warning",
             ))
             quick_actions.append((
                 "package_stable",
                 _("Build Stable Package"),
                 _("Build and deploy to stable repository"),
                 "emblem-ok-symbolic",
+                "purple",
             ))
 
         if settings.get("aur_features_enabled", False):
@@ -193,10 +197,11 @@ class OverviewWidget(Gtk.Box):
                 _("Build AUR Package"),
                 _("Build package from Arch User Repository"),
                 "system-software-install-symbolic",
+                "accent",
             ))
 
-        for action_id, title, desc, icon in quick_actions:
-            card = QuickActionCard(title, desc, icon, action_id)
+        for action_id, title, desc, icon, tone in quick_actions:
+            card = QuickActionCard(title, desc, icon, action_id, tone)
             if action_id == "pull":
                 card.add_css_class("accent")
             # Store commit card for dynamic highlighting
@@ -212,27 +217,25 @@ class OverviewWidget(Gtk.Box):
         activity_group.set_title(_("Recent Activity"))
         
         self.activity_row = Adw.ActionRow()
+        self.activity_row.add_css_class("rich-row")
         self.activity_row.set_title(_("No recent activity"))
         self.activity_row.set_subtitle(_("Activity will appear here after operations"))
+        self.activity_row.add_prefix(icon_tile("view-list-symbolic", tone="purple", size=20))
         activity_group.add(self.activity_row)
         
         self.append(activity_group)
         
         # Actions bar at bottom
-        actions_bar = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
-        actions_bar.set_halign(Gtk.Align.END)
-        actions_bar.set_margin_top(12)
-        
+        actions_bar = action_bar()
+
         # Show welcome button
-        welcome_button = Gtk.Button()
-        welcome_button.set_icon_name("help-about-symbolic")
+        welcome_button = action_button(_("Welcome Screen"), "help-about-symbolic")
         welcome_button.set_tooltip_text(_("Show welcome screen"))
         welcome_button.connect('clicked', self.on_welcome_clicked)
         actions_bar.append(welcome_button)
-        
+
         # Refresh button
-        refresh_button = Gtk.Button()
-        refresh_button.set_label(_("Refresh Status"))
+        refresh_button = action_button(_("Refresh Status"), "view-refresh-symbolic")
         refresh_button.set_tooltip_text(_("Refresh repository status and information"))
         refresh_button.connect('clicked', self.on_refresh_clicked)
         actions_bar.append(refresh_button)
@@ -274,14 +277,14 @@ class OverviewWidget(Gtk.Box):
                 self.branch_card.update_value(_("Unknown"))
             
             # Changes card - clear previous CSS classes first
-            self.changes_card.icon.remove_css_class("warning")
-            self.changes_card.icon.remove_css_class("success")
-            
+            self.changes_card.icon_tile.remove_css_class("warning")
+            self.changes_card.icon_tile.remove_css_class("success")
+            self.changes_card.icon_tile.remove_css_class("purple")
+
             if GitUtils.has_changes():
                 changed_files = GitUtils.get_changed_files()
-                count = len(changed_files)
                 self.changes_card.update_value(_("Modified"))
-                self.changes_card.icon.add_css_class("warning")
+                self.changes_card.icon_tile.add_css_class("warning")
 
                 # Update changed files list
                 self._update_changed_files_list(changed_files)
@@ -292,7 +295,7 @@ class OverviewWidget(Gtk.Box):
             else:
                 # TRANSLATORS: Status when working directory has no modifications
                 self.changes_card.update_value(_("No changes"))
-                self.changes_card.icon.add_css_class("success")
+                self.changes_card.icon_tile.add_css_class("success")
                 self.changed_files_group.set_visible(False)
 
                 # Remove highlight from Commit quick action
@@ -357,18 +360,8 @@ class OverviewWidget(Gtk.Box):
             label = status_labels.get(status, status)
             row.set_subtitle(label)
 
-            # Color-coded icon
-            if status in ("D",):
-                icon_name = "edit-delete-symbolic"
-            elif status in ("A", "AM", "??"):
-                icon_name = "list-add-symbolic"
-            elif status in ("R", "C"):
-                icon_name = "edit-copy-symbolic"
-            else:
-                icon_name = "document-edit-symbolic"
-
-            icon = Gtk.Image.new_from_icon_name(icon_name)
-            row.add_prefix(icon)
+            icon_name, tone = git_status_icon(status)
+            row.add_prefix(icon_tile(icon_name, tone=tone, size=24))
             self.changed_files_expander.add_row(row)
             self._changed_file_rows.append(row)
 
@@ -432,12 +425,14 @@ class OverviewWidget(Gtk.Box):
                 _("Pull Latest"),
                 _("Pull latest changes from remote repository"),
                 "go-down-symbolic",
+                "accent",
             ),
             (
                 "commit",
                 _("Commit and Push"),
                 _("Stage changes and push to development branch"),
                 "document-save-symbolic",
+                "success",
             ),
         ]
 
@@ -448,12 +443,14 @@ class OverviewWidget(Gtk.Box):
                 _("Build Testing Package"),
                 _("Build and deploy to testing repository"),
                 "package-x-generic-symbolic",
+                "warning",
             ))
             quick_actions.append((
                 "package_stable",
                 _("Build Stable Package"),
                 _("Build and deploy to stable repository"),
                 "emblem-ok-symbolic",
+                "purple",
             ))
 
         if settings.get("aur_features_enabled", False):
@@ -462,10 +459,11 @@ class OverviewWidget(Gtk.Box):
                 _("Build AUR Package"),
                 _("Build package from Arch User Repository"),
                 "system-software-install-symbolic",
+                "accent",
             ))
 
-        for action_id, title, desc, icon in quick_actions:
-            card = QuickActionCard(title, desc, icon, action_id)
+        for action_id, title, desc, icon, tone in quick_actions:
+            card = QuickActionCard(title, desc, icon, action_id, tone)
             if action_id == "commit":
                 self.commit_quick_action = card
             self.quick_actions_list.append(card)

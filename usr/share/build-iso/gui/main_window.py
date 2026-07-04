@@ -23,6 +23,7 @@ from .widgets.dashboard_widget import DashboardWidget
 from .widgets.history_widget import HistoryWidget
 from .widgets.profiles_widget import ProfilesWidget
 from .widgets.settings_widget import SettingsWidget
+from .widgets.ui_helpers import icon_tile
 
 
 class MainWindow(Adw.ApplicationWindow):
@@ -154,11 +155,10 @@ class MainWindow(Adw.ApplicationWindow):
             nav_row = Adw.ActionRow()
             nav_row.set_title(title)
             nav_row.set_activatable(True)
+            nav_row.add_css_class("rich-row")
             nav_row.page_id = page_id
 
-            icon = Gtk.Image.new_from_icon_name(icon_name)
-            icon.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
-            nav_row.add_prefix(icon)
+            nav_row.add_prefix(icon_tile(icon_name, tone="accent", size=20))
 
             badge_label = Gtk.Label()
             badge_label.add_css_class("badge")

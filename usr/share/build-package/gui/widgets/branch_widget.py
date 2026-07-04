@@ -12,6 +12,8 @@ from gi.repository import Gtk, Adw, GObject
 from core.translation_utils import _
 from core.git_utils import GitUtils
 
+from .ui_helpers import action_bar, action_button, icon_tile, page_header
+
 class BranchRow(Adw.ActionRow):
     """Custom row for branch display"""
     
@@ -26,12 +28,20 @@ class BranchRow(Adw.ActionRow):
         
         self.set_title(branch_name)
         self.set_activatable(True)
+        self.add_css_class("rich-row")
+
+        self.add_prefix(icon_tile(
+            "media-playlist-consecutive-symbolic",
+            tone="accent" if is_current else "neutral",
+            size=20,
+        ))
         
         # Add indicators
         if is_current:
             self.set_subtitle(_("Current branch"))
-            current_icon = Gtk.Image.new_from_icon_name("emblem-default-symbolic")
-            self.add_prefix(current_icon)
+            current_icon = Gtk.Image.new_from_icon_name("emblem-ok-symbolic")
+            current_icon.add_css_class("success")
+            self.add_suffix(current_icon)
             self.add_css_class("accent")
         
         if is_remote:
@@ -52,20 +62,15 @@ class BranchWidget(Gtk.Box):
     }
     
     def __init__(self, build_package):
-        super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=18)
         
         self.build_package = build_package
         self.current_branch = None
         self.branches = []
         self._block_selection_signal = False  # Flag to prevent signal loops
 
-        # Remover vexpand para evitar espaço vazio
         self.set_valign(Gtk.Align.START)
-
-        self.set_margin_top(6)
-        self.set_margin_bottom(6)
-        self.set_margin_start(6)
-        self.set_margin_end(6)
+        self.add_css_class("content-page")
         
         self.create_ui()
         self.refresh_branches()
@@ -73,20 +78,10 @@ class BranchWidget(Gtk.Box):
     def create_ui(self):
         """Create the widget UI"""
         
-        # Header
-        header_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
-        
-        title_label = Gtk.Label()
-        title_label.set_text(_("Branch Management"))
-        title_label.add_css_class("title-4")
-        header_box.append(title_label)
-        
-        subtitle_label = Gtk.Label()
-        subtitle_label.set_text(_("Manage Git branches and merge operations"))
-        subtitle_label.add_css_class("subtitle")
-        header_box.append(subtitle_label)
-        
-        self.append(header_box)
+        self.append(page_header(
+            _("Branch Management"),
+            _("Manage Git branches and merge operations"),
+        ))
         
         # Current status
         status_group = Adw.PreferencesGroup()
@@ -94,11 +89,15 @@ class BranchWidget(Gtk.Box):
         
         self.current_branch_row = Adw.ActionRow()
         self.current_branch_row.set_title(_("Active Branch"))
+        self.current_branch_row.add_css_class("rich-row")
+        self.current_branch_row.add_prefix(icon_tile("media-playlist-consecutive-symbolic", tone="accent", size=20))
         status_group.add(self.current_branch_row)
         
         self.most_recent_row = Adw.ActionRow()
         self.most_recent_row.set_title(_("Most Recent Branch"))
         self.most_recent_row.set_subtitle(_("Branch with latest commits"))
+        self.most_recent_row.add_css_class("rich-row")
+        self.most_recent_row.add_prefix(icon_tile("document-open-recent-symbolic", tone="success", size=20))
         status_group.add(self.most_recent_row)
         
         self.append(status_group)
@@ -109,7 +108,7 @@ class BranchWidget(Gtk.Box):
         
         # Scrolled window for branch list
         scrolled = Gtk.ScrolledWindow()
-        scrolled.set_min_content_height(200)
+        scrolled.set_min_content_height(240)
         scrolled.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
         
         self.branches_list = Gtk.ListBox()
@@ -131,9 +130,10 @@ class BranchWidget(Gtk.Box):
         self.switch_main_row.set_title(_("Main Branch"))
         self.switch_main_row.set_subtitle(_("Switch to main or create if it doesn't exist"))
         self.switch_main_row.set_activatable(True)
+        self.switch_main_row.add_css_class("rich-row")
+        self.switch_main_row.add_prefix(icon_tile("media-playlist-consecutive-symbolic", tone="success", size=20))
         
-        switch_main_button = Gtk.Button()
-        switch_main_button.set_label(_("Use main"))
+        switch_main_button = action_button(_("Use main"), "go-next-symbolic", "suggested-action")
         switch_main_button.set_valign(Gtk.Align.CENTER)
         switch_main_button.add_css_class("suggested-action")
         switch_main_button.connect('clicked', self.on_switch_main_clicked)
@@ -150,45 +150,46 @@ class BranchWidget(Gtk.Box):
         self.source_branch_row = Adw.ComboRow()
         self.source_branch_row.set_title(_("Source Branch"))
         self.source_branch_row.set_subtitle(_("Branch to merge from"))
+        self.source_branch_row.add_css_class("rich-row")
+        self.source_branch_row.add_prefix(icon_tile("go-up-symbolic", tone="accent", size=20))
         merge_group.add(self.source_branch_row)
         
         # Target branch selection
         self.target_branch_row = Adw.ComboRow()
         self.target_branch_row.set_title(_("Target Branch"))
         self.target_branch_row.set_subtitle(_("Branch to merge into"))
+        self.target_branch_row.add_css_class("rich-row")
+        self.target_branch_row.add_prefix(icon_tile("go-down-symbolic", tone="purple", size=20))
         merge_group.add(self.target_branch_row)
         
         # Auto-merge option
         self.auto_merge_row = Adw.SwitchRow()
         self.auto_merge_row.set_title(_("Auto-merge"))
         self.auto_merge_row.set_subtitle(_("Automatically merge if no conflicts"))
+        self.auto_merge_row.add_css_class("rich-row")
+        self.auto_merge_row.add_prefix(icon_tile("emblem-ok-symbolic", tone="success", size=20))
         merge_group.add(self.auto_merge_row)
         
         self.append(merge_group)
         
         # Actions
-        actions_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
-        actions_box.set_halign(Gtk.Align.END)
-        actions_box.set_margin_top(12)
+        actions_box = action_bar()
         
         # Refresh button
-        refresh_button = Gtk.Button()
-        refresh_button.set_label(_("Refresh"))
+        refresh_button = action_button(_("Refresh"), "view-refresh-symbolic")
         refresh_button.set_tooltip_text(_("Refresh branch list"))
         refresh_button.connect('clicked', self.on_refresh_clicked)
         actions_box.append(refresh_button)
         
         # Cleanup button
-        cleanup_button = Gtk.Button()
-        cleanup_button.set_label(_("Cleanup Branches"))
+        cleanup_button = action_button(_("Cleanup Branches"), "edit-delete-symbolic", "destructive-action")
         cleanup_button.set_tooltip_text(_("Remove old development branches"))
         cleanup_button.add_css_class("destructive-action")
         cleanup_button.connect('clicked', self.on_cleanup_clicked)
         actions_box.append(cleanup_button)
         
         # Merge button
-        self.merge_button = Gtk.Button()
-        self.merge_button.set_label(_("Create Merge Request"))
+        self.merge_button = action_button(_("Create Merge Request"), "media-playlist-consecutive-symbolic", "suggested-action")
         self.merge_button.add_css_class("suggested-action")
         self.merge_button.connect('clicked', self.on_merge_clicked)
         self.merge_button.set_sensitive(False)

@@ -26,6 +26,8 @@ from core.config import (
 from core.translation_utils import _
 from gi.repository import Adw, GLib, GObject, Gtk
 
+from .ui_helpers import icon_tile, row_arrow
+
 
 class ProfilesWidget(Gtk.Box):
     """Browse and select ISO profiles for each distribution"""
@@ -64,8 +66,8 @@ class ProfilesWidget(Gtk.Box):
         self.source_row = Adw.ActionRow()
         self.source_row.set_title(_("Profiles Source"))
         self._update_source_label()
-        source_icon = Gtk.Image.new_from_icon_name("folder-remote-symbolic")
-        self.source_row.add_prefix(source_icon)
+        self.source_row.add_css_class("rich-row")
+        self.source_row.add_prefix(icon_tile("folder-remote-symbolic", tone="accent", size=20))
 
         refresh_btn = Gtk.Button.new_from_icon_name("view-refresh-symbolic")
         refresh_btn.set_valign(Gtk.Align.CENTER)
@@ -226,13 +228,10 @@ class ProfilesWidget(Gtk.Box):
                 row.set_title(edition.capitalize())
                 row.set_subtitle(f"{distro_name} - {edition}")
                 row.set_activatable(True)
+                row.add_css_class("rich-row")
 
-                icon = Gtk.Image.new_from_icon_name("media-optical-symbolic")
-                row.add_prefix(icon)
-
-                arrow = Gtk.Image.new_from_icon_name("go-next-symbolic")
-                arrow.set_valign(Gtk.Align.CENTER)
-                row.add_suffix(arrow)
+                row.add_prefix(icon_tile("media-optical-symbolic", tone="success", size=20))
+                row.add_suffix(row_arrow())
 
                 row._distro_key = distro_key
                 row._edition = edition

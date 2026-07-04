@@ -28,6 +28,8 @@ from core.config import (
 from core.translation_utils import _
 from gi.repository import Adw, GLib, GObject, Gtk
 
+from .ui_helpers import icon_tile
+
 
 class BuildWidget(Gtk.Box):
     """Build ISO configuration page"""
@@ -69,6 +71,8 @@ class BuildWidget(Gtk.Box):
         self.distro_row = Adw.ComboRow()
         self.distro_row.set_title(_("Distribution"))
         self.distro_row.set_subtitle(_("Choose the target distribution"))
+        self.distro_row.add_css_class("rich-row")
+        self.distro_row.add_prefix(icon_tile("media-optical-symbolic", tone="accent", size=20))
 
         distro_model = Gtk.StringList()
         self._distro_keys = list(VALID_DISTROS.keys())
@@ -88,6 +92,8 @@ class BuildWidget(Gtk.Box):
         self.edition_row = Adw.ComboRow()
         self.edition_row.set_title(_("Edition"))
         self.edition_row.set_subtitle(_("Desktop environment"))
+        self.edition_row.add_css_class("rich-row")
+        self.edition_row.add_prefix(icon_tile("preferences-system-symbolic", tone="purple", size=20))
         self._edition_model = Gtk.StringList()
         self.edition_row.set_model(self._edition_model)
         edition_group.add(self.edition_row)
@@ -107,6 +113,8 @@ class BuildWidget(Gtk.Box):
         self.profiles_source_row = Adw.ComboRow()
         self.profiles_source_row.set_title(_("Source"))
         self.profiles_source_row.set_subtitle(_("Choose where to load iso-profiles from"))
+        self.profiles_source_row.add_css_class("rich-row")
+        self.profiles_source_row.add_prefix(icon_tile("folder-remote-symbolic", tone="accent", size=20))
         source_model = Gtk.StringList()
         source_model.append(_("Official (GitHub)"))
         source_model.append(_("Custom Repository URL"))
@@ -120,6 +128,8 @@ class BuildWidget(Gtk.Box):
         self.custom_url_row.set_title(_("Repository URL"))
         self.custom_url_row.set_text("")
         self.custom_url_row.set_visible(False)
+        self.custom_url_row.add_css_class("rich-row")
+        self.custom_url_row.add_prefix(icon_tile("network-wireless-symbolic", tone="accent", size=20))
         self.custom_url_row.connect("changed", self._on_custom_source_changed)
         profiles_group.add(self.custom_url_row)
 
@@ -128,6 +138,8 @@ class BuildWidget(Gtk.Box):
         self.local_path_row.set_title(_("Local Folder Path"))
         self.local_path_row.set_text("")
         self.local_path_row.set_visible(False)
+        self.local_path_row.add_css_class("rich-row")
+        self.local_path_row.add_prefix(icon_tile("folder-open-symbolic", tone="accent", size=20))
 
         local_browse_btn = Gtk.Button()
         local_browse_btn.set_icon_name("folder-open-symbolic")
@@ -156,6 +168,8 @@ class BuildWidget(Gtk.Box):
         self.kernel_row = Adw.ComboRow()
         self.kernel_row.set_title(_("Kernel"))
         self.kernel_row.set_subtitle(_("Linux kernel version"))
+        self.kernel_row.add_css_class("rich-row")
+        self.kernel_row.add_prefix(icon_tile("system-run-symbolic", tone="success", size=20))
 
         kernel_model = Gtk.StringList()
         self._kernel_keys = list(VALID_KERNELS.keys())
@@ -179,6 +193,8 @@ class BuildWidget(Gtk.Box):
         self.manjaro_branch_row.set_title(_("Manjaro Branch"))
         self.manjaro_branch_row.set_subtitle(_("Base repository branch"))
         self.manjaro_branch_row.set_model(branch_model)
+        self.manjaro_branch_row.add_css_class("rich-row")
+        self.manjaro_branch_row.add_prefix(icon_tile("folder-symbolic", tone="accent", size=20))
         branches_group.add(self.manjaro_branch_row)
 
         branch_model2 = Gtk.StringList()
@@ -189,6 +205,8 @@ class BuildWidget(Gtk.Box):
         self.biglinux_branch_row.set_title(_("BigLinux Branch"))
         self.biglinux_branch_row.set_subtitle(_("BigLinux repository branch"))
         self.biglinux_branch_row.set_model(branch_model2)
+        self.biglinux_branch_row.add_css_class("rich-row")
+        self.biglinux_branch_row.add_prefix(icon_tile("folder-symbolic", tone="success", size=20))
         branches_group.add(self.biglinux_branch_row)
 
         branch_model3 = Gtk.StringList()
@@ -199,6 +217,8 @@ class BuildWidget(Gtk.Box):
         self.community_branch_row.set_title(_("Community Branch"))
         self.community_branch_row.set_subtitle(_("Community repository branch"))
         self.community_branch_row.set_model(branch_model3)
+        self.community_branch_row.add_css_class("rich-row")
+        self.community_branch_row.add_prefix(icon_tile("folder-symbolic", tone="purple", size=20))
         branches_group.add(self.community_branch_row)
 
         # ── Output Section ──
@@ -210,6 +230,8 @@ class BuildWidget(Gtk.Box):
         self.output_row = Adw.EntryRow()
         self.output_row.set_title(_("Output Directory"))
         self.output_row.set_text(self.settings.output_dir)
+        self.output_row.add_css_class("rich-row")
+        self.output_row.add_prefix(icon_tile("folder-open-symbolic", tone="warning", size=20))
 
         browse_btn = Gtk.Button()
         browse_btn.set_icon_name("folder-open-symbolic")
@@ -238,11 +260,15 @@ class BuildWidget(Gtk.Box):
         self.clean_cache_row = Adw.SwitchRow()
         self.clean_cache_row.set_title(_("Clean cache before build"))
         self.clean_cache_row.set_subtitle(_("Removes cached packages - increases build time"))
+        self.clean_cache_row.add_css_class("rich-row")
+        self.clean_cache_row.add_prefix(icon_tile("dialog-warning-symbolic", tone="warning", size=20))
         options_group.add(self.clean_cache_row)
 
         self.clean_after_row = Adw.SwitchRow()
         self.clean_after_row.set_title(_("Clean cache after build"))
         self.clean_after_row.set_subtitle(_("Free disk space after successful build"))
+        self.clean_after_row.add_css_class("rich-row")
+        self.clean_after_row.add_prefix(icon_tile("emblem-ok-symbolic", tone="success", size=20))
         options_group.add(self.clean_after_row)
 
         # ── Build Button ──

@@ -12,6 +12,8 @@ from gi.repository import Gtk, Adw, GObject
 from core.translation_utils import _
 from core.git_utils import GitUtils
 
+from .ui_helpers import action_bar, action_button, icon_tile, page_header
+
 class OperationRow(Adw.ActionRow):
     """Custom row for advanced operations"""
     
@@ -26,12 +28,11 @@ class OperationRow(Adw.ActionRow):
         self.set_title(title)
         self.set_subtitle(description)
         self.set_activatable(True)
+        self.add_css_class("rich-row")
         
         # Add icon
-        icon = Gtk.Image.new_from_icon_name(icon_name)
-        if is_destructive:
-            icon.add_css_class("error")
-        self.add_prefix(icon)
+        self.add_prefix(icon_tile(icon_name, tone="error" if is_destructive else "success", size=20))
+        self.add_suffix(Gtk.Image.new_from_icon_name("go-next-symbolic"))
         
         # Add styling for destructive actions
         if is_destructive:
@@ -50,6 +51,34 @@ class CommitRow(Adw.ActionRow):
         self.set_title(f"{commit_hash[:7]} - {message[:60]}")
         self.set_subtitle(f"{author} • {date}")
         self.set_activatable(True)
+        self.add_css_class("rich-row")
+        self.add_prefix(icon_tile("view-list-symbolic", tone="purple", size=20))
+
+
+class MetricCard(Gtk.Box):
+    """Repository statistic card."""
+
+    def __init__(self, title, value, icon_name, tone="accent"):
+        super().__init__(orientation=Gtk.Orientation.HORIZONTAL, spacing=14)
+
+        self.add_css_class("metric-card")
+        self.append(icon_tile(icon_name, tone=tone, size=24))
+
+        text_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
+        self.value_label = Gtk.Label(label=value)
+        self.value_label.set_halign(Gtk.Align.START)
+        self.value_label.add_css_class("metric-value")
+        text_box.append(self.value_label)
+
+        title_label = Gtk.Label(label=title)
+        title_label.set_halign(Gtk.Align.START)
+        title_label.add_css_class("muted-caption")
+        text_box.append(title_label)
+
+        self.append(text_box)
+
+    def update_value(self, value):
+        self.value_label.set_text(str(value))
 
 class AdvancedWidget(Gtk.Box):
     """Widget for advanced operations"""
@@ -62,17 +91,14 @@ class AdvancedWidget(Gtk.Box):
     }
     
     def __init__(self, build_package):
-        super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=18)
         self.set_vexpand(False)  # Prevent vertical expansion
         self.set_valign(Gtk.Align.START)  # Align to top
         
         self.build_package = build_package
         self.recent_commits = []
 
-        self.set_margin_top(6)
-        self.set_margin_bottom(6)
-        self.set_margin_start(6)
-        self.set_margin_end(6)
+        self.add_css_class("content-page")
         
         self.create_ui()
         self.refresh_commits()
@@ -80,26 +106,21 @@ class AdvancedWidget(Gtk.Box):
     def create_ui(self):
         """Create the widget UI"""
         
-        # Header
-        header_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
-        
-        title_label = Gtk.Label()
-        title_label.set_text(_("Advanced Operations"))
-        title_label.add_css_class("title-4")
-        header_box.append(title_label)
-        
-        subtitle_label = Gtk.Label()
-        subtitle_label.set_text(_("Advanced Git operations and maintenance"))
-        subtitle_label.add_css_class("subtitle")
-        header_box.append(subtitle_label)
-        
-        self.append(header_box)
+        self.append(page_header(
+            _("Advanced Operations"),
+            _("Advanced Git operations and maintenance"),
+        ))
         
         # Warning banner
-        warning_banner = Adw.Banner()
-        warning_banner.set_title(_("Warning: These operations can be destructive"))
-        warning_banner.add_css_class("error")
-        warning_banner.set_revealed(True)
+        warning_banner = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=14)
+        warning_banner.add_css_class("danger-banner")
+        warning_banner.append(icon_tile("dialog-warning-symbolic", tone="error", size=22))
+        warning_label = Gtk.Label(label=_("Warning: These operations can be destructive"))
+        warning_label.set_halign(Gtk.Align.START)
+        warning_label.set_xalign(0)
+        warning_label.set_wrap(True)
+        warning_label.add_css_class("heading")
+        warning_banner.append(warning_label)
         self.append(warning_banner)
         
         # Cleanup operations
@@ -128,7 +149,6 @@ class AdvancedWidget(Gtk.Box):
             self.cleanup_list.append(row)
         
         cleanup_group.add(self.cleanup_list)
-        self.append(cleanup_group)
         
         # Commit revert operations
         revert_group = Adw.PreferencesGroup()
@@ -154,6 +174,8 @@ class AdvancedWidget(Gtk.Box):
         self.revert_method_row.set_title(_("Revert Method"))
         self.revert_method_row.set_subtitle(_("Choose how to undo the commit"))
         self.revert_method_row.set_use_subtitle(True)
+        self.revert_method_row.add_css_class("rich-row")
+        self.revert_method_row.add_prefix(icon_tile("edit-undo-symbolic", tone="warning", size=20))
         
         methods = Gtk.StringList()
         # Shorter text that fits in popup - tooltip can explain more
@@ -164,40 +186,53 @@ class AdvancedWidget(Gtk.Box):
         
         revert_group.add(self.revert_method_row)
         
-        self.append(revert_group)
+        columns = Gtk.Grid()
+        columns.set_column_spacing(16)
+        columns.set_row_spacing(16)
+        columns.set_column_homogeneous(True)
+        columns.attach(cleanup_group, 0, 0, 1, 1)
+        columns.attach(revert_group, 1, 0, 1, 1)
+        self.append(columns)
         
         # Repository statistics
         stats_group = Adw.PreferencesGroup()
         stats_group.set_title(_("Repository Statistics"))
         
-        self.branch_count_row = Adw.ActionRow()
-        self.branch_count_row.set_title(_("Total Branches"))
-        stats_group.add(self.branch_count_row)
-        
-        self.commit_count_row = Adw.ActionRow()
-        self.commit_count_row.set_title(_("Commits in Current Branch"))
-        stats_group.add(self.commit_count_row)
-        
-        self.repo_size_row = Adw.ActionRow()
-        self.repo_size_row.set_title(_("Repository Size"))
-        stats_group.add(self.repo_size_row)
+        stats_flow = Gtk.FlowBox()
+        stats_flow.set_selection_mode(Gtk.SelectionMode.NONE)
+        stats_flow.set_max_children_per_line(3)
+        stats_flow.set_min_children_per_line(1)
+        stats_flow.set_homogeneous(True)
+        stats_flow.set_column_spacing(14)
+        stats_flow.set_row_spacing(14)
+
+        self.branch_count_card = MetricCard(
+            _("Total Branches"), "—", "media-playlist-consecutive-symbolic", "accent"
+        )
+        self.commit_count_card = MetricCard(
+            _("Commits in Current Branch"), "—", "document-open-recent-symbolic", "purple"
+        )
+        self.repo_size_card = MetricCard(
+            _("Repository Size"), "—", "folder-symbolic", "warning"
+        )
+
+        stats_flow.append(self.branch_count_card)
+        stats_flow.append(self.commit_count_card)
+        stats_flow.append(self.repo_size_card)
+        stats_group.add(stats_flow)
         
         self.append(stats_group)
         
         # Actions
-        actions_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
-        actions_box.set_halign(Gtk.Align.END)
-        actions_box.set_margin_top(12)
+        actions_box = action_bar()
         
         # Refresh button
-        refresh_button = Gtk.Button()
-        refresh_button.set_label(_("Refresh"))
+        refresh_button = action_button(_("Refresh"), "view-refresh-symbolic")
         refresh_button.connect('clicked', self.on_refresh_clicked)
         actions_box.append(refresh_button)
         
         # Revert button
-        self.revert_button = Gtk.Button()
-        self.revert_button.set_label(_("Revert Selected"))
+        self.revert_button = action_button(_("Revert Selected"), "edit-undo-symbolic", "destructive-action")
         self.revert_button.add_css_class("destructive-action")
         self.revert_button.connect('clicked', self.on_revert_clicked)
         self.revert_button.set_sensitive(False)
@@ -292,13 +327,13 @@ class AdvancedWidget(Gtk.Box):
                     check=True
                 )
                 branch_count = len([b for b in result.stdout.split('\n') if b.strip()])
-                self.branch_count_row.set_subtitle(str(branch_count))
+                self.branch_count_card.update_value(str(branch_count))
             except subprocess.SubprocessError:
-                self.branch_count_row.set_subtitle(_("Unknown"))
+                self.branch_count_card.update_value(_("Unknown"))
             
             # Commit count - check for empty repo first
             if not GitUtils.has_commits():
-                self.commit_count_row.set_subtitle("0")
+                self.commit_count_card.update_value("0")
             else:
                 try:
                     result = subprocess.run(
@@ -310,11 +345,11 @@ class AdvancedWidget(Gtk.Box):
                     )
                     if result.returncode == 0:
                         commit_count = result.stdout.strip()
-                        self.commit_count_row.set_subtitle(commit_count)
+                        self.commit_count_card.update_value(commit_count)
                     else:
-                        self.commit_count_row.set_subtitle("0")
+                        self.commit_count_card.update_value("0")
                 except subprocess.SubprocessError:
-                    self.commit_count_row.set_subtitle(_("Unknown"))
+                    self.commit_count_card.update_value(_("Unknown"))
             
             # Repository size
             try:
@@ -338,9 +373,9 @@ class AdvancedWidget(Gtk.Box):
                 else:
                     size_text = f"{total_size} bytes"
                 
-                self.repo_size_row.set_subtitle(size_text)
+                self.repo_size_card.update_value(size_text)
             except (OSError, AttributeError):
-                self.repo_size_row.set_subtitle(_("Unknown"))
+                self.repo_size_card.update_value(_("Unknown"))
                 
         except Exception as e:
             print(_("Error refreshing stats: {0}").format(e))
