@@ -94,13 +94,9 @@ class MainWindow(Adw.ApplicationWindow):
         sidebar_header = Adw.HeaderBar()
         sidebar_header.set_show_end_title_buttons(False)
 
-        brand_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        brand_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
         brand_box.add_css_class("sidebar-brand")
         brand_box.set_halign(Gtk.Align.CENTER)
-
-        brand_icon = Gtk.Image.new_from_icon_name("package-x-generic-symbolic")
-        brand_icon.set_pixel_size(24)
-        brand_box.append(brand_icon)
 
         app_title = Gtk.Label(label="GitRepo")
         app_title.add_css_class("heading")

@@ -127,10 +127,6 @@ class BuildPackageApplication(Adw.Application):
                 margin: 4px 0;
             }
 
-            .sidebar-brand image {
-                color: @accent_color;
-            }
-
             .sidebar-listbox {
                 background: transparent;
             }

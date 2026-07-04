@@ -11,7 +11,7 @@ gi.require_version("Adw", "1")
 
 from core.git_utils import GitUtils
 from core.translation_utils import _
-from gi.repository import Adw, GObject, Gtk
+from gi.repository import Adw, GObject, Gtk, Pango
 
 from .ui_helpers import action_bar, action_button, git_status_icon, icon_tile
 
@@ -45,6 +45,9 @@ class StatusCard(Gtk.Box):
         self.value_label.add_css_class("title-3")
         self.value_label.add_css_class("metric-value")
         self.value_label.set_halign(Gtk.Align.CENTER)
+        self.value_label.set_ellipsize(Pango.EllipsizeMode.END)
+        self.value_label.set_lines(1)
+        self.value_label.set_max_width_chars(16)
         self.value_label.update_property([Gtk.AccessibleProperty.LABEL], [f"{title}: {value}"])
         self.append(self.value_label)
 
