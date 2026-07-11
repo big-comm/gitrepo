@@ -11,6 +11,7 @@ gi.require_version("Adw", "1")
 
 import threading
 
+from core.config import APP_NAME
 from core.translation_utils import _
 from gi.repository import Adw, GLib, GObject, Gtk
 
@@ -554,7 +555,7 @@ class OperationRunner:
             if not self.parent.is_active():
                 if hasattr(self.parent, 'send_system_notification'):
                     self.parent.send_system_notification(
-                        _("Build Package"),
+                        APP_NAME,
                         _("Operation completed successfully"),
                         "emblem-ok-symbolic"
                     )
@@ -578,7 +579,7 @@ class OperationRunner:
             if not self.parent.is_active():
                 if hasattr(self.parent, 'send_system_notification'):
                     self.parent.send_system_notification(
-                        _("Build Package"),
+                        APP_NAME,
                         _("Operation failed: {0}").format(str(error)),
                         "dialog-error-symbolic"
                     )

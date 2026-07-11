@@ -334,7 +334,7 @@ class BuildPackageApplication(Adw.Application):
         app_section = Gio.Menu()
         app_section.append(_("Preferences"), "app.preferences")
         app_section.append(_("Keyboard Shortcuts"), "app.shortcuts")
-        app_section.append(_("About Build Package"), "app.about")
+        app_section.append(_("About"), "app.about")
         menu.append_section(None, app_section)
 
         # Set as primary menu

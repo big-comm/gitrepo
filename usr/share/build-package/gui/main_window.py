@@ -13,7 +13,7 @@ gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 
 from core.build_package import BuildPackage
-from core.config import APP_VERSION
+from core.config import APP_NAME, APP_VERSION
 from core.git_utils import GitUtils
 from core.settings import Settings
 from core.translation_utils import _
@@ -65,7 +65,7 @@ class MainWindow(Adw.ApplicationWindow):
         # Set window properties
         self.set_default_size(1180, 760)
         self.set_size_request(900, 640)  # Force minimum size
-        self.set_title(_("Build Package"))
+        self.set_title(APP_NAME)
 
         # Show welcome dialog on first run (after window is shown)
         GLib.idle_add(self._check_show_welcome)
@@ -1485,6 +1485,7 @@ class MainWindow(Adw.ApplicationWindow):
 
     def refresh_all_widgets(self):
         """Refresh all widgets with current status"""
+        self.refresh_status()
         if hasattr(self, 'overview_widget'):
             self.overview_widget.refresh_overview()
         if hasattr(self, 'commit_widget'):

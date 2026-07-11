@@ -48,5 +48,5 @@ CONFLICT_RESOLUTION_AUTO_ACCEPT_NEWER = False  # If True, automatically accepts 
 
 # Script version
 APP_VERSION = "3.1.5"
-APP_NAME = _("BUILD PACKAGE")
+APP_NAME = "GitRepo"
 APP_DESC = _("A comprehensive tool for package building, testing, and deployment. Streamlines Git operations, automates builds and manages package workflows for BigCommunity repositories and AUR packages.")
