@@ -105,11 +105,22 @@ button.pill {
 }
 
 /* ─── Terminal view ─── */
-.terminal-view {
-    font-family: monospace;
-    font-size: 0.9em;
+scrolledwindow.terminal-frame,
+scrolledwindow.terminal-frame > viewport,
+textview.terminal-view,
+textview.terminal-view text {
     background-color: #1e1e2e;
     color: #cdd6f4;
+}
+
+scrolledwindow.terminal-frame {
+    border: 1px solid #45475a;
+    border-radius: 8px;
+}
+
+textview.terminal-view {
+    font-family: monospace;
+    font-size: 0.9em;
 }
 
 /* ─── Card sections ─── */

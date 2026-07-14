@@ -117,6 +117,8 @@ class BuildProgressDialog(Adw.Window):
         scrolled.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
         scrolled.set_min_content_height(200)
         scrolled.set_vexpand(True)
+        scrolled.add_css_class("card")
+        scrolled.add_css_class("terminal-frame")
 
         self.log_buffer = Gtk.TextBuffer()
         self.log_view = Gtk.TextView()
@@ -128,7 +130,7 @@ class BuildProgressDialog(Adw.Window):
         self.log_view.set_right_margin(8)
         self.log_view.set_top_margin(8)
         self.log_view.set_bottom_margin(8)
-        self.log_view.add_css_class("card")
+        self.log_view.add_css_class("terminal-view")
 
         scrolled.set_child(self.log_view)
         log_expander.set_child(scrolled)

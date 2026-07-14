@@ -170,7 +170,18 @@ class BuildISOApplication(Adw.Application):
                 border-radius: 8px;
                 font-weight: bold;
             }
-            .terminal-view {
+            scrolledwindow.terminal-frame,
+            scrolledwindow.terminal-frame > viewport,
+            textview.terminal-view,
+            textview.terminal-view text {
+                background-color: #1e1e2e;
+                color: #cdd6f4;
+            }
+            scrolledwindow.terminal-frame {
+                border: 1px solid #45475a;
+                border-radius: 8px;
+            }
+            textview.terminal-view {
                 font-family: monospace;
                 font-size: 0.9em;
             }
