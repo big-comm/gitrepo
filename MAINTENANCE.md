@@ -87,7 +87,7 @@ pyright
 
 bash -n usr/lib/gitrepo/launcher.bash usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
 shellcheck -s bash usr/lib/gitrepo/launcher.bash usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
-shfmt -d -ln bash -i 4 -ci usr/lib/gitrepo/launcher.bash usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
+shfmt -d -ln bash -ci usr/lib/gitrepo/launcher.bash usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
 pytest -q tests/test_launchers.py
 
 for catalog in locale/*.po; do msgfmt --check --output-file=/dev/null "$catalog"; done

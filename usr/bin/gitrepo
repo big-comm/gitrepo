@@ -4,25 +4,25 @@
 source "$(cd -- "$(/usr/bin/dirname -- "${BASH_SOURCE[0]}")" && pwd -P)/../lib/gitrepo/launcher.bash"
 
 if (($# > 1)); then
-    printf '%s\n' "GitRepo accepts at most one directory." >&2
-    exit 2
+	printf '%s\n' "GitRepo accepts at most one directory." >&2
+	exit 2
 fi
 
 if (($# == 1)); then
-    if [[ ! -d $1 ]]; then
-        printf 'Not a directory: %s\n' "$1" >&2
-        exit 2
-    fi
-    if ! git_root="$(/usr/bin/git -C "$1" rev-parse --show-toplevel 2>/dev/null)"; then
-        message="The selected folder is not inside a Git repository: $1"
-        printf '%s\n' "$message" >&2
-        if [[ -x /usr/bin/notify-send ]]; then
-            /usr/bin/notify-send --app-name=GitRepo --icon=dialog-warning "Not a Git Repository" "$message" || true
-        fi
-        exit 1
-    fi
-    readonly git_root
-    cd -- "$git_root" || exit
+	if [[ ! -d $1 ]]; then
+		printf 'Not a directory: %s\n' "$1" >&2
+		exit 2
+	fi
+	if ! git_root="$(/usr/bin/git -C "$1" rev-parse --show-toplevel 2>/dev/null)"; then
+		message="The selected folder is not inside a Git repository: $1"
+		printf '%s\n' "$message" >&2
+		if [[ -x /usr/bin/notify-send ]]; then
+			/usr/bin/notify-send --app-name=GitRepo --icon=dialog-warning "Not a Git Repository" "$message" || true
+		fi
+		exit 1
+	fi
+	readonly git_root
+	cd -- "$git_root" || exit
 fi
 
 gitrepo_exec_python_module gitrepo.build_package.gui.main_gui
