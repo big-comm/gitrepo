@@ -17,7 +17,7 @@ if (($# == 1)); then
         message="The selected folder is not inside a Git repository: $1"
         printf '%s\n' "$message" >&2
         if [[ -x /usr/bin/notify-send ]]; then
-            /usr/bin/notify-send --app-name=GitRepo --icon=dialog-warning "Not a Git Repository" "$message"
+            /usr/bin/notify-send --app-name=GitRepo --icon=dialog-warning "Not a Git Repository" "$message" || true
         fi
         exit 1
     fi
