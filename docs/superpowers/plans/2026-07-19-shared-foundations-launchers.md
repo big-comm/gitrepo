@@ -696,7 +696,6 @@ git commit -m "docs: document shared runtime contracts"
 ```bash
 node "${BIGAGENTS_TOOLS:-$HOME/.agents}/scripts/agent-fmt.mjs" \
     --file usr/lib/gitrepo/launcher.bash \
-    --file usr/bin/gitrepo --file usr/bin/bpkg --file usr/bin/build-iso --file usr/bin/biso \
     --file usr/share/gitrepo/common/child_process.py \
     --file usr/share/gitrepo/common/network_url.py \
     --file usr/share/gitrepo/common/rich_logger.py \
@@ -708,6 +707,8 @@ ruff check usr/share tests
 ```
 
 Expected: every command exits 0 with no warnings.
+
+The four extensionless `usr/bin/*` Bash launchers are intentionally excluded from `agent-fmt`, whose source-path allowlist does not inspect shebangs. They remain explicitly covered by Shfmt in Step 3.
 
 - [ ] **Step 2: Run the complete Python gate**
 
