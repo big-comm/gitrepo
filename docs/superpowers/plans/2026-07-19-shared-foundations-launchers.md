@@ -695,20 +695,18 @@ git commit -m "docs: document shared runtime contracts"
 
 ```bash
 node "${BIGAGENTS_TOOLS:-$HOME/.agents}/scripts/agent-fmt.mjs" \
-    --file usr/lib/gitrepo/launcher.bash \
     --file usr/share/gitrepo/common/child_process.py \
     --file usr/share/gitrepo/common/network_url.py \
     --file usr/share/gitrepo/common/rich_logger.py \
     --file tests/test_launchers.py --file tests/test_render_environment.py \
-    --file tests/test_rich_logger.py \
-    --file README.md --file MAINTENANCE.md --check
+    --file tests/test_rich_logger.py --check
 ruff format --check usr/share tests
 ruff check usr/share tests
 ```
 
 Expected: every command exits 0 with no warnings.
 
-The four extensionless `usr/bin/*` Bash launchers and `pyproject.toml` are intentionally excluded from `agent-fmt`, whose source-path allowlist supports neither shebang discovery nor TOML. The launchers remain explicitly covered by Shfmt in Step 3, while Mypy, Pyright, and pytest parse the project configuration in Step 2.
+`agent-fmt` is intentionally limited to its accepted Python paths. Its built-in Shfmt style conflicts with this project's explicit four-space Bash style, and it supports neither extensionless shebang scripts, TOML, nor Markdown formatting. Bash remains covered by the configured Shfmt command in Step 3; Mypy, Pyright, and pytest parse `pyproject.toml`; documentation is checked textually and by `git diff --check`.
 
 - [ ] **Step 2: Run the complete Python gate**
 
