@@ -9,7 +9,12 @@ import pytest
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 BIN_DIR = PROJECT_ROOT / "usr" / "bin"
 LAUNCHER_HELPER = PROJECT_ROOT / "usr" / "lib" / "gitrepo" / "launcher.bash"
-LAUNCHERS = ("gitrepo", "bpkg", "build-iso", "biso")
+LAUNCHERS = {
+    "gitrepo": "gitrepo.build_package.gui.main_gui",
+    "bpkg": "gitrepo.build_package.cli.main_cli",
+    "build-iso": "gitrepo.build_iso.gui.main_gui",
+    "biso": "gitrepo.build_iso.cli",
+}
 
 
 def test_launcher_helper_owns_strict_mode_and_python_exec() -> None:
@@ -21,13 +26,14 @@ def test_launcher_helper_owns_strict_mode_and_python_exec() -> None:
     assert 'exec /usr/bin/python3 -m "$module" "$@"' in source
 
 
-@pytest.mark.parametrize("name", LAUNCHERS)
-def test_launchers_use_bash_and_the_shared_helper(name: str) -> None:
+@pytest.mark.parametrize(("name", "module"), LAUNCHERS.items())
+def test_launchers_use_bash_and_the_shared_helper(name: str, module: str) -> None:
     source = (BIN_DIR / name).read_text(encoding="utf-8")
 
     assert source.startswith("#!/usr/bin/bash\n")
     assert "../lib/gitrepo/launcher.bash" in source
     assert source.count("gitrepo_exec_python_module") == 1
+    assert f"gitrepo_exec_python_module {module}" in source
 
 
 @pytest.mark.parametrize("name", ("bpkg", "biso"))
@@ -70,3 +76,9 @@ def test_gitrepo_rejects_a_missing_directory(tmp_path: Path) -> None:
     assert result.returncode == 2
     assert result.stdout == ""
     assert result.stderr == f"Not a directory: {missing}\n"
+
+
+def test_gitrepo_ignores_an_optional_notification_failure() -> None:
+    source = (BIN_DIR / "gitrepo").read_text(encoding="utf-8")
+
+    assert '"Not a Git Repository" "$message" || true' in source
