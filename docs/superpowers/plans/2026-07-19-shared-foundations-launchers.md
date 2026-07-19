@@ -4,7 +4,7 @@
 
 **Goal:** Make GitRepo's shared Python contracts and four public launchers exemplary, specification-aligned, semantically accurate, and practically verified without changing their public command contracts.
 
-**Architecture:** Keep the four public commands as small Bash launchers that resolve the adjacent installed `usr/share` tree and replace themselves with canonical Python modules. Keep shared behavior in `gitrepo.common`, harden its existing process, URL, persistence, credential, logging, render-environment, translation, and GTK contracts in place, and avoid new abstractions or dependencies.
+**Architecture:** Keep the four public commands as small Bash launchers backed by one shared Bash helper that resolves the installed `usr/share` tree and replaces the caller with a canonical Python module. Keep shared Python behavior in `gitrepo.common`, harden its existing process, URL, persistence, credential, logging, render-environment, translation, and GTK contracts in place, and avoid new abstractions or dependencies.
 
 **Tech Stack:** Bash 5, Python 3.10+, pytest, Ruff, Mypy, Pyright, GTK4/PyGObject, libsecret, Rich, ShellCheck, Shfmt, Arch `makepkg`, KDE/KWin, AT-SPI.
 
@@ -24,6 +24,7 @@
 ## File map
 
 - Create `tests/test_launchers.py`: executable contract tests for all four public launchers.
+- Create `usr/lib/gitrepo/launcher.bash`: shared strict-mode, source-tree resolution, `PYTHONPATH`, and Python-module execution contract.
 - Create `tests/test_rich_logger.py`: terminal and persistent-log secret-redaction contract.
 - Modify `usr/bin/gitrepo`: Bash launcher plus repository-directory validation.
 - Modify `usr/bin/bpkg`: Bash launcher for the Build Package CLI module.
@@ -43,6 +44,7 @@
 
 **Files:**
 - Create: `tests/test_launchers.py`
+- Create: `usr/lib/gitrepo/launcher.bash`
 - Modify: `usr/bin/gitrepo`
 - Modify: `usr/bin/bpkg`
 - Modify: `usr/bin/build-iso`
@@ -50,7 +52,7 @@
 
 **Interfaces:**
 - Consumes: `gitrepo.build_package.gui.main_gui.main()`, `gitrepo.build_package.cli.main_cli.main()`, `gitrepo.build_iso.gui.main_gui.main()`, and `gitrepo.build_iso.cli.main()`.
-- Produces: the unchanged commands `gitrepo`, `bpkg`, `build-iso`, and `biso`, now executed by `/usr/bin/bash` and delegating through `/usr/bin/python3 -m`.
+- Produces: the unchanged commands `gitrepo`, `bpkg`, `build-iso`, and `biso`, now executed by `/usr/bin/bash` and delegating through `gitrepo_exec_python_module()` in one shared helper.
 
 - [ ] **Step 1: Add failing launcher contract tests**
 
@@ -67,18 +69,26 @@ import pytest
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 BIN_DIR = PROJECT_ROOT / "usr" / "bin"
+LAUNCHER_HELPER = PROJECT_ROOT / "usr" / "lib" / "gitrepo" / "launcher.bash"
 LAUNCHERS = ("gitrepo", "bpkg", "build-iso", "biso")
 
 
-@pytest.mark.parametrize("name", LAUNCHERS)
-def test_launchers_use_bash_and_strict_failure_options(name: str) -> None:
-    source = (BIN_DIR / name).read_text(encoding="utf-8")
+def test_launcher_helper_owns_strict_mode_and_python_exec() -> None:
+    source = LAUNCHER_HELPER.read_text(encoding="utf-8")
 
-    assert source.startswith("#!/usr/bin/bash\n")
     assert "set -o errexit" in source
     assert "set -o nounset" in source
     assert "set -o pipefail" in source
-    assert "exec /usr/bin/python3 -m " in source
+    assert "exec /usr/bin/python3 -m \"$module\" \"$@\"" in source
+
+
+@pytest.mark.parametrize("name", LAUNCHERS)
+def test_launchers_use_bash_and_the_shared_helper(name: str) -> None:
+    source = (BIN_DIR / name).read_text(encoding="utf-8")
+
+    assert source.startswith("#!/usr/bin/bash\n")
+    assert "../lib/gitrepo/launcher.bash" in source
+    assert source.count("gitrepo_exec_python_module") == 1
 
 
 @pytest.mark.parametrize("name", ("bpkg", "biso"))
@@ -131,22 +141,40 @@ Run:
 pytest -q tests/test_launchers.py
 ```
 
-Expected: four failures report that the current `#!/bin/sh` shebang does not equal `#!/usr/bin/bash`.
+Expected: five failures report that the helper does not exist and the current `#!/bin/sh` shebang does not equal `#!/usr/bin/bash`.
 
-- [ ] **Step 3: Replace the Build Package GUI launcher**
+- [ ] **Step 3: Create the shared Bash launcher helper**
+
+Create `usr/lib/gitrepo/launcher.bash` with:
+
+```bash
+# shellcheck shell=bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+
+helper_dir="$(cd -- "$(/usr/bin/dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+share_dir="$(cd -- "${helper_dir}/../../share" && pwd -P)"
+readonly helper_dir share_dir
+
+export PYTHONPATH="${share_dir}${PYTHONPATH:+:${PYTHONPATH}}"
+
+gitrepo_exec_python_module() {
+    local -r module=$1
+    shift
+    exec /usr/bin/python3 -m "$module" "$@"
+}
+```
+
+- [ ] **Step 4: Replace the Build Package GUI launcher**
 
 Replace `usr/bin/gitrepo` with:
 
 ```bash
 #!/usr/bin/bash
 
-set -o errexit
-set -o nounset
-set -o pipefail
-
-script_dir="$(cd -- "$(/usr/bin/dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
-share_dir="$(cd -- "${script_dir}/../share" && pwd -P)"
-readonly script_dir share_dir
+source "$(cd -- "$(/usr/bin/dirname -- "${BASH_SOURCE[0]}")" && pwd -P)/../lib/gitrepo/launcher.bash"
 
 if (( $# > 1 )); then
     printf '%s\n' "GitRepo accepts at most one directory." >&2
@@ -170,29 +198,19 @@ if (( $# == 1 )); then
     cd -- "$git_root"
 fi
 
-export PYTHONPATH="${share_dir}${PYTHONPATH:+:${PYTHONPATH}}"
-
-exec /usr/bin/python3 -m gitrepo.build_package.gui.main_gui
+gitrepo_exec_python_module gitrepo.build_package.gui.main_gui
 ```
 
-- [ ] **Step 4: Replace the other three launchers**
+- [ ] **Step 5: Replace the other three launchers**
 
 Replace `usr/bin/bpkg` with:
 
 ```bash
 #!/usr/bin/bash
 
-set -o errexit
-set -o nounset
-set -o pipefail
+source "$(cd -- "$(/usr/bin/dirname -- "${BASH_SOURCE[0]}")" && pwd -P)/../lib/gitrepo/launcher.bash"
 
-script_dir="$(cd -- "$(/usr/bin/dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
-share_dir="$(cd -- "${script_dir}/../share" && pwd -P)"
-readonly script_dir share_dir
-
-export PYTHONPATH="${share_dir}${PYTHONPATH:+:${PYTHONPATH}}"
-
-exec /usr/bin/python3 -m gitrepo.build_package.cli.main_cli "$@"
+gitrepo_exec_python_module gitrepo.build_package.cli.main_cli "$@"
 ```
 
 Replace `usr/bin/build-iso` with:
@@ -200,17 +218,9 @@ Replace `usr/bin/build-iso` with:
 ```bash
 #!/usr/bin/bash
 
-set -o errexit
-set -o nounset
-set -o pipefail
+source "$(cd -- "$(/usr/bin/dirname -- "${BASH_SOURCE[0]}")" && pwd -P)/../lib/gitrepo/launcher.bash"
 
-script_dir="$(cd -- "$(/usr/bin/dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
-share_dir="$(cd -- "${script_dir}/../share" && pwd -P)"
-readonly script_dir share_dir
-
-export PYTHONPATH="${share_dir}${PYTHONPATH:+:${PYTHONPATH}}"
-
-exec /usr/bin/python3 -m gitrepo.build_iso.gui.main_gui "$@"
+gitrepo_exec_python_module gitrepo.build_iso.gui.main_gui "$@"
 ```
 
 Replace `usr/bin/biso` with:
@@ -218,36 +228,28 @@ Replace `usr/bin/biso` with:
 ```bash
 #!/usr/bin/bash
 
-set -o errexit
-set -o nounset
-set -o pipefail
+source "$(cd -- "$(/usr/bin/dirname -- "${BASH_SOURCE[0]}")" && pwd -P)/../lib/gitrepo/launcher.bash"
 
-script_dir="$(cd -- "$(/usr/bin/dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
-share_dir="$(cd -- "${script_dir}/../share" && pwd -P)"
-readonly script_dir share_dir
-
-export PYTHONPATH="${share_dir}${PYTHONPATH:+:${PYTHONPATH}}"
-
-exec /usr/bin/python3 -m gitrepo.build_iso.cli "$@"
+gitrepo_exec_python_module gitrepo.build_iso.cli "$@"
 ```
 
-- [ ] **Step 5: Format and validate the launcher slice**
+- [ ] **Step 6: Format and validate the launcher slice**
 
 Run:
 
 ```bash
-shfmt -w -ln bash -i 4 -ci usr/bin/gitrepo usr/bin/bpkg usr/bin/build-iso usr/bin/biso
-bash -n usr/bin/gitrepo usr/bin/bpkg usr/bin/build-iso usr/bin/biso
-shellcheck -s bash usr/bin/gitrepo usr/bin/bpkg usr/bin/build-iso usr/bin/biso
+shfmt -w -ln bash -i 4 -ci usr/lib/gitrepo/launcher.bash usr/bin/gitrepo usr/bin/bpkg usr/bin/build-iso usr/bin/biso
+bash -n usr/lib/gitrepo/launcher.bash usr/bin/gitrepo usr/bin/bpkg usr/bin/build-iso usr/bin/biso
+shellcheck -s bash usr/lib/gitrepo/launcher.bash usr/bin/gitrepo usr/bin/bpkg usr/bin/build-iso usr/bin/biso
 pytest -q tests/test_launchers.py
 ```
 
-Expected: Bash and ShellCheck emit no output; pytest reports `10 passed`.
+Expected: Bash and ShellCheck emit no output; pytest reports `11 passed`.
 
-- [ ] **Step 6: Commit the launcher contract**
+- [ ] **Step 7: Commit the launcher contract**
 
 ```bash
-git add tests/test_launchers.py usr/bin/gitrepo usr/bin/bpkg usr/bin/build-iso usr/bin/biso
+git add tests/test_launchers.py usr/lib/gitrepo/launcher.bash usr/bin/gitrepo usr/bin/bpkg usr/bin/build-iso usr/bin/biso
 git commit -m "refactor: make public launchers exemplary bash"
 ```
 
@@ -678,6 +680,7 @@ In the project-structure block, replace `four small POSIX launchers` with:
 
 ```text
 usr/bin/                         four small Bash launchers
+usr/lib/gitrepo/                 shared Bash launcher helper
 ```
 
 After the source-tree launcher examples, add:
@@ -693,15 +696,15 @@ Keep the existing command table and XDG path table unchanged because they match 
 In `MAINTENANCE.md`, replace the design rule about launchers with:
 
 ```markdown
-- Keep GTK, API access, credential handling, and durable settings in Python. Keep launchers and packaging glue in Bash. Launchers resolve the adjacent `usr/share` tree and use `exec /usr/bin/python3 -m ...` so signals and exit status remain truthful.
+- Keep GTK, API access, credential handling, and durable settings in Python. Keep launchers and packaging glue in Bash. The shared launcher helper resolves the adjacent `usr/share` tree and uses `exec /usr/bin/python3 -m ...` so signals and exit status remain truthful.
 ```
 
 Replace the launcher validation commands with:
 
 ```bash
-bash -n usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
-shellcheck -s bash usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
-shfmt -d -ln bash -i 4 -ci usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
+bash -n usr/lib/gitrepo/launcher.bash usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
+shellcheck -s bash usr/lib/gitrepo/launcher.bash usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
+shfmt -d -ln bash -i 4 -ci usr/lib/gitrepo/launcher.bash usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
 pytest -q tests/test_launchers.py
 ```
 
@@ -761,6 +764,7 @@ git commit -m "docs: document shared runtime contracts"
 
 ```bash
 node "${BIGAGENTS_TOOLS:-$HOME/.agents}/scripts/agent-fmt.mjs" \
+    --file usr/lib/gitrepo/launcher.bash \
     --file usr/bin/gitrepo --file usr/bin/bpkg --file usr/bin/build-iso --file usr/bin/biso \
     --file usr/share/gitrepo/common/child_process.py \
     --file usr/share/gitrepo/common/network_url.py \
@@ -787,9 +791,9 @@ Expected: all tests pass; both type checkers report zero errors.
 - [ ] **Step 3: Run Bash and metadata validators**
 
 ```bash
-bash -n usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo pkgbuild/PKGBUILD
-shellcheck -s bash usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
-shfmt -d -ln bash -i 4 -ci usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
+bash -n usr/lib/gitrepo/launcher.bash usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo pkgbuild/PKGBUILD
+shellcheck -s bash usr/lib/gitrepo/launcher.bash usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
+shfmt -d -ln bash -i 4 -ci usr/lib/gitrepo/launcher.bash usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
 for catalog in locale/*.po; do msgfmt --check --output-file=/dev/null "$catalog"; done
 desktop-file-validate usr/share/applications/*.desktop usr/share/thunar/sendto/*.desktop
 appstreamcli validate --no-net usr/share/metainfo/*.metainfo.xml
