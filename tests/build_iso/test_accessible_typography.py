@@ -92,10 +92,24 @@ def test_navigation_and_destination_buttons_expose_accessible_labels():
 
     label_update = "button.update_property([Gtk.AccessibleProperty.LABEL], [title])"
     assert label_update in dashboard_source
-    assert label_update in window_source
+    assert "nav_row.update_property([Gtk.AccessibleProperty.LABEL], [title])" in window_source
 
     settings_source = (WIDGET_ROOT / "settings_widget.py").read_text(encoding="utf-8")
     assert "browse_btn.update_property([Gtk.AccessibleProperty.LABEL]" in settings_source
+
+
+def test_sidebar_destinations_are_explicit_single_action_rows():
+    window_source = MAIN_WINDOW.read_text(encoding="utf-8")
+    navigation_row_source = window_source.split("    def _append_navigation_row", 1)[1].split(
+        "    def connect_widget_signals", 1
+    )[0]
+
+    assert "nav_row = Adw.ActionRow(title=title)" in navigation_row_source
+    assert "nav_row.set_activatable(True)" in navigation_row_source
+    assert "self.nav_list.append(nav_row)" in navigation_row_source
+    assert 'nav_row.connect("activated"' in navigation_row_source
+    assert "Gtk.Button" not in navigation_row_source
+    assert ".get_parent()" not in navigation_row_source
 
 
 def test_large_text_detection_includes_font_size_and_dpi_scaling():

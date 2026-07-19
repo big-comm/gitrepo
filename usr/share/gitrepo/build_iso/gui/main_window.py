@@ -159,28 +159,25 @@ class MainWindow(Adw.ApplicationWindow):
         self.content_stack.set_visible_child_name("dashboard")
 
     def _append_navigation_row(self, page_id, title, icon_name):
-        content = Adw.ActionRow(title=title)
+        nav_row = Adw.ActionRow(title=title)
+        nav_row.set_activatable(True)
         icon = Gtk.Image.new_from_icon_name(icon_name)
         icon.set_pixel_size(24)
         icon.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
-        content.add_prefix(icon)
+        nav_row.add_prefix(icon)
 
         badge_label = Gtk.Label()
         badge_label.add_css_class("badge")
         badge_label.add_css_class("numeric")
         badge_label.set_visible(False)
         badge_label.set_valign(Gtk.Align.CENTER)
-        content.add_suffix(badge_label)
+        nav_row.add_suffix(badge_label)
 
-        button = Gtk.Button(child=content)
-        button.add_css_class("navigation-button")
-        button.update_property([Gtk.AccessibleProperty.LABEL], [title])
-        self.nav_list.append(button)
-
-        nav_row = button.get_parent()
+        nav_row.update_property([Gtk.AccessibleProperty.LABEL], [title])
         nav_row.page_id = page_id
         nav_row.badge = badge_label
-        button.connect("clicked", lambda _button: self.nav_list.select_row(nav_row))
+        nav_row.connect("activated", lambda _row: self.nav_list.select_row(nav_row))
+        self.nav_list.append(nav_row)
         self.nav_rows[page_id] = nav_row
 
     def connect_widget_signals(self):
