@@ -244,7 +244,7 @@ shellcheck -s bash usr/lib/gitrepo/launcher.bash usr/bin/gitrepo usr/bin/bpkg us
 pytest -q tests/test_launchers.py
 ```
 
-Expected: Bash and ShellCheck emit no output; pytest reports `11 passed`.
+Expected: Bash and ShellCheck emit no output; pytest reports `12 passed`.
 
 - [ ] **Step 7: Commit the launcher contract**
 
