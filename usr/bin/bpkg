@@ -1,8 +1,6 @@
-#!/bin/sh
+#!/usr/bin/bash
 
-script_dir=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)
-share_dir=$(CDPATH='' cd -- "$script_dir/../share" && pwd)
+# shellcheck disable=SC1091
+source "$(cd -- "$(/usr/bin/dirname -- "${BASH_SOURCE[0]}")" && pwd -P)/../lib/gitrepo/launcher.bash"
 
-export PYTHONPATH="$share_dir${PYTHONPATH:+:$PYTHONPATH}"
-
-exec python3 -c 'from gitrepo.build_package.cli.main_cli import main; raise SystemExit(main())' "$@"
+gitrepo_exec_python_module gitrepo.build_package.cli.main_cli "$@"
