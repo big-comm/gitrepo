@@ -1,7 +1,10 @@
+import ast
 import importlib
 import subprocess
 from pathlib import Path
 from types import SimpleNamespace
+
+import pytest
 
 
 def run_git(repository: Path, *args: str) -> subprocess.CompletedProcess:
@@ -257,6 +260,137 @@ def test_confirmed_commit_pushes_exact_branch(build_package_modules, tmp_path, m
         text=True,
     ).stdout.strip()
     assert remote_head == run_git(repository, "rev-parse", "HEAD").stdout.strip()
+
+
+def test_variable_branch_pushes_use_fully_qualified_refspecs(build_package_modules, monkeypatch):
+    branch_handler = importlib.import_module("gitrepo.build_package.core.branch_handler")
+    commit_handler = importlib.import_module("gitrepo.build_package.core.commit_handler")
+    revert_operations = importlib.import_module("gitrepo.build_package.core.revert_operations")
+    calls = []
+
+    def record_run(command, **kwargs):
+        calls.append(command)
+        return subprocess.CompletedProcess(command, 0, stdout="", stderr="")
+
+    monkeypatch.setattr(branch_handler.subprocess._subprocess, "run", record_run)
+    monkeypatch.setattr(branch_handler.GitUtils, "get_current_branch", lambda: "main")
+    bp = SimpleNamespace(logger=Logger())
+
+    assert branch_handler.create_branch_and_push(bp, "main", "+topic") is True
+    commit_handler._push_branch(bp, "+topic")
+    assert revert_operations._push_revert_changes(bp, "+topic", remote_exists=True) is True
+
+    pushes = [command for command in calls if command[:2] == ["git", "push"]]
+    assert pushes == [
+        ["git", "push", "-u", "origin", "refs/heads/+topic:refs/heads/+topic"],
+        ["git", "push", "-u", "origin", "refs/heads/+topic:refs/heads/+topic"],
+        ["git", "push", "origin", "refs/heads/+topic:refs/heads/+topic"],
+    ]
+
+
+@pytest.mark.parametrize(
+    ("strategy", "checkout_option"),
+    [("auto-ours", "--ours"), ("auto-theirs", "--theirs")],
+)
+def test_auto_resolution_requires_specific_confirmation(build_package_modules, monkeypatch, strategy, checkout_option):
+    conflict_resolver = importlib.import_module("gitrepo.build_package.core.conflict_resolver")
+    calls = []
+
+    def record_run(command, **kwargs):
+        calls.append(command)
+        return subprocess.CompletedProcess(command, 0, stdout="", stderr="")
+
+    monkeypatch.setattr(conflict_resolver.subprocess._subprocess, "run", record_run)
+    resolver = object.__new__(conflict_resolver.ConflictResolver)
+    resolver.logger = Logger()
+    resolver.strategy = strategy
+    resolver.repo_root = "/repository"
+    resolver.has_conflicts = lambda: True
+    resolver.get_conflict_files = lambda: ["-generated.po"]
+    resolver._get_conflict_type = lambda _path: {"ours_exists": True, "theirs_exists": True}
+
+    class Menu:
+        def __init__(self, confirmed):
+            self.confirmed = confirmed
+            self.questions = []
+
+        def confirm(self, question, default_yes=True):
+            self.questions.append((question, default_yes))
+            return self.confirmed
+
+    resolver.menu = Menu(False)
+    assert resolver.resolve() is False
+    assert calls == []
+    assert resolver.menu.questions[0][1] is False
+    assert "-generated.po" in resolver.menu.questions[0][0]
+    assert any("cancel" in message.lower() for _style, message in resolver.logger.messages)
+
+    resolver.menu = Menu(True)
+    assert resolver.resolve() is True
+    assert ["git", "checkout", checkout_option, "--", "-generated.po"] in calls
+    assert ["git", "add", "--", "-generated.po"] in calls
+
+
+def test_repository_pathspec_call_sites_use_option_separator():
+    owners = [
+        Path("usr/share/gitrepo/build_package/core/conflict_resolver.py"),
+        Path("usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py"),
+        Path("usr/share/gitrepo/build_package/core/revert_operations.py"),
+    ]
+    violations = []
+    for path in owners:
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.Call) or not node.args or not isinstance(node.args[0], ast.List):
+                continue
+            command = node.args[0].elts
+            values = [part.value if isinstance(part, ast.Constant) else None for part in command]
+            if len(values) < 3 or values[:2] == ["git", "add"] and values[2] == "-A":
+                continue
+            has_repository_pathspec = (
+                values[:2] in (["git", "add"], ["git", "rm"])
+                or values[:3] in (["git", "checkout", "--ours"], ["git", "checkout", "--theirs"])
+                or values[:2] == ["git", "checkout"]
+                and isinstance(command[2], ast.JoinedStr)
+            )
+            if has_repository_pathspec and "--" not in values[2:-1]:
+                violations.append(f"{path}:{node.lineno}")
+
+    assert violations == []
+
+
+def test_revert_authorizes_only_confirmed_destructive_command(build_package_modules, monkeypatch):
+    revert_operations = importlib.import_module("gitrepo.build_package.core.revert_operations")
+    authorization = []
+
+    def record_run(command, **kwargs):
+        authorization.append((command, revert_operations.subprocess._destructive_git_authorized.get()))
+        stdout = "original" if command[1] == "log" else ""
+        return subprocess.CompletedProcess(command, 0, stdout=stdout, stderr="")
+
+    monkeypatch.setattr(revert_operations.subprocess._subprocess, "run", record_run)
+    monkeypatch.setattr(revert_operations, "check_commit_in_remote", lambda _commit: False)
+    bp = SimpleNamespace(logger=Logger())
+    commit = {"hash": "abc123", "message": "message"}
+
+    assert revert_operations.execute_revert(bp, commit, "revert", "main", confirmed=True) is True
+    assert all(not active for command, active in authorization if command[1] != "checkout")
+    assert [active for command, active in authorization if command[1] == "checkout"] == [True]
+
+
+def test_revert_bridge_rejects_missing_confirmation(build_package_modules, monkeypatch):
+    revert_operations = importlib.import_module("gitrepo.build_package.core.revert_operations")
+    monkeypatch.setattr(revert_operations.GitUtils, "get_current_branch", lambda: "main")
+    monkeypatch.setattr(
+        revert_operations.subprocess,
+        "run_git",
+        lambda *args, **kwargs: (_ for _ in ()).throw(AssertionError("Git must not run without confirmation")),
+    )
+
+    assert (
+        revert_operations.execute_revert_by_hash(SimpleNamespace(logger=Logger()), "abc123", "reset", confirmed=False)
+        is False
+    )
 
 
 def _pull_flow_bp(menu):

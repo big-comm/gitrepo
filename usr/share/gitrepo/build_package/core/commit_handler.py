@@ -89,7 +89,7 @@ def analyze_push_error(error_output: str, branch: str) -> dict:
         return {
             "diagnosis": _("Local branch configuration issue"),
             "solutions": [
-                _("Try: git push --set-upstream origin {0}").format(branch),
+                _("Try: git push --set-upstream origin {0}").format(f"refs/heads/{branch}:refs/heads/{branch}"),
                 _("Or verify you have commits on this branch"),
             ],
         }
@@ -161,7 +161,11 @@ def _sync_branch(bp, branch: str) -> None:
 def _push_branch(bp, branch: str) -> None:
     """Push one branch and translate common remote failures into next steps."""
     result = subprocess.run_git(
-        ["git", "push", "-u", "origin", branch], capture_output=True, text=True, check=False, intent="ordinary"
+        ["git", "push", "-u", "origin", f"refs/heads/{branch}:refs/heads/{branch}"],
+        capture_output=True,
+        text=True,
+        check=False,
+        intent="ordinary",
     )
     if result.returncode == 0:
         _log(bp, "green", _("✓ Pushed to origin/{0}").format(branch))

@@ -37,8 +37,7 @@ def revert_commit_menu(bp) -> None:
     if not bp.menu.confirm(question, default_yes=False):
         bp.logger.log("yellow", _("Operation cancelled by user."))
         return
-    with authorize_destructive_git():
-        success = execute_revert(bp, selected_commit, revert_method, current_branch)
+    success = execute_revert(bp, selected_commit, revert_method, current_branch, confirmed=True)
     if not success:
         bp.logger.log("red", _("Failed to {0} commit.").format(revert_method))
         return
@@ -185,8 +184,11 @@ def show_revert_preview(bp, commit: dict, revert_method: str) -> None:
 # ---------------------------------------------------------------------------
 
 
-def execute_revert(bp, commit: dict, revert_method: str, current_branch: str) -> bool:
+def execute_revert(bp, commit: dict, revert_method: str, current_branch: str, *, confirmed: bool = False) -> bool:
     """Perform the revert or reset and return success status."""
+    if not confirmed:
+        bp.logger.log("yellow", _("Operation requires explicit confirmation."))
+        return False
     try:
         commit_hash = commit["hash"]
         short_hash = commit_hash[:7]
@@ -195,9 +197,9 @@ def execute_revert(bp, commit: dict, revert_method: str, current_branch: str) ->
         bp.logger.log("cyan", _("Executing {0} for commit {1}...").format(revert_method, short_hash))
 
         if revert_method == "revert":
-            success = _execute_revert_method(bp, commit_hash, current_branch, remote_exists)
+            success = _execute_revert_method(bp, commit_hash, current_branch, remote_exists, confirmed=confirmed)
         else:
-            success = _execute_reset_method(bp, commit_hash, current_branch, remote_exists)
+            success = _execute_reset_method(bp, commit_hash, current_branch, remote_exists, confirmed=confirmed)
 
         if success:
             details = getattr(bp, "last_operation_details", {})
@@ -217,8 +219,12 @@ def execute_revert(bp, commit: dict, revert_method: str, current_branch: str) ->
         return False
 
 
-def _execute_revert_method(bp, commit_hash: str, current_branch: str, remote_exists: bool) -> bool:
+def _execute_revert_method(
+    bp, commit_hash: str, current_branch: str, remote_exists: bool, *, confirmed: bool = False
+) -> bool:
     """Restore the working tree to *commit_hash* and create a new commit."""
+    if not confirmed:
+        return False
     try:
         bp.logger.log("cyan", _("Getting commit information..."))
         commit_message_result = subprocess.run_git(
@@ -231,10 +237,11 @@ def _execute_revert_method(bp, commit_hash: str, current_branch: str, remote_exi
         original_message = commit_message_result.stdout.strip()
 
         bp.logger.log("cyan", _("Restoring code state from selected commit..."))
-        subprocess.run_git(["git", "checkout", commit_hash, "--", "."], check=True, intent="destructive")
+        with authorize_destructive_git():
+            subprocess.run_git(["git", "checkout", commit_hash, "--", "."], check=True, intent="destructive")
 
         bp.logger.log("cyan", _("Staging restored files..."))
-        subprocess.run_git(["git", "add", "."], check=True, intent="ordinary")
+        subprocess.run_git(["git", "add", "--", "."], check=True, intent="ordinary")
 
         status_result = subprocess.run_git(
             ["git", "status", "--porcelain"], stdout=subprocess.PIPE, text=True, check=True, intent="ordinary"
@@ -261,17 +268,33 @@ def _execute_revert_method(bp, commit_hash: str, current_branch: str, remote_exi
         return False
 
 
-def _execute_reset_method(bp, commit_hash: str, current_branch: str, remote_exists: bool) -> bool:
+def _execute_reset_method(
+    bp, commit_hash: str, current_branch: str, remote_exists: bool, *, confirmed: bool = False
+) -> bool:
     """Hard-reset to *commit_hash* and optionally force-push."""
+    if not confirmed:
+        return False
     bp.logger.log("cyan", _("Resetting to previous commit..."))
-    subprocess.run_git(["git", "reset", "--hard", commit_hash], check=True, intent="destructive")
+    with authorize_destructive_git():
+        subprocess.run_git(["git", "reset", "--hard", commit_hash], check=True, intent="destructive")
 
     details = {}
     if remote_exists:
         bp.logger.log("yellow", _("Commit exists in remote - force push required"))
         if bp.menu.confirm(_("This will force push and rewrite remote history. Continue?"), default_yes=False):
             bp.logger.log("cyan", _("Force pushing changes..."))
-            subprocess.run_git(["git", "push", "origin", current_branch, "--force"], check=True, intent="destructive")
+            with authorize_destructive_git():
+                subprocess.run_git(
+                    [
+                        "git",
+                        "push",
+                        "origin",
+                        f"refs/heads/{current_branch}:refs/heads/{current_branch}",
+                        "--force",
+                    ],
+                    check=True,
+                    intent="destructive",
+                )
             bp.logger.log("green", _("Reset completed and force pushed"))
             details["force_pushed"] = True
         else:
@@ -293,7 +316,11 @@ def _push_revert_changes(bp, current_branch: str, remote_exists: bool) -> bool:
 
     bp.logger.log("cyan", _("Pushing revert changes..."))
     push_result = subprocess.run_git(
-        ["git", "push", "origin", current_branch], capture_output=True, text=True, check=False, intent="ordinary"
+        ["git", "push", "origin", f"refs/heads/{current_branch}:refs/heads/{current_branch}"],
+        capture_output=True,
+        text=True,
+        check=False,
+        intent="ordinary",
     )
     if push_result.returncode == 0:
         bp.logger.log("green", _("Revert changes pushed successfully"))
@@ -340,13 +367,16 @@ def _git_output(command):
     return result.stdout.strip() if result.returncode == 0 else ""
 
 
-def execute_revert_by_hash(bp, commit_hash: str, revert_method: str) -> bool:
+def execute_revert_by_hash(bp, commit_hash: str, revert_method: str, *, confirmed: bool = False) -> bool:
     """Execute revert/reset using a raw commit hash (bridge for GUI signals).
 
     The GUI emits (commit_hash: str, method: str) while :func:`execute_revert`
     expects a commit dict.  This helper builds the dict and resolves the current
     branch so callers don't have to duplicate that logic.
     """
+    if not confirmed:
+        bp.logger.log("yellow", _("Operation requires explicit confirmation."))
+        return False
     current_branch = GitUtils.get_current_branch()
     if not current_branch:
         bp.logger.log("red", _("✗ Could not determine current branch"))
@@ -369,9 +399,7 @@ def execute_revert_by_hash(bp, commit_hash: str, revert_method: str) -> bool:
         author, date, message = "unknown", "", "unknown"
 
     commit = {"hash": commit_hash, "author": author, "date": date, "message": message}
-    # This bridge is invoked only after AdvancedWidget's destructive response.
-    with authorize_destructive_git():
-        return execute_revert(bp, commit, revert_method, current_branch)
+    return execute_revert(bp, commit, revert_method, current_branch, confirmed=confirmed)
 
 
 # ---------------------------------------------------------------------------

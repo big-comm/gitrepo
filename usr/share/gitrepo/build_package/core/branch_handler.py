@@ -158,11 +158,12 @@ def create_branch_and_push(bp, source_branch: str, target_branch: str) -> bool:
         log("green", _("✓ Branch '{0}' created").format(target_branch))
 
         # Step 3: Push to remote
+        refspec = f"refs/heads/{target_branch}:refs/heads/{target_branch}"
         log("cyan", _("Pushing to remote..."))
-        log("dim", f"    git push -u origin {target_branch}")
+        log("dim", f"    git push -u origin {refspec}")
 
         push_result = subprocess.run_git(
-            ["git", "push", "-u", "origin", target_branch],
+            ["git", "push", "-u", "origin", refspec],
             capture_output=True,
             text=True,
             check=False,
