@@ -255,131 +255,68 @@ git commit -m "refactor: make public launchers exemplary bash"
 
 ---
 
-### Task 2: Close destructive Git command bypasses
+### Task 2: Replace destructive Git inference with explicit intent
+
+**Architecture amendment:** Three review cycles demonstrated that reproducing Git's evolving option grammar locally creates both bypasses and false positives. Per user approval, delete the heuristic parser and make intent mandatory at every Git subprocess boundary.
 
 **Files:**
 - Modify: `usr/share/gitrepo/common/child_process.py`
+- Modify: production modules under `usr/share/gitrepo/build_package/` and `usr/share/gitrepo/build_iso/` that invoke Git through the shared process boundary.
 - Modify: `tests/test_render_environment.py`
+- Modify: focused tests affected by the explicit Git API.
 
 **Interfaces:**
-- Consumes: `run(*popenargs, **kwargs)`, `Popen(*popenargs, **kwargs)`, and `authorize_destructive_git()`.
-- Produces: `is_destructive_git_command(command: object) -> bool` that recognizes `/usr/bin/git`, Git global options, force refspecs, and deletion refspecs without changing safe-command behavior.
+- Preserve: `run()`, `Popen()`, and `authorize_destructive_git()` for non-Git subprocesses.
+- Add: `run_git(*popenargs, intent: Literal["ordinary", "destructive"], **kwargs)`.
+- Produce: a fail-closed boundary where generic `run()`/`Popen()` reject Git argv, every Git caller declares intent, and `intent="destructive"` requires an active authorization scope.
 
-- [ ] **Step 1: Extend the failing destructive-command cases**
+- [ ] **Step 1: Add failing explicit-intent boundary tests**
 
-Add these commands to the existing parameter list in `test_destructive_git_commands_require_explicit_authorization`:
+Cover these contracts before production edits:
 
-```python
-        ["/usr/bin/git", "-C", "/tmp/repository", "reset", "--hard", "HEAD"],
-        ["git", "-c", "core.hooksPath=/dev/null", "clean", "-fd"],
-        ["git", "--no-pager", "checkout", "--", "."],
-        ["git", "push", "origin", "+main"],
-        ["git", "push", "origin", ":old-branch"],
-        ["git", "push", "--force-with-lease=refs/heads/main", "origin", "main"],
-```
+- generic `run(["git", ...])` and `Popen(["/usr/bin/git", ...])` raise `GitIntentRequiredError`;
+- `run_git(..., intent="ordinary")` executes and preserves argv/environment behavior;
+- `run_git(..., intent="destructive")` raises `DestructiveGitCommandError` without authorization and executes inside `authorize_destructive_git()`;
+- invalid intent and non-Git argv passed to `run_git()` fail clearly;
+- an AST contract test proves literal Git subprocess call sites use `run_git()` and provide an explicit `intent=` keyword.
 
-Add a safe global-option regression:
+- [ ] **Step 2: Verify RED**
 
-```python
-def test_safe_git_command_with_global_options_is_not_blocked(monkeypatch):
-    calls = []
+Run the new boundary tests and confirm failure because `run_git`, `GitIntentRequiredError`, and explicit call-site intent do not exist.
 
-    def fake_run(command, **kwargs):
-        calls.append((command, kwargs))
-        return subprocess.CompletedProcess(command, 0)
+- [ ] **Step 3: Implement the fail-closed process boundary**
 
-    monkeypatch.setattr(child_process._subprocess, "run", fake_run)
+In `child_process.py`:
 
-    command = ["/usr/bin/git", "-C", "/tmp/repository", "status", "--short"]
-    child_process.run(command)
+- delete `_git_command_parts`, `_git_operands`, `_git_push_refspecs`, and `is_destructive_git_command`;
+- identify Git only by argv executable basename (`git` or an absolute Git path), without parsing subcommand grammar;
+- make generic `run()` and `Popen()` reject Git argv with `GitIntentRequiredError`;
+- implement typed `run_git(..., intent=...)`, validate that argv invokes Git, preserve sanitized environment publication, and require authorization only for `destructive` intent;
+- never pass the internal `intent` keyword to Python's `subprocess` module.
 
-    assert calls[0][0] == command
-```
+- [ ] **Step 4: Migrate every production Git call site**
 
-- [ ] **Step 2: Verify that the new bypass cases fail**
+Use `subprocess.run_git(command, intent="ordinary", ...)` for operations that do not discard local user data or rewrite remote history. Use `intent="destructive"` only for confirmed discard/history-rewrite flows and keep them inside `authorize_destructive_git()`.
 
-Run:
+Do not mark a command ordinary merely to satisfy the guard. Dynamic operation plans must derive the explicit intent from their existing destructive contract. Leave non-Git subprocess calls on `run()`/`Popen()`.
 
-```bash
-pytest -q tests/test_render_environment.py::test_destructive_git_commands_require_explicit_authorization tests/test_render_environment.py::test_safe_git_command_with_global_options_is_not_blocked
-```
-
-Expected: the six new destructive cases fail because the current parser assumes `argv[1]` is always the Git subcommand.
-
-- [ ] **Step 3: Parse Git's documented global options before classification**
-
-In `usr/share/gitrepo/common/child_process.py`, add `Path` to imports and add this helper above `is_destructive_git_command`:
-
-```python
-from pathlib import Path
-
-
-def _git_command_parts(command: object) -> tuple[str, list[str]] | None:
-    if not isinstance(command, Sequence) or isinstance(command, (str, bytes)):
-        return None
-    argv = [str(part) for part in command]
-    if len(argv) < 2 or Path(argv[0]).name != "git":
-        return None
-
-    index = 1
-    while index < len(argv):
-        argument = argv[index]
-        if argument == "--":
-            index += 1
-            break
-        if not argument.startswith("-"):
-            break
-        if argument in {"-C", "-c"}:
-            index += 2
-        else:
-            index += 1
-
-    if index >= len(argv):
-        return None
-    return argv[index], argv[index + 1 :]
-```
-
-Replace the beginning and push classification in `is_destructive_git_command` with:
-
-```python
-    parts = _git_command_parts(command)
-    if parts is None:
-        return False
-    verb, arguments = parts
-    options = set(arguments)
-    has_force_flag = any(
-        argument == "-f"
-        or argument.startswith("--force")
-        or (argument.startswith("-") and not argument.startswith("--") and "f" in argument[1:])
-        for argument in arguments
-    )
-    has_destructive_refspec = any(argument.startswith(("+", ":")) for argument in arguments)
-```
-
-Use `arguments` rather than the old `argv[2:]`, and classify push with:
-
-```python
-            verb == "push" and (has_force_flag or "--delete" in options or has_destructive_refspec),
-```
-
-- [ ] **Step 4: Run process-boundary tests and static checks**
-
-Run:
+- [ ] **Step 5: Run boundary, product, static, and complete checks**
 
 ```bash
 pytest -q tests/test_render_environment.py tests/build_package/test_destructive_git_safety.py tests/build_iso/test_iso_builder_security.py
-ruff format --check usr/share/gitrepo/common/child_process.py tests/test_render_environment.py
-ruff check usr/share/gitrepo/common/child_process.py tests/test_render_environment.py
+ruff format --check usr/share/gitrepo tests
+ruff check usr/share/gitrepo tests
 mypy usr/share/gitrepo/common/child_process.py
+pytest -q
 ```
 
-Expected: all tests pass and all static checks emit no diagnostics.
+Expected: all tests and static checks pass, with no warning in touched code.
 
-- [ ] **Step 5: Commit the process-boundary hardening**
+- [ ] **Step 6: Commit the explicit Git boundary**
 
 ```bash
-git add usr/share/gitrepo/common/child_process.py tests/test_render_environment.py
-git commit -m "fix: close destructive git command bypasses"
+git add usr/share/gitrepo/common/child_process.py usr/share/gitrepo/build_package usr/share/gitrepo/build_iso tests
+git commit -m "refactor: require explicit git operation intent"
 ```
 
 ---
