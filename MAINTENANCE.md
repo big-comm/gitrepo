@@ -5,7 +5,7 @@ This document describes the maintained architecture and the shortest reliable va
 ## Design rules
 
 - Preserve the four explicit user entrypoints: `gitrepo`, `bpkg`, `build-iso`, and `biso`.
-- Keep GTK, API access, credential handling, and durable settings in Python. Keep launchers and packaging glue in shell.
+- Keep GTK, API access, credential handling, and durable settings in Python. Keep launchers and packaging glue in Bash. The shared launcher helper resolves the adjacent `usr/share` tree and uses `exec /usr/bin/python3 -m ...` so signals and exit status remain truthful.
 - Prefer direct argv subprocess calls. Never assemble a shell command from user input.
 - Let Git, `makepkg`, Docker, and Podman own their formats and exit-status contracts.
 - Share code only when both products have the same contract. Product-specific menus remain separate because their choices and confirmation defaults differ.
@@ -23,6 +23,8 @@ This document describes the maintained architecture and the shortest reliable va
 - Rich version and logging output;
 - adaptive GTK page headings;
 - network URL and render-environment helpers.
+
+The shared process boundary does not parse Git subcommands or options. Generic `run()` and `Popen()` calls fail closed when their argv invokes Git. Git callers must use `run_git()` with an explicit `ordinary` or `destructive` intent; destructive intent is accepted only inside an authorization scope tied to the user's confirmation.
 
 Project-owned GTK icons live directly in `usr/share/gitrepo/icons/`. Keep that
 private catalog flat and register it as an additional GTK search path. Only the
@@ -83,9 +85,10 @@ pytest -q
 mypy .
 pyright
 
-sh -n usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
-shellcheck usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
-shfmt -d -i 0 -ci usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
+bash -n usr/lib/gitrepo/launcher.bash usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
+shellcheck -s bash usr/lib/gitrepo/launcher.bash usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
+shfmt -d -ln bash -i 4 -ci usr/lib/gitrepo/launcher.bash usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
+pytest -q tests/test_launchers.py
 
 for catalog in locale/*.po; do msgfmt --check --output-file=/dev/null "$catalog"; done
 desktop-file-validate usr/share/applications/*.desktop usr/share/thunar/sendto/*.desktop
@@ -103,7 +106,19 @@ node "${BIGAGENTS_TOOLS:-$HOME/.agents}/scripts/agent-check.mjs" "$PWD" --mode f
 
 GTK changes additionally require a private KWin/Wayland run with screenshot review, AT-SPI inspection, and the changed action's observable side effect. Never validate by opening the application on the user's visible desktop.
 
-Mypy and Pyright cover shared code and the typed Build ISO persistence/container boundary. Mypy remains strict there. Dynamic legacy Build Package owners, GTK modules, and the ISO builder/catalog owners are explicitly outside the type gates until each can be typed as one coherent owner slice. Do not add scattered annotations merely to increase a type-count metric; Ruff, import smokes, and contract tests still cover the complete tree.
+Mypy and Pyright cover shared code and the typed Build ISO persistence/container boundary. Mypy remains strict there. Pyright narrowly disables `reportMissingModuleSource` because system PyGObject modules are available at runtime without importable Python source; `reportMissingImports` remains enabled so unresolved project imports still fail the check. Keep both sides of that contract reproducible:
+
+```bash
+PYTHONPATH="$PWD/usr/share" python3 -c 'import gi, rich; import gitrepo.common.page_hero; import gitrepo.common.rich_logger; import gitrepo.common.token_store'
+
+probe=usr/share/gitrepo/common/_pyright_missing_import_probe.py
+printf 'import gitrepo.common.module_that_does_not_exist\n' > "$probe"
+if pyright "$probe"; then status=0; else status=$?; fi
+unlink -- "$probe"
+test "$status" -ne 0
+```
+
+The runtime smoke must exit zero without output, while the temporary probe must produce a `reportMissingImports` diagnostic and a nonzero exit. Dynamic legacy Build Package owners, GTK modules, and the ISO builder/catalog owners are explicitly outside the type gates until each can be typed as one coherent owner slice. Do not add scattered annotations merely to increase a type-count metric; Ruff, import smokes, and contract tests still cover the complete tree.
 
 ## Translations
 
@@ -132,6 +147,22 @@ done
 ```
 
 Preserve `%` placeholders, brace placeholders, and markup. A translated sentence must remain one complete message; do not translate whitespace fragments separately.
+
+## Upstream contracts
+
+Review behavior against primary, version-compatible sources:
+
+- Python [`subprocess`](https://docs.python.org/3/library/subprocess.html), [`tempfile`](https://docs.python.org/3/library/tempfile.html), [`os.replace`](https://docs.python.org/3/library/os.html#os.replace), [`gettext`](https://docs.python.org/3/library/gettext.html), and [`urllib.parse`](https://docs.python.org/3/library/urllib.parse.html);
+- the [GNU Bash Reference Manual](https://www.gnu.org/software/bash/manual/);
+- the [Git command synopsis](https://git-scm.com/docs/git), including global options before the subcommand;
+- [GTK accessibility](https://docs.gtk.org/gtk4/section-accessibility.html), [`GtkApplication`](https://docs.gtk.org/gtk4/class.Application.html), and the [PyGObject threading guide](https://pygobject.gnome.org/guide/threading.html);
+- the [libsecret simple API](https://gnome.pages.gitlab.gnome.org/libsecret/libsecret-simple-api.html) and synchronous-call warnings;
+- the [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir/);
+- the [Arch package creation guidelines](https://wiki.archlinux.org/title/Creating_packages).
+
+Synchronous libsecret operations may block indefinitely. CLI calls may remain synchronous, but GTK callers must execute them in worker threads and publish completed UI state through `GLib.idle_add`.
+
+For dead-code review, use Ruff, Mypy, Pyright, Vulture at 100 percent confidence, repository-wide symbol searches, integration-file searches, tests, and practical entrypoint execution together. A tool finding alone is not deletion authority. The current combined review has no confirmed dead-code finding.
 
 ## Packaging and release
 
