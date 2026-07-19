@@ -157,11 +157,10 @@ def _git_executable(command):
     return posixpath.basename(value) in {"git", b"git"}
 
 
-def _git_boundary_violations(source: str) -> list[int]:
-    tree = ast.parse(source)
-    module_aliases = set()
-    function_aliases = {}
-    assignments = {}
+def _git_boundary_symbols(tree: ast.AST) -> tuple[set[str], dict[str, str], dict[str, ast.expr]]:
+    module_aliases: set[str] = set()
+    function_aliases: dict[str, str] = {}
+    assignments: dict[str, ast.expr] = {}
     for node in ast.walk(tree):
         if isinstance(node, ast.ImportFrom) and node.module == "gitrepo.common":
             module_aliases.update(alias.asname or alias.name for alias in node.names if alias.name == "child_process")
@@ -177,38 +176,55 @@ def _git_boundary_violations(source: str) -> list[int]:
             )
         elif isinstance(node, ast.Assign) and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name):
             assignments[node.targets[0].id] = node.value
+    return module_aliases, function_aliases, assignments
 
-    violations = []
+
+def _git_boundary_function(node: ast.Call, module_aliases: set[str], function_aliases: dict[str, str]) -> str | None:
+    if isinstance(node.func, ast.Attribute) and isinstance(node.func.value, ast.Name):
+        if node.func.value.id in module_aliases:
+            return node.func.attr
+    if isinstance(node.func, ast.Name):
+        return function_aliases.get(node.func.id)
+    return None
+
+
+def _call_argument(node: ast.Call, keyword_name: str) -> ast.expr | None:
+    if node.args:
+        return node.args[0]
+    return next((keyword.value for keyword in node.keywords if keyword.arg == keyword_name), None)
+
+
+def _resolve_assignment(command: ast.expr | None, assignments: dict[str, ast.expr]) -> ast.expr | None:
+    seen: set[str] = set()
+    while isinstance(command, ast.Name) and command.id in assignments:
+        if command.id in seen:
+            break
+        seen.add(command.id)
+        command = assignments[command.id]
+    return command
+
+
+def _has_literal_git_intent(node: ast.Call) -> bool:
+    intent = next((keyword.value for keyword in node.keywords if keyword.arg == "intent"), None)
+    return isinstance(intent, ast.Constant) and intent.value in {"ordinary", "destructive"}
+
+
+def _git_boundary_violations(source: str) -> list[int]:
+    tree = ast.parse(source)
+    module_aliases, function_aliases, assignments = _git_boundary_symbols(tree)
+
+    violations: list[int] = []
     for node in ast.walk(tree):
         if not isinstance(node, ast.Call):
             continue
-        if (
-            isinstance(node.func, ast.Attribute)
-            and isinstance(node.func.value, ast.Name)
-            and node.func.value.id in module_aliases
-        ):
-            function_name = node.func.attr
-        elif isinstance(node.func, ast.Name) and node.func.id in function_aliases:
-            function_name = function_aliases[node.func.id]
-        else:
+        function_name = _git_boundary_function(node, module_aliases, function_aliases)
+        if function_name is None:
             continue
-        command = (
-            node.args[0]
-            if node.args
-            else next((keyword.value for keyword in node.keywords if keyword.arg == "args"), None)
-        )
-        seen = set()
-        while isinstance(command, ast.Name) and command.id in assignments:
-            if command.id in seen:
-                break
-            seen.add(command.id)
-            command = assignments[command.id]
+        command = _resolve_assignment(_call_argument(node, "args"), assignments)
         if function_name in {"run", "Popen"} and _git_executable(command):
             violations.append(node.lineno)
-        if function_name == "run_git":
-            intent = next((keyword.value for keyword in node.keywords if keyword.arg == "intent"), None)
-            if not isinstance(intent, ast.Constant) or intent.value not in {"ordinary", "destructive"}:
-                violations.append(node.lineno)
+        if function_name == "run_git" and not _has_literal_git_intent(node):
+            violations.append(node.lineno)
     return violations
 
 
@@ -228,6 +244,24 @@ process.run(args=["printf", "safe"])
 """
 
     assert _git_boundary_violations(unsafe) == [5, 6]
+    assert _git_boundary_violations(safe) == []
+
+
+def test_git_boundary_audit_requires_literal_intent():
+    unsafe = """
+from gitrepo.common.child_process import run_git as git_command
+intent = "ordinary"
+git_command(["git", "status"])
+git_command(["git", "status"], intent=intent)
+git_command(["git", "status"], intent="unknown")
+"""
+    safe = """
+from gitrepo.common.child_process import run_git as git_command
+git_command(args=["git", "status"], intent="ordinary")
+git_command([b"/usr/bin/git", b"reset", b"--hard"], intent="destructive")
+"""
+
+    assert _git_boundary_violations(unsafe) == [4, 5, 6]
     assert _git_boundary_violations(safe) == []
 
 

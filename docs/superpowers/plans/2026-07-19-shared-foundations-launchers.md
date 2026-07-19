@@ -238,7 +238,7 @@ gitrepo_exec_python_module gitrepo.build_iso.cli "$@"
 Run:
 
 ```bash
-shfmt -w -ln bash -i 4 -ci usr/lib/gitrepo/launcher.bash usr/bin/gitrepo usr/bin/bpkg usr/bin/build-iso usr/bin/biso
+shfmt -w -ln bash -ci usr/lib/gitrepo/launcher.bash usr/bin/gitrepo usr/bin/bpkg usr/bin/build-iso usr/bin/biso
 bash -n usr/lib/gitrepo/launcher.bash usr/bin/gitrepo usr/bin/bpkg usr/bin/build-iso usr/bin/biso
 shellcheck -s bash usr/lib/gitrepo/launcher.bash usr/bin/gitrepo usr/bin/bpkg usr/bin/build-iso usr/bin/biso
 pytest -q tests/test_launchers.py
@@ -635,7 +635,7 @@ Replace the launcher validation commands with:
 ```bash
 bash -n usr/lib/gitrepo/launcher.bash usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
 shellcheck -s bash usr/lib/gitrepo/launcher.bash usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
-shfmt -d -ln bash -i 4 -ci usr/lib/gitrepo/launcher.bash usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
+shfmt -d -ln bash -ci usr/lib/gitrepo/launcher.bash usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
 pytest -q tests/test_launchers.py
 ```
 
@@ -706,7 +706,7 @@ ruff check usr/share tests
 
 Expected: every command exits 0 with no warnings.
 
-`agent-fmt` is intentionally limited to its accepted Python paths. Its built-in Shfmt style conflicts with this project's explicit four-space Bash style, and it supports neither extensionless shebang scripts, TOML, nor Markdown formatting. Bash remains covered by the configured Shfmt command in Step 3; Mypy, Pyright, and pytest parse `pyproject.toml`; documentation is checked textually and by `git diff --check`.
+`agent-fmt` is intentionally limited to its accepted Python paths. Bash uses default Shfmt indentation through the explicit command in Step 3; `agent-fmt` supports neither extensionless shebang scripts, TOML, nor Markdown formatting. Mypy, Pyright, and pytest parse `pyproject.toml`; documentation is checked textually and by `git diff --check`.
 
 - [ ] **Step 2: Run the complete Python gate**
 
@@ -723,7 +723,7 @@ Expected: all tests pass; both type checkers report zero errors.
 ```bash
 bash -n usr/lib/gitrepo/launcher.bash usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo pkgbuild/PKGBUILD
 shellcheck -s bash usr/lib/gitrepo/launcher.bash usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
-shfmt -d -ln bash -i 4 -ci usr/lib/gitrepo/launcher.bash usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
+shfmt -d -ln bash -ci usr/lib/gitrepo/launcher.bash usr/bin/bpkg usr/bin/biso usr/bin/build-iso usr/bin/gitrepo
 for catalog in locale/*.po; do msgfmt --check --output-file=/dev/null "$catalog"; done
 desktop-file-validate usr/share/applications/*.desktop usr/share/thunar/sendto/*.desktop
 appstreamcli validate --no-net usr/share/metainfo/*.metainfo.xml

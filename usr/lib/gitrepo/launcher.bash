@@ -11,7 +11,7 @@ readonly helper_dir share_dir
 export PYTHONPATH="${share_dir}${PYTHONPATH:+:${PYTHONPATH}}"
 
 gitrepo_exec_python_module() {
-    local -r module=$1
-    shift
-    exec /usr/bin/python3 -m "$module" "$@"
+	local -r module=$1
+	shift
+	exec /usr/bin/python3 -m "$module" "$@"
 }
