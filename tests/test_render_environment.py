@@ -85,6 +85,12 @@ def test_real_child_preserves_external_renderer(monkeypatch):
         ["git", "push", "origin", "+main"],
         ["git", "push", "origin", ":old-branch"],
         ["git", "push", "--force-with-lease=refs/heads/main", "origin", "main"],
+        ["git", "push", "--repo", "origin", "+main"],
+        ["git", "push", "--repo=origin", ":old-branch"],
+        ["git", "checkout", "-f", "branch"],
+        ["git", "checkout", "HEAD", "path"],
+        ["git", "restore", "--staged", "--worktree", "path"],
+        ["git", "-c", "clean.requireForce=false", "clean", "-d"],
     ],
 )
 def test_destructive_git_commands_require_explicit_authorization(monkeypatch, command):
@@ -115,6 +121,31 @@ def test_safe_git_command_with_global_options_is_not_blocked(monkeypatch):
     monkeypatch.setattr(child_process._subprocess, "run", fake_run)
 
     command = ["/usr/bin/git", "-C", "/tmp/repository", "status", "--short"]
+    child_process.run(command)
+
+    assert calls[0][0] == command
+
+
+@pytest.mark.parametrize(
+    "command",
+    [
+        ["git", "push", "+repo", "main"],
+        ["git", "push", "--repo", "+repo", "main"],
+        ["git", "checkout", "main"],
+        ["git", "restore", "--staged", "path"],
+        ["git", "-c", "clean.requireForce=true", "clean", "-d"],
+        ["git", "-c", "clean.requireForce=false", "clean", "-nd"],
+    ],
+)
+def test_safe_destructive_git_lookalikes_are_not_blocked(monkeypatch, command):
+    calls = []
+
+    def fake_run(command, **kwargs):
+        calls.append((command, kwargs))
+        return subprocess.CompletedProcess(command, 0)
+
+    monkeypatch.setattr(child_process._subprocess, "run", fake_run)
+
     child_process.run(command)
 
     assert calls[0][0] == command
