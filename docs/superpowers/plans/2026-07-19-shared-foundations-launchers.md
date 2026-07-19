@@ -531,24 +531,18 @@ mypy usr/share/gitrepo/common
 pyright
 ```
 
-Expected: Mypy reports success; Pyright reports 13 `reportMissingImports` errors for system-installed `gi`, `gi.repository`, and `rich.*` modules.
+Expected on the verified host: both commands succeed. Pyright's existing narrow `reportMissingModuleSource` policy already suppresses only unavailable runtime source for resolved PyGObject modules.
 
 - [ ] **Step 2: Correct the Pyright policy without adding stubs or machine-specific paths**
 
-In `[tool.pyright]`, replace:
+In `[tool.pyright]`, retain the narrow policy and document it:
 
 ```toml
+# PyGObject exposes runtime modules without importable Python source; availability is verified by the import smoke.
 reportMissingModuleSource = false
 ```
 
-with:
-
-```toml
-# Arch system modules are runtime-smoked and covered by strict Mypy; do not add a version-specific site-packages path.
-reportMissingImports = false
-```
-
-Do not add `/usr/lib/python3.14/site-packages`, a virtual-environment path, generated stubs, or a new dependency. Pyright's official configuration states that shared configuration paths should remain relative and that `reportMissingImports` controls missing source/stub diagnostics.
+Do not disable `reportMissingImports`: it must retain its default error severity so misspelled or absent internal imports remain visible. Do not add a machine-specific site-packages path, generated stubs, or a new dependency.
 
 - [ ] **Step 3: Verify complementary type and runtime gates**
 
@@ -560,7 +554,7 @@ pyright
 PYTHONPATH="$PWD/usr/share" python3 -c 'import gi, rich; import gitrepo.common.page_hero; import gitrepo.common.rich_logger; import gitrepo.common.token_store'
 ```
 
-Expected: Mypy and Pyright report zero errors; the import smoke exits 0 without output.
+Expected: Mypy and Pyright report zero errors and zero warnings; the import smoke exits 0 without output. A temporary missing-import probe must make Pyright exit nonzero, proving the narrow policy remains fail-closed; remove the probe immediately afterward.
 
 - [ ] **Step 4: Verify the unchanged persistence, credential, translation, and GTK contracts**
 
