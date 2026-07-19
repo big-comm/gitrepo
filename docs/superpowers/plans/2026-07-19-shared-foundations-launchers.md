@@ -700,7 +700,7 @@ node "${BIGAGENTS_TOOLS:-$HOME/.agents}/scripts/agent-fmt.mjs" \
     --file usr/share/gitrepo/common/network_url.py \
     --file usr/share/gitrepo/common/rich_logger.py \
     --file tests/test_launchers.py --file tests/test_render_environment.py \
-    --file tests/test_rich_logger.py --file pyproject.toml \
+    --file tests/test_rich_logger.py \
     --file README.md --file MAINTENANCE.md --check
 ruff format --check usr/share tests
 ruff check usr/share tests
@@ -708,7 +708,7 @@ ruff check usr/share tests
 
 Expected: every command exits 0 with no warnings.
 
-The four extensionless `usr/bin/*` Bash launchers are intentionally excluded from `agent-fmt`, whose source-path allowlist does not inspect shebangs. They remain explicitly covered by Shfmt in Step 3.
+The four extensionless `usr/bin/*` Bash launchers and `pyproject.toml` are intentionally excluded from `agent-fmt`, whose source-path allowlist supports neither shebang discovery nor TOML. The launchers remain explicitly covered by Shfmt in Step 3, while Mypy, Pyright, and pytest parse the project configuration in Step 2.
 
 - [ ] **Step 2: Run the complete Python gate**
 
