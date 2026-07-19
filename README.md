@@ -87,6 +87,8 @@ usr/bin/build-iso
 usr/bin/biso --help
 ```
 
+The launchers require Bash and delegate to canonical Python modules with `python3 -m`. They preserve the Python process's exit status and signals. `gitrepo` validates an optional directory before GTK starts; the other launchers forward their arguments unchanged.
+
 Use `bpkg --dry-run` to inspect a package or Git operation without changing files or references.
 
 ## Install on Arch Linux
@@ -142,7 +144,8 @@ The graphical applications, command-line interfaces, desktop entries, and file-m
 ## Project structure
 
 ```text
-usr/bin/                         four small POSIX launchers
+usr/bin/                         four small Bash launchers
+usr/lib/gitrepo/                 shared Bash launcher helper
 usr/share/gitrepo/common/        shared, product-neutral Python code
 usr/share/gitrepo/build_package/ Build Package CLI, core, GTK, and main.py
 usr/share/gitrepo/build_iso/     Build ISO CLI, core, GTK, and main.py
