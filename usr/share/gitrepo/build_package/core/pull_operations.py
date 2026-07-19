@@ -9,7 +9,7 @@ from gitrepo.common.translation import _
 
 def _remote_branch_exists(branch: str) -> bool:
     result = subprocess.run_git(
-        ["git", "ls-remote", "--exit-code", "--heads", "origin", branch],
+        ["git", "ls-remote", "--exit-code", "--heads", "origin", f"refs/heads/{branch}"],
         capture_output=True,
         text=True,
         check=False,
@@ -37,7 +37,10 @@ def _create_pull_plan(bp, branch: str, should_stash: bool) -> OperationPlan:
             _("Temporarily stash local changes"),
             ["git", "stash", "push", "-u", "-m", f"gitrepo-pull-{branch}"],
         )
-    plan.add(_("Fetch origin/{0}").format(branch), ["git", "fetch", "origin", branch])
+    plan.add(
+        _("Fetch origin/{0}").format(branch),
+        ["git", "fetch", "origin", f"refs/heads/{branch}:refs/remotes/origin/{branch}"],
+    )
     plan.add(_("Merge origin/{0} into {0}").format(branch), ["git", "merge", "--no-edit", f"origin/{branch}"])
     return plan
 
