@@ -25,13 +25,14 @@ class DestructiveGitCommandError(PermissionError):
     """Raised when destructive Git argv reaches the process boundary unconfirmed."""
 
 
-def _git_command_parts(command: object) -> tuple[str, list[str]] | None:
+def _git_command_parts(command: object) -> tuple[str, list[str], list[str]] | None:
     if not isinstance(command, Sequence) or isinstance(command, (str, bytes)):
         return None
     argv = [str(part) for part in command]
     if len(argv) < 2 or Path(argv[0]).name != "git":
         return None
 
+    configurations = []
     index = 1
     while index < len(argv):
         argument = argv[index]
@@ -41,13 +42,43 @@ def _git_command_parts(command: object) -> tuple[str, list[str]] | None:
         if not argument.startswith("-"):
             break
         if argument in {"-C", "-c"}:
+            if argument == "-c" and index + 1 < len(argv):
+                configurations.append(argv[index + 1])
             index += 2
         else:
             index += 1
 
     if index >= len(argv):
         return None
-    return argv[index], argv[index + 1 :]
+    return argv[index], argv[index + 1 :], configurations
+
+
+def _git_operands(arguments: list[str], options_with_values: set[str]) -> list[str]:
+    operands = []
+    index = 0
+    while index < len(arguments):
+        argument = arguments[index]
+        if argument == "--":
+            operands.extend(arguments[index + 1 :])
+            break
+        option = argument.split("=", 1)[0]
+        if option in options_with_values:
+            index += 1 if "=" in argument else 2
+        elif argument.startswith("-"):
+            index += 1
+        else:
+            operands.append(argument)
+            index += 1
+    return operands
+
+
+def _git_push_refspecs(arguments: list[str]) -> list[str]:
+    repository_is_option = any(argument == "--repo" or argument.startswith("--repo=") for argument in arguments)
+    operands = _git_operands(
+        arguments,
+        {"--repo", "--receive-pack", "--exec", "--recurse-submodules", "-o", "--push-option"},
+    )
+    return operands if repository_is_option else operands[1:]
 
 
 def is_destructive_git_command(command: object) -> bool:
@@ -56,7 +87,7 @@ def is_destructive_git_command(command: object) -> bool:
     if parts is None:
         return False
 
-    verb, arguments = parts
+    verb, arguments, configurations = parts
     options = set(arguments)
     has_force_flag = any(
         argument == "-f"
@@ -64,16 +95,30 @@ def is_destructive_git_command(command: object) -> bool:
         or (argument.startswith("-") and not argument.startswith("--") and "f" in argument[1:])
         for argument in arguments
     )
-    has_destructive_refspec = any(argument.startswith(("+", ":")) for argument in arguments)
+    has_dry_run = "--dry-run" in options or any(
+        argument.startswith("-") and not argument.startswith("--") and "n" in argument[1:] for argument in arguments
+    )
+    has_interactive = "--interactive" in options or any(
+        argument.startswith("-") and not argument.startswith("--") and "i" in argument[1:] for argument in arguments
+    )
+    clean_force_disabled = any(
+        configuration.casefold() == "clean.requireforce=false" for configuration in configurations
+    )
+    push_refspecs = _git_push_refspecs(arguments) if verb == "push" else []
+    has_destructive_refspec = any(refspec.startswith(("+", ":")) for refspec in push_refspecs)
+    checkout_operands = _git_operands(
+        arguments,
+        {"-b", "-B", "--conflict", "--orphan", "-U", "--unified", "--inter-hunk-context", "--pathspec-from-file"},
+    )
     return any(
         (
             verb == "reset" and "--hard" in options,
-            verb == "clean" and has_force_flag,
+            verb == "clean" and (has_force_flag or clean_force_disabled) and not (has_dry_run or has_interactive),
             verb == "branch" and bool(options.intersection({"-D", "--delete", "--force"})),
             verb == "push" and (has_force_flag or "--delete" in options or has_destructive_refspec),
             verb == "stash" and bool(options.intersection({"drop", "clear"})),
-            verb == "checkout" and "--" in options,
-            verb == "restore" and "--staged" not in options,
+            verb == "checkout" and (has_force_flag or "--" in options or len(checkout_operands) > 1),
+            verb == "restore" and ("--staged" not in options or "--worktree" in options),
             verb == "rm" and has_force_flag,
         )
     )
