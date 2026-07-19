@@ -272,6 +272,8 @@ def test_network_urls_require_allowlisted_https_without_credentials():
         "file:///etc/passwd",
         "https://user:secret@api.github.com/repos/a/b",
         "https://api.github.com.evil.invalid/repos/a/b",
+        "https://api.github.com:invalid/repos/a/b",
+        "https://api.github.com/repos/a/b\nignored",
     ):
         with pytest.raises(UnsafeNetworkUrl):
             validate_https_url(unsafe, {"api.github.com"})
@@ -283,6 +285,7 @@ def test_github_repository_url_is_exact_and_canonical():
     )
     for unsafe in (
         "https://github.com/biglinux/iso-profiles?token=secret",
+        "https://github.com/biglinux/iso-profiles#unexpected-fragment",
         "https://user:secret@github.com/biglinux/iso-profiles",
         "https://github.com/biglinux/iso-profiles/extra",
     ):
