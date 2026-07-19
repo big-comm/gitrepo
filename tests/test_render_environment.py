@@ -71,35 +71,15 @@ def test_real_child_preserves_external_renderer(monkeypatch):
     assert result.stdout.strip() == "gl"
 
 
-@pytest.mark.parametrize(
-    "command",
-    [
-        ["git", "reset", "--hard", "HEAD"],
-        ["git", "clean", "-fd"],
-        ["git", "checkout", "--", "."],
-        ["git", "branch", "-D", "old"],
-        ["git", "push", "--force-with-lease", "origin", "main"],
-        ["/usr/bin/git", "-C", "/tmp/repository", "reset", "--hard", "HEAD"],
-        ["git", "-c", "core.hooksPath=/dev/null", "clean", "-fd"],
-        ["git", "--no-pager", "checkout", "--", "."],
-        ["git", "push", "origin", "+main"],
-        ["git", "push", "origin", ":old-branch"],
-        ["git", "push", "--force-with-lease=refs/heads/main", "origin", "main"],
-        ["git", "push", "--repo", "origin", "+main"],
-        ["git", "push", "--repo=origin", ":old-branch"],
-        ["git", "checkout", "-f", "branch"],
-        ["git", "checkout", "HEAD", "path"],
-        ["git", "restore", "--staged", "--worktree", "path"],
-        ["git", "-c", "clean.requireForce=false", "clean", "-d"],
-        ["git", "-c", "clean.requireForce=no", "clean", "-d"],
-        ["git", "-c", "clean.requireForce=off", "clean", "-d"],
-        ["git", "-c", "clean.requireForce=0", "clean", "-d"],
-        ["git", "-c", "clean.requireForce=true", "-c", "clean.requireForce=false", "clean", "-d"],
-        ["git", "clean", "-f", "--", "-name"],
-        ["git", "clean", "-f", "--", "-item"],
-    ],
-)
-def test_destructive_git_commands_require_explicit_authorization(monkeypatch, command):
+def test_generic_process_apis_reject_git_without_explicit_intent():
+    with pytest.raises(child_process.GitIntentRequiredError):
+        child_process.run(["git", "status"])
+
+    with pytest.raises(child_process.GitIntentRequiredError):
+        child_process.Popen(["/usr/bin/git", "status"])
+
+
+def test_run_git_ordinary_preserves_argv_and_sanitized_environment(monkeypatch):
     calls = []
 
     def fake_run(command, **kwargs):
@@ -107,56 +87,76 @@ def test_destructive_git_commands_require_explicit_authorization(monkeypatch, co
         return subprocess.CompletedProcess(command, 0)
 
     monkeypatch.setattr(child_process._subprocess, "run", fake_run)
+    command = ["/usr/bin/git", "-C", "/tmp/repository", "status", "--short"]
+
+    child_process.run_git(
+        command,
+        intent="ordinary",
+        env={"GSK_RENDERER": "cairo", GSK_RENDERER_MARKER: "1", "KEEP": "yes"},
+    )
+
+    assert calls == [(command, {"env": {"KEEP": "yes"}})]
+
+
+def test_run_git_destructive_requires_authorization(monkeypatch):
+    calls = []
+
+    def fake_run(command, **kwargs):
+        calls.append((command, kwargs))
+        return subprocess.CompletedProcess(command, 0)
+
+    monkeypatch.setattr(child_process._subprocess, "run", fake_run)
+    command = ["git", "reset", "--hard", "HEAD"]
 
     with pytest.raises(child_process.DestructiveGitCommandError):
-        child_process.run(command)
+        child_process.run_git(command, intent="destructive")
 
     with child_process.authorize_destructive_git():
-        child_process.run(command)
+        child_process.run_git(command, intent="destructive")
 
     assert calls[0][0] == command
 
 
-def test_safe_git_command_with_global_options_is_not_blocked(monkeypatch):
-    calls = []
+def test_run_git_rejects_invalid_intent_and_non_git_argv():
+    with pytest.raises(ValueError, match="intent"):
+        child_process.run_git(["git", "status"], intent="unknown")
 
-    def fake_run(command, **kwargs):
-        calls.append((command, kwargs))
-        return subprocess.CompletedProcess(command, 0)
-
-    monkeypatch.setattr(child_process._subprocess, "run", fake_run)
-
-    command = ["/usr/bin/git", "-C", "/tmp/repository", "status", "--short"]
-    child_process.run(command)
-
-    assert calls[0][0] == command
+    with pytest.raises(child_process.GitIntentRequiredError, match="Git argv"):
+        child_process.run_git(["printf", "not git"], intent="ordinary")
 
 
-@pytest.mark.parametrize(
-    "command",
-    [
-        ["git", "push", "+repo", "main"],
-        ["git", "push", "--repo", "+repo", "main"],
-        ["git", "checkout", "main"],
-        ["git", "restore", "--staged", "path"],
-        ["git", "-c", "clean.requireForce=true", "clean", "-d"],
-        ["git", "-c", "clean.requireForce=false", "clean", "-nd"],
-        ["git", "-c", "clean.requireForce=false", "clean", "-i"],
-        ["git", "-c", "clean.requireForce=false", "-c", "clean.requireForce=true", "clean", "-d"],
-    ],
-)
-def test_safe_destructive_git_lookalikes_are_not_blocked(monkeypatch, command):
-    calls = []
+def test_literal_git_call_sites_use_run_git_with_literal_intent():
+    share = Path(__file__).resolve().parents[1] / "usr" / "share"
+    violations = []
+    for product in (share / "gitrepo/build_package", share / "gitrepo/build_iso"):
+        for path in product.rglob("*.py"):
+            tree = ast.parse(path.read_text(encoding="utf-8"))
+            for node in ast.walk(tree):
+                if not isinstance(node, ast.Call) or not node.args:
+                    continue
+                command = node.args[0]
+                if not isinstance(command, (ast.List, ast.Tuple)) or not command.elts:
+                    continue
+                function = node.func
+                if not (
+                    isinstance(function, ast.Attribute)
+                    and isinstance(function.value, ast.Name)
+                    and function.value.id == "subprocess"
+                ):
+                    continue
+                executable = command.elts[0]
+                if not isinstance(executable, ast.Constant) or Path(str(executable.value)).name != "git":
+                    continue
+                function_name = function.attr
+                intent = next((keyword.value for keyword in node.keywords if keyword.arg == "intent"), None)
+                if (
+                    function_name != "run_git"
+                    or not isinstance(intent, ast.Constant)
+                    or intent.value not in {"ordinary", "destructive"}
+                ):
+                    violations.append(f"{path}:{node.lineno}")
 
-    def fake_run(command, **kwargs):
-        calls.append((command, kwargs))
-        return subprocess.CompletedProcess(command, 0)
-
-    monkeypatch.setattr(child_process._subprocess, "run", fake_run)
-
-    child_process.run(command)
-
-    assert calls[0][0] == command
+    assert violations == []
 
 
 def test_applications_do_not_bypass_child_process_boundary():

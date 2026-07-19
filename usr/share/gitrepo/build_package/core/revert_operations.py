@@ -84,12 +84,13 @@ def _choose_revert_commit(bp, revert_method):
 def get_recent_commits(bp, count: int = 10) -> list:
     """Return the *count* most recent commits as a list of dicts."""
     try:
-        result = subprocess.run(
+        result = subprocess.run_git(
             ["git", "log", f"-{count}", "--pretty=format:%H|%an|%ad|%s", "--date=short"],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
             check=True,
+            intent="ordinary",
         )
         commits = []
         for line in result.stdout.strip().split("\n"):
@@ -124,11 +125,8 @@ def show_revert_preview(bp, commit: dict, revert_method: str) -> None:
         commit_hash = commit["hash"]
         short_hash = commit_hash[:7]
 
-        current_commit_result = subprocess.run(
-            ["git", "rev-parse", "HEAD"],
-            stdout=subprocess.PIPE,
-            text=True,
-            check=True,
+        current_commit_result = subprocess.run_git(
+            ["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE, text=True, check=True, intent="ordinary"
         )
         current_commit = current_commit_result.stdout.strip()[:7]
 
@@ -153,11 +151,12 @@ def show_revert_preview(bp, commit: dict, revert_method: str) -> None:
 
         if revert_method == "revert":
             try:
-                diff_result = subprocess.run(
+                diff_result = subprocess.run_git(
                     ["git", "diff", "--name-status", commit_hash, "HEAD"],
                     stdout=subprocess.PIPE,
                     text=True,
                     check=True,
+                    intent="ordinary",
                 )
                 if diff_result.stdout.strip():
                     bp.logger.log("cyan", _("Files that will be restored to target state:"))
@@ -222,25 +221,23 @@ def _execute_revert_method(bp, commit_hash: str, current_branch: str, remote_exi
     """Restore the working tree to *commit_hash* and create a new commit."""
     try:
         bp.logger.log("cyan", _("Getting commit information..."))
-        commit_message_result = subprocess.run(
+        commit_message_result = subprocess.run_git(
             ["git", "log", "-1", "--pretty=format:%s", commit_hash],
             stdout=subprocess.PIPE,
             text=True,
             check=True,
+            intent="ordinary",
         )
         original_message = commit_message_result.stdout.strip()
 
         bp.logger.log("cyan", _("Restoring code state from selected commit..."))
-        subprocess.run(["git", "checkout", commit_hash, "--", "."], check=True)
+        subprocess.run_git(["git", "checkout", commit_hash, "--", "."], check=True, intent="destructive")
 
         bp.logger.log("cyan", _("Staging restored files..."))
-        subprocess.run(["git", "add", "."], check=True)
+        subprocess.run_git(["git", "add", "."], check=True, intent="ordinary")
 
-        status_result = subprocess.run(
-            ["git", "status", "--porcelain"],
-            stdout=subprocess.PIPE,
-            text=True,
-            check=True,
+        status_result = subprocess.run_git(
+            ["git", "status", "--porcelain"], stdout=subprocess.PIPE, text=True, check=True, intent="ordinary"
         )
         if not status_result.stdout.strip():
             bp.logger.log("yellow", _("No changes detected - code is already at selected state"))
@@ -250,7 +247,7 @@ def _execute_revert_method(bp, commit_hash: str, current_branch: str, remote_exi
             f"Revert to: {original_message}\n\nThis restores the complete state from commit {commit_hash[:7]}."
         )
         bp.logger.log("cyan", _("Creating revert commit..."))
-        subprocess.run(["git", "commit", "-m", new_commit_message], check=True)
+        subprocess.run_git(["git", "commit", "-m", new_commit_message], check=True, intent="ordinary")
 
         bp.logger.log("green", _("Revert completed successfully - code restored to selected commit state"))
         return _push_revert_changes(bp, current_branch, remote_exists)
@@ -267,14 +264,14 @@ def _execute_revert_method(bp, commit_hash: str, current_branch: str, remote_exi
 def _execute_reset_method(bp, commit_hash: str, current_branch: str, remote_exists: bool) -> bool:
     """Hard-reset to *commit_hash* and optionally force-push."""
     bp.logger.log("cyan", _("Resetting to previous commit..."))
-    subprocess.run(["git", "reset", "--hard", commit_hash], check=True)
+    subprocess.run_git(["git", "reset", "--hard", commit_hash], check=True, intent="destructive")
 
     details = {}
     if remote_exists:
         bp.logger.log("yellow", _("Commit exists in remote - force push required"))
         if bp.menu.confirm(_("This will force push and rewrite remote history. Continue?"), default_yes=False):
             bp.logger.log("cyan", _("Force pushing changes..."))
-            subprocess.run(["git", "push", "origin", current_branch, "--force"], check=True)
+            subprocess.run_git(["git", "push", "origin", current_branch, "--force"], check=True, intent="destructive")
             bp.logger.log("green", _("Reset completed and force pushed"))
             details["force_pushed"] = True
         else:
@@ -295,11 +292,8 @@ def _push_revert_changes(bp, current_branch: str, remote_exists: bool) -> bool:
         return True
 
     bp.logger.log("cyan", _("Pushing revert changes..."))
-    push_result = subprocess.run(
-        ["git", "push", "origin", current_branch],
-        capture_output=True,
-        text=True,
-        check=False,
+    push_result = subprocess.run_git(
+        ["git", "push", "origin", current_branch], capture_output=True, text=True, check=False, intent="ordinary"
     )
     if push_result.returncode == 0:
         bp.logger.log("green", _("Revert changes pushed successfully"))
@@ -314,8 +308,8 @@ def _push_revert_changes(bp, current_branch: str, remote_exists: bool) -> bool:
 
 def _cleanup_revert_state() -> None:
     """Abort any in-progress revert or reset."""
-    subprocess.run(["git", "revert", "--abort"], capture_output=True, check=False)
-    subprocess.run(["git", "reset", "--abort"], capture_output=True, check=False)
+    subprocess.run_git(["git", "revert", "--abort"], capture_output=True, check=False, intent="ordinary")
+    subprocess.run_git(["git", "reset", "--abort"], capture_output=True, check=False, intent="ordinary")
 
 
 # ---------------------------------------------------------------------------
@@ -342,7 +336,7 @@ def show_operation_summary(bp, operation_type: str, commit_info: dict, details: 
 
 
 def _git_output(command):
-    result = subprocess.run(command, capture_output=True, text=True, check=False)
+    result = subprocess.run_git(command, capture_output=True, text=True, check=False, intent="ordinary")
     return result.stdout.strip() if result.returncode == 0 else ""
 
 
@@ -359,12 +353,13 @@ def execute_revert_by_hash(bp, commit_hash: str, revert_method: str) -> bool:
         return False
 
     try:
-        result = subprocess.run(
+        result = subprocess.run_git(
             ["git", "log", "-1", "--pretty=format:%an|%ad|%s", "--date=short", commit_hash],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
             check=False,
+            intent="ordinary",
         )
         if result.returncode == 0 and result.stdout.strip():
             author, date, message = result.stdout.strip().split("|", 2)
@@ -387,12 +382,13 @@ def execute_revert_by_hash(bp, commit_hash: str, revert_method: str) -> bool:
 def check_commit_in_remote(commit_hash: str) -> bool:
     """Return True if *commit_hash* appears in any remote-tracking branch."""
     try:
-        result = subprocess.run(
+        result = subprocess.run_git(
             ["git", "branch", "-r", "--contains", commit_hash],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
             check=False,
+            intent="ordinary",
         )
         return result.returncode == 0 and bool(result.stdout.strip())
     except Exception:

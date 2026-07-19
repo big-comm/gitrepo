@@ -424,13 +424,21 @@ class ConflictDialog(Adw.Window):
         # Get both versions from git
         try:
             # Get "ours" version (local/current branch)
-            ours_result = subprocess.run(
-                ["git", "show", f":2:{filepath}"], capture_output=True, check=False, cwd=self.repo_root
+            ours_result = subprocess.run_git(
+                ["git", "show", f":2:{filepath}"],
+                capture_output=True,
+                check=False,
+                cwd=self.repo_root,
+                intent="ordinary",
             )
 
             # Get "theirs" version (remote/incoming)
-            theirs_result = subprocess.run(
-                ["git", "show", f":3:{filepath}"], capture_output=True, check=False, cwd=self.repo_root
+            theirs_result = subprocess.run_git(
+                ["git", "show", f":3:{filepath}"],
+                capture_output=True,
+                check=False,
+                cwd=self.repo_root,
+                intent="ordinary",
             )
 
             # Try to decode as UTF-8, fallback to latin-1
@@ -772,7 +780,9 @@ class ConflictDialog(Adw.Window):
                     abs_filepath = os.path.join(self.repo_root, filepath) if self.repo_root else filepath
                     if not os.path.exists(abs_filepath):
                         continue
-                    subprocess.run(["git", "add", filepath], check=True, capture_output=True, cwd=self.repo_root)
+                    subprocess.run_git(
+                        ["git", "add", filepath], check=True, capture_output=True, cwd=self.repo_root, intent="ordinary"
+                    )
                 except Exception:
                     success = False
 
@@ -788,12 +798,13 @@ class ConflictDialog(Adw.Window):
             'theirs_exists': bool - whether 'theirs' (stage 3) version exists
         """
         try:
-            result = subprocess.run(
+            result = subprocess.run_git(
                 ["git", "ls-files", "-u", "--", filepath],
                 capture_output=True,
                 text=True,
                 check=False,
                 cwd=self.repo_root,
+                intent="ordinary",
             )
             lines = result.stdout.strip().split("\n") if result.stdout.strip() else []
             stages = set()
@@ -814,33 +825,45 @@ class ConflictDialog(Adw.Window):
                 if not conflict_info["ours_exists"]:
                     # Our side deleted the file - remove it
                     with authorize_destructive_git():
-                        subprocess.run(
+                        subprocess.run_git(
                             ["git", "rm", "-f", "--", filepath],
                             check=True,
                             capture_output=True,
                             cwd=self.repo_root,
+                            intent="destructive",
                         )
                 else:
                     # Keep local version
-                    subprocess.run(
-                        ["git", "checkout", "--ours", filepath], check=True, capture_output=True, cwd=self.repo_root
-                    )
+                    with authorize_destructive_git():
+                        subprocess.run_git(
+                            ["git", "checkout", "--ours", filepath],
+                            check=True,
+                            capture_output=True,
+                            cwd=self.repo_root,
+                            intent="destructive",
+                        )
             elif action == "theirs":
                 conflict_info = self._get_conflict_type(filepath)
                 if not conflict_info["theirs_exists"]:
                     # Remote side deleted the file - remove it
                     with authorize_destructive_git():
-                        subprocess.run(
+                        subprocess.run_git(
                             ["git", "rm", "-f", "--", filepath],
                             check=True,
                             capture_output=True,
                             cwd=self.repo_root,
+                            intent="destructive",
                         )
                 else:
                     # Accept remote version
-                    subprocess.run(
-                        ["git", "checkout", "--theirs", filepath], check=True, capture_output=True, cwd=self.repo_root
-                    )
+                    with authorize_destructive_git():
+                        subprocess.run_git(
+                            ["git", "checkout", "--theirs", filepath],
+                            check=True,
+                            capture_output=True,
+                            cwd=self.repo_root,
+                            intent="destructive",
+                        )
             elif action == "manual":
                 # User edited the file manually
                 # Just verify it doesn't have conflict markers
@@ -868,17 +891,30 @@ class ConflictDialog(Adw.Window):
                 shutil.copy(abs_path, theirs_file)
 
                 # Checkout each version to respective file
-                subprocess.run(
-                    ["git", "checkout", "--ours", ours_file], check=False, capture_output=True, cwd=self.repo_root
-                )
-                subprocess.run(
-                    ["git", "checkout", "--theirs", theirs_file], check=False, capture_output=True, cwd=self.repo_root
-                )
+                with authorize_destructive_git():
+                    subprocess.run_git(
+                        ["git", "checkout", "--ours", ours_file],
+                        check=False,
+                        capture_output=True,
+                        cwd=self.repo_root,
+                        intent="destructive",
+                    )
+                    subprocess.run_git(
+                        ["git", "checkout", "--theirs", theirs_file],
+                        check=False,
+                        capture_output=True,
+                        cwd=self.repo_root,
+                        intent="destructive",
+                    )
 
-                # Keep ours for the original file
-                subprocess.run(
-                    ["git", "checkout", "--ours", filepath], check=True, capture_output=True, cwd=self.repo_root
-                )
+                    # Keep ours for the original file
+                    subprocess.run_git(
+                        ["git", "checkout", "--ours", filepath],
+                        check=True,
+                        capture_output=True,
+                        cwd=self.repo_root,
+                        intent="destructive",
+                    )
 
             return True
 

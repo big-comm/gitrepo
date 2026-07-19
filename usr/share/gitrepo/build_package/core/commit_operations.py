@@ -32,10 +32,14 @@ def _ensure_initial_branch(bp) -> str:
     if GitUtils.has_commits():
         return branch
     expected = f"dev-{bp.github_user_name or 'unknown'}"
-    result = subprocess.run(["git", "checkout", "-b", expected], capture_output=True, text=True, check=False)
+    result = subprocess.run_git(
+        ["git", "checkout", "-b", expected], capture_output=True, text=True, check=False, intent="ordinary"
+    )
     if result.returncode == 0:
         return expected
-    existing = subprocess.run(["git", "checkout", expected], capture_output=True, text=True, check=False)
+    existing = subprocess.run_git(
+        ["git", "checkout", expected], capture_output=True, text=True, check=False, intent="ordinary"
+    )
     return expected if existing.returncode == 0 else ""
 
 

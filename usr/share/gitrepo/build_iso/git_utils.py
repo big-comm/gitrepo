@@ -14,12 +14,13 @@ class GitUtils:
     def is_git_repo() -> bool:
         """Checks if the current directory is a Git repository"""
         try:
-            result = subprocess.run(
+            result = subprocess.run_git(
                 ["git", "rev-parse", "--is-inside-work-tree"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
                 check=False,
+                intent="ordinary",
             )
             return result.returncode == 0
         except FileNotFoundError:
@@ -32,12 +33,13 @@ class GitUtils:
             return ""
 
         try:
-            result = subprocess.run(
+            result = subprocess.run_git(
                 ["git", "config", "--get", "remote.origin.url"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
                 check=False,
+                intent="ordinary",
             )
 
             if result.returncode != 0:
@@ -60,12 +62,13 @@ class GitUtils:
             return os.getcwd()
 
         try:
-            result = subprocess.run(
+            result = subprocess.run_git(
                 ["git", "rev-parse", "--show-toplevel"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
                 check=False,
+                intent="ordinary",
             )
 
             if result.returncode == 0:
@@ -78,8 +81,13 @@ class GitUtils:
     def get_github_username() -> str:
         """Gets the GitHub username configured in Git"""
         try:
-            result = subprocess.run(
-                ["git", "config", "user.name"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False
+            result = subprocess.run_git(
+                ["git", "config", "user.name"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False,
+                intent="ordinary",
             )
 
             if result.returncode == 0:

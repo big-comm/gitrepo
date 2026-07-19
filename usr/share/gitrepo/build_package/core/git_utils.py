@@ -12,7 +12,7 @@ from gitrepo.common.translation import _
 
 
 def _branch_names(*command: str) -> list[str]:
-    result = subprocess.run(["git", *command], capture_output=True, text=True, check=True)
+    result = subprocess.run_git(["git", *command], capture_output=True, text=True, check=True, intent="ordinary")
     return [
         line.strip().lstrip("* ").removeprefix("origin/")
         for line in result.stdout.splitlines()
@@ -37,9 +37,9 @@ def _delete_local_branches(branches: list[str], available: list[str], logger) ->
     for branch in branches:
         try:
             if current == branch and fallback:
-                subprocess.run(["git", "checkout", fallback], check=True)
+                subprocess.run_git(["git", "checkout", fallback], check=True, intent="ordinary")
                 current = fallback
-            subprocess.run(["git", "branch", "-D", branch], check=True)
+            subprocess.run_git(["git", "branch", "-D", branch], check=True, intent="destructive")
         except subprocess.CalledProcessError as error:
             logger.log("red", _("Could not delete local branch {0}: {1}").format(branch, error))
 
@@ -47,7 +47,7 @@ def _delete_local_branches(branches: list[str], available: list[str], logger) ->
 def _delete_remote_branches(branches: list[str], logger) -> None:
     for branch in branches:
         try:
-            subprocess.run(["git", "push", "origin", "--delete", branch], check=True)
+            subprocess.run_git(["git", "push", "origin", "--delete", branch], check=True, intent="destructive")
         except subprocess.CalledProcessError as error:
             logger.log("red", _("Could not delete origin/{0}: {1}").format(branch, error))
 
@@ -64,13 +64,19 @@ def _empty_divergence() -> dict:
 
 
 def _revision_count(revision_range: str) -> int:
-    result = subprocess.run(["git", "rev-list", "--count", revision_range], capture_output=True, text=True, check=False)
+    result = subprocess.run_git(
+        ["git", "rev-list", "--count", revision_range], capture_output=True, text=True, check=False, intent="ordinary"
+    )
     return int(result.stdout.strip() or "0") if result.returncode == 0 else 0
 
 
 def _revision_summaries(revision_range: str) -> list[tuple[str, str]]:
-    result = subprocess.run(
-        ["git", "log", "--format=%H%x00%s", revision_range], capture_output=True, text=True, check=False
+    result = subprocess.run_git(
+        ["git", "log", "--format=%H%x00%s", revision_range],
+        capture_output=True,
+        text=True,
+        check=False,
+        intent="ordinary",
     )
     summaries = []
     for line in result.stdout.splitlines() if result.returncode == 0 else []:
@@ -87,12 +93,14 @@ def _log_if(logger, style: str, message: str) -> None:
 
 def _integrate_remote(branch: str, method: str, logger) -> bool:
     option = "--rebase" if method == "rebase" else "--no-rebase"
-    result = subprocess.run(["git", "pull", option, "origin", branch], capture_output=True, text=True, check=False)
+    result = subprocess.run_git(
+        ["git", "pull", option, "origin", branch], capture_output=True, text=True, check=False, intent="ordinary"
+    )
     if result.returncode == 0:
         _log_if(logger, "green", _("Remote changes integrated with {0}.").format(method))
         return True
     abort_verb = "rebase" if method == "rebase" else "merge"
-    subprocess.run(["git", abort_verb, "--abort"], capture_output=True, check=False)
+    subprocess.run_git(["git", abort_verb, "--abort"], capture_output=True, check=False, intent="ordinary")
     detail = result.stderr.strip() or result.stdout.strip() or _("Unknown Git error")
     _log_if(logger, "red", _("{0} failed: {1}").format(method.title(), detail))
     return False
@@ -105,7 +113,7 @@ def _force_push_with_confirmation(branch: str, logger, menu) -> bool:
         _log_if(logger, "yellow", _("Force push cancelled."))
         return False
     with authorize_destructive_git():
-        result = subprocess.run(command, capture_output=True, text=True, check=False)
+        result = subprocess.run_git(command, capture_output=True, text=True, check=False, intent="destructive")
     if result.returncode == 0:
         _log_if(logger, "green", _("Force push completed."))
         return True
@@ -120,12 +128,13 @@ class GitUtils:
     def is_git_repo() -> bool:
         """Checks if the current directory is a Git repository"""
         try:
-            result = subprocess.run(
+            result = subprocess.run_git(
                 ["git", "rev-parse", "--is-inside-work-tree"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
                 check=False,
+                intent="ordinary",
             )
             return result.returncode == 0
         except FileNotFoundError:
@@ -141,8 +150,13 @@ class GitUtils:
             return False
 
         try:
-            result = subprocess.run(
-                ["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False
+            result = subprocess.run_git(
+                ["git", "rev-parse", "HEAD"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False,
+                intent="ordinary",
             )
             return result.returncode == 0
         except Exception:
@@ -155,12 +169,13 @@ class GitUtils:
             return ""
 
         try:
-            result = subprocess.run(
+            result = subprocess.run_git(
                 ["git", "config", "--get", "remote.origin.url"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
                 check=False,
+                intent="ordinary",
             )
 
             if result.returncode != 0:
@@ -188,12 +203,13 @@ class GitUtils:
             return os.getcwd()
 
         try:
-            result = subprocess.run(
+            result = subprocess.run_git(
                 ["git", "rev-parse", "--show-toplevel"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
                 check=False,
+                intent="ordinary",
             )
 
             if result.returncode == 0:
@@ -205,10 +221,14 @@ class GitUtils:
     @staticmethod
     def get_github_username() -> str:
         """Resolve a GitHub username from local Git configuration only."""
-        configured = subprocess.run(["git", "config", "github.user"], capture_output=True, text=True, check=False)
+        configured = subprocess.run_git(
+            ["git", "config", "github.user"], capture_output=True, text=True, check=False, intent="ordinary"
+        )
         if configured.returncode == 0 and configured.stdout.strip():
             return configured.stdout.strip()
-        email_result = subprocess.run(["git", "config", "user.email"], capture_output=True, text=True, check=False)
+        email_result = subprocess.run_git(
+            ["git", "config", "user.email"], capture_output=True, text=True, check=False, intent="ordinary"
+        )
         email = email_result.stdout.strip() if email_result.returncode == 0 else ""
         match = re.fullmatch(r"(?:\\d+\\+)?([^@]+)@users\\.noreply\\.github\\.com", email)
         return match.group(1) if match else "unknown"
@@ -218,12 +238,13 @@ class GitUtils:
         """Checks if there are changes in the repository"""
         try:
             # Check if there are changes to commit - simplified and more reliable
-            status = subprocess.run(
+            status = subprocess.run_git(
                 ["git", "status", "--porcelain"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.DEVNULL,
                 text=True,
                 check=False,
+                intent="ordinary",
             ).stdout.strip()
 
             return bool(status)
@@ -262,7 +283,7 @@ class GitUtils:
             logger.log("red", _("This operation is only available in Git repositories."))
             return False
         try:
-            subprocess.run(["git", "fetch", "--all", "--prune"], check=True)
+            subprocess.run_git(["git", "fetch", "--all", "--prune"], check=True, intent="ordinary")
             local = _branch_names("branch", "--format=%(refname:short)")
             remote = _branch_names("branch", "-r", "--format=%(refname:short)")
             local_to_remove, remote_to_remove = _obsolete_branches(local, remote)
@@ -295,12 +316,13 @@ class GitUtils:
             return ""
 
         try:
-            result = subprocess.run(
+            result = subprocess.run_git(
                 ["git", "rev-parse", "--abbrev-ref", "HEAD"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
                 check=False,
+                intent="ordinary",
             )
 
             if result.returncode == 0:
@@ -323,9 +345,12 @@ class GitUtils:
         if not GitUtils.has_commits():
             return state
         try:
-            subprocess.run(["git", "fetch", "origin", branch], capture_output=True, check=False)
-            remote = subprocess.run(
-                ["git", "rev-parse", "--verify", f"origin/{branch}"], capture_output=True, check=False
+            subprocess.run_git(["git", "fetch", "origin", branch], capture_output=True, check=False, intent="ordinary")
+            remote = subprocess.run_git(
+                ["git", "rev-parse", "--verify", f"origin/{branch}"],
+                capture_output=True,
+                check=False,
+                intent="ordinary",
             )
             if remote.returncode != 0:
                 state["ahead"] = 1
@@ -358,12 +383,13 @@ class GitUtils:
     def get_changed_files() -> list:
         """Return a list of (status, filepath) tuples for changed files."""
         try:
-            result = subprocess.run(
+            result = subprocess.run_git(
                 ["git", "status", "--porcelain"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.DEVNULL,
                 text=True,
                 check=False,
+                intent="ordinary",
             )
             if result.returncode != 0:
                 return []
