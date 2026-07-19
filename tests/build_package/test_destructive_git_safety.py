@@ -288,6 +288,66 @@ def test_variable_branch_pushes_use_fully_qualified_refspecs(build_package_modul
     ]
 
 
+def test_network_branch_refspecs_are_fully_qualified(build_package_modules, monkeypatch):
+    git_utils = importlib.import_module("gitrepo.build_package.core.git_utils")
+    calls = []
+
+    def record_run(command, **kwargs):
+        calls.append(command)
+        return subprocess.CompletedProcess(command, 0, stdout="", stderr="")
+
+    class Menu:
+        question = ""
+
+        def confirm(self, question, default_yes=True):
+            self.question = question
+            assert default_yes is False
+            return True
+
+    monkeypatch.setattr(git_utils.subprocess._subprocess, "run", record_run)
+    monkeypatch.setattr(git_utils.GitUtils, "is_git_repo", staticmethod(lambda: True))
+    monkeypatch.setattr(git_utils.GitUtils, "has_commits", staticmethod(lambda: True))
+    monkeypatch.setattr(git_utils, "_revision_count", lambda _revision: 0)
+    logger = Logger()
+    menu = Menu()
+
+    assert git_utils._integrate_remote("+topic", "rebase", logger) is True
+    assert git_utils.GitUtils.check_branch_divergence("+topic")["error"] is None
+    assert git_utils._force_push_with_confirmation("+topic", logger, menu) is True
+    with git_utils.authorize_destructive_git():
+        git_utils._delete_remote_branches(["+topic"], logger)
+
+    network_calls = [command for command in calls if command[1] in {"pull", "fetch", "push"}]
+    assert network_calls == [
+        ["git", "pull", "--rebase", "origin", "refs/heads/+topic"],
+        ["git", "fetch", "origin", "refs/heads/+topic:refs/remotes/origin/+topic"],
+        ["git", "push", "--force-with-lease", "origin", "refs/heads/+topic:refs/heads/+topic"],
+        ["git", "push", "origin", "--delete", "refs/heads/+topic"],
+    ]
+    assert menu.question.endswith("git push --force-with-lease origin refs/heads/+topic:refs/heads/+topic")
+
+
+def test_pull_plan_uses_exact_remote_branch_refs(build_package_modules, monkeypatch):
+    pull_operations = importlib.import_module("gitrepo.build_package.core.pull_operations")
+    calls = []
+
+    def record_run(command, **kwargs):
+        calls.append(command)
+        return subprocess.CompletedProcess(command, 0, stdout="refs/heads/+topic\n", stderr="")
+
+    monkeypatch.setattr(pull_operations.subprocess._subprocess, "run", record_run)
+    bp = SimpleNamespace(logger=Logger(), menu=SimpleNamespace(), dry_run_mode=False)
+
+    assert pull_operations._remote_branch_exists("+topic") is True
+    plan = pull_operations._create_pull_plan(bp, "+topic", should_stash=False)
+
+    assert calls == [["git", "ls-remote", "--exit-code", "--heads", "origin", "refs/heads/+topic"]]
+    assert [operation.commands for operation in plan.operations] == [
+        [["git", "fetch", "origin", "refs/heads/+topic:refs/remotes/origin/+topic"]],
+        [["git", "merge", "--no-edit", "origin/+topic"]],
+    ]
+
+
 @pytest.mark.parametrize(
     ("strategy", "checkout_option"),
     [("auto-ours", "--ours"), ("auto-theirs", "--theirs")],

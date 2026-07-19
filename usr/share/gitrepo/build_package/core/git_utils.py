@@ -47,7 +47,11 @@ def _delete_local_branches(branches: list[str], available: list[str], logger) ->
 def _delete_remote_branches(branches: list[str], logger) -> None:
     for branch in branches:
         try:
-            subprocess.run_git(["git", "push", "origin", "--delete", branch], check=True, intent="destructive")
+            subprocess.run_git(
+                ["git", "push", "origin", "--delete", f"refs/heads/{branch}"],
+                check=True,
+                intent="destructive",
+            )
         except subprocess.CalledProcessError as error:
             logger.log("red", _("Could not delete origin/{0}: {1}").format(branch, error))
 
@@ -94,7 +98,11 @@ def _log_if(logger, style: str, message: str) -> None:
 def _integrate_remote(branch: str, method: str, logger) -> bool:
     option = "--rebase" if method == "rebase" else "--no-rebase"
     result = subprocess.run_git(
-        ["git", "pull", option, "origin", branch], capture_output=True, text=True, check=False, intent="ordinary"
+        ["git", "pull", option, "origin", f"refs/heads/{branch}"],
+        capture_output=True,
+        text=True,
+        check=False,
+        intent="ordinary",
     )
     if result.returncode == 0:
         _log_if(logger, "green", _("Remote changes integrated with {0}.").format(method))
@@ -107,7 +115,13 @@ def _integrate_remote(branch: str, method: str, logger) -> bool:
 
 
 def _force_push_with_confirmation(branch: str, logger, menu) -> bool:
-    command = ["git", "push", "--force-with-lease", "origin", branch]
+    command = [
+        "git",
+        "push",
+        "--force-with-lease",
+        "origin",
+        f"refs/heads/{branch}:refs/heads/{branch}",
+    ]
     question = _("Rewrite origin/{0}?\n{1}").format(branch, " ".join(command))
     if menu is None or not menu.confirm(question, default_yes=False):
         _log_if(logger, "yellow", _("Force push cancelled."))
@@ -345,7 +359,12 @@ class GitUtils:
         if not GitUtils.has_commits():
             return state
         try:
-            subprocess.run_git(["git", "fetch", "origin", branch], capture_output=True, check=False, intent="ordinary")
+            subprocess.run_git(
+                ["git", "fetch", "origin", f"refs/heads/{branch}:refs/remotes/origin/{branch}"],
+                capture_output=True,
+                check=False,
+                intent="ordinary",
+            )
             remote = subprocess.run_git(
                 ["git", "rev-parse", "--verify", f"origin/{branch}"],
                 capture_output=True,
