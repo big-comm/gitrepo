@@ -438,6 +438,40 @@ def test_revert_authorizes_only_confirmed_destructive_command(build_package_modu
     assert [active for command, active in authorization if command[1] == "checkout"] == [True]
 
 
+def test_reset_force_push_confirmation_matches_exact_command(build_package_modules, monkeypatch):
+    revert_operations = importlib.import_module("gitrepo.build_package.core.revert_operations")
+    calls = []
+
+    def record_run(command, **kwargs):
+        calls.append((command, revert_operations.subprocess._destructive_git_authorized.get()))
+        return subprocess.CompletedProcess(command, 0, stdout="", stderr="")
+
+    class Menu:
+        question = ""
+
+        def confirm(self, question, default_yes=True):
+            self.question = question
+            assert default_yes is False
+            return True
+
+    monkeypatch.setattr(revert_operations.subprocess._subprocess, "run", record_run)
+    menu = Menu()
+    bp = SimpleNamespace(logger=Logger(), menu=menu)
+    force_push = [
+        "git",
+        "push",
+        "origin",
+        "refs/heads/+topic:refs/heads/+topic",
+        "--force",
+    ]
+
+    assert revert_operations._execute_reset_method(bp, "abc123", "+topic", remote_exists=True, confirmed=True) is True
+
+    assert "origin/+topic" in menu.question
+    assert menu.question.endswith(" ".join(force_push))
+    assert (force_push, True) in calls
+
+
 def test_revert_bridge_rejects_missing_confirmation(build_package_modules, monkeypatch):
     revert_operations = importlib.import_module("gitrepo.build_package.core.revert_operations")
     monkeypatch.setattr(revert_operations.GitUtils, "get_current_branch", lambda: "main")

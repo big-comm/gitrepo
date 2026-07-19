@@ -280,18 +280,20 @@ def _execute_reset_method(
 
     details = {}
     if remote_exists:
+        force_push_command = [
+            "git",
+            "push",
+            "origin",
+            f"refs/heads/{current_branch}:refs/heads/{current_branch}",
+            "--force",
+        ]
         bp.logger.log("yellow", _("Commit exists in remote - force push required"))
-        if bp.menu.confirm(_("This will force push and rewrite remote history. Continue?"), default_yes=False):
+        question = _("Rewrite origin/{0}?\n{1}").format(current_branch, " ".join(force_push_command))
+        if bp.menu.confirm(question, default_yes=False):
             bp.logger.log("cyan", _("Force pushing changes..."))
             with authorize_destructive_git():
                 subprocess.run_git(
-                    [
-                        "git",
-                        "push",
-                        "origin",
-                        f"refs/heads/{current_branch}:refs/heads/{current_branch}",
-                        "--force",
-                    ],
+                    force_push_command,
                     check=True,
                     intent="destructive",
                 )
