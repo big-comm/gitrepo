@@ -91,6 +91,12 @@ def test_real_child_preserves_external_renderer(monkeypatch):
         ["git", "checkout", "HEAD", "path"],
         ["git", "restore", "--staged", "--worktree", "path"],
         ["git", "-c", "clean.requireForce=false", "clean", "-d"],
+        ["git", "-c", "clean.requireForce=no", "clean", "-d"],
+        ["git", "-c", "clean.requireForce=off", "clean", "-d"],
+        ["git", "-c", "clean.requireForce=0", "clean", "-d"],
+        ["git", "-c", "clean.requireForce=true", "-c", "clean.requireForce=false", "clean", "-d"],
+        ["git", "clean", "-f", "--", "-name"],
+        ["git", "clean", "-f", "--", "-item"],
     ],
 )
 def test_destructive_git_commands_require_explicit_authorization(monkeypatch, command):
@@ -135,6 +141,8 @@ def test_safe_git_command_with_global_options_is_not_blocked(monkeypatch):
         ["git", "restore", "--staged", "path"],
         ["git", "-c", "clean.requireForce=true", "clean", "-d"],
         ["git", "-c", "clean.requireForce=false", "clean", "-nd"],
+        ["git", "-c", "clean.requireForce=false", "clean", "-i"],
+        ["git", "-c", "clean.requireForce=false", "-c", "clean.requireForce=true", "clean", "-d"],
     ],
 )
 def test_safe_destructive_git_lookalikes_are_not_blocked(monkeypatch, command):
