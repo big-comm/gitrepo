@@ -39,7 +39,7 @@ def _create_pull_plan(bp, branch: str, should_stash: bool) -> OperationPlan:
         )
     plan.add(
         _("Fetch origin/{0}").format(branch),
-        ["git", "fetch", "origin", f"refs/heads/{branch}:refs/remotes/origin/{branch}"],
+        ["git", "fetch", "origin", f"+refs/heads/{branch}:refs/remotes/origin/{branch}"],
     )
     plan.add(_("Merge origin/{0} into {0}").format(branch), ["git", "merge", "--no-edit", f"origin/{branch}"])
     return plan

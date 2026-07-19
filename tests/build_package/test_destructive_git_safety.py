@@ -320,7 +320,7 @@ def test_network_branch_refspecs_are_fully_qualified(build_package_modules, monk
     network_calls = [command for command in calls if command[1] in {"pull", "fetch", "push"}]
     assert network_calls == [
         ["git", "pull", "--rebase", "origin", "refs/heads/+topic"],
-        ["git", "fetch", "origin", "refs/heads/+topic:refs/remotes/origin/+topic"],
+        ["git", "fetch", "origin", "+refs/heads/+topic:refs/remotes/origin/+topic"],
         ["git", "push", "--force-with-lease", "origin", "refs/heads/+topic:refs/heads/+topic"],
         ["git", "push", "origin", "--delete", "refs/heads/+topic"],
     ]
@@ -343,9 +343,69 @@ def test_pull_plan_uses_exact_remote_branch_refs(build_package_modules, monkeypa
 
     assert calls == [["git", "ls-remote", "--exit-code", "--heads", "origin", "refs/heads/+topic"]]
     assert [operation.commands for operation in plan.operations] == [
-        [["git", "fetch", "origin", "refs/heads/+topic:refs/remotes/origin/+topic"]],
+        [["git", "fetch", "origin", "+refs/heads/+topic:refs/remotes/origin/+topic"]],
         [["git", "merge", "--no-edit", "origin/+topic"]],
     ]
+
+
+def test_divergence_fetch_accepts_remote_branch_rewind(build_package_modules, tmp_path, monkeypatch):
+    git_utils = importlib.import_module("gitrepo.build_package.core.git_utils")
+    repository, remote = create_repository_with_remote(tmp_path)
+    base = run_git(repository, "rev-parse", "HEAD").stdout.strip()
+    (repository / "tracked.txt").write_text("newer\n", encoding="utf-8")
+    run_git(repository, "commit", "-am", "newer")
+    run_git(repository, "push", "origin", "main")
+    newer = run_git(repository, "rev-parse", "refs/remotes/origin/main").stdout.strip()
+
+    publisher = tmp_path / "publisher"
+    subprocess.run(["git", "clone", str(remote), str(publisher)], check=True, capture_output=True)
+    run_git(publisher, "push", "--force", "origin", f"{base}:refs/heads/main")
+    assert run_git(repository, "rev-parse", "refs/remotes/origin/main").stdout.strip() == newer
+    monkeypatch.chdir(repository)
+
+    assert git_utils.GitUtils.check_branch_divergence("main")["error"] is None
+    assert run_git(repository, "rev-parse", "refs/remotes/origin/main").stdout.strip() == base
+
+
+def test_conflict_dialog_keep_both_uses_index_versions(build_package_modules, tmp_path):
+    conflict_dialog = importlib.import_module("gitrepo.build_package.gui.dialogs.conflict_dialog")
+    repository, _ = create_repository_with_remote(tmp_path)
+    filepath = "-conflict.txt"
+    (repository / filepath).write_bytes(b"base\n")
+    run_git(repository, "add", "--", filepath)
+    run_git(repository, "commit", "-m", "conflict base")
+    run_git(repository, "checkout", "-b", "incoming")
+    (repository / filepath).write_bytes(b"theirs\x00content\n")
+    run_git(repository, "commit", "-am", "theirs")
+    run_git(repository, "checkout", "main")
+    (repository / filepath).write_bytes(b"ours\x00content\n")
+    run_git(repository, "commit", "-am", "ours")
+
+    merge = subprocess.run(
+        ["git", "merge", "incoming"],
+        cwd=repository,
+        check=False,
+        capture_output=True,
+    )
+    assert merge.returncode != 0
+    ours = subprocess.run(
+        ["git", "show", f":2:{filepath}"],
+        cwd=repository,
+        check=True,
+        capture_output=True,
+    ).stdout
+    theirs = subprocess.run(
+        ["git", "show", f":3:{filepath}"],
+        cwd=repository,
+        check=True,
+        capture_output=True,
+    ).stdout
+    dialog = SimpleNamespace(repo_root=str(repository))
+
+    assert conflict_dialog.ConflictDialog.apply_resolution(dialog, filepath, "both") is True
+    assert (repository / f"{filepath}.ours").read_bytes() == ours
+    assert (repository / f"{filepath}.theirs").read_bytes() == theirs
+    assert (repository / filepath).read_bytes() == ours
 
 
 @pytest.mark.parametrize(

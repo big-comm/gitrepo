@@ -360,7 +360,7 @@ class GitUtils:
             return state
         try:
             subprocess.run_git(
-                ["git", "fetch", "origin", f"refs/heads/{branch}:refs/remotes/origin/{branch}"],
+                ["git", "fetch", "origin", f"+refs/heads/{branch}:refs/remotes/origin/{branch}"],
                 capture_output=True,
                 check=False,
                 intent="ordinary",
