@@ -120,7 +120,7 @@ def _log(bp, style: str, message: str) -> None:
 
 def _stage_changes(bp) -> None:
     """Stage the complete working tree or raise with Git's diagnostic."""
-    result = subprocess.run(["git", "add", "-A"], capture_output=True, text=True, check=False)
+    result = subprocess.run_git(["git", "add", "-A"], capture_output=True, text=True, check=False, intent="ordinary")
     if result.returncode != 0:
         detail = result.stderr.strip() or result.stdout.strip() or _("Unknown error")
         raise RuntimeError(_("Failed to stage changes: {0}").format(detail))
@@ -129,7 +129,9 @@ def _stage_changes(bp) -> None:
 
 def _create_commit(bp, message: str) -> bool:
     """Create one commit and report whether Git produced a new object."""
-    result = subprocess.run(["git", "commit", "-m", message], capture_output=True, text=True, check=False)
+    result = subprocess.run_git(
+        ["git", "commit", "-m", message], capture_output=True, text=True, check=False, intent="ordinary"
+    )
     if result.returncode == 0:
         _log(bp, "green", _("✓ Commit created successfully"))
         return True
@@ -158,7 +160,9 @@ def _sync_branch(bp, branch: str) -> None:
 
 def _push_branch(bp, branch: str) -> None:
     """Push one branch and translate common remote failures into next steps."""
-    result = subprocess.run(["git", "push", "-u", "origin", branch], capture_output=True, text=True, check=False)
+    result = subprocess.run_git(
+        ["git", "push", "-u", "origin", branch], capture_output=True, text=True, check=False, intent="ordinary"
+    )
     if result.returncode == 0:
         _log(bp, "green", _("✓ Pushed to origin/{0}").format(branch))
         return

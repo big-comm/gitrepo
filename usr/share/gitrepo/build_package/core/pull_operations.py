@@ -8,17 +8,20 @@ from gitrepo.common.translation import _
 
 
 def _remote_branch_exists(branch: str) -> bool:
-    result = subprocess.run(
+    result = subprocess.run_git(
         ["git", "ls-remote", "--exit-code", "--heads", "origin", branch],
         capture_output=True,
         text=True,
         check=False,
+        intent="ordinary",
     )
     return result.returncode == 0 and bool(result.stdout.strip())
 
 
 def _head() -> str:
-    result = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, check=False)
+    result = subprocess.run_git(
+        ["git", "rev-parse", "HEAD"], capture_output=True, text=True, check=False, intent="ordinary"
+    )
     return result.stdout.strip() if result.returncode == 0 else ""
 
 
@@ -43,12 +46,13 @@ def _complete_merge_conflict(bp, branch: str) -> bool:
     if not bp.conflict_resolver.resolve(branch, f"origin/{branch}"):
         bp.logger.log("red", _("Merge remains incomplete; resolve the listed files manually."))
         return False
-    subprocess.run(["git", "add", "-A"], check=True, capture_output=True)
-    result = subprocess.run(
+    subprocess.run_git(["git", "add", "-A"], check=True, capture_output=True, intent="ordinary")
+    result = subprocess.run_git(
         ["git", "commit", "-m", _("Merge origin/{0} after conflict resolution").format(branch)],
         capture_output=True,
         text=True,
         check=False,
+        intent="ordinary",
     )
     if result.returncode != 0:
         bp.logger.log("red", _("Resolved files could not complete the merge: {0}").format(result.stderr.strip()))
@@ -57,7 +61,7 @@ def _complete_merge_conflict(bp, branch: str) -> bool:
 
 
 def _restore_stash(bp, branch: str) -> bool:
-    result = subprocess.run(["git", "stash", "pop"], capture_output=True, text=True, check=False)
+    result = subprocess.run_git(["git", "stash", "pop"], capture_output=True, text=True, check=False, intent="ordinary")
     if result.returncode == 0:
         bp.logger.log("green", _("Local changes restored."))
         return True

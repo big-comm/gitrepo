@@ -43,12 +43,13 @@ class ConflictResolver:
             'theirs_exists': bool - whether 'theirs' (stage 3) version exists
         """
         try:
-            result = subprocess.run(
+            result = subprocess.run_git(
                 ["git", "ls-files", "-u", "--", file_path],
                 capture_output=True,
                 text=True,
                 check=False,
                 cwd=self.repo_root,
+                intent="ordinary",
             )
             lines = result.stdout.strip().split("\n") if result.stdout.strip() else []
             stages = set()
@@ -75,8 +76,12 @@ class ConflictResolver:
 
     def has_conflicts(self):
         """Check if there are unresolved conflicts"""
-        result = subprocess.run(
-            ["git", "diff", "--name-only", "--diff-filter=U"], capture_output=True, text=True, check=False
+        result = subprocess.run_git(
+            ["git", "diff", "--name-only", "--diff-filter=U"],
+            capture_output=True,
+            text=True,
+            check=False,
+            intent="ordinary",
         )
         return bool(result.stdout.strip())
 
@@ -89,13 +94,23 @@ class ConflictResolver:
             self.logger.log("yellow", _("File deletion cancelled: {0}").format(file_path))
             return False
         with authorize_destructive_git():
-            subprocess.run(["git", "rm", "-f", "--", file_path], check=True, cwd=self.repo_root, capture_output=True)
+            subprocess.run_git(
+                ["git", "rm", "-f", "--", file_path],
+                check=True,
+                cwd=self.repo_root,
+                capture_output=True,
+                intent="destructive",
+            )
         return True
 
     def get_conflict_files(self):
         """Get list of files with conflicts"""
-        result = subprocess.run(
-            ["git", "diff", "--name-only", "--diff-filter=U"], capture_output=True, text=True, check=False
+        result = subprocess.run_git(
+            ["git", "diff", "--name-only", "--diff-filter=U"],
+            capture_output=True,
+            text=True,
+            check=False,
+            intent="ordinary",
         )
         files = result.stdout.strip().split("\n")
         return [f for f in files if f]
@@ -104,18 +119,23 @@ class ConflictResolver:
     def get_branch_last_commit_date(branch_name):
         """Gets the timestamp of the last commit on a branch"""
         try:
-            result = subprocess.run(
+            result = subprocess.run_git(
                 ["git", "log", "-1", "--format=%ct", f"origin/{branch_name}"],
                 capture_output=True,
                 text=True,
                 check=False,
+                intent="ordinary",
             )
             if result.returncode == 0 and result.stdout.strip():
                 return int(result.stdout.strip())
 
             # Try without origin/ prefix
-            result = subprocess.run(
-                ["git", "log", "-1", "--format=%ct", branch_name], capture_output=True, text=True, check=False
+            result = subprocess.run_git(
+                ["git", "log", "-1", "--format=%ct", branch_name],
+                capture_output=True,
+                text=True,
+                check=False,
+                intent="ordinary",
             )
             if result.returncode == 0 and result.stdout.strip():
                 return int(result.stdout.strip())
@@ -182,8 +202,14 @@ class ConflictResolver:
                     if not self._confirm_conflict_deletion(file, _("deleted in the local version")):
                         return False
                 else:
-                    subprocess.run(["git", "checkout", "--ours", file], check=True, cwd=self.repo_root)
-                    subprocess.run(["git", "add", file], check=True, cwd=self.repo_root)
+                    with authorize_destructive_git():
+                        subprocess.run_git(
+                            ["git", "checkout", "--ours", file],
+                            check=True,
+                            cwd=self.repo_root,
+                            intent="destructive",
+                        )
+                    subprocess.run_git(["git", "add", file], check=True, cwd=self.repo_root, intent="ordinary")
 
             self.logger.log("green", _("✓ Conflicts resolved (kept our changes)"))
             return True
@@ -205,8 +231,14 @@ class ConflictResolver:
                     if not self._confirm_conflict_deletion(file, _("deleted in the incoming version")):
                         return False
                 else:
-                    subprocess.run(["git", "checkout", "--theirs", file], check=True, cwd=self.repo_root)
-                    subprocess.run(["git", "add", file], check=True, cwd=self.repo_root)
+                    with authorize_destructive_git():
+                        subprocess.run_git(
+                            ["git", "checkout", "--theirs", file],
+                            check=True,
+                            cwd=self.repo_root,
+                            intent="destructive",
+                        )
+                    subprocess.run_git(["git", "add", file], check=True, cwd=self.repo_root, intent="ordinary")
 
             self.logger.log("green", _("✓ Conflicts resolved (accepted remote)"))
             return True
@@ -268,8 +300,14 @@ class ConflictResolver:
             )
             return self._confirm_conflict_deletion(file_path, reason)
         try:
-            subprocess.run(["git", "checkout", f"--{side}", file_path], check=True, cwd=self.repo_root)
-            subprocess.run(["git", "add", file_path], check=True, cwd=self.repo_root)
+            with authorize_destructive_git():
+                subprocess.run_git(
+                    ["git", "checkout", f"--{side}", file_path],
+                    check=True,
+                    cwd=self.repo_root,
+                    intent="destructive",
+                )
+            subprocess.run_git(["git", "add", file_path], check=True, cwd=self.repo_root, intent="ordinary")
             return True
         except subprocess.CalledProcessError:
             stage = "2" if side == "ours" else "3"
@@ -277,15 +315,16 @@ class ConflictResolver:
 
     def _restore_index_stage(self, file_path, stage):
         try:
-            result = subprocess.run(
+            result = subprocess.run_git(
                 ["git", "show", f":{stage}:{file_path}"],
                 capture_output=True,
                 check=True,
                 cwd=self.repo_root,
+                intent="ordinary",
             )
             with open(self._get_absolute_path(file_path), "wb") as target:
                 target.write(result.stdout)
-            subprocess.run(["git", "add", file_path], check=True, cwd=self.repo_root)
+            subprocess.run_git(["git", "add", file_path], check=True, cwd=self.repo_root, intent="ordinary")
             return True
         except (OSError, subprocess.CalledProcessError) as error:
             self.logger.log("red", _("Could not resolve {0}: {1}").format(file_path, error))
@@ -413,13 +452,14 @@ class ConflictResolver:
 
     def _show_detailed_diff(self, file):
         """Show a bounded textual combined diff without launching another program."""
-        result = subprocess.run(
+        result = subprocess.run_git(
             ["git", "diff", "--cc", "--", file],
             capture_output=True,
             text=True,
             errors="replace",
             check=False,
             cwd=self.repo_root,
+            intent="ordinary",
         )
         if result.returncode not in (0, 1):
             self.logger.log("yellow", _("Could not produce a diff for {0}.").format(file))
@@ -440,17 +480,29 @@ class ConflictResolver:
             abs_path = self._get_absolute_path(file)
 
             # Save ours
-            subprocess.run(["git", "checkout", "--ours", file], check=True, cwd=self.repo_root)
+            with authorize_destructive_git():
+                subprocess.run_git(
+                    ["git", "checkout", "--ours", file],
+                    check=True,
+                    cwd=self.repo_root,
+                    intent="destructive",
+                )
             ours_file_abs = f"{abs_path}.ours"
             subprocess.run(["cp", abs_path, ours_file_abs], check=True)
 
             # Save theirs
-            subprocess.run(["git", "checkout", "--theirs", file], check=True, cwd=self.repo_root)
+            with authorize_destructive_git():
+                subprocess.run_git(
+                    ["git", "checkout", "--theirs", file],
+                    check=True,
+                    cwd=self.repo_root,
+                    intent="destructive",
+                )
             theirs_file_abs = f"{abs_path}.theirs"
             subprocess.run(["cp", abs_path, theirs_file_abs], check=True)
 
             # Keep theirs as main (user can choose later)
-            subprocess.run(["git", "add", file], check=True, cwd=self.repo_root)
+            subprocess.run_git(["git", "add", file], check=True, cwd=self.repo_root, intent="ordinary")
 
             self.logger.log("cyan", _("Created files:"))
             self.logger.log("cyan", f"  - {ours_file_abs} (our version)")

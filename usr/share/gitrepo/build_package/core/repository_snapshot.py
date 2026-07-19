@@ -64,7 +64,7 @@ class RepositorySnapshot:
 
 
 def _run(command: list[str]):
-    return subprocess.run(command, capture_output=True, text=True, check=False)
+    return subprocess.run_git(command, capture_output=True, text=True, check=False, intent="ordinary")
 
 
 def _succeeds(command: list[str]) -> bool:

@@ -13,34 +13,37 @@ from gitrepo.common.translation import _
 
 
 def _valid_branch_name(branch: str) -> bool:
-    result = subprocess.run(
-        ["git", "check-ref-format", "--branch", branch], capture_output=True, text=True, check=False
+    result = subprocess.run_git(
+        ["git", "check-ref-format", "--branch", branch], capture_output=True, text=True, check=False, intent="ordinary"
     )
     return result.returncode == 0
 
 
 def _checkout_branch(branch: str) -> bool:
-    local = subprocess.run(["git", "show-ref", "--verify", f"refs/heads/{branch}"], check=False)
+    local = subprocess.run_git(["git", "show-ref", "--verify", f"refs/heads/{branch}"], check=False, intent="ordinary")
     if local.returncode == 0:
         command = ["git", "checkout", branch]
     else:
-        remote = subprocess.run(["git", "show-ref", "--verify", f"refs/remotes/origin/{branch}"], check=False)
+        remote = subprocess.run_git(
+            ["git", "show-ref", "--verify", f"refs/remotes/origin/{branch}"], check=False, intent="ordinary"
+        )
         command = (
             ["git", "checkout", "-b", branch, f"origin/{branch}"]
             if remote.returncode == 0
             else ["git", "checkout", "-b", branch]
         )
-    return subprocess.run(command, capture_output=True, text=True, check=False).returncode == 0
+    return subprocess.run_git(command, capture_output=True, text=True, check=False, intent="ordinary").returncode == 0
 
 
 def _stash_working_tree(branch: str) -> bool:
     if not GitUtils.has_changes():
         return False
-    result = subprocess.run(
+    result = subprocess.run_git(
         ["git", "stash", "push", "-u", "-m", f"gitrepo-switch-{branch}"],
         capture_output=True,
         text=True,
         check=False,
+        intent="ordinary",
     )
     if result.returncode != 0:
         raise RuntimeError(result.stderr.strip() or _("Could not preserve local changes"))
@@ -48,7 +51,7 @@ def _stash_working_tree(branch: str) -> bool:
 
 
 def _restore_working_tree(bp) -> None:
-    result = subprocess.run(["git", "stash", "pop"], capture_output=True, text=True, check=False)
+    result = subprocess.run_git(["git", "stash", "pop"], capture_output=True, text=True, check=False, intent="ordinary")
     if result.returncode == 0:
         return
     if bp.conflict_resolver.has_conflicts() and bp.conflict_resolver.resolve():
@@ -95,7 +98,9 @@ def undo_last_commit(bp) -> bool:
     log("cyan", _("Undoing last commit..."))
     log("dim", "    git reset HEAD~1")
 
-    result = subprocess.run(["git", "reset", "HEAD~1"], capture_output=True, text=True, check=False)
+    result = subprocess.run_git(
+        ["git", "reset", "HEAD~1"], capture_output=True, text=True, check=False, intent="ordinary"
+    )
 
     if result.returncode != 0:
         error_msg = result.stderr.strip() or result.stdout.strip()
@@ -136,17 +141,14 @@ def create_branch_and_push(bp, source_branch: str, target_branch: str) -> bool:
         # Step 1: Switch to source branch if not already there
         if current_branch != source_branch:
             log("cyan", _("Switching to source branch: {0}").format(source_branch))
-            subprocess.run(["git", "checkout", source_branch], capture_output=True, check=True)
+            subprocess.run_git(["git", "checkout", source_branch], capture_output=True, check=True, intent="ordinary")
 
         # Step 2: Create the new branch from source
         log("cyan", _("Creating branch: {0}").format(target_branch))
         log("dim", f"    git checkout -b {target_branch}")
 
-        result = subprocess.run(
-            ["git", "checkout", "-b", target_branch],
-            capture_output=True,
-            text=True,
-            check=False,
+        result = subprocess.run_git(
+            ["git", "checkout", "-b", target_branch], capture_output=True, text=True, check=False, intent="ordinary"
         )
 
         if result.returncode != 0:
@@ -159,11 +161,12 @@ def create_branch_and_push(bp, source_branch: str, target_branch: str) -> bool:
         log("cyan", _("Pushing to remote..."))
         log("dim", f"    git push -u origin {target_branch}")
 
-        push_result = subprocess.run(
+        push_result = subprocess.run_git(
             ["git", "push", "-u", "origin", target_branch],
             capture_output=True,
             text=True,
             check=False,
+            intent="ordinary",
         )
 
         if push_result.returncode != 0:
@@ -197,8 +200,10 @@ def switch_branch(bp, target_branch: str, stash_first: bool = False, discard_fir
         stashed = _stash_working_tree(target_branch) if stash_first else False
         if discard_first:
             with authorize_destructive_git():
-                subprocess.run(["git", "checkout", "--", "."], check=True, capture_output=True)
-                subprocess.run(["git", "clean", "-fd"], check=True, capture_output=True)
+                subprocess.run_git(
+                    ["git", "checkout", "--", "."], check=True, capture_output=True, intent="destructive"
+                )
+                subprocess.run_git(["git", "clean", "-fd"], check=True, capture_output=True, intent="destructive")
         if not _checkout_branch(target_branch):
             if stashed:
                 _restore_working_tree(bp)

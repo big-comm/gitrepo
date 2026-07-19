@@ -420,13 +420,18 @@ class BuildPackage:
             return
 
         # Fetch the latest list of branches first
-        subprocess.run(["git", "fetch", "--all", "--prune"], check=True)
+        subprocess.run_git(["git", "fetch", "--all", "--prune"], check=True, intent="ordinary")
 
         # Get available branches
         try:
             # Get all branches
-            result = subprocess.run(
-                ["git", "branch", "-r"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True
+            result = subprocess.run_git(
+                ["git", "branch", "-r"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=True,
+                intent="ordinary",
             )
 
             branches = []

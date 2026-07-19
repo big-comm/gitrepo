@@ -48,8 +48,8 @@ class Operation:
     def _run_command(self, command):
         if self.destructive:
             with authorize_destructive_git():
-                return subprocess.run(command, capture_output=True, text=True, check=True)
-        return subprocess.run(command, capture_output=True, text=True, check=True)
+                return subprocess.run_git(command, capture_output=True, text=True, check=True, intent="destructive")
+        return subprocess.run_git(command, capture_output=True, text=True, check=True, intent="ordinary")
 
     def _handle_command_failure(self, logger, command, error):
         if self._is_merge_conflict(command, error):

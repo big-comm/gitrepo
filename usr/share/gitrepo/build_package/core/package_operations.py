@@ -92,21 +92,21 @@ def _merge_to_main(bp, source_branch):
     if not bp.menu.confirm(question, default_yes=False):
         return False
     try:
-        subprocess.run(["git", "fetch", "origin", "main"], check=True, capture_output=True)
-        subprocess.run(["git", "checkout", "main"], check=True)
-        subprocess.run(["git", "merge", "--ff-only", "origin/main"], check=True)
-        merge_result = subprocess.run(
-            ["git", "merge", source_branch, "--no-edit"], capture_output=True, text=True, check=False
+        subprocess.run_git(["git", "fetch", "origin", "main"], check=True, capture_output=True, intent="ordinary")
+        subprocess.run_git(["git", "checkout", "main"], check=True, intent="ordinary")
+        subprocess.run_git(["git", "merge", "--ff-only", "origin/main"], check=True, intent="ordinary")
+        merge_result = subprocess.run_git(
+            ["git", "merge", source_branch, "--no-edit"], capture_output=True, text=True, check=False, intent="ordinary"
         )
         if merge_result.returncode != 0:
-            subprocess.run(["git", "merge", "--abort"], capture_output=True, check=False)
+            subprocess.run_git(["git", "merge", "--abort"], capture_output=True, check=False, intent="ordinary")
             bp.logger.log(
                 "red",
                 _("Merge stopped because it requires conflict resolution. No history was rewritten."),
             )
             return False
 
-        subprocess.run(["git", "push", "origin", "main"], check=True)
+        subprocess.run_git(["git", "push", "origin", "main"], check=True, intent="ordinary")
 
         return True
 
