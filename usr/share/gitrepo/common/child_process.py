@@ -95,15 +95,24 @@ def is_destructive_git_command(command: object) -> bool:
         or (argument.startswith("-") and not argument.startswith("--") and "f" in argument[1:])
         for argument in arguments
     )
-    has_dry_run = "--dry-run" in options or any(
-        argument.startswith("-") and not argument.startswith("--") and "n" in argument[1:] for argument in arguments
+    clean_options = arguments[: arguments.index("--")] if "--" in arguments else arguments
+    clean_has_force = any(
+        argument == "-f"
+        or argument.startswith("--force")
+        or (argument.startswith("-") and not argument.startswith("--") and "f" in argument[1:])
+        for argument in clean_options
     )
-    has_interactive = "--interactive" in options or any(
-        argument.startswith("-") and not argument.startswith("--") and "i" in argument[1:] for argument in arguments
+    clean_has_dry_run = "--dry-run" in clean_options or any(
+        argument.startswith("-") and not argument.startswith("--") and "n" in argument[1:] for argument in clean_options
     )
-    clean_force_disabled = any(
-        configuration.casefold() == "clean.requireforce=false" for configuration in configurations
+    clean_has_interactive = "--interactive" in clean_options or any(
+        argument.startswith("-") and not argument.startswith("--") and "i" in argument[1:] for argument in clean_options
     )
+    clean_force_disabled = False
+    for configuration in configurations:
+        name, separator, value = configuration.partition("=")
+        if name.casefold() == "clean.requireforce":
+            clean_force_disabled = bool(separator) and value.casefold() in {"false", "no", "off", "0"}
     push_refspecs = _git_push_refspecs(arguments) if verb == "push" else []
     has_destructive_refspec = any(refspec.startswith(("+", ":")) for refspec in push_refspecs)
     checkout_operands = _git_operands(
@@ -113,7 +122,9 @@ def is_destructive_git_command(command: object) -> bool:
     return any(
         (
             verb == "reset" and "--hard" in options,
-            verb == "clean" and (has_force_flag or clean_force_disabled) and not (has_dry_run or has_interactive),
+            verb == "clean"
+            and (clean_has_force or clean_force_disabled)
+            and not (clean_has_dry_run or clean_has_interactive),
             verb == "branch" and bool(options.intersection({"-D", "--delete", "--force"})),
             verb == "push" and (has_force_flag or "--delete" in options or has_destructive_refspec),
             verb == "stash" and bool(options.intersection({"drop", "clear"})),
