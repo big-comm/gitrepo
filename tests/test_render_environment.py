@@ -79,6 +79,12 @@ def test_real_child_preserves_external_renderer(monkeypatch):
         ["git", "checkout", "--", "."],
         ["git", "branch", "-D", "old"],
         ["git", "push", "--force-with-lease", "origin", "main"],
+        ["/usr/bin/git", "-C", "/tmp/repository", "reset", "--hard", "HEAD"],
+        ["git", "-c", "core.hooksPath=/dev/null", "clean", "-fd"],
+        ["git", "--no-pager", "checkout", "--", "."],
+        ["git", "push", "origin", "+main"],
+        ["git", "push", "origin", ":old-branch"],
+        ["git", "push", "--force-with-lease=refs/heads/main", "origin", "main"],
     ],
 )
 def test_destructive_git_commands_require_explicit_authorization(monkeypatch, command):
@@ -95,6 +101,21 @@ def test_destructive_git_commands_require_explicit_authorization(monkeypatch, co
 
     with child_process.authorize_destructive_git():
         child_process.run(command)
+
+    assert calls[0][0] == command
+
+
+def test_safe_git_command_with_global_options_is_not_blocked(monkeypatch):
+    calls = []
+
+    def fake_run(command, **kwargs):
+        calls.append((command, kwargs))
+        return subprocess.CompletedProcess(command, 0)
+
+    monkeypatch.setattr(child_process._subprocess, "run", fake_run)
+
+    command = ["/usr/bin/git", "-C", "/tmp/repository", "status", "--short"]
+    child_process.run(command)
 
     assert calls[0][0] == command
 
