@@ -350,7 +350,7 @@ class BranchActionsMixin:
         from gitrepo.build_package.core.revert_operations import execute_revert_by_hash
 
         def revert_operation():
-            return execute_revert_by_hash(self.build_package, commit_hash, method)
+            return execute_revert_by_hash(self.build_package, commit_hash, method, confirmed=True)
 
         self.operation_runner.run_with_progress(
             revert_operation,

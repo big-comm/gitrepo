@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
+import os
+import posixpath
 import subprocess as _subprocess
 from contextlib import contextmanager
 from contextvars import ContextVar
 from collections.abc import Iterator, Sequence
-from pathlib import Path
 from typing import Any, Literal
 
 from .render_environment import child_process_environment
@@ -34,12 +35,13 @@ def _command_from(popenargs: tuple[Any, ...], kwargs: dict[str, Any]) -> object:
 
 
 def _is_git_argv(command: object) -> bool:
-    return (
-        isinstance(command, Sequence)
-        and not isinstance(command, (str, bytes))
-        and bool(command)
-        and Path(str(command[0])).name == "git"
-    )
+    if not isinstance(command, Sequence) or isinstance(command, (str, bytes)) or not command:
+        return False
+    try:
+        executable = os.fspath(command[0])
+    except TypeError:
+        return False
+    return posixpath.basename(executable) in {"git", b"git"}
 
 
 @contextmanager

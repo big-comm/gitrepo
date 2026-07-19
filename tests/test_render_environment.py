@@ -1,6 +1,8 @@
 # intentional-log: subprocess fixtures print JSON for the parent test to assert.
 import json
 import ast
+import os
+import posixpath
 import subprocess
 import sys
 from pathlib import Path
@@ -71,12 +73,13 @@ def test_real_child_preserves_external_renderer(monkeypatch):
     assert result.stdout.strip() == "gl"
 
 
-def test_generic_process_apis_reject_git_without_explicit_intent():
+@pytest.mark.parametrize("executable", ["git", "/usr/bin/git", b"git", b"/usr/bin/git"])
+def test_generic_process_apis_reject_git_without_explicit_intent(executable):
     with pytest.raises(child_process.GitIntentRequiredError):
-        child_process.run(["git", "status"])
+        child_process.run([executable, "status"])
 
     with pytest.raises(child_process.GitIntentRequiredError):
-        child_process.Popen(["/usr/bin/git", "status"])
+        child_process.Popen([executable, "status"])
 
 
 def test_run_git_ordinary_preserves_argv_and_sanitized_environment(monkeypatch):
@@ -96,6 +99,22 @@ def test_run_git_ordinary_preserves_argv_and_sanitized_environment(monkeypatch):
     )
 
     assert calls == [(command, {"env": {"KEEP": "yes"}})]
+
+
+def test_run_git_accepts_bytes_git_and_rejects_bytes_non_git(monkeypatch):
+    calls = []
+
+    def fake_run(command, **kwargs):
+        calls.append((command, kwargs))
+        return subprocess.CompletedProcess(command, 0)
+
+    monkeypatch.setattr(child_process._subprocess, "run", fake_run)
+
+    child_process.run_git([b"/usr/bin/git", b"status"], intent="ordinary")
+
+    assert calls[0][0] == [b"/usr/bin/git", b"status"]
+    with pytest.raises(child_process.GitIntentRequiredError, match="Git argv"):
+        child_process.run_git([b"/usr/bin/printf", b"safe"], intent="ordinary")
 
 
 def test_run_git_destructive_requires_authorization(monkeypatch):
@@ -125,36 +144,99 @@ def test_run_git_rejects_invalid_intent_and_non_git_argv():
         child_process.run_git(["printf", "not git"], intent="ordinary")
 
 
-def test_literal_git_call_sites_use_run_git_with_literal_intent():
+def _git_executable(command):
+    if not isinstance(command, (ast.List, ast.Tuple)) or not command.elts:
+        return False
+    executable = command.elts[0]
+    if not isinstance(executable, ast.Constant):
+        return False
+    try:
+        value = os.fspath(executable.value)
+    except TypeError:
+        return False
+    return posixpath.basename(value) in {"git", b"git"}
+
+
+def _git_boundary_violations(source: str) -> list[int]:
+    tree = ast.parse(source)
+    module_aliases = set()
+    function_aliases = {}
+    assignments = {}
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ImportFrom) and node.module == "gitrepo.common":
+            module_aliases.update(alias.asname or alias.name for alias in node.names if alias.name == "child_process")
+        elif isinstance(node, ast.Import) and any(alias.name == "gitrepo.common.child_process" for alias in node.names):
+            module_aliases.update(
+                alias.asname or alias.name for alias in node.names if alias.name == "gitrepo.common.child_process"
+            )
+        elif isinstance(node, ast.ImportFrom) and node.module == "gitrepo.common.child_process":
+            function_aliases.update(
+                (alias.asname or alias.name, alias.name)
+                for alias in node.names
+                if alias.name in {"run", "Popen", "run_git"}
+            )
+        elif isinstance(node, ast.Assign) and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name):
+            assignments[node.targets[0].id] = node.value
+
+    violations = []
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+        if (
+            isinstance(node.func, ast.Attribute)
+            and isinstance(node.func.value, ast.Name)
+            and node.func.value.id in module_aliases
+        ):
+            function_name = node.func.attr
+        elif isinstance(node.func, ast.Name) and node.func.id in function_aliases:
+            function_name = function_aliases[node.func.id]
+        else:
+            continue
+        command = (
+            node.args[0]
+            if node.args
+            else next((keyword.value for keyword in node.keywords if keyword.arg == "args"), None)
+        )
+        seen = set()
+        while isinstance(command, ast.Name) and command.id in assignments:
+            if command.id in seen:
+                break
+            seen.add(command.id)
+            command = assignments[command.id]
+        if function_name in {"run", "Popen"} and _git_executable(command):
+            violations.append(node.lineno)
+        if function_name == "run_git":
+            intent = next((keyword.value for keyword in node.keywords if keyword.arg == "intent"), None)
+            if not isinstance(intent, ast.Constant) or intent.value not in {"ordinary", "destructive"}:
+                violations.append(node.lineno)
+    return violations
+
+
+def test_git_boundary_audit_covers_aliases_keyword_args_and_variables():
+    unsafe = """
+from gitrepo.common import child_process as process
+from gitrepo.common.child_process import Popen as launch
+command = ["git", "status"]
+process.run(command)
+launch(args=(b"/usr/bin/git", b"status"))
+"""
+    safe = """
+from gitrepo.common import child_process as process
+command = ["git", "status"]
+process.run_git(args=command, intent="ordinary")
+process.run(args=["printf", "safe"])
+"""
+
+    assert _git_boundary_violations(unsafe) == [5, 6]
+    assert _git_boundary_violations(safe) == []
+
+
+def test_git_call_sites_use_explicit_intent_without_generic_bypass():
     share = Path(__file__).resolve().parents[1] / "usr" / "share"
     violations = []
     for product in (share / "gitrepo/build_package", share / "gitrepo/build_iso"):
         for path in product.rglob("*.py"):
-            tree = ast.parse(path.read_text(encoding="utf-8"))
-            for node in ast.walk(tree):
-                if not isinstance(node, ast.Call) or not node.args:
-                    continue
-                command = node.args[0]
-                if not isinstance(command, (ast.List, ast.Tuple)) or not command.elts:
-                    continue
-                function = node.func
-                if not (
-                    isinstance(function, ast.Attribute)
-                    and isinstance(function.value, ast.Name)
-                    and function.value.id == "subprocess"
-                ):
-                    continue
-                executable = command.elts[0]
-                if not isinstance(executable, ast.Constant) or Path(str(executable.value)).name != "git":
-                    continue
-                function_name = function.attr
-                intent = next((keyword.value for keyword in node.keywords if keyword.arg == "intent"), None)
-                if (
-                    function_name != "run_git"
-                    or not isinstance(intent, ast.Constant)
-                    or intent.value not in {"ordinary", "destructive"}
-                ):
-                    violations.append(f"{path}:{node.lineno}")
+            violations.extend(f"{path}:{line}" for line in _git_boundary_violations(path.read_text(encoding="utf-8")))
 
     assert violations == []
 
