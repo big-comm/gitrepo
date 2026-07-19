@@ -888,30 +888,27 @@ class ConflictDialog(Adw.Window):
                 ours_file = f"{abs_path}.ours"
                 theirs_file = f"{abs_path}.theirs"
 
-                # Copy current conflicted file as base
-                import shutil
-
-                shutil.copy(abs_path, ours_file)
-                shutil.copy(abs_path, theirs_file)
-
-                # Checkout each version to respective file
                 with authorize_destructive_git():
                     subprocess.run_git(
-                        ["git", "checkout", "--ours", "--", ours_file],
-                        check=False,
+                        ["git", "checkout", "--ours", "--", filepath],
+                        check=True,
                         capture_output=True,
                         cwd=self.repo_root,
                         intent="destructive",
                     )
-                    subprocess.run_git(
-                        ["git", "checkout", "--theirs", "--", theirs_file],
-                        check=False,
-                        capture_output=True,
-                        cwd=self.repo_root,
-                        intent="destructive",
-                    )
+                shutil.copy(abs_path, ours_file)
 
-                    # Keep ours for the original file
+                with authorize_destructive_git():
+                    subprocess.run_git(
+                        ["git", "checkout", "--theirs", "--", filepath],
+                        check=True,
+                        capture_output=True,
+                        cwd=self.repo_root,
+                        intent="destructive",
+                    )
+                shutil.copy(abs_path, theirs_file)
+
+                with authorize_destructive_git():
                     subprocess.run_git(
                         ["git", "checkout", "--ours", "--", filepath],
                         check=True,
