@@ -37,8 +37,8 @@ include = [
     "usr/share/gitrepo/build_iso/local_config.py",
 ]
 extraPaths = ["usr/share"]
-# Arch system modules are runtime-smoked and covered by strict Mypy; do not add a version-specific site-packages path.
-reportMissingImports = false
+# PyGObject modules exist at runtime without importable Python source; the import smoke verifies availability.
+reportMissingModuleSource = false
 
 [tool.pytest.ini_options]
 filterwarnings = [
