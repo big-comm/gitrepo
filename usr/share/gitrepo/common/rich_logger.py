@@ -14,6 +14,7 @@ from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
 
+from .diagnostic_redaction import redact_diagnostic
 from .translation import _
 
 
@@ -50,11 +51,16 @@ class RichLogger:
             "black": "black",
             "bold": "bold",
         }
-        self.console.print(message, style=color_map.get(style, "white"))
+        safe_message = redact_diagnostic(message)
+        self.console.print(
+            safe_message,
+            style=color_map.get(style, "white"),
+            markup=safe_message == message,
+        )
         if self.log_file:
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             with self.log_file.open("a", encoding="utf-8") as stream:
-                stream.write(f"[{timestamp}] {message}\n")
+                stream.write(f"[{timestamp}] {safe_message}\n")
 
     def die(self, style: str, message: str, exit_code: int = 1) -> None:
         self.log(style, f"{_('ERROR')}: {message}")
