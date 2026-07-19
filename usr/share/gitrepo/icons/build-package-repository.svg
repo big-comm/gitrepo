@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="blue" x1="8" y1="7" x2="57" y2="59" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#86CEFF"/><stop offset="0.48" stop-color="#3584E4"/><stop offset="1" stop-color="#2549B8"/>
+    </linearGradient>
+    <linearGradient id="violet" x1="10" y1="8" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#C1AEFF"/><stop offset="0.52" stop-color="#7D5BFF"/><stop offset="1" stop-color="#5631C2"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="9" y1="8" x2="56" y2="57" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7DEBFF"/><stop offset="0.52" stop-color="#21C8F3"/><stop offset="1" stop-color="#147FCF"/>
+    </linearGradient>
+    <linearGradient id="green" x1="9" y1="8" x2="56" y2="57" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#79F2B2"/><stop offset="0.52" stop-color="#20B978"/><stop offset="1" stop-color="#12865A"/>
+    </linearGradient>
+    <linearGradient id="amber" x1="9" y1="8" x2="56" y2="57" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFE49A"/><stop offset="0.52" stop-color="#F6B73C"/><stop offset="1" stop-color="#D68116"/>
+    </linearGradient>
+    <linearGradient id="rose" x1="9" y1="8" x2="56" y2="57" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FF9BC7"/><stop offset="0.52" stop-color="#E85D93"/><stop offset="1" stop-color="#B83268"/>
+    </linearGradient>
+    <linearGradient id="steel" x1="10" y1="8" x2="54" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/><stop offset="0.56" stop-color="#EDF2FC"/><stop offset="1" stop-color="#C7D1E6"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="12" y1="10" x2="51" y2="55" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.9"/><stop offset="0.45" stop-color="#FFFFFF" stop-opacity="0.38"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0.06"/>
+    </linearGradient>
+    <radialGradient id="shine" cx="0.25" cy="0.16" r="0.78">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.95"/><stop offset="0.42" stop-color="#FFFFFF" stop-opacity="0.28"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="-35%" y="-35%" width="180%" height="195%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"/>
+      <feOffset in="blur" dy="2" result="offset"/>
+      <feFlood flood-color="#17213B" flood-opacity="0.23" result="color"/>
+      <feComposite in="color" in2="offset" operator="in" result="shadowLayer"/>
+      <feMerge><feMergeNode in="shadowLayer"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+  </defs>
+  <g filter="url(#shadow)">
+    <path d="M8 21a7 7 0 0 1 7-7h11l4 5h19a7 7 0 0 1 7 7v23a7 7 0 0 1-7 7H15a7 7 0 0 1-7-7V21Z" fill="url(#steel)" stroke="#C3CEE1" stroke-width="1.5"/>
+    <path d="M8 28h48v21a7 7 0 0 1-7 7H15a7 7 0 0 1-7-7V28Z" fill="url(#blue)"/>
+    <path d="M22 35v10c0 4 3 7 7 7h10" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+    <path d="M22 40h10c4 0 7-3 7-7" stroke="#D8E7FF" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="22" cy="34" r="4.5" fill="url(#cyan)" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="40" cy="32" r="4.5" fill="url(#violet)" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="41" cy="52" r="4.5" fill="url(#green)" stroke="#fff" stroke-width="1.5"/>
+  </g>
+</svg>
