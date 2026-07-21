@@ -3,9 +3,23 @@
 pkgname=gitrepo
 pkgdesc="A comprehensive tool for building and managing packages in BigCommunity repositories and AUR, with Git workflow automation and CI/CD integration"
 # Uncomment and edit the following lines as needed
-depends=('python' 'python-rich' 'git' 'curl')
-#makedepends=('')
-#optdepends=('')
+depends=(
+    'curl'
+    'git'
+    'libadwaita'
+    'python'
+    'python-cairo'
+    'python-gobject'
+    'python-requests'
+    'python-rich'
+    'xdg-utils'
+)
+checkdepends=('python-pytest' 'ruff')
+optdepends=(
+    'docker: build ISO images with Docker'
+    'libnotify: show desktop notifications'
+    'podman: build ISO images with Podman'
+)
 #conflicts=('')
 #provides=('')
 #replaces=('')
@@ -38,8 +52,9 @@ build() {
 
 check() {
     cd "${srcdir}/${pkgname}"
-    # Add check/test steps here, if needed
-    # For example: make check
+    PYTHONDONTWRITEBYTECODE=1 pytest -q -p no:cacheprovider
+    RUFF_CACHE_DIR="${srcdir}/ruff-cache" ruff check usr/share/build-package usr/share/build-iso tests
+    PYTHONPYCACHEPREFIX="${srcdir}/pycache" python -m compileall -q usr/share/build-package usr/share/build-iso
 }
 
 package() {

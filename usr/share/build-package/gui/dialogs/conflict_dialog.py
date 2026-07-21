@@ -8,10 +8,23 @@ import gi
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 
-from gi.repository import Gtk, Adw, GObject
+from gi.repository import Gtk, Adw, GObject, GLib
 from core.translation_utils import _
 import subprocess
 import os
+
+def _display_ref_name(reference):
+    """Return a concise branch name for user-facing conflict labels."""
+    if not reference:
+        return None
+
+    name = str(reference)
+    for prefix in ("refs/remotes/", "refs/heads/"):
+        if name.startswith(prefix):
+            name = name[len(prefix):]
+            break
+    return name
+
 
 class ConflictFileRow(Adw.ActionRow):
     """Row for a single conflicted file with toggle selection"""
@@ -25,7 +38,7 @@ class ConflictFileRow(Adw.ActionRow):
         "both": "conflict-both",
     }
 
-    def __init__(self, filepath: str):
+    def __init__(self, filepath: str, current_side: str, incoming_side: str):
         super().__init__()
 
         self.filepath = filepath
@@ -39,20 +52,26 @@ class ConflictFileRow(Adw.ActionRow):
         # Action buttons
         button_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
 
-        self.ours_button = Gtk.Button(label=_("Keep Local"))
-        self.ours_button.set_tooltip_text(_("Keep local version"))
+        self.ours_button = Gtk.Button(label=_("Keep {0}").format(current_side))
+        self.ours_button.set_tooltip_text(
+            _("Keep the version from {0}").format(current_side)
+        )
         self.ours_button.add_css_class("flat")
         self.ours_button.connect("clicked", self._on_action_clicked, "ours")
         button_box.append(self.ours_button)
 
-        self.theirs_button = Gtk.Button(label=_("Accept Remote"))
-        self.theirs_button.set_tooltip_text(_("Accept remote version"))
+        self.theirs_button = Gtk.Button(label=_("Use {0}").format(incoming_side))
+        self.theirs_button.set_tooltip_text(
+            _("Use the version from {0}").format(incoming_side)
+        )
         self.theirs_button.add_css_class("flat")
         self.theirs_button.connect("clicked", self._on_action_clicked, "theirs")
         button_box.append(self.theirs_button)
 
-        self.both_button = Gtk.Button(label=_("Keep Both"))
-        self.both_button.set_tooltip_text(_("Keep both versions"))
+        self.both_button = Gtk.Button(label=_("Combine Both"))
+        self.both_button.set_tooltip_text(
+            _("Combine both versions and review the result")
+        )
         self.both_button.add_css_class("flat")
         self.both_button.connect("clicked", self._on_action_clicked, "both")
         button_box.append(self.both_button)
@@ -150,7 +169,14 @@ class ConflictDialog(Adw.Window):
         'conflicts-resolved': (GObject.SignalFlags.RUN_FIRST, None, (bool,)),  # success
     }
 
-    def __init__(self, parent, conflict_files, repo_root=None):
+    def __init__(
+        self,
+        parent,
+        conflict_files,
+        repo_root=None,
+        current_branch=None,
+        incoming_branch=None,
+    ):
         super().__init__(
             transient_for=parent,
             modal=True
@@ -160,6 +186,12 @@ class ConflictDialog(Adw.Window):
         self.resolutions = {}  # filepath -> action
         self.resolved_count = 0
         self.repo_root = repo_root  # Git repo root for subprocess cwd
+        self.current_side = (
+            _display_ref_name(current_branch) or _("Current Version")
+        )
+        self.incoming_side = (
+            _display_ref_name(incoming_branch) or _("Incoming Version")
+        )
 
         self.set_title(_("Resolve Conflicts"))
         self.set_default_size(800, 600)
@@ -264,6 +296,17 @@ class ConflictDialog(Adw.Window):
         self.status_label.set_margin_bottom(8)
         content_box.append(self.status_label)
 
+        sides_label = Gtk.Label(
+            label=_("Current: {0} • Incoming: {1}").format(
+                self.current_side,
+                self.incoming_side,
+            )
+        )
+        sides_label.add_css_class("dim-label")
+        sides_label.set_halign(Gtk.Align.CENTER)
+        sides_label.set_margin_bottom(8)
+        content_box.append(sides_label)
+
         # Strategy buttons group
         strategy_group = Adw.PreferencesGroup()
         strategy_group.set_title(_("Quick Actions"))
@@ -276,13 +319,17 @@ class ConflictDialog(Adw.Window):
 
         # Auto-ours button
         auto_ours_button = Gtk.Button()
-        auto_ours_button.set_label(_("Keep All Local"))
+        auto_ours_button.set_label(
+            _("Keep All from {0}").format(self.current_side)
+        )
         auto_ours_button.connect('clicked', self.on_auto_ours_clicked)
         strategy_box.append(auto_ours_button)
 
         # Auto-theirs button
         auto_theirs_button = Gtk.Button()
-        auto_theirs_button.set_label(_("Accept All Remote"))
+        auto_theirs_button.set_label(
+            _("Use All from {0}").format(self.incoming_side)
+        )
         auto_theirs_button.connect('clicked', self.on_auto_theirs_clicked)
         strategy_box.append(auto_theirs_button)
 
@@ -307,7 +354,11 @@ class ConflictDialog(Adw.Window):
 
         # Add conflict rows
         for filepath in self.conflict_files:
-            row = ConflictFileRow(filepath)
+            row = ConflictFileRow(
+                filepath,
+                self.current_side,
+                self.incoming_side,
+            )
             row.connect('action-selected', self.on_file_action_selected)
             row.connect("action-deselected", self.on_file_action_deselected)
             row.connect('show-diff', self.on_show_diff)
@@ -467,8 +518,14 @@ class ConflictDialog(Adw.Window):
                 theirs_content = theirs_result.stdout.decode('latin-1', errors='replace') if theirs_result.stdout else ""
             
         except Exception as e:
-            ours_content = _("Error reading local version: {0}").format(str(e))
-            theirs_content = _("Error reading remote version: {0}").format(str(e))
+            ours_content = _("Error reading version from {0}: {1}").format(
+                self.current_side,
+                str(e),
+            )
+            theirs_content = _("Error reading version from {0}: {1}").format(
+                self.incoming_side,
+                str(e),
+            )
         
         # Create diff dialog - larger and maximizable
         dialog = Adw.Window(
@@ -504,7 +561,12 @@ class ConflictDialog(Adw.Window):
         info_box.set_margin_bottom(8)
         
         local_label = Gtk.Label()
-        local_label.set_markup(_("<span foreground='#3584e4' weight='bold'>◀ LOCAL (Your Version)</span>"))
+        current_text = _("Current: {0}").format(self.current_side)
+        local_label.set_markup(
+            "<span foreground='#3584e4' weight='bold'>◀ {0}</span>".format(
+                GLib.markup_escape_text(current_text)
+            )
+        )
         info_box.append(local_label)
         
         vs_label = Gtk.Label()
@@ -512,7 +574,12 @@ class ConflictDialog(Adw.Window):
         info_box.append(vs_label)
         
         remote_label = Gtk.Label()
-        remote_label.set_markup(_("<span foreground='#2ec27e' weight='bold'>REMOTE (Server) ▶</span>"))
+        incoming_text = _("Incoming: {0}").format(self.incoming_side)
+        remote_label.set_markup(
+            "<span foreground='#2ec27e' weight='bold'>{0} ▶</span>".format(
+                GLib.markup_escape_text(incoming_text)
+            )
+        )
         info_box.append(remote_label)
         
         main_box.append(info_box)
@@ -529,7 +596,12 @@ class ConflictDialog(Adw.Window):
         left_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         
         left_header = Gtk.Label()
-        left_header.set_markup(_("<span foreground='#3584e4' weight='bold'>📁 LOCAL VERSION</span>"))
+        left_text_label = _("Version from {0}").format(self.current_side)
+        left_header.set_markup(
+            "<span foreground='#3584e4' weight='bold'>📁 {0}</span>".format(
+                GLib.markup_escape_text(left_text_label)
+            )
+        )
         left_header.set_margin_top(8)
         left_header.set_margin_bottom(4)
         left_box.append(left_header)
@@ -561,7 +633,12 @@ class ConflictDialog(Adw.Window):
         right_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         
         right_header = Gtk.Label()
-        right_header.set_markup(_("<span foreground='#2ec27e' weight='bold'>☁️ REMOTE VERSION</span>"))
+        right_text_label = _("Version from {0}").format(self.incoming_side)
+        right_header.set_markup(
+            "<span foreground='#2ec27e' weight='bold'>☁️ {0}</span>".format(
+                GLib.markup_escape_text(right_text_label)
+            )
+        )
         right_header.set_margin_top(8)
         right_header.set_margin_bottom(4)
         right_box.append(right_header)
@@ -615,9 +692,11 @@ class ConflictDialog(Adw.Window):
         
         # Use Local button
         use_local_btn = Gtk.Button()
-        use_local_btn.set_label(_("✓ Use LOCAL Version"))
+        use_local_btn.set_label(_("✓ Use {0}").format(self.current_side))
         use_local_btn.add_css_class("suggested-action")
-        use_local_btn.set_tooltip_text(_("Keep your local changes"))
+        use_local_btn.set_tooltip_text(
+            _("Use the version from {0}").format(self.current_side)
+        )
         
         def on_use_local(btn):
             self._apply_choice_from_diff(filepath, 'ours')
@@ -634,9 +713,11 @@ class ConflictDialog(Adw.Window):
         
         # Use Remote button
         use_remote_btn = Gtk.Button()
-        use_remote_btn.set_label(_("✓ Use REMOTE Version"))
+        use_remote_btn.set_label(_("✓ Use {0}").format(self.incoming_side))
         use_remote_btn.add_css_class("accent")
-        use_remote_btn.set_tooltip_text(_("Accept the remote server version"))
+        use_remote_btn.set_tooltip_text(
+            _("Use the version from {0}").format(self.incoming_side)
+        )
         
         def on_use_remote(btn):
             self._apply_choice_from_diff(filepath, 'theirs')
@@ -733,7 +814,9 @@ class ConflictDialog(Adw.Window):
 
         self._update_status()
         self.status_label.set_markup(
-            '<span alpha="70%">' + _("All conflicts resolved (kept local versions)") + "</span>"
+            '<span alpha="70%">'
+            + _("All conflicts resolved using {0}").format(self.current_side)
+            + "</span>"
         )
 
     def on_auto_theirs_clicked(self, button):
@@ -745,7 +828,9 @@ class ConflictDialog(Adw.Window):
 
         self._update_status()
         self.status_label.set_markup(
-            '<span alpha="70%">' + _("All conflicts resolved (accepted remote versions)") + "</span>"
+            '<span alpha="70%">'
+            + _("All conflicts resolved using {0}").format(self.incoming_side)
+            + "</span>"
         )
 
     def on_cancel_clicked(self, button):

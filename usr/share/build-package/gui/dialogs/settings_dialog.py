@@ -77,10 +77,10 @@ class SettingsDialog(Adw.PreferencesWindow):
         self.strategy_row.set_subtitle(_("Select conflict resolution strategy"))
 
         strategies_list = Gtk.StringList()
-        strategies_list.append(_("Interactive - Ask for each file"))
-        strategies_list.append(_("Auto-ours - Always keep local changes"))
-        strategies_list.append(_("Auto-theirs - Always accept remote changes"))
-        strategies_list.append(_("Manual - Stop and let me resolve"))
+        strategies_list.append(_("Interactive – Ask for each file"))
+        strategies_list.append(_("Automatic – Keep current branch version"))
+        strategies_list.append(_("Automatic – Use incoming branch version"))
+        strategies_list.append(_("Manual – Stop and let me resolve"))
         self.strategy_row.set_model(strategies_list)
 
         self.strategy_row.connect('notify::selected', self.on_strategy_changed)

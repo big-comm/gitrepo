@@ -525,6 +525,8 @@ def switch_branch(
     import subprocess
 
     stashed = False
+    stash_ref = "stash@{0}"
+    original_branch = GitUtils.get_current_branch()
 
     def _ok(msg: str, t: str = "toast") -> dict:
         return {"success": True, "message": msg, "message_type": t}
@@ -535,7 +537,7 @@ def switch_branch(
     try:
         # Step 1: Handle local changes
         if discard_first:
-            subprocess.run(["git", "checkout", "--", "."], check=True, capture_output=True)
+            subprocess.run(["git", "reset", "--hard", "HEAD"], check=True, capture_output=True)
             subprocess.run(["git", "clean", "-fd"], check=True, capture_output=True)
         elif stash_first:
             stash_result = subprocess.run(
@@ -577,33 +579,61 @@ def switch_branch(
         checkout_result = subprocess.run(cmd, capture_output=True, text=True, check=False)
         if checkout_result.returncode != 0:
             if stashed:
-                subprocess.run(["git", "stash", "pop"], capture_output=True, check=False)
+                restore_result = subprocess.run(
+                    ["git", "stash", "apply", "--index", stash_ref],
+                    capture_output=True,
+                    check=False,
+                )
+                if restore_result.returncode == 0:
+                    subprocess.run(
+                        ["git", "stash", "drop", stash_ref],
+                        capture_output=True,
+                        check=False,
+                    )
             return _err(checkout_result.stderr.strip())
 
-        # Step 3: Restore stash
+        # Step 3: Restore the exact stash created by this operation.
         if stashed:
-            pop_result = subprocess.run(
-                ["git", "stash", "pop"], capture_output=True, text=True, check=False
+            apply_result = subprocess.run(
+                ["git", "stash", "apply", "--index", stash_ref],
+                capture_output=True,
+                text=True,
+                check=False,
             )
-            if pop_result.returncode != 0:
-                conflict = "CONFLICT" in pop_result.stdout or "CONFLICT" in pop_result.stderr
-                if conflict:
-                    return _ok(
-                        _("Switched to {0}. Conflicts detected - resolve manually.").format(
-                            target_branch
-                        ),
-                        "info",
-                    )
-                return _ok(
-                    _("Switched to {0}. Check 'git stash list' for your changes.").format(
-                        target_branch
-                    ),
-                    "info",
+            if apply_result.returncode != 0:
+                # A failed stash apply must not leave the target branch conflicted.
+                subprocess.run(["git", "reset", "--hard", "HEAD"], capture_output=True, check=False)
+                subprocess.run(["git", "clean", "-fd"], capture_output=True, check=False)
+                subprocess.run(["git", "checkout", original_branch], capture_output=True, check=False)
+                restore_result = subprocess.run(
+                    ["git", "stash", "apply", "--index", stash_ref],
+                    capture_output=True,
+                    text=True,
+                    check=False,
                 )
+                if restore_result.returncode == 0:
+                    subprocess.run(
+                        ["git", "stash", "drop", stash_ref],
+                        capture_output=True,
+                        check=False,
+                    )
+                    return _err(
+                        _("Changes could not be moved to {0}. Stayed on {1}; nothing was lost.").format(
+                            target_branch, original_branch
+                        )
+                    )
+                return _err(
+                    _("Could not restore changes automatically. They remain in {0}.").format(
+                        stash_ref
+                    )
+                )
+
+            subprocess.run(
+                ["git", "stash", "drop", stash_ref], capture_output=True, check=False
+            )
             return _ok(_("Switched to {0} with your changes restored.").format(target_branch))
 
         return _ok(_("Switched to branch: {0}").format(target_branch))
 
     except subprocess.CalledProcessError as e:
         return _err(_("Error switching branch: {0}").format(str(e)))
-

@@ -14,6 +14,44 @@ from .operation_preview import OperationPlan, QuickPlan
 from .translation_utils import _
 
 
+def _stash_head():
+    """Return the current stash object id, if any."""
+    result = subprocess.run(
+        ["git", "rev-parse", "--verify", "--quiet", "refs/stash"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    return result.stdout.strip() if result.returncode == 0 else None
+
+
+def _abort_integration():
+    """Abort a merge or rebase started by the pull workflow."""
+    subprocess.run(["git", "rebase", "--abort"], capture_output=True, check=False)
+    subprocess.run(["git", "merge", "--abort"], capture_output=True, check=False)
+
+
+def _restore_stash_after_abort(bp, stash_ref):
+    """Restore an operation stash without leaving conflicts behind."""
+    if not stash_ref:
+        return True
+
+    result = subprocess.run(
+        ["git", "stash", "apply", "--index", stash_ref],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode == 0:
+        subprocess.run(["git", "stash", "drop", stash_ref], capture_output=True, check=False)
+        return True
+
+    subprocess.run(["git", "reset", "--hard", "HEAD"], capture_output=True, check=False)
+    subprocess.run(["git", "clean", "-fd"], capture_output=True, check=False)
+    bp.logger.log("yellow", _("Local changes remain safely stored in {0}.").format(stash_ref))
+    return False
+
+
 def pull_latest_v2(build_package_instance):
     """
     Improved version of pull_latest with intelligent automation
@@ -165,59 +203,10 @@ def pull_latest_v2(build_package_instance):
 
     # === PHASE 2: ENSURE USER'S BRANCH ===
     if current_branch != expected_branch:
+        should_switch = mode_config["auto_switch_branches"]
+
         if mode_config["auto_switch_branches"]:
             bp.logger.log("cyan", _("Auto-switching to your branch..."))
-
-            if has_changes:
-                plan.add(
-                    _("Stash local changes"),
-                    ["git", "stash", "push", "-u", "-m", f"auto-stash-pull-to-{expected_branch}"],
-                    destructive=False
-                )
-
-            # Check if branch exists locally before switching
-            branch_check = subprocess.run(
-                ["git", "rev-parse", "--verify", expected_branch],
-                capture_output=True,
-                check=False
-            )
-
-            if branch_check.returncode != 0:
-                # Branch doesn't exist locally, check if it exists on remote
-                remote_check = subprocess.run(
-                    ["git", "rev-parse", "--verify", f"origin/{expected_branch}"],
-                    capture_output=True,
-                    check=False
-                )
-
-                if remote_check.returncode == 0:
-                    # Branch exists on remote, create local tracking branch
-                    plan.add(
-                        _("Create local branch {0} from remote").format(expected_branch),
-                        ["git", "checkout", "-b", expected_branch, f"origin/{expected_branch}"],
-                        destructive=False
-                    )
-                else:
-                    # Branch doesn't exist anywhere, create new branch
-                    plan.add(
-                        _("Create new branch {0}").format(expected_branch),
-                        ["git", "checkout", "-b", expected_branch],
-                        destructive=False
-                    )
-            else:
-                # Branch exists locally, just checkout
-                plan.add(
-                    _("Switch to your branch: {0}").format(expected_branch),
-                    ["git", "checkout", expected_branch],
-                    destructive=False
-                )
-
-            if has_changes:
-                plan.add(
-                    _("Restore local changes"),
-                    ["git", "stash", "pop"],
-                    destructive=False
-                )
         else:
             # Ask user
             choice = bp.menu.show_menu(
@@ -236,79 +225,22 @@ def pull_latest_v2(build_package_instance):
                 bp.logger.log("yellow", _("Operation cancelled"))
                 return False
 
-            if choice[0] == 0:  # Switch
-                stashed = False
-                if has_changes:
-                    try:
-                        stash_result = subprocess.run(
-                            ["git", "stash", "push", "-u", "-m", "stash-before-pull"],
-                            capture_output=True,
-                            text=True,
-                            check=False,
-                        )
-                        if stash_result.returncode == 0:
-                            stashed = True
-                            bp.logger.log("cyan", _("Local changes stashed"))
-                        else:
-                            # git stash can fail if there's nothing to stash or other issues
-                            # Check if it's just "nothing to stash"
-                            stderr = stash_result.stderr.lower() if stash_result.stderr else ""
-                            if "no local changes" in stderr or "nothing to" in stderr.lower():
-                                bp.logger.log("dim", _("No changes to stash"))
-                            else:
-                                bp.logger.log("yellow", _("⚠ Could not stash changes: {0}").format(
-                                    stash_result.stderr.strip() if stash_result.stderr else _("unknown error")
-                                ))
-                    except Exception as e:
-                        bp.logger.log("yellow", _("⚠ Could not stash changes: {0}").format(str(e)))
+            should_switch = choice[0] == 0
 
-                # Check if branch exists locally
-                branch_check = subprocess.run(
-                    ["git", "rev-parse", "--verify", expected_branch],
-                    capture_output=True,
-                    check=False
-                )
+        if should_switch:
+            from .branch_handler import switch_branch
 
-                if branch_check.returncode != 0:
-                    # Branch doesn't exist locally, check if it exists on remote
-                    remote_check = subprocess.run(
-                        ["git", "rev-parse", "--verify", f"origin/{expected_branch}"],
-                        capture_output=True,
-                        check=False
-                    )
+            switch_result = switch_branch(
+                bp,
+                expected_branch,
+                stash_first=has_changes,
+            )
+            if not switch_result["success"]:
+                bp.logger.log("red", switch_result["message"])
+                return False
 
-                    if remote_check.returncode == 0:
-                        # Branch exists on remote, create local tracking branch
-                        bp.logger.log("cyan", _("Creating local branch {0} from remote").format(expected_branch))
-                        subprocess.run(
-                            ["git", "checkout", "-b", expected_branch, f"origin/{expected_branch}"],
-                            check=True
-                        )
-                    else:
-                        # Branch doesn't exist anywhere, create new branch
-                        bp.logger.log("cyan", _("Creating new branch {0}").format(expected_branch))
-                        subprocess.run(
-                            ["git", "checkout", "-b", expected_branch],
-                            check=True
-                        )
-                else:
-                    # Branch exists locally, just checkout
-                    subprocess.run(["git", "checkout", expected_branch], check=True)
-
-                current_branch = expected_branch
-
-                if stashed:
-                    pop_result = subprocess.run(
-                        ["git", "stash", "pop"],
-                        capture_output=True,
-                        check=False
-                    )
-
-                    if pop_result.returncode != 0:
-                        if bp.conflict_resolver.has_conflicts():
-                            bp.logger.log("yellow", _("⚠️  Conflicts while restoring changes"))
-                            if not bp.conflict_resolver.resolve():
-                                return False
+            current_branch = expected_branch
+            has_changes = GitUtils.has_changes()
 
     # === PHASE 2.5: HANDLE LOCAL CHANGES ===
     # Check if we have uncommitted changes that would block the pull
@@ -516,7 +448,10 @@ def pull_latest_v2(build_package_instance):
 
     # Execute directly without confirmation dialog since user already confirmed the merge
     # This avoids the double confirmation issue
+    stash_before = _stash_head()
     result = plan.execute()
+    stash_after = _stash_head()
+    operation_stash = "stash@{0}" if stash_needed and stash_after != stash_before else None
 
     # Handle special "conflict" status - conflicts occurred during merge
     if result == "conflict":
@@ -534,11 +469,10 @@ def pull_latest_v2(build_package_instance):
         
         # Use enhanced conflict resolver with branch information
         if not bp.conflict_resolver.resolve(current_branch, most_recent_branch):
+            _abort_integration()
+            _restore_stash_after_abort(bp, operation_stash)
             bp.logger.log("red", _("✗ Failed to resolve conflicts"))
-            bp.logger.log("yellow", _("The merge is still incomplete. Resolve conflicts manually:"))
-            bp.logger.log("white", _("  1. Edit conflicted files and remove conflict markers"))
-            bp.logger.log("white", _("  2. Run: git add <file>"))
-            bp.logger.log("white", _("  3. Run: git commit"))
+            bp.logger.log("yellow", _("Operation cancelled. The repository was restored."))
             bp.logger.log("yellow", "")
             if not is_gui_mode:
                 input(_("Press Enter to return to main menu..."))
@@ -571,6 +505,8 @@ def pull_latest_v2(build_package_instance):
             bp.logger.log("yellow", _("⚠ Note: You may need to complete the merge manually"))
     
     elif not result:
+        _abort_integration()
+        _restore_stash_after_abort(bp, operation_stash)
         bp.logger.log("red", _("✗ Pull operation failed"))
         bp.logger.log("yellow", "")
         if not is_gui_mode:
@@ -583,6 +519,8 @@ def pull_latest_v2(build_package_instance):
         # Use enhanced conflict resolver with branch information
         # This will show a detailed comparison and intelligent resolution
         if not bp.conflict_resolver.resolve(current_branch, most_recent_branch):
+            _abort_integration()
+            _restore_stash_after_abort(bp, operation_stash)
             bp.logger.log("red", _("✗ Failed to resolve conflicts"))
             bp.logger.log("yellow", "")
             if not is_gui_mode:
@@ -595,8 +533,12 @@ def pull_latest_v2(build_package_instance):
     if stash_needed:
         bp.logger.log("cyan", _("Restoring your local changes..."))
 
+        if not operation_stash:
+            bp.logger.log("red", _("Could not identify the temporary stash."))
+            return False
+
         pop_result = subprocess.run(
-            ["git", "stash", "pop"],
+            ["git", "stash", "apply", "--index", operation_stash],
             capture_output=True,
             text=True,
             check=False
@@ -623,14 +565,28 @@ def pull_latest_v2(build_package_instance):
                 # Use enhanced resolver - "current" is the pulled code, "incoming" is stashed changes
                 # Note: After stash pop, "ours" is the pulled code, "theirs" is the stashed changes
                 if not bp.conflict_resolver.resolve(current_branch, "stashed-changes"):
+                    subprocess.run(
+                        ["git", "reset", "--hard", "HEAD"],
+                        capture_output=True,
+                        check=False,
+                    )
+                    subprocess.run(["git", "clean", "-fd"], capture_output=True, check=False)
                     bp.logger.log("red", _("✗ Failed to resolve conflicts"))
-                    bp.logger.log("yellow", _("Your changes are still in stash. Use 'git stash pop' manually."))
+                    bp.logger.log(
+                        "yellow",
+                        _("Your changes remain safely stored in {0}.").format(operation_stash),
+                    )
                     bp.logger.log("yellow", "")
                     if not is_gui_mode:
                         input(_("Press Enter to return to main menu..."))
                     return False
 
                 bp.logger.log("green", _("✓ Conflicts resolved, changes restored"))
+                subprocess.run(
+                    ["git", "stash", "drop", operation_stash],
+                    capture_output=True,
+                    check=False,
+                )
             else:
                 bp.logger.log("red", _("✗ Failed to restore stashed changes"))
                 bp.logger.log("yellow", _("Your changes are still in stash. Use 'git stash pop' manually."))
@@ -639,6 +595,11 @@ def pull_latest_v2(build_package_instance):
                     input(_("Press Enter to return to main menu..."))
                 return False
         else:
+            subprocess.run(
+                ["git", "stash", "drop", operation_stash],
+                capture_output=True,
+                check=False,
+            )
             bp.logger.log("green", _("✓ Local changes restored successfully"))
 
     # === PHASE 8: SHOW SUMMARY ===

@@ -176,49 +176,10 @@ def commit_and_push_v2(build_package_instance):
 
     # === PHASE 3: ENSURE CORRECT BRANCH ===
     if current_branch != expected_branch:
+        should_switch = mode_config["auto_switch_branches"]
+
         if mode_config["auto_switch_branches"]:
-            # Automatic switch
             bp.logger.log("cyan", _("Auto-switching to your branch..."))
-
-            if has_changes:
-                plan.add(
-                    _("Stash changes before switching"),
-                    ["git", "stash", "push", "-u", "-m", f"auto-stash-switch-to-{expected_branch}"],
-                    destructive=False
-                )
-
-            plan.add(
-                _("Switch to your branch: {0}").format(expected_branch),
-                ["git", "checkout", expected_branch],
-                destructive=False,
-                callback=lambda: _ensure_branch_exists(bp, expected_branch)
-            )
-
-            if has_changes:
-                # Add custom callback to restore stash and check for conflicts
-                def restore_stash_safe():
-                    result = subprocess.run(
-                        ["git", "stash", "pop"],
-                        capture_output=True,
-                        text=True,
-                        check=False
-                    )
-
-                    if result.returncode != 0:
-                        # Check for conflicts
-                        if bp.conflict_resolver and bp.conflict_resolver.has_conflicts():
-                            bp.logger.log("yellow", _("⚠️  Conflicts while restoring changes"))
-                            if not bp.conflict_resolver.resolve():
-                                raise Exception(_("Failed to resolve conflicts"))
-                        else:
-                            raise Exception(_("Failed to restore stashed changes"))
-
-                plan.add(
-                    _("Restore stashed changes"),
-                    [],  # Empty command, using callback
-                    destructive=False,
-                    callback=restore_stash_safe
-                )
         else:
             # Ask user
             choice = bp.menu.show_menu(
@@ -237,62 +198,22 @@ def commit_and_push_v2(build_package_instance):
                 bp.logger.log("yellow", _("Operation cancelled"))
                 return False
 
-            if choice[0] == 0:  # Switch
-                # Stash changes before switching
-                if has_changes:
-                    bp.logger.log("cyan", _("Stashing changes before switching branches..."))
-                    try:
-                        subprocess.run(
-                            ["git", "stash", "push", "-u", "-m", f"auto-stash-switch-to-{expected_branch}"],
-                            check=True,
-                            capture_output=True
-                        )
-                    except subprocess.CalledProcessError as e:
-                        bp.logger.log("red", _("Failed to stash changes: {0}").format(e))
-                        return False
+            should_switch = choice[0] == 0
 
-                # Now switch
-                _ensure_branch_exists(bp, expected_branch)
+        if should_switch:
+            from .branch_handler import switch_branch
 
-                try:
-                    subprocess.run(["git", "checkout", expected_branch], check=True)
-                except subprocess.CalledProcessError as e:
-                    bp.logger.log("red", _("Failed to switch branches: {0}").format(e))
-                    # Try to restore stash
-                    if has_changes:
-                        subprocess.run(["git", "stash", "pop"], capture_output=True, check=False)
-                    return False
+            switch_result = switch_branch(
+                bp,
+                expected_branch,
+                stash_first=has_changes,
+            )
+            if not switch_result["success"]:
+                bp.logger.log("red", switch_result["message"])
+                return False
 
-                # Restore stashed changes
-                if has_changes:
-                    bp.logger.log("cyan", _("Restoring stashed changes..."))
-                    pop_result = subprocess.run(
-                        ["git", "stash", "pop"],
-                        capture_output=True,
-                        text=True,
-                        check=False
-                    )
-
-                    if pop_result.returncode != 0:
-                        # Stash pop failed - likely conflicts
-                        bp.logger.log("yellow", _("⚠️  Conflicts detected while restoring changes"))
-
-                        # Check if there are actual conflicts
-                        if bp.conflict_resolver and bp.conflict_resolver.has_conflicts():
-                            bp.logger.log("cyan", _("Attempting to resolve conflicts..."))
-
-                            if not bp.conflict_resolver.resolve():
-                                bp.logger.log("red", _("✗ Could not resolve conflicts automatically"))
-                                bp.logger.log("yellow", _("Please resolve conflicts manually and run again"))
-                                return False
-                        else:
-                            bp.logger.log("yellow", _("Could not restore changes. Check 'git stash list'"))
-                            return False
-                    else:
-                        bp.logger.log("green", _("✓ Changes restored successfully"))
-
-                current_branch = expected_branch
-            # else: continue in current branch
+            current_branch = expected_branch
+            has_changes = GitUtils.has_changes()
 
     # === PHASE 4: FETCH LATEST (info only) ===
     # Fetch to update remote refs, actual sync handled in PHASE 8.5

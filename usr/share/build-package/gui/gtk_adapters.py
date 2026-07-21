@@ -61,11 +61,13 @@ class GTKConflictResolver(ConflictResolver):
                 progress_dialog.set_visible(False)
 
             try:
-                dialog = ConflictDialog(self.parent_window, conflict_files, repo_root=self.repo_root)
-
-                # Store branch info for future use (if dialog supports it)
-                if hasattr(dialog, 'set_branch_info') and current_branch and incoming_branch:
-                    dialog.set_branch_info(current_branch, incoming_branch)
+                dialog = ConflictDialog(
+                    self.parent_window,
+                    conflict_files,
+                    repo_root=self.repo_root,
+                    current_branch=current_branch,
+                    incoming_branch=incoming_branch,
+                )
 
                 def on_conflicts_resolved(dlg, result):
                     # Restore ProgressDialog after conflict resolution

@@ -91,8 +91,16 @@ class SettingsMenu:
 
         strategies = [
             ("interactive", _("Interactive"), _("Ask for each conflict file")),
-            ("auto-ours", _("Auto Keep Ours"), _("Always keep our changes")),
-            ("auto-theirs", _("Auto Accept Remote"), _("Always accept remote changes")),
+            (
+                "auto-ours",
+                _("Keep Current Automatically"),
+                _("Keep the current branch version in every conflict"),
+            ),
+            (
+                "auto-theirs",
+                _("Use Incoming Automatically"),
+                _("Use the incoming branch version in every conflict"),
+            ),
             ("manual", _("Manual"), _("Stop and let me resolve manually"))
         ]
 

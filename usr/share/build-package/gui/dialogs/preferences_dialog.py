@@ -324,8 +324,8 @@ class PreferencesDialog(Adw.PreferencesDialog):
         self.strategy_row.set_subtitle(_("How to resolve merge conflicts"))
         strategies_list = Gtk.StringList()
         strategies_list.append(_("Interactive – Ask for each file"))
-        strategies_list.append(_("Auto-ours – Always keep local changes"))
-        strategies_list.append(_("Auto-theirs – Always accept remote changes"))
+        strategies_list.append(_("Automatic – Keep current branch version"))
+        strategies_list.append(_("Automatic – Use incoming branch version"))
         strategies_list.append(_("Manual – Stop and let me resolve"))
         self.strategy_row.set_model(strategies_list)
         strategy_index = {

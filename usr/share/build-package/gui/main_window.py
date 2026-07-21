@@ -1011,7 +1011,7 @@ class MainWindow(Adw.ApplicationWindow):
         # Responses
         dialog.add_response("cancel", _("Cancel"))
         dialog.add_response("discard", _("Discard and Switch"))
-        dialog.add_response("stash", _("Stash and Switch"))
+        dialog.add_response("stash", _("Keep Changes and Switch"))
         
         dialog.set_response_appearance("stash", Adw.ResponseAppearance.SUGGESTED)
         dialog.set_response_appearance("discard", Adw.ResponseAppearance.DESTRUCTIVE)

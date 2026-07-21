@@ -802,13 +802,14 @@ class GitUtils:
                 
                 if result.returncode != 0:
                     if "conflict" in result.stderr.lower() or "conflict" in result.stdout.lower():
+                        subprocess.run(
+                            ["git", "merge", "--abort"],
+                            capture_output=True,
+                            check=False,
+                        )
                         if logger:
                             logger.log("yellow", _("⚠️ Merge conflicts detected!"))
-                            logger.log("white", _("Resolve conflicts in the marked files, then:"))
-                            logger.log("white", _("  1. Edit files to resolve conflicts"))
-                            logger.log("white", _("  2. git add <resolved-files>"))
-                            logger.log("white", _("  3. git commit"))
-                            logger.log("white", _("Or abort with: git merge --abort"))
+                            logger.log("white", _("Merge aborted; the repository was restored."))
                         return False
                     else:
                         if logger:

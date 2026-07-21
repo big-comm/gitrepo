@@ -161,55 +161,134 @@ def commit_and_generate_package_v2(build_package_instance, branch_type, commit_m
     return success
 
 
-def _merge_to_main(bp, source_branch, mode_config):
-    """Helper: Merge source branch to main"""
-    try:
-        # Fetch latest
-        subprocess.run(["git", "fetch", "origin", "main"], check=True, capture_output=True)
+def _git_ref_exists(ref):
+    """Return whether a local or remote Git ref exists."""
+    return subprocess.run(
+        ["git", "rev-parse", "--verify", "--quiet", ref],
+        capture_output=True,
+        check=False,
+    ).returncode == 0
 
-        # Switch to main
-        subprocess.run(["git", "checkout", "main"], check=True)
 
-        # Update main
-        subprocess.run(["git", "reset", "--hard", "origin/main"], check=True)
+def _abort_merge():
+    """Abort a merge without masking the original error."""
+    subprocess.run(["git", "merge", "--abort"], capture_output=True, check=False)
 
-        # Try merge
-        merge_result = subprocess.run(
-            ["git", "merge", source_branch, "--no-edit"],
-            capture_output=True,
-            text=True,
-            check=False
+
+def _merge_with_resolution(bp, incoming_branch, current_branch):
+    """Merge one branch and leave no conflict state when cancelled."""
+    result = subprocess.run(
+        ["git", "merge", incoming_branch, "--no-edit"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode == 0:
+        return True
+
+    resolver = getattr(bp, "conflict_resolver", None)
+    if not resolver or not resolver.has_conflicts():
+        _abort_merge()
+        bp.logger.log(
+            "red",
+            _("Merge failed: {0}").format(result.stderr.strip() or result.stdout.strip()),
         )
+        return False
 
-        if merge_result.returncode != 0:
-            # Merge failed, try with strategy
-            bp.logger.log("yellow", _("Merge conflict, using automatic resolution..."))
+    if not resolver.resolve(current_branch, incoming_branch):
+        _abort_merge()
+        bp.logger.log("yellow", _("Merge cancelled. Repository restored."))
+        return False
 
-            subprocess.run(["git", "merge", "--abort"], capture_output=True, check=False)
+    if resolver.has_conflicts():
+        _abort_merge()
+        bp.logger.log("red", _("Unresolved conflicts remain. Merge aborted."))
+        return False
 
-            merge_result = subprocess.run(
-                ["git", "merge", source_branch, "--strategy-option=theirs", "--no-edit"],
-                capture_output=True,
-                check=False
-            )
+    commit_result = subprocess.run(
+        ["git", "commit", "--no-edit"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if commit_result.returncode != 0:
+        _abort_merge()
+        bp.logger.log(
+            "red",
+            _("Could not finish merge: {0}").format(
+                commit_result.stderr.strip() or commit_result.stdout.strip()
+            ),
+        )
+        return False
 
-            if merge_result.returncode != 0:
-                # Still failed, use reset
-                bp.logger.log("yellow", _("Using force merge strategy..."))
-                subprocess.run(["git", "reset", "--hard", source_branch], check=True)
+    return True
 
-        # Push to remote
-        if mode_config["confirm_destructive"]:
-            if not bp.menu.confirm(_("Push merged main to remote?")):
+
+def _merge_to_main(bp, source_branch, mode_config):
+    """Safely sync a development branch with main, then fast-forward main."""
+    del mode_config  # Kept in the signature for API compatibility.
+
+    original_branch = GitUtils.get_current_branch()
+    if GitUtils.has_changes():
+        bp.logger.log("red", _("Commit or stash local changes before building stable."))
+        return False
+
+    try:
+        subprocess.run(["git", "fetch", "origin", "--prune"], check=True, capture_output=True)
+
+        subprocess.run(["git", "checkout", source_branch], check=True, capture_output=True)
+
+        if _git_ref_exists(f"origin/{source_branch}"):
+            bp.logger.log("cyan", _("Updating {0} from its remote branch...").format(source_branch))
+            if not _merge_with_resolution(bp, f"origin/{source_branch}", source_branch):
                 return False
 
-        subprocess.run(["git", "push", "origin", "main"], check=True)
+        bp.logger.log("cyan", _("Updating {0} with the latest main...").format(source_branch))
+        if not _merge_with_resolution(bp, "origin/main", source_branch):
+            return False
 
+        subprocess.run(
+            ["git", "push", "origin", source_branch],
+            check=True,
+            capture_output=True,
+        )
+
+        if _git_ref_exists("main"):
+            subprocess.run(["git", "checkout", "main"], check=True, capture_output=True)
+        else:
+            subprocess.run(
+                ["git", "checkout", "-b", "main", "origin/main"],
+                check=True,
+                capture_output=True,
+            )
+
+        # Never rewrite main. Both updates must be fast-forwards.
+        subprocess.run(
+            ["git", "merge", "--ff-only", "origin/main"],
+            check=True,
+            capture_output=True,
+        )
+        subprocess.run(
+            ["git", "merge", "--ff-only", source_branch],
+            check=True,
+            capture_output=True,
+        )
+        subprocess.run(["git", "push", "origin", "main"], check=True, capture_output=True)
         return True
 
     except subprocess.CalledProcessError as e:
-        bp.logger.log("red", _("Error during merge: {0}").format(e))
+        _abort_merge()
+        stderr = e.stderr.decode(errors="replace") if isinstance(e.stderr, bytes) else e.stderr
+        bp.logger.log("red", _("Error during merge: {0}").format((stderr or str(e)).strip()))
         return False
+    finally:
+        if original_branch and GitUtils.get_current_branch() != original_branch:
+            if not GitUtils.has_changes():
+                subprocess.run(
+                    ["git", "checkout", original_branch],
+                    capture_output=True,
+                    check=False,
+                )
 
 
 def _show_package_summary(bp, package_name, branch_type, working_branch, tmate_option):
