@@ -709,13 +709,13 @@ class GitUtils:
         Resolve divergência entre branch local e remoto.
         
         Args:
-            branch: Nome do branch
-            method: Método de resolução ('rebase', 'merge', 'force_push')
-            logger: Logger para mensagens
+            branch: Branch name
+            method: Resolution method ('rebase' or 'merge')
+            logger: Optional operation logger
             menu: Menu system for user interaction (optional)
         
         Returns:
-            bool: True se resolvido com sucesso
+            bool: Whether the divergence was resolved successfully
         """
         if not GitUtils.is_git_repo():
             if logger:
@@ -757,20 +757,17 @@ class GitUtils:
                                 _("Rebase failed due to conflicts. What do you want to do?"),
                                 [
                                     _("🔀 Try merge instead (may auto-resolve)"),
-                                    _("⚠️ Force push MY version (overwrites remote)"),
                                     _("❌ Cancel - I'll resolve manually")
                                 ]
                             )
                             
-                            if choice is None or choice[0] == 2:  # Cancel
+                            if choice is None or choice[0] == 1:  # Cancel
                                 if logger:
                                     logger.log("yellow", _("Operation cancelled"))
                                 return False
                             
                             if choice[0] == 0:  # Try merge
                                 return GitUtils.resolve_divergence(branch, 'merge', logger, menu)
-                            elif choice[0] == 1:  # Force push
-                                return GitUtils.resolve_divergence(branch, 'force_push', logger)
                         else:
                             # No menu available, just report failure
                             if logger:
@@ -822,29 +819,6 @@ class GitUtils:
                     logger.log("green", _("✓ Merge successful"))
                 return True
                 
-            elif method == 'force_push':
-                # Force push with lease - safer than --force
-                if logger:
-                    logger.log("yellow", _("⚠️ Force pushing (this overwrites remote!)..."))
-                
-                result = subprocess.run(
-                    ["git", "push", "--force-with-lease", "origin", branch],
-                    capture_output=True,
-                    text=True,
-                    check=False
-                )
-                
-                if result.returncode != 0:
-                    if logger:
-                        logger.log("red", _("Force push failed: {0}").format(
-                            result.stderr.strip() or result.stdout.strip()
-                        ))
-                    return False
-                
-                if logger:
-                    logger.log("green", _("✓ Force push successful"))
-                return True
-            
             else:
                 if logger:
                     logger.log("red", _("Unknown resolution method: {0}").format(method))

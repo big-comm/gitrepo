@@ -372,12 +372,11 @@ def commit_and_push_v2(build_package_instance):
             [
                 _("📥 Pull with rebase (RECOMMENDED - clean history)"),
                 _("🔀 Pull with merge (keeps both histories)"),
-                _("⚠️ Force push (DANGEROUS - overwrites remote!)"),
                 _("❌ Cancel and resolve manually")
             ]
         )
         
-        if choice is None or choice[0] == 3:  # Cancel
+        if choice is None or choice[0] == 2:  # Cancel
             bp.logger.log("yellow", _("Operation cancelled"))
             bp.logger.log("white", _("Your commit is saved locally. To complete:"))
             bp.logger.log("white", _("  1. git pull --rebase origin {0}").format(current_branch))
@@ -385,7 +384,7 @@ def commit_and_push_v2(build_package_instance):
             bp.logger.log("white", _("  3. git push origin {0}").format(current_branch))
             return False
         
-        resolution_method = ['rebase', 'merge', 'force_push'][choice[0]]
+        resolution_method = ['rebase', 'merge'][choice[0]]
         
         # Resolve the divergence
         if not GitUtils.resolve_divergence(current_branch, resolution_method, bp.logger, bp.menu):
@@ -393,18 +392,17 @@ def commit_and_push_v2(build_package_instance):
             bp.logger.log("yellow", _("Your commit is saved locally. Please resolve manually."))
             return False
         
-        # After rebase/merge, push
-        if resolution_method != 'force_push':
-            try:
-                subprocess.run(
-                    ["git", "push", "-u", "origin", current_branch],
-                    check=True,
-                    capture_output=True
-                )
-            except subprocess.CalledProcessError as e:
-                error_msg = e.stderr.decode() if e.stderr else str(e)
-                bp.logger.log("red", _("✗ Push failed: {0}").format(error_msg))
-                return False
+        # After rebase/merge, push without rewriting remote history.
+        try:
+            subprocess.run(
+                ["git", "push", "-u", "origin", current_branch],
+                check=True,
+                capture_output=True
+            )
+        except subprocess.CalledProcessError as e:
+            error_msg = e.stderr.decode() if e.stderr else str(e)
+            bp.logger.log("red", _("✗ Push failed: {0}").format(error_msg))
+            return False
     
     elif divergence['behind'] > 0:
         # Only behind (not diverged) - sync then push

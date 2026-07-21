@@ -9,6 +9,7 @@
 
 import os
 import re
+import subprocess
 
 from .git_utils import GitUtils
 from .translation_utils import _
@@ -71,15 +72,40 @@ def _bump_semver(current_version: str, bump_level: str) -> str:
 
 
 def _locate_app_version_entry(bp):
-    """Find the file and regex match for the APP_VERSION assignment.
+    """Find APP_VERSION in tracked or non-ignored source files.
 
-    Uses *bp._app_version_cache* to skip the directory walk on subsequent calls.
+    Uses *bp._app_version_cache* to avoid rescanning file contents when possible.
     Returns (file_path, content, match) or (None, None, None) when not found.
     """
     pattern = re.compile(r'(APP_VERSION\s*=\s*)(["\'])(\d+\.\d+\.\d+)(["\'])')
     repo_path = bp.repo_path or GitUtils.get_repo_root_path()
 
-    if bp._app_version_cache:
+    tracked_result = None
+    if repo_path and os.path.isdir(repo_path):
+        tracked_result = subprocess.run(
+            [
+                "git",
+                "-C",
+                repo_path,
+                "ls-files",
+                "--cached",
+                "--others",
+                "--exclude-standard",
+                "-z",
+            ],
+            capture_output=True,
+            check=False,
+        )
+
+    candidate_paths = set()
+    if tracked_result and tracked_result.returncode == 0:
+        candidate_paths = {
+            os.path.normpath(os.path.join(repo_path, os.fsdecode(relative_path)))
+            for relative_path in tracked_result.stdout.split(b"\0")
+            if relative_path
+        }
+
+    if bp._app_version_cache and os.path.normpath(bp._app_version_cache) in candidate_paths:
         try:
             with open(bp._app_version_cache, 'r', encoding='utf-8') as fh:
                 cached_content = fh.read()
@@ -92,10 +118,6 @@ def _locate_app_version_entry(bp):
     if not repo_path or not os.path.isdir(repo_path):
         return None, None, None
 
-    ignore_dirs = {
-        '.git', '__pycache__', 'node_modules', 'vendor', 'venv', '.venv', 'env',
-        'build', 'dist', '.idea', '.vscode',
-    }
     allowed_extensions = {
         "", ".py", ".cfg", ".conf", ".ini", ".json", ".toml", ".yaml", ".yml",
         ".txt", ".sh", ".bash", ".zsh", ".fish",
@@ -120,42 +142,37 @@ def _locate_app_version_entry(bp):
         ".mk",                                   # Makefile fragments
     }
 
-    for root, dirs, files in os.walk(repo_path):
-        dirs[:] = [d for d in dirs if d not in ignore_dirs]
-        dirs.sort()
-        for filename in sorted(files):
-            ext = os.path.splitext(filename)[1].lower()
-            if ext not in allowed_extensions:
+    for file_path in sorted(candidate_paths):
+        ext = os.path.splitext(file_path)[1].lower()
+        if ext not in allowed_extensions:
+            continue
+
+        try:
+            if os.path.getsize(file_path) > 1_000_000:
+                continue
+        except OSError:
+            continue
+
+        try:
+            with open(file_path, 'r', encoding='utf-8') as fh:
+                content = fh.read()
+        except (OSError, UnicodeDecodeError):
+            continue
+
+        for match in pattern.finditer(content):
+            line_start = content.rfind('\n', 0, match.start()) + 1
+            line_prefix = content[line_start:match.start()]
+            stripped_prefix = line_prefix.strip()
+
+            if stripped_prefix.startswith(("#", "//", ";", "/*")):
                 continue
 
-            file_path = os.path.join(root, filename)
-
-            try:
-                if os.path.getsize(file_path) > 1_000_000:
-                    continue
-            except OSError:
+            prefix_no_trailing = line_prefix.rstrip()
+            if prefix_no_trailing and prefix_no_trailing[-1] in ("'", '"'):
                 continue
 
-            try:
-                with open(file_path, 'r', encoding='utf-8') as fh:
-                    content = fh.read()
-            except (OSError, UnicodeDecodeError):
-                continue
-
-            for match in pattern.finditer(content):
-                line_start = content.rfind('\n', 0, match.start()) + 1
-                line_prefix = content[line_start:match.start()]
-                stripped_prefix = line_prefix.strip()
-
-                if stripped_prefix.startswith(("#", "//", ";", "/*")):
-                    continue
-
-                prefix_no_trailing = line_prefix.rstrip()
-                if prefix_no_trailing and prefix_no_trailing[-1] in ("'", '"'):
-                    continue
-
-                bp._app_version_cache = file_path
-                return file_path, content, match
+            bp._app_version_cache = file_path
+            return file_path, content, match
 
     return None, None, None
 

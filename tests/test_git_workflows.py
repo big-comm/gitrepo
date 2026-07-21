@@ -7,6 +7,7 @@ from core.commit_operations import commit_and_push_v2
 from core.git_utils import GitUtils
 from core.package_operations import _merge_to_main
 from core.pull_operations import pull_latest_v2
+from core.version_bumper import _locate_app_version_entry
 from gui.dialogs.conflict_dialog import _display_ref_name
 
 
@@ -50,6 +51,11 @@ class Logger:
 class GTKMenu:
     def confirm(self, _message):
         return True
+
+
+class CancelMenu:
+    def show_menu(self, _title, _options):
+        return 1, None
 
 
 class Settings:
@@ -202,12 +208,71 @@ def test_failed_merge_pull_is_aborted(tmp_path, monkeypatch):
     assert not (repo / ".git" / "MERGE_HEAD").exists()
 
 
+def test_cancelled_rebase_preserves_local_and_remote_commits(tmp_path, monkeypatch):
+    repo, remote = create_repository(tmp_path)
+    peer = tmp_path / "peer"
+    subprocess.run(["git", "clone", str(remote), str(peer)], check=True, capture_output=True)
+    git(peer, "config", "user.name", "Peer User")
+    git(peer, "config", "user.email", "peer@example.invalid")
+    git(peer, "checkout", "main")
+
+    (peer / "base.txt").write_text("remote\n", encoding="utf-8")
+    git(peer, "commit", "-am", "remote translation")
+    git(peer, "push", "origin", "main")
+    remote_head = git(remote, "rev-parse", "main")
+
+    (repo / "base.txt").write_text("local\n", encoding="utf-8")
+    git(repo, "commit", "-am", "local fix")
+    local_head = git(repo, "rev-parse", "HEAD")
+
+    monkeypatch.chdir(repo)
+    assert not GitUtils.resolve_divergence("main", "rebase", Logger(), CancelMenu())
+
+    assert git(repo, "rev-parse", "HEAD") == local_head
+    assert git(remote, "rev-parse", "main") == remote_head
+    assert not git(repo, "status", "--porcelain")
+    assert not (repo / ".git" / "rebase-merge").exists()
+    assert not (repo / ".git" / "rebase-apply").exists()
+
+
 def test_stable_flow_has_no_force_or_destructive_fallbacks():
     source = Path(__file__).resolve().parents[1] / "usr/share/build-package/core/package_operations.py"
     content = source.read_text(encoding="utf-8")
 
     assert '"--force"' not in content
     assert '"reset", "--hard"' not in content
+
+
+def test_normal_commit_flow_has_no_force_push_fallbacks():
+    root = Path(__file__).resolve().parents[1]
+    for relative_path in (
+        "usr/share/build-package/core/commit_operations.py",
+        "usr/share/build-package/core/git_utils.py",
+    ):
+        content = (root / relative_path).read_text(encoding="utf-8")
+        assert "force_push" not in content
+        assert "--force-with-lease" not in content
+
+
+def test_version_lookup_skips_ignored_reports(tmp_path, monkeypatch):
+    repo, _remote = create_repository(tmp_path)
+    (repo / ".gitignore").write_text(".audit/\n", encoding="utf-8")
+    git(repo, "add", ".gitignore")
+    git(repo, "commit", "-m", "ignore audit")
+    audit = repo / ".audit"
+    audit.mkdir()
+    (audit / "ruff_check.txt").write_text(
+        'APP_VERSION = "25.8.0"\n', encoding="utf-8"
+    )
+    source = repo / "config.py"
+    source.write_text('APP_VERSION = "3.1.5"\n', encoding="utf-8")
+
+    bp = SimpleNamespace(repo_path=str(repo), _app_version_cache=None)
+    monkeypatch.chdir(repo)
+    file_path, _content, match = _locate_app_version_entry(bp)
+
+    assert Path(file_path) == source
+    assert match.group(3) == "3.1.5"
 
 
 def test_pull_moves_changes_to_dev_once_without_leaving_stash(tmp_path, monkeypatch):
