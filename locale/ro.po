@@ -2001,24 +2001,20 @@ msgid "Ask for each conflict file"
 msgstr "Întreabă pentru fiecare fișier cu conflict"
 # 
 # File: usr/share/build-package/core/settings_menu.py, line: 96
-#: NEEDS WORK
 msgid "Keep Current Automatically"
-msgstr "Mențineți actualizarea automat."
+msgstr "Păstrează automat versiunea curentă"
 # 
 # File: usr/share/build-package/core/settings_menu.py, line: 97
-#: NEEDS WORK
 msgid "Keep the current branch version in every conflict"
-msgstr "Păstrează versiunea curentă a ramurii în fiecare conflict"
+msgstr "Păstrează versiunea ramurii curente în fiecare conflict"
 # 
 # File: usr/share/build-package/core/settings_menu.py, line: 101
-#: NEEDS WORK
 msgid "Use Incoming Automatically"
-msgstr "Utilizați Incoming Automatizat"
+msgstr "Folosește automat versiunea primită"
 # 
 # File: usr/share/build-package/core/settings_menu.py, line: 102
-#: NEEDS WORK
 msgid "Use the incoming branch version in every conflict"
-msgstr "Utilizați versiunea ramurii de intrare în fiecare conflict"
+msgstr "Folosește versiunea ramurii primite în fiecare conflict"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/build-package/core/settings_menu.py, line: 96
@@ -2857,52 +2853,34 @@ msgstr "... și încă {0}"
 #: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/commit_operations.py:438
 msgid "   Remote commits (not in local):"
 msgstr "Commit-urile remote (nu sunt în local):"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 370
+msgid "Resolving divergence automatically..."
+msgstr ""
 # File: usr/share/build-package/core/commit_operations.py, line: 354
 #: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/commit_operations.py:450
 msgid "How do you want to resolve this divergence?"
 msgstr "Cum dorești să rezolvi această divergență?"
-# File: usr/share/build-package/core/commit_operations.py, line: 356
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/commit_operations.py:452
-msgid "📥 Pull with rebase (RECOMMENDED - clean history)"
-msgstr "📥 Pull cu rebase (RECOMANDAT - istoric curat)"
-# File: usr/share/build-package/core/commit_operations.py, line: 357
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/commit_operations.py:453
-msgid "🔀 Pull with merge (keeps both histories)"
-msgstr "🔀 Preluare cu îmbinare (păstrează ambele istorii)"
-# File: usr/share/build-package/core/commit_operations.py, line: 358
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/commit_operations.py:454
-msgid "⚠️ Force push (DANGEROUS - overwrites remote!)"
-msgstr "⚠️ Forțare push (PERICULOS - suprascrie remote-ul!)"
-# File: usr/share/build-package/core/commit_operations.py, line: 359
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/commit_operations.py:455
-msgid "❌ Cancel and resolve manually"
-msgstr "❌ Anulează și rezolvă manual"
-# File: usr/share/build-package/core/commit_operations.py, line: 365
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/commit_operations.py:461
-msgid "Your commit is saved locally. To complete:"
-msgstr "Commit-ul tău este salvat local. Pentru a finaliza:"
-# File: usr/share/build-package/core/commit_operations.py, line: 366
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/commit_operations.py:462
-#, python-brace-format
-msgid "  1. git pull --rebase origin {0}"
-msgstr "1. git pull --rebase origin {0}"
-# File: usr/share/build-package/core/commit_operations.py, line: 367
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/commit_operations.py:463
-msgid "  2. Resolve any conflicts"
-msgstr "2. Rezolvă orice conflicte"
-# File: usr/share/build-package/core/commit_operations.py, line: 368
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/commit_operations.py:464
-#, python-brace-format
-msgid "  3. git push origin {0}"
-msgstr "3. git push origin {0}"
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 376
+msgid "📥 Resolve automatically (keeps current changes on conflicts)"
+msgstr ""
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 377
+msgid "🔀 Merge histories (keeps current changes on conflicts)"
+msgstr ""
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 378
+msgid "❌ Cancel"
+msgstr ""
 # File: usr/share/build-package/core/commit_operations.py, line: 375
 #: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/commit_operations.py:471
 msgid "✗ Failed to resolve divergence"
 msgstr "✗ Eșuat la rezolvarea divergenței"
-# File: usr/share/build-package/core/commit_operations.py, line: 376
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/commit_operations.py:472
-msgid "Your commit is saved locally. Please resolve manually."
-msgstr "Commit-ul tău este salvat local. Te rugăm să rezolvi manual."
+# 
+# File: usr/share/build-package/core/commit_operations.py, line: 391
+msgid "Your commit is saved locally and the repository was restored."
+msgstr ""
 # File: usr/share/build-package/core/commit_operations.py, line: 389
 # File: usr/share/build-package/core/commit_operations.py, line: 423
 # File: usr/share/build-package/core/commit_operations.py, line: 436
@@ -3584,30 +3562,10 @@ msgstr "⚠️ Conflicte de rebase detectate!"
 #: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/git_utils.py:748
 msgid "Rebase aborted automatically."
 msgstr "Rebase anulat automat."
-# File: usr/share/build-package/core/git_utils.py, line: 764
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/git_utils.py:754
-msgid "The remote has conflicting changes."
-msgstr "Remote-ul are modificări conflictuale."
-# File: usr/share/build-package/core/git_utils.py, line: 767
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/git_utils.py:757
-msgid "Rebase failed due to conflicts. What do you want to do?"
-msgstr "Rebase-ul a eșuat din cauza conflictelor. Ce dorești să faci?"
-# File: usr/share/build-package/core/git_utils.py, line: 769
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/git_utils.py:759
-msgid "🔀 Try merge instead (may auto-resolve)"
-msgstr "🔀 Încearcă în schimb merge (poate rezolva automat)"
-# File: usr/share/build-package/core/git_utils.py, line: 770
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/git_utils.py:760
-msgid "⚠️ Force push MY version (overwrites remote)"
-msgstr "⚠️ Forțează push cu VERSIUNEA MEA (suprascrie remote-ul)"
-# File: usr/share/build-package/core/git_utils.py, line: 771
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/git_utils.py:761
-msgid "❌ Cancel - I'll resolve manually"
-msgstr "❌ Anulează - voi rezolva manual"
-# File: usr/share/build-package/core/git_utils.py, line: 787
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/git_utils.py:777
-msgid "Conflict detected. Trying merge instead..."
-msgstr "Conflict detectat. Se încearcă merge în schimb..."
+# 
+# File: usr/share/build-package/core/git_utils.py, line: 759
+msgid "Conflict detected. Trying an automatic merge instead..."
+msgstr ""
 # File: usr/share/build-package/core/git_utils.py, line: 792
 #: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/git_utils.py:782
 #, python-brace-format
@@ -3626,10 +3584,13 @@ msgstr "Se face pull cu merge..."
 msgid "⚠️ Merge conflicts detected!"
 msgstr "⚠️ Conflicte de merge detectate!"
 # 
-# File: usr/share/build-package/core/git_utils.py, line: 812
-#: NEEDS WORK
-msgid "Merge aborted; the repository was restored."
-msgstr "Îmbinarea a fost anulată; depozitul a fost restaurat."
+# File: usr/share/build-package/core/git_utils.py, line: 795
+msgid "Resolving automatically with the current branch version..."
+msgstr ""
+# 
+# File: usr/share/build-package/core/git_utils.py, line: 805
+msgid "Automatic resolution failed; the repository was restored."
+msgstr ""
 # File: usr/share/build-package/core/git_utils.py, line: 825
 #: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/git_utils.py:815
 #, python-brace-format
@@ -3639,19 +3600,6 @@ msgstr "Fuziune eșuată: {0}"
 #: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/git_utils.py:821
 msgid "✓ Merge successful"
 msgstr "✓ Fuziune reușită"
-# File: usr/share/build-package/core/git_utils.py, line: 837
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/git_utils.py:827
-msgid "⚠️ Force pushing (this overwrites remote!)..."
-msgstr "⚠️ Forțare push (suprascrie remote-ul!)..."
-# File: usr/share/build-package/core/git_utils.py, line: 848
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/git_utils.py:838
-#, python-brace-format
-msgid "Force push failed: {0}"
-msgstr "Forțare push eșuată: {0}"
-# File: usr/share/build-package/core/git_utils.py, line: 854
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/git_utils.py:844
-msgid "✓ Force push successful"
-msgstr "✓ Forțare push reușită"
 # File: usr/share/build-package/core/git_utils.py, line: 859
 #: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/git_utils.py:849
 #, python-brace-format
@@ -3662,6 +3610,21 @@ msgstr "Metodă de rezolvare necunoscută: {0}"
 #, python-brace-format
 msgid "Error resolving divergence: {0}"
 msgstr "Eroare la rezolvarea divergenței: {0}"
+# 
+# File: usr/share/build-package/core/git_utils.py, line: 888
+msgid "✓ Conflicts resolved automatically; current branch changes were kept"
+msgstr ""
+# 
+# File: usr/share/build-package/core/git_utils.py, line: 893
+# File: usr/share/build-package/core/git_utils.py, line: 898
+#, python-brace-format
+msgid "Automatic conflict resolution failed: {0}"
+msgstr ""
+# 
+# File: usr/share/build-package/core/git_utils.py, line: 975
+# File: usr/share/build-package/core/git_utils.py, line: 1020
+msgid "Could not load the differences for this file."
+msgstr ""
 # File: usr/share/build-package/gui/main_window.py, line: 760
 #: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/core/commit_handler.py:35
 msgid "Authentication failed - credentials may be expired or invalid"
@@ -5597,6 +5560,14 @@ msgstr "Preluare modificări"
 #: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/main_window.py:670
 msgid "Pulling latest changes from remote repository..."
 msgstr "Preluare ultimele modificări din depozitul remote..."
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 762
+msgid "Repository is already up to date"
+msgstr ""
+# 
+# File: usr/share/build-package/gui/main_window.py, line: 772
+msgid "Changes Received from GitHub"
+msgstr ""
 # File: usr/share/build-package/gui/main_window.py, line: 882
 #: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/main_window.py:679
 msgid "Undoing Commit"
@@ -5715,10 +5686,9 @@ msgstr "<b>Comutare la:</b>  <span foreground='#00CED1'>{0}</span>"
 msgid "Discard and Switch"
 msgstr "Renunță și schimbă"
 # 
-# File: usr/share/build-package/gui/main_window.py, line: 1014
-#: NEEDS WORK
+# File: usr/share/build-package/gui/main_window.py, line: 1049
 msgid "Keep Changes and Switch"
-msgstr "Păstrează modificările și comută"
+msgstr ""
 # File: usr/share/build-package/gui/main_window.py, line: 1147
 #: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/main_window.py:992
 #, python-brace-format
@@ -5960,6 +5930,77 @@ msgstr "Deschide în GitHub"
 #. Show success toast
 msgid "Operation completed successfully"
 msgstr "Operațiune finalizată cu succes"
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 371
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 449
+#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/commit_widget.py:449
+#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/overview_widget.py:371
+#, python-brace-format
+msgid "{0} changed file(s)"
+msgstr "{0} fișier(e) modificat(e)"
+# 
+# File: usr/share/build-package/gui/dialogs/diff_viewer_dialog.py, line: 91
+msgid "No changed files to display."
+msgstr ""
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 242
+#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/commit_widget.py:418
+#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/overview_widget.py:283
+#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/overview_widget.py:339
+msgid "Modified"
+msgstr "Modificat"
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 340
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 419
+#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/commit_widget.py:419
+#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/overview_widget.py:340
+msgid "Added"
+msgstr "Adăugat"
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 341
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 420
+#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/commit_widget.py:420
+#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/overview_widget.py:341
+msgid "Deleted"
+msgstr "Șters"
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 342
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 421
+#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/commit_widget.py:421
+#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/overview_widget.py:342
+msgid "Renamed"
+msgstr "Renamed"
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 343
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 422
+#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/commit_widget.py:422
+#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/overview_widget.py:343
+msgid "Copied"
+msgstr "Copiat"
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 344
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 423
+#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/commit_widget.py:423
+#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/overview_widget.py:344
+msgid "Untracked"
+msgstr "Netratat"
+# 
+# File: usr/share/build-package/gui/dialogs/diff_viewer_dialog.py, line: 102
+msgid "Added and modified"
+msgstr ""
+# 
+# File: usr/share/build-package/gui/dialogs/diff_viewer_dialog.py, line: 103
+msgid "Modified in index and working tree"
+msgstr ""
+# 
+# File: usr/share/build-package/gui/dialogs/diff_viewer_dialog.py, line: 110
+msgid "No textual differences to display."
+msgstr ""
 # File: usr/share/build-package/gui/dialogs/welcome_dialog.py, line: 31
 #: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/dialogs/welcome_dialog.py:31
 #: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/dialogs/welcome_dialog.py:28
@@ -6231,17 +6272,15 @@ msgstr "Interactiv – Cere pentru fiecare fișier"
 # 
 # File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 327
 # File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 81
-#: NEEDS WORK
 msgid "Automatic – Keep current branch version"
-msgstr "Automat – Păstrează versiunea curentă a ramurii"
+msgstr "Automată – păstrează versiunea ramurii curente"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 328
 # File: usr/share/build-package/gui/dialogs/settings_dialog.py, line: 82
-#: NEEDS WORK
 msgid "Automatic – Use incoming branch version"
-msgstr "Automat – Folosește versiunea ramurii de intrare"
+msgstr "Automată – folosește versiunea ramurii primite"
 # File: usr/share/build-package/gui/dialogs/preferences_dialog.py, line: 329
 #: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/dialogs/preferences_dialog.py:329
 msgid "Manual – Stop and let me resolve"
@@ -6342,34 +6381,29 @@ msgid "Settings reset to defaults"
 msgstr "Setările au fost resetate la valorile implicite"
 # 
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 55
-#: NEEDS WORK
 #, python-brace-format
 msgid "Keep {0}"
 msgstr "Păstrează {0}"
 # 
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 57
-#: NEEDS WORK
 #, python-brace-format
 msgid "Keep the version from {0}"
-msgstr "Păstrează versiunea de la {0}"
+msgstr "Păstrează versiunea din {0}"
 # 
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 65
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 698
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 719
-#: NEEDS WORK
 #, python-brace-format
 msgid "Use the version from {0}"
-msgstr "Utilizați versiunea din {0}"
+msgstr "Folosește versiunea din {0}"
 # 
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 71
-#: NEEDS WORK
 msgid "Combine Both"
-msgstr "Combină ambele"
+msgstr "Combină ambele versiuni"
 # 
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 73
-#: NEEDS WORK
 msgid "Combine both versions and review the result"
-msgstr "Combinați ambele versiuni și revizuiți rezultatul"
+msgstr "Combină ambele versiuni și verifică rezultatul"
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 60
 #: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/dialogs/conflict_dialog.py:63
 msgid "Compare versions side-by-side"
@@ -6380,14 +6414,12 @@ msgid "Edit file manually"
 msgstr "Editează fișierul manual"
 # 
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 190
-#: NEEDS WORK
 msgid "Current Version"
-msgstr "Versiune curentă"
+msgstr "Versiunea curentă"
 # 
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 193
-#: NEEDS WORK
 msgid "Incoming Version"
-msgstr "Versiune de intrare"
+msgstr "Versiunea primită"
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 105
 #: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/dialogs/conflict_dialog.py:164
 #: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/dialogs/conflict_dialog.py:220
@@ -6409,10 +6441,9 @@ msgid "Found {0} conflicted files"
 msgstr "Au fost găsite {0} fișiere cu conflicte"
 # 
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 300
-#: NEEDS WORK
 #, python-brace-format
 msgid "Current: {0} • Incoming: {1}"
-msgstr "Curent: {0} • În curs de primire: {1}"
+msgstr "Curentă: {0} • Primită: {1}"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
@@ -6432,16 +6463,14 @@ msgid "Apply to all remaining conflicts"
 msgstr "Aplică pentru toate conflictele rămase"
 # 
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 323
-#: NEEDS WORK
 #, python-brace-format
 msgid "Keep All from {0}"
 msgstr "Păstrează totul din {0}"
 # 
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 331
-#: NEEDS WORK
 #, python-brace-format
 msgid "Use All from {0}"
-msgstr "Utilizați Tot din {0}"
+msgstr "Folosește totul din {0}"
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 169
 #: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/dialogs/conflict_dialog.py:294
 msgid "Conflicted Files"
@@ -6480,7 +6509,6 @@ msgstr ""
 # 
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 521
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 525
-#: NEEDS WORK
 #, python-brace-format
 msgid "Error reading version from {0}: {1}"
 msgstr "Eroare la citirea versiunii din {0}: {1}"
@@ -6491,34 +6519,29 @@ msgid "Compare: {0}"
 msgstr "Compară: {0}"
 # 
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 564
-#: NEEDS WORK
 #, python-brace-format
 msgid "Current: {0}"
-msgstr "Curent: {0}"
+msgstr "Curentă: {0}"
 # 
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 577
-#: NEEDS WORK
 #, python-brace-format
 msgid "Incoming: {0}"
-msgstr "În așteptare: {0}"
+msgstr "Primită: {0}"
 # 
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 599
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 636
-#: NEEDS WORK
 #, python-brace-format
 msgid "Version from {0}"
-msgstr "Versiune din {0}"
+msgstr "Versiunea din {0}"
 # 
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 695
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 716
-#: NEEDS WORK
 #, python-brace-format
 msgid "✓ Use {0}"
 msgstr "✓ Folosește {0}"
 # 
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 818
 # File: usr/share/build-package/gui/dialogs/conflict_dialog.py, line: 832
-#: NEEDS WORK
 #, python-brace-format
 msgid "All conflicts resolved using {0}"
 msgstr "Toate conflictele au fost rezolvate folosind {0}"
@@ -6816,52 +6839,6 @@ msgstr "Mesaj personalizat (suportă mai multe linii)"
 #, python-brace-format
 msgid "Description for {0} (supports multiple lines)"
 msgstr "Descriere pentru {0} (suportă mai multe linii)"
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 242
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/commit_widget.py:418
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/overview_widget.py:283
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/overview_widget.py:339
-msgid "Modified"
-msgstr "Modificat"
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 340
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 419
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/commit_widget.py:419
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/overview_widget.py:340
-msgid "Added"
-msgstr "Adăugat"
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 341
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 420
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/commit_widget.py:420
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/overview_widget.py:341
-msgid "Deleted"
-msgstr "Șters"
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 342
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 421
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/commit_widget.py:421
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/overview_widget.py:342
-msgid "Renamed"
-msgstr "Renamed"
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 343
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 422
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/commit_widget.py:422
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/overview_widget.py:343
-msgid "Copied"
-msgstr "Copiat"
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 344
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 423
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/commit_widget.py:423
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/overview_widget.py:344
-msgid "Untracked"
-msgstr "Netratat"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/build-package/gui/widgets/overview_widget.py, line: 345
@@ -6878,15 +6855,13 @@ msgstr "Adăugat+Modificat"
 #: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/overview_widget.py:346
 msgid "Modified (staged+unstaged)"
 msgstr "Modificat (stadiat+nestadiat)"
+# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
-# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 371
-# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 449
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/commit_widget.py:449
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/overview_widget.py:371
-#, python-brace-format
-msgid "{0} changed file(s)"
-msgstr "{0} fișier(e) modificat(e)"
+# File: usr/share/build-package/gui/widgets/commit_widget.py, line: 455
+# File: usr/share/build-package/gui/widgets/overview_widget.py, line: 388
+msgid "Pending Changes"
+msgstr ""
 # File: usr/share/build-package/gui/widgets/commit_widget.py, line: 404
 #: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-package/gui/widgets/commit_widget.py:458
 msgid "Undo Last Commit?"
@@ -9309,1178 +9284,3 @@ msgstr "Director de ieșire invalid: {0}"
 #, python-brace-format
 msgid "{0} (version {1})"
 msgstr "{0} (versiunea {1})"
-# 
-# File: usr/share/build-iso/gui/main_gui.py, line: 146
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/main_gui.py:146
-msgid "About Build ISO"
-msgstr "Despre Build ISO"
-# 
-# File: usr/share/build-iso/gui/dialogs/welcome_dialog.py, line: 80
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/dialogs/welcome_dialog.py:80
-msgid "Requirements"
-msgstr "Cerințe"
-# 
-# File: usr/share/build-iso/gui/dialogs/welcome_dialog.py, line: 85
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/dialogs/welcome_dialog.py:85
-msgid "Docker or Podman installed"
-msgstr "Docker sau Podman instalat"
-# 
-# File: usr/share/build-iso/gui/dialogs/welcome_dialog.py, line: 86
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/dialogs/welcome_dialog.py:86
-msgid "At least 20 GB free disk space"
-msgstr "Cel puțin 20 GB spațiu liber pe disc"
-# 
-# File: usr/share/build-iso/gui/dialogs/welcome_dialog.py, line: 87
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/dialogs/welcome_dialog.py:87
-msgid "Internet connection for image download"
-msgstr "Conexiune la internet pentru descărcarea imaginii"
-# 
-# File: usr/share/build-iso/gui/dialogs/progress_dialog.py, line: 44
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/dialogs/progress_dialog.py:44
-#, python-brace-format
-msgid "Building {0} - {1}"
-msgstr "Construind {0} - {1}"
-# 
-# File: usr/share/build-iso/gui/dialogs/progress_dialog.py, line: 78
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/dialogs/progress_dialog.py:78
-msgid "Building ISO"
-msgstr "Construind ISO"
-# 
-# File: usr/share/build-iso/gui/dialogs/progress_dialog.py, line: 103
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/dialogs/progress_dialog.py:103
-msgid "Elapsed: 00:00"
-msgstr "Timp scurs: 00:00"
-# 
-# File: usr/share/build-iso/gui/dialogs/progress_dialog.py, line: 143
-# File: usr/share/build-iso/gui/dialogs/progress_dialog.py, line: 405
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/dialogs/progress_dialog.py:143
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/dialogs/progress_dialog.py:405
-msgid "Cancel Build"
-msgstr "Anulează compilarea"
-# 
-# File: usr/share/build-iso/gui/dialogs/progress_dialog.py, line: 317
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/dialogs/progress_dialog.py:317
-msgid "Checking container engine..."
-msgstr "Verificare motor container..."
-# 
-# File: usr/share/build-iso/gui/dialogs/progress_dialog.py, line: 318
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/dialogs/progress_dialog.py:318
-msgid "Checking storage driver..."
-msgstr "Verificare driver stocare..."
-# 
-# File: usr/share/build-iso/gui/dialogs/progress_dialog.py, line: 319
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/dialogs/progress_dialog.py:319
-msgid "Pulling container image..."
-msgstr "Descărcare imagine container..."
-# 
-# File: usr/share/build-iso/gui/dialogs/progress_dialog.py, line: 320
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/dialogs/progress_dialog.py:320
-msgid "Preparing directories..."
-msgstr "Pregătire directoare..."
-# 
-# File: usr/share/build-iso/gui/dialogs/progress_dialog.py, line: 321
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/dialogs/progress_dialog.py:321
-msgid "Cloning build repository..."
-msgstr "Clonare depozit build..."
-# 
-# File: usr/share/build-iso/gui/dialogs/progress_dialog.py, line: 323
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/dialogs/progress_dialog.py:323
-msgid "Moving ISO files..."
-msgstr "Mutare fișiere ISO..."
-# 
-# File: usr/share/build-iso/gui/dialogs/progress_dialog.py, line: 324
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/dialogs/progress_dialog.py:324
-msgid "Cleaning up..."
-msgstr "Curățare..."
-# 
-# File: usr/share/build-iso/gui/dialogs/progress_dialog.py, line: 335
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/dialogs/progress_dialog.py:335
-#, python-brace-format
-msgid "Elapsed: {0:02d}:{1:02d}"
-msgstr "Timp scurs: {0:02d}:{1:02d}"
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-iso/gui/main_window.py, line: 257
-# File: usr/share/build-iso/gui/dialogs/progress_dialog.py, line: 357
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/main_window.py:257
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/dialogs/progress_dialog.py:357
-#, python-brace-format
-msgid "Build failed: {0}"
-msgstr "Construirea a eșuat: {0}"
-# 
-# File: usr/share/build-iso/gui/dialogs/progress_dialog.py, line: 370
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/dialogs/progress_dialog.py:370
-msgid "Open ISO Folder"
-msgstr "Deschide folder ISO"
-# 
-# File: usr/share/build-iso/gui/dialogs/progress_dialog.py, line: 401
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/dialogs/progress_dialog.py:401
-msgid "Cancel Build?"
-msgstr "Anulezi build-ul?"
-# 
-# File: usr/share/build-iso/gui/dialogs/progress_dialog.py, line: 402
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/dialogs/progress_dialog.py:402
-msgid "The current build will be terminated. Any progress will be lost."
-msgstr "Build-ul curent va fi întrerupt. Orice progres se va pierde."
-# 
-# File: usr/share/build-iso/gui/dialogs/progress_dialog.py, line: 404
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/dialogs/progress_dialog.py:404
-msgid "Continue Building"
-msgstr "Continuă build-ul"
-# 
-# File: usr/share/build-iso/gui/dialogs/progress_dialog.py, line: 413
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/dialogs/progress_dialog.py:413
-msgid "Cancelling..."
-msgstr "Anulare în curs..."
-# 
-# File: usr/share/build-iso/gui/main_window.py, line: 141
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/main_window.py:141
-msgid "Dashboard"
-msgstr "Panou de control"
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-iso/gui/widgets/dashboard_widget.py, line: 96
-# File: usr/share/build-iso/gui/main_window.py, line: 142
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/main_window.py:142
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/dashboard_widget.py:96
-msgid "Build ISO"
-msgstr "Construiește ISO"
-# 
-# File: usr/share/build-iso/gui/main_window.py, line: 143
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/main_window.py:143
-msgid "Profiles"
-msgstr "Profiluri"
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-iso/gui/widgets/settings_widget.py, line: 60
-# File: usr/share/build-iso/gui/main_window.py, line: 144
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/main_window.py:144
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/settings_widget.py:60
-msgid "Container"
-msgstr "Container"
-# 
-# File: usr/share/build-iso/gui/main_window.py, line: 254
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/main_window.py:254
-#, python-brace-format
-msgid "Build completed! ISO: {0}"
-msgstr "Construirea a fost finalizată! ISO: {0}"
-# 
-# File: usr/share/build-iso/gui/widgets/dashboard_widget.py, line: 51
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/dashboard_widget.py:51
-msgid "System Status"
-msgstr "Starea sistemului"
-# 
-# File: usr/share/build-iso/gui/widgets/dashboard_widget.py, line: 52
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/dashboard_widget.py:52
-msgid "Current environment status"
-msgstr "Starea curentă a mediului"
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-iso/gui/widgets/dashboard_widget.py, line: 57
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 50
-# File: usr/share/build-iso/gui/widgets/settings_widget.py, line: 65
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:50
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/dashboard_widget.py:57
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/settings_widget.py:65
-msgid "Container Engine"
-msgstr "Motor Container"
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-iso/gui/widgets/dashboard_widget.py, line: 58
-# File: usr/share/build-iso/gui/widgets/dashboard_widget.py, line: 80
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 61
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 66
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 78
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:61
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:66
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:78
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/dashboard_widget.py:58
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/dashboard_widget.py:80
-msgid "Checking..."
-msgstr "Verificare..."
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-iso/gui/widgets/dashboard_widget.py, line: 68
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 71
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:71
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/dashboard_widget.py:68
-msgid "Build Image"
-msgstr "Construiește imaginea"
-# 
-# File: usr/share/build-iso/gui/widgets/dashboard_widget.py, line: 79
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/dashboard_widget.py:79
-msgid "Disk Space"
-msgstr "Spațiu pe disc"
-# 
-# File: usr/share/build-iso/gui/widgets/dashboard_widget.py, line: 97
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/dashboard_widget.py:97
-msgid "Configure and start a new ISO build"
-msgstr "Configurează și pornește o nouă compilare ISO"
-# 
-# File: usr/share/build-iso/gui/widgets/dashboard_widget.py, line: 109
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/dashboard_widget.py:109
-msgid "Manage Container"
-msgstr "Gestionează containerul"
-# 
-# File: usr/share/build-iso/gui/widgets/dashboard_widget.py, line: 110
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/dashboard_widget.py:110
-msgid "Pull images, check storage, manage engine"
-msgstr "Descarcă imagini, verifică spațiul de stocare, gestionează motorul"
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-iso/gui/widgets/dashboard_widget.py, line: 122
-# File: usr/share/build-iso/gui/widgets/history_widget.py, line: 42
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/dashboard_widget.py:122
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/history_widget.py:42
-msgid "Build History"
-msgstr "Istoric compilări"
-# 
-# File: usr/share/build-iso/gui/widgets/dashboard_widget.py, line: 123
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/dashboard_widget.py:123
-msgid "View previous builds and results"
-msgstr "Vizualizează compilările și rezultatele anterioare"
-# 
-# File: usr/share/build-iso/gui/widgets/dashboard_widget.py, line: 135
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/dashboard_widget.py:135
-msgid "Last Build"
-msgstr "Ultima compilare"
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-iso/gui/widgets/dashboard_widget.py, line: 140
-# File: usr/share/build-iso/gui/widgets/history_widget.py, line: 48
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/dashboard_widget.py:140
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/history_widget.py:48
-msgid "No builds yet"
-msgstr "Nicio compilare încă"
-# 
-# File: usr/share/build-iso/gui/widgets/dashboard_widget.py, line: 141
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/dashboard_widget.py:141
-msgid "Start your first build from the Build ISO page"
-msgstr "Pornește prima ta compilare de pe pagina Build ISO"
-# 
-# File: usr/share/build-iso/gui/widgets/dashboard_widget.py, line: 204
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/dashboard_widget.py:204
-msgid "No container engine found"
-msgstr "Nu a fost găsit niciun motor de containere"
-# 
-# File: usr/share/build-iso/gui/widgets/dashboard_widget.py, line: 210
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/dashboard_widget.py:210
-#, python-brace-format
-msgid "{0} (available)"
-msgstr "{0} (disponibil)"
-# 
-# File: usr/share/build-iso/gui/widgets/dashboard_widget.py, line: 214
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/dashboard_widget.py:214
-#, python-brace-format
-msgid "{0} (not downloaded)"
-msgstr "{0} (nu a fost descărcat)"
-# 
-# File: usr/share/build-iso/gui/widgets/dashboard_widget.py, line: 220
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/dashboard_widget.py:220
-#, python-brace-format
-msgid "{0:.1f} GB free of {1:.1f} GB"
-msgstr "{0:.1f} GB liberi din {1:.1f} GB"
-# 
-# File: usr/share/build-iso/gui/widgets/dashboard_widget.py, line: 222
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/dashboard_widget.py:222
-msgid "(directory will be created)"
-msgstr "(directorul va fi creat)"
-# 
-# File: usr/share/build-iso/gui/widgets/dashboard_widget.py, line: 231
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/dashboard_widget.py:231
-msgid "Output directory not accessible"
-msgstr "Directorul de ieșire nu este accesibil"
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-iso/gui/widgets/dashboard_widget.py, line: 252
-# File: usr/share/build-iso/gui/widgets/history_widget.py, line: 102
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/dashboard_widget.py:252
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/history_widget.py:102
-msgid "Success"
-msgstr "Succes"
-# 
-# File: usr/share/build-iso/gui/widgets/settings_widget.py, line: 49
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/settings_widget.py:49
-msgid "Default Output Directory"
-msgstr "Director implicit de ieșire"
-# 
-# File: usr/share/build-iso/gui/widgets/settings_widget.py, line: 66
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/settings_widget.py:66
-msgid "Preferred container engine"
-msgstr "Motor container preferat"
-# 
-# File: usr/share/build-iso/gui/widgets/settings_widget.py, line: 74
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/settings_widget.py:74
-msgid "Container Image"
-msgstr "Imagine container"
-# 
-# File: usr/share/build-iso/gui/widgets/settings_widget.py, line: 82
-#: NEEDS WORK
-msgid "Refresh available tags"
-msgstr "Actualizează etichetele disponibile"
-# 
-# File: usr/share/build-iso/gui/widgets/settings_widget.py, line: 88
-#: NEEDS WORK
-msgid "Available Tags"
-msgstr "Etichete disponibile"
-# 
-# File: usr/share/build-iso/gui/widgets/settings_widget.py, line: 89
-#: NEEDS WORK
-msgid "Select a DockerHub tag for the container image"
-msgstr "Selectați un tag DockerHub pentru imaginea containerului"
-# 
-# File: usr/share/build-iso/gui/widgets/settings_widget.py, line: 79
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/settings_widget.py:79
-msgid "Build Defaults"
-msgstr "Setări implicite de construire"
-# 
-# File: usr/share/build-iso/gui/widgets/settings_widget.py, line: 88
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/settings_widget.py:88
-msgid "Default Manjaro Branch"
-msgstr "Ramura implicită Manjaro"
-# 
-# File: usr/share/build-iso/gui/widgets/settings_widget.py, line: 97
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/settings_widget.py:97
-msgid "Default BigLinux Branch"
-msgstr "Ramură implicită BigLinux"
-# 
-# File: usr/share/build-iso/gui/widgets/settings_widget.py, line: 106
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/settings_widget.py:106
-msgid "Default BigCommunity Branch"
-msgstr "Ramură implicită BigCommunity"
-# 
-# File: usr/share/build-iso/gui/widgets/settings_widget.py, line: 112
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/settings_widget.py:112
-msgid "Notifications"
-msgstr "Notificări"
-# 
-# File: usr/share/build-iso/gui/widgets/settings_widget.py, line: 117
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/settings_widget.py:117
-msgid "Notify on build completion"
-msgstr "Notifică la finalizarea compilării"
-# 
-# File: usr/share/build-iso/gui/widgets/settings_widget.py, line: 118
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/settings_widget.py:118
-msgid "Show desktop notification when build finishes"
-msgstr "Afișează notificare pe desktop când compilarea se termină"
-# 
-# File: usr/share/build-iso/gui/widgets/settings_widget.py, line: 122
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/settings_widget.py:122
-msgid "Play sound on completion"
-msgstr "Redă sunet la finalizare"
-# 
-# File: usr/share/build-iso/gui/widgets/settings_widget.py, line: 132
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/settings_widget.py:132
-msgid "Auto-cleanup old containers"
-msgstr "Curățare automată a containerelor vechi"
-# 
-# File: usr/share/build-iso/gui/widgets/settings_widget.py, line: 133
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/settings_widget.py:133
-msgid "Remove stopped build containers automatically"
-msgstr "Elimină automat containerele de compilare oprite"
-# 
-# File: usr/share/build-iso/gui/widgets/settings_widget.py, line: 142
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/settings_widget.py:142
-msgid "Save Settings"
-msgstr "Salvează setările"
-# 
-# File: usr/share/build-iso/gui/widgets/settings_widget.py, line: 209
-#: NEEDS WORK
-msgid "Loading tags..."
-msgstr "Încărcare etichete..."
-# 
-# File: usr/share/build-iso/gui/widgets/settings_widget.py, line: 236
-#: NEEDS WORK
-msgid "No DockerHub tags found; edit the image manually"
-msgstr "Nu au fost găsite etichete DockerHub; editați manual imaginea."
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 528
-# File: usr/share/build-iso/gui/widgets/settings_widget.py, line: 183
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:528
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/settings_widget.py:183
-msgid "Select Output Directory"
-msgstr "Selectează directorul de ieșire"
-# 
-# File: usr/share/build-iso/gui/widgets/settings_widget.py, line: 234
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/settings_widget.py:234
-msgid "Settings saved"
-msgstr "Setările au fost salvate"
-# 
-# File: usr/share/build-iso/gui/widgets/settings_widget.py, line: 239
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/settings_widget.py:239
-msgid "This will reset all settings to their default values."
-msgstr "Aceasta va reseta toate setările la valorile lor implicite."
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 51
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:51
-msgid "Status of the container runtime"
-msgstr "Starea runtime-ului containerului"
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 55
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:55
-msgid "Engine"
-msgstr "Motor"
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 56
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:56
-msgid "Detecting..."
-msgstr "Detectare..."
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 60
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:60
-msgid "Storage Driver"
-msgstr "Driver de stocare"
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 65
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:65
-msgid "Version"
-msgstr "Versiune"
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 77
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:77
-msgid "Image Status"
-msgstr "Starea imaginii"
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 83
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:83
-msgid "Pull Latest Image"
-msgstr "Preia cea mai recentă imagine"
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 84
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:84
-msgid "Download or update the build container image"
-msgstr "Descarcă sau actualizează imaginea containerului de build"
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 90
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:90
-msgid "Pull Image"
-msgstr "Preia imaginea"
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 98
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:98
-msgid "Maintenance"
-msgstr "Întreținere"
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 104
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:104
-msgid "Cleanup Old Containers"
-msgstr "Curățare containere vechi"
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 105
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:105
-msgid "Remove stopped build containers"
-msgstr "Elimină containerele de build oprite"
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 107
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:107
-msgid "Clean"
-msgstr "Curățare"
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 115
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:115
-msgid "Fix Storage Driver"
-msgstr "Repară driverul de stocare"
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 116
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:116
-msgid "Switch from btrfs to overlay2 (Docker only)"
-msgstr "Comută de la btrfs la overlay2 (doar Docker)"
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 118
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:118
-msgid "Fix"
-msgstr "Repară"
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 127
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:127
-msgid "Pull Progress"
-msgstr "Progres la preluare"
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 173
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:173
-msgid "Not found"
-msgstr "Nu a fost găsit"
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 174
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 184
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:174
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:184
-msgid "N/A"
-msgstr "N/A"
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 189
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:189
-#, python-brace-format
-msgid "Available ({0:.1f} GB) - {1}"
-msgstr "Disponibil ({0:.1f} GB) - {1}"
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 192
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:192
-msgid "Not downloaded"
-msgstr "Nedisponibil pentru descărcare"
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 201
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:201
-msgid "Starting download..."
-msgstr "Încep descărcarea..."
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 222
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:222
-msgid "Image pulled successfully"
-msgstr "Imaginea a fost descărcată cu succes"
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 224
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:224
-msgid "Pull failed"
-msgstr "Descărcarea a eșuat"
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 239
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:239
-msgid "Switch to overlay2?"
-msgstr "Să trecem la overlay2?"
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 240
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:240
-msgid ""
-"This will stop Docker, remove all Docker data, and restart with overlay2. All images and containers "
-"will be lost. Continue?"
-msgstr ""
-"Aceasta va opri Docker, va șterge toate datele Docker și va reporni cu overlay2. Toate imaginile și "
-"containerele vor fi pierdute. Continuăm?"
-# 
-# File: usr/share/build-iso/gui/widgets/container_widget.py, line: 243
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/container_widget.py:243
-msgid "Switch to overlay2"
-msgstr "Treci la overlay2"
-# 
-# File: usr/share/build-iso/gui/widgets/history_widget.py, line: 43
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/history_widget.py:43
-msgid "Previous ISO builds and their results"
-msgstr "Compilările ISO anterioare și rezultatele lor"
-# 
-# File: usr/share/build-iso/gui/widgets/history_widget.py, line: 49
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/history_widget.py:49
-msgid "Build history will appear here after your first build"
-msgstr "Istoricul compilărilor va apărea aici după prima ta compilare"
-# 
-# File: usr/share/build-iso/gui/widgets/history_widget.py, line: 60
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/history_widget.py:60
-msgid "Clear History"
-msgstr "Șterge Istoricul"
-# 
-# File: usr/share/build-iso/gui/widgets/history_widget.py, line: 61
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/history_widget.py:61
-msgid "Remove all build history entries"
-msgstr "Elimină toate intrările din istoricul compilărilor"
-# 
-# File: usr/share/build-iso/gui/widgets/history_widget.py, line: 118
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/history_widget.py:118
-msgid "Open folder"
-msgstr "Deschide folderul"
-# 
-# File: usr/share/build-iso/gui/widgets/history_widget.py, line: 135
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/history_widget.py:135
-msgid "Clear Build History?"
-msgstr "Ștergi Istoricul Compilărilor?"
-# 
-# File: usr/share/build-iso/gui/widgets/history_widget.py, line: 136
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/history_widget.py:136
-msgid "This will remove all build history entries. This cannot be undone."
-msgstr "Aceasta va șterge toate intrările din istoricul construirii. Această acțiune nu poate fi anulată."
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 66
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:66
-msgid "Select the distribution to build"
-msgstr "Selectați distribuția de construit"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 71
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:71
-msgid "Choose the target distribution"
-msgstr "Alegeți distribuția țintă"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 84
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:84
-msgid "Select the desktop environment or edition"
-msgstr "Selectați mediul desktop sau ediția"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 90
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:90
-msgid "Desktop environment"
-msgstr "Mediu desktop"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 101
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:101
-msgid "ISO Profiles Source"
-msgstr "Sursa profilurilor ISO"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 102
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:102
-msgid "Where to get iso-profiles (editions and configurations)"
-msgstr "De unde să obțineți iso-profilele (ediții și configurații)"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 108
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:108
-msgid "Source"
-msgstr "Sursă"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 109
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:109
-msgid "Choose where to load iso-profiles from"
-msgstr "Alegeți de unde să încărcați iso-profilele"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 111
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:111
-msgid "Official (GitHub)"
-msgstr "Oficial (GitHub)"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 112
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:112
-msgid "Custom Repository URL"
-msgstr "URL depozit personalizat"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 113
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:113
-msgid "Local Folder"
-msgstr "Folder local"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 120
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:120
-msgid "Repository URL"
-msgstr "URL depozit"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 128
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:128
-msgid "Local Folder Path"
-msgstr "Calea folderului local"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 135
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 217
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:135
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:217
-msgid "Browse..."
-msgstr "Răsfoiește..."
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 158
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:158
-msgid "Linux kernel version"
-msgstr "Versiunea nucleului Linux"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 169
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:169
-msgid "Repository Branches"
-msgstr "Ramuri ale depozitului"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 170
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:170
-msgid "Select package repository branches"
-msgstr "Selectați ramurile depozitului pachetelor"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 180
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:180
-msgid "Base repository branch"
-msgstr "Ramura de bază a depozitului"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 190
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:190
-msgid "BigLinux repository branch"
-msgstr "Ramura depozitului BigLinux"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 200
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:200
-msgid "Community repository branch"
-msgstr "Ramura depozitului Comunității"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 206
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:206
-msgid "Output"
-msgstr "Ieșire"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 234
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:234
-msgid "Options"
-msgstr "Opțiuni"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 239
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:239
-msgid "Clean cache before build"
-msgstr "Curăță memoria cache înainte de compilare"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 240
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:240
-msgid "Removes cached packages - increases build time"
-msgstr "Elimină pachetele din cache - crește timpul de compilare"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 244
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:244
-msgid "Clean cache after build"
-msgstr "Curăță memoria cache după compilare"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 245
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:245
-msgid "Free disk space after successful build"
-msgstr "Eliberează spațiu pe disc după compilare reușită"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 255
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:255
-msgid "Start Build"
-msgstr "Pornește compilarea"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 311
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:311
-msgid "Editions fetched from official GitHub repositories"
-msgstr "Ediții preluate din depozitele oficiale GitHub"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 313
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:313
-msgid "Provide a git URL to your iso-profiles fork"
-msgstr "Furniza un URL git către fork-ul tău iso-profiles"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 315
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:315
-msgid "Select a local folder containing iso-profiles"
-msgstr "Selectează un folder local care conține iso-profiles"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 329
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:329
-msgid "Select iso-profiles Folder"
-msgstr "Selectează folderul iso-profiles"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 552
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:552
-#, python-brace-format
-msgid "Disk space: {0:.1f} GB free of {1:.1f} GB"
-msgstr "Spațiu pe disc: {0:.1f} GB liberi din {1:.1f} GB"
-# 
-# File: usr/share/build-iso/gui/widgets/build_widget.py, line: 555
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/build_widget.py:555
-msgid "Output directory does not exist yet"
-msgstr "Directorul de ieșire nu există încă"
-# 
-# File: usr/share/build-iso/gui/widgets/profiles_widget.py, line: 60
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/profiles_widget.py:60
-msgid "ISO Profiles"
-msgstr "Profiluri ISO"
-# 
-# File: usr/share/build-iso/gui/widgets/profiles_widget.py, line: 61
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/profiles_widget.py:61
-msgid "Click an edition to configure and build"
-msgstr "Faceți clic pe o ediție pentru a configura și construi"
-# 
-# File: usr/share/build-iso/gui/widgets/profiles_widget.py, line: 66
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/profiles_widget.py:66
-msgid "Profiles Source"
-msgstr "Sursa profilurilor"
-# 
-# File: usr/share/build-iso/gui/widgets/profiles_widget.py, line: 73
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/profiles_widget.py:73
-msgid "Refresh profiles"
-msgstr "Reîmprospătează profilurile"
-# 
-# File: usr/share/build-iso/gui/widgets/profiles_widget.py, line: 96
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/profiles_widget.py:96
-#, python-brace-format
-msgid "Local: {0}"
-msgstr "Local: {0}"
-# 
-# File: usr/share/build-iso/gui/widgets/profiles_widget.py, line: 96
-# File: usr/share/build-iso/gui/widgets/profiles_widget.py, line: 99
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/profiles_widget.py:96
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/profiles_widget.py:99
-msgid "not configured"
-msgstr "neconfigurat"
-# 
-# File: usr/share/build-iso/gui/widgets/profiles_widget.py, line: 99
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/profiles_widget.py:99
-#, python-brace-format
-msgid "Custom: {0}"
-msgstr "Personalizat: {0}"
-# 
-# File: usr/share/build-iso/gui/widgets/profiles_widget.py, line: 101
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/profiles_widget.py:101
-msgid "Official GitHub repositories"
-msgstr "Repozitoare oficiale GitHub"
-# 
-# File: usr/share/build-iso/gui/widgets/profiles_widget.py, line: 223
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/gui/widgets/profiles_widget.py:223
-#, python-brace-format
-msgid "{0} editions available"
-msgstr "{0} ediții disponibile"
-# File: usr/share/build-iso/local_builder.py, line: 88
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:91
-#, python-brace-format
-msgid "Container engine found: {0}"
-msgstr "Motor de containere găsit: {0}"
-# File: usr/share/build-iso/local_builder.py, line: 103
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:106
-#, python-brace-format
-msgid "Stopping {0} old container(s)..."
-msgstr "Oprirea containerului/containerele vechi {0}..."
-# File: usr/share/build-iso/local_builder.py, line: 166
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:166
-#. 2. Stop docker.socket (prevents auto-restart) and docker.service
-msgid "Stopping Docker services..."
-msgstr "Oprirea serviciilor Docker..."
-# File: usr/share/build-iso/local_builder.py, line: 185
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:185
-#. 4. Remove old Docker storage (incompatible between drivers)
-msgid "Removing old Docker storage (btrfs)..."
-msgstr "Eliminarea stocării vechi Docker (btrfs)..."
-# File: usr/share/build-iso/local_builder.py, line: 189
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:189
-#. 5. Start Docker
-msgid "Starting Docker with overlay2..."
-msgstr "Pornind Docker cu overlay2..."
-# File: usr/share/build-iso/local_builder.py, line: 211
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:211
-#, python-brace-format
-msgid "Docker driver is '{0}' after migration (expected 'overlay2')"
-msgstr "Driverul Docker este '{0}' după migrare (așteptat 'overlay2')"
-# File: usr/share/build-iso/local_builder.py, line: 212
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:212
-msgid "Check /etc/docker/daemon.json and Docker logs: journalctl -u docker"
-msgstr "Verifică /etc/docker/daemon.json și jurnalele Docker: journalctl -u docker"
-# File: usr/share/build-iso/local_builder.py, line: 216
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:216
-#, python-brace-format
-msgid "Error during Docker migration: {0}"
-msgstr "Eroare în timpul migrației Docker: {0}"
-# File: usr/share/build-iso/local_builder.py, line: 157
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:251
-#. btrfs driver is deprecated and broken - auto-migrate to overlay2
-msgid "Docker is using the 'btrfs' storage driver, which is deprecated"
-msgstr "Docker folosește driverul de stocare 'btrfs', care este învechit"
-# File: usr/share/build-iso/local_builder.py, line: 158
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:252
-msgid "and may cause 'Failed to create btrfs snapshot' errors."
-msgstr "și poate cauza erori 'Failed to create btrfs snapshot'."
-# File: usr/share/build-iso/local_builder.py, line: 253
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:253
-msgid "Automatically switching to 'overlay2' storage driver..."
-msgstr "Comutare automată la driverul de stocare 'overlay2'..."
-# File: usr/share/build-iso/local_builder.py, line: 160
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:254
-msgid "This requires recreating Docker storage (images will be re-downloaded)."
-msgstr "Aceasta necesită recrearea stocării Docker (imaginile vor fi descărcate din nou)."
-# File: usr/share/build-iso/local_builder.py, line: 259
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:259
-#, python-brace-format
-msgid "Error checking Docker storage driver: {0}"
-msgstr "Eroare la verificarea driverului de stocare Docker: {0}"
-# File: usr/share/build-iso/local_builder.py, line: 148
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:294
-#, python-brace-format
-msgid "Could not check disk space: {0}"
-msgstr "Nu s-a putut verifica spațiul pe disc: {0}"
-# File: usr/share/build-iso/local_builder.py, line: 180
-# File: usr/share/build-iso/local_builder.py, line: 293
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:337
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:450
-#. Retry once with direct output
-#. Retry once
-msgid "Retrying..."
-msgstr "Se reîncearcă..."
-# File: usr/share/build-iso/local_builder.py, line: 185
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:342
-#, python-brace-format
-msgid "Error pulling container image: {0}"
-msgstr "Eroare la descărcarea imaginii containerului: {0}"
-# File: usr/share/build-iso/local_builder.py, line: 202
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:359
-msgid "Cleaning work directory..."
-msgstr "Se curăță directorul de lucru..."
-# File: usr/share/build-iso/local_builder.py, line: 210
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:367
-msgid "Cleaning cache directory (--clean flag)..."
-msgstr "Se curăță directorul cache (--clean flag)..."
-# File: usr/share/build-iso/local_builder.py, line: 238
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:395
-#, python-brace-format
-msgid "Created: {0}"
-msgstr "Creat: {0}"
-# File: usr/share/build-iso/local_builder.py, line: 270
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:427
-#, python-brace-format
-msgid "Could not remove old build-iso: {0}"
-msgstr "Nu s-a putut șterge build-iso vechi: {0}"
-# File: usr/share/build-iso/local_builder.py, line: 298
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:455
-#, python-brace-format
-msgid "Error cloning repository: {0}"
-msgstr "Eroare la clonarea depozitului: {0}"
-# File: usr/share/build-iso/local_builder.py, line: 420
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:583
-msgid "Container build completed successfully"
-msgstr "Construirea containerului s-a finalizat cu succes"
-# File: usr/share/build-iso/local_builder.py, line: 423
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:586
-#, python-brace-format
-msgid "Container build failed with exit code {0}"
-msgstr "Construirea containerului a eșuat cu codul de ieșire {0}"
-# File: usr/share/build-iso/local_builder.py, line: 427
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:590
-msgid "Error running container"
-msgstr "Eroare la rularea containerului"
-# File: usr/share/build-iso/local_builder.py, line: 448
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:611
-msgid "No ISO files found in work directory"
-msgstr "Nu s-au găsit fișiere ISO în directorul de lucru"
-# File: usr/share/build-iso/local_builder.py, line: 458
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:621
-#. Move ISO file
-#, python-brace-format
-msgid "Moving: {0}"
-msgstr "Mutare: {0}"
-# File: usr/share/build-iso/local_builder.py, line: 485
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:648
-#. Generate MD5 checksum
-msgid "Generating MD5 checksum..."
-msgstr "Generare sumă de control MD5..."
-# File: usr/share/build-iso/local_builder.py, line: 497
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:660
-#, python-brace-format
-msgid "Moved: {0}"
-msgstr "Mutat: {0}"
-# File: usr/share/build-iso/local_builder.py, line: 498
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:661
-#, python-brace-format
-msgid "MD5: {0}"
-msgstr "MD5: {0}"
-# File: usr/share/build-iso/local_builder.py, line: 501
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:664
-#. Cleanup work directory completely (remove everything including .pkgs)
-msgid "Cleaning up work directory..."
-msgstr "Curățarea directorului de lucru..."
-# File: usr/share/build-iso/local_builder.py, line: 504
-# File: usr/share/build-iso/local_builder.py, line: 507
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:667
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:670
-msgid "Work directory removed"
-msgstr "Directorul de lucru a fost șters"
-# File: usr/share/build-iso/local_builder.py, line: 509
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:672
-msgid "Cleanup completed"
-msgstr "Curățarea a fost finalizată"
-# File: usr/share/build-iso/local_builder.py, line: 513
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:676
-#, python-brace-format
-msgid "Error moving ISO files: {0}"
-msgstr "Eroare la mutarea fișierelor ISO: {0}"
-# File: usr/share/build-iso/local_builder.py, line: 523
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:686
-msgid "Cleaning up cache directories..."
-msgstr "Curățare directoare cache..."
-# File: usr/share/build-iso/local_builder.py, line: 528
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:691
-msgid "Cache cleaned"
-msgstr "Cache curățat"
-# File: usr/share/build-iso/local_builder.py, line: 532
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:695
-msgid "Work directory cleaned"
-msgstr "Directorul de lucru curățat"
-# File: usr/share/build-iso/local_builder.py, line: 537
-# File: usr/share/build-iso/local_builder.py, line: 611
-# File: usr/share/build-iso/local_builder.py, line: 613
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:700
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:793
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:795
-#, python-brace-format
-msgid "Could not clean cache: {0}"
-msgstr "Nu s-a putut curăța cache-ul: {0}"
-# File: usr/share/build-iso/local_builder.py, line: 552
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:730
-#. Step 0: Get sudo access upfront (ask password once)
-msgid "Requesting sudo access for file operations..."
-msgstr "Solicitare acces sudo pentru operațiuni pe fișiere..."
-# File: usr/share/build-iso/local_builder.py, line: 557
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:733
-msgid "Sudo access required for local builds"
-msgstr "Acces sudo necesar pentru build-uri locale"
-# File: usr/share/build-iso/local_builder.py, line: 569
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:747
-msgid "Docker or Podman not found"
-msgstr "Docker sau Podman nu au fost găsite"
-# File: usr/share/build-iso/local_builder.py, line: 570
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:748
-msgid "Install with: sudo pacman -S docker"
-msgstr "Instalează cu: sudo pacman -S docker"
-# File: usr/share/build-iso/local_builder.py, line: 571
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:749
-msgid "Or install Podman: sudo pacman -S podman"
-msgstr "Sau instalează Podman: sudo pacman -S podman"
-# File: usr/share/build-iso/local_builder.py, line: 591
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:773
-msgid "Build failed inside container"
-msgstr "Build eșuat în interiorul containerului"
-# File: usr/share/build-iso/local_builder.py, line: 598
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:780
-msgid "Could not move ISO files, check manually"
-msgstr "Nu s-au putut muta fișierele ISO, verifică manual"
-# File: usr/share/build-iso/local_builder.py, line: 602
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:784
-msgid "Cleaning package cache..."
-msgstr "Curățare cache pachete..."
-# File: usr/share/build-iso/local_builder.py, line: 605
-# File: usr/share/build-iso/local_builder.py, line: 609
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:787
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:791
-msgid "Cache cleaned successfully"
-msgstr "Cache curățat cu succes"
-# File: usr/share/build-iso/local_builder.py, line: 620
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:802
-#. Step 9: Clean up stopped containers
-msgid "Cleaning up containers..."
-msgstr "Curățare containere..."
-# File: usr/share/build-iso/local_builder.py, line: 633
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:815
-#. Ignore errors in cleanup
-#. Step 10: Display success message
-msgid "Local build completed successfully!"
-msgstr "Construirea locală s-a finalizat cu succes!"
-# File: usr/share/build-iso/local_builder.py, line: 634
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:816
-#, python-brace-format
-msgid "ISO files saved to: {0}"
-msgstr "Fișierele ISO au fost salvate în: {0}"
-# File: usr/share/build-iso/local_builder.py, line: 640
-#: /home/talesam/Servidor/GitHub/BigCommunity/gitrepo/usr/share/build-iso/local_builder.py:822
-#, python-brace-format
-msgid "Work directory preserved at: {0}"
-msgstr "Directorul de lucru a fost păstrat la: {0}"
-
-msgid "Keep {0}"
-msgstr "Păstrează {0}"
-
-msgid "Keep the version from {0}"
-msgstr "Păstrează versiunea din {0}"
-
-msgid "Use the version from {0}"
-msgstr "Folosește versiunea din {0}"
-
-msgid "Combine Both"
-msgstr "Combină ambele versiuni"
-
-msgid "Combine both versions and review the result"
-msgstr "Combină ambele versiuni și verifică rezultatul"
-
-msgid "Current Version"
-msgstr "Versiunea curentă"
-
-msgid "Incoming Version"
-msgstr "Versiunea primită"
-
-msgid "Current: {0} • Incoming: {1}"
-msgstr "Curentă: {0} • Primită: {1}"
-
-msgid "Keep All from {0}"
-msgstr "Păstrează totul din {0}"
-
-msgid "Use All from {0}"
-msgstr "Folosește totul din {0}"
-
-msgid "Error reading version from {0}: {1}"
-msgstr "Eroare la citirea versiunii din {0}: {1}"
-
-msgid "Current: {0}"
-msgstr "Curentă: {0}"
-
-msgid "Incoming: {0}"
-msgstr "Primită: {0}"
-
-msgid "Version from {0}"
-msgstr "Versiunea din {0}"
-
-msgid "✓ Use {0}"
-msgstr "✓ Folosește {0}"
-
-msgid "All conflicts resolved using {0}"
-msgstr "Toate conflictele au fost rezolvate folosind {0}"
-
-msgid "Automatic – Keep current branch version"
-msgstr "Automată – păstrează versiunea ramurii curente"
-
-msgid "Automatic – Use incoming branch version"
-msgstr "Automată – folosește versiunea ramurii primite"
-
-msgid "Keep Current Automatically"
-msgstr "Păstrează automat versiunea curentă"
-
-msgid "Keep the current branch version in every conflict"
-msgstr "Păstrează versiunea ramurii curente în fiecare conflict"
-
-msgid "Use Incoming Automatically"
-msgstr "Folosește automat versiunea primită"
-
-msgid "Use the incoming branch version in every conflict"
-msgstr "Folosește versiunea ramurii primite în fiecare conflict"
-
-
-msgid "Could not load the differences for this file."
-msgstr ""
-
-msgid "✓ Conflicts resolved automatically; current branch changes were kept"
-msgstr ""
-
-msgid "Conflict detected. Trying an automatic merge instead..."
-msgstr ""
-
-#, python-brace-format
-msgid "Automatic conflict resolution failed: {0}"
-msgstr ""
-
-msgid "Resolving automatically with the current branch version..."
-msgstr ""
-
-msgid "Automatic resolution failed; the repository was restored."
-msgstr ""
-
-msgid "Resolving divergence automatically..."
-msgstr ""
-
-msgid "Your commit is saved locally and the repository was restored."
-msgstr ""
-
-msgid "📥 Resolve automatically (keeps current changes on conflicts)"
-msgstr ""
-
-msgid "🔀 Merge histories (keeps current changes on conflicts)"
-msgstr ""
-
-msgid "❌ Cancel"
-msgstr ""
-
-msgid "No changed files to display."
-msgstr ""
-
-msgid "No textual differences to display."
-msgstr ""
-
-msgid "Added and modified"
-msgstr ""
-
-msgid "Modified in index and working tree"
-msgstr ""
-
-msgid "Changes Received from GitHub"
-msgstr ""
-
-msgid "Repository is already up to date"
-msgstr ""
-
-msgid "Pending Changes"
-msgstr ""
-
-msgid "Keep Changes and Switch"
-msgstr ""
