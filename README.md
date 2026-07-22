@@ -1,18 +1,17 @@
-# GitRepo Tools
+# GitRepo
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Version-3.1.5-blue.svg" alt="Version"/>
   <img src="https://img.shields.io/badge/Arch-Linux-1793D1.svg?logo=arch-linux" alt="Arch Linux"/>
   <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License"/>
 </p>
 
-A comprehensive set of tools for BigCommunity Linux distribution development and management. Includes tools for package building (Build Package) and ISO image generation (Build ISO).
+A graphical Git repository manager for BigCommunity development. GitRepo handles commits, synchronization, conflict resolution and package workflows, while Build ISO creates distribution images locally in containers or through remote workflows.
 
 ## Included Tools
 
-### Build Package
+### GitRepo
 
-A comprehensive tool for package building, testing, and deployment. Streamlines Git operations, automates builds and manages package workflows for BigCommunity repositories and AUR packages.
+A GTK4/Libadwaita application for Git operations, package building, testing and deployment in BigCommunity repositories and the AUR.
 
 <p align="center">
    <img src="https://github.com/user-attachments/assets/72484258-00f3-4c30-b136-baea8388a661" alt="build-package" />
@@ -20,68 +19,61 @@ A comprehensive tool for package building, testing, and deployment. Streamlines 
 
 ### Build ISO
 
-A specialized tool for creating and managing Linux distribution ISO images. Automates the process of creating custom ISOs through GitHub Actions integration.
+A specialized tool for creating and managing Linux distribution ISO images in Docker or Podman containers, with optional GitHub Actions integration.
 
 <p align="center">
    <img src="https://github.com/user-attachments/assets/64f2e9b7-0f1e-4978-b453-b71db3f2c59b" alt="build-iso" />
 </p>
 
-## Build Package
+## GitRepo
 
 ### Overview
 
-Build Package is a specialized tool designed to simplify the package building process for BigCommunity repositories. It provides a streamlined interface for common Git operations, automates package builds, and integrates with GitHub Actions workflows for continuous integration.
+GitRepo simplifies repository and package maintenance for BigCommunity. It provides a graphical interface for common Git operations, automates package builds and integrates with GitHub Actions workflows.
 
 ### Features
 
-- **Dual Interface Support** - Both GTK4/Libadwaita GUI and Rich TUI (Terminal User Interface)
-  - Automatic mode detection based on display environment
-  - Graceful fallback to CLI if GUI dependencies are unavailable
+- **Graphical and CLI Interfaces** - GTK4/Libadwaita application and Rich terminal interface
 - **Enhanced Pull Operations** - Smart pull with conflict resolution
   - Interactive choice to keep or discard uncommitted local changes
-  - Clear visualization of pull results with commit summaries
-  - Automatic merge conflict resolution
+  - Clickable list and per-file diff of changes received from GitHub
+  - Graphical conflict resolution with side-by-side comparison
   - Default Git-standard behavior (preserve local changes)
 - **Git Integration** - Automated commit, push, and branch management
   - User-specific branch creation (`dev-username`)
-  - Automatic detection and switching to most recent development branch
+  - Clickable per-file diff for uncommitted changes
   - Operation preview system with safety confirmations
-- **Package Building** - Generate packages from repositories with simplified workflows
+- **Package Building** - Generate testing, stable and extra packages
+  - Testing builds use the remote branch containing the most recent commit
+  - Stable and extra builds merge changes and build exclusively from `main`
 - **AUR Support** - Build packages directly from the Arch User Repository
 - **CI/CD Integration** - Trigger GitHub Actions workflows automatically
 - **Repository Management** - Clean up old branches, tags, and CI jobs
 - **Settings System** - Persistent user preferences with safe/expert operation modes
 - **Multi-language Support** - 30+ languages including Portuguese, Spanish, German, French, Russian, Japanese, Chinese
 
-### What's New in 3.1.5
+### What's New in 3.1.8
 
-**Pull Operations Improvements:**
-- Added interactive choice when pulling with uncommitted local changes
-  - Option 1 (default): Keep local changes and merge with remote (standard Git behavior)
-  - Option 2: Discard local changes and use remote version only (with clear warnings)
-- Enhanced pull result visualization with detailed commit summaries
-- Now waits for user confirmation before returning to menu (shows what was pulled)
-- Menu reordered: "Pull latest" is now the first option, followed by "Commit and push"
-
-**Code Improvements:**
-- Migrated from `VERSION` to `APP_VERSION` for better consistency
-- Updated to version 3.1.5 with improved pull workflow
+- Added graphical per-file diffs for local changes and updates received from GitHub
+- Improved automatic merge handling and graphical conflict resolution
+- Fixed repository status refresh after Git operations
+- Ensured stable and extra packages are always built from `main`
+- Preserved newest-remote-branch selection for testing packages
+- Updated application branding to GitRepo
 
 ### Requirements
 
 **Core Dependencies:**
-- Python 3.6+
+- Python 3.9+
 - Git
 - curl
 - Rich library for Python (`python-rich`)
 - Arch Linux environment (or compatible)
 
-**Optional GUI Dependencies** (for GTK4 interface):
+**GUI Dependencies:**
 - GTK4 (`gtk4`)
 - Libadwaita (`libadwaita`)
 - Python GTK bindings (`python-gobject`)
-
-*Note: The tool automatically falls back to CLI mode if GUI dependencies are not available.*
 
 ### Installation
 
@@ -102,26 +94,27 @@ makepkg -si
 
 ### Usage
 
-#### Interactive Mode
+#### Graphical Interface
 
-Simply run the command without arguments to enter interactive mode:
+Open GitRepo from the application menu or run:
 
 ```bash
-# Auto-detects GUI/CLI mode based on display environment
-bpkg
-
-# Force CLI mode
-bpkg --cli
-
-# Force GUI mode (if GTK4 dependencies are available)
-bpkg --gui
+gitrepo
 ```
 
-The tool automatically detects whether to use GUI or CLI mode based on:
-1. Command-line flags (`--cli`, `--gui`, `--no-gui`)
-2. Presence of other command-line arguments (uses CLI)
-3. Display environment variables (`DISPLAY`, `WAYLAND_DISPLAY`)
-4. Availability of GTK4/Libadwaita libraries
+An optional directory argument opens the Git repository containing that directory:
+
+```bash
+gitrepo /path/to/repository
+```
+
+#### Terminal Interface
+
+Use `bpkg` for terminal operations:
+
+```bash
+bpkg --help
+```
 
 #### Command Line Arguments
 
@@ -130,12 +123,12 @@ Usage: bpkg [options]
 
 Options:
   -o, --org, --organization  Configure GitHub organization (default: big-comm)
-  -b, --build                Commit/push and generate package (testing|stable|extra)
+  -b, --build                Commit/push and generate a development package
   -c, --commit               Just commit/push with the specified message
+  -F, --commit-file          Read a multi-line commit message from a file
   -a, --aur                  Build AUR package
-  --cli                      Force CLI mode
-  --gui                      Force GUI mode (requires GTK4 dependencies)
-  --no-gui                   Disable GUI mode (same as --cli)
+  --mode                     Operation mode (safe|quick|expert)
+  --dry-run                  Simulate operations without executing
   -n, --nocolor              Suppress color printing
   -V, --version              Print application version
   -t, --tmate                Enable tmate for debugging
@@ -163,7 +156,7 @@ Build ISO is a powerful tool designed to simplify the creation of Linux distribu
 
 ### Requirements
 
-- Python 3.6+
+- Python 3.9+
 - Git
 - curl
 - Rich library for Python
@@ -181,13 +174,19 @@ sudo pacman -U gitrepo-*-x86_64.pkg.tar.zst
 
 #### Interactive Mode
 
-Run the command without arguments to enter interactive mode:
+Run the graphical application:
 
 ```bash
 build-iso
 ```
 
-This displays a menu with available options to configure and build an ISO. All build directories and editions are dynamically fetched from your chosen ISO profiles repository.
+For the terminal interface, use:
+
+```bash
+biso
+```
+
+Both interfaces discover available build directories and editions from the selected ISO profiles repository.
 
 #### Automatic Mode
 
@@ -195,19 +194,19 @@ Use automatic mode for quick builds with predefined settings:
 
 ```bash
 # Build with organization defaults
-build-iso -o big-comm --auto
+biso -o talesam --auto
 
 # Override specific settings
-build-iso -o biglinux --auto -e kde -k latest
+biso -o bigbruno --auto -e kde -k latest
 ```
 
 #### Command Line Arguments
 
 ```
-Usage: build-iso [options]
+Usage: biso [options]
 
 Options:
-  -o, --org, --organization  Configure GitHub organization (default: big-comm)
+  -o, --org, --organization  Configure GitHub organization (default: talesam)
   -d, --distro, --distroname Set the distribution name
   -e, --edition              Set the edition (desktop environment)
   -k, --kernel               Set the kernel type
@@ -215,6 +214,9 @@ Options:
   -n, --nocolor              Suppress color printing
   -V, --version              Print application version
   -t, --tmate                Enable tmate for debugging
+  -l, --local                Build locally in a container
+  --output-dir               Set the local ISO output directory
+  --clean                    Clean the local build cache after completion
 ```
 
 ### Adding Your Organization
@@ -316,7 +318,7 @@ Both tools require a GitHub Personal Access Token with specific permissions.
 
 ### Saving the Token
 
-Create a file at `~/.GITHUB_TOKEN` containing the token. You can use either format:
+GitRepo stores its token at `~/.config/gitrepo/github_token` and migrates the legacy `~/.GITHUB_TOKEN` file automatically. You can use either supported format:
 
 ```bash
 # Single token
@@ -339,26 +341,13 @@ talesam=ghp_another_token_here
 ├── README.md
 └── usr/
     ├── bin/
-    │   ├── bpkg              # Build Package executable script
-    │   └── build-iso         # Build ISO executable script
+    │   ├── gitrepo           # GitRepo graphical interface
+    │   ├── bpkg              # GitRepo terminal interface
+    │   ├── build-iso         # Build ISO graphical interface
+    │   └── biso              # Build ISO terminal interface
     └── share/
-        └── gitrepo/          # Application files
-            ├── build_package/
-            │   ├── main.py            # Entry point
-            │   ├── config.py          # Configuration settings
-            │   ├── logger.py          # Logging system
-            │   ├── git_utils.py       # Git repository utilities
-            │   ├── github_api.py      # GitHub API interaction
-            │   ├── menu_system.py     # Interactive menu system
-            │   └── build_package.py   # Main package class
-            └── build_iso/
-                ├── main.py            # Entry point
-                ├── config.py          # Configuration settings
-                ├── logger.py          # Logging system
-                ├── git_utils.py       # Git repository utilities
-                ├── github_api.py      # GitHub API interaction
-                ├── menu_system.py     # Interactive menu system
-                └── build_iso.py       # Main ISO class
+        ├── build-package/    # GitRepo core, CLI and GUI
+        └── build-iso/        # Build ISO core, CLI and GUI
 ```
 
 ## Troubleshooting
