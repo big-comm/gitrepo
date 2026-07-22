@@ -270,7 +270,7 @@ class GitUtils:
                 if logger:
                     # logger.log("cyan", f"Pulling latest changes from most recent branch: {most_recent_branch}")
                     logger.log("cyan", _("Pulling latest changes from most recent branch: {0}").format(logger.format_branch_name(most_recent_branch)))
-                
+
                 subprocess.run(
                     ["git", "pull", "origin", most_recent_branch, "--rebase", "--no-edit"],
                     stdout=subprocess.PIPE,
@@ -278,7 +278,7 @@ class GitUtils:
                     text=True,
                     check=True
                 )
-                
+
                 if logger:
                     logger.log("green", _("Successfully pulled latest changes from {0}").format(most_recent_branch))
                 return True
@@ -539,14 +539,20 @@ class GitUtils:
             return False
 
     @staticmethod
-    def get_current_commit_sha() -> str:
+    def get_current_commit_sha(repo_path: str = None) -> str:
         """Gets the SHA of the current commit"""
-        if not GitUtils.is_git_repo():
+        repo_path = repo_path or GitUtils.get_repo_root_path()
+        if not os.path.isdir(repo_path):
             return ""
 
         try:
             result = subprocess.run(
-                ["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False
+                ["git", "rev-parse", "HEAD"],
+                cwd=repo_path,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False,
             )
 
             if result.returncode == 0:
@@ -747,33 +753,12 @@ class GitUtils:
                         if logger:
                             logger.log("cyan", _("Rebase aborted automatically."))
                         
-                        # If we have menu, offer alternatives
-                        if menu:
-                            if logger:
-                                logger.log("white", "")
-                                logger.log("yellow", _("The remote has conflicting changes."))
-                            
-                            choice = menu.show_menu(
-                                _("Rebase failed due to conflicts. What do you want to do?"),
-                                [
-                                    _("🔀 Try merge instead (may auto-resolve)"),
-                                    _("❌ Cancel - I'll resolve manually")
-                                ]
+                        if logger:
+                            logger.log(
+                                "yellow",
+                                _("Conflict detected. Trying an automatic merge instead..."),
                             )
-                            
-                            if choice is None or choice[0] == 1:  # Cancel
-                                if logger:
-                                    logger.log("yellow", _("Operation cancelled"))
-                                return False
-                            
-                            if choice[0] == 0:  # Try merge
-                                return GitUtils.resolve_divergence(branch, 'merge', logger, menu)
-                        else:
-                            # No menu available, just report failure
-                            if logger:
-                                logger.log("yellow", _("Conflict detected. Trying merge instead..."))
-                            # Auto-try merge as fallback
-                            return GitUtils.resolve_divergence(branch, 'merge', logger)
+                        return GitUtils.resolve_divergence(branch, 'merge', logger, menu)
                     else:
                         if logger:
                             logger.log("red", _("Rebase failed: {0}").format(
@@ -786,12 +771,16 @@ class GitUtils:
                 return True
                 
             elif method == 'merge':
-                # Pull with merge - creates merge commit
+                # Merge the remote branch while preserving the current branch
+                # for conflicting hunks. Non-conflicting remote changes remain.
                 if logger:
                     logger.log("cyan", _("Pulling with merge..."))
                 
                 result = subprocess.run(
-                    ["git", "pull", "--no-rebase", "origin", branch],
+                    [
+                        "git", "merge", "--no-edit", "-X", "ours",
+                        f"origin/{branch}",
+                    ],
                     capture_output=True,
                     text=True,
                     check=False
@@ -799,15 +788,22 @@ class GitUtils:
                 
                 if result.returncode != 0:
                     if "conflict" in result.stderr.lower() or "conflict" in result.stdout.lower():
-                        subprocess.run(
-                            ["git", "merge", "--abort"],
-                            capture_output=True,
-                            check=False,
-                        )
                         if logger:
                             logger.log("yellow", _("⚠️ Merge conflicts detected!"))
-                            logger.log("white", _("Merge aborted; the repository was restored."))
-                        return False
+                            logger.log(
+                                "cyan",
+                                _("Resolving automatically with the current branch version..."),
+                            )
+
+                        if not GitUtils._resolve_merge_conflicts_with_current_branch(logger):
+                            subprocess.run(
+                                ["git", "merge", "--abort"],
+                                capture_output=True,
+                                check=False,
+                            )
+                            if logger:
+                                logger.log("white", _("Automatic resolution failed; the repository was restored."))
+                            return False
                     else:
                         if logger:
                             logger.log("red", _("Merge failed: {0}").format(
@@ -823,10 +819,83 @@ class GitUtils:
                 if logger:
                     logger.log("red", _("Unknown resolution method: {0}").format(method))
                 return False
-                
+
         except Exception as e:
             if logger:
                 logger.log("red", _("Error resolving divergence: {0}").format(e))
+            return False
+
+    @staticmethod
+    def _resolve_merge_conflicts_with_current_branch(logger=None) -> bool:
+        """Resolve remaining merge conflicts in favor of the checked-out branch."""
+        conflicts = subprocess.run(
+            ["git", "diff", "--name-only", "--diff-filter=U", "-z"],
+            capture_output=True,
+            check=False,
+        )
+        if conflicts.returncode != 0:
+            return False
+
+        files = [os.fsdecode(path) for path in conflicts.stdout.split(b"\0") if path]
+        try:
+            for file_path in files:
+                stages = subprocess.run(
+                    ["git", "ls-files", "-u", "--", file_path],
+                    capture_output=True,
+                    text=True,
+                    check=False,
+                )
+                ours_exists = any(
+                    entry.split("\t", 1)[0].split()[-1] == "2"
+                    for entry in stages.stdout.splitlines()
+                    if entry.split("\t", 1)[0].split()
+                )
+                if ours_exists:
+                    subprocess.run(
+                        ["git", "checkout", "--ours", "--", file_path],
+                        check=True,
+                        capture_output=True,
+                    )
+                    subprocess.run(
+                        ["git", "add", "--", file_path],
+                        check=True,
+                        capture_output=True,
+                    )
+                else:
+                    subprocess.run(
+                        ["git", "rm", "-f", "--ignore-unmatch", "--", file_path],
+                        check=True,
+                        capture_output=True,
+                    )
+
+            unresolved = subprocess.run(
+                ["git", "diff", "--name-only", "--diff-filter=U"],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            if unresolved.returncode != 0 or unresolved.stdout.strip():
+                return False
+
+            subprocess.run(
+                ["git", "commit", "--no-edit"],
+                check=True,
+                capture_output=True,
+            )
+            if logger:
+                logger.log(
+                    "green",
+                    _("✓ Conflicts resolved automatically; current branch changes were kept"),
+                )
+            return True
+        except subprocess.CalledProcessError as exc:
+            if logger:
+                logger.log("red", _("Automatic conflict resolution failed: {0}").format(exc))
+            return False
+
+        except Exception as e:
+            if logger:
+                logger.log("red", _("Automatic conflict resolution failed: {0}").format(e))
             return False
 
     @staticmethod
@@ -847,27 +916,109 @@ class GitUtils:
             return 0
 
     @staticmethod
-    def get_changed_files() -> list:
+    def get_changed_files(repo_path: str = None) -> list:
         """Return a list of (status, filepath) tuples for changed files."""
         try:
+            repo_path = repo_path or GitUtils.get_repo_root_path()
             result = subprocess.run(
-                ["git", "status", "--porcelain"],
+                [
+                    "git", "status", "--porcelain=v1", "-z",
+                    "--untracked-files=all",
+                ],
+                cwd=repo_path,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.DEVNULL,
-                text=True,
                 check=False,
             )
             if result.returncode != 0:
                 return []
             files = []
-            for line in result.stdout.splitlines():
-                if line.strip():
-                    status = line[:2].strip()
-                    filepath = line[3:]
-                    files.append((status, filepath))
+            records = result.stdout.split(b"\0")
+            index = 0
+            while index < len(records):
+                record = records[index]
+                index += 1
+                if not record:
+                    continue
+                decoded = os.fsdecode(record)
+                status = decoded[:2].strip()
+                filepath = decoded[3:]
+                files.append((status, filepath))
+                if "R" in status or "C" in status:
+                    index += 1  # Skip the old path stored by porcelain -z.
             return files
         except Exception:
             return []
+
+    @staticmethod
+    def get_worktree_file_diff(filepath: str, repo_path: str = None) -> str:
+        """Return the staged and unstaged diff for one working-tree file."""
+        repo_path = repo_path or GitUtils.get_repo_root_path()
+        tracked = subprocess.run(
+            ["git", "ls-files", "--error-unmatch", "--", filepath],
+            cwd=repo_path,
+            capture_output=True,
+            check=False,
+        ).returncode == 0
+        command = (
+            ["git", "diff", "--no-ext-diff", "HEAD", "--", filepath]
+            if tracked
+            else ["git", "diff", "--no-index", "--", "/dev/null", filepath]
+        )
+        result = subprocess.run(
+            command,
+            cwd=repo_path,
+            capture_output=True,
+            check=False,
+        )
+        if result.returncode not in (0, 1):
+            return _("Could not load the differences for this file.")
+        return result.stdout.decode("utf-8", errors="replace")
+
+    @staticmethod
+    def get_revision_changes(before: str, after: str, repo_path: str = None) -> list:
+        """Return (status, path) entries changed between two revisions."""
+        if not before or not after or before == after:
+            return []
+        repo_path = repo_path or GitUtils.get_repo_root_path()
+        result = subprocess.run(
+            [
+                "git", "diff", "--name-status", "--no-renames", "-z",
+                before, after,
+            ],
+            cwd=repo_path,
+            capture_output=True,
+            check=False,
+        )
+        if result.returncode != 0:
+            return []
+        fields = [os.fsdecode(field) for field in result.stdout.split(b"\0") if field]
+        return [
+            (fields[index], fields[index + 1])
+            for index in range(0, len(fields) - 1, 2)
+        ]
+
+    @staticmethod
+    def get_revision_file_diff(
+        before: str,
+        after: str,
+        filepath: str,
+        repo_path: str = None,
+    ) -> str:
+        """Return a unified diff for one file between two revisions."""
+        repo_path = repo_path or GitUtils.get_repo_root_path()
+        result = subprocess.run(
+            [
+                "git", "diff", "--no-ext-diff", "--unified=5",
+                before, after, "--", filepath,
+            ],
+            cwd=repo_path,
+            capture_output=True,
+            check=False,
+        )
+        if result.returncode != 0:
+            return _("Could not load the differences for this file.")
+        return result.stdout.decode("utf-8", errors="replace")
 
     @staticmethod
     def branch_exists(branch: str) -> bool:

@@ -7,6 +7,7 @@
 # All rights reserved.
 #
 
+import os
 import subprocess
 
 from .git_utils import GitUtils
@@ -29,6 +30,49 @@ def _abort_integration():
     """Abort a merge or rebase started by the pull workflow."""
     subprocess.run(["git", "rebase", "--abort"], capture_output=True, check=False)
     subprocess.run(["git", "merge", "--abort"], capture_output=True, check=False)
+
+
+def _rebase_in_progress():
+    """Return whether Git currently has an active rebase."""
+    git_dir = subprocess.run(
+        ["git", "rev-parse", "--git-dir"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if git_dir.returncode != 0:
+        return False
+    root = git_dir.stdout.strip()
+    return any(
+        os.path.isdir(os.path.join(root, directory))
+        for directory in ("rebase-merge", "rebase-apply")
+    )
+
+
+def _resolve_with_strategy(bp, strategy):
+    """Resolve unmerged files without opening an interactive prompt."""
+    original_strategy = bp.conflict_resolver.strategy
+    try:
+        bp.conflict_resolver.strategy = strategy
+        return bp.conflict_resolver.resolve()
+    finally:
+        bp.conflict_resolver.strategy = original_strategy
+
+
+def _staged_paths():
+    """Return paths staged before a temporary stash is created."""
+    result = subprocess.run(
+        ["git", "diff", "--cached", "--name-only", "-z"],
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        return set()
+    return {
+        os.fsdecode(path)
+        for path in result.stdout.split(b"\0")
+        if path
+    }
 
 
 def _restore_stash_after_abort(bp, stash_ref):
@@ -133,8 +177,18 @@ def pull_latest_v2(build_package_instance):
         bp.logger.log("cyan", _("Opening conflict resolver..."))
         bp.logger.log("cyan", "")
 
-        # Now open the resolver (will show its own interface)
-        if not bp.conflict_resolver.resolve():
+        automatic_resolution = is_gui_mode or mode_config.get(
+            "auto_resolve_conflicts", False
+        )
+        if automatic_resolution and _rebase_in_progress():
+            _abort_integration()
+            resolved = not bp.conflict_resolver.has_conflicts()
+        elif automatic_resolution:
+            resolved = _resolve_with_strategy(bp, "auto-ours")
+        else:
+            resolved = bp.conflict_resolver.resolve()
+
+        if not resolved:
             bp.logger.log("red", _("✗ Failed to resolve conflicts"))
             bp.logger.log("yellow", "")
             if not is_gui_mode:
@@ -246,6 +300,7 @@ def pull_latest_v2(build_package_instance):
     # Check if we have uncommitted changes that would block the pull
     has_changes = GitUtils.has_changes()
     stash_needed = False
+    staged_before_stash = set()
 
     if has_changes:
         # Ask user what to do with local changes
@@ -294,6 +349,7 @@ def pull_latest_v2(build_package_instance):
             # User wants to keep local changes (stash before pull)
             bp.logger.log("cyan", _("Preserving your changes..."))
             stash_needed = True
+            staged_before_stash = _staged_paths()
 
     # === PHASE 3: FETCH LATEST ===
     plan.add(
@@ -467,8 +523,25 @@ def pull_latest_v2(build_package_instance):
         if not is_gui_mode:
             input(_("Press Enter to start resolving conflicts..."))
         
-        # Use enhanced conflict resolver with branch information
-        if not bp.conflict_resolver.resolve(current_branch, most_recent_branch):
+        automatic_resolution = is_gui_mode or mode_config.get(
+            "auto_resolve_conflicts", False
+        )
+        if automatic_resolution and _rebase_in_progress():
+            _abort_integration()
+            resolved = GitUtils.resolve_divergence(
+                most_recent_branch,
+                "rebase",
+                bp.logger,
+                bp.menu,
+            )
+        elif automatic_resolution:
+            resolved = _resolve_with_strategy(bp, "auto-ours")
+        else:
+            resolved = bp.conflict_resolver.resolve(
+                current_branch, most_recent_branch
+            )
+
+        if not resolved:
             _abort_integration()
             _restore_stash_after_abort(bp, operation_stash)
             bp.logger.log("red", _("✗ Failed to resolve conflicts"))
@@ -516,9 +589,14 @@ def pull_latest_v2(build_package_instance):
     # === PHASE 7: CHECK FOR CONFLICTS ===
     # This is now also a safety check in case conflicts were not detected earlier
     if bp.conflict_resolver.has_conflicts():
-        # Use enhanced conflict resolver with branch information
-        # This will show a detailed comparison and intelligent resolution
-        if not bp.conflict_resolver.resolve(current_branch, most_recent_branch):
+        if is_gui_mode or mode_config.get("auto_resolve_conflicts", False):
+            resolved = _resolve_with_strategy(bp, "auto-ours")
+        else:
+            resolved = bp.conflict_resolver.resolve(
+                current_branch, most_recent_branch
+            )
+
+        if not resolved:
             _abort_integration()
             _restore_stash_after_abort(bp, operation_stash)
             bp.logger.log("red", _("✗ Failed to resolve conflicts"))
@@ -547,6 +625,7 @@ def pull_latest_v2(build_package_instance):
         if pop_result.returncode != 0:
             # Check if there are conflicts
             if bp.conflict_resolver.has_conflicts():
+                stash_conflicts = bp.conflict_resolver.get_conflict_files()
                 # Show context about what happened
                 bp.logger.log("yellow", "")
                 bp.logger.log("yellow", "═" * 70)
@@ -562,9 +641,15 @@ def pull_latest_v2(build_package_instance):
                 if not is_gui_mode:
                     input(_("Press Enter to start resolving conflicts..."))
 
-                # Use enhanced resolver - "current" is the pulled code, "incoming" is stashed changes
-                # Note: After stash pop, "ours" is the pulled code, "theirs" is the stashed changes
-                if not bp.conflict_resolver.resolve(current_branch, "stashed-changes"):
+                # During stash apply, stage 3 contains the user's local edits.
+                if is_gui_mode or mode_config.get("auto_resolve_conflicts", False):
+                    resolved = _resolve_with_strategy(bp, "auto-theirs")
+                else:
+                    resolved = bp.conflict_resolver.resolve(
+                        current_branch, "stashed-changes"
+                    )
+
+                if not resolved:
                     subprocess.run(
                         ["git", "reset", "--hard", "HEAD"],
                         capture_output=True,
@@ -580,6 +665,14 @@ def pull_latest_v2(build_package_instance):
                     if not is_gui_mode:
                         input(_("Press Enter to return to main menu..."))
                     return False
+
+                for file_path in stash_conflicts:
+                    if file_path not in staged_before_stash:
+                        subprocess.run(
+                            ["git", "reset", "HEAD", "--", file_path],
+                            capture_output=True,
+                            check=False,
+                        )
 
                 bp.logger.log("green", _("✓ Conflicts resolved, changes restored"))
                 subprocess.run(

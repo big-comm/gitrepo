@@ -490,8 +490,16 @@ class OperationRunner:
         self.parent = parent_window
         self.current_dialog = None
     
-    def run_with_progress(self, operation_func, title, message="", 
-                         cancellable=True, *args, **kwargs):
+    def run_with_progress(
+        self,
+        operation_func,
+        title,
+        message="",
+        cancellable=True,
+        *args,
+        completion_callback=None,
+        **kwargs,
+    ):
         """Run operation with progress dialog"""
         
         dialog = ProgressDialog(self.parent, title, message, cancellable)
@@ -508,7 +516,12 @@ class OperationRunner:
             
             self.current_dialog = None
             # Small delay before closing to show final status
-            GLib.timeout_add(800, lambda: self._finish_operation(dialog, success, result))
+            GLib.timeout_add(
+                800,
+                lambda: self._finish_operation(
+                    dialog, success, result, completion_callback
+                ),
+            )
         
         def on_cancelled(dialog):
             # Disconnect logger
@@ -534,12 +547,14 @@ class OperationRunner:
         
         return dialog
     
-    def _finish_operation(self, dialog, success, result):
+    def _finish_operation(self, dialog, success, result, completion_callback=None):
         """Finish operation and close dialog"""
         dialog.close()
         
         if success:
             self._on_operation_success(result)
+            if completion_callback:
+                completion_callback(result)
         else:
             self._on_operation_error(result)
         

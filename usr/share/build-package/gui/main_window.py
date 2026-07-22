@@ -736,14 +736,49 @@ class MainWindow(Adw.ApplicationWindow):
             # Import V2 operation
             from core.pull_operations import pull_latest_v2
 
+            repo_path = self.build_package.repo_path
+            before = GitUtils.get_current_commit_sha(repo_path)
             # Use V2 operation with intelligent conflict handling
-            return pull_latest_v2(self.build_package)
+            if not pull_latest_v2(self.build_package):
+                return False
+            after = GitUtils.get_current_commit_sha(repo_path)
+            return {
+                "before": before,
+                "after": after,
+                "changes": GitUtils.get_revision_changes(before, after, repo_path),
+                "repo_path": repo_path,
+            }
 
         self.operation_runner.run_with_progress(
             pull_operation,
             _("Pulling Changes"),
             _("Pulling latest changes from remote repository..."),
+            completion_callback=self._show_pulled_changes,
         )
+
+    def _show_pulled_changes(self, result):
+        """Show a clickable summary of files changed by a completed pull."""
+        if not isinstance(result, dict) or not result.get("changes"):
+            self.show_toast(_("Repository is already up to date"))
+            return
+
+        from gui.dialogs.diff_viewer_dialog import DiffViewerDialog
+
+        before = result["before"]
+        after = result["after"]
+        repo_path = result["repo_path"]
+        dialog = DiffViewerDialog(
+            self,
+            _("Changes Received from GitHub"),
+            result["changes"],
+            lambda filepath: GitUtils.get_revision_file_diff(
+                before,
+                after,
+                filepath,
+                repo_path,
+            ),
+        )
+        dialog.present()
 
     def on_undo_commit_requested(self, widget):
         """Handle undo last commit request — delegates to core/branch_handler.py."""

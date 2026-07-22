@@ -362,9 +362,12 @@ class OverviewWidget(Gtk.Box):
             row.set_title(filepath)
             label = status_labels.get(status, status)
             row.set_subtitle(label)
+            row.set_activatable(True)
+            row.connect("activated", self._show_file_diff, filepath)
 
             icon_name, tone = git_status_icon(status)
             row.add_prefix(icon_tile(icon_name, tone=tone, size=24))
+            row.add_suffix(Gtk.Image.new_from_icon_name("go-next-symbolic"))
             self.changed_files_expander.add_row(row)
             self._changed_file_rows.append(row)
 
@@ -374,6 +377,20 @@ class OverviewWidget(Gtk.Box):
         )
         self.changed_files_expander.set_subtitle(_("Click to expand"))
         self.changed_files_group.set_visible(count > 0)
+
+    def _show_file_diff(self, _row, filepath):
+        """Show all pending files and select the activated file."""
+        from gui.dialogs.diff_viewer_dialog import DiffViewerDialog
+
+        repo_path = self.build_package.repo_path
+        dialog = DiffViewerDialog(
+            self.get_root(),
+            _("Pending Changes"),
+            GitUtils.get_changed_files(repo_path),
+            lambda path: GitUtils.get_worktree_file_diff(path, repo_path),
+            initial_path=filepath,
+        )
+        dialog.present()
 
     def update_recent_activity(self):
         """Update recent activity information"""

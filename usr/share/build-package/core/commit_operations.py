@@ -366,30 +366,29 @@ def commit_and_push_v2(build_package_instance):
         
         bp.logger.log("white", "")
         
-        # Show resolution menu
-        choice = bp.menu.show_menu(
-            _("How do you want to resolve this divergence?"),
-            [
-                _("📥 Pull with rebase (RECOMMENDED - clean history)"),
-                _("🔀 Pull with merge (keeps both histories)"),
-                _("❌ Cancel and resolve manually")
-            ]
-        )
-        
-        if choice is None or choice[0] == 2:  # Cancel
-            bp.logger.log("yellow", _("Operation cancelled"))
-            bp.logger.log("white", _("Your commit is saved locally. To complete:"))
-            bp.logger.log("white", _("  1. git pull --rebase origin {0}").format(current_branch))
-            bp.logger.log("white", _("  2. Resolve any conflicts"))
-            bp.logger.log("white", _("  3. git push origin {0}").format(current_branch))
-            return False
-        
-        resolution_method = ['rebase', 'merge'][choice[0]]
+        if is_gui_mode or mode_config.get("auto_resolve_conflicts", False):
+            bp.logger.log("cyan", _("Resolving divergence automatically..."))
+            resolution_method = "rebase"
+        else:
+            choice = bp.menu.show_menu(
+                _("How do you want to resolve this divergence?"),
+                [
+                    _("📥 Resolve automatically (keeps current changes on conflicts)"),
+                    _("🔀 Merge histories (keeps current changes on conflicts)"),
+                    _("❌ Cancel")
+                ]
+            )
+
+            if choice is None or choice[0] == 2:
+                bp.logger.log("yellow", _("Operation cancelled"))
+                return False
+
+            resolution_method = ['rebase', 'merge'][choice[0]]
         
         # Resolve the divergence
         if not GitUtils.resolve_divergence(current_branch, resolution_method, bp.logger, bp.menu):
             bp.logger.log("red", _("✗ Failed to resolve divergence"))
-            bp.logger.log("yellow", _("Your commit is saved locally. Please resolve manually."))
+            bp.logger.log("yellow", _("Your commit is saved locally and the repository was restored."))
             return False
         
         # After rebase/merge, push without rewriting remote history.

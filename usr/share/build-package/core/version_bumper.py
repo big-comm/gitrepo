@@ -10,6 +10,7 @@
 import os
 import re
 import subprocess
+from pathlib import Path
 
 from .git_utils import GitUtils
 from .translation_utils import _
@@ -105,18 +106,21 @@ def _locate_app_version_entry(bp):
             if relative_path
         }
 
-    if bp._app_version_cache and os.path.normpath(bp._app_version_cache) in candidate_paths:
-        try:
-            with open(bp._app_version_cache, 'r', encoding='utf-8') as fh:
-                cached_content = fh.read()
-            cached_match = pattern.search(cached_content)
-            if cached_match:
-                return bp._app_version_cache, cached_content, cached_match
-        except (OSError, UnicodeDecodeError):
-            bp._app_version_cache = None
-
     if not repo_path or not os.path.isdir(repo_path):
         return None, None, None
+
+    def normalize_identifier(value):
+        return re.sub(r"[^a-z0-9]", "", value.lower())
+
+    repository_identifiers = {normalize_identifier(os.path.basename(repo_path))}
+    for pkgbuild_path in ("PKGBUILD", os.path.join("pkgbuild", "PKGBUILD")):
+        try:
+            pkgbuild = Path(repo_path, pkgbuild_path).read_text(encoding="utf-8")
+        except (OSError, UnicodeDecodeError):
+            continue
+        pkgname_match = re.search(r"^pkgname=([a-zA-Z0-9@._+-]+)$", pkgbuild, re.MULTILINE)
+        if pkgname_match:
+            repository_identifiers.add(normalize_identifier(pkgname_match.group(1)))
 
     allowed_extensions = {
         "", ".py", ".cfg", ".conf", ".ini", ".json", ".toml", ".yaml", ".yml",
@@ -141,6 +145,11 @@ def _locate_app_version_entry(bp):
         ".cmake",                                # CMake
         ".mk",                                   # Makefile fragments
     }
+
+    entries = []
+    app_name_pattern = re.compile(
+        r"APP_NAME\s*=\s*(?:_\(\s*)?[\"']([^\"']+)[\"']"
+    )
 
     for file_path in sorted(candidate_paths):
         ext = os.path.splitext(file_path)[1].lower()
@@ -171,10 +180,22 @@ def _locate_app_version_entry(bp):
             if prefix_no_trailing and prefix_no_trailing[-1] in ("'", '"'):
                 continue
 
-            bp._app_version_cache = file_path
-            return file_path, content, match
+            app_name_match = app_name_pattern.search(content)
+            app_name = normalize_identifier(app_name_match.group(1)) if app_name_match else ""
+            score = 100 if app_name and app_name in repository_identifiers else 0
+            entries.append((score, file_path, content, match))
 
-    return None, None, None
+    if not entries:
+        return None, None, None
+
+    entries.sort(key=lambda entry: (-entry[0], entry[1]))
+    if len(entries) > 1 and entries[0][0] == entries[1][0]:
+        return None, None, None
+
+    _score, file_path, content, match = entries[0]
+    bp._app_version_cache = file_path
+    return file_path, content, match
+
 
 
 def apply_auto_version_bump(bp, commit_message: str, explicit_type=None):

@@ -16,7 +16,7 @@ from urllib.parse import unquote
 import gi
 gi.require_version('Gtk', '4.0')
 
-from gi.repository import GObject, Nautilus
+from gi.repository import GObject, Nautilus  # noqa: E402
 
 # --- Internationalization (i18n) Setup ---
 APP_NAME = "gitrepo"
