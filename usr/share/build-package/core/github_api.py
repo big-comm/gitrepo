@@ -543,66 +543,11 @@ class GitHubAPI:
                     workflow_branch = new_branch or "main"
                     logger.log("yellow", _("Using fallback: {0}").format(workflow_branch))
             else:
-                # For stable/extra, determine if we successfully merged to main
-                current_branch = GitUtils.get_current_branch()
-
-                if current_branch == "main":
-                    # We're on main, check if it has latest changes
-                    try:
-                        # Get latest commit hash from main
-                        main_commit = subprocess.run(
-                            ["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE, text=True, check=True
-                        ).stdout.strip()
-
-                        # Get latest commit hash from source branch (if different from main)
-                        if new_branch and new_branch != "main":
-                            source_commit = subprocess.run(
-                                ["git", "rev-parse", f"origin/{new_branch}"],
-                                stdout=subprocess.PIPE,
-                                text=True,
-                                check=True,
-                            ).stdout.strip()
-
-                            if main_commit == source_commit:
-                                workflow_branch = "main"
-                                logger.log(
-                                    "green", _("Stable/Extra package: main is up-to-date, workflow will use main")
-                                )
-                            else:
-                                # Main doesn't have latest changes, use source branch
-                                workflow_branch = new_branch
-                                logger.log(
-                                    "yellow",
-                                    _("Stable/Extra package: main not up-to-date, workflow will use {0}").format(
-                                        workflow_branch
-                                    ),
-                                )
-                                logger.log(
-                                    "yellow",
-                                    _("⚠️  Warning: Package will be built from {0} instead of main").format(
-                                        workflow_branch
-                                    ),
-                                )
-                        else:
-                            workflow_branch = "main"
-                            logger.log("green", _("Stable/Extra package: workflow will use main"))
-
-                    except subprocess.CalledProcessError:
-                        # If we can't determine, use current branch
-                        workflow_branch = current_branch
-                        logger.log(
-                            "yellow", _("Could not verify branch status, using current: {0}").format(workflow_branch)
-                        )
-                else:
-                    # We're not on main, use current branch
-                    workflow_branch = current_branch
-                    logger.log(
-                        "yellow", _("Stable/Extra package: not on main, workflow will use {0}").format(workflow_branch)
-                    )
-                    logger.log(
-                        "yellow",
-                        _("⚠️  Warning: Package will be built from {0} instead of main").format(workflow_branch),
-                    )
+                # Stable/Extra builds are published only from main. The package
+                # operation merges and pushes main before reaching this point,
+                # then restores the user's original working branch.
+                workflow_branch = "main"
+                logger.log("green", _("Stable/Extra package: workflow will use main"))
 
             # Prepare payload data
             payload = {

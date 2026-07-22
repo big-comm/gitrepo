@@ -6,6 +6,7 @@ from core.branch_handler import switch_branch
 from core.commit_operations import commit_and_push_v2
 from core.conflict_resolver import ConflictResolver
 from core.git_utils import GitUtils
+from core.github_api import GitHubAPI
 from core.package_operations import _merge_to_main
 from core.pull_operations import pull_latest_v2
 from core.version_bumper import _locate_app_version_entry
@@ -135,6 +136,29 @@ def test_stable_build_syncs_dev_and_fast_forwards_main(tmp_path, monkeypatch):
     remote_main = git(remote, "rev-parse", "main")
     remote_dev = git(remote, "rev-parse", "dev-tester")
     assert remote_main == remote_dev
+
+
+def test_stable_workflow_uses_main_after_original_branch_is_restored(monkeypatch):
+    posted = {}
+
+    class Response:
+        status_code = 204
+
+    def post(url, headers, json, timeout):
+        posted["url"] = url
+        posted["json"] = json
+        return Response()
+
+    monkeypatch.setattr(GitUtils, "get_repo_name", staticmethod(lambda: "big-comm/gitrepo"))
+    monkeypatch.setattr(GitUtils, "get_current_branch", staticmethod(lambda: "dev-talesam"))
+    monkeypatch.setattr("core.github_api.requests.post", post)
+
+    api = GitHubAPI("token", "big-comm")
+    assert api.trigger_workflow("gitrepo", "stable", "", False, False, Logger())
+
+    payload = posted["json"]["client_payload"]
+    assert payload["branch"] == "main"
+    assert "new_branch" not in payload
 
 
 def test_cancelled_stable_merge_leaves_repository_clean(tmp_path, monkeypatch):
