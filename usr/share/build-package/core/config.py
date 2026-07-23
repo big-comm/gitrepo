@@ -47,6 +47,6 @@ COLORS = {
 CONFLICT_RESOLUTION_AUTO_ACCEPT_NEWER = False  # If True, automatically accepts newer branch version in conflicts
 
 # Script version
-APP_VERSION = "3.1.9"
+APP_VERSION = "3.2.0"
 APP_NAME = "GitRepo"
 APP_DESC = _("A comprehensive tool for package building, testing, and deployment. Streamlines Git operations, automates builds and manages package workflows for BigCommunity repositories and AUR packages.")

@@ -1,12 +1,15 @@
+import os
 import subprocess
 from pathlib import Path
 from types import SimpleNamespace
 
-from core.branch_handler import switch_branch
+from core.branch_handler import rename_branch, switch_branch
+from core.build_package import BuildPackage
 from core.commit_operations import commit_and_push_v2
 from core.conflict_resolver import ConflictResolver
 from core.git_utils import GitUtils
 from core.github_api import GitHubAPI
+import core.package_operations as package_operations
 from core.package_operations import _merge_to_main
 from core.pull_operations import pull_latest_v2
 from core.version_bumper import _locate_app_version_entry
@@ -17,6 +20,22 @@ def git(repo: Path, *args: str) -> str:
     result = subprocess.run(
         ["git", *args],
         cwd=repo,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return result.stdout.strip()
+
+
+def git_with_timestamp(repo: Path, timestamp: int, *args: str) -> str:
+    env = os.environ.copy()
+    date = f"{timestamp} +0000"
+    env["GIT_AUTHOR_DATE"] = date
+    env["GIT_COMMITTER_DATE"] = date
+    result = subprocess.run(
+        ["git", *args],
+        cwd=repo,
+        env=env,
         check=True,
         capture_output=True,
         text=True,
@@ -136,6 +155,112 @@ def test_stable_build_syncs_dev_and_fast_forwards_main(tmp_path, monkeypatch):
     remote_main = git(remote, "rev-parse", "main")
     remote_dev = git(remote, "rev-parse", "dev-tester")
     assert remote_main == remote_dev
+    assert git(repo, "rev-parse", "main") == remote_main
+    assert not git(repo, "branch", "--list", "backup/main-before-stable-*")
+
+
+def test_stable_build_backs_up_diverged_local_main(tmp_path, monkeypatch):
+    repo, remote = create_repository(tmp_path)
+    git(repo, "checkout", "-b", "dev-tester")
+    (repo / "feature.txt").write_text("feature\n", encoding="utf-8")
+    git(repo, "add", "feature.txt")
+    git(repo, "commit", "-m", "feature")
+    git(repo, "push", "-u", "origin", "dev-tester")
+
+    git(repo, "checkout", "main")
+    (repo / "local-main.txt").write_text("unpublished\n", encoding="utf-8")
+    git(repo, "add", "local-main.txt")
+    git(repo, "commit", "-m", "unpublished main work")
+    local_main = git(repo, "rev-parse", "HEAD")
+
+    peer = tmp_path / "peer"
+    subprocess.run(["git", "clone", str(remote), str(peer)], check=True, capture_output=True)
+    git(peer, "config", "user.name", "Peer User")
+    git(peer, "config", "user.email", "peer@example.invalid")
+    git(peer, "checkout", "main")
+    (peer / "remote-main.txt").write_text("remote\n", encoding="utf-8")
+    git(peer, "add", "remote-main.txt")
+    git(peer, "commit", "-m", "remote main work")
+    git(peer, "push", "origin", "main")
+
+    git(repo, "checkout", "dev-tester")
+    bp = build_package(repo)
+    monkeypatch.chdir(repo)
+    assert _merge_to_main(bp, "dev-tester", {})
+
+    backup_branches = git(
+        repo, "branch", "--format=%(refname:short)", "--list",
+        "backup/main-before-stable-*",
+    ).splitlines()
+    assert len(backup_branches) == 1
+    assert git(repo, "rev-parse", backup_branches[0]) == local_main
+    assert git(repo, "branch", "--show-current") == "dev-tester"
+    assert git(repo, "rev-parse", "main") == git(repo, "rev-parse", "origin/main")
+    assert git(remote, "rev-parse", "main") == git(remote, "rev-parse", "dev-tester")
+    assert not (repo / "local-main.txt").exists()
+    assert (repo / "remote-main.txt").read_text(encoding="utf-8") == "remote\n"
+    assert any("backup/main-before-stable-" in message for _style, message in bp.logger.messages)
+
+
+def test_stable_build_retries_when_remote_main_moves(tmp_path, monkeypatch):
+    repo, remote = create_repository(tmp_path)
+    git(repo, "checkout", "-b", "dev-tester")
+    (repo / "feature.txt").write_text("feature\n", encoding="utf-8")
+    git(repo, "add", "feature.txt")
+    git(repo, "commit", "-m", "feature")
+    git(repo, "push", "-u", "origin", "dev-tester")
+
+    peer = tmp_path / "peer"
+    subprocess.run(["git", "clone", str(remote), str(peer)], check=True, capture_output=True)
+    git(peer, "config", "user.name", "Peer User")
+    git(peer, "config", "user.email", "peer@example.invalid")
+    git(peer, "checkout", "main")
+
+    original_run = subprocess.run
+    race_injected = False
+
+    def run_with_remote_race(args, *positional, **kwargs):
+        nonlocal race_injected
+        promotion = [
+            "git",
+            "push",
+            "--atomic",
+            "origin",
+            "dev-tester:dev-tester",
+            "dev-tester:main",
+        ]
+        if args == promotion and not race_injected:
+            race_injected = True
+            (peer / "race.txt").write_text("remote race\n", encoding="utf-8")
+            original_run(
+                ["git", "add", "race.txt"],
+                cwd=peer,
+                check=True,
+                capture_output=True,
+            )
+            original_run(
+                ["git", "commit", "-m", "concurrent main update"],
+                cwd=peer,
+                check=True,
+                capture_output=True,
+            )
+            original_run(
+                ["git", "push", "origin", "main"],
+                cwd=peer,
+                check=True,
+                capture_output=True,
+            )
+        return original_run(args, *positional, **kwargs)
+
+    monkeypatch.setattr(package_operations.subprocess, "run", run_with_remote_race)
+    monkeypatch.chdir(repo)
+    bp = build_package(repo)
+    assert _merge_to_main(bp, "dev-tester", {})
+
+    assert race_injected
+    assert (repo / "race.txt").read_text(encoding="utf-8") == "remote race\n"
+    assert git(remote, "rev-parse", "main") == git(remote, "rev-parse", "dev-tester")
+    assert git(repo, "rev-parse", "main") == git(repo, "rev-parse", "origin/main")
 
 
 def test_stable_workflow_uses_main_after_original_branch_is_restored(monkeypatch):
@@ -470,6 +595,135 @@ def test_changed_files_expands_untracked_directories(tmp_path, monkeypatch):
         ("??", "new folder/one.txt"),
         ("??", "new folder/two.txt"),
     ]
+
+
+def test_remote_branch_summaries_show_latest_and_divergence(tmp_path, monkeypatch):
+    repo, _remote = create_repository(tmp_path)
+    git(repo, "checkout", "-b", "dev-friend")
+    (repo / "friend.txt").write_text("friend\n", encoding="utf-8")
+    git(repo, "add", ".")
+    git_with_timestamp(repo, 2_000_000_100, "commit", "-m", "friend work")
+    git(repo, "push", "-u", "origin", "dev-friend")
+
+    git(repo, "checkout", "main")
+    git(repo, "checkout", "-b", "dev-talesam")
+    (repo / "latest.txt").write_text("latest\n", encoding="utf-8")
+    git(repo, "add", ".")
+    git_with_timestamp(repo, 2_000_000_200, "commit", "-m", "latest work")
+    git(repo, "push", "-u", "origin", "dev-talesam")
+    git(repo, "checkout", "dev-friend")
+
+    monkeypatch.chdir(repo)
+    summaries = GitUtils.get_remote_branch_summaries(str(repo), fetch=True)
+    by_name = {item["branch"]: item for item in summaries}
+
+    assert {"main", "dev-friend", "dev-talesam"} <= set(by_name)
+    assert by_name["dev-talesam"]["is_latest"]
+    assert by_name["dev-talesam"]["is_recommended"]
+    assert by_name["dev-talesam"]["relation"] == "diverged"
+    assert by_name["dev-talesam"]["incoming"] == 1
+    assert by_name["dev-talesam"]["local_only"] == 1
+    assert GitUtils.get_incoming_changes("dev-talesam", str(repo)) == [
+        ("A", "latest.txt")
+    ]
+
+
+def test_pull_uses_explicit_remote_branch_instead_of_automatic_choice(
+    tmp_path,
+    monkeypatch,
+):
+    repo, remote = create_repository(tmp_path)
+    git(repo, "checkout", "-b", "dev-friend")
+    git(repo, "push", "-u", "origin", "dev-friend")
+
+    peer = tmp_path / "peer"
+    subprocess.run(["git", "clone", str(remote), str(peer)], check=True, capture_output=True)
+    git(peer, "config", "user.name", "Peer User")
+    git(peer, "config", "user.email", "peer@example.invalid")
+    git(peer, "checkout", "-b", "dev-talesam", "origin/main")
+    (peer / "selected.txt").write_text("selected source\n", encoding="utf-8")
+    git(peer, "add", ".")
+    git(peer, "commit", "-m", "selected source")
+    git(peer, "push", "-u", "origin", "dev-talesam")
+
+    logger = Logger()
+    menu = GTKMenu()
+    bp = SimpleNamespace(
+        is_git_repo=True,
+        logger=logger,
+        menu=menu,
+        settings=Settings(),
+        github_user_name="friend",
+        conflict_resolver=ConflictResolver(logger, menu),
+        get_most_recent_branch=lambda: "dev-friend",
+    )
+
+    monkeypatch.chdir(repo)
+    bp.conflict_resolver.repo_root = str(repo)
+    assert pull_latest_v2(bp, source_branch="dev-talesam")
+
+    assert git(repo, "branch", "--show-current") == "dev-friend"
+    assert (repo / "selected.txt").read_text(encoding="utf-8") == "selected source\n"
+
+
+def test_personal_branch_override_is_repository_specific(tmp_path, monkeypatch):
+    repo, _remote = create_repository(tmp_path)
+    monkeypatch.chdir(repo)
+    bp = BuildPackage.__new__(BuildPackage)
+    bp.repo_path = str(repo)
+    bp.settings = SimpleNamespace(
+        get=lambda key, default=None: {"github_username": ""}.get(key, default)
+    )
+    bp.github_user_name = "unknown"
+
+    assert BuildPackage.set_personal_branch(bp, "dev-friend")
+    assert BuildPackage.get_personal_branch(bp) == "dev-friend"
+    assert git(repo, "config", "--local", "--get", "gitrepo.personalBranch") == (
+        "dev-friend"
+    )
+
+    assert BuildPackage.set_personal_branch(bp, "")
+    assert BuildPackage.get_personal_branch(bp) == "dev-unknown"
+
+
+def test_rename_branch_publishes_new_name_and_preserves_old_remote(
+    tmp_path,
+    monkeypatch,
+):
+    repo, remote = create_repository(tmp_path)
+    git(repo, "checkout", "-b", "dev-unknown")
+    git(repo, "push", "-u", "origin", "dev-unknown")
+
+    monkeypatch.chdir(repo)
+    result = rename_branch(
+        build_package(repo),
+        "dev-unknown",
+        "dev-friend",
+        delete_old_remote=False,
+    )
+
+    assert result["success"]
+    assert git(repo, "branch", "--show-current") == "dev-friend"
+    assert git(remote, "rev-parse", "dev-friend")
+    assert git(remote, "rev-parse", "dev-unknown")
+    assert git(repo, "rev-parse", "--abbrev-ref", "@{upstream}") == "origin/dev-friend"
+
+    deleted = rename_branch(
+        build_package(repo),
+        "dev-friend",
+        "dev-final",
+        delete_old_remote=True,
+    )
+    assert deleted["success"]
+    assert deleted["old_remote_deleted"]
+    assert git(remote, "rev-parse", "dev-final")
+    old_remote = subprocess.run(
+        ["git", "rev-parse", "--verify", "dev-friend"],
+        cwd=remote,
+        capture_output=True,
+        check=False,
+    )
+    assert old_remote.returncode != 0
 
 
 def test_pull_moves_changes_to_dev_once_without_leaving_stash(tmp_path, monkeypatch):

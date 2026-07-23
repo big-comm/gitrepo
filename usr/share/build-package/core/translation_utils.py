@@ -10,3 +10,4 @@ gettext.textdomain("gitrepo")
 
 # Export _ directly as the translation function
 _ = gettext.gettext
+ngettext = gettext.ngettext

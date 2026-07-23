@@ -80,7 +80,11 @@ class BuildPackage:
         self.github_api = GitHubAPI(token, self.organization)
 
         # Additional settings
-        self.github_user_name = GitUtils.get_github_username()
+        detected_username = GitUtils.get_github_username()
+        self.github_user_name = (
+            self.settings.get("github_username", "").strip()
+            or detected_username
+        )
         self.repo_name = GitUtils.get_repo_name()
         self.repo_path = GitUtils.get_repo_root_path()
         self.is_aur_package = False
@@ -88,6 +92,58 @@ class BuildPackage:
 
         # Check dependencies
         self.check_dependencies()
+
+    def get_personal_branch(self) -> str:
+        """Return the configured or inferred development branch."""
+        configured = self.get_configured_personal_branch()
+        if configured:
+            return configured
+
+        username = (
+            self.settings.get("github_username", "").strip()
+            or self.github_user_name
+        )
+        if username and username != "unknown":
+            return f"dev-{username}"
+
+        current_branch = GitUtils.get_current_branch()
+        if current_branch and current_branch.startswith("dev-"):
+            return current_branch
+        return "dev-unknown"
+
+    def get_configured_personal_branch(self) -> str:
+        """Return the repository-specific personal branch override."""
+        result = subprocess.run(
+            ["git", "config", "--local", "--get", "gitrepo.personalBranch"],
+            cwd=self.repo_path,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        return result.stdout.strip() if result.returncode == 0 else ""
+
+    def set_personal_branch(self, branch: str) -> bool:
+        """Store a personal branch override in the current repository."""
+        branch = branch.strip()
+        command = (
+            ["git", "config", "--local", "gitrepo.personalBranch", branch]
+            if branch
+            else [
+                "git",
+                "config",
+                "--local",
+                "--unset-all",
+                "gitrepo.personalBranch",
+            ]
+        )
+        result = subprocess.run(
+            command,
+            cwd=self.repo_path,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        return result.returncode == 0 or (not branch and result.returncode == 5)
 
     def check_dependencies(self):
         """Checks if all dependencies are installed"""
@@ -421,8 +477,7 @@ the specific source code used to create this copy."""),
         
     def ensure_working_in_own_branch(self, preserve_changes=True):
         """Ensures user is working in their own dev branch, preserving changes if needed"""
-        username = self.github_user_name or "unknown"
-        my_branch = f"dev-{username}"
+        my_branch = self.get_personal_branch()
         current_branch = GitUtils.get_current_branch()
         
         if current_branch == my_branch:

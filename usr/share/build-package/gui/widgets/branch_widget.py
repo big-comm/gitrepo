@@ -59,6 +59,8 @@ class BranchWidget(Gtk.Box):
         'branch-selected': (GObject.SignalFlags.RUN_FIRST, None, (str,)),
         'merge-requested': (GObject.SignalFlags.RUN_FIRST, None, (str, str, bool)),  # source, target, auto_merge
         'cleanup-requested': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        'personal-branch-requested': (GObject.SignalFlags.RUN_FIRST, None, (str,)),
+        'rename-requested': (GObject.SignalFlags.RUN_FIRST, None, (str,)),
     }
     
     def __init__(self, build_package):
@@ -92,6 +94,41 @@ class BranchWidget(Gtk.Box):
         self.current_branch_row.add_css_class("rich-row")
         self.current_branch_row.add_prefix(icon_tile("media-playlist-consecutive-symbolic", tone="accent", size=20))
         status_group.add(self.current_branch_row)
+
+        self.personal_branch_row = Adw.ActionRow()
+        self.personal_branch_row.set_title(_("My Development Branch"))
+        self.personal_branch_row.set_subtitle(_("Not configured"))
+        self.personal_branch_row.add_css_class("rich-row")
+        self.personal_branch_row.add_prefix(
+            icon_tile("system-users-symbolic", tone="purple", size=20)
+        )
+
+        self.use_current_button = action_button(
+            _("Use Active"),
+            "emblem-ok-symbolic",
+        )
+        self.use_current_button.set_tooltip_text(
+            _("Set the active branch as my development branch")
+        )
+        self.use_current_button.connect(
+            "clicked",
+            self.on_use_current_as_personal_clicked,
+        )
+        self.personal_branch_row.add_suffix(self.use_current_button)
+
+        self.rename_personal_button = action_button(
+            _("Rename"),
+            "document-edit-symbolic",
+        )
+        self.rename_personal_button.set_tooltip_text(
+            _("Rename my development branch")
+        )
+        self.rename_personal_button.connect(
+            "clicked",
+            self.on_rename_personal_clicked,
+        )
+        self.personal_branch_row.add_suffix(self.rename_personal_button)
+        status_group.add(self.personal_branch_row)
         
         self.most_recent_row = Adw.ActionRow()
         self.most_recent_row.set_title(_("Most Recent Branch"))
@@ -213,9 +250,36 @@ class BranchWidget(Gtk.Box):
         self.current_branch = GitUtils.get_current_branch()
         if self.current_branch:
             self.current_branch_row.set_subtitle(self.current_branch)
-        
-        # Get most recent branch
-        most_recent = GitUtils.get_most_recent_branch(self.build_package.logger)
+
+        personal_branch = (
+            self.build_package.get_personal_branch()
+            if hasattr(self.build_package, "get_personal_branch")
+            else self.current_branch
+        )
+        self.personal_branch_row.set_subtitle(personal_branch or _("Not configured"))
+        self.use_current_button.set_sensitive(
+            bool(self.current_branch)
+            and self.current_branch not in ("main", "master")
+            and self.current_branch != personal_branch
+        )
+        self.rename_personal_button.set_sensitive(
+            bool(personal_branch)
+            and personal_branch not in ("main", "master")
+        )
+
+        # Get most recently committed remote branch without another network fetch.
+        summaries = GitUtils.get_remote_branch_summaries(fetch=False)
+        most_recent = (
+            next(
+                (
+                    item["branch"]
+                    for item in summaries
+                    if item.get("is_latest")
+                ),
+                None,
+            )
+            or GitUtils.get_most_recent_branch(self.build_package.logger)
+        )
         self.most_recent_row.set_subtitle(most_recent)
         
         # Get all branches
@@ -342,6 +406,21 @@ class BranchWidget(Gtk.Box):
     def on_cleanup_clicked(self, button):
         """Handle cleanup button click"""
         self.emit('cleanup-requested')
+
+    def on_use_current_as_personal_clicked(self, _button):
+        """Use the active non-protected branch as the personal branch."""
+        if self.current_branch and self.current_branch not in ("main", "master"):
+            self.emit("personal-branch-requested", self.current_branch)
+
+    def on_rename_personal_clicked(self, _button):
+        """Request a safe rename of the configured personal branch."""
+        branch = (
+            self.build_package.get_personal_branch()
+            if hasattr(self.build_package, "get_personal_branch")
+            else self.current_branch
+        )
+        if branch and branch not in ("main", "master"):
+            self.emit("rename-requested", branch)
     
     def on_merge_clicked(self, button):
         """Handle merge button click"""

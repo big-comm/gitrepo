@@ -24,8 +24,11 @@ def revert_commit_menu(bp) -> None:
         return
 
     current_branch = GitUtils.get_current_branch()
-    username = bp.github_user_name or "unknown"
-    my_branch = f"dev-{username}"
+    my_branch = (
+        bp.get_personal_branch()
+        if hasattr(bp, "get_personal_branch")
+        else f"dev-{bp.github_user_name or 'unknown'}"
+    )
 
     if current_branch != "main" and current_branch != my_branch:
         bp.logger.log(

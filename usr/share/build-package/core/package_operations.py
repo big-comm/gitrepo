@@ -8,6 +8,8 @@
 #
 
 import subprocess
+from datetime import datetime
+
 from .git_utils import GitUtils
 from .translation_utils import _
 from .commit_operations import commit_and_push_v2
@@ -88,11 +90,13 @@ def commit_and_generate_package_v2(build_package_instance, branch_type, commit_m
 
     # === PHASE 2: DETERMINE WORKING BRANCH ===
     current_branch = GitUtils.get_current_branch()
-    username = bp.github_user_name or "unknown"
-
     if branch_type == "testing":
-        # Testing uses dev-username branch
-        working_branch = f"dev-{username}"
+        # Testing uses the configured personal branch.
+        working_branch = (
+            bp.get_personal_branch()
+            if hasattr(bp, "get_personal_branch")
+            else f"dev-{bp.github_user_name or 'unknown'}"
+        )
     else:
         # Stable/Extra use main
         working_branch = "main"
@@ -224,8 +228,141 @@ def _merge_with_resolution(bp, incoming_branch, current_branch):
     return True
 
 
+def _git_output(*args):
+    """Return stripped output from a checked Git command."""
+    return subprocess.run(
+        ["git", *args],
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout.strip()
+
+
+def _create_main_backup_if_needed(bp):
+    """Preserve commits that exist only on the local main branch."""
+    if not _git_ref_exists("main"):
+        return None
+
+    unique_commits = int(
+        _git_output("rev-list", "--count", "main", "--not", "origin/main")
+    )
+    if unique_commits == 0:
+        return None
+
+    timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    base_name = f"backup/main-before-stable-{timestamp}"
+    backup_name = base_name
+    suffix = 2
+    while _git_ref_exists(backup_name):
+        backup_name = f"{base_name}-{suffix}"
+        suffix += 1
+
+    subprocess.run(
+        ["git", "branch", backup_name, "main"],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    bp.logger.log("yellow", _("Preserving your changes..."))
+    bp.logger.log("yellow", _("✓ Created branch: {0}").format(backup_name))
+    return backup_name
+
+
+def _push_was_rejected(result):
+    """Return whether a push failed because its remote ref moved."""
+    output = f"{result.stdout}\n{result.stderr}".lower()
+    return result.returncode != 0 and any(
+        marker in output
+        for marker in (
+            "[rejected]",
+            "fetch first",
+            "non-fast-forward",
+            "stale info",
+        )
+    )
+
+
+def _raise_push_error(result):
+    """Raise a checked-process error retaining Git's diagnostic output."""
+    raise subprocess.CalledProcessError(
+        result.returncode,
+        result.args,
+        output=result.stdout,
+        stderr=result.stderr,
+    )
+
+
+def _sync_source_and_promote_main(bp, source_branch, attempts=3):
+    """Sync source refs and promote source to remote main without force."""
+    for attempt in range(1, attempts + 1):
+        subprocess.run(
+            ["git", "fetch", "origin", "--prune"],
+            check=True,
+            capture_output=True,
+        )
+
+        if _git_ref_exists(f"origin/{source_branch}"):
+            bp.logger.log(
+                "cyan",
+                _("Updating {0} from its remote branch...").format(source_branch),
+            )
+            if not _merge_with_resolution(
+                bp, f"origin/{source_branch}", source_branch
+            ):
+                return False
+
+        bp.logger.log(
+            "cyan",
+            _("Updating {0} with the latest main...").format(source_branch),
+        )
+        if not _merge_with_resolution(bp, "origin/main", source_branch):
+            return False
+
+        promotion = subprocess.run(
+            [
+                "git",
+                "push",
+                "--atomic",
+                "origin",
+                f"{source_branch}:{source_branch}",
+                f"{source_branch}:main",
+            ],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if promotion.returncode == 0:
+            return True
+        if _push_was_rejected(promotion) and attempt < attempts:
+            bp.logger.log("yellow", _("Fetching latest updates from remote..."))
+            bp.logger.log("yellow", _("Retrying..."))
+            continue
+        _raise_push_error(promotion)
+
+    return False
+
+
+def _align_local_main():
+    """Make local main match the successfully promoted remote main."""
+    subprocess.run(
+        ["git", "fetch", "origin", "main"],
+        check=True,
+        capture_output=True,
+    )
+    subprocess.run(
+        ["git", "branch", "-f", "main", "origin/main"],
+        check=True,
+        capture_output=True,
+    )
+    subprocess.run(
+        ["git", "branch", "--set-upstream-to=origin/main", "main"],
+        check=True,
+        capture_output=True,
+    )
+
+
 def _merge_to_main(bp, source_branch, mode_config):
-    """Safely sync a development branch with main, then fast-forward main."""
+    """Safely sync a development branch and promote it to remote main."""
     del mode_config  # Kept in the signature for API compatibility.
 
     original_branch = GitUtils.get_current_branch()
@@ -238,42 +375,11 @@ def _merge_to_main(bp, source_branch, mode_config):
 
         subprocess.run(["git", "checkout", source_branch], check=True, capture_output=True)
 
-        if _git_ref_exists(f"origin/{source_branch}"):
-            bp.logger.log("cyan", _("Updating {0} from its remote branch...").format(source_branch))
-            if not _merge_with_resolution(bp, f"origin/{source_branch}", source_branch):
-                return False
-
-        bp.logger.log("cyan", _("Updating {0} with the latest main...").format(source_branch))
-        if not _merge_with_resolution(bp, "origin/main", source_branch):
+        _create_main_backup_if_needed(bp)
+        if not _sync_source_and_promote_main(bp, source_branch):
             return False
 
-        subprocess.run(
-            ["git", "push", "origin", source_branch],
-            check=True,
-            capture_output=True,
-        )
-
-        if _git_ref_exists("main"):
-            subprocess.run(["git", "checkout", "main"], check=True, capture_output=True)
-        else:
-            subprocess.run(
-                ["git", "checkout", "-b", "main", "origin/main"],
-                check=True,
-                capture_output=True,
-            )
-
-        # Never rewrite main. Both updates must be fast-forwards.
-        subprocess.run(
-            ["git", "merge", "--ff-only", "origin/main"],
-            check=True,
-            capture_output=True,
-        )
-        subprocess.run(
-            ["git", "merge", "--ff-only", source_branch],
-            check=True,
-            capture_output=True,
-        )
-        subprocess.run(["git", "push", "origin", "main"], check=True, capture_output=True)
+        _align_local_main()
         return True
 
     except subprocess.CalledProcessError as e:

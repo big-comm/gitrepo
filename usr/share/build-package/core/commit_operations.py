@@ -14,6 +14,14 @@ from .git_utils import GitUtils
 from .operation_preview import OperationPlan, QuickPlan
 from .translation_utils import _
 
+
+def _personal_branch(bp):
+    if hasattr(bp, "get_personal_branch"):
+        return bp.get_personal_branch()
+    username = bp.github_user_name or "unknown"
+    return f"dev-{username}"
+
+
 def commit_and_push_v2(build_package_instance):
     """
     Improved version of commit_and_push with intelligent automation
@@ -55,8 +63,7 @@ def commit_and_push_v2(build_package_instance):
     bp.logger.log("cyan", _("Analyzing repository state..."))
 
     current_branch = GitUtils.get_current_branch()
-    username = bp.github_user_name or "unknown"
-    expected_branch = f"dev-{username}"
+    expected_branch = _personal_branch(bp)
     has_changes = GitUtils.has_changes()
     has_commits = GitUtils.has_commits()
     has_conflicts = bp.conflict_resolver.has_conflicts() if bp.conflict_resolver else False
@@ -509,8 +516,7 @@ def commit_and_push_cli(bp):
     bp.ensure_dev_branch_exists()
     
     # Get user info and target branch
-    username = bp.github_user_name or "unknown"
-    my_branch = f"dev-{username}"
+    my_branch = _personal_branch(bp)
     current_branch = GitUtils.get_current_branch()
 
     # ASK USER: Which branch to commit to?
@@ -1020,8 +1026,7 @@ def commit_and_generate_package_cli(bp):
     if branch_type == "testing":
         if has_changes and commit_message:
             # Create or switch to dev-* branch for testing packages
-            username = bp.github_user_name or "unknown"  
-            dev_branch = f"dev-{username}"
+            dev_branch = _personal_branch(bp)
             bp.logger.log("cyan", _("Creating/updating testing branch: {0}").format(dev_branch))
             try:
                 # Use the existing method that handles branch creation safely
@@ -1069,8 +1074,7 @@ def commit_and_generate_package_cli(bp):
     else:  # stable/extra packages
         # Create or switch to dev-* branch for changes if necessary
         if has_changes and commit_message:
-            username = bp.github_user_name or "unknown"
-            dev_branch = f"dev-{username}"
+            dev_branch = _personal_branch(bp)
             bp.logger.log("cyan", _("Creating/updating branch {0} for your changes").format(dev_branch))
             try:
                 # Use the existing method that handles branch creation safely

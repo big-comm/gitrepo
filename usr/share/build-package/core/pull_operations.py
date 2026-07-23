@@ -96,13 +96,14 @@ def _restore_stash_after_abort(bp, stash_ref):
     return False
 
 
-def pull_latest_v2(build_package_instance):
+def pull_latest_v2(build_package_instance, source_branch=None):
     """
     Improved version of pull_latest with intelligent automation
     Uses settings, conflict resolver, and operation preview
 
     Args:
         build_package_instance: Instance of BuildPackage class
+        source_branch: Optional remote branch selected by the user
 
     Returns:
         bool: True if successful, False otherwise
@@ -119,6 +120,10 @@ def pull_latest_v2(build_package_instance):
     # Get mode configuration
     mode_config = bp.settings.get_mode_config()
     operation_mode = bp.settings.get("operation_mode", "safe")
+    if source_branch and is_gui_mode:
+        # The graphical source chooser is the user's explicit confirmation.
+        mode_config["auto_switch_branches"] = True
+        mode_config["auto_merge"] = True
 
     # Create operation plan
     if operation_mode == "expert":
@@ -247,8 +252,11 @@ def pull_latest_v2(build_package_instance):
     bp.logger.log("cyan", _("Analyzing repository state..."))
 
     current_branch = GitUtils.get_current_branch()
-    username = bp.github_user_name or "unknown"
-    expected_branch = f"dev-{username}"
+    if hasattr(bp, "get_personal_branch"):
+        expected_branch = bp.get_personal_branch()
+    else:
+        username = bp.github_user_name or "unknown"
+        expected_branch = f"dev-{username}"
     has_changes = GitUtils.has_changes()
 
     bp.logger.log("white", _("Current branch: {0}").format(bp.logger.format_branch_name(current_branch)))
@@ -367,11 +375,35 @@ def pull_latest_v2(build_package_instance):
     except subprocess.CalledProcessError:
         pass
 
-    most_recent_branch = bp.get_most_recent_branch()
+    most_recent_branch = source_branch or bp.get_most_recent_branch()
 
-    bp.logger.log("white", _("Most recent branch: {0}").format(
-        bp.logger.format_branch_name(most_recent_branch)
-    ))
+    if source_branch:
+        selected_ref = subprocess.run(
+            ["git", "rev-parse", "--verify", f"origin/{source_branch}"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if selected_ref.returncode != 0:
+            bp.logger.log(
+                "red",
+                _("The selected remote branch no longer exists: {0}").format(
+                    source_branch
+                ),
+            )
+            return False
+
+    if source_branch:
+        bp.logger.log(
+            "white",
+            _("Update source: {0}").format(
+                bp.logger.format_branch_name(most_recent_branch)
+            ),
+        )
+    else:
+        bp.logger.log("white", _("Most recent branch: {0}").format(
+            bp.logger.format_branch_name(most_recent_branch)
+        ))
 
     # === PHASE 5: DETERMINE PULL STRATEGY ===
     if most_recent_branch == current_branch:

@@ -1021,6 +1021,196 @@ class GitUtils:
         return result.stdout.decode("utf-8", errors="replace")
 
     @staticmethod
+    def get_remote_branch_summaries(repo_path: str = None, fetch: bool = True) -> list:
+        """Return remote branches with commit and relationship metadata."""
+        repo_path = repo_path or GitUtils.get_repo_root_path()
+        if not repo_path:
+            return []
+
+        if fetch:
+            subprocess.run(
+                ["git", "fetch", "--all", "--prune"],
+                cwd=repo_path,
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+
+        refs_result = subprocess.run(
+            [
+                "git",
+                "for-each-ref",
+                "--sort=-committerdate",
+                (
+                    "--format=%(refname:strip=3)%00%(objectname)%00"
+                    "%(committerdate:unix)%00%(authorname)%00%(subject)"
+                ),
+                "refs/remotes/origin",
+            ],
+            cwd=repo_path,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if refs_result.returncode != 0:
+            return []
+
+        current_result = subprocess.run(
+            ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+            cwd=repo_path,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        current_branch = (
+            current_result.stdout.strip()
+            if current_result.returncode == 0
+            else ""
+        )
+        summaries = []
+        for record in refs_result.stdout.splitlines():
+            fields = record.split("\0", 4)
+            if len(fields) != 5:
+                continue
+            branch, commit, timestamp, author, subject = fields
+            if not branch or branch == "HEAD":
+                continue
+
+            relation_result = subprocess.run(
+                [
+                    "git",
+                    "rev-list",
+                    "--left-right",
+                    "--count",
+                    f"HEAD...origin/{branch}",
+                ],
+                cwd=repo_path,
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            local_only = incoming = 0
+            if relation_result.returncode == 0:
+                try:
+                    local_only, incoming = (
+                        int(value) for value in relation_result.stdout.split()
+                    )
+                except (TypeError, ValueError):
+                    local_only = incoming = 0
+
+            if local_only and incoming:
+                relation = "diverged"
+            elif incoming:
+                relation = "incoming"
+            elif local_only:
+                relation = "local-ahead"
+            else:
+                relation = "up-to-date"
+
+            try:
+                commit_timestamp = int(timestamp)
+            except ValueError:
+                commit_timestamp = 0
+
+            summaries.append(
+                {
+                    "branch": branch,
+                    "commit": commit,
+                    "short_commit": commit[:7],
+                    "timestamp": commit_timestamp,
+                    "author": author,
+                    "subject": subject,
+                    "local_only": local_only,
+                    "incoming": incoming,
+                    "relation": relation,
+                    "is_current": branch == current_branch,
+                    "is_main": branch in ("main", "master"),
+                    "is_latest": False,
+                    "is_recommended": False,
+                }
+            )
+
+        if summaries:
+            latest_timestamp = max(item["timestamp"] for item in summaries)
+            for item in summaries:
+                item["is_latest"] = item["timestamp"] == latest_timestamp
+            incoming_candidates = [
+                item for item in summaries if item["incoming"] > 0
+            ]
+            recommended = (
+                max(incoming_candidates, key=lambda item: item["timestamp"])
+                if incoming_candidates
+                else next(
+                    (item for item in summaries if item["is_current"]),
+                    summaries[0],
+                )
+            )
+            recommended["is_recommended"] = True
+        return summaries
+
+    @staticmethod
+    def get_incoming_changes(branch: str, repo_path: str = None) -> list:
+        """Return files changed on a remote branch since its merge base with HEAD."""
+        repo_path = repo_path or GitUtils.get_repo_root_path()
+        result = subprocess.run(
+            [
+                "git",
+                "diff",
+                "--name-status",
+                "--no-renames",
+                "-z",
+                f"HEAD...origin/{branch}",
+            ],
+            cwd=repo_path,
+            capture_output=True,
+            check=False,
+        )
+        if result.returncode != 0:
+            return []
+        fields = [os.fsdecode(field) for field in result.stdout.split(b"\0") if field]
+        return [
+            (fields[index], fields[index + 1])
+            for index in range(0, len(fields) - 1, 2)
+        ]
+
+    @staticmethod
+    def get_incoming_file_diff(
+        branch: str,
+        filepath: str,
+        repo_path: str = None,
+    ) -> str:
+        """Return a file diff for changes introduced by a remote branch."""
+        repo_path = repo_path or GitUtils.get_repo_root_path()
+        result = subprocess.run(
+            [
+                "git",
+                "diff",
+                "--no-ext-diff",
+                "--unified=5",
+                f"HEAD...origin/{branch}",
+                "--",
+                filepath,
+            ],
+            cwd=repo_path,
+            capture_output=True,
+            check=False,
+        )
+        if result.returncode != 0:
+            return _("Could not load the differences for this file.")
+        return result.stdout.decode("utf-8", errors="replace")
+
+    @staticmethod
+    def is_valid_branch_name(branch: str) -> bool:
+        """Return whether *branch* is accepted by Git."""
+        if not branch:
+            return False
+        return subprocess.run(
+            ["git", "check-ref-format", "--branch", branch],
+            capture_output=True,
+            check=False,
+        ).returncode == 0
+
+    @staticmethod
     def branch_exists(branch: str) -> bool:
         """Return True if *branch* exists locally or as a remote-tracking branch."""
         local = (

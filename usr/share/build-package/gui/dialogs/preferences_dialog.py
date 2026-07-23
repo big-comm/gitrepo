@@ -13,6 +13,7 @@ gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
 
+from core.git_utils import GitUtils
 from core.settings import Settings
 from core.token_store import TokenStore
 from core.translation_utils import _
@@ -270,6 +271,49 @@ class PreferencesDialog(Adw.PreferencesDialog):
         org_group.add(self.custom_org_row)
         
         page.add(org_group)
+
+        identity_group = Adw.PreferencesGroup()
+        identity_group.set_title(_("GitHub Identity"))
+        identity_group.set_description(
+            _(
+                "Choose the account and development branch GitRepo should use "
+                "for your work."
+            )
+        )
+
+        self.detected_user_row = Adw.ActionRow()
+        self.detected_user_row.set_title(_("Automatically Detected User"))
+        self.detected_user_row.set_subtitle(
+            GitUtils.get_github_username() or _("Unknown")
+        )
+        identity_group.add(self.detected_user_row)
+
+        self.github_username_row = Adw.EntryRow()
+        self.github_username_row.set_title(_("GitHub Username"))
+        self.github_username_row.set_text(
+            self.settings.get("github_username", "")
+        )
+        identity_group.add(self.github_username_row)
+
+        self.personal_branch_entry = Adw.EntryRow()
+        self.personal_branch_entry.set_title(_("My Development Branch"))
+        build_package = getattr(self.parent_window, "build_package", None)
+        configured_branch = (
+            build_package.get_configured_personal_branch()
+            if build_package
+            else ""
+        )
+        self.personal_branch_entry.set_text(configured_branch)
+        identity_group.add(self.personal_branch_entry)
+
+        identity_save_row = Adw.ActionRow()
+        identity_save_button = Gtk.Button(label=_("Save Identity"))
+        identity_save_button.set_valign(Gtk.Align.CENTER)
+        identity_save_button.add_css_class("suggested-action")
+        identity_save_button.connect("clicked", self._on_save_identity)
+        identity_save_row.add_suffix(identity_save_button)
+        identity_group.add(identity_save_row)
+        page.add(identity_group)
         
         # Workflow repository group
         workflow_group = Adw.PreferencesGroup()
@@ -470,6 +514,41 @@ class PreferencesDialog(Adw.PreferencesDialog):
     def _on_workflow_changed(self, entry):
         """Handle workflow repository entry change"""
         self.settings.set("workflow_repository", entry.get_text())
+
+    def _on_save_identity(self, _button):
+        """Validate and save the explicit GitHub identity."""
+        username = self.github_username_row.get_text().strip()
+        branch = self.personal_branch_entry.get_text().strip()
+        if not branch and username:
+            branch = f"dev-{username}"
+            self.personal_branch_entry.set_text(branch)
+
+        if branch and (
+            branch in ("main", "master")
+            or not GitUtils.is_valid_branch_name(branch)
+        ):
+            if hasattr(self.parent_window, "show_error_dialog"):
+                self.parent_window.show_error_dialog(
+                    _("Invalid personal branch name: {0}").format(branch)
+                )
+            return
+
+        build_package = getattr(self.parent_window, "build_package", None)
+        if build_package and not build_package.set_personal_branch(branch):
+            if hasattr(self.parent_window, "show_error_dialog"):
+                self.parent_window.show_error_dialog(
+                    _("Could not save the personal branch for this repository.")
+                )
+            return
+
+        self.settings.set("github_username", username)
+        if build_package:
+            detected = GitUtils.get_github_username()
+            build_package.github_user_name = username or detected
+            if hasattr(self.parent_window, "branch_widget"):
+                self.parent_window.branch_widget.refresh_branches()
+        if hasattr(self.parent_window, "show_toast"):
+            self.parent_window.show_toast(_("GitHub identity saved"))
     
     def _on_reset_clicked(self, button):
         """Handle reset to defaults"""
@@ -494,6 +573,10 @@ class PreferencesDialog(Adw.PreferencesDialog):
         """Handle reset confirmation response"""
         if response == "reset":
             self.settings.reset()
+            build_package = getattr(self.parent_window, "build_package", None)
+            if build_package:
+                build_package.set_personal_branch("")
+                build_package.github_user_name = GitUtils.get_github_username()
             # Refresh UI
             self._refresh_ui()
             if hasattr(self.parent_window, "refresh_features"):
@@ -509,6 +592,8 @@ class PreferencesDialog(Adw.PreferencesDialog):
         self.org_combo.set_selected(0)
         self.custom_org_row.set_text("")
         self.workflow_row.set_text("")
+        self.github_username_row.set_text("")
+        self.personal_branch_entry.set_text("")
         mode_index = {"safe": 0, "quick": 1, "expert": 2}.get(self.settings.get("operation_mode", "safe"), 0)
         self.mode_row.set_selected(mode_index)
         strategy_index = {

@@ -21,6 +21,7 @@ from gi.repository import Adw, Gio, GLib, Gtk, Pango
 
 from .dialogs.preferences_dialog import PreferencesDialog
 from .dialogs.progress_dialog import OperationRunner
+from .dialogs.pull_source_dialog import PullSourceDialog
 from .dialogs.welcome_dialog import WelcomeDialog, should_show_welcome
 from .gtk_adapters import GTKConflictResolver, GTKMenuSystem
 from .gtk_logger import GTKLogger
@@ -319,6 +320,14 @@ class MainWindow(Adw.ApplicationWindow):
         self.branch_widget.connect(
             "cleanup-requested", self.on_branch_cleanup_requested
         )
+        self.branch_widget.connect(
+            "personal-branch-requested",
+            self.on_personal_branch_requested,
+        )
+        self.branch_widget.connect(
+            "rename-requested",
+            self.on_branch_rename_requested,
+        )
 
         # Advanced widget signals
         self.advanced_widget.connect(
@@ -562,8 +571,7 @@ class MainWindow(Adw.ApplicationWindow):
     def on_commit_requested(self, widget, commit_message):
         """Handle commit request from commit widget - show branch confirmation first"""
         current_branch = GitUtils.get_current_branch()
-        username = self.build_package.github_user_name or "unknown"
-        dev_branch = f"dev-{username}"
+        dev_branch = self.build_package.get_personal_branch()
 
         # Store commit message for later use
         self._pending_commit_message = commit_message
@@ -730,16 +738,70 @@ class MainWindow(Adw.ApplicationWindow):
         return _execute(self.build_package, commit_message, target_branch)
 
     def on_pull_requested(self, widget):
-        """Handle pull request"""
+        """Fetch branch metadata before asking which source to pull."""
+        self.operation_runner.run_with_progress(
+            lambda: GitUtils.get_remote_branch_summaries(
+                self.build_package.repo_path,
+                fetch=True,
+            ),
+            _("Checking for Updates"),
+            _("Fetching branches from the remote repository..."),
+            completion_callback=self._show_pull_source_dialog,
+        )
+
+    def _show_pull_source_dialog(self, branches):
+        """Show all remote branches and their relationship to the current branch."""
+        if not branches:
+            self.show_error_dialog(
+                _("No remote branches were found. Check the repository connection.")
+            )
+            return
+
+        dialog = PullSourceDialog(
+            self,
+            branches,
+            GitUtils.get_current_branch(),
+        )
+        dialog.connect("preview-requested", self._preview_pull_source)
+        dialog.connect("pull-requested", self._run_pull_from_branch)
+        dialog.present()
+
+    def _preview_pull_source(self, _dialog, source_branch):
+        """Preview files introduced by the selected remote branch."""
+        from gui.dialogs.diff_viewer_dialog import DiffViewerDialog
+
+        repo_path = self.build_package.repo_path
+        changes = GitUtils.get_incoming_changes(source_branch, repo_path)
+        if not changes:
+            self.show_toast(
+                _("No incoming file changes from {0}").format(source_branch)
+            )
+            return
+
+        preview = DiffViewerDialog(
+            _dialog,
+            _("Updates Available from {0}").format(source_branch),
+            changes,
+            lambda filepath: GitUtils.get_incoming_file_diff(
+                source_branch,
+                filepath,
+                repo_path,
+            ),
+        )
+        preview.present()
+
+    def _run_pull_from_branch(self, _dialog, source_branch):
+        """Incorporate the selected remote branch into the personal branch."""
 
         def pull_operation():
-            # Import V2 operation
             from core.pull_operations import pull_latest_v2
 
             repo_path = self.build_package.repo_path
             before = GitUtils.get_current_commit_sha(repo_path)
-            # Use V2 operation with intelligent conflict handling
-            if not pull_latest_v2(self.build_package):
+            if not pull_latest_v2(
+                self.build_package,
+                source_branch=source_branch,
+            ):
                 return False
             after = GitUtils.get_current_commit_sha(repo_path)
             return {
@@ -752,7 +814,7 @@ class MainWindow(Adw.ApplicationWindow):
         self.operation_runner.run_with_progress(
             pull_operation,
             _("Pulling Changes"),
-            _("Pulling latest changes from remote repository..."),
+            _("Incorporating updates from {0}...").format(source_branch),
             completion_callback=self._show_pulled_changes,
         )
 
@@ -1081,6 +1143,131 @@ class MainWindow(Adw.ApplicationWindow):
             if hasattr(self, "branch_widget"):
                 self.branch_widget.refresh_branches()
             self.refresh_all_widgets()
+
+    def on_personal_branch_requested(self, _widget, branch_name):
+        """Persist the branch used for the current user's work."""
+        if branch_name in ("main", "master"):
+            self.show_error_dialog(
+                _("Main and master cannot be used as a personal development branch.")
+            )
+            return
+        if not self.build_package.set_personal_branch(branch_name):
+            self.show_error_dialog(
+                _("Could not save the personal branch for this repository.")
+            )
+            return
+        self.show_toast(
+            _("{0} is now your development branch.").format(branch_name)
+        )
+        self.branch_widget.refresh_branches()
+
+    def on_branch_rename_requested(self, _widget, old_branch):
+        """Ask for a new name and whether the old remote branch should be removed."""
+        dialog = Adw.MessageDialog(transient_for=self, modal=True)
+        dialog.set_heading(_("Rename Development Branch"))
+        dialog.set_body(
+            _(
+                "The new branch will be published to GitHub. "
+                "Deleting the old remote branch is optional."
+            )
+        )
+
+        content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        content.set_margin_top(12)
+        content.set_margin_bottom(12)
+        content.set_margin_start(12)
+        content.set_margin_end(12)
+
+        old_label = Gtk.Label(
+            label=_("Current name: {0}").format(old_branch),
+            xalign=0,
+        )
+        old_label.add_css_class("dim-label")
+        content.append(old_label)
+
+        new_name_entry = Gtk.Entry()
+        new_name_entry.set_text(old_branch)
+        new_name_entry.set_placeholder_text(_("New branch name"))
+        new_name_entry.set_activates_default(True)
+        content.append(new_name_entry)
+
+        delete_remote = Gtk.CheckButton(
+            label=_("Delete the old remote branch after renaming")
+        )
+        content.append(delete_remote)
+        dialog.set_extra_child(content)
+
+        dialog.add_response("cancel", _("Cancel"))
+        dialog.add_response("rename", _("Rename Branch"))
+        dialog.set_response_appearance(
+            "rename",
+            Adw.ResponseAppearance.SUGGESTED,
+        )
+        dialog.set_default_response("rename")
+        dialog.set_close_response("cancel")
+        dialog.connect(
+            "response",
+            self._on_branch_rename_response,
+            old_branch,
+            new_name_entry,
+            delete_remote,
+        )
+        dialog.present()
+
+    def _on_branch_rename_response(
+        self,
+        _dialog,
+        response,
+        old_branch,
+        new_name_entry,
+        delete_remote,
+    ):
+        if response != "rename":
+            return
+
+        new_branch = new_name_entry.get_text().strip()
+        if not GitUtils.is_valid_branch_name(new_branch):
+            self.show_error_dialog(
+                _("Invalid branch name: {0}").format(new_branch)
+            )
+            return
+
+        def operation():
+            from core.branch_handler import rename_branch
+
+            result = rename_branch(
+                self.build_package,
+                old_branch,
+                new_branch,
+                delete_old_remote=delete_remote.get_active(),
+            )
+            if not result.get("success"):
+                raise RuntimeError(result.get("message", _("Branch rename failed.")))
+            return result
+
+        self.operation_runner.run_with_progress(
+            operation,
+            _("Renaming Branch"),
+            _("{0} → {1}").format(old_branch, new_branch),
+            completion_callback=self._on_branch_renamed,
+        )
+
+    def _on_branch_renamed(self, result):
+        """Update the configured identity after a successful rename."""
+        if not isinstance(result, dict):
+            return
+        new_branch = result.get("new_branch")
+        if not self.build_package.set_personal_branch(new_branch):
+            self.show_error_dialog(
+                _("The branch was renamed, but its repository setting could not be saved.")
+            )
+            return
+        warning = result.get("warning")
+        if warning:
+            self.show_info_toast(warning)
+        else:
+            self.show_toast(result.get("message", _("Branch renamed.")))
+        self.refresh_all_widgets()
 
     def on_merge_requested(self, widget, source_branch, target_branch, auto_merge):
         """Handle merge request - create PR or create branch if target doesn't exist"""

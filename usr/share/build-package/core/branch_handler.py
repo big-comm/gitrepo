@@ -442,6 +442,144 @@ def create_branch_and_push(bp, source_branch: str, target_branch: str) -> bool:
 
 
 # ---------------------------------------------------------------------------
+# Rename personal branch
+# ---------------------------------------------------------------------------
+
+def rename_branch(
+    bp,
+    old_branch: str,
+    new_branch: str,
+    delete_old_remote: bool = False,
+) -> dict:
+    """Rename a local branch and publish the new remote branch safely."""
+    logger = bp.logger if hasattr(bp, "logger") else None
+
+    def log(style: str, message: str) -> None:
+        if logger:
+            logger.log(style, message)
+
+    def failure(message: str) -> dict:
+        log("red", message)
+        return {"success": False, "message": message}
+
+    old_branch = old_branch.strip()
+    new_branch = new_branch.strip()
+    protected = {"main", "master"}
+
+    if old_branch in protected or new_branch in protected:
+        return failure(_("Main and master branches cannot be renamed here."))
+    if old_branch == new_branch:
+        return failure(_("The new branch name is unchanged."))
+    if not GitUtils.is_valid_branch_name(new_branch):
+        return failure(_("Invalid branch name: {0}").format(new_branch))
+
+    local_old = subprocess.run(
+        ["git", "show-ref", "--verify", "--quiet", f"refs/heads/{old_branch}"],
+        capture_output=True,
+        check=False,
+    ).returncode == 0
+    if not local_old:
+        return failure(
+            _("Branch {0} must exist locally before it can be renamed.").format(
+                old_branch
+            )
+        )
+
+    local_new = subprocess.run(
+        ["git", "show-ref", "--verify", "--quiet", f"refs/heads/{new_branch}"],
+        capture_output=True,
+        check=False,
+    ).returncode == 0
+    remote_new = subprocess.run(
+        ["git", "ls-remote", "--exit-code", "--heads", "origin", new_branch],
+        capture_output=True,
+        check=False,
+    ).returncode == 0
+    if local_new or remote_new:
+        return failure(_("Branch already exists: {0}").format(new_branch))
+
+    has_origin = subprocess.run(
+        ["git", "remote", "get-url", "origin"],
+        capture_output=True,
+        check=False,
+    ).returncode == 0
+    remote_old = has_origin and subprocess.run(
+        ["git", "ls-remote", "--exit-code", "--heads", "origin", old_branch],
+        capture_output=True,
+        check=False,
+    ).returncode == 0
+
+    log(
+        "cyan",
+        _("Renaming branch {0} to {1}...").format(old_branch, new_branch),
+    )
+    rename_result = subprocess.run(
+        ["git", "branch", "-m", old_branch, new_branch],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if rename_result.returncode != 0:
+        return failure(
+            _("Could not rename branch: {0}").format(
+                rename_result.stderr.strip() or rename_result.stdout.strip()
+            )
+        )
+
+    if has_origin:
+        log("cyan", _("Publishing renamed branch to origin..."))
+        push_result = subprocess.run(
+            ["git", "push", "-u", "origin", new_branch],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if push_result.returncode != 0:
+            subprocess.run(
+                ["git", "branch", "-m", new_branch, old_branch],
+                capture_output=True,
+                check=False,
+            )
+            return failure(
+                _("Could not publish renamed branch: {0}").format(
+                    push_result.stderr.strip() or push_result.stdout.strip()
+                )
+            )
+
+    old_remote_deleted = False
+    warning = ""
+    if delete_old_remote and remote_old:
+        log("yellow", _("Deleting old remote branch {0}...").format(old_branch))
+        delete_result = subprocess.run(
+            ["git", "push", "origin", "--delete", old_branch],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if delete_result.returncode == 0:
+            old_remote_deleted = True
+        else:
+            warning = _(
+                "The branch was renamed, but the old remote branch could not be deleted."
+            )
+            log("yellow", warning)
+
+    message = _("Branch renamed from {0} to {1}.").format(
+        old_branch,
+        new_branch,
+    )
+    log("green", message)
+    return {
+        "success": True,
+        "message": message,
+        "old_branch": old_branch,
+        "new_branch": new_branch,
+        "old_remote_deleted": old_remote_deleted,
+        "warning": warning,
+    }
+
+
+# ---------------------------------------------------------------------------
 # Configure git remote and push
 # ---------------------------------------------------------------------------
 

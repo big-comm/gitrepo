@@ -94,6 +94,9 @@ class Settings:
             # GitHub base URL (for enterprise installations)
             "github_base_url": "https://github.com",
 
+            # Explicit identity override (empty = auto-detect)
+            "github_username": "",
+
             # === OPERATION SETTINGS ===
             # Operation mode: quick (fast automation) | safe (more control) | expert (maximum automation)
             "operation_mode": "safe",
