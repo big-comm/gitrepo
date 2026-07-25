@@ -14,12 +14,10 @@ GUI_ROOTS = (
 EXPECTED_PRIVATE_ICONS = {
     "build-iso-build-image.svg",
     "build-iso-create.svg",
-    "build-iso-dashboard.svg",
     "build-iso-engine.svg",
     "build-iso-environment.svg",
     "build-iso-history.svg",
     "build-iso-profile.svg",
-    "build-iso-profiles.svg",
     "build-iso-settings.svg",
     "build-iso-source.svg",
     "build-iso-storage.svg",
@@ -95,7 +93,14 @@ def test_both_applications_register_the_shared_private_icon_root():
         assert '"/usr/share/icons"' not in application_source
 
 
-def test_build_iso_dashboard_hero_uses_dashboard_icon():
-    dashboard_source = (GUI_ROOTS[0] / "widgets/dashboard_widget.py").read_text(encoding="utf-8")
-
-    assert 'PageHero(\n            "build-iso-dashboard",' in dashboard_source
+def test_build_iso_pages_use_their_own_hero_icons():
+    """Each remaining ISO destination keeps a distinct hero icon."""
+    widgets = GUI_ROOTS[0] / "widgets"
+    heroes = {
+        "build_widget.py": "build-iso-create",
+        "history_widget.py": "build-iso-history",
+        "settings_widget.py": "build-iso-settings",
+    }
+    for filename, icon_name in heroes.items():
+        source = (widgets / filename).read_text(encoding="utf-8")
+        assert f'PageHero(\n                "{icon_name}",' in source

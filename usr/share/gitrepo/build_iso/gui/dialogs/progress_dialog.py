@@ -17,6 +17,7 @@ from gitrepo.build_iso.core.config import VALID_DISTROS, VALID_KERNELS, edition_
 from gitrepo.build_iso.core.build_log import BuildLogFile
 from gitrepo.build_iso.core.history_store import BuildHistoryStore
 from gitrepo.build_iso.core.iso_builder import ISOBuilder
+from gitrepo.common.desktop_launch import open_folder
 from gitrepo.common.translation import _
 from gitrepo.common.diagnostic_redaction import redact_diagnostic
 from gitrepo.common.terminal_palette import apply_log_palette, log_palette
@@ -154,6 +155,8 @@ class BuildProgressDialog(Adw.Window):
         self.builder = None
         self._start_time = 0
         self._timer_id = None
+        self._build_running = False
+        self._style_handler = 0
         self._tags_initialized = False
         self._live_log_mark = None
         self._active_step_index = None
@@ -177,9 +180,27 @@ class BuildProgressDialog(Adw.Window):
         self.connect("close-request", self._on_close_request)
 
     def _on_close_request(self, _window) -> bool:
-        """Release the log file even when the dialog is closed early."""
+        """Never let closing the window silently detach a running build."""
+        if self._build_running:
+            # Route the close through the same confirmation the button uses;
+            # the window stays until the build actually stops.
+            self._on_cancel_clicked(None)
+            return True
+        self._stop_timer()
+        self._disconnect_style_manager()
         self.log_file.close()
         return False
+
+    def _stop_timer(self) -> None:
+        """Stop the elapsed-time tick so it cannot outlive the window."""
+        if self._timer_id:
+            GLib.source_remove(self._timer_id)
+            self._timer_id = None
+
+    def _disconnect_style_manager(self) -> None:
+        if self._style_handler:
+            self._style_manager.disconnect(self._style_handler)
+            self._style_handler = 0
 
     def _create_ui(self):
         toolbar_view = Adw.ToolbarView()
@@ -405,7 +426,9 @@ class BuildProgressDialog(Adw.Window):
 
         self._tags_initialized = True
         self._apply_log_palette()
-        self._style_manager.connect("notify::dark", lambda *_args: self._apply_log_palette())
+        # The style manager is a process-wide singleton: without disconnecting,
+        # every finished dialog stays alive with its whole log buffer.
+        self._style_handler = self._style_manager.connect("notify::dark", lambda *_args: self._apply_log_palette())
 
     def _apply_log_palette(self) -> None:
         """Repaint the log tags for the active light or dark colour scheme."""
@@ -625,6 +648,7 @@ class BuildProgressDialog(Adw.Window):
     def start_build(self):
         """Start the ISO build"""
         self._start_time = time.time()
+        self._build_running = True
 
         # Timer for elapsed time
         self._timer_id = GLib.timeout_add(1000, self._update_elapsed)
@@ -730,15 +754,17 @@ class BuildProgressDialog(Adw.Window):
         self.remaining_label.set_text(format_duration(remaining))
 
     def _on_build_finished(self, result):
-        # Stop timer
-        if self._timer_id:
-            GLib.source_remove(self._timer_id)
-            self._timer_id = None
+        self._build_running = False
+        self._stop_timer()
         success = result.get("success", False)
         status = result.get("status", "succeeded" if success else "failed")
         iso_path = result.get("iso_path", "")
         error_msg = result.get("error", "")
         duration = result.get("duration", 0)
+        # The manifest is what makes this ISO reconstructible later, so it is
+        # written into the retained log before the file is closed.
+        for name, revision in sorted(result.get("manifest", {}).items()):
+            self.log_file.append(_("Built from {0} {1}").format(name, revision))
         self.log_file.append(_("Build finished: {0}").format(status))
         self.log_file.close()
         self.log_file.prune()
@@ -810,6 +836,9 @@ class BuildProgressDialog(Adw.Window):
                 "log_path": self.log_file.path,
                 "duration": duration,
                 "error": error_msg,
+                # Image digest and the commits the container resolved, so this
+                # entry describes an ISO that can be built again.
+                "manifest": result.get("manifest", {}),
             }
         )
 
@@ -848,6 +877,4 @@ class BuildProgressDialog(Adw.Window):
             return 0
 
     def _open_folder(self, path):
-        from gitrepo.common import child_process as subprocess
-
-        subprocess.Popen(["xdg-open", path])
+        open_folder(self, path)

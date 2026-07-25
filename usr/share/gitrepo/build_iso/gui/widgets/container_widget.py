@@ -14,8 +14,13 @@ from gitrepo.build_iso.core.container_manager import ContainerManager, Container
 from gitrepo.common.translation import _
 from gi.repository import Adw, GLib, GObject, Gtk
 
-from gitrepo.common.page_hero import BuildIsoPageHero as PageHero
-from gitrepo.common.page_layout import page_body
+
+def _section_icon(icon_name: str) -> Gtk.Image:
+    """Return a decorative row icon at the shared list size."""
+    icon = Gtk.Image.new_from_icon_name(icon_name)
+    icon.set_pixel_size(24)
+    icon.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
+    return icon
 
 
 class ContainerWidget(Gtk.Box):
@@ -36,39 +41,26 @@ class ContainerWidget(Gtk.Box):
         self._create_ui()
 
     def _create_ui(self):
-        """Create container management UI"""
+        """Create the environment section hosted by the settings page."""
 
-        self.append(
-            PageHero(
-                "build-iso-environment",
-                _("Prepare the build environment"),
-                _("Inspect the container runtime, update the required image, and clean stopped build containers."),
-            )
-        )
-
-        clamp, page_content = page_body()
-        self.append(clamp)
+        page_content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+        self.append(page_content)
 
         # ── Engine Info ──
         info_group = Adw.PreferencesGroup()
-        info_group.set_title(_("Container Engine"))
-        info_group.set_description(_("Runtime diagnostics used by ISO builds."))
+        info_group.set_title(_("Build environment"))
+        info_group.set_description(_("Runtime and image used by every ISO build."))
+        environment_icon = Gtk.Image.new_from_icon_name("build-iso-environment")
+        environment_icon.set_pixel_size(24)
+        environment_icon.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
+        info_group.set_header_suffix(environment_icon)
         page_content.append(info_group)
 
         self.engine_row = Adw.ActionRow()
-        self.engine_row.set_title(_("Engine"))
+        self.engine_row.set_title(_("Container engine"))
         self.engine_row.set_subtitle(_("Detecting..."))
+        self.engine_row.add_prefix(_section_icon("build-iso-engine"))
         info_group.add(self.engine_row)
-
-        self.driver_row = Adw.ActionRow()
-        self.driver_row.set_title(_("Storage Driver"))
-        self.driver_row.set_subtitle(_("Checking..."))
-        info_group.add(self.driver_row)
-
-        self.version_row = Adw.ActionRow()
-        self.version_row.set_title(_("Version"))
-        self.version_row.set_subtitle(_("Checking..."))
-        info_group.add(self.version_row)
 
         # ── Image Management ──
         image_group = Adw.PreferencesGroup()
@@ -80,6 +72,7 @@ class ContainerWidget(Gtk.Box):
         self.image_status_row = Adw.ActionRow()
         self.image_status_row.set_title(_("Image Status"))
         self.image_status_row.set_subtitle(_("Checking..."))
+        self.image_status_row.add_prefix(_section_icon("build-iso-build-image"))
         image_group.add(self.image_status_row)
 
         # Pull image button
@@ -96,12 +89,6 @@ class ContainerWidget(Gtk.Box):
         image_group.add(pull_row)
 
         # ── Maintenance ──
-        maint_group = Adw.PreferencesGroup()
-        maint_group.set_title(_("Maintenance"))
-        maint_group.set_description(_("Removes stopped build containers without deleting images or package data."))
-        maint_group.set_margin_top(24)
-        page_content.append(maint_group)
-
         # Cleanup containers
         cleanup_row = Adw.ActionRow()
         cleanup_row.set_title(_("Cleanup Old Containers"))
@@ -111,7 +98,7 @@ class ContainerWidget(Gtk.Box):
         self.cleanup_button.set_valign(Gtk.Align.CENTER)
         self.cleanup_button.connect("clicked", self._on_cleanup_clicked)
         cleanup_row.add_suffix(self.cleanup_button)
-        maint_group.add(cleanup_row)
+        image_group.add(cleanup_row)
 
         self.storage_notice_row = Adw.ActionRow()
         self.storage_notice_row.set_title(_("Docker storage is managed by the system"))
@@ -122,7 +109,7 @@ class ContainerWidget(Gtk.Box):
         warning_icon.add_css_class("status-warning")
         self.storage_notice_row.add_prefix(warning_icon)
         self.storage_notice_row.set_visible(False)
-        maint_group.add(self.storage_notice_row)
+        image_group.add(self.storage_notice_row)
 
         # Pull progress
         self.pull_progress_group = Adw.PreferencesGroup()
@@ -146,8 +133,6 @@ class ContainerWidget(Gtk.Box):
     def set_checking(self) -> None:
         """Show pending state while the shared environment probe runs."""
         self.engine_row.set_subtitle(_("Detecting..."))
-        self.driver_row.set_subtitle(_("Checking..."))
-        self.version_row.set_subtitle(_("Checking..."))
         self.image_status_row.set_subtitle(_("Checking..."))
         self.pull_button.set_sensitive(False)
         self.cleanup_button.set_sensitive(False)
@@ -159,25 +144,13 @@ class ContainerWidget(Gtk.Box):
         self.cleanup_button.set_sensitive(status.is_engine_ready)
 
         if status.is_engine_ready and status.engine:
-            self.engine_row.set_subtitle(status.engine.capitalize())
-            self.version_row.set_subtitle(status.version)
+            driver = status.driver or status.driver_error or _("driver unknown")
+            self.engine_row.set_subtitle(
+                _("{0} • {1} • storage {2}").format(status.engine.capitalize(), status.version, driver)
+            )
         else:
             self.engine_row.set_subtitle(_("Unavailable — {0}").format(status.engine_error))
-            self.version_row.set_subtitle(_("Not checked — start or install the engine, then refresh."))
-
-        if status.driver:
-            self.driver_row.set_subtitle(status.driver)
-            if status.driver == "btrfs":
-                self.driver_row.add_css_class("warning")
-                self.storage_notice_row.set_visible(True)
-            else:
-                self.driver_row.remove_css_class("warning")
-                self.storage_notice_row.set_visible(False)
-        else:
-            detail = status.driver_error or _("Not checked — start or install the engine, then refresh.")
-            self.driver_row.set_subtitle(detail)
-            self.driver_row.remove_css_class("warning")
-            self.storage_notice_row.set_visible(False)
+        self.storage_notice_row.set_visible(status.driver == "btrfs")
 
         if status.is_image_available:
             self.image_status_row.set_subtitle(

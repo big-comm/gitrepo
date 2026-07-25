@@ -2,6 +2,7 @@
 # core/container_manager.py - Container engine detection and management
 #
 
+import os
 import re
 import shutil
 from collections.abc import Callable
@@ -12,6 +13,16 @@ from gitrepo.common.translation import _
 
 
 ISO_BUILDER_LABEL = "org.biglinux.gitrepo.role=iso-builder"
+
+# `docker --version` answers "Docker version 29.6.1, build 8900f1d330". The
+# build identifier belongs in a bug report, not in the interface.
+_ENGINE_VERSION = re.compile(r"\bversion\s+(?P<number>[0-9][0-9A-Za-z.+~-]*)", re.IGNORECASE)
+
+
+def engine_version_number(banner: str) -> str:
+    """Return just the version number from a container engine's banner."""
+    match = _ENGINE_VERSION.search(banner)
+    return match.group("number").rstrip(",") if match else banner.strip()
 
 
 @dataclass(frozen=True)
@@ -87,7 +98,7 @@ class ContainerManager:
         version_lines = version_result.stdout.strip().splitlines()
         if not version_lines:
             return ContainerStatus(engine=engine, engine_error=_("The container engine did not respond."))
-        version = version_lines[0]
+        version = engine_version_number(version_lines[0])
         driver = self.get_storage_driver()
         driver_error = ""
         if not driver:
@@ -220,3 +231,23 @@ class ContainerManager:
     @staticmethod
     def _is_container_id(value: str) -> bool:
         return re.fullmatch(r"[0-9a-f]{12,64}", value) is not None
+
+
+def capture_disk_status(output_dir: str) -> tuple[float, float, bool, str]:
+    """Return free/total GB of the output volume, plus its accessibility."""
+    free_gb = 0.0
+    total_gb = 0.0
+    disk_error = ""
+    check_dir = output_dir
+    while check_dir and not os.path.exists(check_dir):
+        check_dir = os.path.dirname(check_dir)
+    if check_dir:
+        try:
+            usage = shutil.disk_usage(check_dir)
+            free_gb = usage.free / (1024**3)
+            total_gb = usage.total / (1024**3)
+        except OSError as error:
+            disk_error = str(error)
+    else:
+        disk_error = _("No accessible parent directory was found.")
+    return free_gb, total_gb, os.path.exists(output_dir), disk_error

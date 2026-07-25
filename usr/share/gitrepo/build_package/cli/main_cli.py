@@ -8,7 +8,7 @@ import traceback
 from rich.console import Console
 
 from gitrepo.build_package.cli.cli_menu import MenuSystem
-from gitrepo.build_package.core.build_package import BuildPackage
+from gitrepo.build_package.core.build_package import BuildPackage, parse_arguments, print_version
 from gitrepo.build_package.core.config import APP_DESC, APP_NAME, LOG_DIR_BASE
 from gitrepo.common.rich_logger import RichLogger
 from gitrepo.common.translation import _
@@ -24,8 +24,13 @@ def main():
         logger = RichLogger(APP_NAME, APP_DESC, LOG_DIR_BASE)
         menu = MenuSystem(logger)
 
-        # Initialize and run the BuildPackage with CLI dependencies
-        build_package = BuildPackage(logger=logger, menu_system=menu)
+        # Only the terminal entry point owns process arguments.
+        args = parse_arguments()
+        if args.version:
+            print_version()
+            return
+
+        build_package = BuildPackage(logger=logger, menu_system=menu, args=args)
         build_package.run()
 
     except KeyboardInterrupt:

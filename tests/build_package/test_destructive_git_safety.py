@@ -479,57 +479,187 @@ def test_repository_pathspec_call_sites_use_option_separator():
     assert violations == []
 
 
+REMOTE_OID = "1111111111111111111111111111111111111111"
+LOCAL_HEAD = "2222222222222222222222222222222222222222"
+
+
+def _revert_git_stub(calls, *, status="", push_returncode=0):
+    """Answer the read-only Git queries the revert journey makes."""
+
+    def record_run(command, **kwargs):
+        from gitrepo.build_package.core import revert_operations as module
+
+        calls.append((command, module.subprocess._destructive_git_authorized.get()))
+        verb = command[1] if len(command) > 1 else ""
+        if verb == "status":
+            return subprocess.CompletedProcess(command, 0, stdout=status, stderr="")
+        if verb == "rev-parse":
+            if "--git-dir" in command:
+                return subprocess.CompletedProcess(command, 0, stdout=".git", stderr="")
+            target = command[-1]
+            oid = REMOTE_OID if target.startswith("refs/remotes/") else LOCAL_HEAD
+            return subprocess.CompletedProcess(command, 0, stdout=f"{oid}\n", stderr="")
+        if verb == "log":
+            return subprocess.CompletedProcess(command, 0, stdout="original", stderr="")
+        if verb == "push":
+            return subprocess.CompletedProcess(command, push_returncode, stdout="", stderr="rejected")
+        return subprocess.CompletedProcess(command, 0, stdout="", stderr="")
+
+    return record_run
+
+
+class ConfirmingMenu:
+    question = ""
+
+    def confirm(self, question, default_yes=True):
+        self.question = question
+        assert default_yes is False
+        return True
+
+
 def test_revert_authorizes_only_confirmed_destructive_command(build_package_modules, monkeypatch):
     revert_operations = importlib.import_module("gitrepo.build_package.core.revert_operations")
     authorization = []
 
-    def record_run(command, **kwargs):
-        authorization.append((command, revert_operations.subprocess._destructive_git_authorized.get()))
-        stdout = "original" if command[1] == "log" else ""
-        return subprocess.CompletedProcess(command, 0, stdout=stdout, stderr="")
-
-    monkeypatch.setattr(revert_operations.subprocess._subprocess, "run", record_run)
+    monkeypatch.setattr(revert_operations.subprocess._subprocess, "run", _revert_git_stub(authorization))
     monkeypatch.setattr(revert_operations, "check_commit_in_remote", lambda _commit: False)
     bp = SimpleNamespace(logger=Logger())
     commit = {"hash": "abc123", "message": "message"}
 
     assert revert_operations.execute_revert(bp, commit, "revert", "main", confirmed=True) is True
-    assert all(not active for command, active in authorization if command[1] != "checkout")
-    assert [active for command, active in authorization if command[1] == "checkout"] == [True]
+    assert all(not active for command, active in authorization if command[1] != "read-tree")
+    assert [active for command, active in authorization if command[1] == "read-tree"] == [True]
 
 
-def test_reset_force_push_confirmation_matches_exact_command(build_package_modules, monkeypatch):
+def test_restore_uses_read_tree_so_later_files_do_not_survive(build_package_modules, monkeypatch):
+    revert_operations = importlib.import_module("gitrepo.build_package.core.revert_operations")
+    calls = []
+
+    monkeypatch.setattr(revert_operations.subprocess._subprocess, "run", _revert_git_stub(calls))
+    monkeypatch.setattr(revert_operations, "check_commit_in_remote", lambda _commit: False)
+
+    assert (
+        revert_operations.execute_revert(
+            SimpleNamespace(logger=Logger()), {"hash": "abc123", "message": "m"}, "revert", "main", confirmed=True
+        )
+        is True
+    )
+
+    commands = [command for command, _active in calls]
+    # `checkout COMMIT -- .` leaves files created after the target commit in place.
+    assert ["git", "read-tree", "-u", "--reset", "abc123"] in commands
+    assert not any(command[:2] == ["git", "checkout"] for command in commands)
+
+
+def test_revert_refuses_to_overwrite_uncommitted_work(build_package_modules, monkeypatch):
+    revert_operations = importlib.import_module("gitrepo.build_package.core.revert_operations")
+    calls = []
+    dirty = " M usr/app.py\0?? notes.txt\0"
+
+    monkeypatch.setattr(revert_operations.subprocess._subprocess, "run", _revert_git_stub(calls, status=dirty))
+    bp = SimpleNamespace(logger=Logger())
+
+    assert (
+        revert_operations.execute_revert(bp, {"hash": "abc123", "message": "m"}, "reset", "main", confirmed=True)
+        is False
+    )
+
+    commands = [command for command, _active in calls]
+    assert not any(command[:2] in (["git", "reset"], ["git", "read-tree"]) for command in commands)
+    reported = " ".join(message for _style, message in bp.logger.messages)
+    assert "usr/app.py" in reported and "notes.txt" in reported
+
+
+def test_revert_refuses_while_another_git_operation_is_unfinished(build_package_modules, monkeypatch, tmp_path):
+    revert_operations = importlib.import_module("gitrepo.build_package.core.revert_operations")
+    calls = []
+    git_dir = tmp_path / ".git"
+    git_dir.mkdir()
+    (git_dir / "MERGE_HEAD").write_text("abc\n", encoding="utf-8")
+
+    def record_run(command, **kwargs):
+        calls.append(command)
+        if command[1] == "rev-parse" and "--git-dir" in command:
+            return subprocess.CompletedProcess(command, 0, stdout=f"{git_dir}\n", stderr="")
+        return subprocess.CompletedProcess(command, 0, stdout="", stderr="")
+
+    monkeypatch.setattr(revert_operations.subprocess._subprocess, "run", record_run)
+    bp = SimpleNamespace(logger=Logger())
+
+    assert (
+        revert_operations.execute_revert(bp, {"hash": "abc123", "message": "m"}, "reset", "main", confirmed=True)
+        is False
+    )
+    assert not any(command[:2] == ["git", "reset"] for command in calls)
+    assert any("MERGE_HEAD" in message for _style, message in bp.logger.messages)
+
+
+def test_revert_treats_an_unreadable_status_as_blocking(build_package_modules, monkeypatch):
     revert_operations = importlib.import_module("gitrepo.build_package.core.revert_operations")
     calls = []
 
     def record_run(command, **kwargs):
-        calls.append((command, revert_operations.subprocess._destructive_git_authorized.get()))
+        calls.append(command)
+        if command[1] == "status":
+            raise subprocess.CalledProcessError(128, command, stderr="not a git repository")
         return subprocess.CompletedProcess(command, 0, stdout="", stderr="")
 
-    class Menu:
-        question = ""
-
-        def confirm(self, question, default_yes=True):
-            self.question = question
-            assert default_yes is False
-            return True
-
     monkeypatch.setattr(revert_operations.subprocess._subprocess, "run", record_run)
-    menu = Menu()
+    bp = SimpleNamespace(logger=Logger())
+
+    assert (
+        revert_operations.execute_revert(bp, {"hash": "abc123", "message": "m"}, "reset", "main", confirmed=True)
+        is False
+    )
+    assert not any(command[:2] == ["git", "reset"] for command in calls)
+
+
+def test_reset_leases_the_remote_tip_it_showed_the_user(build_package_modules, monkeypatch):
+    revert_operations = importlib.import_module("gitrepo.build_package.core.revert_operations")
+    calls = []
+
+    monkeypatch.setattr(revert_operations.subprocess._subprocess, "run", _revert_git_stub(calls))
+    menu = ConfirmingMenu()
     bp = SimpleNamespace(logger=Logger(), menu=menu)
-    force_push = [
+    leased_push = [
         "git",
         "push",
         "origin",
         "refs/heads/+topic:refs/heads/+topic",
-        "--force",
+        f"--force-with-lease=refs/heads/+topic:{REMOTE_OID}",
     ]
 
     assert revert_operations._execute_reset_method(bp, "abc123", "+topic", remote_exists=True, confirmed=True) is True
 
     assert "origin/+topic" in menu.question
-    assert menu.question.endswith(" ".join(force_push))
-    assert (force_push, True) in calls
+    assert REMOTE_OID[:12] in menu.question
+    assert menu.question.endswith(" ".join(leased_push))
+    assert (leased_push, True) in calls
+    assert bp.last_operation_details == {"force_pushed": True}
+
+
+def test_reset_keeps_the_remote_when_the_lease_is_rejected(build_package_modules, monkeypatch):
+    revert_operations = importlib.import_module("gitrepo.build_package.core.revert_operations")
+    calls = []
+
+    monkeypatch.setattr(revert_operations.subprocess._subprocess, "run", _revert_git_stub(calls, push_returncode=1))
+    bp = SimpleNamespace(logger=Logger(), menu=ConfirmingMenu())
+
+    assert revert_operations._execute_reset_method(bp, "abc123", "+topic", remote_exists=True, confirmed=True) is True
+
+    assert bp.last_operation_details == {"local_only": True, "lease_rejected": True}
+    # The branch is named in the outcome; the wording itself is translated.
+    assert any("+topic" in message for _style, message in bp.logger.messages)
+
+
+def test_reset_reports_the_command_that_undoes_it(build_package_modules, monkeypatch):
+    revert_operations = importlib.import_module("gitrepo.build_package.core.revert_operations")
+
+    monkeypatch.setattr(revert_operations.subprocess._subprocess, "run", _revert_git_stub([]))
+    bp = SimpleNamespace(logger=Logger(), menu=ConfirmingMenu())
+
+    assert revert_operations._execute_reset_method(bp, "abc123", "main", remote_exists=False, confirmed=True) is True
+    assert any(LOCAL_HEAD in message for _style, message in bp.logger.messages)
 
 
 def test_revert_bridge_rejects_missing_confirmation(build_package_modules, monkeypatch):
@@ -598,3 +728,110 @@ def test_pull_updates_branch_and_restores_untracked_file(build_package_modules, 
     assert (repository / "remote.txt").read_text(encoding="utf-8") == "from remote\n"
     assert (repository / "local.txt").read_text(encoding="utf-8") == "keep me\n"
     assert run_git(repository, "stash", "list").stdout.strip() == ""
+
+
+def _revert_flow_bp(menu):
+    return SimpleNamespace(logger=Logger(), menu=menu)
+
+
+class AlwaysConfirm:
+    def confirm(self, question, default_yes=True):
+        return True
+
+
+def test_reset_on_a_real_repository_refuses_while_work_is_uncommitted(build_package_modules, tmp_path, monkeypatch):
+    revert_operations = importlib.import_module("gitrepo.build_package.core.revert_operations")
+    repository, _remote = create_repository_with_remote(tmp_path)
+    base = run_git(repository, "rev-parse", "HEAD").stdout.strip()
+    (repository / "tracked.txt").write_text("second\n", encoding="utf-8")
+    run_git(repository, "commit", "-am", "second")
+    head = run_git(repository, "rev-parse", "HEAD").stdout.strip()
+
+    # Work the user has not committed yet: modified, staged, and untracked.
+    (repository / "tracked.txt").write_text("uncommitted edit\n", encoding="utf-8")
+    (repository / "staged.txt").write_text("staged\n", encoding="utf-8")
+    run_git(repository, "add", "staged.txt")
+    (repository / "untracked.txt").write_text("untracked\n", encoding="utf-8")
+    monkeypatch.chdir(repository)
+
+    bp = _revert_flow_bp(AlwaysConfirm())
+    assert (
+        revert_operations.execute_revert(bp, {"hash": base, "message": "base"}, "reset", "main", confirmed=True)
+        is False
+    )
+
+    assert run_git(repository, "rev-parse", "HEAD").stdout.strip() == head
+    assert (repository / "tracked.txt").read_text(encoding="utf-8") == "uncommitted edit\n"
+    assert (repository / "staged.txt").read_text(encoding="utf-8") == "staged\n"
+    assert (repository / "untracked.txt").read_text(encoding="utf-8") == "untracked\n"
+    reported = " ".join(message for _style, message in bp.logger.messages)
+    assert "tracked.txt" in reported and "untracked.txt" in reported
+
+
+def test_restore_on_a_real_repository_removes_files_added_after_the_target(
+    build_package_modules, tmp_path, monkeypatch
+):
+    revert_operations = importlib.import_module("gitrepo.build_package.core.revert_operations")
+    repository, _remote = create_repository_with_remote(tmp_path)
+    base = run_git(repository, "rev-parse", "HEAD").stdout.strip()
+    (repository / "added-later.txt").write_text("added later\n", encoding="utf-8")
+    (repository / "tracked.txt").write_text("changed\n", encoding="utf-8")
+    run_git(repository, "add", "added-later.txt")
+    run_git(repository, "commit", "-am", "later work")
+    monkeypatch.chdir(repository)
+
+    monkeypatch.setattr(revert_operations, "check_commit_in_remote", lambda _commit: False)
+    bp = _revert_flow_bp(AlwaysConfirm())
+    assert (
+        revert_operations.execute_revert(bp, {"hash": base, "message": "base"}, "revert", "main", confirmed=True)
+        is True
+    )
+
+    # The promised "exact state" includes the absence of files created later.
+    assert not (repository / "added-later.txt").exists()
+    assert (repository / "tracked.txt").read_text(encoding="utf-8") == "base\n"
+    assert run_git(repository, "rev-list", "--count", "HEAD").stdout.strip() == "3"
+
+
+def test_reset_lease_refuses_to_erase_a_commit_published_after_the_review(build_package_modules, tmp_path, monkeypatch):
+    revert_operations = importlib.import_module("gitrepo.build_package.core.revert_operations")
+    repository, remote = create_repository_with_remote(tmp_path)
+    base = run_git(repository, "rev-parse", "HEAD").stdout.strip()
+    (repository / "tracked.txt").write_text("mine\n", encoding="utf-8")
+    run_git(repository, "commit", "-am", "mine")
+    run_git(repository, "push", "origin", "main")
+
+    # A teammate publishes while the reset is being reviewed.
+    publisher = tmp_path / "publisher"
+    subprocess.run(["git", "clone", "--branch", "main", str(remote), str(publisher)], check=True, capture_output=True)
+    run_git(publisher, "config", "user.name", "Publisher")
+    run_git(publisher, "config", "user.email", "publisher@example.invalid")
+    (publisher / "theirs.txt").write_text("do not lose me\n", encoding="utf-8")
+    run_git(publisher, "add", "theirs.txt")
+    run_git(publisher, "commit", "-m", "teammate work")
+    run_git(publisher, "push", "origin", "main")
+    remote_tip = run_git(publisher, "rev-parse", "HEAD").stdout.strip()
+    monkeypatch.chdir(repository)
+
+    class StaleMenu:
+        """Confirm using the tip observed before the teammate pushed."""
+
+        def __init__(self):
+            self.stale_oid = run_git(repository, "rev-parse", "HEAD").stdout.strip()
+
+        def confirm(self, question, default_yes=True):
+            return True
+
+    menu = StaleMenu()
+    monkeypatch.setattr(revert_operations, "observed_remote_oid", lambda _branch: menu.stale_oid)
+    bp = SimpleNamespace(logger=Logger(), menu=menu)
+
+    assert revert_operations._execute_reset_method(bp, base, "main", remote_exists=True, confirmed=True) is True
+
+    assert bp.last_operation_details.get("lease_rejected") is True
+    assert (
+        subprocess.run(
+            ["git", "rev-parse", "refs/heads/main"], cwd=remote, check=True, capture_output=True, text=True
+        ).stdout.strip()
+        == remote_tip
+    )

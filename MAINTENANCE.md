@@ -45,10 +45,20 @@ two desktop application icons mirror the system theme hierarchy under
 
 `gitrepo.build_package.cli.main_cli` is the terminal entrypoint and `gitrepo.build_package.gui.main_gui` is the GTK entrypoint. Core Git operations expose one reviewed function per user action. `RepositorySnapshot` captures the repository state outside GTK's main loop and distributes one consistent result to the visible pages.
 
-Both applications share the same page grammar: hero, clamped body, `?` help on a
-configuration group, state pills instead of bare colour, and a `page_footer`
-widget for the page's primary action. The Publish Changes footer states what the
-commit will contain and what is still missing before it can run.
+Build Package has four destinations: **Publish Changes** (the workspace facts and
+the commit they describe, in one page), **Organize Branches**, **Packages**, and
+**Settings**. Packaging hosts two mutually exclusive workflows — this repository or the AUR —
+through `TabbedPage`, an inline `Adw.ViewSwitcher`. Settings do the opposite:
+`StackedPage` keeps behavior, GitHub access, and destructive maintenance in one
+scroll, because settings are scanned rather than navigated. Use a switcher only
+for an either/or; never to split one page of settings. Buttons keep the platform
+metrics: no custom heights or font sizes. Both applications share the same page grammar: hero, clamped body,
+`?` help on a configuration group, state pills instead of bare colour, and a
+`page_footer` widget for the page's primary action. The Publish Changes footer
+states what the commit will contain and what is still missing before it can run.
+
+Keep destinations shaped by user goals, not by module layout: a page that only
+links to other pages, or a second page owning the same decision, belongs merged.
 
 PKGBUILD names come from `makepkg --printsrcinfo`; do not add a second PKGBUILD parser. Destructive operations must use the existing confirmation and authorization boundary.
 
@@ -68,7 +78,81 @@ offers it once before falling back to the per-file review.
 `_locate_app_version_entry()` bumps `APP_VERSION` only when one candidate file
 declares an `APP_NAME` matching the repository directory or `pkgname`. A tie
 means the repository ships several applications and the bump is skipped instead
-of guessing.
+of guessing. The bump is a two-step contract: `plan_version_bump()` prepares the
+new bytes and validates that the target is a regular file inside the repository —
+a symlink candidate is refused, never followed — and `publish_version_bump()`
+writes it through `common/atomic_file`, preserving the file's own permissions.
+`commit_and_push()` plans before confirming, shows the exact version change and
+adds the file to the reviewed list, and stops publication when the approved bump
+cannot be written. Nothing reaches a commit that the user did not see.
+
+Rewriting the working tree requires a clean starting point. `execute_revert()`
+refuses when `git status --porcelain -z` reports any path or when a sequencer
+operation (`MERGE_HEAD`, `REVERT_HEAD`, `CHERRY_PICK_HEAD`, `BISECT_LOG`,
+`rebase-merge`, `rebase-apply`) is unfinished; a Git failure there reads as
+unknown and also blocks, never as clean. Restore uses
+`git read-tree -u --reset COMMIT`, not `git checkout COMMIT -- .`, so files added
+after the target commit are removed and the promised state is the real one.
+On failure nothing is aborted — the entry revision is reported as
+`git reset --hard <sha>`, because `--abort` could cancel work started elsewhere.
+
+Remote rewrites use `--force-with-lease=refs/heads/BRANCH:OID` with the OID read
+from `origin` immediately before the confirmation, which also names it. A lease
+rejection means someone published in between: the remote is left untouched and
+the outcome is recorded as `lease_rejected`. Plain `--force` must not come back.
+
+A branch is only offered for deletion when Git proves its tip is already
+reachable from the merge base. `merge_base_reference()` picks `origin/main`,
+`origin/master`, or their local equivalents, `merged_branches()` delegates to
+`git branch --merged`, and cleanup refuses outright when no base exists. Branch
+names never decide this: `feature-*` may hold the only copy of a commit. The
+preview shows each tip OID, and the branches kept because their commits are not
+in the base are reported rather than silently omitted.
+
+`_keep_both_versions()` reads both sides straight from index stages 2 and 3 and
+writes them through `O_CREAT | O_EXCL | O_NOFOLLOW`, so an existing `file.ours`
+or a symlink under that name is never replaced — the companion becomes
+`file.ours.1` instead. Which side resolves the file is then a separate,
+explicit choice; cancelling leaves the conflict recorded instead of silently
+keeping the incoming version.
+
+`core/git_status.py` is the one reader of Git path lists. `STATUS_COMMAND` and
+`CONFLICT_COMMAND` always use `-z`, and `parse_status_records()` /
+`parse_path_records()` decode with `os.fsdecode`, because line-oriented
+porcelain quotes any path holding a newline, a quote, or non-UTF-8 bytes and
+turns it into an unusable pathspec. Its three consumers — the changed-file
+inventory, `RepositorySnapshot`, and conflict enumeration — justify one local
+parser and nothing wider. Paths shown in a confirmation go through
+`display_path()`, so a crafted filename cannot forge extra lines in a list the
+user is about to approve. `has_changes()` fails closed: an unreadable status
+answers "there is work here", never "clean".
+
+`core/repository_lock.py` gives one journey exclusive ownership of the
+repository. Git's index lock protects a single command, not a sequence of
+stash, checkout, commit and push. The `@journey(...)` decorator wraps
+`commit_and_push`, `pull_latest`, `commit_and_generate_package`,
+`execute_revert` and `create_branch_and_push`; the owning thread re-enters
+(publishing a package commits first) while another thread or another process
+is refused with the holder's name. `OperationRunner` refuses a second GUI
+operation for the same reason.
+
+A journey that fails after doing recoverable work says what survived.
+`bp.last_operation_details` carries `local_commit_created` /
+`local_branch_created`, `remote_unchanged` and `retry_command`, and the
+progress dialog turns that into the failure headline. Never delete a local
+commit or branch during rollback: it is the most recoverable state there is.
+
+GitHub bulk deletions paginate the complete candidate set before confirming,
+state how many items the confirmation covers, and return False when any
+deletion failed — a partial deletion reported as success is worse than a
+reported failure.
+
+Only a validated GitHub origin may address the GitHub API. `parse_github_remote()`
+accepts HTTPS, SSH, git and SCP-style remotes, requires a host in `GITHUB_HOSTS`
+and exactly two valid path segments, and returns nothing otherwise — a repository
+on another forge with the same `owner/name` must never be reached because the
+token happens to have access. Destructive GitHub confirmations name the canonical
+`host/owner/repository` from `get_canonical_repository()`.
 
 The diff viewer (`gui/dialogs/diff_viewer_dialog.py`) is the one surface for
 reviewing changes: pending files from the workspace and commit pages, and the
@@ -80,12 +164,18 @@ files a completed pull brought in.
 
 `ContainerManager.capture_status()` runs one runtime/image probe. The main window sends that immutable snapshot to both Dashboard and Build Environment. Do not add independent Docker/Podman probes to either widget.
 
-The dashboard states the build order (environment → profile → create) and marks
-each step from the same container snapshot; do not invent readiness there. A page
-may publish a `page_footer` widget: the main window moves it into the content
-`Adw.ToolbarView` bottom bar when that page becomes visible, which is how the
-Create ISO summary and its primary action stay outside the scrolled form. The
-sidebar badge on Build Environment counts the probe items that block a build.
+Build ISO has three destinations: **Create ISO**, **Generated ISOs**, and
+**Settings**. Creating an image is one page in decision order — what the image
+installs (distribution plus edition cards), where it is saved, then an
+`Adw.ExpanderRow` holding kernel, package channels, and the profile source, which
+all have defaults worth ignoring. The container environment is a prerequisite,
+not a destination: it lives as a section of Settings, is announced by an
+`Adw.Banner` on the build page when it breaks, and is otherwise reduced to one
+quiet line. A page may publish a `page_footer` widget: the main window moves it
+into the content `Adw.ToolbarView` bottom bar when that page becomes visible,
+which is how the Create ISO summary and its primary action stay outside the
+scrolled form. The sidebar badge on Settings counts the probe items that block a
+build.
 
 Every build writes its terminal output to `BuildLogFile`
 (`$XDG_STATE_HOME/gitrepo/build-iso/<timestamp>_<distro>-<edition>.log`, mode
@@ -96,6 +186,31 @@ time comes from `build_estimate`: it projects from elapsed/fraction only after
 15% of the build and otherwise falls back to the median duration of comparable
 successful builds. The terminal log tags carry explicit foregrounds from
 `log_palette()` and follow `Adw.StyleManager`'s dark state.
+
+Cancellation owns exactly one running child at a time. `_own_process()` and
+`_release_process()` register the current `Popen` under `_process_lock`, so
+`cancel()` can terminate and reap a phase that is blocked reading a stalled
+child — a hung `docker pull` produces no further line and would otherwise never
+notice. A child spawned after cancellation is killed by `_own_process()` itself.
+The progress dialog refuses to close while a build runs: `close-request` routes
+through the same confirmation as the Cancel button and keeps the window until
+the build reports back, so no daemon thread survives to queue updates into a
+closed window. Closing also stops the elapsed timer and disconnects the
+`Adw.StyleManager` handler, which is a process-wide singleton and would
+otherwise retain every finished dialog and its log buffer.
+
+Every build records what it was actually made from. The container prints
+`GITREPO-MANIFEST <name> <sha>` for the `build-iso` and `iso-profiles` clones,
+`resolve_image_digest()` pins the image that ran, and both land in
+`result["manifest"]`, the retained log, and the history entry. Without that, a
+release built from `:latest` plus default branch tips cannot be reconstructed
+from the record that describes it.
+
+Artifacts are published with `os.link()`, never `os.replace()`: a name check
+followed by a replace silently overwrites a file another process created in
+between, and rollback would then delete it. Linking fails instead, and only on
+a name we do not own. The ISO checksum comes from `hashlib`, so publication
+cannot fail because `md5sum` is missing after an hour of building.
 
 `ISOBuilder._live_setup_guard_commands()` patches `build-iso.sh` so `manjaro-tools`'s `configure_live_image()` only chroots into `/usr/bin/manjaro-live-setup` when the livefs actually ships it. `manjaro-tools-iso-git` always calls it, while stable-branch `manjaro-live-base` (20241119) still performs that setup at live boot. Remove the guard only when every supported branch ships `manjaro-live-base` 20260722 or newer.
 

@@ -4,6 +4,7 @@ from gitrepo.common import child_process as subprocess
 
 from .git_utils import GitUtils
 from .operation_preview import OperationPlan
+from .repository_lock import journey
 from gitrepo.common.translation import _
 
 
@@ -72,6 +73,7 @@ def _restore_stash(bp, branch: str) -> bool:
     return False
 
 
+@journey("downloading updates", False)
 def pull_latest(build_package_instance) -> bool:
     """Fetch and merge the current branch while preserving local changes."""
     bp = build_package_instance

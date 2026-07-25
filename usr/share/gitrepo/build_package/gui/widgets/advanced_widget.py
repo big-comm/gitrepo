@@ -75,24 +75,26 @@ class AdvancedWidget(Gtk.Box):
         "revert-commit-requested": (GObject.SignalFlags.RUN_FIRST, None, (str, str)),  # commit_hash, method
     }
 
-    def __init__(self, build_package):
+    def __init__(self, build_package, show_hero: bool = True):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         self.build_package = build_package
+        self._show_hero = show_hero
         self.recent_commits = []
         self.create_ui()
 
     def create_ui(self):
         """Create the widget UI"""
 
-        self.append(
-            PageHero(
-                "build-package-advanced",
-                _("Maintain and restore the repository"),
-                _(
-                    "Remove obsolete references or return files and history to an earlier point. Every destructive command requires confirmation."
-                ),
+        if self._show_hero:
+            self.append(
+                PageHero(
+                    "build-package-advanced",
+                    _("Maintain and restore the repository"),
+                    _(
+                        "Remove obsolete references or return files and history to an earlier point. Every destructive command requires confirmation."
+                    ),
+                )
             )
-        )
 
         clamp, page_content = page_body(spacing=18)
         self.append(clamp)
@@ -108,20 +110,9 @@ class AdvancedWidget(Gtk.Box):
         # Cleanup operations
         cleanup_group = Adw.PreferencesGroup()
         cleanup_group.set_title(_("Cleanup Operations"))
-        cleanup_group.set_description(_("Remove old branches, actions, and tags"))
+        cleanup_group.set_description(_("Remove obsolete GitHub Actions runs and remote tags"))
 
         cleanup_operations = [
-            (
-                "branches",
-                _("Remove old branches"),
-                git_command_description(
-                    "git fetch --all --prune",
-                    "git branch -D BRANCH",
-                    "git push origin --delete BRANCH",
-                ),
-                "build-package-cleanup",
-                True,
-            ),
             (
                 "failed_actions",
                 _("Remove failed workflow runs"),
@@ -159,6 +150,7 @@ class AdvancedWidget(Gtk.Box):
 
         # Commit revert operations
         revert_group = Adw.PreferencesGroup()
+        self.history_group = revert_group
         revert_group.set_title(_("Commit History"))
         revert_group.set_description(_("View and revert recent commits"))
 
@@ -208,7 +200,6 @@ class AdvancedWidget(Gtk.Box):
         # Refresh button
         refresh_content = Adw.ButtonContent(label=_("Refresh"), icon_name="view-refresh-symbolic")
         refresh_button = Gtk.Button(child=refresh_content)
-        refresh_button.add_css_class("build-package-action-button")
         refresh_button.connect("clicked", self.on_refresh_clicked)
         actions_box.append(refresh_button)
 
@@ -216,30 +207,11 @@ class AdvancedWidget(Gtk.Box):
         revert_content = Adw.ButtonContent(label=_("Return to selected commit"), icon_name="build-package-revert")
         self.revert_button = Gtk.Button(child=revert_content)
         self.revert_button.add_css_class("destructive-action")
-        self.revert_button.add_css_class("build-package-primary-action")
         self.revert_button.connect("clicked", self.on_revert_clicked)
         self.revert_button.set_sensitive(False)
         actions_box.append(self.revert_button)
 
         page_content.append(actions_box)
-
-        # Repository statistics are supporting information, so they follow the
-        # complete select → method → action workflow.
-        stats_group = Adw.PreferencesGroup()
-        stats_group.set_title(_("Repository Statistics"))
-        stats_group.set_description(_("A compact inventory of the current repository."))
-
-        self.branch_count_row = Adw.ActionRow()
-        self.branch_count_row.set_title(_("Total Branches"))
-        self.branch_count_row.add_prefix(Gtk.Image.new_from_icon_name("build-package-branches"))
-        stats_group.add(self.branch_count_row)
-
-        self.commit_count_row = Adw.ActionRow()
-        self.commit_count_row.set_title(_("Commits in Current Branch"))
-        self.commit_count_row.add_prefix(Gtk.Image.new_from_icon_name("build-package-commit"))
-        stats_group.add(self.commit_count_row)
-
-        page_content.append(stats_group)
 
     def refresh_commits(self):
         """Ask the owning window to refresh the shared snapshot."""
@@ -260,9 +232,9 @@ class AdvancedWidget(Gtk.Box):
                 CommitRow("--------", _("No commits yet"), "", _("Create your first commit to see history"))
             )
         branches = set(snapshot.local_branches + snapshot.remote_branches)
-        self.branch_count_row.set_subtitle(str(len(branches)))
-        self.commit_count_row.set_subtitle(
-            _("Unknown") if snapshot.commit_count is None else str(snapshot.commit_count)
+        commits = _("unknown") if snapshot.commit_count is None else str(snapshot.commit_count)
+        self.history_group.set_description(
+            _("{0} branch(es) and {1} commit(s) in the current branch.").format(len(branches), commits)
         )
 
     def on_cleanup_operation_activated(self, _list_box, row):
@@ -290,15 +262,14 @@ class AdvancedWidget(Gtk.Box):
         """Explain the exact commands used by the selected recovery method."""
         if self.revert_method_row.get_selected() == 0:
             description = git_command_description(
-                "git checkout COMMIT -- .",
-                "git add .",
+                "git read-tree -u --reset COMMIT",
                 'git commit -m "MESSAGE"',
                 "git push origin BRANCH",
             )
         else:
             description = git_command_description(
                 "git reset --hard COMMIT",
-                "git push origin BRANCH --force (if remote)",
+                "git push origin BRANCH --force-with-lease (if remote)",
             )
         self.revert_method_row.set_subtitle(description)
 
@@ -324,15 +295,14 @@ class AdvancedWidget(Gtk.Box):
         method_text = _("restore") if method == "revert" else _("reset")
         commands = (
             git_command_description(
-                "git checkout COMMIT -- .",
-                "git add .",
+                "git read-tree -u --reset COMMIT",
                 'git commit -m "MESSAGE"',
                 "git push origin BRANCH",
             )
             if method == "revert"
             else git_command_description(
                 "git reset --hard COMMIT",
-                "git push origin BRANCH --force (if remote)",
+                "git push origin BRANCH --force-with-lease (if remote)",
             )
         )
 

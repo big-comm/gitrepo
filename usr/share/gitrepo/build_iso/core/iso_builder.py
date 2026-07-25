@@ -6,6 +6,7 @@
 #
 
 import codecs
+import hashlib
 import os
 import re
 import shutil
@@ -21,6 +22,9 @@ from gitrepo.build_iso.core.container_manager import ISO_BUILDER_LABEL
 from gitrepo.common.translation import _
 from gitrepo.common import child_process as subprocess
 from gitrepo.common.atomic_file import atomic_write_text
+
+# The container reports the commits it resolved for its cloned inputs.
+MANIFEST_LINE = re.compile(r"^GITREPO-MANIFEST (?P<name>[a-z0-9-]+) (?P<revision>[0-9a-f]{7,40})$")
 
 # Regex to strip ANSI escape codes from container output
 _ANSI_RE = re.compile(r"\x1b\[[0-9;]*[a-zA-Z]|\x1b\].*?\x07")
@@ -144,7 +148,12 @@ class ISOBuilder:
         self._callbacks = callbacks or {}
         self._cancelled = threading.Event()
         self._container_name = ""
-        self._build_process = None
+        # What this build actually resolved: image digest and cloned commits.
+        self.manifest: dict[str, str] = {}
+        # One owner for whichever child is running now, so cancellation can
+        # reach a phase that is blocked reading a stalled process.
+        self._process_lock = threading.Lock()
+        self._active_process = None
         self._build_substep_index = -1
         self._build_substep_fraction = 0.0
 
@@ -234,6 +243,9 @@ class ISOBuilder:
         if not clean_line:
             return
 
+        if self._record_manifest_line(clean_line):
+            return
+
         squashfs_fraction = parse_mksquashfs_progress(clean_line)
         xorriso_fraction = parse_xorriso_progress(clean_line)
         if squashfs_fraction is not None:
@@ -258,8 +270,58 @@ class ISOBuilder:
         else:
             self._log("white", clean_line)
 
+    def _record_manifest_line(self, line: str) -> bool:
+        """Capture a `GITREPO-MANIFEST <name> <sha>` line from the container.
+
+        The build clones its inputs at whatever their default branch points to
+        today. Recording the resolved commits is what makes a finished ISO
+        reconstructible from the entry that describes it.
+        """
+        match = MANIFEST_LINE.match(line)
+        if not match:
+            return False
+        name, revision = match.group("name"), match.group("revision")
+        self.manifest[name] = revision
+        self._log("dim", _("{0} at {1}").format(name, revision[:12]))
+        return True
+
+    def resolve_image_digest(self) -> str:
+        """Return the exact image this build ran, as a pinnable reference."""
+        if not self.container_engine:
+            return ""
+        for template in ("{{index .RepoDigests 0}}", "{{.Id}}"):
+            result = subprocess.run(
+                [self.container_engine, "image", "inspect", "--format", template, self.container_image],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.DEVNULL,
+                text=True,
+                check=False,
+                timeout=30,
+            )
+            reference = result.stdout.strip()
+            if result.returncode == 0 and reference:
+                return reference
+        return ""
+
+    def _own_process(self, process) -> bool:
+        """Register *process* as the child cancellation must terminate."""
+        with self._process_lock:
+            if self._cancelled.is_set():
+                # Cancelled between spawning and registering: stop it here,
+                # because cancel() has already looked and found nothing.
+                process.kill()
+                process.wait()
+                return False
+            self._active_process = process
+            return True
+
+    def _release_process(self, process) -> None:
+        with self._process_lock:
+            if self._active_process is process:
+                self._active_process = None
+
     def cancel(self):
-        """Request build cancellation and stop running container"""
+        """Request cancellation and terminate whatever child is running now."""
         self._cancelled.set()
         # Kill running container in a thread to avoid blocking UI
         if self._container_name and self.container_engine:
@@ -270,18 +332,25 @@ class ISOBuilder:
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.DEVNULL,
                     check=False,
+                    timeout=30,
                 )
                 subprocess.run(
                     [self.container_engine, "rm", "-f", "-v", self._container_name],
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.DEVNULL,
                     check=False,
+                    timeout=30,
                 )
 
             threading.Thread(target=_stop, daemon=True).start()
-        # Kill the subprocess if running
-        if self._build_process and self._build_process.poll() is None:
-            self._build_process.kill()
+
+        with self._process_lock:
+            process = self._active_process
+        # Killing closes the pipe, so a phase blocked reading its output wakes
+        # up instead of waiting for a line that will never arrive.
+        if process and process.poll() is None:
+            process.kill()
+            process.wait()
 
     @property
     def is_cancelled(self) -> bool:
@@ -331,6 +400,10 @@ class ISOBuilder:
             error = self._run_step(phase, action, message)
             if error:
                 return error
+        digest = self.resolve_image_digest()
+        if digest:
+            self.manifest["container-image"] = digest
+            self._log("dim", _("Container image resolved to {0}").format(digest))
         return ""
 
     def _build_and_publish_iso(self) -> tuple[str, str]:
@@ -353,7 +426,14 @@ class ISOBuilder:
     def execute(self) -> dict:
         """Execute the bounded build pipeline and always report elapsed duration."""
         started_at = time.monotonic()
-        result = {"success": False, "status": "running", "iso_path": "", "error": "", "duration": 0}
+        result = {
+            "success": False,
+            "status": "running",
+            "iso_path": "",
+            "error": "",
+            "duration": 0,
+            "manifest": {},
+        }
         try:
             result["error"] = self._prepare_build()
             if not result["error"]:
@@ -373,6 +453,9 @@ class ISOBuilder:
             elif not result["success"]:
                 result["status"] = "failed"
             result["duration"] = int(time.monotonic() - started_at)
+            # The manifest describes what this build actually used, so it
+            # is reported for a failed run too.
+            result["manifest"] = dict(self.manifest)
         return result
 
     def _check_engine(self) -> bool:
@@ -421,14 +504,22 @@ class ISOBuilder:
             text=True,
             bufsize=1,
         )
-        for line in process.stdout:
-            line = line.rstrip()
-            if line:
-                self._log("dim", f"  {line}")
-            if self.is_cancelled:
-                process.kill()
-                return False
-        process.wait()
+        # A pull that stalls produces no further line, so the loop below would
+        # never notice a cancellation on its own.
+        if not self._own_process(process):
+            return False
+        try:
+            for line in process.stdout:
+                line = line.rstrip()
+                if line:
+                    self._log("dim", f"  {line}")
+                if self.is_cancelled:
+                    break
+            process.wait()
+        finally:
+            self._release_process(process)
+        if self.is_cancelled:
+            return False
         if process.returncode == 0:
             self._log("green", _("Container image pulled successfully"))
             return True
@@ -469,6 +560,7 @@ set -eo pipefail
 umask 022
 mkdir -p /root/gitrepo-build/work /root/gitrepo-build/output
 git clone --depth 1 "$BUILD_ISO_REPO" /root/gitrepo-build/build-iso
+echo "GITREPO-MANIFEST build-iso $(git -C /root/gitrepo-build/build-iso rev-parse HEAD)"
 sed -i 's|git clone --depth 1 "$ISO_PROFILES_REPO" "$WORK_PATH_ISO_PROFILES" &>/dev/null|git clone --depth 1 "$ISO_PROFILES_REPO" "$WORK_PATH_ISO_PROFILES"|' /root/gitrepo-build/build-iso/build-iso.sh
 """
         ]
@@ -536,6 +628,7 @@ fi
         parts.append("""
 cd /root/gitrepo-build/build-iso
 bash ./build-iso.sh
+{ [ -d "$WORK_PATH_ISO_PROFILES/.git" ] && echo "GITREPO-MANIFEST iso-profiles $(git -C "$WORK_PATH_ISO_PROFILES" rev-parse HEAD)"; } || true
 find /root/gitrepo-build/work -maxdepth 1 -type f \\( -name '*.iso' -o -name '*.iso.pkgs' \\) -exec mv -t /root/gitrepo-build/output -- {} +
 test "$(find /root/gitrepo-build/output -maxdepth 1 -type f -name '*.iso' | wc -l)" -eq 1
 """)
@@ -647,30 +740,37 @@ test "$(find /root/gitrepo-build/output -maxdepth 1 -type f -name '*.iso' | wc -
             text=False,
             bufsize=0,
         )
-        self._build_process = process
+        if not self._own_process(process):
+            self._force_remove_container()
+            return False
 
-        for record, replaces_line in iter_terminal_records(process.stdout):
-            self._handle_container_record(record, replaces_line)
-            if self.is_cancelled:
-                self._log("yellow", _("Stopping container..."))
-                process.kill()
-                # Force stop the Docker/Podman container
-                subprocess.run(
-                    [self.container_engine, "stop", "-t", "3", self._container_name],
-                    stdout=subprocess.DEVNULL,
-                    stderr=subprocess.DEVNULL,
-                    check=False,
-                )
-                subprocess.run(
-                    [self.container_engine, "rm", "-f", "-v", self._container_name],
-                    stdout=subprocess.DEVNULL,
-                    stderr=subprocess.DEVNULL,
-                    check=False,
-                )
-                return False
+        try:
+            for record, replaces_line in iter_terminal_records(process.stdout):
+                self._handle_container_record(record, replaces_line)
+                if self.is_cancelled:
+                    break
+            process.wait()
+        finally:
+            self._release_process(process)
 
-        process.wait()
+        if self.is_cancelled:
+            self._log("yellow", _("Stopping container..."))
+            self._force_remove_container()
+            return False
         return process.returncode == 0
+
+    def _force_remove_container(self) -> None:
+        """Stop and remove this build's container, bounded so it cannot hang."""
+        if not self._container_name or not self.container_engine:
+            return
+        for argv in (
+            [self.container_engine, "stop", "-t", "3", self._container_name],
+            [self.container_engine, "rm", "-f", "-v", self._container_name],
+        ):
+            try:
+                subprocess.run(argv, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False, timeout=60)
+            except subprocess.SubprocessError:
+                self._log("yellow", _("Could not remove the build container {0}.").format(self._container_name))
 
     def _publish_container_artifacts(self) -> str:
         """Copy validated artifacts to private staging and publish the ISO last."""
@@ -732,14 +832,22 @@ test "$(find /root/gitrepo-build/output -maxdepth 1 -type f -name '*.iso' | wc -
                 return candidate
             sequence += 1
 
+    @staticmethod
+    def _file_checksum(path: Path) -> str:
+        """Return the MD5 of *path* without depending on an external binary.
+
+        MD5 is the checksum format the published ISO family already uses for
+        transfer integrity. It is not a security control here, so it is
+        declared as such rather than silenced.
+        """
+        digest = hashlib.md5(usedforsecurity=False)
+        with path.open("rb") as stream:
+            for block in iter(lambda: stream.read(4 * 1024 * 1024), b""):
+                digest.update(block)
+        return digest.hexdigest()
+
     def _publish_staged_artifacts(self, output: Path, iso_file: Path, entries: list[Path]) -> tuple[str, str]:
-        checksum = subprocess.run(
-            ["md5sum", str(iso_file)],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            check=True,
-        ).stdout.split()[0]
+        checksum = self._file_checksum(iso_file)
         artifact_name = self._available_artifact_name(output, iso_file, entries)
         checksum_file = iso_file.with_suffix(f"{iso_file.suffix}.md5")
         atomic_write_text(checksum_file, f"{checksum}  {artifact_name}\n", mode=0o644)
@@ -747,8 +855,6 @@ test "$(find /root/gitrepo-build/output -maxdepth 1 -type f -name '*.iso' | wc -
         destinations = [
             output / f"{artifact_name}{source.name.removeprefix(iso_file.name)}" for source in files_to_publish
         ]
-        if any(destination.exists() or destination.is_symlink() for destination in destinations):
-            raise FileExistsError(_("An ISO artifact with the same name already exists"))
 
         published: list[Path] = []
         try:
@@ -756,18 +862,30 @@ test "$(find /root/gitrepo-build/output -maxdepth 1 -type f -name '*.iso' | wc -
                 os.chmod(source, 0o644)
                 with source.open("rb") as stream:
                     os.fsync(stream.fileno())
-                os.replace(source, destination)
+                # A name check followed by os.replace() would silently overwrite
+                # a file another process created in between. Linking fails
+                # instead, and it only ever fails on a name we do not own.
+                os.link(source, destination)
                 published.append(destination)
+                source.unlink()
             directory_fd = os.open(output, os.O_RDONLY | os.O_DIRECTORY)
             try:
                 os.fsync(directory_fd)
             finally:
                 os.close(directory_fd)
+        except FileExistsError as error:
+            self._rollback_published(published)
+            raise FileExistsError(_("An ISO artifact with the same name already exists")) from error
         except Exception:
-            for path in published:
-                path.unlink(missing_ok=True)
+            self._rollback_published(published)
             raise
         return str(output / artifact_name), checksum
+
+    @staticmethod
+    def _rollback_published(published: list[Path]) -> None:
+        """Remove only the paths this publication created."""
+        for path in published:
+            path.unlink(missing_ok=True)
 
     def _cleanup_containers(self):
         if not self._container_name:

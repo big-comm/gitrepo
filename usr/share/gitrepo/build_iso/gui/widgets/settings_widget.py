@@ -24,11 +24,12 @@ class SettingsWidget(Gtk.Box):
         "settings-saved": (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
-    def __init__(self, settings):
+    def __init__(self, settings, environment_section=None):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=0)
 
         self.settings = settings
         self._loading = False
+        self._environment_section = environment_section
 
         self._create_ui()
         self._load_settings()
@@ -40,12 +41,13 @@ class SettingsWidget(Gtk.Box):
             PageHero(
                 "build-iso-settings",
                 _("Configure build defaults"),
-                _("Set reusable defaults for storage, containers, package channels, and completion alerts."),
+                _("Set reusable defaults for storage, package channels, alerts, and the build environment."),
             )
         )
 
         clamp, page_content = page_body()
         self.append(clamp)
+        self._page_content = page_content
 
         # ── General ──
         general_group = Adw.PreferencesGroup()
@@ -72,7 +74,7 @@ class SettingsWidget(Gtk.Box):
         page_content.append(container_group)
 
         self.engine_row = Adw.ComboRow()
-        self.engine_row.set_title(_("Container Engine"))
+        self.engine_row.set_title(_("Container engine"))
         self.engine_row.set_subtitle(_("Preferred container engine"))
         engine_model = Gtk.StringList()
         engine_model.append("Docker")
@@ -250,3 +252,8 @@ class SettingsWidget(Gtk.Box):
         if response == "reset":
             self.settings.reset()
             self._load_settings()
+
+    def append_environment_section(self, section) -> None:
+        """Host the build environment where the reusable defaults live."""
+        section.set_margin_top(24)
+        self._page_content.append(section)

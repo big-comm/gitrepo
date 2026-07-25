@@ -9,6 +9,7 @@ from gitrepo.common import child_process as subprocess
 from .git_utils import GitUtils
 from gitrepo.common.translation import _
 from .commit_operations import commit_and_push
+from .repository_lock import journey
 
 
 def _commit_pending_changes(bp, commit_message: str | None) -> bool:
@@ -48,6 +49,7 @@ def _trigger_package_workflow(bp, package_name, branch_type, working_branch, tma
     )
 
 
+@journey("generating a package", False)
 def commit_and_generate_package(build_package_instance, branch_type, commit_message=None, tmate_option=False):
     """Commit pending work, prepare the target branch, and trigger one reviewed build."""
     bp = build_package_instance

@@ -24,27 +24,6 @@ class GitHubAPI:
             {"Accept": "application/vnd.github.v3+json", "Authorization": f"token {self.token}"} if token else {}
         )
 
-    def get_branch_sha(self, branch_name: str, logger) -> str:
-        """Gets the SHA of the latest commit on a branch"""
-        try:
-            repo_name = GitUtils.get_repo_name()
-            if not repo_name:
-                return ""
-
-            response = requests.get(
-                f"https://api.github.com/repos/{repo_name}/branches/{branch_name}", headers=self.headers, timeout=30
-            )
-
-            if response.status_code != 200:
-                # Try with main if branch doesn't exist
-                if branch_name != "main":
-                    return self.get_branch_sha("main", logger)
-                return ""
-
-            return response.json()["commit"]["sha"]
-        except Exception:
-            return ""
-
     def wait_for_pr_checks(self, pr_number: int, logger, max_wait: int = 120) -> tuple[bool, str]:
         """Poll GitHub until the PR is clean, conflicting, or times out."""
         repo_name = GitUtils.get_repo_name()
@@ -234,28 +213,23 @@ class GitHubAPI:
             return False
 
     def clean_action_jobs(self, status: str, logger, menu) -> bool:
-        """Cleans Actions jobs with specific status (success, failure)"""
+        """Delete every Actions run with *status*, reporting what really went."""
         try:
             repo_name = GitUtils.get_repo_name()
             if not repo_name:
-                logger.die("red", _("Could not determine repository name."))
+                logger.die("red", _("origin is not a GitHub repository; nothing was requested."))
                 return False
 
             logger.log("cyan", _("Cleaning Actions jobs with '{0}' status...").format(status))
-
-            # Fetch workflows runs
-            response = requests.get(
-                f"https://api.github.com/repos/{repo_name}/actions/runs?status={status}",
-                headers=self.headers,
-                timeout=30,
+            pages = self._paged_items(
+                f"https://api.github.com/repos/{repo_name}/actions/runs",
+                {"status": status},
+                "workflow_runs",
+                logger,
             )
-
-            if response.status_code != 200:
-                logger.log("red", _("Error fetching Actions jobs. Code: {0}").format(response.status_code))
+            if pages is None:
                 return False
-
-            data = response.json()
-            workflow_runs = [run for run in data.get("workflow_runs", []) if isinstance(run.get("id"), int)]
+            workflow_runs = [run for run in pages if isinstance(run.get("id"), int)]
 
             if not workflow_runs:
                 logger.log("yellow", _("No Action jobs with '{0}' status found.").format(status))
@@ -266,87 +240,121 @@ class GitHubAPI:
                 for run in workflow_runs
             )
             if not menu.confirm(
-                _("Permanently delete these GitHub Actions runs?\n{0}").format(preview), default_yes=False
+                _("Permanently delete these {0} GitHub Actions runs from {1}?\n{2}").format(
+                    len(workflow_runs), GitUtils.get_canonical_repository(), preview
+                ),
+                default_yes=False,
             ):
                 logger.log("yellow", _("Actions cleanup cancelled."))
                 return False
 
-            # Delete each workflow run
-            deleted_count = 0
+            failed = []
             for run in workflow_runs:
-                run_id = run.get("id")
+                run_id = run["id"]
                 logger.log("yellow", _("Deleting job {0}...").format(run_id))
+                if not self._delete_one(
+                    f"https://api.github.com/repos/{repo_name}/actions/runs/{run_id}", str(run_id), logger
+                ):
+                    failed.append(str(run_id))
 
-                delete_response = requests.delete(
-                    f"https://api.github.com/repos/{repo_name}/actions/runs/{run_id}", headers=self.headers, timeout=30
-                )
-
-                if delete_response.status_code in [204, 200]:
-                    deleted_count += 1
-                else:
-                    logger.log(
-                        "red", _("Error deleting job {0}. Code: {1}").format(run_id, delete_response.status_code)
-                    )
-
-            logger.log("green", _("Deleted {0} Actions jobs with '{1}' status.").format(deleted_count, status))
-            return True
-        except Exception as e:
-            logger.log("red", _("Error cleaning Actions jobs: {0}").format(e))
+            return self._report_bulk_outcome(len(workflow_runs), failed, logger)
+        except requests.RequestException as error:
+            logger.log("red", _("Error cleaning Actions jobs: {0}").format(error))
             return False
 
     def clean_all_tags(self, logger, menu) -> bool:
-        """Deletes all tags in the remote repository"""
+        """Delete every remote tag, reporting what really went."""
         try:
             repo_name = GitUtils.get_repo_name()
             if not repo_name:
-                logger.die("red", _("Could not determine repository name."))
+                logger.die("red", _("origin is not a GitHub repository; nothing was requested."))
                 return False
 
             logger.log("cyan", _("Getting tag list..."))
-
-            # Fetch tags
-            response = requests.get(f"https://api.github.com/repos/{repo_name}/tags", headers=self.headers, timeout=30)
-
-            if response.status_code != 200:
-                logger.log("red", _("Error fetching tags. Code: {0}").format(response.status_code))
+            pages = self._paged_items(f"https://api.github.com/repos/{repo_name}/tags", {}, None, logger)
+            if pages is None:
                 return False
-
-            tags = [tag for tag in response.json() if isinstance(tag.get("name"), str) and tag["name"]]
+            tags = [tag["name"] for tag in pages if isinstance(tag.get("name"), str) and tag["name"]]
 
             if not tags:
                 logger.log("yellow", _("No tags found."))
                 return True
 
-            preview = "\n".join(f"• {tag['name']}" for tag in tags)
-            if not menu.confirm(_("Permanently delete these remote tags?\n{0}").format(preview), default_yes=False):
+            preview = "\n".join(f"• {name}" for name in tags)
+            if not menu.confirm(
+                _("Permanently delete these {0} remote tags from {1}?\n{2}").format(
+                    len(tags), GitUtils.get_canonical_repository(), preview
+                ),
+                default_yes=False,
+            ):
                 logger.log("yellow", _("Tag cleanup cancelled."))
                 return False
 
-            # Delete each tag
-            deleted_count = 0
-            for tag in tags:
-                tag_name = tag.get("name")
+            failed = []
+            for tag_name in tags:
                 logger.log("yellow", _("Deleting tag {0}...").format(tag_name))
+                # Deleting a tag means deleting the reference behind it.
+                url = f"https://api.github.com/repos/{repo_name}/git/refs/tags/{quote(tag_name, safe='')}"
+                if not self._delete_one(url, tag_name, logger):
+                    failed.append(tag_name)
 
-                # To delete a tag, we need to delete the corresponding reference
-                delete_response = requests.delete(
-                    f"https://api.github.com/repos/{repo_name}/git/refs/tags/{quote(tag_name, safe='')}",
-                    headers=self.headers,
-                    timeout=30,
-                )
-
-                if delete_response.status_code in [204, 200]:
-                    deleted_count += 1
-                else:
-                    logger.log(
-                        "red", _("Error deleting tag {0}. Code: {1}").format(tag_name, delete_response.status_code)
-                    )
-
-            logger.log("green", _("Deleted {0} tags.").format(deleted_count))
-            return True
-        except Exception as e:
-            logger.log("red", _("Error cleaning tags: {0}").format(e))
+            return self._report_bulk_outcome(len(tags), failed, logger)
+        except requests.RequestException as error:
+            logger.log("red", _("Error cleaning tags: {0}").format(error))
             return False
+
+    # A "delete all" that stops at the first API page is not a delete all, and
+    # a partial deletion reported as success is worse than a reported failure.
+    PAGE_SIZE = 100
+    PAGE_LIMIT = 50
+
+    def _paged_items(self, url: str, params: dict, key: str | None, logger) -> list | None:
+        """Collect every page of a listing, or None when the listing failed."""
+        items: list = []
+        for page in range(1, self.PAGE_LIMIT + 1):
+            response = requests.get(
+                url,
+                params={**params, "per_page": self.PAGE_SIZE, "page": page},
+                headers=self.headers,
+                timeout=30,
+            )
+            if response.status_code != 200:
+                logger.log("red", _("Error listing {0}. Code: {1}").format(url, response.status_code))
+                return None
+            payload = response.json()
+            batch = payload.get(key, []) if key else payload
+            if not isinstance(batch, list) or not batch:
+                return items
+            items.extend(batch)
+            if len(batch) < self.PAGE_SIZE:
+                return items
+        logger.log(
+            "yellow",
+            _("Stopped after {0} pages; run the cleanup again to continue.").format(self.PAGE_LIMIT),
+        )
+        return items
+
+    def _delete_one(self, url: str, label: str, logger) -> bool:
+        try:
+            response = requests.delete(url, headers=self.headers, timeout=30)
+        except requests.RequestException as error:
+            logger.log("red", _("Could not delete {0}: {1}").format(label, error))
+            return False
+        if response.status_code in (200, 204):
+            return True
+        logger.log("red", _("Error deleting {0}. Code: {1}").format(label, response.status_code))
+        return False
+
+    @staticmethod
+    def _report_bulk_outcome(total: int, failed: list[str], logger) -> bool:
+        """State the real outcome; a partial deletion never reads as success."""
+        deleted = total - len(failed)
+        if not failed:
+            logger.log("green", _("Deleted {0} of {0} items.").format(total))
+            return True
+        logger.log("red", _("Deleted {0} of {1}; {2} could not be deleted.").format(deleted, total, len(failed)))
+        logger.log("cyan", _("Still present: {0}").format(", ".join(failed[:20])))
+        return False
 
     def create_pull_request(
         self, source_branch: str, target_branch: str = "main", auto_merge: bool = False, logger=None

@@ -7,13 +7,97 @@ import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
-from gi.repository import Gtk, Adw, GObject
+from gi.repository import Gtk, Adw, GObject, Pango
 from gitrepo.build_package.core.git_utils import GitUtils
 from gitrepo.common.translation import _
 
 from gitrepo.common.help_popover import help_button
 from gitrepo.common.page_layout import page_body
 from gitrepo.common.page_hero import BuildPackagePageHero as PageHero, git_command_description
+
+
+# Short, readable equivalents of the coloured state icons.
+STATE_PILL_LABELS = {
+    None: _("Checking"),
+    "status-ok": _("OK"),
+    "status-warning": _("Attention"),
+    "status-error": _("Unavailable"),
+}
+
+# What an action's state means for the user about to press it.
+ACTION_STATE_LABELS = {
+    None: _("Checking"),
+    "status-ok": _("Ready"),
+    "status-warning": _("Pending changes"),
+    "status-error": _("Unavailable"),
+}
+
+
+class StatusCard(Gtk.Box):
+    """Accessible repository fact rendered as a compact premium card."""
+
+    def __init__(self, title: str, icon_name: str) -> None:
+        super().__init__(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        self._title = title
+        self.add_css_class("build-package-status-card")
+        self.set_hexpand(True)
+        self.set_valign(Gtk.Align.CENTER)
+
+        context_icon = Gtk.Image.new_from_icon_name(icon_name)
+        context_icon.set_pixel_size(26)
+        context_icon.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
+        self.append(context_icon)
+
+        copy = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=1)
+        copy.set_hexpand(True)
+        copy.set_valign(Gtk.Align.CENTER)
+
+        title_label = Gtk.Label(label=title, xalign=0)
+        title_label.add_css_class("heading")
+        title_label.set_wrap(True)
+        title_label.set_natural_wrap_mode(Gtk.NaturalWrapMode.WORD)
+        title_label.set_width_chars(1)
+        title_label.set_max_width_chars(24)
+        copy.append(title_label)
+
+        self.value_label = Gtk.Label(label=_("Checking…"), xalign=0)
+        self.value_label.add_css_class("dim-label")
+        self.value_label.add_css_class("caption")
+        self.value_label.set_wrap(True)
+        self.value_label.set_wrap_mode(Pango.WrapMode.WORD_CHAR)
+        self.value_label.set_width_chars(1)
+        self.value_label.set_yalign(0)
+        self.value_label.set_accessible_role(Gtk.AccessibleRole.STATUS)
+        copy.append(self.value_label)
+        self.append(copy)
+
+        self.state_icon = Gtk.Image.new_from_icon_name("gitrepo-status-checking-symbolic")
+        self.state_icon.set_pixel_size(18)
+        self.state_icon.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
+        self.append(self.state_icon)
+
+        # Colour alone is not a state, so the card repeats it as readable text.
+        self.state_pill = Gtk.Label(label=STATE_PILL_LABELS[None])
+        self.state_pill.add_css_class("state-pill")
+        self.state_pill.set_valign(Gtk.Align.CENTER)
+        self.append(self.state_pill)
+
+    def update_value(self, value: str) -> None:
+        text = str(value)
+        self.value_label.set_text(text)
+        self.value_label.update_property([Gtk.AccessibleProperty.LABEL], [f"{self._title}: {text}"])
+
+    def set_state(self, icon_name: str, css_class: str | None = None, tooltip: str | None = None) -> None:
+        for candidate in ("status-ok", "status-warning", "status-error"):
+            self.state_icon.remove_css_class(candidate)
+            self.state_pill.remove_css_class(candidate)
+        self.state_icon.set_from_icon_name(icon_name)
+        self.state_pill.set_text(STATE_PILL_LABELS[css_class])
+        if css_class:
+            self.state_icon.add_css_class(css_class)
+            self.state_pill.add_css_class(css_class)
+        self.state_icon.set_tooltip_text(tooltip)
+        self.state_pill.set_tooltip_text(tooltip)
 
 
 class CommitWidget(Gtk.Box):
@@ -23,12 +107,15 @@ class CommitWidget(Gtk.Box):
         "commit-requested": (GObject.SignalFlags.RUN_FIRST, None, (str,)),
         "pull-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
         "undo-commit-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "quick-action": (GObject.SignalFlags.RUN_FIRST, None, (str,)),
+        "refresh-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
     def __init__(self, build_package):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=0)
 
         self.build_package = build_package
+        self._branch_name = ""
         self.selected_commit_type = None
         self.selected_emoji = None
         self._has_changes = False
@@ -39,47 +126,38 @@ class CommitWidget(Gtk.Box):
     def create_ui(self):
         """Create the widget UI"""
 
-        self.append(
-            PageHero(
-                "build-package-commit",
-                _("Prepare and publish changes"),
-                _("Record your work and send it to a remote branch."),
-            )
+        refresh_button = Gtk.Button(child=Adw.ButtonContent(label=_("Refresh"), icon_name="view-refresh-symbolic"))
+        refresh_button.add_css_class("pill")
+        refresh_button.set_tooltip_text(_("Refresh repository status"))
+        refresh_button.connect("clicked", lambda _button: self.emit("refresh-requested"))
+
+        hero = PageHero(
+            "build-package-commit",
+            _("Publish your work"),
+            _("Review what changed, describe it, and send it to a remote branch."),
+            refresh_button,
         )
+        self.hero_subtitle = hero.description_label
+        self.append(hero)
 
         clamp, page_content = page_body(spacing=18)
         self.append(clamp)
 
+        page_content.append(self._create_status_cards())
+
         # Status group
         status_group = Adw.PreferencesGroup()
-        status_group.set_title(_("Repository Status"))
-        status_group.set_description(_("Confirm the active branch and pending files before creating a commit."))
+        status_group.set_title(_("Pending files and history"))
+        status_group.set_description(_("Review what will be recorded before writing the commit."))
         status_group.set_header_suffix(
             help_button(
                 _("What publishing runs"),
-                git_command_description(
-                    "git add -A",
-                    'git commit -m "MESSAGE"',
-                    "git push -u origin BRANCH",
+                _("Download updates: {0}\n\nPublish changes: {1}").format(
+                    git_command_description("git fetch origin BRANCH", "git merge --no-edit origin/BRANCH"),
+                    git_command_description("git add -A", 'git commit -m "MESSAGE"', "git push -u origin BRANCH"),
                 ),
             )
         )
-
-        self.changes_row = Adw.ActionRow()
-        self.changes_row.set_title(_("Working Directory"))
-        changes_icon = Gtk.Image.new_from_icon_name("build-package-repository")
-        changes_icon.set_pixel_size(24)
-        changes_icon.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
-        self.changes_row.add_prefix(changes_icon)
-        status_group.add(self.changes_row)
-
-        self.branch_row = Adw.ActionRow()
-        self.branch_row.set_title(_("Current Branch"))
-        branch_icon = Gtk.Image.new_from_icon_name("build-package-branches")
-        branch_icon.set_pixel_size(24)
-        branch_icon.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
-        self.branch_row.add_prefix(branch_icon)
-        status_group.add(self.branch_row)
 
         # Last commit row (for undo functionality)
         self.last_commit_row = Adw.ActionRow()
@@ -113,10 +191,8 @@ class CommitWidget(Gtk.Box):
 
         # Commit type selection using ExpanderRow (opens below, larger)
         commit_type_group = Adw.PreferencesGroup()
-        commit_type_group.set_title(_("Classify the change"))
-        commit_type_group.set_description(
-            _('This prefix becomes part of the message passed to git commit -m "MESSAGE".')
-        )
+        commit_type_group.set_title(_("Describe the commit"))
+        commit_type_group.set_description(_("The type prefixes the message recorded by Git."))
 
         # Get commit types
         self.commit_types = self.build_package.get_commit_types()
@@ -124,9 +200,9 @@ class CommitWidget(Gtk.Box):
         # Create expander row for commit types
         self.commit_type_expander = Adw.ExpanderRow()
         self.commit_type_expander.set_title(_("Commit Type"))
-        self.commit_type_expander.set_subtitle(_("Select the type of change"))
-        # A required choice is not a failure: it reads as pending, not broken.
-        self.commit_type_expander.add_css_class("warning")
+        # Amber text on the whole row lost contrast and read as an error. The
+        # requirement is stated in words here and in the footer summary.
+        self.commit_type_expander.set_subtitle(_("Required — select the type of change"))
 
         # Add commit type rows inside expander
         for idx, (emoji, commit_type, description) in enumerate(self.commit_types):
@@ -148,14 +224,8 @@ class CommitWidget(Gtk.Box):
             self.commit_type_expander.add_row(type_row)
 
         commit_type_group.add(self.commit_type_expander)
-        page_content.append(commit_type_group)
 
         # Commit message entry - multiline support
-        message_group = Adw.PreferencesGroup()
-        message_group.set_title(_("Describe what changed"))
-        message_group.set_description(
-            _('This text is recorded by git commit -m "MESSAGE" so others can understand the change.')
-        )
 
         # Label for description
         message_label = Gtk.Label()
@@ -197,8 +267,11 @@ class CommitWidget(Gtk.Box):
         message_box.set_margin_top(6)
         message_box.set_margin_bottom(6)
 
-        message_group.add(message_box)
-        page_content.append(message_group)
+        message_row = Adw.PreferencesRow()
+        message_row.set_activatable(False)
+        message_row.set_child(message_box)
+        commit_type_group.add(message_row)
+        page_content.append(commit_type_group)
 
         # ── Footer: what will be published, plus the primary action ──
         # The form is longer than one screen, so the decision and its summary
@@ -247,32 +320,15 @@ class CommitWidget(Gtk.Box):
     def apply_snapshot(self, snapshot):
         """Render commit state without running Git on the GTK main loop."""
         self._has_changes = snapshot.has_changes is True
-        self.changes_row.remove_css_class("warning")
-        self.changes_row.remove_css_class("success")
-        self.changes_row.remove_css_class("error")
-        if getattr(self, "_status_suffix_icon", None):
-            self.changes_row.remove(self._status_suffix_icon)
+        self._apply_status_cards(snapshot)
+        self.hero_subtitle.set_text(self._workspace_summary(snapshot))
+        self._branch_name = _("Detached HEAD") if snapshot.is_detached else snapshot.branch or _("Unknown")
         if snapshot.has_changes is None:
-            subtitle = _("Working tree status unavailable")
-            icon_name = "gitrepo-status-error-symbolic"
-            style = "error"
             self.changed_files_expander.set_visible(False)
         elif snapshot.has_changes:
-            subtitle = _("Uncommitted changes present")
-            icon_name = "gitrepo-status-warning-symbolic"
-            style = "warning"
             self._update_changed_files_list(snapshot.changed_files)
         else:
-            subtitle = _("Working directory clean")
-            icon_name = "gitrepo-status-ready-symbolic"
-            style = "success"
             self.changed_files_expander.set_visible(False)
-        self.changes_row.set_subtitle(subtitle)
-        self.changes_row.add_css_class(style)
-        self._status_suffix_icon = Gtk.Image.new_from_icon_name(icon_name)
-        self.changes_row.add_suffix(self._status_suffix_icon)
-        branch = _("Detached HEAD") if snapshot.is_detached else snapshot.branch or _("Unknown")
-        self.branch_row.set_subtitle(branch)
         if snapshot.last_commit:
             commit_hash, message = snapshot.last_commit.split("|", 1)
             display_message = message[:50] + "..." if len(message) > 50 else message
@@ -298,9 +354,6 @@ class CommitWidget(Gtk.Box):
         # Update selected values
         self.selected_commit_type = row.commit_type
         self.selected_emoji = row.emoji
-
-        # Remove the pending highlight after selection
-        self.commit_type_expander.remove_css_class("warning")
 
         # Update expander subtitle to show selection
         self.commit_type_expander.set_subtitle(f"{row.emoji} {row.commit_type}")
@@ -341,11 +394,72 @@ class CommitWidget(Gtk.Box):
         self.commit_button.set_sensitive(self._has_changes and has_message and has_type)
         self._update_summary(has_message, has_type)
 
+    @staticmethod
+    def _workspace_summary(snapshot) -> str:
+        """One line naming the repository, its branch, and its pending work."""
+        repository = (
+            snapshot.repository_name.split("/")[-1]
+            if snapshot.is_repository and snapshot.repository_name
+            else (_("Local Git repository") if snapshot.is_repository else _("Not a Git repository"))
+        )
+        branch = _("Detached HEAD") if snapshot.is_detached else snapshot.branch or _("Unknown")
+        if snapshot.has_changes is None:
+            return _("{0} • branch {1} • status unavailable").format(repository, branch)
+        if snapshot.has_changes:
+            return _("{0} • branch {1} • {2} changed file(s)").format(repository, branch, len(snapshot.changed_files))
+        return _("{0} • branch {1} • working tree clean").format(repository, branch)
+
+    def _create_status_cards(self) -> Gtk.Widget:
+        """Show branch, pending changes, and history depth at a glance."""
+        grid = Gtk.FlowBox()
+        grid.set_selection_mode(Gtk.SelectionMode.NONE)
+        grid.set_min_children_per_line(1)
+        grid.set_max_children_per_line(3)
+        grid.set_homogeneous(True)
+        grid.set_column_spacing(12)
+        grid.set_row_spacing(12)
+        grid.add_css_class("build-package-status-grid")
+
+        self.branch_status = StatusCard(_("Branch"), "build-package-branches")
+        self.changes_status = StatusCard(_("Changes"), "build-package-repository")
+        self.commits_status = StatusCard(_("Commits"), "build-package-commit")
+        for card in (self.branch_status, self.changes_status, self.commits_status):
+            grid.insert(card, -1)
+        return grid
+
+    def _apply_status_cards(self, snapshot) -> None:
+        """Report the same snapshot the rest of the page is built from."""
+        branch = _("Detached HEAD") if snapshot.is_detached else snapshot.branch or _("Unknown")
+        self.branch_status.update_value(branch)
+        self.commits_status.update_value("—" if snapshot.commit_count is None else str(snapshot.commit_count))
+
+        if snapshot.has_changes is None:
+            self.branch_status.set_state("gitrepo-status-warning-symbolic", "status-warning", _("Status unavailable"))
+            self.changes_status.update_value(_("Unavailable"))
+            self.changes_status.set_state(
+                "gitrepo-status-error-symbolic", "status-error", _("Repository status unavailable")
+            )
+            self.commits_status.set_state(
+                "gitrepo-status-warning-symbolic", "status-warning", _("Commit count may be stale")
+            )
+            return
+
+        self.branch_status.set_state("gitrepo-status-ready-symbolic", "status-ok", _("Active branch detected"))
+        self.commits_status.set_state("gitrepo-status-ready-symbolic", "status-ok", _("Commit history available"))
+        if snapshot.has_changes:
+            # Having work to publish is why this page exists; flagging it as a
+            # warning makes the one state that matters look like a problem.
+            self.changes_status.update_value(str(len(snapshot.changed_files)))
+            self.changes_status.set_state("gitrepo-status-ready-symbolic", "status-ok", _("Ready to publish"))
+        else:
+            self.changes_status.update_value(_("No changes"))
+            self.changes_status.set_state("gitrepo-status-ready-symbolic", "status-ok", _("Working tree clean"))
+
     def _update_summary(self, has_message: bool, has_type: bool) -> None:
         """Say, in one line, exactly what the primary action will publish."""
         if not hasattr(self, "summary_label"):
             return
-        branch = self.branch_row.get_subtitle() or _("unknown branch")
+        branch = getattr(self, "_branch_name", "") or _("unknown branch")
         if not self._has_changes:
             self.summary_label.set_text(_("Nothing to publish"))
             self.summary_detail.set_text(_("The working tree on {0} is clean.").format(branch))

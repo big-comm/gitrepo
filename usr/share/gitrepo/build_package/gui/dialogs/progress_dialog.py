@@ -9,6 +9,7 @@ gi.require_version("Adw", "1")
 
 import threading
 
+from gitrepo.common.desktop_launch import open_uri
 from gitrepo.common.translation import _
 from gitrepo.common.diagnostic_redaction import redact_diagnostic
 from gitrepo.common.terminal_palette import apply_log_palette, log_palette
@@ -42,8 +43,17 @@ class ProgressDialog(Adw.Window):
         self.cancelled = False
         self._pulse_timeout_id = None
         self._style_manager = Adw.StyleManager.get_default()
+        self._style_handler = 0
 
         self.create_ui()
+        self.connect("close-request", self._on_close_request)
+
+    def _on_close_request(self, _window) -> bool:
+        """Release the process-wide style handler that keeps this dialog alive."""
+        if self._style_handler:
+            self._style_manager.disconnect(self._style_handler)
+            self._style_handler = 0
+        return False
 
     def create_ui(self):
         """Create dialog UI"""
@@ -255,7 +265,7 @@ class ProgressDialog(Adw.Window):
 
         self._tags_initialized = True
         self._apply_log_palette()
-        self._style_manager.connect("notify::dark", lambda *_args: self._apply_log_palette())
+        self._style_handler = self._style_manager.connect("notify::dark", lambda *_args: self._apply_log_palette())
 
     def _apply_log_palette(self):
         """Repaint the log tags for the active light or dark colour scheme."""
@@ -328,7 +338,9 @@ class ProgressDialog(Adw.Window):
 
             if operation_failed:
                 GLib.idle_add(
-                    lambda: self._complete_operation(False, _("Operation failed - check terminal log for details"))
+                    lambda: self._complete_operation(
+                        False, _("The operation did not complete. The log below states the cause and what to do next.")
+                    )
                 )
             else:
                 # Signal completion on main thread (capture result by default arg)
@@ -404,18 +416,13 @@ class ProgressDialog(Adw.Window):
 
     def _add_github_button(self, url):
         """Add 'Open in GitHub' button"""
-        from gitrepo.common import child_process as subprocess
-
         # Create button box if it doesn't exist
         github_button = Gtk.Button()
         github_button.set_label(_("Open in GitHub"))
         github_button.add_css_class("suggested-action")
 
         def on_github_clicked(button):
-            try:
-                subprocess.Popen(["xdg-open", url])
-            except Exception:
-                pass
+            open_uri(button, url)
 
         github_button.connect("clicked", on_github_clicked)
 
@@ -444,6 +451,16 @@ class OperationRunner:
         self.parent = parent_window
         self.current_dialog = None
         self._completion_callback = None
+        self._busy = False
+
+    def _refuse_second_operation(self, title: str) -> None:
+        """Say why a second operation is not starting, and where the first is."""
+        dialog = Adw.AlertDialog(
+            heading=_("One operation at a time"),
+            body=_("“{0}” cannot start while another operation is still running.").format(title),
+        )
+        dialog.add_response("close", _("Close"))
+        dialog.present(self.parent)
 
     def run_with_progress(
         self, operation_func, title, message="", cancellable=False, completion_callback=None, *args, **kwargs
@@ -453,6 +470,12 @@ class OperationRunner:
         *completion_callback* receives the operation result once it succeeds, so
         a caller can present what the operation produced.
         """
+        # A repository journey spans several Git commands. Letting a second one
+        # start would interleave them and route its log into the wrong dialog.
+        if self._busy:
+            self._refuse_second_operation(title)
+            return None
+        self._busy = True
         self._completion_callback = completion_callback
 
         dialog = ProgressDialog(self.parent, title, message, cancellable)
@@ -498,13 +521,37 @@ class OperationRunner:
     def _finish_operation(self, dialog, success, result):
         """Finish operation and close dialog"""
         dialog.close()
+        self._busy = False
 
         if success:
             self._on_operation_success(result)
         else:
-            self._on_operation_error(result)
+            self._on_operation_error(self._partial_outcome() or result)
 
         return False  # Don't repeat timeout
+
+    def _partial_outcome(self) -> str:
+        """Describe what an incomplete journey did leave behind, if anything.
+
+        A journey that created a local commit or branch and then failed to
+        publish it must not read as "nothing happened"; the recoverable part
+        is exactly what the user needs to know about.
+        """
+        build_package = getattr(self.parent, "build_package", None)
+        details = getattr(build_package, "last_operation_details", None) or {}
+        if not details.get("remote_unchanged"):
+            return ""
+        if build_package is not None:
+            build_package.last_operation_details = {}
+        if details.get("local_commit_created"):
+            kept = _("The commit {0} exists locally on {1}.").format(
+                details["local_commit_created"][:12], details.get("current_branch", "")
+            )
+        elif details.get("local_branch_created"):
+            kept = _("The branch {0} exists locally.").format(details["local_branch_created"])
+        else:
+            kept = _("The local part of this operation was kept.")
+        return _("{0}\nThe remote was not changed. Retry with: {1}").format(kept, details.get("retry_command", ""))
 
     def _on_operation_success(self, result):
         """Handle successful operation"""
@@ -547,6 +594,7 @@ class OperationRunner:
 
     def _on_operation_cancelled(self):
         """Handle operation cancellation"""
+        self._busy = False
         if self.parent:
             toast = Adw.Toast.new(_("Operation cancelled"))
             toast.set_timeout(3)

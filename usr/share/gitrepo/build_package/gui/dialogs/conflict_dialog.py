@@ -12,6 +12,7 @@ gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
 from gi.repository import Adw, GObject, Gtk, Pango
+from gitrepo.common.desktop_launch import open_path
 from gitrepo.common.translation import _
 from gitrepo.common import child_process as subprocess
 from gitrepo.common.child_process import authorize_destructive_git
@@ -363,61 +364,28 @@ class ConflictDialog(Adw.Window):
         """Show diff for a file"""
         self.show_diff_dialog(row.filepath)
 
+    def _absolute_path(self, filepath: str) -> str:
+        """Resolve a repository-relative path for the desktop to open."""
+        if os.path.isabs(filepath) or not self.repo_root:
+            return filepath
+        return os.path.join(self.repo_root, filepath)
+
     def on_edit_file(self, row):
-        """Open file in external editor for manual editing"""
-        filepath = row.filepath
+        """Open the conflicted file in the editor the desktop already chose.
 
-        # Try different editors in order of preference
-        editors = [
-            # GUI editors
-            "code",  # VS Code
-            "codium",  # VSCodium
-            "kate",  # KDE Kate
-            "gedit",  # GNOME Gedit
-            "xed",  # Linux Mint Xed
-            "pluma",  # MATE Pluma
-            "mousepad",  # Xfce Mousepad
-            "leafpad",  # Lightweight
-            # Fallback to xdg-open (system default)
-            "xdg-open",
-        ]
+        Guessing through a hardcoded list of editors overrides the user's own
+        default and still fails silently when none of the guesses is installed.
+        """
+        open_path(self, self._absolute_path(row.filepath))
 
-        editor_found = False
-        for editor in editors:
-            try:
-                if shutil.which(editor):
-                    # Editor found, open file
-                    subprocess.Popen([editor, filepath], start_new_session=True)
-                    editor_found = True
+        toast = Adw.Toast.new(_("Opening {0}. After editing, click 'Mark as Edited' to continue.").format(row.filepath))
+        toast.set_timeout(5)
+        if hasattr(self, "toast_overlay"):
+            self.toast_overlay.add_toast(toast)
 
-                    # Show toast informing user
-                    toast = Adw.Toast.new(
-                        _("File opened in {0}. After editing, click 'Mark as Edited' to continue.").format(editor)
-                    )
-                    toast.set_timeout(5)
-                    if hasattr(self, "toast_overlay"):
-                        self.toast_overlay.add_toast(toast)
-
-                    # Mark as "manual" resolution
-                    self.resolutions[row.filepath] = "manual"
-                    row.set_action("manual")
-
-                    # Update status
-                    self._update_status()
-                    break
-
-            except Exception:
-                continue
-
-        if not editor_found:
-            # Fallback - show message
-            dialog = Adw.MessageDialog.new(
-                self,
-                _("No Editor Found"),
-                _("Could not find a text editor. Please edit the file manually:\n\n{0}").format(filepath),
-            )
-            dialog.add_response("ok", _("OK"))
-            dialog.present()
+        self.resolutions[row.filepath] = "manual"
+        row.set_action("manual")
+        self._update_status()
 
     def show_diff_dialog(self, filepath):
         """Show a theme-adaptive side-by-side diff dialog."""

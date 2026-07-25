@@ -16,6 +16,7 @@ from gitrepo.build_iso.core.config import (
     BRANCH_DESCRIPTIONS,
     BRANCH_DISPLAY_NAMES,
     ISO_PROFILES_REPOS,
+    RECOMMENDED_EDITIONS,
     VALID_BRANCHES,
     VALID_DISTROS,
     VALID_KERNELS,
@@ -38,6 +39,7 @@ class BuildWidget(Gtk.Box):
 
     __gsignals__ = {
         "build-requested": (GObject.SignalFlags.RUN_FIRST, None, (object,)),
+        "open-environment": (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
     def __init__(self, settings):
@@ -45,6 +47,8 @@ class BuildWidget(Gtk.Box):
 
         self.settings = settings
         self._edition_keys = []
+        self._edition_cards = {}
+        self._selected_edition = settings.edition
         self._editions_cache = {}
         self._loading_editions = False
         self._loading_cache_key = ""
@@ -57,27 +61,47 @@ class BuildWidget(Gtk.Box):
         self._is_initializing = False
 
     def _create_ui(self):
-        """Create the build configuration UI"""
+        """Create the single build journey: what, where, and everything else."""
 
         self.append(
             PageHero(
                 "build-iso-create",
-                _("Configure the installable system"),
+                _("Create an installable ISO"),
                 _(
-                    "Choose what the ISO will contain and where it will be saved. The build runs in an isolated "
-                    "container so its tools and files stay separate from your installed system."
+                    "Choose what the image contains and where it is saved. The build runs in an isolated "
+                    "container, so its tools and files stay separate from your installed system."
                 ),
             )
         )
 
-        clamp, page_content = page_body()
+        clamp, page_content = page_body(spacing=18)
         self.append(clamp)
 
-        # ── Target system ──
-        distro_group = Adw.PreferencesGroup()
-        distro_group.set_title(_("Target System"))
-        distro_group.set_description(_("Choose the package base and desktop edition included in the image."))
-        distro_group.set_header_suffix(
+        # A broken prerequisite is announced here, where the build starts, and
+        # carries the action that fixes it.
+        self.environment_banner = Adw.Banner()
+        self.environment_banner.set_button_label(_("Open settings"))
+        self.environment_banner.add_css_class("error")
+        self.environment_banner.set_revealed(False)
+        self.environment_banner.connect("button-clicked", lambda _banner: self.emit("open-environment"))
+        page_content.append(self.environment_banner)
+
+        self.environment_label = Gtk.Label(label=_("Checking the build environment…"), xalign=0)
+        self.environment_label.add_css_class("dim-label")
+        self.environment_label.add_css_class("caption")
+        page_content.append(self.environment_label)
+
+        page_content.append(self._create_target_section())
+        page_content.append(self._create_output_section())
+        page_content.append(self._create_advanced_section())
+        page_content.append(self._create_footer())
+
+    def _create_target_section(self) -> Gtk.Widget:
+        """First decision: the system the image will install."""
+        group = Adw.PreferencesGroup()
+        group.set_title(_("What the ISO will install"))
+        group.set_description(_("Pick the package base and the desktop the image starts with."))
+        group.set_header_suffix(
             help_button(
                 _("Distribution and edition"),
                 _(
@@ -87,157 +111,58 @@ class BuildWidget(Gtk.Box):
                 ),
             )
         )
-        page_content.append(distro_group)
 
         self.distro_row = Adw.ComboRow()
         self.distro_row.set_title(_("Distribution"))
         self.distro_row.set_subtitle(_("Sets the package base and compatible profiles"))
-
         distro_model = Gtk.StringList()
         self._distro_keys = list(VALID_DISTROS.keys())
         for key in self._distro_keys:
             distro_model.append(VALID_DISTROS[key])
         self.distro_row.set_model(distro_model)
         self.distro_row.connect("notify::selected", self._on_distro_changed)
-        distro_group.add(self.distro_row)
+        group.add(self.distro_row)
+        group.add(self._create_edition_picker())
+        return group
 
+    def _create_edition_picker(self) -> Gtk.Widget:
+        """The edition is one choice among many, so it stays one row."""
         self.edition_row = Adw.ComboRow()
         self.edition_row.set_title(_("Edition"))
         self.edition_row.set_subtitle(_("Loading compatible desktop profiles…"))
         self._edition_model = Gtk.StringList()
         self.edition_row.set_model(self._edition_model)
-        distro_group.add(self.edition_row)
+        self.edition_row.connect("notify::selected", self._on_edition_selected)
+        profile_icon = Gtk.Image.new_from_icon_name("build-iso-profile")
+        profile_icon.set_pixel_size(24)
+        profile_icon.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
+        self.edition_row.add_prefix(profile_icon)
 
         self.edition_spinner = Gtk.Spinner()
         self.edition_spinner.set_visible(False)
+        self.edition_spinner.set_valign(Gtk.Align.CENTER)
         self.edition_row.add_suffix(self.edition_spinner)
+
         self.retry_editions_button = Gtk.Button.new_from_icon_name("view-refresh-symbolic")
         self.retry_editions_button.set_tooltip_text(_("Retry loading editions"))
+        self.retry_editions_button.add_css_class("flat")
         self.retry_editions_button.set_valign(Gtk.Align.CENTER)
         self.retry_editions_button.connect("clicked", lambda _button: self._fetch_editions_async(force_refresh=True))
         self.edition_row.add_suffix(self.retry_editions_button)
+        return self.edition_row
 
-        # ── ISO Profiles Source Section ──
-        profiles_group = Adw.PreferencesGroup()
-        profiles_group.set_title(_("Profile Definitions"))
-        profiles_group.set_description(_("Profiles control packages, services, and defaults applied to the image."))
-        profiles_group.set_margin_top(18)
-        profiles_group.set_header_suffix(
-            help_button(
-                _("Profile definitions"),
-                _(
-                    "A profile is the recipe of the image: package lists, enabled services, and files "
-                    "copied into the system. Keep the official source unless you maintain your own "
-                    "iso-profiles repository or folder."
-                ),
-            )
-        )
-        page_content.append(profiles_group)
-
-        # Source selector: Official / Custom URL / Local folder
-        self.profiles_source_row = Adw.ComboRow()
-        self.profiles_source_row.set_title(_("Source"))
-        self.profiles_source_row.set_subtitle(_("Maintained profiles from the official GitHub repositories"))
-        source_model = Gtk.StringList()
-        source_model.append(_("Official (GitHub)"))
-        source_model.append(_("Custom Repository URL"))
-        source_model.append(_("Local Folder"))
-        self.profiles_source_row.set_model(source_model)
-        self.profiles_source_row.connect("notify::selected", self._on_profiles_source_changed)
-        profiles_group.add(self.profiles_source_row)
-
-        # Custom URL entry (hidden by default)
-        self.custom_url_row = Adw.EntryRow()
-        self.custom_url_row.set_title(_("Repository URL"))
-        self.custom_url_row.set_text("")
-        self.custom_url_row.set_visible(False)
-        self.custom_url_row.connect("changed", self._on_custom_source_changed)
-        profiles_group.add(self.custom_url_row)
-
-        # Local folder entry (hidden by default)
-        self.local_path_row = Adw.EntryRow()
-        self.local_path_row.set_title(_("Local Folder Path"))
-        self.local_path_row.set_text("")
-        self.local_path_row.set_visible(False)
-
-        local_browse_btn = Gtk.Button()
-        local_browse_btn.set_icon_name("folder-open-symbolic")
-        local_browse_btn.set_valign(Gtk.Align.CENTER)
-        local_browse_btn.set_tooltip_text(_("Browse..."))
-        local_browse_btn.connect("clicked", self._on_browse_local_profiles)
-        self.local_path_row.add_suffix(local_browse_btn)
-        self.local_path_row.connect("changed", self._on_custom_source_changed)
-        profiles_group.add(self.local_path_row)
-
-        # ── Kernel Section ──
-        kernel_group = Adw.PreferencesGroup()
-        kernel_group.set_title(_("Kernel"))
-        kernel_group.set_description(_("Choose long-term stability or newer hardware support."))
-        kernel_group.set_margin_top(18)
-        kernel_group.set_header_suffix(
-            help_button(
-                _("Which kernel to choose"),
-                _(
-                    "LTS receives long-term fixes and is the safest default. Latest supports very recent "
-                    "hardware but changes faster. Old LTS helps on older machines, and XanMod targets "
-                    "desktop responsiveness."
-                ),
-            )
-        )
-        page_content.append(kernel_group)
-
-        self.kernel_row = Adw.ComboRow()
-        self.kernel_row.set_title(_("Kernel Variant"))
-
-        kernel_model = Gtk.StringList()
-        self._kernel_keys = list(VALID_KERNELS.keys())
-        for key in self._kernel_keys:
-            kernel_model.append(VALID_KERNELS[key])
-        self.kernel_row.set_model(kernel_model)
-        kernel_group.add(self.kernel_row)
-
-        # ── Branches Section ──
-        branches_group = Adw.PreferencesGroup()
-        branches_group.set_title(_("Package Channels"))
-        branches_group.set_description(_("Select the repositories used to resolve packages during the build."))
-        branches_group.set_margin_top(18)
-        branches_group.set_header_suffix(
-            help_button(
-                _("Package channels"),
-                "\n".join(
-                    f"{BRANCH_DISPLAY_NAMES[branch]}: {BRANCH_DESCRIPTIONS[branch]}" for branch in VALID_BRANCHES
-                ),
-            )
-        )
-        page_content.append(branches_group)
-
-        self.manjaro_branch_row = Adw.ComboRow()
-        self.manjaro_branch_row.set_title(_("Manjaro Packages"))
-        self.manjaro_branch_row.set_subtitle(_("Base system packages"))
-        self.manjaro_branch_row.set_model(self._branch_model())
-        branches_group.add(self.manjaro_branch_row)
-
-        self.biglinux_branch_row = Adw.ComboRow()
-        self.biglinux_branch_row.set_title(_("BigLinux Packages"))
-        self.biglinux_branch_row.set_subtitle(_("BigLinux system components"))
-        self.biglinux_branch_row.set_model(self._branch_model())
-        branches_group.add(self.biglinux_branch_row)
-
-        self.community_branch_row = Adw.ComboRow()
-        self.community_branch_row.set_title(_("Community Packages"))
-        self.community_branch_row.set_subtitle(_("Packages maintained by BigCommunity"))
-        self.community_branch_row.set_model(self._branch_model())
-        branches_group.add(self.community_branch_row)
-
-        # ── Output Section ──
-        output_group = Adw.PreferencesGroup()
-        output_group.set_title(_("Output"))
-        output_group.set_description(_("Choose where completed images and build artifacts are stored."))
-        output_group.set_margin_top(18)
-        page_content.append(output_group)
+    def _create_output_section(self) -> Gtk.Widget:
+        """Second decision: where the finished image lands."""
+        group = Adw.PreferencesGroup()
+        group.set_title(_("Where to save it"))
+        group.set_description(_("Choose where completed images and build artifacts are stored."))
 
         output_row = Adw.ActionRow()
         output_row.set_title(_("Destination Folder"))
+        storage_icon = Gtk.Image.new_from_icon_name("build-iso-storage")
+        storage_icon.set_pixel_size(24)
+        storage_icon.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
+        output_row.add_prefix(storage_icon)
         self.output_row = Gtk.Entry()
         self.output_row.set_hexpand(True)
         self.output_row.set_valign(Gtk.Align.CENTER)
@@ -251,21 +176,127 @@ class BuildWidget(Gtk.Box):
         browse_btn.set_tooltip_text(_("Browse..."))
         browse_btn.connect("clicked", self._on_browse_output)
         output_row.add_suffix(browse_btn)
-        output_group.add(output_row)
+        group.add(output_row)
 
-        # Disk space info
         self.disk_label = Gtk.Label()
         self.disk_label.set_halign(Gtk.Align.START)
         self.disk_label.add_css_class("dim-label")
         self.disk_label.add_css_class("caption")
         self.disk_label.set_margin_top(4)
         self.disk_label.set_margin_start(12)
-        output_group.add(self.disk_label)
+        group.add(self.disk_label)
         self._update_disk_space()
+        return group
 
-        # ── Footer: live summary plus the primary action ──
-        # The form is longer than one screen, so the action and the resulting
-        # configuration stay pinned outside the scrolled area.
+    def _create_advanced_section(self) -> Gtk.Widget:
+        """Everything with a good default stays folded until it is needed."""
+        group = Adw.PreferencesGroup()
+        expander = Adw.ExpanderRow()
+        expander.set_title(_("Advanced options"))
+        expander.set_subtitle(_("Kernel, package channels, and where profiles come from"))
+        group.add(expander)
+
+        self.kernel_row = Adw.ComboRow()
+        self.kernel_row.set_title(_("Kernel Variant"))
+        self.kernel_row.set_subtitle(_("Long-term stability or newer hardware support"))
+        kernel_model = Gtk.StringList()
+        self._kernel_keys = list(VALID_KERNELS.keys())
+        for key in self._kernel_keys:
+            kernel_model.append(VALID_KERNELS[key])
+        self.kernel_row.set_model(kernel_model)
+        self.kernel_row.add_suffix(
+            help_button(
+                _("Which kernel to choose"),
+                _(
+                    "LTS receives long-term fixes and is the safest default. Latest supports very recent "
+                    "hardware but changes faster. Old LTS helps on older machines, and XanMod targets "
+                    "desktop responsiveness."
+                ),
+            )
+        )
+        expander.add_row(self.kernel_row)
+
+        self._add_channel_rows(expander)
+        self._add_profile_source_rows(expander)
+        return group
+
+    def _add_channel_rows(self, expander: Adw.ExpanderRow) -> None:
+        """Package channels share one explanation and one model."""
+        self.manjaro_branch_row = Adw.ComboRow()
+        self.manjaro_branch_row.set_title(_("Manjaro Packages"))
+        self.manjaro_branch_row.set_subtitle(_("Base system packages"))
+        self.manjaro_branch_row.set_model(self._branch_model())
+        self.manjaro_branch_row.add_suffix(
+            help_button(
+                _("Package channels"),
+                "\n".join(
+                    f"{BRANCH_DISPLAY_NAMES[branch]}: {BRANCH_DESCRIPTIONS[branch]}" for branch in VALID_BRANCHES
+                ),
+            )
+        )
+        expander.add_row(self.manjaro_branch_row)
+
+        self.biglinux_branch_row = Adw.ComboRow()
+        self.biglinux_branch_row.set_title(_("BigLinux Packages"))
+        self.biglinux_branch_row.set_subtitle(_("BigLinux system components"))
+        self.biglinux_branch_row.set_model(self._branch_model())
+        expander.add_row(self.biglinux_branch_row)
+
+        self.community_branch_row = Adw.ComboRow()
+        self.community_branch_row.set_title(_("Community Packages"))
+        self.community_branch_row.set_subtitle(_("Packages maintained by BigCommunity"))
+        self.community_branch_row.set_model(self._branch_model())
+        expander.add_row(self.community_branch_row)
+
+    def _add_profile_source_rows(self, expander: Adw.ExpanderRow) -> None:
+        """Where profile definitions come from, and their inputs."""
+        self.profiles_source_row = Adw.ComboRow()
+        self.profiles_source_row.set_title(_("Profile source"))
+        self.profiles_source_row.set_subtitle(_("Maintained profiles from the official GitHub repositories"))
+        source_model = Gtk.StringList()
+        source_model.append(_("Official (GitHub)"))
+        source_model.append(_("Custom Repository URL"))
+        source_model.append(_("Local Folder"))
+        self.profiles_source_row.set_model(source_model)
+        self.profiles_source_row.connect("notify::selected", self._on_profiles_source_changed)
+        source_icon = Gtk.Image.new_from_icon_name("build-iso-source")
+        source_icon.set_pixel_size(24)
+        source_icon.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
+        self.profiles_source_row.add_prefix(source_icon)
+        self.profiles_source_row.add_suffix(
+            help_button(
+                _("Profile definitions"),
+                _(
+                    "A profile is the recipe of the image: package lists, enabled services, and files "
+                    "copied into the system. Keep the official source unless you maintain your own "
+                    "iso-profiles repository or folder."
+                ),
+            )
+        )
+        expander.add_row(self.profiles_source_row)
+
+        self.custom_url_row = Adw.EntryRow()
+        self.custom_url_row.set_title(_("Repository URL"))
+        self.custom_url_row.set_text("")
+        self.custom_url_row.set_visible(False)
+        self.custom_url_row.connect("changed", self._on_custom_source_changed)
+        expander.add_row(self.custom_url_row)
+
+        self.local_path_row = Adw.EntryRow()
+        self.local_path_row.set_title(_("Local Folder Path"))
+        self.local_path_row.set_text("")
+        self.local_path_row.set_visible(False)
+        local_browse_btn = Gtk.Button()
+        local_browse_btn.set_icon_name("folder-open-symbolic")
+        local_browse_btn.set_valign(Gtk.Align.CENTER)
+        local_browse_btn.set_tooltip_text(_("Browse..."))
+        local_browse_btn.connect("clicked", self._on_browse_local_profiles)
+        self.local_path_row.add_suffix(local_browse_btn)
+        self.local_path_row.connect("changed", self._on_custom_source_changed)
+        expander.add_row(self.local_path_row)
+
+    def _create_footer(self) -> Gtk.Widget:
+        """The primary action and the summary of what it will produce."""
         self.page_footer = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=16)
         self.page_footer.add_css_class("page-footer-bar")
 
@@ -297,7 +328,6 @@ class BuildWidget(Gtk.Box):
 
         for row in (
             self.distro_row,
-            self.edition_row,
             self.kernel_row,
             self.manjaro_branch_row,
             self.biglinux_branch_row,
@@ -306,6 +336,33 @@ class BuildWidget(Gtk.Box):
             row.connect("notify::selected", lambda *_args: self._update_summary())
         self.output_row.connect("changed", lambda *_args: self._update_summary())
         self._update_summary()
+        # The footer is owned by the window's bottom bar, not by the page body.
+        return Gtk.Box()
+
+    def apply_environment(self, status, disk_status) -> None:
+        """Report the build prerequisites where the build is started."""
+        free_gb, total_gb, _dir_exists, disk_error = disk_status
+        if not status.is_engine_ready:
+            problem = _("Container engine unavailable — {0}").format(status.engine_error)
+        elif not status.is_image_available:
+            problem = _("Build image missing — {0}").format(status.image_error)
+        elif total_gb <= 0:
+            problem = _("Output storage unavailable — {0}").format(disk_error)
+        else:
+            problem = ""
+
+        self.environment_banner.set_title(problem)
+        self.environment_banner.set_revealed(bool(problem))
+        if problem:
+            self.environment_label.set_visible(False)
+            return
+
+        self.environment_label.set_visible(True)
+        self.environment_label.set_text(
+            _("Environment ready • {0} {1} • {2:.1f} GB free").format(
+                (status.engine or "").capitalize(), status.version, free_gb
+            )
+        )
 
     @staticmethod
     def _branch_model() -> Gtk.StringList:
@@ -503,6 +560,9 @@ class BuildWidget(Gtk.Box):
     def _apply_catalog_result_state(self, result: ProfileCatalogResult) -> None:
         self.edition_row.remove_css_class("error")
         self.edition_row.remove_css_class("warning")
+        # Retrying is only an option when the load did not go well; keeping the
+        # button always visible squeezed the edition name into an ellipsis.
+        self.retry_editions_button.set_visible(bool(result.failure_kind) or result.is_fallback or result.is_stale)
         if result.failure_kind == "rate_limit":
             retry_time = time.strftime("%H:%M", time.localtime(result.retry_at))
             if result.is_fallback:
@@ -557,25 +617,31 @@ class BuildWidget(Gtk.Box):
             self.build_button.set_sensitive(True)
 
     def _replace_editions(self, editions: tuple[str, ...]) -> None:
-        # Check if there's a pending edition from profile selection
         pending = getattr(self, "_pending_edition", None)
-        current_edition = pending if pending else self.settings.edition
+        current_edition = pending or self._selected_edition or self.settings.edition
         if pending:
             self._pending_edition = None
 
-        # Clear and repopulate. The combo shows product spellings while the
-        # build keeps using the profile directory names.
         self._edition_keys = list(editions)
         self._edition_model = Gtk.StringList()
         for edition in editions:
-            self._edition_model.append(edition_display_name(edition))
+            label = edition_display_name(edition)
+            if edition.lower() in RECOMMENDED_EDITIONS:
+                label = _("{0} (recommended)").format(label)
+            self._edition_model.append(label)
         self.edition_row.set_model(self._edition_model)
+        self._select_edition(current_edition if current_edition in editions else (editions[0] if editions else ""))
 
-        # Restore selection
-        if current_edition in editions:
-            self.edition_row.set_selected(editions.index(current_edition))
-        else:
-            self.edition_row.set_selected(0)
+    def _on_edition_selected(self, row, _pspec) -> None:
+        index = row.get_selected()
+        if 0 <= index < len(self._edition_keys):
+            self._selected_edition = self._edition_keys[index]
+            self._update_summary()
+
+    def _select_edition(self, edition: str) -> None:
+        self._selected_edition = edition
+        if edition in self._edition_keys:
+            self.edition_row.set_selected(self._edition_keys.index(edition))
         self._update_summary()
 
     def _defer_catalog_retry_until(self, retry_at: int) -> None:
@@ -608,11 +674,7 @@ class BuildWidget(Gtk.Box):
         return self._distro_keys[0]
 
     def _get_selected_edition(self):
-        keys = getattr(self, "_edition_keys", [])
-        idx = self.edition_row.get_selected()
-        if 0 <= idx < len(keys):
-            return keys[idx]
-        return self.settings.edition or "gnome"
+        return self._selected_edition or self.settings.edition or "gnome"
 
     def _get_selected_kernel(self):
         idx = self.kernel_row.get_selected()
@@ -643,18 +705,28 @@ class BuildWidget(Gtk.Box):
             pass
 
     def _update_disk_space(self):
-        """Update disk space label"""
+        """Report the destination's free space only when it needs attention.
+
+        The environment line above already states the free space of a healthy
+        setup; repeating it under the folder row is noise, while a folder that
+        does not exist or is nearly full is worth a line of its own.
+        """
         path = self.output_row.get_text()
-        if path and os.path.exists(path):
-            usage = shutil.disk_usage(path)
-            free_gb = usage.free / (1024**3)
-            total_gb = usage.total / (1024**3)
-            if free_gb < 20:
-                self.disk_label.remove_css_class("dim-label")
-                self.disk_label.add_css_class("status-warning")
-            self.disk_label.set_text(_("Disk space: {0:.1f} GB free of {1:.1f} GB").format(free_gb, total_gb))
-        else:
-            self.disk_label.set_text(_("Output directory does not exist yet"))
+        if not path or not os.path.exists(path):
+            self.disk_label.set_text(_("This folder does not exist yet; it will be created."))
+            self.disk_label.set_visible(True)
+            return
+
+        usage = shutil.disk_usage(path)
+        free_gb = usage.free / (1024**3)
+        if free_gb >= 20:
+            self.disk_label.set_visible(False)
+            return
+
+        self.disk_label.remove_css_class("dim-label")
+        self.disk_label.add_css_class("status-warning")
+        self.disk_label.set_text(_("Only {0:.1f} GB free here; a build needs about 20 GB.").format(free_gb))
+        self.disk_label.set_visible(True)
 
     def set_build_config(self, distro_key, edition):
         """Set distro and edition from external source (e.g. profiles page)"""
@@ -663,12 +735,9 @@ class BuildWidget(Gtk.Box):
         # Check if distro is already selected
         current_distro = self._get_selected_distro()
         if current_distro == distro_key:
-            # Distro already selected - try to set edition directly from current model
-            keys = getattr(self, "_edition_keys", [])
-            if edition in keys:
-                self.edition_row.set_selected(keys.index(edition))
+            if edition in self._edition_keys:
+                self._select_edition(edition)
                 self._pending_edition = None
-                self._update_summary()
                 return
             # Edition not in model yet, force re-fetch
             self._fetch_editions_async()

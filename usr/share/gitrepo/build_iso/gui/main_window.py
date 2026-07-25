@@ -11,16 +11,14 @@ gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
 from gitrepo.build_iso.core.config import APP_NAME, CONTAINER_IMAGE
-from gitrepo.build_iso.core.container_manager import ContainerManager
+from gitrepo.build_iso.core.container_manager import ContainerManager, capture_disk_status
 from gitrepo.build_iso.core.settings import Settings
 from gitrepo.common.translation import _
 from gi.repository import Adw, Gio, GLib, Gtk
 
 from .widgets.build_widget import BuildWidget
 from .widgets.container_widget import ContainerWidget
-from .widgets.dashboard_widget import DashboardWidget
 from .widgets.history_widget import HistoryWidget
-from .widgets.profiles_widget import ProfilesWidget
 from .widgets.settings_widget import SettingsWidget
 
 
@@ -128,24 +126,20 @@ class MainWindow(Adw.ApplicationWindow):
         self.split_view.set_content(content_toolbar)
 
     def create_navigation_and_pages(self):
-        """Create navigation items and pages"""
+        """Create the three destinations of the ISO journey."""
 
-        # Create widgets
-        self.dashboard_widget = DashboardWidget(self.settings)
-        self.build_widget = BuildWidget(self.settings)
-        self.profiles_widget = ProfilesWidget(self.settings)
+        # The environment is a prerequisite, not a journey: it lives inside the
+        # settings page and is announced on the build page when it breaks.
         self.container_widget = ContainerWidget(self.settings)
+        self.build_widget = BuildWidget(self.settings)
         self.history_widget = HistoryWidget(self.settings)
         self.settings_widget = SettingsWidget(self.settings)
+        self.settings_widget.append_environment_section(self.container_widget)
 
-        # Connect signals
         self.connect_widget_signals()
 
         pages = [
-            (self.dashboard_widget, "dashboard", _("Start Here"), "build-iso-dashboard"),
             (self.build_widget, "build", _("Create ISO"), "build-iso-create"),
-            (self.profiles_widget, "profiles", _("Choose Profile"), "build-iso-profiles"),
-            (self.container_widget, "container", _("Build Environment"), "build-iso-environment"),
             (self.history_widget, "history", _("Generated ISOs"), "build-iso-history"),
             (self.settings_widget, "settings", _("Settings"), "build-iso-settings"),
         ]
@@ -158,9 +152,8 @@ class MainWindow(Adw.ApplicationWindow):
             self.page_headers[page_id] = (title, icon_name)
             self._append_navigation_row(page_id, title, icon_name)
 
-        # Select first page
         self.nav_list.select_row(self.nav_list.get_row_at_index(0))
-        self.content_stack.set_visible_child_name("dashboard")
+        self.content_stack.set_visible_child_name("build")
 
     def _append_navigation_row(self, page_id, title, icon_name):
         nav_row = Adw.ActionRow(title=title)
@@ -186,9 +179,8 @@ class MainWindow(Adw.ApplicationWindow):
 
     def connect_widget_signals(self):
         """Connect signals from widgets"""
-        self.dashboard_widget.connect("navigate-to", self.on_navigate_to)
         self.build_widget.connect("build-requested", self.on_build_requested)
-        self.profiles_widget.connect("profile-selected", self.on_profile_selected)
+        self.build_widget.connect("open-environment", lambda _widget: self.on_navigate_to(_widget, "settings"))
         self.settings_widget.connect("settings-saved", self.on_settings_saved)
         self.container_widget.connect("refresh-requested", lambda _widget: self.refresh_environment())
 
@@ -221,13 +213,10 @@ class MainWindow(Adw.ApplicationWindow):
             self.compact_header_icon.set_from_icon_name(icon_name)
             self._apply_page_footer(row.page_id)
             self._reset_content_scroll()
-            # Refresh dashboard when navigating to it
-            if row.page_id == "dashboard":
-                self.refresh_environment()
-            elif row.page_id == "build":
+            if row.page_id == "build":
                 self.build_widget.ensure_catalog_loaded()
-            elif row.page_id == "profiles":
-                self.profiles_widget.ensure_loaded()
+            elif row.page_id == "settings":
+                self.refresh_environment()
 
     def _apply_page_footer(self, page_id):
         """Show only the footer owned by the visible page."""
@@ -269,11 +258,6 @@ class MainWindow(Adw.ApplicationWindow):
         if page_id in self.nav_rows:
             row = self.nav_rows[page_id]
             self.nav_list.select_row(row)
-
-    def on_profile_selected(self, widget, distro_key, edition):
-        """Handle profile selection - configure build widget and navigate to build"""
-        self.build_widget.set_build_config(distro_key, edition)
-        self.on_navigate_to(widget, "build")
 
     def on_settings_saved(self, widget):
         """Handle settings saved - refresh dashboard and build widget"""
@@ -326,7 +310,6 @@ class MainWindow(Adw.ApplicationWindow):
         """Probe the environment once and distribute the resulting snapshot."""
         self._environment_generation += 1
         generation = self._environment_generation
-        self.dashboard_widget.set_checking()
         self.container_widget.set_checking()
         thread = threading.Thread(target=self._probe_environment, args=(generation,), daemon=True)
         thread.start()
@@ -335,13 +318,13 @@ class MainWindow(Adw.ApplicationWindow):
     def _probe_environment(self, generation: int) -> None:
         manager = ContainerManager(self.settings.container_engine_preference)
         status = manager.capture_status(CONTAINER_IMAGE)
-        disk_status = self.dashboard_widget.capture_disk_status()
+        disk_status = capture_disk_status(self.settings.output_dir)
         GLib.idle_add(self._apply_environment_status, generation, manager, status, disk_status)
 
     def _apply_environment_status(self, generation, manager, status, disk_status):
         if generation != self._environment_generation:
             return False
-        self.dashboard_widget.apply_status(status, disk_status)
+        self.build_widget.apply_environment(status, disk_status)
         self.container_widget.apply_status(manager, status)
         self._update_environment_badge(status)
         return False
@@ -349,18 +332,14 @@ class MainWindow(Adw.ApplicationWindow):
     def _update_environment_badge(self, status):
         """Count the environment problems that block a build on the sidebar."""
         pending = int(not status.is_engine_ready) + int(not status.is_image_available)
-        row = self.nav_rows.get("container")
+        row = self.nav_rows.get("settings")
         if row is None:
             return
         row.badge.set_text(str(pending))
         row.badge.set_visible(pending > 0)
         row.update_property(
             [Gtk.AccessibleProperty.LABEL],
-            [
-                _("Build Environment — {0} item(s) need attention").format(pending)
-                if pending
-                else _("Build Environment")
-            ],
+            [_("Settings — {0} environment item(s) need attention").format(pending) if pending else _("Settings")],
         )
 
     def show_toast(self, message: str):

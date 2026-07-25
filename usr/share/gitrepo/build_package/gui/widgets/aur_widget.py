@@ -22,11 +22,12 @@ class AURWidget(Gtk.Box):
         "aur-build-requested": (GObject.SignalFlags.RUN_FIRST, None, (str, bool)),  # package_name, tmate
     }
 
-    def __init__(self, build_package, settings):
+    def __init__(self, build_package, settings, show_hero: bool = True):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=0)
 
         self.build_package = build_package
         self.settings = settings
+        self._show_hero = show_hero
         self._is_syncing_feature = False
         self.package_name = ""
 
@@ -35,15 +36,16 @@ class AURWidget(Gtk.Box):
     def create_ui(self):
         """Create the widget UI"""
 
-        self.append(
-            PageHero(
-                "build-package-aur",
-                _("Build a package from the AUR"),
-                _(
-                    "Choose a community-maintained package. GitHub Actions downloads its AUR repository and builds it; no local Git command is run."
-                ),
+        if self._show_hero:
+            self.append(
+                PageHero(
+                    "build-package-aur",
+                    _("Build a package from the AUR"),
+                    _(
+                        "Choose a community-maintained package. GitHub Actions downloads its AUR repository and builds it; no local Git command is run."
+                    ),
+                )
             )
-        )
 
         clamp, page_content = page_body(spacing=18)
         self.append(clamp)
@@ -157,7 +159,6 @@ class AURWidget(Gtk.Box):
         # Clear button
         clear_content = Adw.ButtonContent(label=_("Clear"), icon_name="edit-clear-symbolic")
         clear_button = Gtk.Button(child=clear_content)
-        clear_button.add_css_class("build-package-action-button")
         clear_button.connect("clicked", self.on_clear_clicked)
         actions_box.append(clear_button)
 
@@ -165,7 +166,6 @@ class AURWidget(Gtk.Box):
         build_content = Adw.ButtonContent(label=_("Start AUR workflow"), icon_name="build-package-aur")
         self.build_button = Gtk.Button(child=build_content)
         self.build_button.add_css_class("suggested-action")
-        self.build_button.add_css_class("build-package-primary-action")
         self.build_button.connect("clicked", self.on_build_clicked)
         self.build_button.set_sensitive(False)
         actions_box.append(self.build_button)
