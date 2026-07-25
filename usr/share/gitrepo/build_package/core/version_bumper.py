@@ -68,19 +68,60 @@ def _bump_semver(current_version: str, bump_level: str) -> str:
     return f"{major}.{minor}.{patch}"
 
 
+APP_NAME_PATTERN = re.compile(r"APP_NAME\s*=\s*(?:_\(\s*)?[\"']([^\"']+)[\"']")
+
+
 def _locate_app_version_entry(bp):
-    """Find one live APP_VERSION assignment, preferring the cached owner."""
+    """Find the one APP_VERSION this repository owns, or nothing when unclear."""
     pattern = re.compile(r'(APP_VERSION\s*=\s*)(["\'])(\d+\.\d+\.\d+)(["\'])')
     cached = _read_version_entry(bp._app_version_cache, pattern)
     if cached:
         return cached
     repo_path = bp.repo_path or GitUtils.get_repo_root_path()
+    identifiers = _repository_identifiers(repo_path)
+
+    entries = []
     for file_path in _version_candidate_paths(repo_path):
         found = _read_version_entry(file_path, pattern)
-        if found:
-            bp._app_version_cache = file_path
-            return found
-    return None, None, None
+        if not found:
+            continue
+        _path, content, _match = found
+        app_name = APP_NAME_PATTERN.search(content)
+        matches_repository = bool(app_name) and _normalize_identifier(app_name.group(1)) in identifiers
+        entries.append((0 if matches_repository else 1, file_path, found))
+
+    if not entries:
+        return None, None, None
+    entries.sort(key=lambda entry: (entry[0], entry[1]))
+    # A repository holding several applications must say which one it versions;
+    # bumping an arbitrary one would publish the wrong version.
+    if len(entries) > 1 and entries[0][0] == entries[1][0]:
+        return None, None, None
+
+    _rank, file_path, found = entries[0]
+    bp._app_version_cache = file_path
+    return found
+
+
+def _normalize_identifier(value: str) -> str:
+    return re.sub(r"[^a-z0-9]", "", value.lower())
+
+
+def _repository_identifiers(repo_path) -> set[str]:
+    """Return the names this repository answers to: directory and pkgname."""
+    if not repo_path:
+        return set()
+    identifiers = {_normalize_identifier(os.path.basename(os.path.normpath(repo_path)))}
+    for relative in ("PKGBUILD", os.path.join("pkgbuild", "PKGBUILD")):
+        try:
+            with open(os.path.join(repo_path, relative), "r", encoding="utf-8") as pkgbuild:
+                content = pkgbuild.read()
+        except (OSError, UnicodeDecodeError):
+            continue
+        match = re.search(r"^pkgname=([a-zA-Z0-9@._+-]+)$", content, re.MULTILINE)
+        if match:
+            identifiers.add(_normalize_identifier(match.group(1)))
+    return identifiers
 
 
 def _read_version_entry(file_path, pattern):

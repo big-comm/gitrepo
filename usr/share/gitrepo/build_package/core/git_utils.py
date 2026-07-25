@@ -114,6 +114,109 @@ def _integrate_remote(branch: str, method: str, logger) -> bool:
     return False
 
 
+def _conflicted_paths() -> list[str]:
+    """Return the paths Git currently reports as unmerged."""
+    result = subprocess.run_git(
+        ["git", "diff", "--name-only", "--diff-filter=U", "-z"],
+        capture_output=True,
+        check=False,
+        intent="ordinary",
+    )
+    if result.returncode != 0:
+        return []
+    return [os.fsdecode(path) for path in result.stdout.split(b"\0") if path]
+
+
+def _abort_merge() -> None:
+    subprocess.run_git(["git", "merge", "--abort"], capture_output=True, check=False, intent="ordinary")
+
+
+def _confirm_keeping_current(branch: str, incoming: str, conflicts: list[str], logger, menu) -> bool:
+    """Name the files that lose their incoming version before anything is written."""
+    paths = "\n".join(f"• {path}" for path in conflicts)
+    question = _(
+        "Resolve the divergence keeping {0} where the two branches disagree?\n\n"
+        "The conflicting lines from {1} are discarded in:\n{2}\n\n"
+        "Every other change from {1} is merged, and the discarded version stays "
+        "readable with: git diff HEAD^2 -- FILE"
+    ).format(branch, incoming, paths)
+    if menu is not None and menu.confirm(question, default_yes=False):
+        return True
+    _log_if(logger, "yellow", _("Automatic conflict resolution cancelled."))
+    return False
+
+
+def _commit_merge(logger) -> bool:
+    """Finish a merge that is already staged, restoring the tree on failure."""
+    result = subprocess.run_git(
+        ["git", "commit", "--no-edit"], capture_output=True, text=True, check=False, intent="ordinary"
+    )
+    if result.returncode == 0:
+        return True
+    _abort_merge()
+    _log_if(logger, "red", _("Could not finish merge: {0}").format(result.stderr.strip()))
+    return False
+
+
+def _merge_keeping_current(branch: str, logger, menu, resolver=None) -> bool:
+    """Merge the remote branch, keeping this branch where the two disagree.
+
+    The discard is announced before it happens: the user sees which files lose
+    their incoming lines and how to read that version afterwards.
+    """
+    incoming = f"origin/{branch}"
+    trial = subprocess.run_git(
+        ["git", "merge", "--no-commit", "--no-ff", incoming],
+        capture_output=True,
+        text=True,
+        check=False,
+        intent="ordinary",
+    )
+    conflicts = _conflicted_paths()
+    if trial.returncode == 0 and not conflicts:
+        if not _commit_merge(logger):
+            return False
+        _log_if(logger, "green", _("Remote changes integrated with merge."))
+        return True
+
+    _abort_merge()
+    if not conflicts:
+        detail = trial.stderr.strip() or trial.stdout.strip() or _("Unknown Git error")
+        _log_if(logger, "red", _("Merge failed: {0}").format(detail))
+        return False
+    if not _confirm_keeping_current(branch, incoming, conflicts, logger, menu):
+        return False
+
+    merge = subprocess.run_git(
+        ["git", "merge", "--no-edit", "-X", "ours", incoming],
+        capture_output=True,
+        text=True,
+        check=False,
+        intent="ordinary",
+    )
+    if merge.returncode != 0:
+        # Add/add and delete/modify conflicts survive "-X ours"; the resolver
+        # asks about those files before dropping their incoming version.
+        if resolver is None or not resolver.resolve_keeping_current(
+            branch, incoming, recovery_hint="git diff HEAD^2 -- FILE"
+        ):
+            _abort_merge()
+            _log_if(logger, "red", _("Merge aborted; the repository was restored."))
+            return False
+        if not _commit_merge(logger):
+            return False
+
+    _log_if(
+        logger,
+        "yellow",
+        _("Kept {0} in {1} file(s); the {2} version was discarded there: {3}").format(
+            branch, len(conflicts), incoming, ", ".join(conflicts)
+        ),
+    )
+    _log_if(logger, "cyan", _("Read the discarded version with: git diff HEAD^2 -- FILE"))
+    return True
+
+
 def _force_push_with_confirmation(branch: str, logger, menu) -> bool:
     command = [
         "git",
@@ -386,13 +489,15 @@ class GitUtils:
             return state
 
     @staticmethod
-    def resolve_divergence(branch: str, method: str, logger=None, menu=None) -> bool:
+    def resolve_divergence(branch: str, method: str, logger=None, menu=None, resolver=None) -> bool:
         """Resolve divergence through an explicit, bounded strategy."""
         if not GitUtils.is_git_repo():
             _log_if(logger, "red", _("Not a Git repository"))
             return False
         if method in {"rebase", "merge"}:
             return _integrate_remote(branch, method, logger)
+        if method == "merge-keep-current":
+            return _merge_keeping_current(branch, logger, menu, resolver)
         if method == "force_push":
             return _force_push_with_confirmation(branch, logger, menu)
         _log_if(logger, "red", _("Unknown resolution method: {0}").format(method))
@@ -402,22 +507,103 @@ class GitUtils:
     def get_changed_files() -> list:
         """Return a list of (status, filepath) tuples for changed files."""
         try:
+            # NUL-separated records keep paths with spaces, quotes, and
+            # non-UTF-8 bytes intact; porcelain v1 would quote and mangle them.
             result = subprocess.run_git(
-                ["git", "status", "--porcelain"],
+                ["git", "status", "--porcelain=v1", "-z", "--untracked-files=all"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.DEVNULL,
-                text=True,
                 check=False,
                 intent="ordinary",
             )
             if result.returncode != 0:
                 return []
             files = []
-            for line in result.stdout.splitlines():
-                if line.strip():
-                    status = line[:2].strip()
-                    filepath = line[3:]
-                    files.append((status, filepath))
+            records = result.stdout.split(b"\0")
+            index = 0
+            while index < len(records):
+                record = records[index]
+                index += 1
+                if not record:
+                    continue
+                decoded = os.fsdecode(record)
+                status = decoded[:2].strip()
+                files.append((status, decoded[3:]))
+                if "R" in status or "C" in status:
+                    index += 1  # Skip the original path stored by porcelain -z.
             return files
         except Exception:
             return []
+
+    @staticmethod
+    def ref_exists(ref: str) -> bool:
+        """Return whether a local or remote-tracking ref is available."""
+        if not ref:
+            return False
+        result = subprocess.run_git(
+            ["git", "rev-parse", "--verify", "--quiet", ref],
+            capture_output=True,
+            check=False,
+            intent="ordinary",
+        )
+        return result.returncode == 0
+
+    @staticmethod
+    def get_head_sha() -> str:
+        """Return the current HEAD revision, or an empty string outside a repo."""
+        result = subprocess.run_git(
+            ["git", "rev-parse", "HEAD"], capture_output=True, text=True, check=False, intent="ordinary"
+        )
+        return result.stdout.strip() if result.returncode == 0 else ""
+
+    @staticmethod
+    def get_worktree_file_diff(filepath: str) -> str:
+        """Return the staged and unstaged diff of one working-tree file."""
+        tracked = (
+            subprocess.run_git(
+                ["git", "ls-files", "--error-unmatch", "--", filepath],
+                capture_output=True,
+                check=False,
+                intent="ordinary",
+            ).returncode
+            == 0
+        )
+        command = (
+            ["git", "diff", "--no-ext-diff", "HEAD", "--", filepath]
+            if tracked
+            else ["git", "diff", "--no-ext-diff", "--no-index", "--", os.devnull, filepath]
+        )
+        result = subprocess.run_git(command, capture_output=True, check=False, intent="ordinary")
+        # git diff exits 1 when differences exist; only other codes are failures.
+        if result.returncode not in (0, 1):
+            return _("Could not load the differences for this file.")
+        return result.stdout.decode("utf-8", errors="replace")
+
+    @staticmethod
+    def get_revision_changes(before: str, after: str) -> list:
+        """Return (status, path) entries changed between two revisions."""
+        if not before or not after or before == after:
+            return []
+        result = subprocess.run_git(
+            ["git", "diff", "--name-status", "--no-renames", "-z", before, after],
+            capture_output=True,
+            check=False,
+            intent="ordinary",
+        )
+        if result.returncode != 0:
+            return []
+        fields = [os.fsdecode(field) for field in result.stdout.split(b"\0") if field]
+        return [(fields[index], fields[index + 1]) for index in range(0, len(fields) - 1, 2)]
+
+    @staticmethod
+    def get_revision_file_diff(before: str, after: str, filepath: str) -> str:
+        """Return a unified diff for one file between two revisions."""
+        result = subprocess.run_git(
+            ["git", "diff", "--no-ext-diff", "--unified=5", before, after, "--", filepath],
+            capture_output=True,
+            check=False,
+            intent="ordinary",
+        )
+        if result.returncode not in (0, 1):
+            return _("Could not load the differences for this file.")
+        return result.stdout.decode("utf-8", errors="replace")

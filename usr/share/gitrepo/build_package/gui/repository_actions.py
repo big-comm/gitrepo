@@ -189,13 +189,32 @@ class RepositoryActionsMixin:
             # Import V2 operation
             from gitrepo.build_package.core.pull_operations import pull_latest
 
-            # Use V2 operation with intelligent conflict handling
-            return pull_latest(self.build_package)
+            before = GitUtils.get_head_sha()
+            if not pull_latest(self.build_package):
+                return False
+            after = GitUtils.get_head_sha()
+            return {"before": before, "after": after, "changes": GitUtils.get_revision_changes(before, after)}
 
         self.operation_runner.run_with_progress(
             pull_operation,
             _("Downloading updates"),
             _("Running git fetch and git merge for the current branch..."),
+            completion_callback=self._show_pulled_changes,
+        )
+
+    def _show_pulled_changes(self, result):
+        """Show which files a completed pull brought in."""
+        from gitrepo.build_package.gui.dialogs.diff_viewer_dialog import present_diff_viewer
+
+        if not isinstance(result, dict) or not result.get("changes"):
+            self.show_toast(_("Repository is already up to date"))
+            return
+        before, after = result["before"], result["after"]
+        present_diff_viewer(
+            self,
+            _("Changes received from the remote"),
+            result["changes"],
+            lambda filepath: GitUtils.get_revision_file_diff(before, after, filepath),
         )
 
     def on_undo_commit_requested(self, widget):

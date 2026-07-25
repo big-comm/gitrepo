@@ -435,6 +435,32 @@ class ISOBuilder:
         self._log("red", _("Failed to pull container image"))
         return False
 
+    def _live_setup_guard_commands(self) -> str:
+        """Keep make_image_live() working when the livefs has no manjaro-live-setup.
+
+        manjaro-tools-iso-git now runs /usr/bin/manjaro-live-setup inside the
+        livefs chroot, but that binary only exists in manjaro-live-base 20260722
+        and newer. Stable-branch profiles still install manjaro-live-base
+        20241119, which performs the same setup at live boot through
+        manjaro-live.service, so the chroot call aborts the build. Guard the call
+        instead of dropping it: newer livefs images keep the build-time setup.
+        """
+        return rf"""
+cat > {_CONTAINER_ROOT}/patch-live-setup.sh <<'GITREPO_LIVE_SETUP_GUARD'
+#!/bin/bash
+set -eo pipefail
+image_lib=/usr/lib/manjaro-tools/util-iso-image.sh
+[[ -f "$image_lib" ]] || exit 0
+sed -i \
+    -e 's|^\([[:space:]]*\)chroot \$1 /usr/bin/manjaro-live-setup$|\1if [[ -x "$1/usr/bin/manjaro-live-setup" ]]; then chroot $1 /usr/bin/manjaro-live-setup; else msg2 "Skipping manjaro-live-setup (absent from livefs)"; fi|' \
+    -e 's|^\([[:space:]]*\)chroot \$1 cat /var/log/manjaro-live-setup.log$|\1if [[ -f "$1/var/log/manjaro-live-setup.log" ]]; then chroot $1 cat /var/log/manjaro-live-setup.log; fi|' \
+    "$image_lib"
+GITREPO_LIVE_SETUP_GUARD
+chmod +x {_CONTAINER_ROOT}/patch-live-setup.sh
+sed -i '/^  patch_manjaro_tools$/a\  sudo bash {_CONTAINER_ROOT}/patch-live-setup.sh' {_CONTAINER_BUILD_REPO}/build-iso.sh
+grep -q '^  sudo bash {_CONTAINER_ROOT}/patch-live-setup.sh$' {_CONTAINER_BUILD_REPO}/build-iso.sh
+"""
+
     def _build_setup_script(self) -> str:
         """Build setup script that runs inside container before build-iso.sh"""
         parts = [
@@ -446,6 +472,8 @@ git clone --depth 1 "$BUILD_ISO_REPO" /root/gitrepo-build/build-iso
 sed -i 's|git clone --depth 1 "$ISO_PROFILES_REPO" "$WORK_PATH_ISO_PROFILES" &>/dev/null|git clone --depth 1 "$ISO_PROFILES_REPO" "$WORK_PATH_ISO_PROFILES"|' /root/gitrepo-build/build-iso/build-iso.sh
 """
         ]
+
+        parts.append(self._live_setup_guard_commands())
 
         if self.distroname == "bigcommunity":
             parts.append("""

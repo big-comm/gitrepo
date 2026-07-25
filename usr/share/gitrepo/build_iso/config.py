@@ -30,6 +30,39 @@ DISTRO_DISPLAY_NAMES = {"bigcommunity": "BigCommunity", "biglinux": "BigLinux"}
 
 # Branch settings
 VALID_BRANCHES = ["stable", "testing", "unstable"]
+BRANCH_DISPLAY_NAMES = {
+    "stable": _("Stable"),
+    "testing": _("Testing"),
+    "unstable": _("Unstable"),
+}
+BRANCH_DESCRIPTIONS = {
+    "stable": _("Tested packages. Recommended for images you will hand to other people."),
+    "testing": _("Packages waiting for validation. Useful to preview the next stable set."),
+    "unstable": _("Newest packages, closest to upstream. Expect breakage."),
+}
+
+# Desktop editions keep their proper product spelling in the interface.
+EDITION_DISPLAY_NAMES = {
+    "kde": "KDE Plasma",
+    "gnome": "GNOME",
+    "xfce": "Xfce",
+    "cinnamon": "Cinnamon",
+    "cosmic": "COSMIC",
+    "deepin": "Deepin",
+    "lxqt": "LXQt",
+    "mate": "MATE",
+    "budgie": "Budgie",
+    "i3": "i3",
+    "hyprland": "Hyprland",
+}
+# Editions the projects recommend for general use.
+RECOMMENDED_EDITIONS = ("kde", "gnome", "xfce")
+
+
+def edition_display_name(edition: str) -> str:
+    """Return the product spelling of an edition directory name."""
+    return EDITION_DISPLAY_NAMES.get(edition.lower(), edition.capitalize())
+
 
 # Kernel options
 VALID_KERNELS = ["latest", "lts", "oldlts", "xanmod"]
@@ -126,7 +159,7 @@ ORG_DEFAULT_CONFIGS = {
 }
 
 # Script version
-APP_VERSION = "3.7.8"
+APP_VERSION = "3.8.0"
 APP_NAME = _("BUILD ISO")
 APP_DISPLAY_NAME = _("Build ISO")
 APP_DESC = _(

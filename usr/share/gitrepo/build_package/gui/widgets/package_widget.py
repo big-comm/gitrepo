@@ -10,6 +10,8 @@ gi.require_version("Adw", "1")
 from gi.repository import Gtk, Adw, GObject
 from gitrepo.common.translation import _
 
+from gitrepo.common.help_popover import help_button
+from gitrepo.common.page_layout import page_body
 from gitrepo.common.page_hero import (
     BuildPackagePageHero as PageHero,
     git_command_description,
@@ -53,19 +55,12 @@ class PackageWidget(Gtk.Box):
             PageHero(
                 "build-package-package",
                 _("Build and publish a package"),
-                _("Choose a destination and start a GitHub Actions build. With pending files, first run: {0}").format(
-                    git_command_description(
-                        "git add -A",
-                        'git commit -m "MESSAGE"',
-                        "git push -u origin BRANCH",
-                    )
-                ),
+                _("Choose a destination and start a build on GitHub Actions."),
             )
         )
 
-        page_content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=18)
-        page_content.add_css_class("page-frame")
-        self.append(page_content)
+        clamp, page_content = page_body(spacing=18)
+        self.append(clamp)
 
         feature_group = Adw.PreferencesGroup()
         feature_group.set_title(_("GitHub package workflow"))
@@ -82,8 +77,34 @@ class PackageWidget(Gtk.Box):
             )
         )
         self.feature_row.connect("notify::active", self._on_feature_changed)
+        feature_group.set_header_suffix(
+            help_button(
+                _("Before publishing a package"),
+                _("Pending files must be committed first: {0}").format(
+                    git_command_description(
+                        "git add -A",
+                        'git commit -m "MESSAGE"',
+                        "git push -u origin BRANCH",
+                    )
+                ),
+            )
+        )
         feature_group.add(self.feature_row)
         page_content.append(feature_group)
+
+        # With the workflow off, the page explains the feature instead of
+        # leaving one switch alone on an empty page.
+        self.disabled_state = Adw.StatusPage()
+        self.disabled_state.set_icon_name("build-package-package")
+        self.disabled_state.set_title(_("Package generation is off"))
+        self.disabled_state.set_description(
+            _(
+                "Turn it on to publish this repository to the testing, stable, or extra repository. "
+                "The build runs on GitHub Actions and needs an access token; nothing is compiled here."
+            )
+        )
+        self.disabled_state.set_vexpand(False)
+        page_content.append(self.disabled_state)
 
         self.workflow_content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=18)
         page_content.append(self.workflow_content)
@@ -122,6 +143,16 @@ class PackageWidget(Gtk.Box):
         # Package type selection with radio buttons style
         package_type_group = Adw.PreferencesGroup()
         package_type_group.set_title(_("Target Repository"))
+        package_type_group.set_header_suffix(
+            help_button(
+                _("Which repository to publish to"),
+                _(
+                    "Testing receives packages for validation and is built from your development "
+                    "branch. Stable is what users install, and it is always built from main. Extra "
+                    "holds complementary packages that follow the same stable rules."
+                ),
+            )
+        )
         package_type_group.set_description(
             github_action_description(_("build the package and publish it to the selected repository"))
         )
@@ -321,6 +352,7 @@ class PackageWidget(Gtk.Box):
         self._is_syncing_feature = True
         self.feature_row.set_active(enabled)
         self.workflow_content.set_visible(enabled)
+        self.disabled_state.set_visible(not enabled)
         self._is_syncing_feature = False
 
     def _on_feature_changed(self, switch, _pspec):
@@ -331,6 +363,7 @@ class PackageWidget(Gtk.Box):
             self.sync_feature_enabled()
             return
         self.workflow_content.set_visible(enabled)
+        self.disabled_state.set_visible(not enabled)
         root = self.get_root()
         if hasattr(root, "refresh_features"):
             root.refresh_features()

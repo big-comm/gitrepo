@@ -6,6 +6,8 @@ from gitrepo.build_iso.config import (
     APP_DISPLAY_NAME as APP_NAME,
     APP_ID,
     APP_VERSION,
+    BRANCH_DESCRIPTIONS,
+    BRANCH_DISPLAY_NAMES,
     BUILD_ISO_REPO,
     CONFIG_DIR,
     CONFIG_FILE,
@@ -15,7 +17,10 @@ from gitrepo.build_iso.config import (
     HISTORY_FILE,
     ISO_PROFILES_REPOS,
     KERNEL_DISPLAY_NAMES as VALID_KERNELS,
+    LOG_DIR_BASE,
+    RECOMMENDED_EDITIONS,
     VALID_BRANCHES,
+    edition_display_name,
 )
 
 
@@ -25,6 +30,10 @@ __all__ = [
     "APP_ID",
     "APP_NAME",
     "APP_VERSION",
+    "BRANCH_DESCRIPTIONS",
+    "BRANCH_DISPLAY_NAMES",
+    "RECOMMENDED_EDITIONS",
+    "edition_display_name",
     "BUILD_ISO_REPO",
     "CONFIG_DIR",
     "CONFIG_FILE",
@@ -34,6 +43,7 @@ __all__ = [
     "EXCLUDED_EDITIONS",
     "HISTORY_FILE",
     "ISO_PROFILES_REPOS",
+    "LOG_DIR_BASE",
     "VALID_BRANCHES",
     "VALID_DISTROS",
     "VALID_KERNELS",

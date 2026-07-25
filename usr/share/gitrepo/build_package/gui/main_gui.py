@@ -8,7 +8,7 @@ import sys
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
-from gitrepo.common.premium_style import premium_css
+from gitrepo.common.premium_style import card_css, hero_css, premium_css
 from gitrepo.common.render_environment import configure_gtk_renderer
 
 configure_gtk_renderer()
@@ -23,6 +23,9 @@ from gitrepo.common.translation import _
 from gi.repository import Adw, Gio, GLib, Gtk
 
 from gitrepo.build_package.gui.main_window import MainWindow
+
+# Sidebar order, reused by the Ctrl+<number> shortcuts.
+PAGE_ORDER = ("overview", "commit", "branches", "advanced", "behavior", "package", "aur", "tokens")
 
 
 class BuildPackageApplication(Adw.Application):
@@ -58,6 +61,13 @@ class BuildPackageApplication(Adw.Application):
         refresh_action.connect("activate", self.on_refresh_activated)
         self.add_action(refresh_action)
         self.set_accels_for_action("app.refresh", ["<Ctrl>R", "F5"])
+
+        # Direct page access keeps an eight-page sidebar reachable from the keyboard.
+        page_action = Gio.SimpleAction.new("goto-page", GLib.VariantType.new("s"))
+        page_action.connect("activate", self.on_goto_page)
+        self.add_action(page_action)
+        for index, page_id in enumerate(PAGE_ORDER, start=1):
+            self.set_accels_for_action(f"app.goto-page('{page_id}')", [f"<Ctrl>{index}"])
 
     def do_activate(self):
         """Create or present the primary window."""
@@ -100,86 +110,25 @@ class BuildPackageApplication(Adw.Application):
 
     @staticmethod
     def _get_layout_css():
-        return """
-            row.combo popover contents modelbutton {
-                min-width: 250px;
-            }
-            .content-canvas {
-                --dim-opacity: 72%;
-            }
-            .content-canvas row label.subtitle,
-            .content-canvas .caption.dim-label {
-                font-size: inherit;
-                line-height: 1.35;
-            }
-            @media (prefers-contrast: more) {
-                .content-canvas {
-                    --dim-opacity: 90%;
-                }
-            }
-            .build-package-expanded-header {
-                background-image: linear-gradient(120deg,
-                    alpha(@accent_bg_color, 0.18),
-                    alpha(@accent_bg_color, 0.06) 58%,
-                    alpha(#8b5cf6, 0.10));
-                box-shadow: none;
-            }
-            .build-package-page-hero {
-                min-height: 56px;
-                padding: 0 32px 44px;
-                border-bottom: 1px solid alpha(@accent_color, 0.20);
-                background-image: linear-gradient(120deg,
-                    alpha(@accent_bg_color, 0.18),
-                    alpha(@accent_bg_color, 0.06) 58%,
-                    alpha(#8b5cf6, 0.10));
-            }
-            .build-package-page-hero-icon {
-                min-width: 56px;
-                min-height: 56px;
-            }
-            .build-package-hero-subtitle {
-                opacity: 0.82;
-            }
+        return (
+            hero_css("build-package")
+            + """
             .build-package-sidebar .navigation-sidebar row {
                 min-height: 36px;
                 margin: 0;
                 border-radius: 8px;
             }
         """
+        )
 
     @staticmethod
     def _get_component_css():
-        return """
+        return (
+            card_css("build-package", status_min_height="52px", destination_min_width="205px")
+            + """
             .build-package-status-grid flowboxchild {
                 min-width: 190px;
                 padding: 0;
-            }
-            .build-package-status-card {
-                min-height: 52px;
-                padding: 10px 12px;
-                border-radius: 12px;
-                border: 1px solid alpha(currentColor, 0.09);
-                background-color: @card_bg_color;
-                box-shadow: 0 1px 3px alpha(black, 0.06);
-            }
-            .build-package-destinations flowboxchild {
-                min-width: 205px;
-                padding: 0;
-            }
-            .build-package-destination-card {
-                min-height: 132px;
-                padding: 16px;
-                border-radius: 14px;
-                border: 1px solid alpha(currentColor, 0.09);
-                background-color: @card_bg_color;
-                box-shadow: 0 2px 8px alpha(black, 0.06);
-                transition: 180ms ease;
-            }
-            .build-package-destination-card:hover {
-                border-color: alpha(@accent_color, 0.42);
-                background-color: alpha(@accent_bg_color, 0.07);
-                box-shadow: 0 7px 18px alpha(black, 0.10);
-                transform: translateY(-2px);
             }
             .build-package-action-button {
                 min-height: 44px;
@@ -193,7 +142,75 @@ class BuildPackageApplication(Adw.Application):
             .build-package-warning-banner {
                 margin-bottom: 2px;
             }
+            .build-package-progress-card {
+                padding: 16px 18px;
+                border-radius: 16px;
+                border: 1px solid alpha(currentColor, 0.08);
+                background-color: @card_bg_color;
+                box-shadow: 0 1px 3px alpha(black, 0.05);
+            }
+            .build-package-progress-status {
+                font-size: 1.1em;
+                font-weight: 700;
+            }
+            .build-package-progress-bar trough,
+            .build-package-progress-bar progress {
+                min-height: 8px;
+                border-radius: 99px;
+            }
+            .build-package-log-card {
+                border-radius: 14px;
+                border: 1px solid alpha(currentColor, 0.08);
+                background-color: @card_bg_color;
+            }
+            .build-package-log-header {
+                padding: 6px 8px 2px 14px;
+            }
+            .build-package-log-view {
+                background-color: transparent;
+                font-size: 0.92em;
+            }
+            .build-package-action-bar {
+                padding: 10px 20px 14px;
+            }
+            .build-package-diff-sidebar {
+                background-color: @sidebar_bg_color;
+            }
+            .build-package-diff-pane {
+                background-color: @view_bg_color;
+            }
+            .build-package-diff-view {
+                background-color: transparent;
+                font-size: 0.92em;
+            }
+            .build-package-step-number {
+                min-width: 24px;
+                min-height: 24px;
+                border-radius: 99px;
+                background-color: alpha(@accent_bg_color, 0.16);
+                color: @accent_color;
+                font-weight: 700;
+                font-size: 0.85em;
+            }
+            .build-package-command-block {
+                padding: 8px 10px;
+                border-radius: 10px;
+                background-color: alpha(currentColor, 0.06);
+                font-family: monospace;
+                font-size: 0.88em;
+            }
+            /* Libadwaita banners have no destructive appearance of their own,
+               so the destructive page states it in colour and weight. */
+            .build-package-warning-banner > revealer > widget {
+                background-color: alpha(@error_color, 0.14);
+                border-radius: 12px;
+            }
+            .build-package-warning-banner label {
+                color: @error_color;
+                font-weight: 700;
+            }
         """
+        )
 
     def setup_menu(self):
         """Set up the application menu."""
@@ -232,12 +249,24 @@ class BuildPackageApplication(Adw.Application):
         if self.main_window and hasattr(self.main_window, "refresh_all_widgets"):
             self.main_window.refresh_all_widgets()
 
+    def on_goto_page(self, _action, target):
+        if self.main_window and target:
+            self.main_window.switch_to_page(target.get_string())
+
     def on_shortcuts_activated(self, _action, _param):
         shortcuts_data = [
             (_("Quit"), "&lt;Ctrl&gt;Q"),
             (_("Open behavior settings"), "&lt;Ctrl&gt;comma"),
             (_("Keyboard Shortcuts"), "&lt;Ctrl&gt;question"),
             (_("Refresh Status"), "&lt;Ctrl&gt;R"),
+            (_("Start Here"), "&lt;Ctrl&gt;1"),
+            (_("Publish Changes"), "&lt;Ctrl&gt;2"),
+            (_("Organize Branches"), "&lt;Ctrl&gt;3"),
+            (_("Repository Maintenance"), "&lt;Ctrl&gt;4"),
+            (_("Behavior"), "&lt;Ctrl&gt;5"),
+            (_("Package Generation"), "&lt;Ctrl&gt;6"),
+            (_("AUR Packages"), "&lt;Ctrl&gt;7"),
+            (_("Access Tokens"), "&lt;Ctrl&gt;8"),
         ]
         shortcut_items = "\n".join(
             f'<child><object class="GtkShortcutsShortcut">'

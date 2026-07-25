@@ -192,6 +192,38 @@ class ConflictResolver:
         else:  # manual
             return self._resolve_manual(conflict_files)
 
+    def resolve_keeping_current(self, current_branch, incoming_ref, recovery_hint=""):
+        """Resolve every conflict with the current branch, saying what is dropped.
+
+        Upstream resolves this case silently. Here the user is told which files
+        lose their incoming version, and where that version remains readable,
+        before anything is written.
+        """
+        conflict_files = self.get_conflict_files()
+        if not conflict_files:
+            return True
+
+        paths = "\n".join(f"• {path}" for path in conflict_files)
+        question = _(
+            "Keep the {0} version in {1} conflicted file(s)?\n\n"
+            "The conflicting lines coming from {2} are discarded in:\n{3}\n\n"
+            "Non-conflicting changes from {2} are still merged."
+        ).format(current_branch, len(conflict_files), incoming_ref, paths)
+        if not self.menu.confirm(question, default_yes=False):
+            self.logger.log("yellow", _("Automatic conflict resolution cancelled."))
+            return False
+
+        if not self._resolve_auto_ours(conflict_files):
+            return False
+
+        self.logger.log(
+            "yellow",
+            _("Discarded the {0} version of: {1}").format(incoming_ref, ", ".join(conflict_files)),
+        )
+        if recovery_hint:
+            self.logger.log("cyan", _("The discarded version is still readable with: {0}").format(recovery_hint))
+        return True
+
     def _confirm_auto_resolution(self, conflict_files, side):
         version = _("local") if side == "ours" else _("incoming")
         paths = "\n".join(f"• {path}" for path in conflict_files)

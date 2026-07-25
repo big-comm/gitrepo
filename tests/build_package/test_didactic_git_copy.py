@@ -15,14 +15,15 @@ def test_dashboard_teaches_real_update_and_publish_commands():
 
     assert '_("Learn Git while managing this repository")' not in source
     assert '_("Download updates")' in source
-    assert "Download and combine the remote branch.\\n\\n" in source
-    assert "Local changes are preserved during the update." in source
+    assert "Downloads and combines the remote branch. Local changes are preserved." in source
+    # Commands are shown as code, in their own monospace block.
+    assert 'command_label.add_css_class("build-package-command-block")' in source
     assert "self.quick_actions_flow.set_min_children_per_line(2)" in source
     assert "self.quick_actions_flow.set_max_children_per_line(2)" in source
     assert '"git fetch origin BRANCH"' in source
     assert '"git merge --no-edit origin/BRANCH"' in source
     assert '_("Publish changes")' in source
-    assert "Record and send pending changes.\\n\\n" in source
+    assert "Records and sends pending changes." in source
     assert '"git add -A"' in source
     assert 'git commit -m "MESSAGE"' in source
     assert '"git push -u origin BRANCH"' in source

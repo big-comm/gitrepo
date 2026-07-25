@@ -10,6 +10,7 @@ gi.require_version("Adw", "1")
 from gi.repository import Gtk, Adw, GObject
 from gitrepo.common.translation import _
 
+from gitrepo.common.page_layout import page_body
 from gitrepo.common.page_hero import (
     BuildPackagePageHero as PageHero,
     git_command_description,
@@ -93,9 +94,8 @@ class AdvancedWidget(Gtk.Box):
             )
         )
 
-        page_content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=18)
-        page_content.add_css_class("page-frame")
-        self.append(page_content)
+        clamp, page_content = page_body(spacing=18)
+        self.append(clamp)
 
         # Warning banner
         warning_banner = Adw.Banner()

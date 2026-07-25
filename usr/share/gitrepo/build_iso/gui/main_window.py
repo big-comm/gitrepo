@@ -121,6 +121,10 @@ class MainWindow(Adw.ApplicationWindow):
         self.scrolled_content.set_child(self.content_stack)
 
         content_toolbar.set_content(self.scrolled_content)
+        # Pages that own a primary action publish a footer; it lives outside the
+        # scrolled area so the action never scrolls out of reach.
+        self._content_toolbar = content_toolbar
+        self._visible_footer = None
         self.split_view.set_content(content_toolbar)
 
     def create_navigation_and_pages(self):
@@ -215,6 +219,7 @@ class MainWindow(Adw.ApplicationWindow):
             title, icon_name = self.page_headers[row.page_id]
             self.compact_header_title.set_text(title)
             self.compact_header_icon.set_from_icon_name(icon_name)
+            self._apply_page_footer(row.page_id)
             self._reset_content_scroll()
             # Refresh dashboard when navigating to it
             if row.page_id == "dashboard":
@@ -223,6 +228,18 @@ class MainWindow(Adw.ApplicationWindow):
                 self.build_widget.ensure_catalog_loaded()
             elif row.page_id == "profiles":
                 self.profiles_widget.ensure_loaded()
+
+    def _apply_page_footer(self, page_id):
+        """Show only the footer owned by the visible page."""
+        page = self.content_stack.get_child_by_name(page_id)
+        footer = getattr(page, "page_footer", None)
+        if footer is self._visible_footer:
+            return
+        if self._visible_footer is not None:
+            self._content_toolbar.remove(self._visible_footer)
+        if footer is not None:
+            self._content_toolbar.add_bottom_bar(footer)
+        self._visible_footer = footer
 
     def _reset_content_scroll(self):
         adjustment = self.scrolled_content.get_vadjustment()
@@ -278,7 +295,25 @@ class MainWindow(Adw.ApplicationWindow):
             self.history_widget.refresh()
         else:
             self.show_toast(_("Build failed: {0}").format(error_msg))
+        self._notify_build_completed(success, iso_path, error_msg)
         self.refresh_environment()
+
+    def _notify_build_completed(self, success, iso_path, error_msg):
+        """Reach the user with a desktop notification after a long build."""
+        if success:
+            notification = Gio.Notification.new(_("ISO build finished"))
+            notification.set_body(
+                _("{0} is ready in {1}").format(os.path.basename(iso_path), os.path.dirname(iso_path))
+            )
+            if iso_path:
+                target = GLib.Variant.new_string(os.path.dirname(iso_path))
+                notification.set_default_action_and_target_value("app.open-build-folder", target)
+                notification.add_button_with_target_value(_("Open Folder"), "app.open-build-folder", target)
+        else:
+            notification = Gio.Notification.new(_("ISO build failed"))
+            notification.set_body(error_msg or _("Open Build ISO to review the terminal log."))
+            notification.set_priority(Gio.NotificationPriority.HIGH)
+        self.application.send_notification("build-iso-result", notification)
 
     # ── Utilities ──
 
@@ -308,7 +343,25 @@ class MainWindow(Adw.ApplicationWindow):
             return False
         self.dashboard_widget.apply_status(status, disk_status)
         self.container_widget.apply_status(manager, status)
+        self._update_environment_badge(status)
         return False
+
+    def _update_environment_badge(self, status):
+        """Count the environment problems that block a build on the sidebar."""
+        pending = int(not status.is_engine_ready) + int(not status.is_image_available)
+        row = self.nav_rows.get("container")
+        if row is None:
+            return
+        row.badge.set_text(str(pending))
+        row.badge.set_visible(pending > 0)
+        row.update_property(
+            [Gtk.AccessibleProperty.LABEL],
+            [
+                _("Build Environment — {0} item(s) need attention").format(pending)
+                if pending
+                else _("Build Environment")
+            ],
+        )
 
     def show_toast(self, message: str):
         """Show a toast notification"""

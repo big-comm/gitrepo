@@ -155,6 +155,13 @@ def _sync_branch(bp, branch: str) -> None:
         if GitUtils.resolve_divergence(branch, method, bp.logger, bp.menu):
             _log(bp, "green", _("✓ Remote changes integrated with {0}").format(method))
             return
+    # Last resort before asking for manual work: an announced merge that keeps
+    # this branch wherever the two disagree.
+    if GitUtils.resolve_divergence(
+        branch, "merge-keep-current", bp.logger, bp.menu, getattr(bp, "conflict_resolver", None)
+    ):
+        _log(bp, "green", _("✓ Remote changes integrated keeping {0}").format(branch))
+        return
     raise RuntimeError(_("Remote changes conflict with the local branch; resolve them manually."))
 
 

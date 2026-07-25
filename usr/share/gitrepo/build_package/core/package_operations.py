@@ -80,39 +80,82 @@ def commit_and_generate_package(build_package_instance, branch_type, commit_mess
     return success
 
 
+def _merge_without_conflicts(bp, incoming_ref: str) -> bool:
+    """Merge one ref, leaving no conflict state behind when it fails."""
+    result = subprocess.run_git(
+        ["git", "merge", incoming_ref, "--no-edit"], capture_output=True, text=True, check=False, intent="ordinary"
+    )
+    if result.returncode == 0:
+        return True
+    subprocess.run_git(["git", "merge", "--abort"], capture_output=True, check=False, intent="ordinary")
+    bp.logger.log(
+        "red",
+        _("Merging {0} stopped because it requires conflict resolution. No history was rewritten.").format(
+            incoming_ref
+        ),
+    )
+    return False
+
+
 def _merge_to_main(bp, source_branch):
-    """Merge a source branch without rewriting either branch history."""
+    """Sync the working branch, then fast-forward main onto it."""
+    if GitUtils.has_changes():
+        bp.logger.log("red", _("Commit or stash local changes before building a stable package."))
+        return False
+
     question = _(
-        "Merge {0} into main and push origin/main?\n"
-        "git fetch origin main\n"
+        "Publish {0} through main?\n"
+        "git fetch origin --prune\n"
+        "git merge origin/{0} --no-edit\n"
+        "git merge origin/main --no-edit\n"
+        "git push origin {0}\n"
+        "git checkout main\n"
         "git merge --ff-only origin/main\n"
         "git merge {0} --no-edit\n"
         "git push origin main"
     ).format(source_branch)
     if not bp.menu.confirm(question, default_yes=False):
         return False
+
+    original_branch = GitUtils.get_current_branch()
     try:
-        subprocess.run_git(["git", "fetch", "origin", "main"], check=True, capture_output=True, intent="ordinary")
+        subprocess.run_git(["git", "fetch", "origin", "--prune"], check=True, capture_output=True, intent="ordinary")
+
+        # The working branch is published first, so main only ever receives
+        # commits that already exist on its own remote branch.
+        if GitUtils.ref_exists(f"origin/{source_branch}") and not _merge_without_conflicts(
+            bp, f"origin/{source_branch}"
+        ):
+            return False
+        if not _merge_without_conflicts(bp, "origin/main"):
+            return False
+        subprocess.run_git(["git", "push", "origin", f"refs/heads/{source_branch}"], check=True, intent="ordinary")
+
         subprocess.run_git(["git", "checkout", "main"], check=True, intent="ordinary")
         subprocess.run_git(["git", "merge", "--ff-only", "origin/main"], check=True, intent="ordinary")
-        merge_result = subprocess.run_git(
-            ["git", "merge", source_branch, "--no-edit"], capture_output=True, text=True, check=False, intent="ordinary"
-        )
-        if merge_result.returncode != 0:
-            subprocess.run_git(["git", "merge", "--abort"], capture_output=True, check=False, intent="ordinary")
-            bp.logger.log(
-                "red",
-                _("Merge stopped because it requires conflict resolution. No history was rewritten."),
-            )
+        if not _merge_without_conflicts(bp, source_branch):
+            _restore_branch(bp, original_branch)
             return False
 
         subprocess.run_git(["git", "push", "origin", "main"], check=True, intent="ordinary")
-
+        _restore_branch(bp, original_branch)
         return True
 
     except subprocess.CalledProcessError as e:
         bp.logger.log("red", _("Error during merge: {0}").format(e))
+        _restore_branch(bp, original_branch)
         return False
+
+
+def _restore_branch(bp, branch: str) -> None:
+    """Return to the branch the user started from, reporting any failure."""
+    if not branch or GitUtils.get_current_branch() == branch:
+        return
+    result = subprocess.run_git(
+        ["git", "checkout", branch], capture_output=True, text=True, check=False, intent="ordinary"
+    )
+    if result.returncode != 0:
+        bp.logger.log("yellow", _("Could not switch back to {0}: {1}").format(branch, result.stderr.strip()))
 
 
 def _show_package_summary(bp, package_name, branch_type, working_branch, tmate_option):

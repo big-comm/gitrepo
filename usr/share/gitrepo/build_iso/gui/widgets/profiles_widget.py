@@ -11,13 +11,16 @@ gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
 from gitrepo.build_iso.core.config import (
+    RECOMMENDED_EDITIONS,
     VALID_DISTROS,
+    edition_display_name,
 )
 from gitrepo.build_iso.core.profile_catalog import ProfileCatalogResult, load_profile_catalog
 from gitrepo.common.translation import _
 from gi.repository import Adw, GLib, GObject, Gtk
 
 from gitrepo.common.page_hero import BuildIsoPageHero as PageHero
+from gitrepo.common.page_layout import page_body
 
 
 class ProfilesWidget(Gtk.Box):
@@ -51,9 +54,8 @@ class ProfilesWidget(Gtk.Box):
             )
         )
 
-        page_content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
-        page_content.add_css_class("page-frame")
-        self.append(page_content)
+        clamp, page_content = page_body()
+        self.append(clamp)
 
         # Source info
         self.header_group = Adw.PreferencesGroup()
@@ -203,13 +205,20 @@ class ProfilesWidget(Gtk.Box):
 
             for edition in editions:
                 row = Adw.ActionRow()
-                row.set_title(edition.capitalize())
-                row.set_subtitle(f"{distro_name} - {edition}")
+                row.set_title(edition_display_name(edition))
+                row.set_subtitle(_("{0} desktop image • profile folder “{1}”").format(distro_name, edition))
                 row.set_activatable(True)
 
                 icon = Gtk.Image.new_from_icon_name("build-iso-profile")
                 icon.set_pixel_size(24)
                 row.add_prefix(icon)
+
+                if edition.lower() in RECOMMENDED_EDITIONS:
+                    recommended = Gtk.Label(label=_("Recommended"))
+                    recommended.add_css_class("state-pill")
+                    recommended.add_css_class("status-ok")
+                    recommended.set_valign(Gtk.Align.CENTER)
+                    row.add_suffix(recommended)
 
                 arrow = Gtk.Image.new_from_icon_name("go-next-symbolic")
                 arrow.set_valign(Gtk.Align.CENTER)

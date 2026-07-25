@@ -9,7 +9,7 @@ import sys
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 from gitrepo.common.render_environment import configure_gtk_renderer
-from gitrepo.common.premium_style import premium_css
+from gitrepo.common.premium_style import card_css, hero_css, premium_css
 
 configure_gtk_renderer()
 
@@ -23,6 +23,9 @@ from gitrepo.common.translation import _
 from gi.repository import Adw, Gio, GLib, Gtk
 
 from gitrepo.build_iso.gui.main_window import MainWindow
+
+# Sidebar order, reused by the Ctrl+<number> shortcuts.
+PAGE_ORDER = ("dashboard", "build", "profiles", "container", "history", "settings")
 
 
 class BuildISOApplication(Adw.Application):
@@ -54,6 +57,17 @@ class BuildISOApplication(Adw.Application):
         refresh_action.connect("activate", self.on_refresh_activated)
         self.add_action(refresh_action)
         self.set_accels_for_action("app.refresh", ["<Ctrl>R", "F5"])
+
+        folder_action = Gio.SimpleAction.new("open-build-folder", GLib.VariantType.new("s"))
+        folder_action.connect("activate", self.on_open_build_folder)
+        self.add_action(folder_action)
+
+        # Direct page access keeps a six-page sidebar reachable from the keyboard.
+        page_action = Gio.SimpleAction.new("goto-page", GLib.VariantType.new("s"))
+        page_action.connect("activate", self.on_goto_page)
+        self.add_action(page_action)
+        for index, page_id in enumerate(PAGE_ORDER, start=1):
+            self.set_accels_for_action(f"app.goto-page('{page_id}')", [f"<Ctrl>{index}"])
 
     def do_activate(self):
         """Called when the application is activated"""
@@ -90,86 +104,113 @@ class BuildISOApplication(Adw.Application):
         if display:
             Gtk.StyleContext.add_provider_for_display(display, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
-    def _get_default_css(self):
+    @staticmethod
+    def _get_default_css():
+        return (
+            hero_css("build-iso")
+            + card_css("build-iso", status_min_height="104px", destination_min_width="180px")
+            + BuildISOApplication._get_build_page_css()
+        )
+
+    @staticmethod
+    def _get_build_page_css():
+        return (
+            BuildISOApplication._get_dashboard_css()
+            + BuildISOApplication._get_progress_css()
+            + BuildISOApplication._get_progress_log_css()
+            + BuildISOApplication._get_progress_state_css()
+        )
+
+    @staticmethod
+    def _get_dashboard_css():
         return """
-            row.combo popover contents modelbutton {
-                min-width: 250px;
+            .build-summary-value {
+                font-weight: 700;
             }
-            .content-canvas {
-                --dim-opacity: 72%;
+            .build-flow-step {
+                padding: 12px 14px;
+                border-radius: 14px;
+                border: 1px solid alpha(currentColor, 0.09);
+                background-color: @card_bg_color;
             }
-            .content-canvas row label.subtitle,
-            .content-canvas .caption.dim-label {
-                font-size: inherit;
-                line-height: 1.35;
-            }
-            @media (prefers-contrast: more) {
-                .content-canvas {
-                    --dim-opacity: 90%;
-                }
-            }
-            .build-action-button {
-                min-height: 48px;
+            .build-flow-number {
+                min-width: 30px;
+                min-height: 30px;
+                border-radius: 99px;
+                background-color: alpha(currentColor, 0.10);
                 font-weight: bold;
-                font-size: 1.1em;
             }
-            .build-iso-expanded-header {
-                background-image: linear-gradient(120deg,
-                    alpha(@accent_bg_color, 0.18),
-                    alpha(@accent_bg_color, 0.06) 58%,
-                    alpha(#8b5cf6, 0.10));
-                box-shadow: none;
+            .build-flow-step.flow-done .build-flow-number {
+                color: white;
+                background-color: @success_color;
             }
-            .build-iso-page-hero {
-                min-height: 56px;
-                padding: 0 32px 44px;
-                border-bottom: 1px solid alpha(@accent_color, 0.20);
-                background-image: linear-gradient(120deg,
-                    alpha(@accent_bg_color, 0.18),
-                    alpha(@accent_bg_color, 0.06) 58%,
-                    alpha(#8b5cf6, 0.10));
+            .build-flow-step.flow-current .build-flow-number {
+                color: @accent_fg_color;
+                background-color: @accent_bg_color;
             }
-            .build-iso-page-hero-icon {
-                min-width: 56px;
-                min-height: 56px;
-            }
-            .build-iso-hero-subtitle {
-                opacity: 0.82;
-            }
-            .build-iso-status-card {
-                min-height: 104px;
-                padding: 14px;
-                border-radius: 14px;
-                border: 1px solid alpha(currentColor, 0.09);
+        """
+
+    @staticmethod
+    def _get_progress_css():
+        return """
+            .build-progress-card {
+                padding: 18px 20px 16px;
+                border-radius: 16px;
+                border: 1px solid alpha(currentColor, 0.08);
                 background-color: @card_bg_color;
-                box-shadow: 0 2px 8px alpha(black, 0.06);
+                box-shadow: 0 1px 3px alpha(black, 0.05);
             }
-            .build-iso-destinations flowboxchild {
-                min-width: 180px;
-                padding: 0;
+            .build-progress-percent {
+                font-size: 2.4em;
+                font-weight: 800;
+                letter-spacing: -0.02em;
             }
-            .build-iso-destination-card {
-                min-height: 126px;
-                padding: 16px;
-                border-radius: 14px;
-                border: 1px solid alpha(currentColor, 0.09);
-                background-color: @card_bg_color;
-                box-shadow: 0 2px 8px alpha(black, 0.06);
-                transition: 180ms ease;
+            .build-progress-status {
+                font-weight: 600;
+                opacity: 0.85;
             }
-            .build-iso-destination-card:hover {
-                border-color: alpha(@accent_color, 0.42);
-                background-color: alpha(@accent_bg_color, 0.07);
-                box-shadow: 0 7px 18px alpha(black, 0.10);
-                transform: translateY(-2px);
+            .build-stat-caption {
+                font-size: 0.78em;
+                font-weight: 700;
+                letter-spacing: 0.06em;
+                text-transform: uppercase;
+                opacity: 0.55;
+            }
+            .build-stat-value {
+                font-size: 1.05em;
+                font-weight: 700;
+            }
+            .build-progress-bar trough,
+            .build-progress-bar progress {
+                min-height: 8px;
+                border-radius: 99px;
             }
             .build-steps {
-                margin: 2px 0 4px;
+                margin: 6px 0 2px;
             }
             .build-substeps {
-                padding: 7px 9px;
-                border-radius: 10px;
-                background-color: alpha(currentColor, 0.045);
+                padding: 8px 4px 0;
+                border-top: 1px solid alpha(currentColor, 0.08);
+            }
+        """
+
+    @staticmethod
+    def _get_progress_log_css():
+        return """
+            .build-log-card {
+                border-radius: 14px;
+                border: 1px solid alpha(currentColor, 0.08);
+                background-color: @card_bg_color;
+            }
+            .build-log-header {
+                padding: 6px 8px 2px 14px;
+            }
+            .build-log-view {
+                background-color: transparent;
+                font-size: 0.92em;
+            }
+            .build-action-bar {
+                padding: 10px 20px 14px;
             }
             .build-step-marker {
                 min-width: 28px;
@@ -179,27 +220,36 @@ class BuildISOApplication(Adw.Application):
                 font-weight: bold;
             }
             .build-substep-marker {
-                min-width: 20px;
-                min-height: 20px;
+                min-width: 9px;
+                min-height: 9px;
+                padding: 0;
+                font-size: 0;
                 border-radius: 99px;
-                background-color: alpha(currentColor, 0.08);
-                font-size: 0.82em;
-                font-weight: bold;
+                background-color: alpha(currentColor, 0.22);
             }
+            .build-substep-title {
+                opacity: 0.7;
+            }
+        """
+
+    @staticmethod
+    def _get_progress_state_css():
+        return """
             .step-active .build-step-marker {
                 color: @accent_fg_color;
                 background-color: @accent_bg_color;
             }
             .step-active .build-substep-marker {
-                color: @accent_fg_color;
                 background-color: @accent_bg_color;
+            }
+            .step-active .build-substep-title {
+                opacity: 1;
             }
             .step-complete .build-step-marker {
                 color: white;
                 background-color: @success_color;
             }
             .step-complete .build-substep-marker {
-                color: white;
                 background-color: @success_color;
             }
             .step-failed .build-step-marker,
@@ -256,11 +306,29 @@ class BuildISOApplication(Adw.Application):
         if self.main_window:
             self.main_window.refresh_all()
 
+    def on_open_build_folder(self, _action, target):
+        """Open an existing build folder through the desktop file manager."""
+        from gitrepo.common import child_process as subprocess
+
+        path = target.get_string() if target else ""
+        if path and os.path.isdir(path):
+            subprocess.Popen(["xdg-open", path])
+
+    def on_goto_page(self, _action, target):
+        if self.main_window and target:
+            self.main_window.on_navigate_to(self.main_window, target.get_string())
+
     def on_shortcuts_activated(self, _action, _param):
         shortcuts_data = [
             (_("Quit"), "&lt;Ctrl&gt;Q"),
             (_("Keyboard Shortcuts"), "&lt;Ctrl&gt;question"),
             (_("Refresh Status"), "&lt;Ctrl&gt;R"),
+            (_("Start Here"), "&lt;Ctrl&gt;1"),
+            (_("Create ISO"), "&lt;Ctrl&gt;2"),
+            (_("Choose Profile"), "&lt;Ctrl&gt;3"),
+            (_("Build Environment"), "&lt;Ctrl&gt;4"),
+            (_("Generated ISOs"), "&lt;Ctrl&gt;5"),
+            (_("Settings"), "&lt;Ctrl&gt;6"),
         ]
 
         shortcut_items = "\n".join(

@@ -11,6 +11,7 @@ from gitrepo.build_package.core.token_store import TokenStore
 from gitrepo.common.translation import _
 from gi.repository import Adw, Gio, GLib, Gtk
 
+from gitrepo.common.page_layout import page_body
 from gitrepo.common.page_hero import BuildPackagePageHero as PageHero
 
 
@@ -35,9 +36,8 @@ class TokenSettingsWidget(Gtk.Box):
             )
         )
 
-        content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=18)
-        content.add_css_class("page-frame")
-        self.append(content)
+        clamp, content = page_body(spacing=18)
+        self.append(clamp)
         content.append(self._create_token_guide())
 
         self.tokens_group = Adw.PreferencesGroup()
@@ -227,9 +227,8 @@ class BehaviorSettingsWidget(Gtk.Box):
             )
         )
 
-        content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=18)
-        content.add_css_class("page-frame")
-        self.append(content)
+        clamp, content = page_body(spacing=18)
+        self.append(clamp)
         content.append(self._create_conflict_group())
         content.append(self._create_safety_group())
         content.append(self._create_version_group())

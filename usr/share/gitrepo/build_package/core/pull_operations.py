@@ -18,13 +18,6 @@ def _remote_branch_exists(branch: str) -> bool:
     return result.returncode == 0 and bool(result.stdout.strip())
 
 
-def _head() -> str:
-    result = subprocess.run_git(
-        ["git", "rev-parse", "HEAD"], capture_output=True, text=True, check=False, intent="ordinary"
-    )
-    return result.stdout.strip() if result.returncode == 0 else ""
-
-
 def _create_pull_plan(bp, branch: str, should_stash: bool) -> OperationPlan:
     plan = OperationPlan(
         bp.logger,
@@ -46,7 +39,12 @@ def _create_pull_plan(bp, branch: str, should_stash: bool) -> OperationPlan:
 
 
 def _complete_merge_conflict(bp, branch: str) -> bool:
-    if not bp.conflict_resolver.resolve(branch, f"origin/{branch}"):
+    # One announced decision resolves every file; declining falls back to the
+    # per-file review. Either way the discard is never silent.
+    resolver = bp.conflict_resolver
+    if not resolver.resolve_keeping_current(
+        branch, f"origin/{branch}", recovery_hint="git diff HEAD^2 -- FILE"
+    ) and not resolver.resolve(branch, f"origin/{branch}"):
         bp.logger.log("red", _("Merge remains incomplete; resolve the listed files manually."))
         return False
     subprocess.run_git(["git", "add", "-A"], check=True, capture_output=True, intent="ordinary")
@@ -89,7 +87,7 @@ def pull_latest(build_package_instance) -> bool:
         bp.logger.log("yellow", _("The current branch has no matching branch on origin."))
         return False
 
-    before = _head()
+    before = GitUtils.get_head_sha()
     should_stash = GitUtils.has_changes()
     result = _create_pull_plan(bp, branch, should_stash).execute_with_confirmation()
     if getattr(bp, "dry_run_mode", False):
@@ -103,7 +101,7 @@ def pull_latest(build_package_instance) -> bool:
     if should_stash and not _restore_stash(bp, branch):
         return False
 
-    after = _head()
+    after = GitUtils.get_head_sha()
     outcome = _("Updated to {0}").format(after[:12]) if before != after else _("Already up to date")
     bp.logger.log("green", outcome)
     return True

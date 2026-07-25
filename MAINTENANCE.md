@@ -24,6 +24,16 @@ This document describes the maintained architecture and the shortest reliable va
 - adaptive GTK page headings;
 - network URL and render-environment helpers.
 
+`common/premium_style.py` owns the visual tokens (card radius, border, shadow,
+hero gradient) plus `hero_css()` and `card_css()`, which render those tokens for
+one product prefix. Both applications call them from `_setup_css()`; keep only
+genuinely product-specific rules in each `main_gui`. `common/page_layout.py`
+provides `page_body()`: every page appends the returned `Adw.Clamp` so body text
+stops growing at a readable measure while the hero still spans the window.
+`common/terminal_palette.py` owns the terminal-log foregrounds used by both
+progress dialogs, and `common/help_popover.py` owns the contextual `?` button
+that explains one configuration group without lengthening its description.
+
 The shared process boundary does not parse Git subcommands or options. Generic `run()` and `Popen()` calls fail closed when their argv invokes Git. Git callers must use `run_git()` with an explicit `ordinary` or `destructive` intent; destructive intent is accepted only inside an authorization scope tied to the user's confirmation.
 
 Project-owned GTK icons live directly in `usr/share/gitrepo/icons/`. Keep that
@@ -35,13 +45,59 @@ two desktop application icons mirror the system theme hierarchy under
 
 `gitrepo.build_package.cli.main_cli` is the terminal entrypoint and `gitrepo.build_package.gui.main_gui` is the GTK entrypoint. Core Git operations expose one reviewed function per user action. `RepositorySnapshot` captures the repository state outside GTK's main loop and distributes one consistent result to the visible pages.
 
+Both applications share the same page grammar: hero, clamped body, `?` help on a
+configuration group, state pills instead of bare colour, and a `page_footer`
+widget for the page's primary action. The Publish Changes footer states what the
+commit will contain and what is still missing before it can run.
+
 PKGBUILD names come from `makepkg --printsrcinfo`; do not add a second PKGBUILD parser. Destructive operations must use the existing confirmation and authorization boundary.
+
+Stable and extra packages are published only from `main`: `_merge_to_main()`
+first syncs the working branch with `origin/<branch>` and `origin/main`, pushes
+it, fast-forwards `main`, and finally restores the branch the user started from,
+while `_package_workflow_dispatch()` always sends `main` for those two types.
+A merge that needs conflict resolution is never resolved silently. The automatic
+path exists — `resolve_divergence(branch, "merge-keep-current", ...)` and
+`ConflictResolver.resolve_keeping_current()` merge with `-X ours` like upstream —
+but both first list the files that lose their incoming lines, name the branch the
+lines come from, and require confirmation; afterwards they report what was
+discarded and that `git diff HEAD^2 -- FILE` still shows it. Branch sync tries
+rebase, then merge, and only then offers this announced resolution; the pull flow
+offers it once before falling back to the per-file review.
+
+`_locate_app_version_entry()` bumps `APP_VERSION` only when one candidate file
+declares an `APP_NAME` matching the repository directory or `pkgname`. A tie
+means the repository ships several applications and the bump is skipped instead
+of guessing.
+
+The diff viewer (`gui/dialogs/diff_viewer_dialog.py`) is the one surface for
+reviewing changes: pending files from the workspace and commit pages, and the
+files a completed pull brought in.
 
 ### Build ISO
 
 `gitrepo.build_iso.cli` is the terminal entrypoint and `gitrepo.build_iso.gui.main_gui` is the GTK entrypoint. `Settings` owns the canonical atomic JSON store. `LocalConfig` is only the flat compatibility view used by the CLI/local builder.
 
 `ContainerManager.capture_status()` runs one runtime/image probe. The main window sends that immutable snapshot to both Dashboard and Build Environment. Do not add independent Docker/Podman probes to either widget.
+
+The dashboard states the build order (environment → profile → create) and marks
+each step from the same container snapshot; do not invent readiness there. A page
+may publish a `page_footer` widget: the main window moves it into the content
+`Adw.ToolbarView` bottom bar when that page becomes visible, which is how the
+Create ISO summary and its primary action stay outside the scrolled form. The
+sidebar badge on Build Environment counts the probe items that block a build.
+
+Every build writes its terminal output to `BuildLogFile`
+(`$XDG_STATE_HOME/gitrepo/build-iso/<timestamp>_<distro>-<edition>.log`, mode
+0600, newest 20 kept). Profile names come from remote catalogs, so the file name
+keeps only `[A-Za-z0-9_-]`. The history entry stores `log_path` and `iso_size`,
+which is what the history page and the desktop notification report. Remaining
+time comes from `build_estimate`: it projects from elapsed/fraction only after
+15% of the build and otherwise falls back to the median duration of comparable
+successful builds. The terminal log tags carry explicit foregrounds from
+`log_palette()` and follow `Adw.StyleManager`'s dark state.
+
+`ISOBuilder._live_setup_guard_commands()` patches `build-iso.sh` so `manjaro-tools`'s `configure_live_image()` only chroots into `/usr/bin/manjaro-live-setup` when the livefs actually ships it. `manjaro-tools-iso-git` always calls it, while stable-branch `manjaro-live-base` (20241119) still performs that setup at live boot. Remove the guard only when every supported branch ships `manjaro-live-base` 20260722 or newer.
 
 The `bigbruno` automatic profile intentionally preserves the existing compatibility combination: BigCommunity is the selected distribution name while the profile repository/build directory are BigLinux. Change those values only with an explicit product decision and a tested workflow update.
 
@@ -98,12 +154,6 @@ bash -n pkgbuild/PKGBUILD
 (cd pkgbuild && makepkg --printsrcinfo)
 ```
 
-Use the repository's final agent gate at handoff:
-
-```bash
-node "${BIGAGENTS_TOOLS:-$HOME/.agents}/scripts/agent-check.mjs" "$PWD" --mode final
-```
-
 GTK changes additionally require a private KWin/Wayland run with screenshot review, AT-SPI inspection, and the changed action's observable side effect. Never validate by opening the application on the user's visible desktop.
 
 Mypy and Pyright cover shared code and the typed Build ISO persistence/container boundary. Mypy remains strict there. Pyright narrowly disables `reportMissingModuleSource` because system PyGObject modules are available at runtime without importable Python source; `reportMissingImports` remains enabled so unresolved project imports still fail the check. Keep both sides of that contract reproducible:
@@ -129,12 +179,18 @@ gettext catalogs. Keep `Name`, `GenericName`, and `Comment` complete where each
 field applies; use `pt_BR` in desktop keys for the `pt-BR.po` catalog. The
 desktop translation contract test rejects a missing or additional language.
 
+Always recompile the MOs after touching a catalog: a stale
+`usr/share/locale/<language>/LC_MESSAGES/gitrepo.mo` shows a mixed-language
+interface even when the PO is complete. `pt-BR` is the reference catalog and is
+kept at 100%; the other 28 languages still have untranslated entries, so
+interface strings must stay short and translatable.
+
 Refresh and merge catalogs from the repository root:
 
 ```bash
 find usr/share -name '*.py' -print0 | sort -z | \
   xargs -0 xgettext --language=Python --from-code=UTF-8 --keyword=_ \
-  --package-name=GitRepo --package-version=3.7.8 \
+  --package-name=GitRepo --package-version=3.8.0 \
   --copyright-holder='BigCommunity Team' --output=locale/gitrepo.pot
 
 for catalog in locale/*.po; do

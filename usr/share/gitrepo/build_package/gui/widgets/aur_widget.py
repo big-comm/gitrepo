@@ -9,6 +9,8 @@ gi.require_version("Adw", "1")
 
 from gitrepo.common.translation import _
 
+from gitrepo.common.help_popover import help_button
+from gitrepo.common.page_layout import page_body
 from gitrepo.common.page_hero import BuildPackagePageHero as PageHero, github_action_description
 from gi.repository import Adw, GObject, Gtk
 
@@ -43,9 +45,8 @@ class AURWidget(Gtk.Box):
             )
         )
 
-        page_content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=18)
-        page_content.add_css_class("page-frame")
-        self.append(page_content)
+        clamp, page_content = page_body(spacing=18)
+        self.append(clamp)
 
         feature_group = Adw.PreferencesGroup()
         feature_group.set_title(_("GitHub AUR workflow"))
@@ -77,6 +78,16 @@ class AURWidget(Gtk.Box):
         # Package input
         package_group = Adw.PreferencesGroup()
         package_group.set_title(_("Package Information"))
+        package_group.set_header_suffix(
+            help_button(
+                _("What an AUR build does"),
+                _(
+                    "The workflow clones the package recipe from the Arch User Repository and builds "
+                    "it on GitHub. Nothing is compiled on this computer, and the recipe is maintained "
+                    "by the community, not by BigCommunity."
+                ),
+            )
+        )
         package_group.set_description(_("The package name determines the community source URL used by the build."))
 
         self.package_entry = Adw.EntryRow()

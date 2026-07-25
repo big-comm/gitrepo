@@ -10,6 +10,8 @@ gi.require_version("Adw", "1")
 from gi.repository import Gtk, Adw, GObject
 from gitrepo.common.translation import _
 
+from gitrepo.common.help_popover import help_button
+from gitrepo.common.page_layout import page_body
 from gitrepo.common.page_hero import (
     BuildPackagePageHero as PageHero,
     git_command_description,
@@ -34,15 +36,26 @@ class BranchRow(Adw.ActionRow):
 
         # Add indicators
         if is_current:
-            self.set_subtitle(_("Current branch"))
+            self.set_subtitle(_("Checked out right now"))
             current_icon = Gtk.Image.new_from_icon_name("gitrepo-status-ready-symbolic")
             current_icon.add_css_class("status-ok")
             self.add_prefix(current_icon)
-            self.add_css_class("accent")
+            # A pill states the fact; colouring the whole row only implied it.
+            pill = Gtk.Label(label=_("Current"))
+            pill.add_css_class("state-pill")
+            pill.add_css_class("status-ok")
+            pill.set_valign(Gtk.Align.CENTER)
+            self.add_suffix(pill)
+        else:
+            self.set_subtitle(_("Select to run git checkout"))
 
         if is_remote:
             remote_icon = Gtk.Image.new_from_icon_name("network-server-symbolic")
+            remote_icon.set_tooltip_text(_("Exists only on origin; it is created locally on first checkout"))
             self.add_suffix(remote_icon)
+
+        if not is_current:
+            self.add_suffix(Gtk.Image.new_from_icon_name("go-next-symbolic"))
 
 
 class BranchWidget(Gtk.Box):
@@ -80,9 +93,8 @@ class BranchWidget(Gtk.Box):
             )
         )
 
-        page_content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=18)
-        page_content.add_css_class("page-frame")
-        self.append(page_content)
+        clamp, page_content = page_body(spacing=18)
+        self.append(clamp)
 
         # Current status
         status_group = Adw.PreferencesGroup()
@@ -158,6 +170,16 @@ class BranchWidget(Gtk.Box):
         # Merge operations
         merge_group = Adw.PreferencesGroup()
         merge_group.set_title(_("Propose branch integration"))
+        merge_group.set_header_suffix(
+            help_button(
+                _("How integration works"),
+                _(
+                    "The source branch is the one carrying your work; the target is where it should "
+                    "land. GitRepo opens a pull request on GitHub instead of merging locally, so the "
+                    "review and the checks still run."
+                ),
+            )
+        )
         merge_group.set_description(
             github_action_description(_("open a Pull Request from the source branch to the target branch"))
         )
