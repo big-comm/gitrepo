@@ -25,9 +25,9 @@ from .widgets.advanced_widget import AdvancedWidget
 from .widgets.aur_widget import AURWidget
 from .widgets.branch_widget import BranchWidget
 from .widgets.commit_widget import CommitWidget
-from .widgets.overview_widget import OverviewWidget
 from .widgets.package_widget import PackageWidget
 from .widgets.settings_widgets import BehaviorSettingsWidget, TokenSettingsWidget
+from .widgets.page_shells import StackedPage, TabbedPage
 
 
 class MainWindow(RepositoryActionsMixin, BranchActionsMixin, Adw.ApplicationWindow):
@@ -198,60 +198,45 @@ class MainWindow(RepositoryActionsMixin, BranchActionsMixin, Adw.ApplicationWind
             self.show_error_dialog(_("Failed to initialize: {0}").format(str(e)))
 
     def create_navigation_and_pages(self):
-        """Create stable local and GitHub navigation sections."""
+        """Create the four destinations of the packaging journey."""
 
-        # Core widgets (always visible)
-        self.overview_widget = OverviewWidget(self.build_package)
+        # Publishing owns the workspace facts it acts on; packaging and the
+        # settings group their sibling contexts behind a view switcher.
         self.commit_widget = CommitWidget(self.build_package)
         self.branch_widget = BranchWidget(self.build_package)
-        self.advanced_widget = AdvancedWidget(self.build_package)
-        self.behavior_widget = BehaviorSettingsWidget(self, self.settings)
+        self.package_widget = PackageWidget(self.build_package, self.settings, show_hero=False)
+        self.aur_widget = AURWidget(self.build_package, self.settings, show_hero=False)
+        self.behavior_widget = BehaviorSettingsWidget(self, self.settings, show_hero=False)
+        self.tokens_widget = TokenSettingsWidget(self, show_hero=False)
+        self.advanced_widget = AdvancedWidget(self.build_package, show_hero=False)
 
-        # Optional workflows always have visible explanation/configuration
-        # pages. Their settings only reveal or hide the executable workflow.
-        self.package_widget = PackageWidget(self.build_package, self.settings)
-        self.aur_widget = AURWidget(self.build_package, self.settings)
-        self.tokens_widget = TokenSettingsWidget(self)
+        self.packages_page = TabbedPage(
+            "build-package-package",
+            _("Build and publish packages"),
+            _("Start a build on GitHub Actions from this repository or from a community source."),
+            [
+                ("repository", _("This repository"), "build-package-package", self.package_widget),
+                ("aur", _("AUR"), "build-package-aur", self.aur_widget),
+            ],
+        )
+        # Settings stay one scroll: behavior, then GitHub access, then the
+        # destructive maintenance that keeps its own warning banner.
+        self.settings_page = StackedPage(
+            "build-package-advanced",
+            _("Settings and repository maintenance"),
+            _("Local Git behavior, GitHub access, and the destructive operations that need confirmation."),
+            [self.behavior_widget, self.tokens_widget, self.advanced_widget],
+        )
 
-        # Connect widget signals
         self.connect_widget_signals()
 
         pages = [
-            (self.overview_widget, "overview", _("Start Here"), "build-package-overview", "local"),
-            (
-                self.commit_widget,
-                "commit",
-                _("Publish Changes"),
-                "build-package-commit",
-                "local",
-            ),
+            (self.commit_widget, "publish", _("Publish Changes"), "build-package-commit", "local"),
             (self.branch_widget, "branches", _("Organize Branches"), "build-package-branches", "local"),
-            (
-                self.advanced_widget,
-                "advanced",
-                _("Repository Maintenance"),
-                "build-package-advanced",
-                "local",
-            ),
-            (self.behavior_widget, "behavior", _("Behavior"), "preferences-system-symbolic", "local"),
-            (
-                self.package_widget,
-                "package",
-                _("Package Generation"),
-                "build-package-package",
-                "github",
-            ),
-            (self.aur_widget, "aur", _("AUR Packages"), "build-package-aur", "github"),
-            (
-                self.tokens_widget,
-                "tokens",
-                _("Access Tokens"),
-                "security-high-symbolic",
-                "github",
-            ),
+            (self.packages_page, "packages", _("Packages"), "build-package-package", "github"),
+            (self.settings_page, "settings", _("Settings"), "build-package-advanced", "local"),
         ]
 
-        # Store navigation metadata for badges and the condensed header.
         self.nav_rows = {}
         self.page_headers = {}
 
@@ -260,11 +245,9 @@ class MainWindow(RepositoryActionsMixin, BranchActionsMixin, Adw.ApplicationWind
             self.page_headers[page_id] = (title, icon_name)
             self._append_navigation_row(page_id, title, icon_name, section)
 
-        # Select first page
         self.nav_list.select_row(self.nav_list.get_row_at_index(0))
-        self.content_stack.set_visible_child_name("overview")
+        self.content_stack.set_visible_child_name("publish")
 
-        # Initial badge update
         GLib.idle_add(self.update_nav_badges)
 
     def _append_navigation_row(self, page_id, title, icon_name, section="local"):
@@ -308,8 +291,8 @@ class MainWindow(RepositoryActionsMixin, BranchActionsMixin, Adw.ApplicationWind
         """Connect signals from all widgets"""
 
         # Overview widget signals
-        self.overview_widget.connect("quick-action", self.on_quick_action)
-        self.overview_widget.connect("refresh-requested", self.on_overview_refresh)
+        self.commit_widget.connect("quick-action", self.on_quick_action)
+        self.commit_widget.connect("refresh-requested", self.on_overview_refresh)
 
         # Commit widget signals
         self.commit_widget.connect("commit-requested", self.on_commit_requested)
@@ -376,7 +359,7 @@ class MainWindow(RepositoryActionsMixin, BranchActionsMixin, Adw.ApplicationWind
 
     def on_preferences_activated(self, _action, _param):
         """Keep Ctrl+, useful while making settings visible in the sidebar."""
-        self.switch_to_page("behavior")
+        self.switch_to_page("settings")
 
     def on_about_activated(self, _action, _param):
         """Handle about action - show About dialog"""
@@ -515,8 +498,8 @@ class MainWindow(RepositoryActionsMixin, BranchActionsMixin, Adw.ApplicationWind
         self.aur_widget.sync_feature_enabled()
         self.behavior_widget.sync_from_settings()
 
-        if hasattr(self, "overview_widget"):
-            self.overview_widget.refresh_quick_actions()
+        if hasattr(self, "package_widget"):
+            self.package_widget.sync_from_settings()
 
     def refresh_all_widgets(self):
         """Capture repository state off the GTK main loop and discard stale replies."""
@@ -543,7 +526,7 @@ class MainWindow(RepositoryActionsMixin, BranchActionsMixin, Adw.ApplicationWind
         self._repository_snapshot = snapshot
         self.build_package.is_git_repo = snapshot.is_repository
         self._apply_header_snapshot(snapshot)
-        for attribute in ("overview_widget", "commit_widget", "package_widget", "branch_widget", "advanced_widget"):
+        for attribute in ("commit_widget", "package_widget", "branch_widget", "advanced_widget"):
             widget = getattr(self, attribute, None)
             if widget and hasattr(widget, "apply_snapshot"):
                 widget.apply_snapshot(snapshot)
@@ -555,9 +538,9 @@ class MainWindow(RepositoryActionsMixin, BranchActionsMixin, Adw.ApplicationWind
         if not hasattr(self, "nav_rows"):
             return False
         snapshot = snapshot or getattr(self, "_repository_snapshot", None)
-        if not snapshot or "commit" not in self.nav_rows:
+        if not snapshot or "publish" not in self.nav_rows:
             return False
-        row = self.nav_rows["commit"]
+        row = self.nav_rows["publish"]
         row.badge.remove_css_class("warning")
         changes = len(snapshot.changed_files) if snapshot.has_changes else 0
         row.badge.set_visible(changes > 0)

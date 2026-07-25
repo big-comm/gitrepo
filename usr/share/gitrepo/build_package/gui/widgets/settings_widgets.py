@@ -11,6 +11,7 @@ from gitrepo.build_package.core.token_store import TokenStore
 from gitrepo.common.translation import _
 from gi.repository import Adw, Gio, GLib, Gtk
 
+from gitrepo.common.help_popover import help_button
 from gitrepo.common.page_layout import page_body
 from gitrepo.common.page_hero import BuildPackagePageHero as PageHero
 
@@ -18,27 +19,28 @@ from gitrepo.common.page_hero import BuildPackagePageHero as PageHero
 class TokenSettingsWidget(Gtk.Box):
     """Explain and manage GitHub tokens without exposing their values."""
 
-    def __init__(self, parent_window):
+    def __init__(self, parent_window, show_hero: bool = True):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         self.parent_window = parent_window
+        self._show_hero = show_hero
         self._token_rows = []
         self._create_ui()
         self._refresh_token_rows()
 
     def _create_ui(self):
-        self.append(
-            PageHero(
-                "build-package-repository",
-                _("Connect GitHub securely"),
-                _(
-                    "Local Git commands do not need a token. A token is used only when this app asks GitHub to run package workflows or manage remote automation."
-                ),
+        if self._show_hero:
+            self.append(
+                PageHero(
+                    "build-package-repository",
+                    _("Connect GitHub securely"),
+                    _(
+                        "Local Git commands do not need a token. A token is used only when this app asks GitHub to run package workflows or manage remote automation."
+                    ),
+                )
             )
-        )
 
         clamp, content = page_body(spacing=18)
         self.append(clamp)
-        content.append(self._create_token_guide())
 
         self.tokens_group = Adw.PreferencesGroup()
         self.tokens_group.set_title(_("Tokens saved on this computer"))
@@ -48,23 +50,19 @@ class TokenSettingsWidget(Gtk.Box):
         content.append(self.tokens_group)
         content.append(self._create_token_form())
 
-    def _create_token_guide(self):
-        guide_group = Adw.PreferencesGroup()
-        guide_group.set_title(_("Before adding a token"))
-        guide_group.set_description(
+    def _token_help(self):
+        """Explain the token once, on demand, instead of as three rows."""
+        return help_button(
+            _("About GitHub access tokens"),
             _(
-                "The token authorizes GitHub operations for one organization or user. Saving it does not verify that its permissions are valid."
-            )
+                "The token identifies your account so the app can start GitHub workflows that Git alone "
+                "cannot. It authorizes one organization or user, and saving it does not verify its "
+                "permissions. Package workflows need: repo, workflow, write:packages, delete:packages, "
+                "read:org."
+            ),
         )
 
-        purpose_row = Adw.ActionRow()
-        purpose_row.set_title(_("Why GitHub needs it"))
-        purpose_row.set_subtitle(
-            _("GitHub uses the token to identify your account and authorize workflows that Git alone cannot start.")
-        )
-        purpose_row.add_prefix(Gtk.Image.new_from_icon_name("security-high-symbolic"))
-        guide_group.add(purpose_row)
-
+    def _create_token_link_row(self):
         link_row = Adw.ActionRow()
         link_row.set_title(_("Create a classic access token on GitHub"))
         link_row.set_subtitle("github.com/settings/tokens → Generate new token (classic)")
@@ -74,18 +72,13 @@ class TokenSettingsWidget(Gtk.Box):
         link_row.connect(
             "activated", lambda _row: Gio.AppInfo.launch_default_for_uri("https://github.com/settings/tokens", None)
         )
-        guide_group.add(link_row)
-
-        scopes_row = Adw.ActionRow()
-        scopes_row.set_title(_("Permissions required by the package workflows"))
-        scopes_row.set_subtitle("repo  ·  workflow  ·  write:packages  ·  delete:packages  ·  read:org")
-        scopes_row.add_prefix(Gtk.Image.new_from_icon_name("emblem-ok-symbolic"))
-        guide_group.add(scopes_row)
-        return guide_group
+        return link_row
 
     def _create_token_form(self):
         add_group = Adw.PreferencesGroup()
         add_group.set_title(_("Save or replace an access token"))
+        add_group.set_header_suffix(self._token_help())
+        add_group.add(self._create_token_link_row())
         add_group.set_description(
             _("Use the GitHub organization or username that owns the repositories where workflows will run.")
         )
@@ -208,35 +201,44 @@ class BehaviorSettingsWidget(Gtk.Box):
 
     STRATEGIES = ("interactive", "auto-ours", "auto-theirs", "manual")
 
-    def __init__(self, parent_window, settings):
+    def __init__(self, parent_window, settings, show_hero: bool = True):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         self.parent_window = parent_window
         self.settings = settings
+        self._show_hero = show_hero
         self._is_syncing = False
         self._create_ui()
         self.sync_from_settings()
 
     def _create_ui(self):
-        self.append(
-            PageHero(
-                "build-package-advanced",
-                _("Choose how local Git operations behave"),
-                _(
-                    "These settings affect work in the current repository. They do not connect to GitHub and do not require an access token."
-                ),
+        if self._show_hero:
+            self.append(
+                PageHero(
+                    "build-package-advanced",
+                    _("Choose how local Git operations behave"),
+                    _(
+                        "These settings affect work in the current repository. They do not connect to GitHub and do not require an access token."
+                    ),
+                )
             )
-        )
 
         clamp, content = page_body(spacing=18)
         self.append(clamp)
         content.append(self._create_conflict_group())
-        content.append(self._create_safety_group())
         content.append(self._create_version_group())
-        content.append(self._create_reset_group())
 
     def _create_conflict_group(self):
         conflict_group = Adw.PreferencesGroup()
         conflict_group.set_title(_("When downloaded and local changes conflict"))
+        conflict_group.set_header_suffix(
+            help_button(
+                _("Protection against data loss"),
+                _(
+                    "Safety confirmations are part of the app and cannot be disabled: it always asks "
+                    "before a force push, a hard reset, branch cleanup, tag deletion, or workflow deletion."
+                ),
+            )
+        )
         conflict_group.set_description(
             _("Choose whether the app asks you what to keep or stops so you can resolve the conflict manually.")
         )
@@ -252,22 +254,9 @@ class BehaviorSettingsWidget(Gtk.Box):
         conflict_group.add(self.strategy_row)
         return conflict_group
 
-    def _create_safety_group(self):
-        safety_group = Adw.PreferencesGroup()
-        safety_group.set_title(_("Protection against data loss"))
-        safety_group.set_description(_("Safety confirmations are part of the app and cannot be disabled."))
-        confirm_row = Adw.ActionRow()
-        confirm_row.set_title(_("Confirm destructive Git operations"))
-        confirm_row.set_subtitle(
-            _("The app asks before force push, hard reset, branch cleanup, tag deletion, or workflow deletion.")
-        )
-        confirm_row.add_prefix(Gtk.Image.new_from_icon_name("security-high-symbolic"))
-        safety_group.add(confirm_row)
-        return safety_group
-
     def _create_version_group(self):
         version_group = Adw.PreferencesGroup()
-        version_group.set_title(_("Package version"))
+        version_group.set_title(_("Package version and defaults"))
         self.auto_version_row = Adw.SwitchRow()
         self.auto_version_row.set_title(_("Update the package version automatically"))
         self.auto_version_row.set_subtitle(
@@ -275,11 +264,7 @@ class BehaviorSettingsWidget(Gtk.Box):
         )
         self.auto_version_row.connect("notify::active", self._on_auto_version_changed)
         version_group.add(self.auto_version_row)
-        return version_group
 
-    def _create_reset_group(self):
-        reset_group = Adw.PreferencesGroup()
-        reset_group.set_title(_("Restore the original configuration"))
         reset_row = Adw.ActionRow()
         reset_row.set_title(_("Reset all Build Package settings"))
         reset_row.set_subtitle(_("Disable optional GitHub workflows and restore the recommended local Git behavior."))
@@ -288,8 +273,8 @@ class BehaviorSettingsWidget(Gtk.Box):
         reset_button.add_css_class("destructive-action")
         reset_button.connect("clicked", self._on_reset_clicked)
         reset_row.add_suffix(reset_button)
-        reset_group.add(reset_row)
-        return reset_group
+        version_group.add(reset_row)
+        return version_group
 
     def sync_from_settings(self):
         self._is_syncing = True

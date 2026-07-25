@@ -6,6 +6,7 @@ from dataclasses import dataclass
 
 from gitrepo.common import child_process as subprocess
 
+from .git_status import STATUS_COMMAND, parse_status_records
 from .git_utils import GitUtils
 
 
@@ -34,7 +35,7 @@ class RepositorySnapshot:
     def capture(cls) -> "RepositorySnapshot":
         if not _succeeds(["git", "rev-parse", "--is-inside-work-tree"]):
             return cls(is_repository=False)
-        status = _run(["git", "status", "--porcelain=v1"])
+        status = _run_bytes(list(STATUS_COMMAND))
         branch_result = _run(["git", "symbolic-ref", "--quiet", "--short", "HEAD"])
         is_detached = branch_result.returncode != 0
         branch = branch_result.stdout.strip() if not is_detached else _output(["git", "rev-parse", "--short", "HEAD"])
@@ -50,8 +51,10 @@ class RepositorySnapshot:
             repository_name=GitUtils.get_repo_name(),
             branch=branch,
             is_detached=is_detached,
-            changed_files=_parse_status(status.stdout) if status.returncode == 0 else (),
-            status_error=(status.stderr.strip() or "git status failed") if status.returncode != 0 else "",
+            changed_files=parse_status_records(status.stdout) if status.returncode == 0 else (),
+            status_error=(status.stderr.decode(errors="replace").strip() or "git status failed")
+            if status.returncode != 0
+            else "",
             commit_count=int(commit_count_text) if commit_count_text.isdigit() else 0,
             last_commit=_output(["git", "log", "-1", "--pretty=format:%h|%s"]),
             can_undo_last_commit=_can_undo(branch, is_detached),
@@ -67,6 +70,11 @@ def _run(command: list[str]):
     return subprocess.run_git(command, capture_output=True, text=True, check=False, intent="ordinary")
 
 
+def _run_bytes(command: list[str]):
+    """Run a Git command whose output carries raw path bytes."""
+    return subprocess.run_git(command, capture_output=True, check=False, intent="ordinary")
+
+
 def _succeeds(command: list[str]) -> bool:
     return _run(command).returncode == 0
 
@@ -78,10 +86,6 @@ def _output(command: list[str]) -> str:
 
 def _lines(command: list[str]) -> tuple[str, ...]:
     return tuple(line for line in _output(command).splitlines() if line)
-
-
-def _parse_status(output: str) -> tuple[tuple[str, str], ...]:
-    return tuple((line[:2].strip() or "?", line[3:]) for line in output.splitlines() if len(line) >= 4)
 
 
 def _can_undo(branch: str, is_detached: bool) -> bool:

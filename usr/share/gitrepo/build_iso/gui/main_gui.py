@@ -19,13 +19,14 @@ gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
 from gitrepo.build_iso.core.config import APP_DESCRIPTION, APP_ID, APP_NAME, APP_VERSION
+from gitrepo.common.desktop_launch import open_path
 from gitrepo.common.translation import _
 from gi.repository import Adw, Gio, GLib, Gtk
 
 from gitrepo.build_iso.gui.main_window import MainWindow
 
 # Sidebar order, reused by the Ctrl+<number> shortcuts.
-PAGE_ORDER = ("dashboard", "build", "profiles", "container", "history", "settings")
+PAGE_ORDER = ("build", "history", "settings")
 
 
 class BuildISOApplication(Adw.Application):
@@ -126,6 +127,20 @@ class BuildISOApplication(Adw.Application):
         return """
             .build-summary-value {
                 font-weight: 700;
+            }
+            .build-iso-editions flowboxchild {
+                padding: 0;
+            }
+            .build-iso-edition-card {
+                padding: 12px 14px;
+                border-radius: 12px;
+                border: 1px solid alpha(currentColor, 0.10);
+                background-color: @card_bg_color;
+                box-shadow: none;
+            }
+            .build-iso-edition-card:checked {
+                border-color: @accent_color;
+                background-color: alpha(@accent_bg_color, 0.12);
             }
             .build-flow-step {
                 padding: 12px 14px;
@@ -308,11 +323,9 @@ class BuildISOApplication(Adw.Application):
 
     def on_open_build_folder(self, _action, target):
         """Open an existing build folder through the desktop file manager."""
-        from gitrepo.common import child_process as subprocess
-
         path = target.get_string() if target else ""
         if path and os.path.isdir(path):
-            subprocess.Popen(["xdg-open", path])
+            open_path(self.main_window, path)
 
     def on_goto_page(self, _action, target):
         if self.main_window and target:
@@ -323,12 +336,9 @@ class BuildISOApplication(Adw.Application):
             (_("Quit"), "&lt;Ctrl&gt;Q"),
             (_("Keyboard Shortcuts"), "&lt;Ctrl&gt;question"),
             (_("Refresh Status"), "&lt;Ctrl&gt;R"),
-            (_("Start Here"), "&lt;Ctrl&gt;1"),
-            (_("Create ISO"), "&lt;Ctrl&gt;2"),
-            (_("Choose Profile"), "&lt;Ctrl&gt;3"),
-            (_("Build Environment"), "&lt;Ctrl&gt;4"),
-            (_("Generated ISOs"), "&lt;Ctrl&gt;5"),
-            (_("Settings"), "&lt;Ctrl&gt;6"),
+            (_("Create ISO"), "&lt;Ctrl&gt;1"),
+            (_("Generated ISOs"), "&lt;Ctrl&gt;2"),
+            (_("Settings"), "&lt;Ctrl&gt;3"),
         ]
 
         shortcut_items = "\n".join(

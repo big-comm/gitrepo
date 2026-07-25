@@ -37,14 +37,14 @@ def test_snapshot_does_not_report_clean_when_status_fails(build_package_modules,
     snapshots = importlib.import_module("gitrepo.build_package.core.repository_snapshot")
     repository = create_repository(tmp_path)
     monkeypatch.chdir(repository)
-    original_run = snapshots._run
+    original_run_bytes = snapshots._run_bytes
 
     def fail_status(command):
-        if command[:3] == ["git", "status", "--porcelain=v1"]:
-            return subprocess.CompletedProcess(command, 128, "", "status unavailable")
-        return original_run(command)
+        if command[:2] == ["git", "status"]:
+            return subprocess.CompletedProcess(command, 128, b"", b"status unavailable")
+        return original_run_bytes(command)
 
-    monkeypatch.setattr(snapshots, "_run", fail_status)
+    monkeypatch.setattr(snapshots, "_run_bytes", fail_status)
     snapshot = snapshots.RepositorySnapshot.capture()
 
     assert snapshot.is_repository is True

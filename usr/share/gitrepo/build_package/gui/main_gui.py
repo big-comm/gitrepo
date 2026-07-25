@@ -25,7 +25,7 @@ from gi.repository import Adw, Gio, GLib, Gtk
 from gitrepo.build_package.gui.main_window import MainWindow
 
 # Sidebar order, reused by the Ctrl+<number> shortcuts.
-PAGE_ORDER = ("overview", "commit", "branches", "advanced", "behavior", "package", "aur", "tokens")
+PAGE_ORDER = ("publish", "branches", "packages", "settings")
 
 
 class BuildPackageApplication(Adw.Application):
@@ -130,15 +130,6 @@ class BuildPackageApplication(Adw.Application):
                 min-width: 190px;
                 padding: 0;
             }
-            .build-package-action-button {
-                min-height: 44px;
-                font-weight: bold;
-            }
-            .build-package-primary-action {
-                min-height: 48px;
-                font-weight: bold;
-                font-size: 1.05em;
-            }
             .build-package-warning-banner {
                 margin-bottom: 2px;
             }
@@ -182,6 +173,9 @@ class BuildPackageApplication(Adw.Application):
             .build-package-diff-view {
                 background-color: transparent;
                 font-size: 0.92em;
+            }
+            .build-package-page-switcher {
+                min-width: 320px;
             }
             .build-package-step-number {
                 min-width: 24px;
@@ -243,7 +237,7 @@ class BuildPackageApplication(Adw.Application):
 
     def on_preferences_activated(self, _action, _param):
         if self.main_window:
-            self.main_window.switch_to_page("behavior")
+            self.main_window.switch_to_page("settings")
 
     def on_refresh_activated(self, _action, _param):
         if self.main_window and hasattr(self.main_window, "refresh_all_widgets"):
@@ -259,14 +253,10 @@ class BuildPackageApplication(Adw.Application):
             (_("Open behavior settings"), "&lt;Ctrl&gt;comma"),
             (_("Keyboard Shortcuts"), "&lt;Ctrl&gt;question"),
             (_("Refresh Status"), "&lt;Ctrl&gt;R"),
-            (_("Start Here"), "&lt;Ctrl&gt;1"),
-            (_("Publish Changes"), "&lt;Ctrl&gt;2"),
-            (_("Organize Branches"), "&lt;Ctrl&gt;3"),
-            (_("Repository Maintenance"), "&lt;Ctrl&gt;4"),
-            (_("Behavior"), "&lt;Ctrl&gt;5"),
-            (_("Package Generation"), "&lt;Ctrl&gt;6"),
-            (_("AUR Packages"), "&lt;Ctrl&gt;7"),
-            (_("Access Tokens"), "&lt;Ctrl&gt;8"),
+            (_("Publish Changes"), "&lt;Ctrl&gt;1"),
+            (_("Organize Branches"), "&lt;Ctrl&gt;2"),
+            (_("Packages"), "&lt;Ctrl&gt;3"),
+            (_("Settings"), "&lt;Ctrl&gt;4"),
         ]
         shortcut_items = "\n".join(
             f'<child><object class="GtkShortcutsShortcut">'

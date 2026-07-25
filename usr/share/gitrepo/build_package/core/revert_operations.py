@@ -5,11 +5,26 @@
 # All rights reserved.
 #
 
+import os
+
 from gitrepo.common import child_process as subprocess
 from gitrepo.common.child_process import authorize_destructive_git
 
+from .git_status import display_path
+from .repository_lock import journey
 from .git_utils import GitUtils
 from gitrepo.common.translation import _
+
+# An unfinished Git operation owns the index; rewriting the tree under it
+# destroys the state the user still needs to finish or abort it.
+SEQUENCER_MARKERS = (
+    "MERGE_HEAD",
+    "REVERT_HEAD",
+    "CHERRY_PICK_HEAD",
+    "BISECT_LOG",
+    "rebase-merge",
+    "rebase-apply",
+)
 
 # ---------------------------------------------------------------------------
 # Public entry point
@@ -138,13 +153,15 @@ def show_revert_preview(bp, commit: dict, revert_method: str) -> None:
         ]
 
         if revert_method == "revert":
-            preview_data.append((_("Result"), _("Code will be restored to this commit's exact state")))
+            preview_data.append((_("Result"), _("Every tracked file returns to this commit's exact state")))
+            preview_data.append((_("Files added later"), _("Removed, so the restored state is complete")))
             preview_data.append((_("New Commit"), _("Will create new commit with restored state")))
             preview_data.append((_("History"), _("All commits remain in history (non-destructive)")))
             preview_data.append((_("Current Code"), f"From {current_commit} → To {short_hash}"))
         else:
             preview_data.append((_("Result"), _("Repository will be reset to this commit")))
             preview_data.append((_("History"), _("Commits after this will be removed from history")))
+        preview_data.append((_("Uncommitted work"), _("Required to be empty; the operation refuses otherwise")))
 
         bp.logger.display_summary(_("Revert Preview"), preview_data)
 
@@ -180,15 +197,94 @@ def show_revert_preview(bp, commit: dict, revert_method: str) -> None:
 
 
 # ---------------------------------------------------------------------------
+# Preconditions
+# ---------------------------------------------------------------------------
+
+
+def uncommitted_paths() -> list[str]:
+    """Return every uncommitted path, raising when Git cannot answer.
+
+    Both revert methods overwrite the working tree, and uncommitted work has no
+    reflog to recover from. A Git failure here must read as unknown, never clean.
+    """
+    result = subprocess.run_git(
+        ["git", "status", "--porcelain", "-z"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        check=True,
+        intent="ordinary",
+    )
+    records = [record for record in result.stdout.split("\0") if record]
+    paths = []
+    index = 0
+    while index < len(records):
+        record = records[index]
+        paths.append(record[3:] if len(record) > 3 else record)
+        # A rename or copy spends a second record on its origin path.
+        if record[:2].strip("? ") and ("R" in record[:2] or "C" in record[:2]):
+            index += 1
+        index += 1
+    return paths
+
+
+def active_sequencer_operation() -> str:
+    """Name the unfinished merge, revert, cherry-pick, bisect, or rebase."""
+    result = subprocess.run_git(
+        ["git", "rev-parse", "--git-dir"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        check=True,
+        intent="ordinary",
+    )
+    git_dir = result.stdout.strip()
+    for marker in SEQUENCER_MARKERS:
+        if os.path.exists(os.path.join(git_dir, marker)):
+            return marker
+    return ""
+
+
+def _repository_is_busy(bp) -> bool:
+    """Report why the working tree cannot be rewritten, or False when it can."""
+    try:
+        pending = uncommitted_paths()
+        operation = active_sequencer_operation()
+    except (subprocess.SubprocessError, OSError) as error:
+        bp.logger.log("red", _("Could not read the repository state: {0}").format(error))
+        bp.logger.log("cyan", _("Nothing was changed. Resolve the Git error and try again."))
+        return True
+
+    if pending:
+        preview = "\n".join(f"• {display_path(path)}" for path in pending[:10])
+        if len(pending) > 10:
+            preview += _("\n• … and {0} more").format(len(pending) - 10)
+        bp.logger.log("red", _("{0} uncommitted file(s) would be destroyed by this operation:").format(len(pending)))
+        bp.logger.log("white", preview)
+        bp.logger.log("cyan", _("Commit or stash them first: git stash push -u"))
+        return True
+
+    if operation:
+        bp.logger.log("red", _("A {0} operation is still in progress.").format(operation))
+        bp.logger.log("cyan", _("Finish or abort it first, then retry."))
+        return True
+    return False
+
+
+# ---------------------------------------------------------------------------
 # Execute
 # ---------------------------------------------------------------------------
 
 
+@journey("restoring a commit", False)
 def execute_revert(bp, commit: dict, revert_method: str, current_branch: str, *, confirmed: bool = False) -> bool:
     """Perform the revert or reset and return success status."""
     if not confirmed:
         bp.logger.log("yellow", _("Operation requires explicit confirmation."))
         return False
+    if _repository_is_busy(bp):
+        return False
+    entry_head = GitUtils.get_head_sha()
     try:
         commit_hash = commit["hash"]
         short_hash = commit_hash[:7]
@@ -212,96 +308,144 @@ def execute_revert(bp, commit: dict, revert_method: str, current_branch: str, *,
     except subprocess.CalledProcessError as e:
         error_msg = e.stderr.strip() if hasattr(e, "stderr") and e.stderr else str(e)
         bp.logger.log("red", _("Error during {0}: {1}").format(revert_method, error_msg))
-        _cleanup_revert_state()
+        _report_recovery(bp, entry_head)
         return False
     except Exception as e:
         bp.logger.log("red", _("Unexpected error during {0}: {1}").format(revert_method, str(e)))
+        _report_recovery(bp, entry_head)
         return False
 
 
 def _execute_revert_method(
     bp, commit_hash: str, current_branch: str, remote_exists: bool, *, confirmed: bool = False
 ) -> bool:
-    """Restore the working tree to *commit_hash* and create a new commit."""
+    """Restore the working tree to *commit_hash* and create a new commit.
+
+    Failures propagate to :func:`execute_revert`, which owns the entry revision
+    and reports the exact command that restores it.
+    """
     if not confirmed:
         return False
+    bp.logger.log("cyan", _("Getting commit information..."))
+    commit_message_result = subprocess.run_git(
+        ["git", "log", "-1", "--pretty=format:%s", commit_hash],
+        stdout=subprocess.PIPE,
+        text=True,
+        check=True,
+        intent="ordinary",
+    )
+    original_message = commit_message_result.stdout.strip()
+
+    bp.logger.log("cyan", _("Restoring code state from selected commit..."))
+    # read-tree makes the index and working tree match the target tree exactly,
+    # including files added later; `checkout -- .` would leave them behind.
+    with authorize_destructive_git():
+        subprocess.run_git(["git", "read-tree", "-u", "--reset", commit_hash], check=True, intent="destructive")
+
+    status_result = subprocess.run_git(
+        ["git", "status", "--porcelain"], stdout=subprocess.PIPE, text=True, check=True, intent="ordinary"
+    )
+    if not status_result.stdout.strip():
+        bp.logger.log("yellow", _("No changes detected - code is already at selected state"))
+        return True
+
+    new_commit_message = (
+        f"Revert to: {original_message}\n\nThis restores the complete state from commit {commit_hash[:7]}."
+    )
+    bp.logger.log("cyan", _("Creating revert commit..."))
+    subprocess.run_git(["git", "commit", "-m", new_commit_message], check=True, intent="ordinary")
+
+    bp.logger.log("green", _("Revert completed successfully - code restored to selected commit state"))
+    return _push_revert_changes(bp, current_branch, remote_exists)
+
+
+def observed_remote_oid(branch: str) -> str:
+    """Return the origin tip this rewrite decision is based on, or an empty string."""
+    subprocess.run_git(
+        ["git", "fetch", "origin", f"+refs/heads/{branch}:refs/remotes/origin/{branch}"],
+        capture_output=True,
+        check=True,
+        intent="ordinary",
+    )
+    result = subprocess.run_git(
+        ["git", "rev-parse", "--verify", f"refs/remotes/origin/{branch}"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        check=False,
+        intent="ordinary",
+    )
+    return result.stdout.strip() if result.returncode == 0 else ""
+
+
+def _rewrite_remote_branch(bp, current_branch: str, details: dict) -> None:
+    """Rewrite origin/BRANCH only while it still holds the reviewed commit."""
     try:
-        bp.logger.log("cyan", _("Getting commit information..."))
-        commit_message_result = subprocess.run_git(
-            ["git", "log", "-1", "--pretty=format:%s", commit_hash],
-            stdout=subprocess.PIPE,
+        remote_oid = observed_remote_oid(current_branch)
+    except (subprocess.SubprocessError, OSError) as error:
+        bp.logger.log("red", _("Could not read origin/{0}: {1}").format(current_branch, error))
+        remote_oid = ""
+    if not remote_oid:
+        bp.logger.log(
+            "red", _("origin/{0} could not be verified; the remote was left untouched.").format(current_branch)
+        )
+        details["local_only"] = True
+        return
+
+    # The lease makes the push fail instead of deleting commits published
+    # between this fetch and the confirmation.
+    force_push_command = [
+        "git",
+        "push",
+        "origin",
+        f"refs/heads/{current_branch}:refs/heads/{current_branch}",
+        f"--force-with-lease=refs/heads/{current_branch}:{remote_oid}",
+    ]
+    bp.logger.log("yellow", _("Commit exists in remote - force push required"))
+    question = _("Rewrite origin/{0}, currently at {1}?\n{2}").format(
+        current_branch, remote_oid[:12], " ".join(force_push_command)
+    )
+    if not bp.menu.confirm(question, default_yes=False):
+        bp.logger.log("yellow", _("Reset completed locally only (remote unchanged)"))
+        details["local_only"] = True
+        return
+
+    bp.logger.log("cyan", _("Force pushing changes..."))
+    with authorize_destructive_git():
+        result = subprocess.run_git(
+            force_push_command,
+            capture_output=True,
             text=True,
-            check=True,
-            intent="ordinary",
+            check=False,
+            intent="destructive",
         )
-        original_message = commit_message_result.stdout.strip()
+    if result.returncode == 0:
+        bp.logger.log("green", _("Reset completed and force pushed"))
+        details["force_pushed"] = True
+        return
 
-        bp.logger.log("cyan", _("Restoring code state from selected commit..."))
-        with authorize_destructive_git():
-            subprocess.run_git(["git", "checkout", commit_hash, "--", "."], check=True, intent="destructive")
-
-        bp.logger.log("cyan", _("Staging restored files..."))
-        subprocess.run_git(["git", "add", "--", "."], check=True, intent="ordinary")
-
-        status_result = subprocess.run_git(
-            ["git", "status", "--porcelain"], stdout=subprocess.PIPE, text=True, check=True, intent="ordinary"
-        )
-        if not status_result.stdout.strip():
-            bp.logger.log("yellow", _("No changes detected - code is already at selected state"))
-            return True
-
-        new_commit_message = (
-            f"Revert to: {original_message}\n\nThis restores the complete state from commit {commit_hash[:7]}."
-        )
-        bp.logger.log("cyan", _("Creating revert commit..."))
-        subprocess.run_git(["git", "commit", "-m", new_commit_message], check=True, intent="ordinary")
-
-        bp.logger.log("green", _("Revert completed successfully - code restored to selected commit state"))
-        return _push_revert_changes(bp, current_branch, remote_exists)
-
-    except subprocess.CalledProcessError as e:
-        bp.logger.log("red", _("Error during revert operation: {0}").format(e))
-        _cleanup_revert_state()
-        return False
-    except Exception as e:
-        bp.logger.log("red", _("Unexpected error during revert: {0}").format(e))
-        return False
+    bp.logger.log("red", _("origin/{0} moved since it was read; nothing was overwritten.").format(current_branch))
+    bp.logger.log("cyan", _("Review the new commits, then repeat the operation."))
+    details["local_only"] = True
+    details["lease_rejected"] = True
 
 
 def _execute_reset_method(
     bp, commit_hash: str, current_branch: str, remote_exists: bool, *, confirmed: bool = False
 ) -> bool:
-    """Hard-reset to *commit_hash* and optionally force-push."""
+    """Hard-reset to *commit_hash* and optionally rewrite the remote branch."""
     if not confirmed:
         return False
+    previous_head = GitUtils.get_head_sha()
     bp.logger.log("cyan", _("Resetting to previous commit..."))
     with authorize_destructive_git():
         subprocess.run_git(["git", "reset", "--hard", commit_hash], check=True, intent="destructive")
+    if previous_head:
+        bp.logger.log("cyan", _("Undo this locally with: git reset --hard {0}").format(previous_head))
 
-    details = {}
+    details: dict = {}
     if remote_exists:
-        force_push_command = [
-            "git",
-            "push",
-            "origin",
-            f"refs/heads/{current_branch}:refs/heads/{current_branch}",
-            "--force",
-        ]
-        bp.logger.log("yellow", _("Commit exists in remote - force push required"))
-        question = _("Rewrite origin/{0}?\n{1}").format(current_branch, " ".join(force_push_command))
-        if bp.menu.confirm(question, default_yes=False):
-            bp.logger.log("cyan", _("Force pushing changes..."))
-            with authorize_destructive_git():
-                subprocess.run_git(
-                    force_push_command,
-                    check=True,
-                    intent="destructive",
-                )
-            bp.logger.log("green", _("Reset completed and force pushed"))
-            details["force_pushed"] = True
-        else:
-            bp.logger.log("yellow", _("Reset completed locally only (remote unchanged)"))
-            details["local_only"] = True
+        _rewrite_remote_branch(bp, current_branch, details)
     else:
         bp.logger.log("green", _("Reset completed (commit was only local)"))
         details["local_only"] = True
@@ -316,9 +460,10 @@ def _push_revert_changes(bp, current_branch: str, remote_exists: bool) -> bool:
         bp.logger.log("green", _("Revert completed (commit was only local)"))
         return True
 
+    refspec = f"refs/heads/{current_branch}:refs/heads/{current_branch}"
     bp.logger.log("cyan", _("Pushing revert changes..."))
     push_result = subprocess.run_git(
-        ["git", "push", "origin", f"refs/heads/{current_branch}:refs/heads/{current_branch}"],
+        ["git", "push", "origin", refspec],
         capture_output=True,
         text=True,
         check=False,
@@ -328,17 +473,32 @@ def _push_revert_changes(bp, current_branch: str, remote_exists: bool) -> bool:
         bp.logger.log("green", _("Revert changes pushed successfully"))
         return True
 
+    # The revert commit was created and is the recoverable part of this
+    # journey; undoing it here would throw away the work that succeeded.
     bp.logger.log(
         "red",
         _("Failed to push revert: {0}").format(push_result.stderr.strip() if push_result.stderr else "Unknown error"),
     )
+    bp.logger.log("yellow", _("The revert commit was created locally and was kept."))
+    bp.logger.log("cyan", _("Retry publishing it with: git push origin {0}").format(refspec))
+    bp.last_operation_details = {
+        "local_commit_created": GitUtils.get_head_sha(),
+        "current_branch": current_branch,
+        "remote_unchanged": True,
+        "retry_command": f"git push origin {refspec}",
+    }
     return False
 
 
-def _cleanup_revert_state() -> None:
-    """Abort any in-progress revert or reset."""
-    subprocess.run_git(["git", "revert", "--abort"], capture_output=True, check=False, intent="ordinary")
-    subprocess.run_git(["git", "reset", "--abort"], capture_output=True, check=False, intent="ordinary")
+def _report_recovery(bp, entry_head: str) -> None:
+    """State the one command that restores the pre-operation commit.
+
+    Aborting here would be wrong: the operation starts from a verified clean
+    tree, so no sequencer state belongs to it, and `--abort` could cancel work
+    the user started elsewhere.
+    """
+    if entry_head and GitUtils.get_head_sha() != entry_head:
+        bp.logger.log("cyan", _("Restore the previous state with: git reset --hard {0}").format(entry_head))
 
 
 # ---------------------------------------------------------------------------

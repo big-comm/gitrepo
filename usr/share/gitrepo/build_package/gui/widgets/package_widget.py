@@ -35,11 +35,12 @@ class PackageWidget(Gtk.Box):
         ),  # type, commit_msg, tmate
     }
 
-    def __init__(self, build_package, settings):
+    def __init__(self, build_package, settings, show_hero: bool = True):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=0)
 
         self.build_package = build_package
         self.settings = settings
+        self._show_hero = show_hero
         self._is_syncing_feature = False
         self.selected_package_type = None
         self.commit_message = ""
@@ -51,31 +52,26 @@ class PackageWidget(Gtk.Box):
     def create_ui(self):
         """Create the widget UI"""
 
-        self.append(
-            PageHero(
-                "build-package-package",
-                _("Build and publish a package"),
-                _("Choose a destination and start a build on GitHub Actions."),
+        if self._show_hero:
+            self.append(
+                PageHero(
+                    "build-package-package",
+                    _("Build and publish a package"),
+                    _("Choose a destination and start a build on GitHub Actions."),
+                )
             )
-        )
 
         clamp, page_content = page_body(spacing=18)
         self.append(clamp)
 
         feature_group = Adw.PreferencesGroup()
         feature_group.set_title(_("GitHub package workflow"))
-        feature_group.set_description(
-            _(
-                "This optional feature publishes a request to GitHub Actions. It does not build the package on this computer."
-            )
-        )
+        # The switch, the group, and the empty state used to explain the same
+        # fact three times. The empty state carries the explanation; the group
+        # carries only the decision.
         self.feature_row = Adw.SwitchRow()
         self.feature_row.set_title(_("Enable package generation"))
-        self.feature_row.set_subtitle(
-            _(
-                "Show the testing, stable, and extra publication workflow. Running it requires a GitHub access token with the permissions listed on the Access Tokens page."
-            )
-        )
+        self.feature_row.set_subtitle(_("Requires a GitHub access token."))
         self.feature_row.connect("notify::active", self._on_feature_changed)
         feature_group.set_header_suffix(
             help_button(
@@ -316,7 +312,6 @@ class PackageWidget(Gtk.Box):
         # Cancel/Reset button
         reset_content = Adw.ButtonContent(label=_("Reset"), icon_name="edit-clear-symbolic")
         cancel_button = Gtk.Button(child=reset_content)
-        cancel_button.add_css_class("build-package-action-button")
         cancel_button.connect("clicked", self.on_reset_clicked)
         actions_box.append(cancel_button)
 
@@ -326,7 +321,6 @@ class PackageWidget(Gtk.Box):
         )
         self.build_button = Gtk.Button(child=self.build_button_content)
         self.build_button.add_css_class("suggested-action")
-        self.build_button.add_css_class("build-package-primary-action")
         self.build_button.connect("clicked", self.on_build_clicked)
         self.build_button.set_sensitive(False)
         actions_box.append(self.build_button)

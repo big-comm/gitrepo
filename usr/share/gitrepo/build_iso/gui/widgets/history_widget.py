@@ -9,8 +9,9 @@ import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
-from gitrepo.build_iso.core.config import VALID_DISTROS, edition_display_name
+from gitrepo.build_iso.core.config import VALID_DISTROS, VALID_KERNELS, edition_display_name
 from gitrepo.build_iso.core.history_store import BuildHistoryStore
+from gitrepo.common.desktop_launch import open_folder
 from gitrepo.common.translation import _
 from gi.repository import Adw, Gdk, Gtk
 
@@ -48,7 +49,7 @@ class HistoryWidget(Gtk.Box):
         self.append(
             PageHero(
                 "build-iso-history",
-                _("Build History"),
+                _("Generated ISOs"),
                 _("Review outcomes and durations, then open the ISO folder or the terminal log of a build."),
             )
         )
@@ -110,15 +111,10 @@ class HistoryWidget(Gtk.Box):
 
     def _create_entry_row(self, entry: dict) -> Adw.ActionRow:
         row = Adw.ActionRow()
-        distro = entry.get("distro", "?")
-        edition = entry.get("edition", "?")
-        row.set_title(
-            _("{0} {1} • kernel {2}").format(
-                VALID_DISTROS.get(distro, distro),
-                edition_display_name(edition),
-                entry.get("kernel", "?"),
-            )
-        )
+        # Every build of the same edition shares its configuration, so leading
+        # with it makes the list unreadable: the date and the outcome are what
+        # tell one entry from another.
+        row.set_title(_("{0} • {1}").format(entry.get("date", "?"), self._outcome_text(entry)))
         row.set_subtitle(self._entry_subtitle(entry))
         row.set_subtitle_lines(0)
 
@@ -157,11 +153,26 @@ class HistoryWidget(Gtk.Box):
         return row
 
     @staticmethod
-    def _entry_subtitle(entry: dict) -> str:
+    def _outcome_text(entry: dict) -> str:
         success = entry.get("success", False)
         result_status = entry.get("status", "succeeded" if success else "failed")
-        status_text = _("Cancelled") if result_status == "cancelled" else _("Success") if success else _("Failed")
-        facts = [entry.get("date", "?"), status_text, _("{0} min").format(int(entry.get("duration", 0)) // 60)]
+        return _("Cancelled") if result_status == "cancelled" else _("Success") if success else _("Failed")
+
+    @staticmethod
+    def _entry_subtitle(entry: dict) -> str:
+        success = entry.get("success", False)
+        distro = entry.get("distro", "?")
+        kernel = entry.get("kernel", "?")
+        facts = [
+            _("{0} {1} • kernel {2}").format(
+                VALID_DISTROS.get(distro, distro),
+                edition_display_name(entry.get("edition", "?")),
+                # "(recommended)" advises a choice; a finished build only has
+                # the kernel it used.
+                VALID_KERNELS.get(kernel, kernel).partition(" (")[0],
+            ),
+            _("{0} min").format(int(entry.get("duration", 0)) // 60),
+        ]
 
         iso_path = entry.get("iso_path", "")
         if iso_path:
@@ -169,6 +180,13 @@ class HistoryWidget(Gtk.Box):
             facts.append(f"{os.path.basename(iso_path)}{f' ({size_text})' if size_text else ''}")
             if not os.path.exists(iso_path):
                 facts.append(_("file no longer on disk"))
+        manifest = entry.get("manifest") or {}
+        if manifest:
+            facts.append(
+                _("built from {0}").format(
+                    ", ".join(f"{name} {revision[:12]}" for name, revision in sorted(manifest.items()))
+                )
+            )
         error = entry.get("error", "")
         if not success and error:
             facts.append(error)
@@ -179,7 +197,7 @@ class HistoryWidget(Gtk.Box):
 
     def _on_clear_clicked(self, button):
         dialog = Adw.AlertDialog(
-            heading=_("Clear Build History?"),
+            heading=_("Clear the list of generated ISOs?"),
             body=_("This will remove all build history entries. This cannot be undone."),
         )
         dialog.add_response("cancel", _("Cancel"))
@@ -203,9 +221,7 @@ class HistoryWidget(Gtk.Box):
             root.show_toast(_("ISO path copied to the clipboard"))
 
     def _on_open_path(self, button, path):
-        from gitrepo.common import child_process as subprocess
-
-        subprocess.Popen(["xdg-open", path])
+        open_folder(button, path)
 
     @staticmethod
     def add_entry(entry: dict):

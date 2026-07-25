@@ -7,9 +7,25 @@
 
 import os
 import re
+import stat
+from dataclasses import dataclass
+
+from gitrepo.common.atomic_file import AtomicWriteError, atomic_write_text
 
 from .git_utils import GitUtils
 from gitrepo.common.translation import _
+
+
+@dataclass(frozen=True)
+class VersionBump:
+    """A prepared APP_VERSION change, reviewable before anything is written."""
+
+    file_path: str
+    relative_path: str
+    current_version: str
+    new_version: str
+    bump_level: str
+    content: str
 
 
 def _extract_commit_metadata(commit_message: str, explicit_type=None):
@@ -179,14 +195,31 @@ def _version_candidate_paths(repo_path):
                 yield os.path.join(root, filename)
 
 
-def apply_auto_version_bump(bp, commit_message: str, explicit_type=None):
-    """Bump APP_VERSION in the source tree based on *commit_message* semantics.
+def _writable_repository_file(file_path: str, repo_root: str) -> str:
+    """Return the canonical path when it is a regular file inside *repo_root*.
 
-    Returns the new version string, or None when no bump was applied.
+    The candidate walk sees whatever the repository contains, so a symlink
+    pointing outside the tree must never become the file that gets rewritten.
     """
+    if not repo_root:
+        return ""
+    root = os.path.realpath(repo_root)
+    resolved = os.path.realpath(file_path)
+    if os.path.commonpath([root, resolved]) != root:
+        return ""
+    try:
+        info = os.lstat(file_path)
+    except OSError:
+        return ""
+    if stat.S_ISLNK(info.st_mode) or not stat.S_ISREG(info.st_mode):
+        return ""
+    return resolved
+
+
+def plan_version_bump(bp, commit_message: str, explicit_type=None) -> VersionBump | None:
+    """Prepare the APP_VERSION change without touching the working tree."""
     commit_type, breaking_change = _extract_commit_metadata(commit_message, explicit_type)
     bump_level = _infer_bump_level(commit_type, breaking_change)
-
     if not bump_level:
         return None
 
@@ -197,33 +230,58 @@ def apply_auto_version_bump(bp, commit_message: str, explicit_type=None):
             bp._app_version_warning_shown = True
         return None
 
+    repo_root = bp.repo_path or GitUtils.get_repo_root_path()
+    resolved = _writable_repository_file(file_path, repo_root)
+    if not resolved:
+        if bp.logger:
+            bp.logger.log(
+                "yellow",
+                _("Skipping the version bump: {0} is not a regular file inside the repository.").format(file_path),
+            )
+        return None
+
     current_version = match.group(3)
     new_version = _bump_semver(current_version, bump_level)
-
     if current_version == new_version:
         return None
 
     new_assignment = f"{match.group(1)}{match.group(2)}{new_version}{match.group(4)}"
-    updated_content = content[: match.start()] + new_assignment + content[match.end() :]
+    return VersionBump(
+        file_path=resolved,
+        relative_path=os.path.relpath(resolved, os.path.realpath(repo_root)),
+        current_version=current_version,
+        new_version=new_version,
+        bump_level=bump_level,
+        content=content[: match.start()] + new_assignment + content[match.end() :],
+    )
 
+
+def publish_version_bump(bp, plan: VersionBump) -> bool:
+    """Write the prepared bump atomically, keeping the file's own permissions."""
     try:
-        with open(file_path, "w", encoding="utf-8") as fh:
-            fh.write(updated_content)
-    except OSError as exc:
+        mode = stat.S_IMODE(os.stat(plan.file_path).st_mode)
+        atomic_write_text(plan.file_path, plan.content, mode=mode)
+    except (OSError, AtomicWriteError) as exc:
         if bp.logger:
             bp.logger.log(
-                "yellow",
-                _("Could not update APP_VERSION ({0}). Reason: {1}").format(file_path, exc),
+                "red",
+                _("Could not update APP_VERSION ({0}). Reason: {1}").format(plan.relative_path, exc),
             )
-        return None
+        return False
 
-    relative_path = os.path.relpath(file_path, bp.repo_path or GitUtils.get_repo_root_path())
     if bp.logger:
         bp.logger.log(
             "green",
             _("APP_VERSION bumped from {0} to {1} ({2} bump) in {3}").format(
-                current_version, new_version, bump_level, relative_path
+                plan.current_version, plan.new_version, plan.bump_level, plan.relative_path
             ),
         )
+    return True
 
-    return new_version
+
+def apply_auto_version_bump(bp, commit_message: str, explicit_type=None):
+    """Plan and publish the bump in one step; returns the new version or None."""
+    plan = plan_version_bump(bp, commit_message, explicit_type)
+    if not plan or not publish_version_bump(bp, plan):
+        return None
+    return plan.new_version

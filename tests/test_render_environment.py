@@ -40,8 +40,29 @@ def test_only_gitrepo_injection_is_removed_from_child_environment():
     injected = {"GSK_RENDERER": "cairo", GSK_RENDERER_MARKER: "1", "KEEP": "yes"}
     external = {"GSK_RENDERER": "vulkan", "KEEP": "yes"}
 
-    assert child_process_environment(injected) == {"KEEP": "yes"}
-    assert child_process_environment(external) == external
+    assert child_process_environment(injected) == {"KEEP": "yes", "GIT_TERMINAL_PROMPT": "0"}
+    assert child_process_environment(external) == {**external, "GIT_TERMINAL_PROMPT": "0"}
+
+
+def test_children_never_wait_on_an_invisible_credential_prompt():
+    # Without this, a GUI Git operation blocks forever on a terminal nobody
+    # can answer: no cause shown, no timeout, no way to cancel.
+    assert child_process_environment({})["GIT_TERMINAL_PROMPT"] == "0"
+    # An explicit choice by the user or the session still wins.
+    assert child_process_environment({"GIT_TERMINAL_PROMPT": "1"})["GIT_TERMINAL_PROMPT"] == "1"
+
+
+def test_a_real_git_child_fails_instead_of_prompting(tmp_path):
+    result = child_process.run_git(
+        ["git", "-C", str(tmp_path), "ls-remote", "https://github.invalid/private/repository"],
+        intent="ordinary",
+        capture_output=True,
+        text=True,
+        check=False,
+        timeout=30,
+    )
+
+    assert result.returncode != 0
 
 
 def test_real_child_does_not_inherit_injected_renderer(monkeypatch):
@@ -98,7 +119,7 @@ def test_run_git_ordinary_preserves_argv_and_sanitized_environment(monkeypatch):
         env={"GSK_RENDERER": "cairo", GSK_RENDERER_MARKER: "1", "KEEP": "yes"},
     )
 
-    assert calls == [(command, {"env": {"KEEP": "yes"}})]
+    assert calls == [(command, {"env": {"KEEP": "yes", "GIT_TERMINAL_PROMPT": "0"}})]
 
 
 def test_run_git_accepts_bytes_git_and_rejects_bytes_non_git(monkeypatch):
@@ -322,6 +343,10 @@ def test_github_repository_url_is_exact_and_canonical():
         "https://github.com/biglinux/iso-profiles#unexpected-fragment",
         "https://user:secret@github.com/biglinux/iso-profiles",
         "https://github.com/biglinux/iso-profiles/extra",
+        # Traversal segments must not survive as an owner or repository name.
+        "https://github.com/../..",
+        "https://github.com/./iso-profiles",
+        "https://github.com/biglinux/..",
     ):
         with pytest.raises(UnsafeNetworkUrl):
             validate_github_repository_url(unsafe)

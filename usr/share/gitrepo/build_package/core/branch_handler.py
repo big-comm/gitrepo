@@ -9,6 +9,7 @@ from gitrepo.common import child_process as subprocess
 from gitrepo.common.child_process import authorize_destructive_git
 
 from .git_utils import GitUtils
+from .repository_lock import journey
 from gitrepo.common.translation import _
 
 
@@ -118,6 +119,7 @@ def undo_last_commit(bp) -> bool:
 # ---------------------------------------------------------------------------
 
 
+@journey("creating a branch", False)
 def create_branch_and_push(bp, source_branch: str, target_branch: str) -> bool:
     """Create *target_branch* from *source_branch* and push to remote.
 
@@ -171,7 +173,16 @@ def create_branch_and_push(bp, source_branch: str, target_branch: str) -> bool:
         )
 
         if push_result.returncode != 0:
+            # The branch exists locally and may already hold work. Saying only
+            # "failed" invites the user to delete it and lose that work.
             log("red", _("Push failed: {0}").format(push_result.stderr))
+            log("yellow", _("The branch '{0}' exists locally and was kept.").format(target_branch))
+            log("cyan", _("Retry publishing it with: git push -u origin {0}").format(refspec))
+            bp.last_operation_details = {
+                "local_branch_created": target_branch,
+                "remote_unchanged": True,
+                "retry_command": f"git push -u origin {refspec}",
+            }
             return False
 
         log(

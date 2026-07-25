@@ -4,7 +4,6 @@
 
 import argparse
 import shutil
-import sys
 from datetime import datetime
 
 from gitrepo.common import child_process as subprocess
@@ -25,8 +24,11 @@ from gitrepo.common.translation import _
 class BuildPackage:
     """Main class for package management"""
 
-    def __init__(self, logger=None, menu_system=None):
-        self.args = self.parse_arguments()
+    def __init__(self, logger=None, menu_system=None, args=None):
+        # Parsing process arguments here would let an argument the desktop
+        # passed to the GUI abort the window during construction. The CLI owns
+        # argv; every other caller gets the documented defaults.
+        self.args = args if args is not None else parse_arguments([])
         self.logger = logger
         self.menu = menu_system
         self.organization = self.args.organization or DEFAULT_ORGANIZATION
@@ -94,56 +96,6 @@ class BuildPackage:
                 self.logger.die(
                     "red", _("Dependency '{0}' not found. Please install it before continuing.").format(dep)
                 )
-
-    def parse_arguments(self) -> argparse.Namespace:
-        """Parse command-line arguments with standard, scriptable help."""
-        parser = argparse.ArgumentParser(
-            description=f"{APP_NAME} v{APP_VERSION} - {APP_DESC}",
-            formatter_class=argparse.RawDescriptionHelpFormatter,
-        )
-
-        parser.add_argument(
-            "-o",
-            "--org",
-            "--organization",
-            dest="organization",
-            help=_("Configure GitHub organization (default: big-comm)"),
-            choices=VALID_ORGANIZATIONS,
-            default=DEFAULT_ORGANIZATION,
-        )
-
-        parser.add_argument("-b", "--build", help=_("Commit/push and generate package"), choices=VALID_BRANCHES)
-
-        parser.add_argument("-c", "--commit", help=_("Just commit/push with the specified message"))
-
-        parser.add_argument("-F", "--commit-file", help=_("Read commit message from file (multi-line support)"))
-
-        parser.add_argument("-a", "--aur", help=_("Build AUR package"))
-
-        parser.add_argument("-n", "--nocolor", action="store_true", help=_("Suppress color printing"))
-
-        parser.add_argument("-V", "--version", action="store_true", help=_("Print application version"))
-
-        parser.add_argument("-t", "--tmate", action="store_true", help=_("Enable tmate for debugging"))
-
-        parser.add_argument("--dry-run", action="store_true", help=_("Simulate operations without executing"))
-
-        args = parser.parse_args()
-
-        if args.version:
-            self.print_version()
-            sys.exit(0)
-
-        return args
-
-    def print_version(self):
-        """Print the localized application version and license notice."""
-        print_version_panel(
-            Console(),
-            app_name=APP_NAME,
-            app_version=APP_VERSION,
-            app_description=APP_DESC,
-        )
 
     def get_commit_types(self):
         """Returns available commit types with emojis and descriptions"""
@@ -515,3 +467,49 @@ class BuildPackage:
         else:
             # No specific argument, show interactive menu
             self.main_menu()
+
+
+def parse_arguments(argv: list[str] | None = None) -> argparse.Namespace:
+    """Parse command-line arguments with standard, scriptable help."""
+    parser = argparse.ArgumentParser(
+        description=f"{APP_NAME} v{APP_VERSION} - {APP_DESC}",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+
+    parser.add_argument(
+        "-o",
+        "--org",
+        "--organization",
+        dest="organization",
+        help=_("Configure GitHub organization (default: big-comm)"),
+        choices=VALID_ORGANIZATIONS,
+        default=DEFAULT_ORGANIZATION,
+    )
+
+    parser.add_argument("-b", "--build", help=_("Commit/push and generate package"), choices=VALID_BRANCHES)
+
+    parser.add_argument("-c", "--commit", help=_("Just commit/push with the specified message"))
+
+    parser.add_argument("-F", "--commit-file", help=_("Read commit message from file (multi-line support)"))
+
+    parser.add_argument("-a", "--aur", help=_("Build AUR package"))
+
+    parser.add_argument("-n", "--nocolor", action="store_true", help=_("Suppress color printing"))
+
+    parser.add_argument("-V", "--version", action="store_true", help=_("Print application version"))
+
+    parser.add_argument("-t", "--tmate", action="store_true", help=_("Enable tmate for debugging"))
+
+    parser.add_argument("--dry-run", action="store_true", help=_("Simulate operations without executing"))
+
+    return parser.parse_args(argv)
+
+
+def print_version() -> None:
+    """Print the localized application version and license notice."""
+    print_version_panel(
+        Console(),
+        app_name=APP_NAME,
+        app_version=APP_VERSION,
+        app_description=APP_DESC,
+    )

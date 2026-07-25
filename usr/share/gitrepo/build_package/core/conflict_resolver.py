@@ -10,6 +10,7 @@ from gitrepo.common import child_process as subprocess
 from gitrepo.common.child_process import authorize_destructive_git
 from datetime import datetime
 
+from .git_status import CONFLICT_COMMAND, display_path, parse_path_records
 from .git_utils import GitUtils
 from gitrepo.common.translation import _
 
@@ -106,14 +107,14 @@ class ConflictResolver:
     def get_conflict_files(self):
         """Get list of files with conflicts"""
         result = subprocess.run_git(
-            ["git", "diff", "--name-only", "--diff-filter=U"],
+            list(CONFLICT_COMMAND),
             capture_output=True,
-            text=True,
             check=False,
             intent="ordinary",
         )
-        files = result.stdout.strip().split("\n")
-        return [f for f in files if f]
+        if result.returncode != 0:
+            return []
+        return list(parse_path_records(result.stdout))
 
     @staticmethod
     def get_branch_last_commit_date(branch_name):
@@ -203,7 +204,7 @@ class ConflictResolver:
         if not conflict_files:
             return True
 
-        paths = "\n".join(f"• {path}" for path in conflict_files)
+        paths = "\n".join(f"• {display_path(path)}" for path in conflict_files)
         question = _(
             "Keep the {0} version in {1} conflicted file(s)?\n\n"
             "The conflicting lines coming from {2} are discarded in:\n{3}\n\n"
@@ -226,7 +227,7 @@ class ConflictResolver:
 
     def _confirm_auto_resolution(self, conflict_files, side):
         version = _("local") if side == "ours" else _("incoming")
-        paths = "\n".join(f"• {path}" for path in conflict_files)
+        paths = "\n".join(f"• {display_path(path)}" for path in conflict_files)
         question = _("Replace every conflicted file with the {0} version?\n{1}").format(version, paths)
         confirmed = self.menu.confirm(question, default_yes=False)
         if not confirmed:
@@ -317,7 +318,7 @@ class ConflictResolver:
         options = [
             _("Keep our version"),
             _("Accept remote version"),
-            _("Keep both (create .ours and .theirs files)"),
+            _("Save both versions beside the file, then choose"),
             _("Edit manually"),
             _("Show diff"),
         ]
@@ -331,8 +332,7 @@ class ConflictResolver:
                 self._show_detailed_diff(file_path)
                 continue
             if result[0] == 2:
-                self._keep_both_versions(file_path)
-                return True
+                return self._keep_both_versions(file_path)
             side = "ours" if result[0] == 0 else "theirs"
             return self._resolve_index_side(file_path, side)
 
@@ -519,41 +519,57 @@ class ConflictResolver:
         if len(lines) > 120:
             self.logger.log("dim", _("… {0} additional lines omitted").format(len(lines) - 120))
 
+    def _reserve_companion(self, base_path, suffix):
+        """Create a new file beside *base_path*, never following or replacing.
+
+        ``O_CREAT | O_EXCL`` refuses an existing name even when it is a symlink,
+        so an untracked ``file.ours`` the user already owns is never rewritten.
+        """
+        sequence = 0
+        while True:
+            candidate = f"{base_path}.{suffix}" if sequence == 0 else f"{base_path}.{suffix}.{sequence}"
+            try:
+                descriptor = os.open(candidate, os.O_CREAT | os.O_EXCL | os.O_WRONLY | os.O_NOFOLLOW, 0o644)
+            except FileExistsError:
+                sequence += 1
+                continue
+            return candidate, descriptor
+
+    def _write_index_stage(self, file_path, stage, suffix):
+        """Write one conflict side from the index into a fresh companion file."""
+        result = subprocess.run_git(
+            ["git", "show", f":{stage}:{file_path}"],
+            capture_output=True,
+            check=True,
+            cwd=self.repo_root,
+            intent="ordinary",
+        )
+        companion, descriptor = self._reserve_companion(self._get_absolute_path(file_path), suffix)
+        with os.fdopen(descriptor, "wb") as target:
+            target.write(result.stdout)
+        return companion
+
     def _keep_both_versions(self, file):
-        """Save both versions in separate files"""
+        """Save both sides beside the file, then ask which one resolves it."""
         try:
-            abs_path = self._get_absolute_path(file)
+            # The index already holds both sides; checking them out into the
+            # working tree first would only risk the copies it then makes.
+            ours_file_abs = self._write_index_stage(file, "2", "ours")
+            theirs_file_abs = self._write_index_stage(file, "3", "theirs")
+        except (OSError, subprocess.CalledProcessError) as error:
+            self.logger.log("red", _("Could not save both versions of {0}: {1}").format(file, error))
+            return False
 
-            # Save ours
-            with authorize_destructive_git():
-                subprocess.run_git(
-                    ["git", "checkout", "--ours", "--", file],
-                    check=True,
-                    cwd=self.repo_root,
-                    intent="destructive",
-                )
-            ours_file_abs = f"{abs_path}.ours"
-            subprocess.run(["cp", abs_path, ours_file_abs], check=True)
+        self.logger.log("cyan", _("Saved both versions:"))
+        self.logger.log("cyan", f"  - {ours_file_abs} ({_('our version')})")
+        self.logger.log("cyan", f"  - {theirs_file_abs} ({_('remote version')})")
 
-            # Save theirs
-            with authorize_destructive_git():
-                subprocess.run_git(
-                    ["git", "checkout", "--theirs", "--", file],
-                    check=True,
-                    cwd=self.repo_root,
-                    intent="destructive",
-                )
-            theirs_file_abs = f"{abs_path}.theirs"
-            subprocess.run(["cp", abs_path, theirs_file_abs], check=True)
-
-            # Keep theirs as main (user can choose later)
-            subprocess.run_git(["git", "add", "--", file], check=True, cwd=self.repo_root, intent="ordinary")
-
-            self.logger.log("cyan", _("Created files:"))
-            self.logger.log("cyan", f"  - {ours_file_abs} (our version)")
-            self.logger.log("cyan", f"  - {theirs_file_abs} (remote version)")
-            self.logger.log("cyan", f"  - {file} (using remote version)")
-
-        except subprocess.CalledProcessError as e:
-            self.logger.log("red", _("Error creating versions: {0}").format(e))
-            raise
+        # Which side stays as the resolved file is a decision, not a default.
+        result = self.menu.show_menu(
+            _("Which version resolves {0}?").format(file),
+            [_("Keep our version"), _("Accept remote version")],
+        )
+        if result is None:
+            self.logger.log("yellow", _("Both versions were saved; {0} is still conflicted.").format(file))
+            return False
+        return self._resolve_index_side(file, "ours" if result[0] == 0 else "theirs")

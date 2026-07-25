@@ -5,10 +5,58 @@
 import os
 import re
 import shutil
+from urllib.parse import urlsplit
 
 from gitrepo.common import child_process as subprocess
 from gitrepo.common.child_process import authorize_destructive_git
+from gitrepo.common.network_url import is_github_path_segment
 from gitrepo.common.translation import _
+
+from .git_status import STATUS_COMMAND, display_path, parse_status_records
+
+# Only these hosts may be addressed as GitHub repositories.
+GITHUB_HOSTS = frozenset({"github.com", "www.github.com"})
+# SCP-style remote: [user@]host:path
+_SCP_REMOTE = re.compile(r"^(?:(?P<user>[^@/]+)@)?(?P<host>[^:/]+):(?P<path>.+)$")
+
+
+def _github_path_segments(path: str) -> tuple[str, str]:
+    """Return (owner, repository) when *path* is exactly two valid segments."""
+    segments = [segment for segment in path.strip("/").split("/") if segment]
+    if len(segments) != 2:
+        return "", ""
+    owner, repository = segments
+    repository = repository.removesuffix(".git")
+    if not all(is_github_path_segment(segment) for segment in (owner, repository)):
+        return "", ""
+    return owner, repository
+
+
+def parse_github_remote(url: str) -> tuple[str, str, str]:
+    """Return (host, owner, repository) for a GitHub remote, else empty strings."""
+    url = (url or "").strip()
+    if not url:
+        return "", "", ""
+
+    if "://" in url:
+        parts = urlsplit(url)
+        if parts.scheme not in {"https", "http", "ssh", "git"}:
+            return "", "", ""
+        host = (parts.hostname or "").lower()
+        path = parts.path
+    else:
+        match = _SCP_REMOTE.match(url)
+        if not match:
+            return "", "", ""
+        host = match.group("host").lower()
+        path = match.group("path")
+
+    if host not in GITHUB_HOSTS:
+        return "", "", ""
+    owner, repository = _github_path_segments(path)
+    if not owner:
+        return "", "", ""
+    return host, owner, repository
 
 
 def _branch_names(*command: str) -> list[str]:
@@ -20,15 +68,84 @@ def _branch_names(*command: str) -> list[str]:
     ]
 
 
-def _obsolete_branches(local: list[str], remote: list[str]) -> tuple[list[str], list[str]]:
-    protected = {"main", "master", "dev"}
+PROTECTED_BRANCHES = frozenset({"main", "master", "dev"})
+# The bases a branch may already be merged into, most authoritative first.
+MERGE_BASE_CANDIDATES = (
+    "refs/remotes/origin/main",
+    "refs/remotes/origin/master",
+    "refs/heads/main",
+    "refs/heads/master",
+)
+
+
+def merge_base_reference() -> str:
+    """Return the ref that decides whether a branch is already merged."""
+    for candidate in MERGE_BASE_CANDIDATES:
+        result = subprocess.run_git(
+            ["git", "rev-parse", "--verify", "--quiet", candidate],
+            capture_output=True,
+            text=True,
+            check=False,
+            intent="ordinary",
+        )
+        if result.returncode == 0 and result.stdout.strip():
+            return candidate
+    return ""
+
+
+def merged_branches(base: str, *scope: str) -> set[str]:
+    """Return the branches whose tip is already reachable from *base*.
+
+    Reachability is Git's own answer, not a guess from the branch name: a
+    branch that is not listed here still holds commits that exist nowhere else.
+    """
+    return set(_branch_names("branch", *scope, "--merged", base, "--format=%(refname:short)"))
+
+
+def branch_tip(reference: str) -> str:
+    """Return the short OID of *reference*, or an empty string."""
+    result = subprocess.run_git(
+        ["git", "rev-parse", "--short", reference], capture_output=True, text=True, check=False, intent="ordinary"
+    )
+    return result.stdout.strip() if result.returncode == 0 else ""
+
+
+def _protected_branches(local: list[str], remote: list[str]) -> set[str]:
+    protected = set(PROTECTED_BRANCHES)
+    current = GitUtils.get_current_branch()
+    if current:
+        protected.add(current)
     development = sorted({branch for branch in local + remote if branch.startswith("dev-")}, reverse=True)
     if development:
         protected.add(development[0])
+    return protected
+
+
+def _obsolete_branches(
+    local: list[str],
+    remote: list[str],
+    merged_local: set[str],
+    merged_remote: set[str],
+) -> tuple[list[str], list[str]]:
+    """Return only the branches whose commits already live in the merge base."""
+    protected = _protected_branches(local, remote)
     return (
-        [branch for branch in local if branch not in protected],
-        [branch for branch in remote if branch not in protected],
+        [branch for branch in local if branch not in protected and branch in merged_local],
+        [branch for branch in remote if branch not in protected and branch in merged_remote],
     )
+
+
+def _unmerged_branches(
+    local: list[str],
+    remote: list[str],
+    merged_local: set[str],
+    merged_remote: set[str],
+) -> list[str]:
+    """Return the branches kept because they still hold unreachable commits."""
+    protected = _protected_branches(local, remote)
+    kept = [branch for branch in local if branch not in protected and branch not in merged_local]
+    kept.extend(f"origin/{branch}" for branch in remote if branch not in protected and branch not in merged_remote)
+    return kept
 
 
 def _delete_local_branches(branches: list[str], available: list[str], logger) -> None:
@@ -133,7 +250,7 @@ def _abort_merge() -> None:
 
 def _confirm_keeping_current(branch: str, incoming: str, conflicts: list[str], logger, menu) -> bool:
     """Name the files that lose their incoming version before anything is written."""
-    paths = "\n".join(f"• {path}" for path in conflicts)
+    paths = "\n".join(f"• {display_path(path)}" for path in conflicts)
     question = _(
         "Resolve the divergence keeping {0} where the two branches disagree?\n\n"
         "The conflicting lines from {1} are discarded in:\n{2}\n\n"
@@ -280,11 +397,10 @@ class GitUtils:
             return False
 
     @staticmethod
-    def get_repo_name() -> str:
-        """Gets the repository name"""
+    def get_origin_url() -> str:
+        """Return the configured origin URL, or an empty string."""
         if not GitUtils.is_git_repo():
             return ""
-
         try:
             result = subprocess.run_git(
                 ["git", "config", "--get", "remote.origin.url"],
@@ -294,24 +410,31 @@ class GitUtils:
                 check=False,
                 intent="ordinary",
             )
-
-            if result.returncode != 0:
-                return ""
-
-            url = result.stdout.strip()
-
-            # Pattern for https or git URLs - handle repo names with dots
-            # First, remove .git suffix if present
-            if url.endswith(".git"):
-                url = url[:-4]
-
-            # Match owner/repo pattern after : or /
-            match = re.search(r"[:/]([^/]+/[^/:]+)$", url)
-            if match:
-                return match.group(1)
-            return ""
         except Exception:
             return ""
+        return result.stdout.strip() if result.returncode == 0 else ""
+
+    @staticmethod
+    def get_github_remote() -> tuple[str, str, str]:
+        """Return (host, owner, repository) when origin is on GitHub.
+
+        Every GitHub request is addressed by this value, so a remote hosted
+        anywhere else must resolve to nothing rather than to a same-named
+        repository the token happens to reach.
+        """
+        return parse_github_remote(GitUtils.get_origin_url())
+
+    @staticmethod
+    def get_repo_name() -> str:
+        """Return the validated GitHub ``owner/repository``, or an empty string."""
+        _host, owner, repository = GitUtils.get_github_remote()
+        return f"{owner}/{repository}" if owner and repository else ""
+
+    @staticmethod
+    def get_canonical_repository() -> str:
+        """Return ``host/owner/repository`` for confirmations, or an empty string."""
+        host, owner, repository = GitUtils.get_github_remote()
+        return f"{host}/{owner}/{repository}" if owner and repository else ""
 
     @staticmethod
     def get_repo_root_path() -> str:
@@ -352,21 +475,25 @@ class GitUtils:
 
     @staticmethod
     def has_changes() -> bool:
-        """Checks if there are changes in the repository"""
+        """Report whether the working tree holds anything uncommitted.
+
+        Every caller uses this as a guard before touching the repository, so an
+        unreadable status must answer "yes, there is work here". Reporting a
+        clean tree on failure is what lets a rewrite run over real changes.
+        """
         try:
-            # Check if there are changes to commit - simplified and more reliable
-            status = subprocess.run_git(
-                ["git", "status", "--porcelain"],
+            result = subprocess.run_git(
+                list(STATUS_COMMAND),
                 stdout=subprocess.PIPE,
                 stderr=subprocess.DEVNULL,
-                text=True,
                 check=False,
                 intent="ordinary",
-            ).stdout.strip()
-
-            return bool(status)
+            )
         except Exception:
-            return False
+            return True
+        if result.returncode != 0:
+            return True
+        return bool(parse_status_records(result.stdout))
 
     @staticmethod
     def get_package_name() -> str:
@@ -401,22 +528,38 @@ class GitUtils:
             return False
         try:
             subprocess.run_git(["git", "fetch", "--all", "--prune"], check=True, intent="ordinary")
+            base = merge_base_reference()
+            if not base:
+                logger.log("red", _("No main or master branch to compare against."))
+                logger.log("cyan", _("Without a base, no branch can be proven merged, so none is offered."))
+                return False
             local = _branch_names("branch", "--format=%(refname:short)")
             remote = _branch_names("branch", "-r", "--format=%(refname:short)")
-            local_to_remove, remote_to_remove = _obsolete_branches(local, remote)
+            merged_local = merged_branches(base)
+            merged_remote = merged_branches(base, "-r")
+            local_to_remove, remote_to_remove = _obsolete_branches(local, remote, merged_local, merged_remote)
+            kept = _unmerged_branches(local, remote, merged_local, merged_remote)
         except subprocess.SubprocessError as error:
             logger.log("red", _("Could not inventory branches: {0}").format(error))
             return False
 
+        if kept:
+            logger.log(
+                "cyan",
+                _("Kept {0} branch(es) whose commits are not in {1}: {2}").format(len(kept), base, ", ".join(kept)),
+            )
         candidates = [
-            *(f"local: {branch}" for branch in local_to_remove),
-            *(f"origin/{branch}" for branch in remote_to_remove),
+            *(f"local: {branch} ({branch_tip(branch)})" for branch in local_to_remove),
+            *(f"origin/{branch} ({branch_tip(f'refs/remotes/origin/{branch}')})" for branch in remote_to_remove),
         ]
         if not candidates:
             logger.log("green", _("No obsolete branches found."))
             return True
-        preview = "\\n".join(f"• {candidate}" for candidate in candidates)
-        if not menu.confirm(_("Permanently delete these branches?\\n{0}").format(preview), default_yes=False):
+        preview = "\n".join(f"• {candidate}" for candidate in candidates)
+        if not menu.confirm(
+            _("Permanently delete these branches?\nEvery one is already merged into {0}.\n{1}").format(base, preview),
+            default_yes=False,
+        ):
             logger.log("yellow", _("Branch cleanup cancelled."))
             return False
 
@@ -507,10 +650,8 @@ class GitUtils:
     def get_changed_files() -> list:
         """Return a list of (status, filepath) tuples for changed files."""
         try:
-            # NUL-separated records keep paths with spaces, quotes, and
-            # non-UTF-8 bytes intact; porcelain v1 would quote and mangle them.
             result = subprocess.run_git(
-                ["git", "status", "--porcelain=v1", "-z", "--untracked-files=all"],
+                list(STATUS_COMMAND),
                 stdout=subprocess.PIPE,
                 stderr=subprocess.DEVNULL,
                 check=False,
@@ -518,20 +659,7 @@ class GitUtils:
             )
             if result.returncode != 0:
                 return []
-            files = []
-            records = result.stdout.split(b"\0")
-            index = 0
-            while index < len(records):
-                record = records[index]
-                index += 1
-                if not record:
-                    continue
-                decoded = os.fsdecode(record)
-                status = decoded[:2].strip()
-                files.append((status, decoded[3:]))
-                if "R" in status or "C" in status:
-                    index += 1  # Skip the original path stored by porcelain -z.
-            return files
+            return list(parse_status_records(result.stdout))
         except Exception:
             return []
 

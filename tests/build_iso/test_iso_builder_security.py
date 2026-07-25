@@ -1,3 +1,4 @@
+import hashlib
 from io import BytesIO
 from pathlib import Path
 from unittest.mock import Mock
@@ -163,8 +164,6 @@ def test_container_artifact_publication_suffixes_duplicate_family(monkeypatch, t
     (tmp_path / "biglinux-1.iso").write_bytes(b"existing-1")
 
     def copy_duplicate_output(argv, **kwargs):
-        if argv[0] == "md5sum":
-            return Mock(returncode=0, stdout=f"{'0' * 32}  {argv[1]}\n")
         staging = Path(argv[-1])
         (staging / "biglinux.iso").write_bytes(b"replacement")
         (staging / "biglinux.iso.pkgs").write_text("packages\n", encoding="utf-8")
@@ -177,7 +176,10 @@ def test_container_artifact_publication_suffixes_duplicate_family(monkeypatch, t
     assert (tmp_path / "biglinux-1.iso").read_bytes() == b"existing-1"
     assert (tmp_path / "biglinux-2.iso").read_bytes() == b"replacement"
     assert (tmp_path / "biglinux-2.iso.pkgs").read_text(encoding="utf-8") == "packages\n"
-    assert (tmp_path / "biglinux-2.iso.md5").read_text(encoding="utf-8") == (f"{'0' * 32}  biglinux-2.iso\n")
+    # The checksum is computed from the published bytes, not from an external
+    # binary that may be missing after a build that already took an hour.
+    expected = hashlib.md5(b"replacement").hexdigest()
+    assert (tmp_path / "biglinux-2.iso.md5").read_text(encoding="utf-8") == f"{expected}  biglinux-2.iso\n"
 
 
 def test_available_artifact_name_reserves_the_whole_artifact_family(tmp_path):
@@ -313,3 +315,50 @@ def test_container_cleanup_removes_exact_confirmed_ids(monkeypatch):
 
     assert manager.remove_stopped_containers(["0123456789ab"]) is True
     assert run.call_args.args[0] == ["docker", "rm", "0123456789ab"]
+
+
+def test_publication_never_overwrites_a_file_created_after_the_name_check(monkeypatch, tmp_path):
+    """A competing writer between naming and publication keeps its bytes."""
+    builder = _builder(tmp_path)
+    builder._container_name = "build-iso-test"
+
+    def copy_output(argv, **kwargs):
+        staging = Path(argv[-1])
+        (staging / "biglinux.iso").write_bytes(b"ours")
+        return Mock(returncode=0, stdout="")
+
+    monkeypatch.setattr(iso_builder_module.subprocess, "run", copy_output)
+
+    original_name = ISOBuilder._available_artifact_name
+
+    def race(output, iso_file, entries):
+        chosen = original_name(output, iso_file, entries)
+        # Another build publishes under the same name right after we picked it.
+        (output / chosen).write_bytes(b"someone else")
+        return chosen
+
+    monkeypatch.setattr(ISOBuilder, "_available_artifact_name", staticmethod(race))
+
+    assert builder._publish_container_artifacts() == ""
+    assert (tmp_path / "biglinux.iso").read_bytes() == b"someone else"
+
+
+def test_a_failed_publication_removes_only_what_it_created(monkeypatch, tmp_path):
+    builder = _builder(tmp_path)
+    builder._container_name = "build-iso-test"
+    bystander = tmp_path / "biglinux.iso.pkgs"
+    bystander.write_text("not mine\n", encoding="utf-8")
+
+    def copy_output(argv, **kwargs):
+        staging = Path(argv[-1])
+        (staging / "biglinux.iso").write_bytes(b"ours")
+        (staging / "biglinux.iso.pkgs").write_text("packages\n", encoding="utf-8")
+        return Mock(returncode=0, stdout="")
+
+    monkeypatch.setattr(iso_builder_module.subprocess, "run", copy_output)
+
+    published = builder._publish_container_artifacts()
+
+    # The family avoided the taken name instead of clobbering the bystander.
+    assert published == str(tmp_path / "biglinux-1.iso")
+    assert bystander.read_text(encoding="utf-8") == "not mine\n"

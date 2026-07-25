@@ -46,8 +46,10 @@ class BranchRow(Adw.ActionRow):
             pill.add_css_class("status-ok")
             pill.set_valign(Gtk.Align.CENTER)
             self.add_suffix(pill)
-        else:
-            self.set_subtitle(_("Select to run git checkout"))
+        elif is_remote:
+            # What is worth saying per row is what differs between rows. The
+            # group already states that selecting one runs git checkout.
+            self.set_subtitle(_("Only on origin; created locally on first checkout"))
 
         if is_remote:
             remote_icon = Gtk.Image.new_from_icon_name("network-server-symbolic")
@@ -212,7 +214,6 @@ class BranchWidget(Gtk.Box):
         # Refresh button
         refresh_content = Adw.ButtonContent(label=_("Refresh"), icon_name="view-refresh-symbolic")
         refresh_button = Gtk.Button(child=refresh_content)
-        refresh_button.add_css_class("build-package-action-button")
         refresh_button.set_tooltip_text(_("Refresh branch list"))
         refresh_button.connect("clicked", self.on_refresh_clicked)
         actions_box.append(refresh_button)
@@ -220,7 +221,6 @@ class BranchWidget(Gtk.Box):
         # Cleanup button
         cleanup_content = Adw.ButtonContent(label=_("Remove old branches"), icon_name="build-package-cleanup")
         cleanup_button = Gtk.Button(child=cleanup_content)
-        cleanup_button.add_css_class("build-package-action-button")
         cleanup_button.set_tooltip_text(
             git_command_description(
                 "git fetch --all --prune", "git branch -D BRANCH", "git push origin --delete BRANCH"
@@ -234,7 +234,6 @@ class BranchWidget(Gtk.Box):
         merge_content = Adw.ButtonContent(label=_("Open Pull Request"), icon_name="build-package-branches")
         self.merge_button = Gtk.Button(child=merge_content)
         self.merge_button.add_css_class("suggested-action")
-        self.merge_button.add_css_class("build-package-primary-action")
         self.merge_button.connect("clicked", self.on_merge_clicked)
         self.merge_button.set_sensitive(False)
         actions_box.append(self.merge_button)

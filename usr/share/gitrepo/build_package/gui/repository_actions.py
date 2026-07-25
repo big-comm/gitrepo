@@ -18,18 +18,13 @@ class RepositoryActionsMixin:
     """Own the repository-changing journeys initiated by the main window."""
 
     def on_quick_action(self, widget, action_id):
-        """Handle quick action from overview"""
-        if action_id == "commit":
-            self.switch_to_page("commit")
-        elif action_id == "pull":
+        """Open the destination that owns a follow-up action."""
+        if action_id == "pull":
             self.on_pull_requested(widget)
-        elif action_id == "package_testing":
-            self.switch_to_page("package")
-            # Could pre-select testing package type
-        elif action_id == "package_stable":
-            self.switch_to_page("package")
-        elif action_id == "aur":
-            self.switch_to_page("aur")
+            return
+        tab = "aur" if action_id == "aur" else "repository"
+        self.switch_to_page("packages")
+        self.packages_page.show_tab(tab)
 
     def on_overview_refresh(self, widget):
         """Handle overview refresh request"""
