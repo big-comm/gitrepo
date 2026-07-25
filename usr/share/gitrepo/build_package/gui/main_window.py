@@ -163,6 +163,10 @@ class MainWindow(RepositoryActionsMixin, BranchActionsMixin, Adw.ApplicationWind
         self.scrolled_content.set_child(self.content_stack)
 
         content_toolbar.set_content(self.scrolled_content)
+        # Pages that own a primary action publish a footer; it lives outside the
+        # scrolled area so the action never scrolls out of reach.
+        self._content_toolbar = content_toolbar
+        self._visible_footer = None
 
         self.split_view.set_content(content_toolbar)
 
@@ -466,9 +470,22 @@ class MainWindow(RepositoryActionsMixin, BranchActionsMixin, Adw.ApplicationWind
         self.window_title.set_title(title)
         self.window_title.set_subtitle(self._repository_context)
         self.compact_header_icon.set_from_icon_name(icon_name)
+        self._apply_page_footer(page_id)
         self._reset_content_scroll()
         if self.split_view.get_collapsed():
             self.split_view.set_show_sidebar(False)
+
+    def _apply_page_footer(self, page_id):
+        """Show only the footer owned by the visible page."""
+        page = self.content_stack.get_child_by_name(page_id)
+        footer = getattr(page, "page_footer", None)
+        if footer is self._visible_footer:
+            return
+        if self._visible_footer is not None:
+            self._content_toolbar.remove(self._visible_footer)
+        if footer is not None:
+            self._content_toolbar.add_bottom_bar(footer)
+        self._visible_footer = footer
 
     def _reset_content_scroll(self):
         adjustment = self.scrolled_content.get_vadjustment()

@@ -2,6 +2,7 @@
 # gui/dialogs/progress_dialog.py - Build progress dialog
 #
 
+import os
 import re
 import threading
 import time
@@ -11,10 +12,26 @@ import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
+from gitrepo.build_iso.core.build_estimate import historical_total_seconds, remaining_seconds
+from gitrepo.build_iso.core.config import VALID_DISTROS, VALID_KERNELS, edition_display_name
+from gitrepo.build_iso.core.build_log import BuildLogFile
+from gitrepo.build_iso.core.history_store import BuildHistoryStore
 from gitrepo.build_iso.core.iso_builder import ISOBuilder
 from gitrepo.common.translation import _
 from gitrepo.common.diagnostic_redaction import redact_diagnostic
-from gi.repository import Adw, GLib, GObject, Gtk
+from gitrepo.common.terminal_palette import apply_log_palette, log_palette
+from gi.repository import Adw, Gdk, GLib, GObject, Gtk
+
+
+def format_duration(seconds: int) -> str:
+    """Render a coarse, honest duration for a long-running build."""
+    if seconds < 60:
+        return _("less than 1 min")
+    minutes = seconds // 60
+    if minutes < 60:
+        return _("{0} min").format(minutes)
+    hours, remainder = divmod(minutes, 60)
+    return _("{0} h {1} min").format(hours, remainder)
 
 
 def build_step_states(active_index: int, step_count: int, outcome: str | None = None) -> tuple[str, ...]:
@@ -81,17 +98,22 @@ class BuildStepIndicator(Gtk.Box):
 class BuildSubstepIndicator(Gtk.Box):
     """Compact state for one observable part of the Build ISO stage."""
 
-    def __init__(self, number: int, total: int, title: str) -> None:
+    def __init__(self, number: int, total: int, title: str, *, parent_number: int) -> None:
         super().__init__(orientation=Gtk.Orientation.HORIZONTAL, spacing=5)
         self._number = number
         self._total = total
         self._title = title
+        # Substeps live below the numbered stepper, so they read as dots with a
+        # caption instead of a second, competing set of numbers.
+        self._marker_text = f"{parent_number}.{number}"
         self.set_halign(Gtk.Align.CENTER)
         self.set_accessible_role(Gtk.AccessibleRole.GROUP)
         self.add_css_class("build-substep")
 
-        self.marker = Gtk.Label(label=str(number))
+        self.marker = Gtk.Label()
         self.marker.add_css_class("build-substep-marker")
+        self.marker.set_valign(Gtk.Align.CENTER)
+        self.marker.set_size_request(9, 9)
         self.append(self.marker)
 
         title_label = Gtk.Label(label=title, xalign=0)
@@ -106,9 +128,6 @@ class BuildSubstepIndicator(Gtk.Box):
         for css_class in ("step-pending", "step-active", "step-complete", "step-failed", "step-cancelled"):
             self.remove_css_class(css_class)
         self.add_css_class(f"step-{state}")
-        self.marker.set_text(
-            "✓" if state == "complete" else "!" if state in {"failed", "cancelled"} else str(self._number)
-        )
         accessible_label = _("Build substep {0} of {1}: {2} — {3}").format(
             self._number,
             self._total,
@@ -142,12 +161,25 @@ class BuildProgressDialog(Adw.Window):
         self._displayed_fraction = 0.0
         self.step_indicators = []
         self.substep_indicators = []
+        self.log_file = BuildLogFile(config.get("distroname", "iso"), config.get("edition", "build"))
+        self._historical_total = historical_total_seconds(
+            BuildHistoryStore().load(),
+            config.get("distroname", ""),
+            config.get("edition", ""),
+        )
+        self._style_manager = Adw.StyleManager.get_default()
 
         self.set_title(_("Build Progress"))
         self.set_default_size(750, 600)
         self.set_resizable(True)
 
         self._create_ui()
+        self.connect("close-request", self._on_close_request)
+
+    def _on_close_request(self, _window) -> bool:
+        """Release the log file even when the dialog is closed early."""
+        self.log_file.close()
+        return False
 
     def _create_ui(self):
         toolbar_view = Adw.ToolbarView()
@@ -156,37 +188,80 @@ class BuildProgressDialog(Adw.Window):
         header = Adw.HeaderBar()
         header.set_show_end_title_buttons(False)
         header.set_show_start_title_buttons(False)
+        header.set_title_widget(
+            Adw.WindowTitle(
+                title=_("Building the ISO image"),
+                subtitle=_("{0} • {1} • kernel {2}").format(
+                    VALID_DISTROS.get(self.config.get("distroname", ""), self.config.get("distroname", "?")),
+                    edition_display_name(self.config.get("edition", "?")),
+                    VALID_KERNELS.get(self.config.get("kernel", ""), self.config.get("kernel", "?")),
+                ),
+            )
+        )
 
-        # Maximize toggle button
         maximize_btn = Gtk.Button()
         maximize_btn.set_icon_name("view-fullscreen-symbolic")
         maximize_btn.set_tooltip_text(_("Maximize"))
+        maximize_btn.add_css_class("flat")
         maximize_btn.connect("clicked", self._on_toggle_maximize)
         header.pack_end(maximize_btn)
 
         toolbar_view.add_top_bar(header)
 
-        content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
-        content.set_margin_top(12)
+        content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=14)
+        content.set_margin_top(16)
         content.set_margin_bottom(16)
         content.set_margin_start(20)
         content.set_margin_end(20)
         toolbar_view.set_content(content)
 
-        distro = self.config.get("distroname", "?")
-        edition = self.config.get("edition", "?")
-        summary_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
-        summary_label = Gtk.Label(label=_("{0} • {1}").format(distro, edition), xalign=0)
-        summary_label.set_hexpand(True)
-        summary_label.add_css_class("heading")
-        summary_box.append(summary_label)
+        content.append(self._create_status_card())
+        content.append(self._create_log_card())
+        toolbar_view.add_bottom_bar(self._create_action_bar())
 
-        self.elapsed_label = Gtk.Label()
-        self.elapsed_label.set_text(_("Elapsed: 00:00"))
-        self.elapsed_label.add_css_class("dim-label")
-        summary_box.append(self.elapsed_label)
-        content.append(summary_box)
+    def _create_status_card(self) -> Gtk.Widget:
+        """Build the headline card: total progress, timings, and the stepper."""
+        card = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=14)
+        card.add_css_class("build-progress-card")
 
+        headline = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=18)
+
+        percent_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+        percent_box.set_hexpand(True)
+        percent_box.set_valign(Gtk.Align.CENTER)
+        self.percent_label = Gtk.Label(label="0%", xalign=0)
+        self.percent_label.add_css_class("build-progress-percent")
+        self.percent_label.add_css_class("numeric")
+        percent_box.append(self.percent_label)
+        self.status_label = Gtk.Label(label=_("Waiting to start"), xalign=0)
+        self.status_label.add_css_class("build-progress-status")
+        self.status_label.set_wrap(True)
+        self.status_label.set_natural_wrap_mode(Gtk.NaturalWrapMode.WORD)
+        self.status_label.set_width_chars(1)
+        percent_box.append(self.status_label)
+        headline.append(percent_box)
+
+        _elapsed_caption, self.elapsed_label = self._append_stat(headline, _("Elapsed"), "00:00")
+        self.remaining_caption, self.remaining_label = self._append_stat(
+            headline,
+            _("Remaining"),
+            format_duration(self._historical_total) if self._historical_total else _("estimating…"),
+        )
+        card.append(headline)
+
+        self.progress_bar = Gtk.ProgressBar()
+        self.progress_bar.set_show_text(False)
+        self.progress_bar.add_css_class("build-progress-bar")
+        self.progress_bar.set_accessible_role(Gtk.AccessibleRole.PROGRESS_BAR)
+        self.progress_bar.update_property([Gtk.AccessibleProperty.LABEL], [_("Overall build progress")])
+        card.append(self.progress_bar)
+
+        card.append(self._create_stepper())
+        card.append(self._create_substeps_revealer())
+        return card
+
+    def _create_stepper(self) -> Gtk.Widget:
+        """Build the five numbered stages of a run."""
         steps = (
             _("Prepare environment"),
             _("Update image"),
@@ -200,8 +275,10 @@ class BuildProgressDialog(Adw.Window):
             indicator = BuildStepIndicator(number, len(steps), step_title)
             self.step_indicators.append(indicator)
             steps_box.append(indicator)
-        content.append(steps_box)
+        return steps_box
 
+    def _create_substeps_revealer(self) -> Gtk.Widget:
+        """Build the subordinate substep dots shown during the Build ISO stage."""
         substeps = (
             _("Prepare profile"),
             _("Install system"),
@@ -209,78 +286,109 @@ class BuildProgressDialog(Adw.Window):
             _("Compress files"),
             _("Create ISO image"),
         )
+        substeps_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
+        substeps_row.add_css_class("build-substeps")
         substeps_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6, homogeneous=True)
-        substeps_box.add_css_class("build-substeps")
+        substeps_box.set_hexpand(True)
+        build_step_number = ISOBuilder.step_index_for_phase("container_build") + 1
         for number, substep_title in enumerate(substeps, start=1):
-            indicator = BuildSubstepIndicator(number, len(substeps), substep_title)
+            indicator = BuildSubstepIndicator(number, len(substeps), substep_title, parent_number=build_step_number)
             self.substep_indicators.append(indicator)
             substeps_box.append(indicator)
-        self.substeps_revealer = Gtk.Revealer(child=substeps_box)
-        self.substeps_revealer.set_transition_type(Gtk.RevealerTransitionType.SLIDE_DOWN)
-        content.append(self.substeps_revealer)
+        substeps_row.append(substeps_box)
 
-        progress_status = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
-        self.status_label = Gtk.Label(label=_("Waiting to start"), xalign=0)
-        self.status_label.set_hexpand(True)
-        progress_status.append(self.status_label)
-        self.step_count_label = Gtk.Label(label=_("Step {0} of {1}").format(0, len(steps)))
+        self.step_count_label = Gtk.Label(label=_("Step {0} of {1}").format(0, len(self.step_indicators)))
         self.step_count_label.add_css_class("dim-label")
-        progress_status.append(self.step_count_label)
-        content.append(progress_status)
+        self.step_count_label.add_css_class("caption")
+        self.step_count_label.set_valign(Gtk.Align.CENTER)
+        substeps_row.append(self.step_count_label)
 
-        self.progress_bar = Gtk.ProgressBar()
-        self.progress_bar.set_show_text(True)
-        self.progress_bar.set_text("0%")
-        self.progress_bar.set_accessible_role(Gtk.AccessibleRole.PROGRESS_BAR)
-        self.progress_bar.update_property([Gtk.AccessibleProperty.LABEL], [_("Overall build progress")])
-        content.append(self.progress_bar)
+        self.substeps_revealer = Gtk.Revealer(child=substeps_row)
+        self.substeps_revealer.set_transition_type(Gtk.RevealerTransitionType.SLIDE_DOWN)
+        return self.substeps_revealer
 
-        # Terminal log (expanded by default for build)
-        log_expander = Gtk.Expander()
-        log_expander.set_label(_("Terminal Log"))
-        log_expander.set_expanded(True)
-        log_expander.set_margin_top(4)
-        log_expander.set_vexpand(True)
+    @staticmethod
+    def _append_stat(container: Gtk.Box, caption: str, value: str) -> tuple[Gtk.Label, Gtk.Label]:
+        """Add one right-aligned timing readout and return its caption and value."""
+        stat = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=1)
+        stat.set_valign(Gtk.Align.CENTER)
+        caption_label = Gtk.Label(label=caption, xalign=1)
+        caption_label.add_css_class("build-stat-caption")
+        stat.append(caption_label)
+        value_label = Gtk.Label(label=value, xalign=1)
+        value_label.add_css_class("build-stat-value")
+        value_label.add_css_class("numeric")
+        stat.append(value_label)
+        container.append(stat)
+        return caption_label, value_label
+
+    def _create_log_card(self) -> Gtk.Widget:
+        """Build the terminal log surface with its own copy and save actions."""
+        card = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+        card.add_css_class("build-log-card")
+        card.set_vexpand(True)
+
+        header = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+        header.add_css_class("build-log-header")
+        title = Gtk.Label(label=_("Terminal Log"), xalign=0)
+        title.add_css_class("heading")
+        title.set_hexpand(True)
+        header.append(title)
+
+        copy_log_button = Gtk.Button.new_from_icon_name("edit-copy-symbolic")
+        copy_log_button.add_css_class("flat")
+        copy_log_button.set_tooltip_text(_("Copy the whole terminal log to the clipboard"))
+        copy_log_button.update_property([Gtk.AccessibleProperty.LABEL], [_("Copy Log")])
+        copy_log_button.connect("clicked", self._on_copy_log_clicked)
+        header.append(copy_log_button)
+
+        self.save_log_button = Gtk.Button.new_from_icon_name("document-save-symbolic")
+        self.save_log_button.add_css_class("flat")
+        self.save_log_button.set_tooltip_text(_("Save the terminal log to a file you choose"))
+        self.save_log_button.update_property([Gtk.AccessibleProperty.LABEL], [_("Save Log…")])
+        self.save_log_button.connect("clicked", self._on_save_log_clicked)
+        header.append(self.save_log_button)
+        card.append(header)
 
         scrolled = Gtk.ScrolledWindow()
         scrolled.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
-        scrolled.set_min_content_height(200)
+        scrolled.set_min_content_height(220)
         scrolled.set_vexpand(True)
 
         self.log_buffer = Gtk.TextBuffer()
         self.log_view = Gtk.TextView()
         self.log_view.set_buffer(self.log_buffer)
         self.log_view.set_editable(False)
+        self.log_view.set_cursor_visible(False)
         self.log_view.set_monospace(True)
         self.log_view.set_wrap_mode(Gtk.WrapMode.WORD_CHAR)
-        self.log_view.set_left_margin(8)
-        self.log_view.set_right_margin(8)
-        self.log_view.set_top_margin(8)
-        self.log_view.set_bottom_margin(8)
-        self.log_view.add_css_class("card")
+        self.log_view.set_left_margin(14)
+        self.log_view.set_right_margin(14)
+        self.log_view.set_top_margin(6)
+        self.log_view.set_bottom_margin(12)
+        self.log_view.add_css_class("build-log-view")
         self.log_view.update_property([Gtk.AccessibleProperty.LABEL], [_("Terminal Log")])
 
         scrolled.set_child(self.log_view)
-        log_expander.set_child(scrolled)
-        content.append(log_expander)
+        card.append(scrolled)
+        return card
 
-        # Buttons
-        button_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
-        button_box.set_halign(Gtk.Align.CENTER)
-        button_box.set_margin_top(12)
+    def _create_action_bar(self) -> Gtk.Widget:
+        """Build the bottom action area with the single primary decision."""
+        action_bar = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        action_bar.add_css_class("build-action-bar")
+        action_bar.set_halign(Gtk.Align.END)
 
         self.cancel_button = Gtk.Button()
         self.cancel_button.set_label(_("Cancel Build"))
         self.cancel_button.add_css_class("destructive-action")
         self.cancel_button.connect("clicked", self._on_cancel_clicked)
-        button_box.append(self.cancel_button)
-
-        content.append(button_box)
+        action_bar.append(self.cancel_button)
+        return action_bar
 
     def _setup_text_tags(self):
         tag_table = self.log_buffer.get_tag_table()
-        styles = ("cyan", "green", "red", "yellow", "white", "dim", "blue", "magenta", "bold-white")
-        for name in styles:
+        for name in log_palette(False):
             if not tag_table.lookup(name):
                 tag = Gtk.TextTag.new(name)
                 if name in {"red", "yellow", "bold-white"}:
@@ -296,6 +404,12 @@ class BuildProgressDialog(Adw.Window):
             tag_table.add(tag)
 
         self._tags_initialized = True
+        self._apply_log_palette()
+        self._style_manager.connect("notify::dark", lambda *_args: self._apply_log_palette())
+
+    def _apply_log_palette(self) -> None:
+        """Repaint the log tags for the active light or dark colour scheme."""
+        apply_log_palette(self.log_buffer, self._style_manager.get_dark())
 
     def _on_toggle_maximize(self, button):
         if self.is_maximized():
@@ -394,6 +508,9 @@ class BuildProgressDialog(Adw.Window):
         if not self._tags_initialized:
             self._setup_text_tags()
 
+        plain_message = self._ANSI_SPLIT_RE.sub("", message)
+        self.log_file.append(plain_message)
+
         # Check if message contains ANSI codes
         if "\x1b[" in message:
             parts = self._ANSI_SPLIT_RE.split(message)
@@ -447,6 +564,41 @@ class BuildProgressDialog(Adw.Window):
         end_iter = self.log_buffer.get_end_iter()
         self.log_view.scroll_to_iter(end_iter, 0.0, False, 0.0, 1.0)
         return False
+
+    def _log_text(self) -> str:
+        return self.log_buffer.get_text(self.log_buffer.get_start_iter(), self.log_buffer.get_end_iter(), False)
+
+    def _on_copy_log_clicked(self, _button) -> None:
+        display = Gdk.Display.get_default()
+        if display is None:
+            return
+        display.get_clipboard().set(self._log_text())
+        root = self.get_transient_for()
+        if root and hasattr(root, "show_toast"):
+            root.show_toast(_("Terminal log copied to the clipboard"))
+
+    def _on_save_log_clicked(self, _button) -> None:
+        dialog = Gtk.FileDialog()
+        dialog.set_title(_("Save Terminal Log"))
+        dialog.set_initial_name(os.path.basename(self.log_file.path))
+        dialog.save(self, None, self._on_save_log_selected)
+
+    def _on_save_log_selected(self, dialog, result) -> None:
+        try:
+            destination = dialog.save_finish(result)
+        except GLib.Error:
+            return
+        if destination is None or not destination.get_path():
+            return
+        try:
+            with open(destination.get_path(), "w", encoding="utf-8") as handle:
+                handle.write(self._log_text())
+        except OSError as error:
+            self.status_label.set_text(_("Could not save the log: {0}").format(error))
+            return
+        root = self.get_transient_for()
+        if root and hasattr(root, "show_toast"):
+            root.show_toast(_("Terminal log saved to {0}").format(destination.get_path()))
 
     def _clear_live_log(self) -> None:
         if not self._live_log_mark:
@@ -505,7 +657,7 @@ class BuildProgressDialog(Adw.Window):
             return False
         self._displayed_fraction = bounded_fraction
         self.progress_bar.set_fraction(bounded_fraction)
-        self.progress_bar.set_text(f"{round(bounded_fraction * 100)}%")
+        self.percent_label.set_text(f"{round(bounded_fraction * 100)}%")
         if text and text not in {phase for _step_id, phases in ISOBuilder.BUILD_STEPS for phase in phases}:
             self.status_label.set_text(text)
         return False
@@ -567,8 +719,15 @@ class BuildProgressDialog(Adw.Window):
             elapsed = int(time.time() - self._start_time)
             mins = elapsed // 60
             secs = elapsed % 60
-            self.elapsed_label.set_text(_("Elapsed: {0:02d}:{1:02d}").format(mins, secs))
+            self.elapsed_label.set_text(f"{mins:02d}:{secs:02d}")
+            self._update_remaining(elapsed)
         return True  # Keep timer running
+
+    def _update_remaining(self, elapsed: int) -> None:
+        remaining = remaining_seconds(elapsed, self._displayed_fraction, self._historical_total)
+        if remaining is None:
+            return
+        self.remaining_label.set_text(format_duration(remaining))
 
     def _on_build_finished(self, result):
         # Stop timer
@@ -580,6 +739,11 @@ class BuildProgressDialog(Adw.Window):
         iso_path = result.get("iso_path", "")
         error_msg = result.get("error", "")
         duration = result.get("duration", 0)
+        self.log_file.append(_("Build finished: {0}").format(status))
+        self.log_file.close()
+        self.log_file.prune()
+        self.remaining_caption.set_text(_("Total"))
+        self.remaining_label.set_text(format_duration(int(duration)))
 
         # Update UI
         if success:
@@ -588,7 +752,7 @@ class BuildProgressDialog(Adw.Window):
             self._apply_substep_states(len(self.substep_indicators) - 1, "succeeded")
             self._displayed_fraction = 1.0
             self.progress_bar.set_fraction(1.0)
-            self.progress_bar.set_text("100%")
+            self.percent_label.set_text("100%")
             self.step_count_label.set_text(
                 _("Step {0} of {1}").format(len(self.step_indicators), len(self.step_indicators))
             )
@@ -615,12 +779,9 @@ class BuildProgressDialog(Adw.Window):
         self.cancel_button.set_label(_("Close"))
         self.cancel_button.remove_css_class("destructive-action")
         if success:
-            self.cancel_button.add_css_class("suggested-action")
-
+            # Only one primary action: opening the finished ISO folder.
             # Add "Open Folder" button if ISO exists
             if iso_path:
-                import os
-
                 open_btn = Gtk.Button()
                 open_btn.set_label(_("Open ISO Folder"))
                 open_btn.add_css_class("suggested-action")
@@ -645,6 +806,8 @@ class BuildProgressDialog(Adw.Window):
                 "success": success,
                 "status": status,
                 "iso_path": iso_path,
+                "iso_size": self._iso_size(iso_path),
+                "log_path": self.log_file.path,
                 "duration": duration,
                 "error": error_msg,
             }
@@ -673,6 +836,16 @@ class BuildProgressDialog(Adw.Window):
 
     def _on_close_clicked(self, button):
         self.close()
+
+    @staticmethod
+    def _iso_size(iso_path: str) -> int:
+        """Return the published ISO size, or zero when it cannot be read."""
+        if not iso_path:
+            return 0
+        try:
+            return os.path.getsize(iso_path)
+        except OSError:
+            return 0
 
     def _open_folder(self, path):
         from gitrepo.common import child_process as subprocess

@@ -8,8 +8,11 @@ gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
 from gi.repository import Gtk, Adw, GObject
+from gitrepo.build_package.core.git_utils import GitUtils
 from gitrepo.common.translation import _
 
+from gitrepo.common.help_popover import help_button
+from gitrepo.common.page_layout import page_body
 from gitrepo.common.page_hero import BuildPackagePageHero as PageHero, git_command_description
 
 
@@ -29,6 +32,7 @@ class CommitWidget(Gtk.Box):
         self.selected_commit_type = None
         self.selected_emoji = None
         self._has_changes = False
+        self._changed_file_rows = []
 
         self.create_ui()
 
@@ -39,24 +43,27 @@ class CommitWidget(Gtk.Box):
             PageHero(
                 "build-package-commit",
                 _("Prepare and publish changes"),
-                _("Record your work and send it to a remote branch. {0}").format(
-                    git_command_description(
-                        "git add -A",
-                        'git commit -m "MESSAGE"',
-                        "git push -u origin BRANCH",
-                    )
-                ),
+                _("Record your work and send it to a remote branch."),
             )
         )
 
-        page_content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=18)
-        page_content.add_css_class("page-frame")
-        self.append(page_content)
+        clamp, page_content = page_body(spacing=18)
+        self.append(clamp)
 
         # Status group
         status_group = Adw.PreferencesGroup()
         status_group.set_title(_("Repository Status"))
         status_group.set_description(_("Confirm the active branch and pending files before creating a commit."))
+        status_group.set_header_suffix(
+            help_button(
+                _("What publishing runs"),
+                git_command_description(
+                    "git add -A",
+                    'git commit -m "MESSAGE"',
+                    "git push -u origin BRANCH",
+                ),
+            )
+        )
 
         self.changes_row = Adw.ActionRow()
         self.changes_row.set_title(_("Working Directory"))
@@ -118,7 +125,8 @@ class CommitWidget(Gtk.Box):
         self.commit_type_expander = Adw.ExpanderRow()
         self.commit_type_expander.set_title(_("Commit Type"))
         self.commit_type_expander.set_subtitle(_("Select the type of change"))
-        self.commit_type_expander.add_css_class("error")
+        # A required choice is not a failure: it reads as pending, not broken.
+        self.commit_type_expander.add_css_class("warning")
 
         # Add commit type rows inside expander
         for idx, (emoji, commit_type, description) in enumerate(self.commit_types):
@@ -192,34 +200,49 @@ class CommitWidget(Gtk.Box):
         message_group.add(message_box)
         page_content.append(message_group)
 
-        # Actions
-        actions_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
-        actions_box.set_halign(Gtk.Align.END)
-        actions_box.set_margin_top(6)
+        # ── Footer: what will be published, plus the primary action ──
+        # The form is longer than one screen, so the decision and its summary
+        # stay pinned outside the scrolled area.
+        self.page_footer = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=16)
+        self.page_footer.add_css_class("page-footer-bar")
 
-        # Pull button
+        summary_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
+        summary_box.set_hexpand(True)
+        summary_box.set_valign(Gtk.Align.CENTER)
+        self.summary_label = Gtk.Label(xalign=0)
+        self.summary_label.add_css_class("build-summary-value")
+        self.summary_label.set_wrap(True)
+        self.summary_label.set_natural_wrap_mode(Gtk.NaturalWrapMode.WORD)
+        self.summary_label.set_width_chars(1)
+        summary_box.append(self.summary_label)
+        self.summary_detail = Gtk.Label(xalign=0)
+        self.summary_detail.add_css_class("dim-label")
+        self.summary_detail.add_css_class("caption")
+        self.summary_detail.set_wrap(True)
+        self.summary_detail.set_natural_wrap_mode(Gtk.NaturalWrapMode.WORD)
+        self.summary_detail.set_width_chars(1)
+        summary_box.append(self.summary_detail)
+        self.page_footer.append(summary_box)
+
         pull_content = Adw.ButtonContent(label=_("Download updates"), icon_name="build-package-pull")
         self.pull_button = Gtk.Button(child=pull_content)
-        self.pull_button.add_css_class("build-package-action-button")
+        self.pull_button.set_valign(Gtk.Align.CENTER)
         self.pull_button.set_tooltip_text(
             git_command_description("git fetch origin BRANCH", "git merge --no-edit origin/BRANCH")
         )
         self.pull_button.connect("clicked", self.on_pull_clicked)
-        actions_box.append(self.pull_button)
+        self.page_footer.append(self.pull_button)
 
-        # Commit button
         commit_content = Adw.ButtonContent(label=_("Publish changes"), icon_name="build-package-commit")
         self.commit_button = Gtk.Button(child=commit_content)
         self.commit_button.add_css_class("suggested-action")
-        self.commit_button.add_css_class("build-package-primary-action")
+        self.commit_button.set_valign(Gtk.Align.CENTER)
         self.commit_button.connect("clicked", self.on_commit_clicked)
         self.commit_button.set_sensitive(False)
-        actions_box.append(self.commit_button)
+        self.page_footer.append(self.commit_button)
 
-        page_content.append(actions_box)
-
-        # Do NOT auto-select first type — user must choose actively
-        # The expander starts with "error" CSS class as visual alert
+        # Do NOT auto-select first type — user must choose actively.
+        # The expander starts marked as pending until the user picks a type.
 
     def apply_snapshot(self, snapshot):
         """Render commit state without running Git on the GTK main loop."""
@@ -276,8 +299,8 @@ class CommitWidget(Gtk.Box):
         self.selected_commit_type = row.commit_type
         self.selected_emoji = row.emoji
 
-        # Remove alert highlight after selection
-        self.commit_type_expander.remove_css_class("error")
+        # Remove the pending highlight after selection
+        self.commit_type_expander.remove_css_class("warning")
 
         # Update expander subtitle to show selection
         self.commit_type_expander.set_subtitle(f"{row.emoji} {row.commit_type}")
@@ -316,6 +339,31 @@ class CommitWidget(Gtk.Box):
         has_type = self.selected_commit_type is not None
 
         self.commit_button.set_sensitive(self._has_changes and has_message and has_type)
+        self._update_summary(has_message, has_type)
+
+    def _update_summary(self, has_message: bool, has_type: bool) -> None:
+        """Say, in one line, exactly what the primary action will publish."""
+        if not hasattr(self, "summary_label"):
+            return
+        branch = self.branch_row.get_subtitle() or _("unknown branch")
+        if not self._has_changes:
+            self.summary_label.set_text(_("Nothing to publish"))
+            self.summary_detail.set_text(_("The working tree on {0} is clean.").format(branch))
+            return
+
+        commit_type = self.selected_commit_type or _("choose a type")
+        files = len(self._changed_file_rows)
+        self.summary_label.set_text(_("{0} • {1} file(s) • branch {2}").format(commit_type, files, branch))
+        missing = []
+        if not has_type:
+            missing.append(_("commit type"))
+        if not has_message:
+            missing.append(_("description"))
+        self.summary_detail.set_text(
+            _("Still missing: {0}").format(", ".join(missing))
+            if missing
+            else _("git add -A → git commit → git push origin {0}").format(branch)
+        )
 
     def on_pull_clicked(self, button):
         """Handle pull button click"""
@@ -380,12 +428,28 @@ class CommitWidget(Gtk.Box):
 
             icon = Gtk.Image.new_from_icon_name(icon_name)
             row.add_prefix(icon)
+            # Reviewing the diff is part of writing an honest commit message.
+            row.set_activatable(True)
+            row.connect("activated", self._show_file_diff, filepath)
+            row.add_suffix(Gtk.Image.new_from_icon_name("go-next-symbolic"))
             self.changed_files_expander.add_row(row)
             self._changed_file_rows.append(row)
 
         count = len(changed_files)
         self.changed_files_expander.set_title(_("{0} changed file(s)").format(count))
         self.changed_files_expander.set_visible(count > 0)
+
+    def _show_file_diff(self, _row, filepath):
+        """Open the pending changes with the activated file selected."""
+        from gitrepo.build_package.gui.dialogs.diff_viewer_dialog import present_diff_viewer
+
+        present_diff_viewer(
+            self.get_root(),
+            _("Pending changes"),
+            GitUtils.get_changed_files(),
+            GitUtils.get_worktree_file_diff,
+            initial_path=filepath,
+        )
 
     def on_undo_clicked(self, button):
         """Handle undo last commit button click with confirmation"""

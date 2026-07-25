@@ -13,10 +13,13 @@ gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
 from gitrepo.build_iso.core.config import (
+    BRANCH_DESCRIPTIONS,
+    BRANCH_DISPLAY_NAMES,
     ISO_PROFILES_REPOS,
     VALID_BRANCHES,
     VALID_DISTROS,
     VALID_KERNELS,
+    edition_display_name,
 )
 from gitrepo.build_iso.core.profile_catalog import ProfileCatalogResult, load_profile_catalog
 from gitrepo.common.translation import _
@@ -24,6 +27,8 @@ from gitrepo.common.network_url import UnsafeNetworkUrl, validate_github_reposit
 from gi.repository import Adw, GLib, GObject, Gtk
 
 from gitrepo.common.page_hero import BuildIsoPageHero as PageHero
+from gitrepo.common.help_popover import help_button
+from gitrepo.common.page_layout import page_body
 
 
 class BuildWidget(Gtk.Box):
@@ -39,6 +44,7 @@ class BuildWidget(Gtk.Box):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=0)
 
         self.settings = settings
+        self._edition_keys = []
         self._editions_cache = {}
         self._loading_editions = False
         self._loading_cache_key = ""
@@ -64,14 +70,23 @@ class BuildWidget(Gtk.Box):
             )
         )
 
-        page_content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
-        page_content.add_css_class("page-frame")
-        self.append(page_content)
+        clamp, page_content = page_body()
+        self.append(clamp)
 
         # ── Target system ──
         distro_group = Adw.PreferencesGroup()
         distro_group.set_title(_("Target System"))
         distro_group.set_description(_("Choose the package base and desktop edition included in the image."))
+        distro_group.set_header_suffix(
+            help_button(
+                _("Distribution and edition"),
+                _(
+                    "The distribution sets which package repositories the image is built from. "
+                    "The edition is the desktop it starts with — the same system with a different "
+                    "workspace, applications, and defaults."
+                ),
+            )
+        )
         page_content.append(distro_group)
 
         self.distro_row = Adw.ComboRow()
@@ -107,6 +122,16 @@ class BuildWidget(Gtk.Box):
         profiles_group.set_title(_("Profile Definitions"))
         profiles_group.set_description(_("Profiles control packages, services, and defaults applied to the image."))
         profiles_group.set_margin_top(18)
+        profiles_group.set_header_suffix(
+            help_button(
+                _("Profile definitions"),
+                _(
+                    "A profile is the recipe of the image: package lists, enabled services, and files "
+                    "copied into the system. Keep the official source unless you maintain your own "
+                    "iso-profiles repository or folder."
+                ),
+            )
+        )
         page_content.append(profiles_group)
 
         # Source selector: Official / Custom URL / Local folder
@@ -149,6 +174,16 @@ class BuildWidget(Gtk.Box):
         kernel_group.set_title(_("Kernel"))
         kernel_group.set_description(_("Choose long-term stability or newer hardware support."))
         kernel_group.set_margin_top(18)
+        kernel_group.set_header_suffix(
+            help_button(
+                _("Which kernel to choose"),
+                _(
+                    "LTS receives long-term fixes and is the safest default. Latest supports very recent "
+                    "hardware but changes faster. Old LTS helps on older machines, and XanMod targets "
+                    "desktop responsiveness."
+                ),
+            )
+        )
         page_content.append(kernel_group)
 
         self.kernel_row = Adw.ComboRow()
@@ -166,36 +201,32 @@ class BuildWidget(Gtk.Box):
         branches_group.set_title(_("Package Channels"))
         branches_group.set_description(_("Select the repositories used to resolve packages during the build."))
         branches_group.set_margin_top(18)
+        branches_group.set_header_suffix(
+            help_button(
+                _("Package channels"),
+                "\n".join(
+                    f"{BRANCH_DISPLAY_NAMES[branch]}: {BRANCH_DESCRIPTIONS[branch]}" for branch in VALID_BRANCHES
+                ),
+            )
+        )
         page_content.append(branches_group)
-
-        branch_model = Gtk.StringList()
-        for b in VALID_BRANCHES:
-            branch_model.append(b.capitalize())
 
         self.manjaro_branch_row = Adw.ComboRow()
         self.manjaro_branch_row.set_title(_("Manjaro Packages"))
         self.manjaro_branch_row.set_subtitle(_("Base system packages"))
-        self.manjaro_branch_row.set_model(branch_model)
+        self.manjaro_branch_row.set_model(self._branch_model())
         branches_group.add(self.manjaro_branch_row)
-
-        branch_model2 = Gtk.StringList()
-        for b in VALID_BRANCHES:
-            branch_model2.append(b.capitalize())
 
         self.biglinux_branch_row = Adw.ComboRow()
         self.biglinux_branch_row.set_title(_("BigLinux Packages"))
         self.biglinux_branch_row.set_subtitle(_("BigLinux system components"))
-        self.biglinux_branch_row.set_model(branch_model2)
+        self.biglinux_branch_row.set_model(self._branch_model())
         branches_group.add(self.biglinux_branch_row)
-
-        branch_model3 = Gtk.StringList()
-        for b in VALID_BRANCHES:
-            branch_model3.append(b.capitalize())
 
         self.community_branch_row = Adw.ComboRow()
         self.community_branch_row.set_title(_("Community Packages"))
         self.community_branch_row.set_subtitle(_("Packages maintained by BigCommunity"))
-        self.community_branch_row.set_model(branch_model3)
+        self.community_branch_row.set_model(self._branch_model())
         branches_group.add(self.community_branch_row)
 
         # ── Output Section ──
@@ -232,21 +263,78 @@ class BuildWidget(Gtk.Box):
         output_group.add(self.disk_label)
         self._update_disk_space()
 
-        # ── Build Button ──
-        button_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-        button_box.set_halign(Gtk.Align.END)
-        button_box.set_margin_top(24)
-        button_box.set_margin_bottom(12)
+        # ── Footer: live summary plus the primary action ──
+        # The form is longer than one screen, so the action and the resulting
+        # configuration stay pinned outside the scrolled area.
+        self.page_footer = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=16)
+        self.page_footer.add_css_class("page-footer-bar")
+
+        summary_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
+        summary_box.set_hexpand(True)
+        summary_box.set_valign(Gtk.Align.CENTER)
+        self.summary_label = Gtk.Label(xalign=0)
+        self.summary_label.add_css_class("build-summary-value")
+        self.summary_label.set_wrap(True)
+        self.summary_label.set_natural_wrap_mode(Gtk.NaturalWrapMode.WORD)
+        self.summary_label.set_width_chars(1)
+        summary_box.append(self.summary_label)
+        self.summary_detail = Gtk.Label(xalign=0)
+        self.summary_detail.add_css_class("dim-label")
+        self.summary_detail.add_css_class("caption")
+        self.summary_detail.set_wrap(True)
+        self.summary_detail.set_natural_wrap_mode(Gtk.NaturalWrapMode.WORD)
+        self.summary_detail.set_width_chars(1)
+        summary_box.append(self.summary_detail)
+        self.page_footer.append(summary_box)
 
         self.build_button = Gtk.Button()
         self.build_button.set_label(_("Create ISO image"))
         self.build_button.add_css_class("suggested-action")
-        self.build_button.add_css_class("build-action-button")
+        self.build_button.set_valign(Gtk.Align.CENTER)
         self.build_button.set_sensitive(False)
         self.build_button.connect("clicked", self._on_build_clicked)
-        button_box.append(self.build_button)
+        self.page_footer.append(self.build_button)
 
-        page_content.append(button_box)
+        for row in (
+            self.distro_row,
+            self.edition_row,
+            self.kernel_row,
+            self.manjaro_branch_row,
+            self.biglinux_branch_row,
+            self.community_branch_row,
+        ):
+            row.connect("notify::selected", lambda *_args: self._update_summary())
+        self.output_row.connect("changed", lambda *_args: self._update_summary())
+        self._update_summary()
+
+    @staticmethod
+    def _branch_model() -> Gtk.StringList:
+        model = Gtk.StringList()
+        for branch in VALID_BRANCHES:
+            model.append(BRANCH_DISPLAY_NAMES[branch])
+        return model
+
+    def _update_summary(self) -> None:
+        """Describe, in one line, exactly what the primary action will build."""
+        distro = self._get_selected_distro()
+        branches = [
+            _("Manjaro {0}").format(BRANCH_DISPLAY_NAMES[self._get_selected_branch(self.manjaro_branch_row)]),
+            _("BigLinux {0}").format(BRANCH_DISPLAY_NAMES[self._get_selected_branch(self.biglinux_branch_row)]),
+        ]
+        if distro != "biglinux":
+            branches.append(
+                _("Community {0}").format(BRANCH_DISPLAY_NAMES[self._get_selected_branch(self.community_branch_row)])
+            )
+        self.summary_label.set_text(
+            _("{0} • {1} • kernel {2}").format(
+                VALID_DISTROS.get(distro, distro),
+                edition_display_name(self._get_selected_edition()),
+                VALID_KERNELS.get(self._get_selected_kernel(), self._get_selected_kernel()),
+            )
+        )
+        self.summary_detail.set_text(
+            _("{0} • saved in {1}").format(" · ".join(branches), self.output_row.get_text() or _("not chosen"))
+        )
 
     def _load_from_settings(self):
         """Load settings into UI"""
@@ -475,10 +563,12 @@ class BuildWidget(Gtk.Box):
         if pending:
             self._pending_edition = None
 
-        # Clear and repopulate
+        # Clear and repopulate. The combo shows product spellings while the
+        # build keeps using the profile directory names.
+        self._edition_keys = list(editions)
         self._edition_model = Gtk.StringList()
-        for e in editions:
-            self._edition_model.append(e)
+        for edition in editions:
+            self._edition_model.append(edition_display_name(edition))
         self.edition_row.set_model(self._edition_model)
 
         # Restore selection
@@ -486,6 +576,7 @@ class BuildWidget(Gtk.Box):
             self.edition_row.set_selected(editions.index(current_edition))
         else:
             self.edition_row.set_selected(0)
+        self._update_summary()
 
     def _defer_catalog_retry_until(self, retry_at: int) -> None:
         if self._catalog_retry_timeout_id:
@@ -517,11 +608,11 @@ class BuildWidget(Gtk.Box):
         return self._distro_keys[0]
 
     def _get_selected_edition(self):
-        model = self.edition_row.get_model()
+        keys = getattr(self, "_edition_keys", [])
         idx = self.edition_row.get_selected()
-        if model and 0 <= idx < model.get_n_items():
-            return model.get_string(idx)
-        return "gnome"
+        if 0 <= idx < len(keys):
+            return keys[idx]
+        return self.settings.edition or "gnome"
 
     def _get_selected_kernel(self):
         idx = self.kernel_row.get_selected()
@@ -573,13 +664,12 @@ class BuildWidget(Gtk.Box):
         current_distro = self._get_selected_distro()
         if current_distro == distro_key:
             # Distro already selected - try to set edition directly from current model
-            model = self.edition_row.get_model()
-            if model:
-                for i in range(model.get_n_items()):
-                    if model.get_string(i) == edition:
-                        self.edition_row.set_selected(i)
-                        self._pending_edition = None
-                        return
+            keys = getattr(self, "_edition_keys", [])
+            if edition in keys:
+                self.edition_row.set_selected(keys.index(edition))
+                self._pending_edition = None
+                self._update_summary()
+                return
             # Edition not in model yet, force re-fetch
             self._fetch_editions_async()
         else:

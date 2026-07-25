@@ -2,6 +2,7 @@ from pathlib import Path
 
 from gitrepo.build_iso.gui.main_gui import BuildISOApplication
 from gitrepo.common.page_hero import is_large_text_enabled
+from gitrepo.common.premium_style import premium_css
 
 
 PROJECT_ROOT = Path(__file__).parents[2]
@@ -11,16 +12,16 @@ MAIN_WINDOW = PROJECT_ROOT / "usr/share/gitrepo/build_iso/gui/main_window.py"
 
 
 def test_content_descriptions_use_readable_body_text():
-    css = BuildISOApplication._get_default_css(None)
+    css = premium_css() + BuildISOApplication._get_default_css()
 
-    assert ".content-canvas {\n                --dim-opacity: 72%;\n" in css
+    assert "--dim-opacity: 72%;" in css
     assert ".content-canvas row label.subtitle" in css
     assert "font-size: inherit;" in css
     assert ".content-canvas .caption.dim-label" in css
 
 
 def test_high_contrast_preserves_stronger_description_contrast():
-    css = BuildISOApplication._get_default_css(None)
+    css = premium_css() + BuildISOApplication._get_default_css()
 
     assert "@media (prefers-contrast: more)" in css
     assert "--dim-opacity: 90%;" in css
@@ -43,9 +44,7 @@ def test_dashboard_and_page_hero_reflow_for_large_text():
 
 def test_status_card_text_can_shrink_to_the_available_width():
     dashboard_source = (WIDGET_ROOT / "dashboard_widget.py").read_text(encoding="utf-8")
-    status_card_source = dashboard_source.split("def _create_status_card", 1)[1].split(
-        "def _create_destination_card", 1
-    )[0]
+    status_card_source = dashboard_source.split("def _create_status_card", 1)[1].split("def set_checking", 1)[0]
 
     assert "title_label.set_width_chars(1)" in status_card_source
     assert "detail.set_width_chars(1)" in status_card_source
@@ -53,16 +52,18 @@ def test_status_card_text_can_shrink_to_the_available_width():
     assert "set_max_width_chars" not in status_card_source
 
 
-def test_quick_action_icon_and_title_share_the_card_heading():
+def test_guided_flow_step_keeps_number_title_and_action_on_one_row():
     dashboard_source = (WIDGET_ROOT / "dashboard_widget.py").read_text(encoding="utf-8")
-    destination_card_source = dashboard_source.split("def _create_destination_card", 1)[1].split("def set_checking", 1)[
-        0
-    ]
+    flow_step_source = dashboard_source.split("def _create_flow_step", 1)[1].split("def _create_recent_section", 1)[0]
 
-    assert "heading = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)" in destination_card_source
-    assert "heading.append(icon)" in destination_card_source
-    assert "heading.append(title_label)" in destination_card_source
-    assert "content.append(heading)" in destination_card_source
+    assert 'step.add_css_class("build-flow-step")' in flow_step_source
+    assert 'marker.add_css_class("build-flow-number")' in flow_step_source
+    assert "step.append(marker)" in flow_step_source
+    assert "step.append(copy)" in flow_step_source
+    assert "step.append(button)" in flow_step_source
+    # Long titles and live details must still reflow instead of forcing a width.
+    assert "title_label.set_width_chars(1)" in flow_step_source
+    assert "detail_label.set_width_chars(1)" in flow_step_source
 
 
 def test_dashboard_hero_has_no_action_and_window_minimum_is_1000_by_600():
@@ -75,24 +76,29 @@ def test_dashboard_hero_has_no_action_and_window_minimum_is_1000_by_600():
     assert "self.set_size_request(1000, 600)" in window_source
 
 
-def test_dashboard_explains_what_an_iso_is_and_how_it_is_built():
+def test_dashboard_explains_what_an_iso_is_and_orders_the_build_flow():
     dashboard_source = (WIDGET_ROOT / "dashboard_widget.py").read_text(encoding="utf-8")
 
-    assert '_("Create an installable Linux system image")' in dashboard_source
-    assert "used to install or test a system from a USB drive or virtual machine" in dashboard_source
-    assert "builds them in an isolated" in dashboard_source
-    assert '_("Choose a system profile")' in dashboard_source
-    assert '_("Prepare the build environment")' in dashboard_source
-    assert '_("Review generated ISOs")' in dashboard_source
+    assert '_("An ISO is the file used to install or test a system")' in dashboard_source
+    assert "boots from a USB drive or virtual machine" in dashboard_source
+    # The guided flow states the order a first build has to follow.
+    assert '_("Three steps to your ISO")' in dashboard_source
+    assert dashboard_source.index('_("Prepare the build environment")') < dashboard_source.index(
+        '_("Choose the system profile")'
+    )
+    assert dashboard_source.index('_("Choose the system profile")') < dashboard_source.index(
+        '_("Create the ISO image")'
+    )
 
 
-def test_navigation_and_destination_buttons_expose_accessible_labels():
+def test_navigation_and_flow_actions_expose_accessible_labels():
     dashboard_source = (WIDGET_ROOT / "dashboard_widget.py").read_text(encoding="utf-8")
     window_source = MAIN_WINDOW.read_text(encoding="utf-8")
 
-    label_update = "button.update_property([Gtk.AccessibleProperty.LABEL], [title])"
-    assert label_update in dashboard_source
+    # Flow actions carry a visible label, which is their accessible name too.
+    assert "button = Gtk.Button(label=action_label)" in dashboard_source
     assert "nav_row.update_property([Gtk.AccessibleProperty.LABEL], [title])" in window_source
+    assert "row.update_property(" in window_source
 
     settings_source = (WIDGET_ROOT / "settings_widget.py").read_text(encoding="utf-8")
     assert "browse_btn.update_property([Gtk.AccessibleProperty.LABEL]" in settings_source

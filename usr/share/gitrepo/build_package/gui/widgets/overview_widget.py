@@ -5,10 +5,29 @@ import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
+from gitrepo.build_package.core.git_utils import GitUtils
 from gitrepo.common.translation import _
 from gi.repository import Adw, GObject, Gtk, Pango
 
+from gitrepo.common.page_layout import page_body
 from gitrepo.common.page_hero import BuildPackagePageHero as PageHero, github_action_description
+
+
+# Short, readable equivalents of the coloured state icons.
+STATE_PILL_LABELS = {
+    None: _("Checking"),
+    "status-ok": _("OK"),
+    "status-warning": _("Attention"),
+    "status-error": _("Unavailable"),
+}
+
+# What an action's state means for the user about to press it.
+ACTION_STATE_LABELS = {
+    None: _("Checking"),
+    "status-ok": _("Ready"),
+    "status-warning": _("Pending changes"),
+    "status-error": _("Unavailable"),
+}
 
 
 class StatusCard(Gtk.Box):
@@ -54,6 +73,12 @@ class StatusCard(Gtk.Box):
         self.state_icon.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
         self.append(self.state_icon)
 
+        # Colour alone is not a state, so the card repeats it as readable text.
+        self.state_pill = Gtk.Label(label=STATE_PILL_LABELS[None])
+        self.state_pill.add_css_class("state-pill")
+        self.state_pill.set_valign(Gtk.Align.CENTER)
+        self.append(self.state_pill)
+
     def update_value(self, value: str) -> None:
         text = str(value)
         self.value_label.set_text(text)
@@ -62,10 +87,14 @@ class StatusCard(Gtk.Box):
     def set_state(self, icon_name: str, css_class: str | None = None, tooltip: str | None = None) -> None:
         for candidate in ("status-ok", "status-warning", "status-error"):
             self.state_icon.remove_css_class(candidate)
+            self.state_pill.remove_css_class(candidate)
         self.state_icon.set_from_icon_name(icon_name)
+        self.state_pill.set_text(STATE_PILL_LABELS[css_class])
         if css_class:
             self.state_icon.add_css_class(css_class)
+            self.state_pill.add_css_class(css_class)
         self.state_icon.set_tooltip_text(tooltip)
+        self.state_pill.set_tooltip_text(tooltip)
 
 
 class OverviewWidget(Gtk.Box):
@@ -80,6 +109,8 @@ class OverviewWidget(Gtk.Box):
         super().__init__(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         self.build_package = build_package
         self._changed_file_rows = []
+        self._action_cards = {}
+        self._snapshot = None
         self.create_ui()
 
     def create_ui(self) -> None:
@@ -98,9 +129,8 @@ class OverviewWidget(Gtk.Box):
         self.hero_subtitle = hero.description_label
         self.append(hero)
 
-        self.page_content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=18)
-        self.page_content.add_css_class("page-frame")
-        self.append(self.page_content)
+        clamp, self.page_content = page_body(spacing=18)
+        self.append(clamp)
 
         self.page_content.append(self._create_status_section())
         self._create_changed_files()
@@ -148,6 +178,29 @@ class OverviewWidget(Gtk.Box):
         self.changed_files_box.set_visible(False)
         self.page_content.append(self.changed_files_box)
 
+    def _apply_action_states(self) -> None:
+        """Mark each action with what the repository state allows right now."""
+        for action_id, card in getattr(self, "_action_cards", {}).items():
+            state = self._action_state(action_id)
+            pill = card.state_pill
+            for candidate in ("status-ok", "status-warning", "status-error"):
+                pill.remove_css_class(candidate)
+            pill.set_text(ACTION_STATE_LABELS[state])
+            if state:
+                pill.add_css_class(state)
+
+    def _action_state(self, action_id: str) -> str | None:
+        """Return the state class for one action, or None while unknown."""
+        snapshot = getattr(self, "_snapshot", None)
+        if snapshot is None or snapshot.has_changes is None:
+            return None
+        if action_id == "pull":
+            return "status-ok"
+        if action_id == "commit":
+            return "status-warning" if snapshot.has_changes else "status-ok"
+        # Package and AUR workflows need a clean tree before they publish.
+        return "status-warning" if snapshot.has_changes else "status-ok"
+
     def _create_quick_actions(self) -> None:
         actions_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
         heading = Gtk.Label(label=_("Quick Actions"), xalign=0)
@@ -166,11 +219,19 @@ class OverviewWidget(Gtk.Box):
         self.page_content.append(actions_box)
         self.refresh_quick_actions()
 
-    def _create_destination_card(self, icon_name: str, title: str, subtitle: str, action_id: str) -> Gtk.Button:
+    def _create_destination_card(
+        self, icon_name: str, title: str, subtitle: str, commands: tuple[str, ...], action_id: str, step_number: int
+    ) -> Gtk.Button:
         content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
         content.set_halign(Gtk.Align.FILL)
 
         heading = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+        # The number states the order these actions are normally taken in.
+        marker = Gtk.Label(label=str(step_number))
+        marker.add_css_class("build-package-step-number")
+        marker.set_valign(Gtk.Align.CENTER)
+        heading.append(marker)
+
         icon = Gtk.Image.new_from_icon_name(icon_name)
         icon.set_pixel_size(30)
         icon.set_halign(Gtk.Align.START)
@@ -198,11 +259,30 @@ class OverviewWidget(Gtk.Box):
         subtitle_label.set_yalign(0)
         content.append(subtitle_label)
 
+        # Git commands are code, not prose: they get a monospace block instead
+        # of being buried in the card's description.
+        if commands:
+            command_label = Gtk.Label(label="\n".join(commands), xalign=0)
+            command_label.add_css_class("build-package-command-block")
+            command_label.add_css_class("dim-label")
+            command_label.set_wrap(True)
+            command_label.set_wrap_mode(Pango.WrapMode.WORD_CHAR)
+            command_label.set_width_chars(1)
+            command_label.set_yalign(0)
+            content.append(command_label)
+
+        state_pill = Gtk.Label(label=STATE_PILL_LABELS[None])
+        state_pill.add_css_class("state-pill")
+        state_pill.set_halign(Gtk.Align.START)
+        content.append(state_pill)
+
         button = Gtk.Button(child=content)
         button.add_css_class("build-package-destination-card")
         button.set_tooltip_text(title)
-        button.update_property([Gtk.AccessibleProperty.LABEL], [title])
+        button.update_property([Gtk.AccessibleProperty.LABEL], [f"{step_number}. {title}"])
         button.connect("clicked", lambda _button: self.emit("quick-action", action_id))
+        button.state_pill = state_pill
+        self._action_cards[action_id] = button
         return button
 
     def _create_recent_activity(self) -> None:
@@ -227,6 +307,7 @@ class OverviewWidget(Gtk.Box):
         self.page_content.append(activity_box)
 
     def apply_snapshot(self, snapshot) -> None:
+        self._snapshot = snapshot
         repository = (
             snapshot.repository_name.split("/")[-1]
             if snapshot.is_repository and snapshot.repository_name
@@ -246,6 +327,7 @@ class OverviewWidget(Gtk.Box):
         else:
             self._apply_clean_snapshot(repository, branch)
         self.update_recent_activity(snapshot)
+        self._apply_action_states()
 
     def _apply_non_repository_snapshot(self) -> None:
         self.hero_subtitle.set_text(_("Open GitRepo from a Git repository to enable repository actions."))
@@ -315,12 +397,27 @@ class OverviewWidget(Gtk.Box):
             icon = Gtk.Image.new_from_icon_name(icon_name)
             icon.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
             row.add_prefix(icon)
+            row.set_activatable(True)
+            row.connect("activated", self._show_file_diff, filepath)
+            row.add_suffix(Gtk.Image.new_from_icon_name("go-next-symbolic"))
             self.changed_files_expander.add_row(row)
             self._changed_file_rows.append(row)
         count = len(changed_files)
         self.changed_files_expander.set_title(_("{0} changed file(s)").format(count))
         self.changed_files_expander.set_subtitle(_("Expand to review the working tree"))
         self.changed_files_box.set_visible(count > 0)
+
+    def _show_file_diff(self, _row, filepath):
+        """Open the pending changes with the activated file selected."""
+        from gitrepo.build_package.gui.dialogs.diff_viewer_dialog import present_diff_viewer
+
+        present_diff_viewer(
+            self.get_root(),
+            _("Pending changes"),
+            GitUtils.get_changed_files(),
+            GitUtils.get_worktree_file_diff,
+            initial_path=filepath,
+        )
 
     def update_recent_activity(self, snapshot) -> None:
         if not snapshot.last_commit:
@@ -336,19 +433,15 @@ class OverviewWidget(Gtk.Box):
             (
                 "pull",
                 _("Download updates"),
-                _(
-                    "Download and combine the remote branch.\n\n"
-                    "Git commands:\n{0}\n{1}\n"
-                    "Local changes are preserved during the update."
-                ).format("git fetch origin BRANCH", "git merge --no-edit origin/BRANCH"),
+                _("Downloads and combines the remote branch. Local changes are preserved."),
+                ("git fetch origin BRANCH", "git merge --no-edit origin/BRANCH"),
                 "build-package-pull",
             ),
             (
                 "commit",
                 _("Publish changes"),
-                _("Record and send pending changes.\n\nGit commands:\n{0}\n{1}\n{2}").format(
-                    "git add -A", 'git commit -m "MESSAGE"', "git push -u origin BRANCH"
-                ),
+                _("Records and sends pending changes."),
+                ("git add -A", 'git commit -m "MESSAGE"', "git push -u origin BRANCH"),
                 "build-package-commit",
             ),
         ]
@@ -360,12 +453,14 @@ class OverviewWidget(Gtk.Box):
                         "package_testing",
                         _("Test a package"),
                         github_action_description(_("build and publish the package in the testing repository")),
+                        (),
                         "build-package-testing",
                     ),
                     (
                         "package_stable",
                         _("Publish a stable package"),
                         github_action_description(_("build and publish the package in the stable repository")),
+                        (),
                         "build-package-stable",
                     ),
                 ]
@@ -376,6 +471,7 @@ class OverviewWidget(Gtk.Box):
                     "aur",
                     _("Build from the AUR"),
                     github_action_description(_("build a package from the selected community source")),
+                    (),
                     "build-package-aur",
                 )
             )
@@ -387,11 +483,15 @@ class OverviewWidget(Gtk.Box):
             next_child = child.get_next_sibling()
             self.quick_actions_flow.remove(child)
             child = next_child
-        for action_id, title, description, icon_name in self._quick_actions():
+        self._action_cards = {}
+        for step_number, (action_id, title, description, commands, icon_name) in enumerate(
+            self._quick_actions(), start=1
+        ):
             self.quick_actions_flow.insert(
-                self._create_destination_card(icon_name, title, description, action_id),
+                self._create_destination_card(icon_name, title, description, commands, action_id, step_number),
                 -1,
             )
+        self._apply_action_states()
 
     def on_refresh_clicked(self, _button) -> None:
         self.emit("refresh-requested")

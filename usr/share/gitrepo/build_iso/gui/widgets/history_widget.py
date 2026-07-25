@@ -9,11 +9,23 @@ import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
+from gitrepo.build_iso.core.config import VALID_DISTROS, edition_display_name
 from gitrepo.build_iso.core.history_store import BuildHistoryStore
 from gitrepo.common.translation import _
-from gi.repository import Adw, Gtk
+from gi.repository import Adw, Gdk, Gtk
 
 from gitrepo.common.page_hero import BuildIsoPageHero as PageHero
+from gitrepo.common.page_layout import page_body
+
+
+def format_size(size_bytes: int) -> str:
+    """Return a human-sized ISO measurement, or an empty string when unknown."""
+    if size_bytes <= 0:
+        return ""
+    gigabytes = size_bytes / (1024**3)
+    if gigabytes >= 1:
+        return _("{0:.1f} GB").format(gigabytes)
+    return _("{0:.0f} MB").format(size_bytes / (1024**2))
 
 
 class HistoryWidget(Gtk.Box):
@@ -37,30 +49,30 @@ class HistoryWidget(Gtk.Box):
             PageHero(
                 "build-iso-history",
                 _("Build History"),
-                _("Review outcomes and durations, then open the folder of a completed ISO."),
+                _("Review outcomes and durations, then open the ISO folder or the terminal log of a build."),
             )
         )
 
-        page_content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
-        page_content.add_css_class("page-frame")
-        self.append(page_content)
+        clamp, page_content = page_body()
+        self.append(clamp)
+
+        # Nothing to review yet is a state of its own, not an empty list row.
+        self.empty_state = Adw.StatusPage()
+        self.empty_state.set_icon_name("build-iso-history")
+        self.empty_state.set_title(_("No builds yet"))
+        self.empty_state.set_description(
+            _("Finished and failed builds are listed here with their ISO, duration, and terminal log.")
+        )
+        self.empty_state.set_vexpand(False)
+        page_content.append(self.empty_state)
 
         self.history_group = Adw.PreferencesGroup()
         page_content.append(self.history_group)
 
-        # Empty state
-        self.empty_row = Adw.ActionRow()
-        self.empty_row.set_title(_("No builds yet"))
-        self.empty_row.set_subtitle(_("Build history will appear here after your first build"))
-        icon = Gtk.Image.new_from_icon_name("build-iso-history")
-        icon.set_pixel_size(24)
-        self.empty_row.add_prefix(icon)
-        self.history_group.add(self.empty_row)
-
         # Clear history button
-        clear_group = Adw.PreferencesGroup()
-        clear_group.set_margin_top(24)
-        page_content.append(clear_group)
+        self.clear_group = Adw.PreferencesGroup()
+        self.clear_group.set_margin_top(24)
+        page_content.append(self.clear_group)
 
         clear_row = Adw.ActionRow()
         clear_row.set_title(_("Clear History"))
@@ -71,62 +83,96 @@ class HistoryWidget(Gtk.Box):
         clear_btn.add_css_class("destructive-action")
         clear_btn.connect("clicked", self._on_clear_clicked)
         clear_row.add_suffix(clear_btn)
-        clear_group.add(clear_row)
+        self.clear_group.add(clear_row)
 
     def refresh(self):
         """Reload history from file"""
         history = self._load_history()
 
-        # Remove existing rows (except empty_row)
         child = self.history_group.get_first_child()
         rows_to_remove = []
         while child:
-            if child != self.empty_row and isinstance(child, Adw.ActionRow):
+            if isinstance(child, Adw.ActionRow):
                 rows_to_remove.append(child)
             child = child.get_next_sibling()
         for row in rows_to_remove:
             self.history_group.remove(row)
 
+        self.empty_state.set_visible(not history)
+        self.history_group.set_visible(bool(history))
+        self.clear_group.set_visible(bool(history))
         if not history:
-            self.empty_row.set_visible(True)
             return
-
-        self.empty_row.set_visible(False)
 
         # Add history entries (newest first)
         for entry in reversed(history[-50:]):
-            row = Adw.ActionRow()
-            distro = entry.get("distro", "?")
-            edition = entry.get("edition", "?")
-            kernel = entry.get("kernel", "?")
-            row.set_title(f"{distro} - {edition} ({kernel})")
+            self.history_group.add(self._create_entry_row(entry))
 
-            date = entry.get("date", "?")
-            success = entry.get("success", False)
-            result_status = entry.get("status", "succeeded" if success else "failed")
-            duration_s = entry.get("duration", 0)
-            duration_min = duration_s // 60
-            status = _("Cancelled") if result_status == "cancelled" else _("Success") if success else _("Failed")
-            row.set_subtitle(f"{date} | {status} | {duration_min} min")
+    def _create_entry_row(self, entry: dict) -> Adw.ActionRow:
+        row = Adw.ActionRow()
+        distro = entry.get("distro", "?")
+        edition = entry.get("edition", "?")
+        row.set_title(
+            _("{0} {1} • kernel {2}").format(
+                VALID_DISTROS.get(distro, distro),
+                edition_display_name(edition),
+                entry.get("kernel", "?"),
+            )
+        )
+        row.set_subtitle(self._entry_subtitle(entry))
+        row.set_subtitle_lines(0)
 
-            if success:
-                icon = Gtk.Image.new_from_icon_name("gitrepo-status-ready-symbolic")
-                icon.add_css_class("status-ok")
-            else:
-                icon = Gtk.Image.new_from_icon_name("gitrepo-status-error-symbolic")
-                icon.add_css_class("status-error")
-            row.add_prefix(icon)
+        success = entry.get("success", False)
+        result_status = entry.get("status", "succeeded" if success else "failed")
+        icon_name = "gitrepo-status-ready-symbolic" if success else "gitrepo-status-error-symbolic"
+        css_class = "status-ok" if success else "status-error"
+        if result_status == "cancelled":
+            icon_name, css_class = "gitrepo-status-warning-symbolic", "status-warning"
+        icon = Gtk.Image.new_from_icon_name(icon_name)
+        icon.add_css_class(css_class)
+        row.add_prefix(icon)
 
-            iso_path = entry.get("iso_path", "")
-            if iso_path and os.path.exists(iso_path):
-                open_btn = Gtk.Button()
-                open_btn.set_icon_name("folder-open-symbolic")
-                open_btn.set_valign(Gtk.Align.CENTER)
-                open_btn.set_tooltip_text(_("Open folder"))
-                open_btn.connect("clicked", self._on_open_folder, os.path.dirname(iso_path))
-                row.add_suffix(open_btn)
+        iso_path = entry.get("iso_path", "")
+        if iso_path:
+            copy_button = Gtk.Button.new_from_icon_name("edit-copy-symbolic")
+            copy_button.set_valign(Gtk.Align.CENTER)
+            copy_button.set_tooltip_text(_("Copy the ISO path"))
+            copy_button.connect("clicked", self._on_copy_path, iso_path)
+            row.add_suffix(copy_button)
 
-            self.history_group.add(row)
+        log_path = entry.get("log_path", "")
+        if log_path and os.path.exists(log_path):
+            log_button = Gtk.Button.new_from_icon_name("text-x-generic-symbolic")
+            log_button.set_valign(Gtk.Align.CENTER)
+            log_button.set_tooltip_text(_("Open the terminal log of this build"))
+            log_button.connect("clicked", self._on_open_path, log_path)
+            row.add_suffix(log_button)
+
+        if iso_path and os.path.exists(iso_path):
+            open_btn = Gtk.Button.new_from_icon_name("folder-open-symbolic")
+            open_btn.set_valign(Gtk.Align.CENTER)
+            open_btn.set_tooltip_text(_("Open folder"))
+            open_btn.connect("clicked", self._on_open_path, os.path.dirname(iso_path))
+            row.add_suffix(open_btn)
+        return row
+
+    @staticmethod
+    def _entry_subtitle(entry: dict) -> str:
+        success = entry.get("success", False)
+        result_status = entry.get("status", "succeeded" if success else "failed")
+        status_text = _("Cancelled") if result_status == "cancelled" else _("Success") if success else _("Failed")
+        facts = [entry.get("date", "?"), status_text, _("{0} min").format(int(entry.get("duration", 0)) // 60)]
+
+        iso_path = entry.get("iso_path", "")
+        if iso_path:
+            size_text = format_size(int(entry.get("iso_size", 0)))
+            facts.append(f"{os.path.basename(iso_path)}{f' ({size_text})' if size_text else ''}")
+            if not os.path.exists(iso_path):
+                facts.append(_("file no longer on disk"))
+        error = entry.get("error", "")
+        if not success and error:
+            facts.append(error)
+        return " • ".join(fact for fact in facts if fact)
 
     def _load_history(self):
         return self.history_store.load()
@@ -147,10 +193,19 @@ class HistoryWidget(Gtk.Box):
             if self.history_store.clear():
                 self.refresh()
 
-    def _on_open_folder(self, button, folder_path):
+    def _on_copy_path(self, button, iso_path):
+        display = Gdk.Display.get_default()
+        if display is None:
+            return
+        display.get_clipboard().set(iso_path)
+        root = self.get_root()
+        if root and hasattr(root, "show_toast"):
+            root.show_toast(_("ISO path copied to the clipboard"))
+
+    def _on_open_path(self, button, path):
         from gitrepo.common import child_process as subprocess
 
-        subprocess.Popen(["xdg-open", folder_path])
+        subprocess.Popen(["xdg-open", path])
 
     @staticmethod
     def add_entry(entry: dict):

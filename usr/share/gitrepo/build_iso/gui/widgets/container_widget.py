@@ -15,6 +15,7 @@ from gitrepo.common.translation import _
 from gi.repository import Adw, GLib, GObject, Gtk
 
 from gitrepo.common.page_hero import BuildIsoPageHero as PageHero
+from gitrepo.common.page_layout import page_body
 
 
 class ContainerWidget(Gtk.Box):
@@ -45,9 +46,8 @@ class ContainerWidget(Gtk.Box):
             )
         )
 
-        page_content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
-        page_content.add_css_class("page-frame")
-        self.append(page_content)
+        clamp, page_content = page_body()
+        self.append(clamp)
 
         # ── Engine Info ──
         info_group = Adw.PreferencesGroup()

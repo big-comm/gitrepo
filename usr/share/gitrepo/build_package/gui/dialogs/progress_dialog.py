@@ -11,7 +11,8 @@ import threading
 
 from gitrepo.common.translation import _
 from gitrepo.common.diagnostic_redaction import redact_diagnostic
-from gi.repository import Adw, GLib, GObject, Gtk
+from gitrepo.common.terminal_palette import apply_log_palette, log_palette
+from gi.repository import Adw, Gdk, GLib, GObject, Gtk
 
 
 class ProgressDialog(Adw.Window):
@@ -26,8 +27,8 @@ class ProgressDialog(Adw.Window):
         super().__init__(transient_for=parent, modal=True)
 
         self.set_title(_("Operation Progress"))
-        self.set_default_size(660, 480)
-        self.set_resizable(False)  # Fixed size - terminal log uses scrollbar
+        self.set_default_size(680, 520)
+        self.set_resizable(True)
 
         self.operation_title = title
         self.operation_message = message
@@ -40,114 +41,127 @@ class ProgressDialog(Adw.Window):
         self.error = None
         self.cancelled = False
         self._pulse_timeout_id = None
+        self._style_manager = Adw.StyleManager.get_default()
 
         self.create_ui()
 
     def create_ui(self):
         """Create dialog UI"""
 
-        # Main box with toolbar view
         toolbar_view = Adw.ToolbarView()
         self.set_content(toolbar_view)
 
-        # Header bar
         header_bar = Adw.HeaderBar()
         header_bar.set_show_end_title_buttons(False)
         header_bar.set_show_start_title_buttons(False)
+        header_bar.set_title_widget(
+            Adw.WindowTitle(title=self.operation_title, subtitle=self.operation_message or _("Running"))
+        )
         toolbar_view.add_top_bar(header_bar)
 
-        # Content box
-        content_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
-        content_box.set_margin_top(24)
-        content_box.set_margin_bottom(24)
-        content_box.set_margin_start(24)
-        content_box.set_margin_end(24)
+        content_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=14)
+        content_box.set_margin_top(16)
+        content_box.set_margin_bottom(16)
+        content_box.set_margin_start(20)
+        content_box.set_margin_end(20)
         toolbar_view.set_content(content_box)
 
-        # Title label
-        title_label = Gtk.Label()
-        title_label.set_text(self.operation_title)
-        title_label.add_css_class("title-2")
-        content_box.append(title_label)
+        content_box.append(self._create_status_card())
+        content_box.append(self._create_log_card())
+        toolbar_view.add_bottom_bar(self._create_action_bar())
 
-        # Message label
-        if self.operation_message:
-            message_label = Gtk.Label()
-            message_label.set_text(self.operation_message)
-            message_label.add_css_class("dim-label")
-            message_label.set_wrap(True)
-            content_box.append(message_label)
+        # Start with indeterminate progress
+        self.set_progress_mode(indeterminate=True)
 
-        # Spinner + Progress area
-        progress_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
-        progress_box.set_margin_top(12)
-        progress_box.set_vexpand(False)
+    def _create_status_card(self) -> Gtk.Widget:
+        """Build the headline card describing what the operation is doing."""
+        card = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        card.add_css_class("build-package-progress-card")
 
-        # Spinner (visible during indeterminate progress)
+        headline = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=14)
+
         self.spinner = Gtk.Spinner()
-        self.spinner.set_size_request(32, 32)
-        self.spinner.set_halign(Gtk.Align.CENTER)
-        progress_box.append(self.spinner)
+        self.spinner.set_size_request(24, 24)
+        self.spinner.set_valign(Gtk.Align.CENTER)
+        self.spinner.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
+        headline.append(self.spinner)
 
-        # Current step label - ABOVE progress bar
-        self.status_label = Gtk.Label()
-        self.status_label.set_text(_("Initializing..."))
-        self.status_label.add_css_class("title-4")
+        text_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
+        text_box.set_hexpand(True)
+        self.status_label = Gtk.Label(label=_("Initializing..."), xalign=0)
+        self.status_label.add_css_class("build-package-progress-status")
         self.status_label.set_wrap(True)
-        self.status_label.set_halign(Gtk.Align.CENTER)
-        self.status_label.set_margin_top(8)
-        progress_box.append(self.status_label)
+        self.status_label.set_natural_wrap_mode(Gtk.NaturalWrapMode.WORD)
+        self.status_label.set_width_chars(1)
+        text_box.append(self.status_label)
 
-        # Progress bar - in the middle
-        self.progress_bar = Gtk.ProgressBar()
-        self.progress_bar.set_show_text(True)
-        self.progress_bar.set_text(_("Starting..."))
-        self.progress_bar.set_margin_top(8)
-        progress_box.append(self.progress_bar)
-
-        # Substatus label - below progress bar
-        self.substatus_label = Gtk.Label()
-        self.substatus_label.set_text("")
+        self.substatus_label = Gtk.Label(label="", xalign=0)
         self.substatus_label.add_css_class("dim-label")
         self.substatus_label.add_css_class("caption")
         self.substatus_label.set_wrap(True)
-        self.substatus_label.set_halign(Gtk.Align.CENTER)
-        progress_box.append(self.substatus_label)
+        self.substatus_label.set_natural_wrap_mode(Gtk.NaturalWrapMode.WORD)
+        self.substatus_label.set_width_chars(1)
+        text_box.append(self.substatus_label)
+        headline.append(text_box)
+        card.append(headline)
 
-        content_box.append(progress_box)
+        self.progress_bar = Gtk.ProgressBar()
+        self.progress_bar.set_show_text(False)
+        self.progress_bar.add_css_class("build-package-progress-bar")
+        self.progress_bar.set_accessible_role(Gtk.AccessibleRole.PROGRESS_BAR)
+        self.progress_bar.update_property([Gtk.AccessibleProperty.LABEL], [_("Operation progress")])
+        card.append(self.progress_bar)
+        return card
 
-        # Terminal log - COLLAPSED by default (dropdown)
-        details_expander = Gtk.Expander()
-        details_expander.set_label(_("Terminal Log"))
-        details_expander.set_margin_top(16)
-        details_expander.set_expanded(False)  # Start collapsed
+    def _create_log_card(self) -> Gtk.Widget:
+        """Build the terminal log surface with its own copy action."""
+        card = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+        card.add_css_class("build-package-log-card")
+        card.set_vexpand(True)
 
-        # Scrolled window for terminal-style log
+        header = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+        header.add_css_class("build-package-log-header")
+        title = Gtk.Label(label=_("Terminal Log"), xalign=0)
+        title.add_css_class("heading")
+        title.set_hexpand(True)
+        header.append(title)
+
+        copy_button = Gtk.Button.new_from_icon_name("edit-copy-symbolic")
+        copy_button.add_css_class("flat")
+        copy_button.set_tooltip_text(_("Copy the whole terminal log to the clipboard"))
+        copy_button.update_property([Gtk.AccessibleProperty.LABEL], [_("Copy Log")])
+        copy_button.connect("clicked", self.on_copy_log_clicked)
+        header.append(copy_button)
+        card.append(header)
+
         scrolled = Gtk.ScrolledWindow()
         scrolled.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
-        scrolled.set_min_content_height(150)
-        scrolled.set_max_content_height(250)
+        scrolled.set_min_content_height(180)
+        scrolled.set_vexpand(True)
 
-        # Details text view (terminal style)
         self.details_buffer = Gtk.TextBuffer()
         self.details_view = Gtk.TextView()
         self.details_view.set_buffer(self.details_buffer)
         self.details_view.set_editable(False)
+        self.details_view.set_cursor_visible(False)
         self.details_view.set_monospace(True)
         self.details_view.set_wrap_mode(Gtk.WrapMode.WORD_CHAR)
-        self.details_view.set_left_margin(8)
-        self.details_view.set_right_margin(8)
-        self.details_view.set_top_margin(8)
-        self.details_view.set_bottom_margin(8)
-        self.details_view.add_css_class("card")
+        self.details_view.set_left_margin(14)
+        self.details_view.set_right_margin(14)
+        self.details_view.set_top_margin(6)
+        self.details_view.set_bottom_margin(12)
+        self.details_view.add_css_class("build-package-log-view")
+        self.details_view.update_property([Gtk.AccessibleProperty.LABEL], [_("Terminal Log")])
 
         scrolled.set_child(self.details_view)
-        details_expander.set_child(scrolled)
-        content_box.append(details_expander)
+        card.append(scrolled)
+        return card
 
-        button_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-        button_box.set_halign(Gtk.Align.CENTER)
-        button_box.set_margin_top(12)
+    def _create_action_bar(self) -> Gtk.Widget:
+        """Build the bottom action area; a running step offers only Cancel."""
+        action_bar = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        action_bar.add_css_class("build-package-action-bar")
+        action_bar.set_halign(Gtk.Align.END)
 
         self.cancel_button = Gtk.Button()
         if self.cancellable:
@@ -155,14 +169,22 @@ class ProgressDialog(Adw.Window):
             self.cancel_button.add_css_class("destructive-action")
             self.cancel_button.connect("clicked", self.on_cancel_clicked)
         else:
-            self.cancel_button.set_label(_("Operation in progress"))
-            self.cancel_button.set_sensitive(False)
-        button_box.append(self.cancel_button)
+            # A non-cancellable step has no decision to offer yet, so the button
+            # stays out of the way instead of posing as a disabled action.
+            self.cancel_button.set_label(_("Close"))
+            self.cancel_button.set_visible(False)
+        action_bar.append(self.cancel_button)
+        return action_bar
 
-        content_box.append(button_box)
-
-        # Start with indeterminate progress
-        self.set_progress_mode(indeterminate=True)
+    def on_copy_log_clicked(self, _button):
+        """Copy the terminal log so a failure can be reported verbatim."""
+        display = Gdk.Display.get_default()
+        if display is None:
+            return
+        text = self.details_buffer.get_text(
+            self.details_buffer.get_start_iter(), self.details_buffer.get_end_iter(), False
+        )
+        display.get_clipboard().set(text)
 
     def set_progress_mode(self, indeterminate=False):
         """Set progress bar mode"""
@@ -173,6 +195,7 @@ class ProgressDialog(Adw.Window):
             self._pulse_timeout_id = GLib.timeout_add(100, self._pulse_progress)
         else:
             self.spinner.stop()
+            self.spinner.set_visible(False)
             if self._pulse_timeout_id:
                 GLib.source_remove(self._pulse_timeout_id)
                 self._pulse_timeout_id = None
@@ -193,9 +216,10 @@ class ProgressDialog(Adw.Window):
                 GLib.source_remove(self._pulse_timeout_id)
                 self._pulse_timeout_id = None
             self.spinner.stop()
+            self.spinner.set_visible(False)
             self.progress_bar.set_fraction(min(1.0, max(0.0, fraction)))
             if text:
-                self.progress_bar.set_text(text)
+                self.substatus_label.set_text(text)
             return False
 
         GLib.idle_add(update)
@@ -213,8 +237,9 @@ class ProgressDialog(Adw.Window):
         """Setup color tags for terminal log"""
         tag_table = self.details_buffer.get_tag_table()
 
-        styles = ("cyan", "green", "red", "yellow", "white", "dim", "blue", "purple", "orange")
-        for name in styles:
+        for name in log_palette(False):
+            if tag_table.lookup(name):
+                continue
             tag = Gtk.TextTag.new(name)
             if name in {"red", "yellow", "orange"}:
                 tag.set_property("weight", 700)
@@ -223,11 +248,18 @@ class ProgressDialog(Adw.Window):
             tag_table.add(tag)
 
         # Bold tag
-        bold_tag = Gtk.TextTag.new("bold")
-        bold_tag.set_property("weight", 700)
-        tag_table.add(bold_tag)
+        if not tag_table.lookup("bold"):
+            bold_tag = Gtk.TextTag.new("bold")
+            bold_tag.set_property("weight", 700)
+            tag_table.add(bold_tag)
 
         self._tags_initialized = True
+        self._apply_log_palette()
+        self._style_manager.connect("notify::dark", lambda *_args: self._apply_log_palette())
+
+    def _apply_log_palette(self):
+        """Repaint the log tags for the active light or dark colour scheme."""
+        apply_log_palette(self.details_buffer, self._style_manager.get_dark())
 
     def append_detail(self, text, style=None):
         """Append text to details with optional color (thread-safe)"""
@@ -321,14 +353,12 @@ class ProgressDialog(Adw.Window):
         # Update progress bar
         if success:
             self.progress_bar.set_fraction(1.0)
-            self.progress_bar.set_text(_("Completed"))
-            self.status_label.set_text(_("✓ Operation completed successfully"))
-            self.status_label.remove_css_class("title-4")
+            self.substatus_label.set_text(_("Completed"))
+            self.status_label.set_text(_("Operation completed successfully"))
             self.status_label.add_css_class("success")
         else:
-            self.progress_bar.set_text(_("Failed"))
-            self.status_label.set_text(_("✗ Operation failed: {0}").format(str(result)))
-            self.status_label.remove_css_class("title-4")
+            self.substatus_label.set_text(_("Failed"))
+            self.status_label.set_text(_("Operation failed: {0}").format(str(result)))
             self.status_label.add_css_class("error")
 
         # Add "Open in GitHub" button if this was a build operation
@@ -341,12 +371,10 @@ class ProgressDialog(Adw.Window):
         # Change cancel button to "Done" button
         if hasattr(self, "cancel_button"):
             self.cancel_button.set_sensitive(True)
+            self.cancel_button.set_visible(True)
             self.cancel_button.set_label(_("Done"))
             self.cancel_button.remove_css_class("destructive-action")
-            if success:
-                self.cancel_button.add_css_class("suggested-action")
-            else:
-                self.cancel_button.add_css_class("destructive-action")
+            self.cancel_button.add_css_class("suggested-action")
 
             # Disconnect old handler and connect close handler
             if self.cancellable:
@@ -379,18 +407,9 @@ class ProgressDialog(Adw.Window):
         from gitrepo.common import child_process as subprocess
 
         # Create button box if it doesn't exist
-        github_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
-        github_box.set_halign(Gtk.Align.CENTER)
-        github_box.set_margin_top(12)
-
-        # Create the button with icon
         github_button = Gtk.Button()
         github_button.set_label(_("Open in GitHub"))
-        github_button.add_css_class("pill")
-
-        # Add icon
-        icon = Gtk.Image.new_from_icon_name("web-browser-symbolic")
-        github_button.set_child(self._create_button_content(icon, _("Open in GitHub")))
+        github_button.add_css_class("suggested-action")
 
         def on_github_clicked(button):
             try:
@@ -399,34 +418,11 @@ class ProgressDialog(Adw.Window):
                 pass
 
         github_button.connect("clicked", on_github_clicked)
-        github_box.append(github_button)
 
-        # Insert before the button box
-        # Get the content box (parent of cancel_button's parent)
-        if hasattr(self, "cancel_button"):
-            button_parent = self.cancel_button.get_parent()
-            if button_parent:
-                content = button_parent.get_parent()
-                if content:
-                    # Find index of button_parent
-                    child = content.get_first_child()
-                    index = 0
-                    while child:
-                        if child == button_parent:
-                            break
-                        child = child.get_next_sibling()
-                        index += 1
-                    # Insert github box before button box
-                    content.insert_child_after(github_box, button_parent.get_prev_sibling())
-
-    def _create_button_content(self, icon, label_text):
-        """Create button content with icon and label"""
-        box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
-        box.set_halign(Gtk.Align.CENTER)
-        box.append(icon)
-        label = Gtk.Label(label=label_text)
-        box.append(label)
-        return box
+        action_bar = self.cancel_button.get_parent()
+        if action_bar is not None:
+            self.cancel_button.remove_css_class("suggested-action")
+            action_bar.append(github_button)
 
     def on_done_clicked(self, button):
         """Handle done button click after operation completes"""
@@ -447,9 +443,17 @@ class OperationRunner:
     def __init__(self, parent_window):
         self.parent = parent_window
         self.current_dialog = None
+        self._completion_callback = None
 
-    def run_with_progress(self, operation_func, title, message="", cancellable=False, *args, **kwargs):
-        """Run operation with progress dialog"""
+    def run_with_progress(
+        self, operation_func, title, message="", cancellable=False, completion_callback=None, *args, **kwargs
+    ):
+        """Run operation with progress dialog.
+
+        *completion_callback* receives the operation result once it succeeds, so
+        a caller can present what the operation produced.
+        """
+        self._completion_callback = completion_callback
 
         dialog = ProgressDialog(self.parent, title, message, cancellable)
         self.current_dialog = dialog
@@ -502,8 +506,12 @@ class OperationRunner:
 
         return False  # Don't repeat timeout
 
-    def _on_operation_success(self, _result):
+    def _on_operation_success(self, result):
         """Handle successful operation"""
+        callback = getattr(self, "_completion_callback", None)
+        if callback:
+            self._completion_callback = None
+            callback(result)
         if self.parent:
             # Show success toast
             self.parent.show_toast(_("Operation completed successfully"))

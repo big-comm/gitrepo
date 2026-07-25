@@ -11,6 +11,7 @@ from gitrepo.build_iso.core.config import VALID_BRANCHES
 from gitrepo.common.translation import _
 from gi.repository import Adw, GLib, GObject, Gtk
 
+from gitrepo.common.page_layout import page_body
 from gitrepo.common.page_hero import BuildIsoPageHero as PageHero
 
 
@@ -43,9 +44,8 @@ class SettingsWidget(Gtk.Box):
             )
         )
 
-        page_content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
-        page_content.add_css_class("page-frame")
-        self.append(page_content)
+        clamp, page_content = page_body()
+        self.append(clamp)
 
         # ── General ──
         general_group = Adw.PreferencesGroup()
