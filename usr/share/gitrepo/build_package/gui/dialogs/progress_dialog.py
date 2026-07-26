@@ -575,16 +575,8 @@ class OperationRunner:
                 self.parent.refresh_all_widgets()
 
     def _on_operation_error(self, error):
-        """Handle operation error"""
+        """Notify about a failure already acknowledged in the progress dialog."""
         if self.parent:
-            msg = _("Operation failed: {0}").format(str(error))
-            if hasattr(self.parent, "show_error_dialog"):
-                self.parent.show_error_dialog(msg)
-            elif hasattr(self.parent, "toast_overlay"):
-                toast = Adw.Toast.new(msg)
-                toast.set_timeout(5)
-                self.parent.toast_overlay.add_toast(toast)
-
             # Send system notification if window is not focused
             if not self.parent.is_active():
                 if hasattr(self.parent, "send_system_notification"):

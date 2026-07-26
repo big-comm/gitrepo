@@ -35,13 +35,13 @@ def test_page_hero_reflows_for_large_text():
     assert "Gtk.Orientation.VERTICAL if is_large else Gtk.Orientation.HORIZONTAL" in hero_source
 
 
-def test_edition_choice_stays_one_row_with_its_recommendation():
+def test_edition_choice_stays_one_row_with_clean_product_names():
     build_source = (WIDGET_ROOT / "build_widget.py").read_text(encoding="utf-8")
 
     # A long catalog reads better as one row than as a wall of cards.
     assert "self.edition_row = Adw.ComboRow()" in build_source
     assert "Gtk.FlowBox()" not in build_source
-    assert '_("{0} (recommended)")' in build_source
+    assert '_("{0} (recommended)")' not in build_source
 
 
 def test_build_page_orders_the_journey_and_folds_the_defaults():

@@ -18,7 +18,6 @@ from gitrepo.build_iso.config import (
     ISO_PROFILES_REPOS,
     KERNEL_DISPLAY_NAMES as VALID_KERNELS,
     LOG_DIR_BASE,
-    RECOMMENDED_EDITIONS,
     VALID_BRANCHES,
     edition_display_name,
 )
@@ -32,12 +31,12 @@ __all__ = [
     "APP_VERSION",
     "BRANCH_DESCRIPTIONS",
     "BRANCH_DISPLAY_NAMES",
-    "RECOMMENDED_EDITIONS",
     "edition_display_name",
     "BUILD_ISO_REPO",
     "CONFIG_DIR",
     "CONFIG_FILE",
     "CONTAINER_IMAGE",
+    "DEFAULT_EDITION_BY_DISTRO",
     "DEFAULT_EDITIONS",
     "DEFAULT_OUTPUT_DIR",
     "EXCLUDED_EDITIONS",
@@ -62,6 +61,10 @@ API_PROFILES = {
 DEFAULT_EDITIONS = {
     "bigcommunity": ["gnome", "kde", "xfce", "cinnamon", "cosmic", "deepin"],
     "biglinux": ["kde", "gnome", "xfce", "cinnamon"],
+}
+DEFAULT_EDITION_BY_DISTRO = {
+    "bigcommunity": "gnome",
+    "biglinux": "kde",
 }
 
 # Editions excluded from build selection (development/incomplete profiles)

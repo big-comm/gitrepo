@@ -234,6 +234,29 @@ class BuildPackageApplication(Adw.Application):
             .build-package-confirmation-item {
                 font-size: 0.9em;
             }
+            .build-package-github-action {
+                padding: 10px 12px;
+                border-radius: 11px;
+                color: @accent_color;
+                background-color: alpha(@accent_bg_color, 0.12);
+            }
+            .build-package-pr-card {
+                padding: 12px 18px;
+                border-radius: 12px;
+                border: 1px solid alpha(currentColor, 0.08);
+                background-color: alpha(currentColor, 0.04);
+            }
+            .build-package-pr-source {
+                color: @accent_color;
+                font-weight: 700;
+            }
+            .build-package-pr-arrow {
+                color: @accent_color;
+            }
+            .build-package-pr-target {
+                color: @success_color;
+                font-weight: 700;
+            }
             /* Libadwaita banners have no destructive appearance of their own,
                so the destructive page states it in colour and weight. */
             .build-package-warning-banner > revealer > widget {

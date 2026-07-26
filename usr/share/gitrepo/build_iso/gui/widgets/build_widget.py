@@ -15,8 +15,8 @@ gi.require_version("Adw", "1")
 from gitrepo.build_iso.core.config import (
     BRANCH_DESCRIPTIONS,
     BRANCH_DISPLAY_NAMES,
+    DEFAULT_EDITION_BY_DISTRO,
     ISO_PROFILES_REPOS,
-    RECOMMENDED_EDITIONS,
     VALID_BRANCHES,
     VALID_DISTROS,
     VALID_KERNELS,
@@ -30,6 +30,18 @@ from gi.repository import Adw, GLib, GObject, Gtk
 from gitrepo.common.page_hero import BuildIsoPageHero as PageHero
 from gitrepo.common.help_popover import help_button
 from gitrepo.common.page_layout import page_body
+
+
+def _edition_for_distro(
+    distro: str,
+    editions: tuple[str, ...],
+    preferences: dict[str, str],
+    pending: str | None = None,
+) -> str:
+    for edition in (pending, preferences.get(distro), DEFAULT_EDITION_BY_DISTRO.get(distro)):
+        if edition and edition in editions:
+            return edition
+    return editions[0] if editions else ""
 
 
 class BuildWidget(Gtk.Box):
@@ -49,6 +61,7 @@ class BuildWidget(Gtk.Box):
         self._edition_keys = []
         self._edition_cards = {}
         self._selected_edition = settings.edition
+        self._edition_preferences = {settings.distribution: settings.edition}
         self._editions_cache = {}
         self._loading_editions = False
         self._loading_cache_key = ""
@@ -618,29 +631,34 @@ class BuildWidget(Gtk.Box):
 
     def _replace_editions(self, editions: tuple[str, ...]) -> None:
         pending = getattr(self, "_pending_edition", None)
-        current_edition = pending or self._selected_edition or self.settings.edition
         if pending:
             self._pending_edition = None
 
         self._edition_keys = list(editions)
         self._edition_model = Gtk.StringList()
         for edition in editions:
-            label = edition_display_name(edition)
-            if edition.lower() in RECOMMENDED_EDITIONS:
-                label = _("{0} (recommended)").format(label)
-            self._edition_model.append(label)
+            self._edition_model.append(edition_display_name(edition))
         self.edition_row.set_model(self._edition_model)
-        self._select_edition(current_edition if current_edition in editions else (editions[0] if editions else ""))
+        self._select_edition(
+            _edition_for_distro(
+                self._get_selected_distro(),
+                editions,
+                self._edition_preferences,
+                pending,
+            )
+        )
 
     def _on_edition_selected(self, row, _pspec) -> None:
         index = row.get_selected()
         if 0 <= index < len(self._edition_keys):
             self._selected_edition = self._edition_keys[index]
+            self._edition_preferences[self._get_selected_distro()] = self._selected_edition
             self._update_summary()
 
     def _select_edition(self, edition: str) -> None:
         self._selected_edition = edition
         if edition in self._edition_keys:
+            self._edition_preferences[self._get_selected_distro()] = edition
             self.edition_row.set_selected(self._edition_keys.index(edition))
         self._update_summary()
 
@@ -674,7 +692,14 @@ class BuildWidget(Gtk.Box):
         return self._distro_keys[0]
 
     def _get_selected_edition(self):
-        return self._selected_edition or self.settings.edition or "gnome"
+        distro = self._get_selected_distro()
+        return (
+            self._edition_preferences.get(distro)
+            or DEFAULT_EDITION_BY_DISTRO.get(distro)
+            or self._selected_edition
+            or self.settings.edition
+            or "gnome"
+        )
 
     def _get_selected_kernel(self):
         idx = self.kernel_row.get_selected()

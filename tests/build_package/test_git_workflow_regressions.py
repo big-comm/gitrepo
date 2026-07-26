@@ -188,6 +188,41 @@ def test_commit_gui_suggests_the_configured_personal_branch(tmp_path, monkeypatc
     assert window._pending_commit_message == "fix: choose branch"
 
 
+def test_pull_request_creation_routes_through_the_token_gate():
+    from gitrepo.build_package.gui.branch_actions import BranchActionsMixin
+
+    captured = {}
+
+    class API:
+        def create_pull_request(self, source, target, auto_merge, logger):
+            captured["request"] = (source, target, auto_merge, logger)
+            return {"number": 42}
+
+    logger = Logger()
+
+    def ensure_token(operation, title, description):
+        captured["gate"] = (title, description)
+        captured["result"] = operation()
+
+    window = SimpleNamespace(
+        build_package=SimpleNamespace(github_api=API(), logger=logger),
+        _ensure_token_and_run=ensure_token,
+    )
+
+    BranchActionsMixin._on_merge_confirm_response(
+        window,
+        None,
+        "create",
+        "dev-talesam",
+        "main",
+        True,
+    )
+
+    assert captured["request"] == ("dev-talesam", "main", True, logger)
+    assert captured["result"] == {"number": 42}
+    assert "gate" in captured
+
+
 def _commit_context(repository, menu):
     return SimpleNamespace(
         is_git_repo=True,
