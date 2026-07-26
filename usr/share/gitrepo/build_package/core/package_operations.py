@@ -9,6 +9,7 @@ from datetime import datetime
 
 from gitrepo.common import child_process as subprocess
 from gitrepo.common.child_process import authorize_destructive_git
+from .confirmation import StructuredConfirmation
 from .git_utils import GitUtils
 from gitrepo.common.translation import _
 from .commit_operations import commit_and_push
@@ -100,7 +101,7 @@ def _publish_testing_branch(bp, branch: str) -> bool:
     question = _(
         "Publish the testing branch before starting its package workflow?\nBranch: {0}\nCommand: git push -u origin {1}"
     ).format(branch, refspec)
-    if not bp.menu.confirm(question, default_yes=False):
+    if not bp.menu.confirm(StructuredConfirmation(question), default_yes=False):
         bp.logger.log("yellow", _("Package build cancelled."))
         return False
 
@@ -139,6 +140,15 @@ def _trigger_package_workflow(bp, package_name, branch_type, working_branch, tma
     )
 
 
+def _branch_type_label(branch_type: str) -> str:
+    """Translate a repository type for display without changing its API value."""
+    return {
+        "testing": _("Testing"),
+        "stable": _("Stable"),
+        "extra": _("Extra"),
+    }.get(branch_type, branch_type)
+
+
 @journey("generating a package", False)
 def commit_and_generate_package(build_package_instance, branch_type, commit_message=None, tmate_option=False):
     """Commit pending work, prepare the target branch, and trigger one reviewed build."""
@@ -171,9 +181,11 @@ def commit_and_generate_package(build_package_instance, branch_type, commit_mess
         return True
 
     question = _("Trigger this GitHub Actions package build?\nPackage: {0}\nType: {1}\nBranch: {2}").format(
-        package_name, branch_type, working_branch
+        package_name,
+        _branch_type_label(branch_type),
+        working_branch,
     )
-    if not bp.menu.confirm(question, default_yes=False):
+    if not bp.menu.confirm(StructuredConfirmation(question), default_yes=False):
         bp.logger.log("yellow", _("Package build cancelled."))
         return False
     success = _trigger_package_workflow(bp, package_name, branch_type, working_branch, tmate_option)
@@ -360,7 +372,7 @@ def _publish_main(bp) -> bool:
         "git merge refs/remotes/origin/main --no-edit (when present)\n"
         "git push origin refs/heads/main:refs/heads/main"
     )
-    if not bp.menu.confirm(question, default_yes=False):
+    if not bp.menu.confirm(StructuredConfirmation(question), default_yes=False):
         return False
 
     try:
@@ -418,7 +430,7 @@ def _merge_to_main(bp, source_branch):
         "refs/heads/{0}:refs/heads/main\n"
         "Local-only main commits are preserved in backup/main-before-stable-*."
     ).format(source_branch)
-    if not bp.menu.confirm(question, default_yes=False):
+    if not bp.menu.confirm(StructuredConfirmation(question), default_yes=False):
         return False
 
     original_branch = GitUtils.get_current_branch()
@@ -471,7 +483,7 @@ def _show_package_summary(bp, package_name, branch_type, working_branch, tmate_o
         (_("Organization"), bp.organization),
         (_("User Name"), bp.github_user_name),
         (_("Package Name"), package_name),
-        (_("Repository Type"), branch_type),
+        (_("Repository Type"), _branch_type_label(branch_type)),
         (_("Working Branch"), working_branch),
     ]
 

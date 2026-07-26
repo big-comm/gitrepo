@@ -193,6 +193,47 @@ class BuildPackageApplication(Adw.Application):
                 font-family: monospace;
                 font-size: 0.88em;
             }
+            .build-package-confirmation-header-icon {
+                padding: 8px;
+                border-radius: 99px;
+                color: @accent_color;
+                background-color: alpha(@accent_bg_color, 0.14);
+            }
+            .build-package-confirmation-list {
+                border: 1px solid alpha(currentColor, 0.08);
+            }
+            .build-package-confirmation-row {
+                padding: 11px 14px;
+            }
+            .build-package-confirmation-label {
+                font-weight: 600;
+                letter-spacing: 0.02em;
+            }
+            .build-package-confirmation-value {
+                font-weight: 700;
+            }
+            .build-package-confirmation-multiline-value {
+                font-weight: 400;
+                font-size: 0.95em;
+            }
+            .build-package-confirmation-command {
+                padding: 9px 11px;
+                border-radius: 9px;
+                color: @accent_color;
+                background-color: alpha(@accent_bg_color, 0.10);
+                font-family: monospace;
+                font-size: 0.9em;
+            }
+            .build-package-confirmation-section {
+                color: @accent_color;
+                font-weight: 700;
+            }
+            .build-package-confirmation-item-icon {
+                color: @accent_color;
+            }
+            .build-package-confirmation-item {
+                font-size: 0.9em;
+            }
             /* Libadwaita banners have no destructive appearance of their own,
                so the destructive page states it in colour and weight. */
             .build-package-warning-banner > revealer > widget {

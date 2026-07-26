@@ -14,6 +14,7 @@ from rich.box import ROUNDED
 from rich.console import Console
 from rich.panel import Panel
 from rich.prompt import Confirm
+from rich.text import Text
 
 
 class MenuSystem:
@@ -81,4 +82,4 @@ class MenuSystem:
 
     def confirm(self, title: str, default_yes: bool = True) -> bool:
         """Displays a confirmation dialog"""
-        return Confirm.ask(title, default=default_yes)
+        return Confirm.ask(Text(str(title)), default=default_yes)

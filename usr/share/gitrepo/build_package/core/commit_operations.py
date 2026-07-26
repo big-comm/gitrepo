@@ -1,10 +1,12 @@
 """Commit/push entry point shared by CLI and package generation."""
 
+from dataclasses import replace
 from pathlib import Path
 
 from gitrepo.common import child_process as subprocess
 
 from .commit_handler import execute_commit, publish_existing_commit
+from .confirmation import StructuredConfirmation, parse_confirmation_content
 from .git_status import display_path
 from .repository_lock import journey
 from .git_utils import GitUtils
@@ -58,6 +60,43 @@ def _planned_branch(bp) -> str:
     return GitUtils.get_personal_branch(bp.github_user_name, repo_path)
 
 
+def _display_commit_message(message: str) -> str:
+    """Quote user text and keep its line boundaries visible in the preview."""
+    lines = message.split("\n")
+    visible_message = lines[0]
+    if len(lines) > 1:
+        continuation = "\n".join(f"│ {line}" if line else "│" for line in lines[1:])
+        visible_message = f"{visible_message}\n{continuation}"
+    return f"“{visible_message}”"
+
+
+def _commit_confirmation_prompt(
+    branch: str,
+    message: str,
+    version_line: str,
+    file_preview: str,
+) -> StructuredConfirmation:
+    """Keep the CLI preview clear and the graphical message truly multiline."""
+    message_marker = "\0gitrepo-commit-message\0"
+    display_message = "\n".join(message.splitlines()) or message
+    template = _(
+        "Publish these changes?\n"
+        'Commands: git add -A → git commit -m "MESSAGE" → git push -u origin BRANCH\n'
+        "Branch: {0}\nMessage: {1}\n{2}Files:\n{3}"
+    )
+    semantic_question = template.format(branch, message_marker, version_line, file_preview)
+    content = parse_confirmation_content(semantic_question)
+    content = replace(
+        content,
+        blocks=tuple(
+            replace(block, value=display_message) if block.value == message_marker else block
+            for block in content.blocks
+        ),
+    )
+    question = template.format(branch, _display_commit_message(display_message), version_line, file_preview)
+    return StructuredConfirmation.from_content(question, content)
+
+
 def _confirm_commit(bp, branch: str, message: str, bump=None) -> bool:
     """Show the exact branch, message, paths, and version change before mutation."""
     # get_changed_files() yields (status, path); the preview wants the paths.
@@ -70,16 +109,15 @@ def _confirm_commit(bp, branch: str, message: str, bump=None) -> bool:
         file_preview += _("\n• … and {0} more").format(len(files) - 30)
     version_line = (
         _("Version: {0} → {1} ({2}) in {3}\n").format(
-            bump.current_version, bump.new_version, bump.bump_level, bump.relative_path
+            bump.current_version,
+            bump.new_version,
+            bump.bump_level,
+            display_path(bump.relative_path),
         )
         if bump
         else ""
     )
-    question = _(
-        "Publish these changes?\n"
-        'Commands: git add -A → git commit -m "MESSAGE" → git push -u origin BRANCH\n'
-        "Branch: {0}\nMessage: {1}\n{2}Files:\n{3}"
-    ).format(
+    question = _commit_confirmation_prompt(
         branch,
         message,
         version_line,
@@ -186,7 +224,7 @@ def _retry_pending_publication(bp) -> bool | None:
         "{2}\n"
         "Command: {3}"
     ).format(branch, commit_sha[:12], remote_state, retry_command)
-    if not bp.menu.confirm(question, default_yes=False):
+    if not bp.menu.confirm(StructuredConfirmation(question), default_yes=False):
         bp.logger.log("yellow", _("Publication retry cancelled."))
         return False
     if getattr(bp, "dry_run_mode", False):
