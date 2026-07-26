@@ -55,8 +55,6 @@ EDITION_DISPLAY_NAMES = {
     "i3": "i3",
     "hyprland": "Hyprland",
 }
-# Editions the projects recommend for general use.
-RECOMMENDED_EDITIONS = ("kde", "gnome", "xfce")
 
 
 def edition_display_name(edition: str) -> str:

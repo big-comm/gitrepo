@@ -7,9 +7,35 @@ gi.require_version("Adw", "1")
 
 from gitrepo.build_package.core.git_utils import GitUtils
 from gitrepo.common.translation import _
-from gi.repository import Adw, Gtk
+from gi.repository import Adw, Gtk, Pango
 
 from gitrepo.common.page_hero import git_command_description, github_action_description
+
+
+def _branch_endpoint(caption: str, branch: str, css_class: str) -> Gtk.Widget:
+    box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=3)
+
+    caption_label = Gtk.Label(label=caption)
+    caption_label.add_css_class("caption")
+    caption_label.add_css_class("dim-label")
+    box.append(caption_label)
+
+    branch_label = Gtk.Label(label=branch)
+    branch_label.add_css_class("heading")
+    branch_label.add_css_class(css_class)
+    branch_label.set_ellipsize(Pango.EllipsizeMode.MIDDLE)
+    branch_label.set_max_width_chars(24)
+    branch_label.set_selectable(True)
+    branch_label.set_tooltip_text(branch)
+    branch_label.update_property([Gtk.AccessibleProperty.LABEL], [f"{caption}: {branch}"])
+    box.append(branch_label)
+    return box
+
+
+def _merge_status_presentation(auto_merge: bool) -> tuple[str, str, str]:
+    if auto_merge:
+        return "gitrepo-status-ready-symbolic", _("✓ Auto-merge enabled"), "status-ok"
+    return "gitrepo-status-warning-symbolic", _("Manual approval required"), "status-warning"
 
 
 class BranchActionsMixin:
@@ -228,13 +254,11 @@ class BranchActionsMixin:
         dialog = Adw.MessageDialog(transient_for=self, modal=True)
 
         dialog.set_heading(_("Propose branch integration?"))
-        dialog.set_body(
-            github_action_description(_("open a Pull Request on GitHub; this does not run git merge on your computer"))
-        )
+        dialog.set_body("")
 
         # Visual content
         wrapper = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
-        wrapper.set_size_request(420, -1)
+        wrapper.set_size_request(520, -1)
 
         content_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
         content_box.set_margin_top(16)
@@ -242,35 +266,54 @@ class BranchActionsMixin:
         content_box.set_margin_start(24)
         content_box.set_margin_end(24)
 
+        action_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        action_box.add_css_class("build-package-github-action")
+        action_icon = Gtk.Image.new_from_icon_name("build-package-pull")
+        action_icon.set_pixel_size(22)
+        action_icon.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
+        action_box.append(action_icon)
+        action_label = Gtk.Label(
+            label=github_action_description(
+                _("open a Pull Request on GitHub; this does not run git merge on your computer")
+            ),
+            xalign=0,
+        )
+        action_label.set_hexpand(True)
+        action_label.set_wrap(True)
+        action_label.set_natural_wrap_mode(Gtk.NaturalWrapMode.WORD)
+        action_label.set_selectable(True)
+        action_box.append(action_label)
+        content_box.append(action_box)
+
         # Branch flow visualization
         flow_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
         flow_box.set_halign(Gtk.Align.CENTER)
+        flow_box.add_css_class("build-package-pr-card")
 
-        source_label = Gtk.Label()
-        source_label.set_text(source_branch)
-        source_label.add_css_class("heading")
-        flow_box.append(source_label)
+        flow_box.append(_branch_endpoint(_("Source Branch"), source_branch, "build-package-pr-source"))
 
         arrow = Gtk.Image.new_from_icon_name("go-next-symbolic")
         arrow.set_pixel_size(24)
+        arrow.add_css_class("build-package-pr-arrow")
+        arrow.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
         flow_box.append(arrow)
 
-        target_label = Gtk.Label()
-        target_label.set_text(target_branch)
-        target_label.add_css_class("heading")
-        flow_box.append(target_label)
+        flow_box.append(_branch_endpoint(_("Target Branch"), target_branch, "build-package-pr-target"))
 
         content_box.append(flow_box)
 
         # Auto-merge status
-        merge_status = Gtk.Label()
-        if auto_merge:
-            merge_status.set_text(_("✓ Auto-merge enabled"))
-        else:
-            merge_status.set_text(_("Manual approval required"))
-            merge_status.add_css_class("dim-label")
-        merge_status.set_margin_top(8)
-        content_box.append(merge_status)
+        status_icon_name, status_text, status_class = _merge_status_presentation(auto_merge)
+        status_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=7)
+        status_box.set_halign(Gtk.Align.CENTER)
+        status_box.add_css_class("state-pill")
+        status_box.add_css_class(status_class)
+        status_icon = Gtk.Image.new_from_icon_name(status_icon_name)
+        status_icon.set_pixel_size(16)
+        status_icon.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
+        status_box.append(status_icon)
+        status_box.append(Gtk.Label(label=status_text))
+        content_box.append(status_box)
 
         wrapper.append(content_box)
         dialog.set_extra_child(wrapper)
@@ -297,7 +340,7 @@ class BranchActionsMixin:
             )
 
         merge_type = _("Auto-merge") if auto_merge else _("Manual")
-        self.operation_runner.run_with_progress(
+        self._ensure_token_and_run(
             merge_operation,
             _("Opening Pull Request"),
             _("{0}: {1} → {2}").format(merge_type, source_branch, target_branch),
@@ -327,7 +370,7 @@ class BranchActionsMixin:
                 status_type, self.build_package.logger, self.build_package.menu
             )
 
-        self.operation_runner.run_with_progress(
+        self._ensure_token_and_run(
             cleanup_operation,
             _("Removing workflow runs"),
             github_action_description(_("delete {0} GitHub Actions runs").format(status_type)),
@@ -339,7 +382,7 @@ class BranchActionsMixin:
         def cleanup_operation():
             return self.build_package.github_api.clean_all_tags(self.build_package.logger, self.build_package.menu)
 
-        self.operation_runner.run_with_progress(
+        self._ensure_token_and_run(
             cleanup_operation,
             _("Removing remote tags"),
             github_action_description(_("delete all remote tag references; local tags are unchanged")),

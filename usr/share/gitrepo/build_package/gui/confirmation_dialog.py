@@ -115,7 +115,7 @@ def _section_row(section: ConfirmationBlock | None, items: list[ConfirmationBloc
     return _row(content)
 
 
-def _details_list(blocks: tuple[ConfirmationBlock, ...]) -> Gtk.ListBox:
+def confirmation_details(blocks: tuple[ConfirmationBlock, ...]) -> Gtk.ListBox:
     details = Gtk.ListBox()
     details.set_selection_mode(Gtk.SelectionMode.NONE)
     details.add_css_class("boxed-list")
@@ -161,7 +161,13 @@ def _details_need_scrolling(blocks: tuple[ConfirmationBlock, ...]) -> bool:
     return units > 10
 
 
-def _confirmation_content(question: str) -> tuple[Gtk.Widget, str, bool]:
+def _dialog_content_height(blocks: tuple[ConfirmationBlock, ...]) -> int:
+    if not blocks or _details_need_scrolling(blocks):
+        return -1
+    return 360 if len(blocks) >= 3 else 310
+
+
+def _confirmation_content(question: str) -> tuple[Gtk.Widget, str, bool, int]:
     parsed = question.content if isinstance(question, StructuredConfirmation) else plain_confirmation_content(question)
     content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=16)
 
@@ -181,7 +187,7 @@ def _confirmation_content(question: str) -> tuple[Gtk.Widget, str, bool]:
     content.append(header)
 
     if parsed.blocks:
-        details = _details_list(parsed.blocks)
+        details = confirmation_details(parsed.blocks)
         if _details_need_scrolling(parsed.blocks):
             scrolled = Gtk.ScrolledWindow()
             scrolled.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
@@ -192,7 +198,7 @@ def _confirmation_content(question: str) -> tuple[Gtk.Widget, str, bool]:
         else:
             content.append(details)
 
-    return content, parsed.heading, bool(parsed.blocks)
+    return content, parsed.heading, bool(parsed.blocks), _dialog_content_height(parsed.blocks)
 
 
 class ConfirmationDialog(Adw.AlertDialog):
@@ -201,10 +207,11 @@ class ConfirmationDialog(Adw.AlertDialog):
     def __init__(self, question: str, default_yes: bool = True) -> None:
         super().__init__(heading="", body="")
 
-        content, accessible_heading, has_details = _confirmation_content(question)
+        content, accessible_heading, has_details, content_height = _confirmation_content(question)
         self.set_extra_child(content)
         self.set_follows_content_size(False)
         self.set_content_width(760 if has_details else 480)
+        self.set_content_height(content_height)
         self.update_property([Gtk.AccessibleProperty.LABEL], [accessible_heading])
 
         self.add_response("no", _("No"))

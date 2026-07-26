@@ -12,8 +12,10 @@ from gitrepo.build_package.core.confirmation import (
 from gitrepo.build_package.cli.cli_menu import MenuSystem
 from gitrepo.build_package.gui.confirmation_dialog import (
     _details_need_scrolling,
+    _dialog_content_height,
     _format_command,
 )
+from gitrepo.build_package.gui.repository_actions import _commit_command_block
 from rich.text import Text
 
 
@@ -42,6 +44,13 @@ def test_commit_confirmation_has_structured_commands_fields_and_files() -> None:
     assert content.blocks[0].value.startswith("git add -A →")
     assert content.blocks[2].value == "fix: detect nested PKGBUILD"
     assert content.blocks[3].value.startswith("3.9.9 → 4.0.0")
+
+
+def test_commit_branch_dialog_reuses_the_structured_command_block() -> None:
+    block = _commit_command_block()
+
+    assert block.kind == "command"
+    assert _format_command(block.value) == ('git add -A\ngit commit -m "MESSAGE"\ngit push -u origin BRANCH')
 
 
 def test_testing_branch_confirmation_identifies_refspec_command() -> None:
@@ -80,6 +89,8 @@ def test_short_branch_and_workflow_confirmations_do_not_need_scrolling() -> None
 
     assert _details_need_scrolling(branch.blocks) is False
     assert _details_need_scrolling(workflow.blocks) is False
+    assert _dialog_content_height(branch.blocks) == 310
+    assert _dialog_content_height(workflow.blocks) == 360
 
 
 def test_long_commit_confirmation_keeps_bounded_scrolling() -> None:
@@ -91,6 +102,7 @@ def test_long_commit_confirmation_keeps_bounded_scrolling() -> None:
     )
 
     assert _details_need_scrolling(prompt.content.blocks) is True
+    assert _dialog_content_height(prompt.content.blocks) == -1
 
 
 def test_raw_git_steps_are_commands_and_urls_remain_text() -> None:

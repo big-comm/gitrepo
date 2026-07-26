@@ -351,13 +351,16 @@ class BuildPackage:
                 GitUtils.cleanup_old_branches(self.logger, self.menu)
 
             elif choice == 1:  # Delete failed Action jobs
-                self.github_api.clean_action_jobs("failure", self.logger, self.menu)
+                if self.github_api.ensure_github_token(self.logger):
+                    self.github_api.clean_action_jobs("failure", self.logger, self.menu)
 
             elif choice == 2:  # Delete successful Action jobs
-                self.github_api.clean_action_jobs("success", self.logger, self.menu)
+                if self.github_api.ensure_github_token(self.logger):
+                    self.github_api.clean_action_jobs("success", self.logger, self.menu)
 
             elif choice == 3:  # Delete tags
-                self.github_api.clean_all_tags(self.logger, self.menu)
+                if self.github_api.ensure_github_token(self.logger):
+                    self.github_api.clean_all_tags(self.logger, self.menu)
 
             elif choice == 4:  # Merge branch to main
                 self.merge_branch_menu()
@@ -433,6 +436,8 @@ class BuildPackage:
                 return
 
             # Create pull request
+            if not self.github_api.ensure_github_token(self.logger):
+                return
             pr_info = self.github_api.create_pull_request(selected_branch, "main", auto_merge, self.logger)
 
             if pr_info:

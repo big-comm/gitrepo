@@ -11,7 +11,24 @@ from gitrepo.build_package.core.git_utils import GitUtils
 from gitrepo.common.translation import _
 from gi.repository import Adw, GLib, Gtk
 
+from gitrepo.build_package.core.confirmation import ConfirmationBlock
+from gitrepo.build_package.gui.confirmation_dialog import confirmation_details
 from gitrepo.common.page_hero import git_command_description, github_action_description
+
+
+_COMMIT_COMMANDS = (
+    "git add -A",
+    'git commit -m "MESSAGE"',
+    "git push -u origin BRANCH",
+)
+
+
+def _commit_command_block() -> ConfirmationBlock:
+    return ConfirmationBlock(
+        "command",
+        " → ".join(_COMMIT_COMMANDS),
+        git_command_description("").strip(),
+    )
 
 
 class RepositoryActionsMixin:
@@ -56,26 +73,16 @@ class RepositoryActionsMixin:
                 _(
                     "You are about to commit directly to '{0}'.\n\n"
                     "This is usually protected. Consider using your development branch instead.\n\n{1}"
-                ).format(
-                    current_branch,
-                    git_command_description(
-                        "git add -A",
-                        'git commit -m "MESSAGE"',
-                        "git push -u origin BRANCH",
-                    ),
                 )
+                .format(
+                    current_branch,
+                    "",
+                )
+                .strip()
             )
         else:
             dialog.set_heading(_("Confirm Commit Branch"))
-            dialog.set_body(
-                _("Choose where to publish your changes. {0}").format(
-                    git_command_description(
-                        "git add -A",
-                        'git commit -m "MESSAGE"',
-                        "git push -u origin BRANCH",
-                    )
-                )
-            )
+            dialog.set_body(_("Choose where to publish your changes. {0}").format("").strip())
         dialog.set_extra_child(self._build_commit_branch_content(current_branch, dev_branch, is_protected))
         self._add_commit_branch_responses(dialog, current_branch, dev_branch, is_protected)
         dialog.connect("response", self._on_commit_branch_response, current_branch, dev_branch)
@@ -85,7 +92,14 @@ class RepositoryActionsMixin:
     def _build_commit_branch_content(current_branch, dev_branch, is_protected):
         """Build theme-safe branch context for the confirmation dialog."""
         wrapper = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
-        wrapper.set_size_request(400, -1)
+        wrapper.set_size_request(520, -1)
+
+        commands = confirmation_details((_commit_command_block(),))
+        commands.set_margin_top(12)
+        commands.set_margin_start(24)
+        commands.set_margin_end(24)
+        wrapper.append(commands)
+
         content_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
         content_box.set_margin_top(12)
         content_box.set_margin_bottom(12)
@@ -100,12 +114,17 @@ class RepositoryActionsMixin:
         current_box.append(icon)
         branch_label = Gtk.Label()
         branch_label.set_text(_("Current: {0}").format(current_branch))
+        branch_label.add_css_class("heading")
+        branch_label.add_css_class("warning" if is_protected else "success")
+        branch_label.set_selectable(True)
         current_box.append(branch_label)
         content_box.append(current_box)
         if current_branch != dev_branch:
             suggestion_label = Gtk.Label()
             suggestion_label.set_text(_("Your dev branch: {0}").format(dev_branch))
             suggestion_label.set_margin_top(8)
+            suggestion_label.add_css_class("accent")
+            suggestion_label.set_selectable(True)
             content_box.append(suggestion_label)
         wrapper.append(content_box)
         return wrapper
@@ -284,7 +303,7 @@ class RepositoryActionsMixin:
         )
 
     def _ensure_token_and_run(self, operation, title, description):
-        """Ensure GitHub token is available before running a package operation.
+        """Ensure a GitHub token is available before running an API operation.
 
         If token is missing, shows a GTK dialog to guide the user through setup.
         If token is available (or setup succeeds), runs the operation.
@@ -321,16 +340,7 @@ class RepositoryActionsMixin:
 
         dialog = Adw.MessageDialog(transient_for=self, modal=True)
         dialog.set_heading(_("GitHub Token Setup"))
-        dialog.set_body(
-            _(
-                "A GitHub Personal Access Token is required for package operations.\n\n"
-                "To create one:\n"
-                "1. Go to: github.com/settings/tokens\n"
-                "2. Click 'Generate new token (classic)'\n"
-                "3. Select scopes: 'repo' and 'workflow'\n"
-                "4. Copy the generated token"
-            )
-        )
+        dialog.set_body(_("A GitHub Personal Access Token is required for this operation."))
 
         # Create content box with entry fields
         content_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
