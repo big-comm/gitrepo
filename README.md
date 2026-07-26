@@ -158,7 +158,22 @@ tests/                           contract and regression tests
 pkgbuild/PKGBUILD                Arch Linux package recipe
 ```
 
-Development, translation, validation, and release procedures are documented in [MAINTENANCE.md](MAINTENANCE.md).
+## Development
+
+Run the focused quality gates from the repository root:
+
+```bash
+ruff format --check usr/share tests
+ruff check usr/share tests
+PYTHONPATH="$PWD/usr/share" pytest -q
+```
+
+Build the Arch package with:
+
+```bash
+cd pkgbuild
+makepkg
+```
 
 ## License
 

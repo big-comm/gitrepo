@@ -41,11 +41,21 @@ class DiffViewerDialog(Adw.Window):
         paned = Gtk.Paned(orientation=Gtk.Orientation.HORIZONTAL)
         paned.set_wide_handle(True)
         paned.set_position(320)
-        paned.set_start_child(self._create_file_list(changes, initial_path))
-        paned.set_end_child(self._create_diff_view())
+        diff_pane = self._create_diff_view()
+        file_sidebar = self._create_file_list(changes, initial_path)
+        paned.set_start_child(file_sidebar)
+        paned.set_end_child(diff_pane)
         toolbar.set_content(paned)
 
-        self._style_manager.connect("notify::dark", lambda *_args: self._reload_selected_diff())
+        self._style_handler = self._style_manager.connect("notify::dark", lambda *_args: self._reload_selected_diff())
+        self.connect("close-request", self._on_close_request)
+
+    def _on_close_request(self, _window) -> bool:
+        """Release the process-wide style handler when the dialog closes."""
+        if self._style_handler:
+            self._style_manager.disconnect(self._style_handler)
+            self._style_handler = 0
+        return False
 
     def _create_file_list(self, changes, initial_path):
         sidebar = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)

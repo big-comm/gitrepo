@@ -1,9 +1,16 @@
 # Python caches and environments
 __pycache__/
 *.py[cod]
+*$py.class
+*.so
 .mypy_cache/
 .pytest_cache/
 .ruff_cache/
+.hypothesis/
+.nox/
+.pyre/
+.pytype/
+.tox/
 .coverage
 .coverage.*
 htmlcov/
@@ -18,18 +25,31 @@ dist/
 # Arch package output
 pkg/
 src/
-*.pkg.tar.*
-*.src.tar.*
+*.pkg.tar*
+*.src.tar*
+/messages.mo
 
 # Editors and local environment
 *~
+*.swp
+*.swo
+.DS_Store
 .env
 .idea/
 .vscode/
 
 # Local agent coordination
+.agents/
+.claude/
+.codex/
 .superpowers/
 
-# Local planning notes
+# Local reports and planning notes
+.audit/
 docs/superpowers/
 *.log
+*.po~
+
+# README is the only Markdown document published by this repository
+*.md
+!/README.md
