@@ -10,6 +10,7 @@ gi.require_version("Adw", "1")
 from gi.repository import Gtk, Adw, GLib
 from gitrepo.common.translation import _
 from gitrepo.build_package.core.conflict_resolver import ConflictResolver
+from .confirmation_dialog import ConfirmationDialog
 from .dialogs.conflict_dialog import ConflictDialog
 from .dialogs.preview_dialog import PreviewDialog
 import threading
@@ -102,7 +103,11 @@ class GTKMenuSystem:
         self._result = None
 
         def show_on_main():
-            setup_func()
+            try:
+                setup_func()
+            except Exception:
+                self._result_event.set()
+                raise
             return False
 
         GLib.idle_add(show_on_main)
@@ -164,25 +169,19 @@ class GTKMenuSystem:
         """Ask yes/no question"""
 
         def setup():
-            dialog = Adw.MessageDialog.new(self.parent_window, "", question)
-
-            dialog.add_response("no", _("No"))
-            dialog.add_response("yes", _("Yes"))
-
-            if default_yes:
-                dialog.set_default_response("yes")
-                dialog.set_response_appearance("yes", Adw.ResponseAppearance.SUGGESTED)
-            else:
-                dialog.set_default_response("no")
-
-            dialog.set_close_response("no")
+            dialog = ConfirmationDialog(question, default_yes)
 
             def on_response(_dlg, response_id):
                 self._result = response_id == "yes"
                 self._result_event.set()
 
             dialog.connect("response", on_response)
-            dialog.present()
+            progress_dialog = getattr(
+                getattr(self.parent_window, "operation_runner", None),
+                "current_dialog",
+                None,
+            )
+            dialog.present(progress_dialog or self.parent_window)
 
         return self._wait_for_dialog(setup)
 

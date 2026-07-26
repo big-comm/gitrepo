@@ -116,8 +116,9 @@ def test_plan_without_safe_preview_still_confirms_destructive_operations(build_p
         def __init__(self):
             self.questions = []
 
-        def confirm(self, question):
+        def confirm(self, question, default_yes=True):
             self.questions.append(question)
+            assert default_yes is False
             return False
 
     logger = Logger()

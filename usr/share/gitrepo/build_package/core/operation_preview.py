@@ -170,7 +170,7 @@ class OperationPlan:
         else:
             question = _("Proceed with these operations?")
 
-        return self.menu.confirm(question)
+        return self.menu.confirm(question, default_yes=not has_destructive_operations)
 
     def _simulate(self):
         self.logger.log("yellow", _("Dry-run mode; no operations will execute."))

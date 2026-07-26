@@ -75,6 +75,15 @@ def build_package(menu=None):
     )
 
 
+def test_repository_type_label_is_translated_only_for_display(monkeypatch):
+    monkeypatch.setattr(package_operations, "_", lambda text: f"<{text}>")
+
+    assert package_operations._branch_type_label("testing") == "<Testing>"
+    assert package_operations._branch_type_label("stable") == "<Stable>"
+    assert package_operations._branch_type_label("extra") == "<Extra>"
+    assert package_operations._branch_type_label("custom") == "custom"
+
+
 def test_stable_promotion_is_atomic_and_restores_source_branch(tmp_path, monkeypatch):
     repository, remote = create_repository(tmp_path)
     run_git(repository, "checkout", "-b", "dev-tester")
