@@ -9,7 +9,6 @@ import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
-from gitrepo.build_iso.core.config import CONTAINER_IMAGE
 from gitrepo.build_iso.core.container_manager import ContainerManager, ContainerStatus
 from gitrepo.common.translation import _
 from gi.repository import Adw, GLib, GObject, Gtk
@@ -63,17 +62,17 @@ class ContainerWidget(Gtk.Box):
         info_group.add(self.engine_row)
 
         # ── Image Management ──
-        image_group = Adw.PreferencesGroup()
-        image_group.set_title(_("Build Image"))
-        image_group.set_description(_("Required container image: {0}").format(CONTAINER_IMAGE))
-        image_group.set_margin_top(24)
-        page_content.append(image_group)
+        self.image_group = Adw.PreferencesGroup()
+        self.image_group.set_title(_("Build Image"))
+        self._update_image_description()
+        self.image_group.set_margin_top(24)
+        page_content.append(self.image_group)
 
         self.image_status_row = Adw.ActionRow()
         self.image_status_row.set_title(_("Image Status"))
         self.image_status_row.set_subtitle(_("Checking..."))
         self.image_status_row.add_prefix(_section_icon("build-iso-build-image"))
-        image_group.add(self.image_status_row)
+        self.image_group.add(self.image_status_row)
 
         # Pull image button
         pull_row = Adw.ActionRow()
@@ -86,7 +85,7 @@ class ContainerWidget(Gtk.Box):
         self.pull_button.add_css_class("suggested-action")
         self.pull_button.connect("clicked", self._on_pull_clicked)
         pull_row.add_suffix(self.pull_button)
-        image_group.add(pull_row)
+        self.image_group.add(pull_row)
 
         # ── Maintenance ──
         # Cleanup containers
@@ -98,7 +97,7 @@ class ContainerWidget(Gtk.Box):
         self.cleanup_button.set_valign(Gtk.Align.CENTER)
         self.cleanup_button.connect("clicked", self._on_cleanup_clicked)
         cleanup_row.add_suffix(self.cleanup_button)
-        image_group.add(cleanup_row)
+        self.image_group.add(cleanup_row)
 
         self.storage_notice_row = Adw.ActionRow()
         self.storage_notice_row.set_title(_("Docker storage is managed by the system"))
@@ -109,7 +108,7 @@ class ContainerWidget(Gtk.Box):
         warning_icon.add_css_class("status-warning")
         self.storage_notice_row.add_prefix(warning_icon)
         self.storage_notice_row.set_visible(False)
-        image_group.add(self.storage_notice_row)
+        self.image_group.add(self.storage_notice_row)
 
         # Pull progress
         self.pull_progress_group = Adw.PreferencesGroup()
@@ -132,6 +131,7 @@ class ContainerWidget(Gtk.Box):
 
     def set_checking(self) -> None:
         """Show pending state while the shared environment probe runs."""
+        self._update_image_description()
         self.engine_row.set_subtitle(_("Detecting..."))
         self.image_status_row.set_subtitle(_("Checking..."))
         self.pull_button.set_sensitive(False)
@@ -174,7 +174,7 @@ class ContainerWidget(Gtk.Box):
         def progress_callback(line):
             GLib.idle_add(self._update_pull_progress, line)
 
-        success = self.container_mgr.pull_image(CONTAINER_IMAGE, progress_callback)
+        success = self.container_mgr.pull_image(self.settings.container_image, progress_callback)
         GLib.idle_add(self._pull_completed, success)
 
     def _update_pull_progress(self, line):
@@ -198,10 +198,11 @@ class ContainerWidget(Gtk.Box):
         thread.start()
 
     def _prepare_cleanup(self, button):
-        container_ids = self.container_mgr.list_stopped_containers(CONTAINER_IMAGE)
-        GLib.idle_add(self._show_cleanup_confirmation, button, container_ids)
+        container_image = self.settings.container_image
+        container_ids = self.container_mgr.list_stopped_containers(container_image)
+        GLib.idle_add(self._show_cleanup_confirmation, button, container_image, container_ids)
 
-    def _show_cleanup_confirmation(self, button, container_ids):
+    def _show_cleanup_confirmation(self, button, container_image, container_ids):
         button.set_sensitive(True)
         if not container_ids:
             return False
@@ -209,7 +210,7 @@ class ContainerWidget(Gtk.Box):
             heading=_("Remove {0} stopped build containers?").format(len(container_ids)),
             body=_(
                 "Only stopped containers created from {0} will be removed. Images and Docker storage are kept."
-            ).format(CONTAINER_IMAGE),
+            ).format(container_image),
         )
         dialog.add_response("cancel", _("Cancel"))
         dialog.add_response("remove", _("Remove Stopped Containers"))
@@ -226,3 +227,6 @@ class ContainerWidget(Gtk.Box):
     def _cleanup_worker(self, container_ids):
         self.container_mgr.remove_stopped_containers(container_ids)
         GLib.idle_add(self.emit, "refresh-requested")
+
+    def _update_image_description(self) -> None:
+        self.image_group.set_description(_("Required container image: {0}").format(self.settings.container_image))

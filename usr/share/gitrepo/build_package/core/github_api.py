@@ -197,10 +197,14 @@ class GitHubAPI:
                 logger.log("yellow", _("Token setup cancelled."))
                 return False
 
-            # Save token via TokenStore (handles chmod 600 automatically)
-            if TokenStore.upsert(self.organization, token_input):
-                logger.log("green", _("✓ Token saved securely in the system keyring"))
-                logger.log("green", _("✓ File permissions set to 600 (owner read/write only)"))
+            if not TokenStore.upsert(self.organization, token_input):
+                logger.log(
+                    "red",
+                    _("The token could not be saved. Unlock the system keyring and try again."),
+                )
+                return False
+
+            logger.log("green", _("✓ Token saved securely in the system keyring"))
 
             # Update instance
             self.token = token_input

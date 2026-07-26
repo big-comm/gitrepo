@@ -470,8 +470,89 @@ class GitUtils:
             ["git", "config", "user.email"], capture_output=True, text=True, check=False, intent="ordinary"
         )
         email = email_result.stdout.strip() if email_result.returncode == 0 else ""
-        match = re.fullmatch(r"(?:\\d+\\+)?([^@]+)@users\\.noreply\\.github\\.com", email)
+        match = re.fullmatch(r"(?:\d+\+)?([^@]+)@users\.noreply\.github\.com", email)
         return match.group(1) if match else "unknown"
+
+    @staticmethod
+    def is_valid_branch_name(branch: str) -> bool:
+        """Return whether *branch* is accepted by Git."""
+        if not branch:
+            return False
+        result = subprocess.run_git(
+            ["git", "check-ref-format", "--branch", branch],
+            capture_output=True,
+            text=True,
+            check=False,
+            intent="ordinary",
+        )
+        return result.returncode == 0
+
+    @staticmethod
+    def get_configured_personal_branch(repo_path: str | None = None) -> str:
+        """Return the valid repository-local personal branch override."""
+        root = repo_path or GitUtils.get_repo_root_path()
+        result = subprocess.run_git(
+            ["git", "config", "--local", "--get", "gitrepo.personalBranch"],
+            cwd=root,
+            capture_output=True,
+            text=True,
+            check=False,
+            intent="ordinary",
+        )
+        branch = result.stdout.strip() if result.returncode == 0 else ""
+        return branch if GitUtils.is_valid_branch_name(branch) else ""
+
+    @staticmethod
+    def set_personal_branch(branch: str, repo_path: str | None = None) -> bool:
+        """Store or clear the repository-local personal branch override."""
+        branch = (branch or "").strip()
+        if branch and not GitUtils.is_valid_branch_name(branch):
+            return False
+        command = (
+            ["git", "config", "--local", "gitrepo.personalBranch", branch]
+            if branch
+            else ["git", "config", "--local", "--unset-all", "gitrepo.personalBranch"]
+        )
+        result = subprocess.run_git(
+            command,
+            cwd=repo_path or GitUtils.get_repo_root_path(),
+            capture_output=True,
+            text=True,
+            check=False,
+            intent="ordinary",
+        )
+        return result.returncode == 0 or (not branch and result.returncode == 5)
+
+    @staticmethod
+    def get_personal_branch(username: str | None = None, repo_path: str | None = None) -> str:
+        """Resolve the branch used for this repository's personal work."""
+        configured = GitUtils.get_configured_personal_branch(repo_path)
+        if configured:
+            return configured
+
+        current = GitUtils.get_current_branch()
+        if current.startswith("dev-") and GitUtils.is_valid_branch_name(current):
+            return current
+
+        username = (username or GitUtils.get_github_username() or "unknown").strip()
+        inferred = f"dev-{username}"
+        return inferred if GitUtils.is_valid_branch_name(inferred) else "dev-unknown"
+
+    @staticmethod
+    def list_version_candidates(repo_path: str) -> list[str] | None:
+        """List tracked and non-ignored untracked files, or None outside Git."""
+        result = subprocess.run_git(
+            ["git", "ls-files", "--cached", "--others", "--exclude-standard", "-z"],
+            cwd=repo_path,
+            capture_output=True,
+            check=False,
+            intent="ordinary",
+        )
+        if result.returncode != 0:
+            return None
+        separator = "\0" if isinstance(result.stdout, str) else b"\0"
+        paths = [os.fsdecode(path) for path in result.stdout.split(separator) if path]
+        return sorted(path for path in paths if not os.path.isabs(path) and not path.startswith("../"))
 
     @staticmethod
     def has_changes() -> bool:

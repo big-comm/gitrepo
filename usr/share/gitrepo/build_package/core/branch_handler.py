@@ -14,10 +14,7 @@ from gitrepo.common.translation import _
 
 
 def _valid_branch_name(branch: str) -> bool:
-    result = subprocess.run_git(
-        ["git", "check-ref-format", "--branch", branch], capture_output=True, text=True, check=False, intent="ordinary"
-    )
-    return result.returncode == 0
+    return GitUtils.is_valid_branch_name(branch)
 
 
 def _checkout_branch(branch: str) -> bool:
@@ -52,25 +49,50 @@ def _stash_working_tree(branch: str) -> bool:
 
 
 def _restore_working_tree(bp) -> None:
-    result = subprocess.run_git(["git", "stash", "pop"], capture_output=True, text=True, check=False, intent="ordinary")
+    result = subprocess.run_git(
+        ["git", "stash", "pop", "--index"],
+        capture_output=True,
+        text=True,
+        check=False,
+        intent="ordinary",
+    )
     if result.returncode == 0:
         return
-    if bp.conflict_resolver.has_conflicts() and bp.conflict_resolver.resolve():
+    resolver = getattr(bp, "conflict_resolver", None)
+    if resolver and resolver.has_conflicts() and resolver.resolve():
+        subprocess.run_git(
+            ["git", "stash", "drop", "stash@{0}"],
+            capture_output=True,
+            text=True,
+            check=False,
+            intent="ordinary",
+        )
         return
     raise RuntimeError(_("Local changes remain in the stash and need manual resolution."))
 
 
+@journey("preparing a commit", False)
 def switch_and_commit(bp, target_branch: str, commit_message: str) -> bool:
     """Move pending work to an explicit branch, then commit and push it."""
     if not _valid_branch_name(target_branch):
         bp.logger.log("red", _("Invalid target branch: {0}").format(target_branch))
         return False
+    original_branch = GitUtils.get_current_branch()
+    stashed = False
     try:
-        stashed = GitUtils.get_current_branch() != target_branch and _stash_working_tree(target_branch)
-        if GitUtils.get_current_branch() != target_branch and not _checkout_branch(target_branch):
-            raise RuntimeError(_("Could not switch to {0}").format(target_branch))
+        stashed = original_branch != target_branch and _stash_working_tree(target_branch)
+        if original_branch != target_branch and not _checkout_branch(target_branch):
+            switch_error = _("Could not switch to {0}").format(target_branch)
+            if stashed:
+                try:
+                    _restore_working_tree(bp)
+                    stashed = False
+                except RuntimeError as restore_error:
+                    raise RuntimeError(_("{0}. {1}").format(switch_error, restore_error)) from restore_error
+            raise RuntimeError(switch_error)
         if stashed:
             _restore_working_tree(bp)
+            stashed = False
         from .commit_handler import execute_commit
 
         return execute_commit(bp, commit_message, target_branch)

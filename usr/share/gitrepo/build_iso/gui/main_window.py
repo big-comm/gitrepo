@@ -10,7 +10,7 @@ import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
-from gitrepo.build_iso.core.config import APP_NAME, CONTAINER_IMAGE
+from gitrepo.build_iso.core.config import APP_NAME
 from gitrepo.build_iso.core.container_manager import ContainerManager, capture_disk_status
 from gitrepo.build_iso.core.settings import Settings
 from gitrepo.common.translation import _
@@ -317,7 +317,7 @@ class MainWindow(Adw.ApplicationWindow):
 
     def _probe_environment(self, generation: int) -> None:
         manager = ContainerManager(self.settings.container_engine_preference)
-        status = manager.capture_status(CONTAINER_IMAGE)
+        status = manager.capture_status(self.settings.container_image)
         disk_status = capture_disk_status(self.settings.output_dir)
         GLib.idle_add(self._apply_environment_status, generation, manager, status, disk_status)
 

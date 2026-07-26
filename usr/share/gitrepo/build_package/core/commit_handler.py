@@ -165,16 +165,36 @@ def _sync_branch(bp, branch: str) -> None:
     raise RuntimeError(_("Remote changes conflict with the local branch; resolve them manually."))
 
 
+def _record_unpublished_commit(bp, branch: str) -> None:
+    """Record the local branch tip that survived an incomplete publication."""
+    refspec = f"refs/heads/{branch}:refs/heads/{branch}"
+    retry_command = f"git push -u origin {refspec}"
+    commit_sha = GitUtils.get_head_sha()
+    current_branch = GitUtils.get_current_branch() or branch
+    bp.last_operation_details = {
+        "local_commit_created": commit_sha,
+        "current_branch": current_branch,
+        "remote_unchanged": True,
+        "retry_command": retry_command,
+    }
+    _log(bp, "yellow", _("The commit {0} was created locally and was kept.").format(commit_sha[:12]))
+    _log(bp, "cyan", _("Retry publishing it with: {0}").format(retry_command))
+
+
 def _push_branch(bp, branch: str) -> None:
     """Push one branch and translate common remote failures into next steps."""
+    refspec = f"refs/heads/{branch}:refs/heads/{branch}"
     result = subprocess.run_git(
-        ["git", "push", "-u", "origin", f"refs/heads/{branch}:refs/heads/{branch}"],
+        ["git", "push", "-u", "origin", refspec],
         capture_output=True,
         text=True,
         check=False,
         intent="ordinary",
     )
     if result.returncode == 0:
+        details = getattr(bp, "last_operation_details", {})
+        if details.get("local_commit_created") and details.get("current_branch") == branch:
+            bp.last_operation_details = {}
         _log(bp, "green", _("✓ Pushed to origin/{0}").format(branch))
         return
     detail = result.stderr.strip() or result.stdout.strip() or _("Unknown error")
@@ -182,7 +202,15 @@ def _push_branch(bp, branch: str) -> None:
     _log(bp, "red", diagnosis["diagnosis"])
     for solution in diagnosis["solutions"]:
         _log(bp, "white", f"• {solution}")
+    _record_unpublished_commit(bp, branch)
     raise RuntimeError(diagnosis["diagnosis"])
+
+
+def publish_existing_commit(bp, branch: str) -> bool:
+    """Push the current branch tip without creating another commit."""
+    _push_branch(bp, branch)
+    _log(bp, "green", _("Existing local commit published to origin/{0}.").format(branch))
+    return True
 
 
 def execute_commit(bp, commit_message: str, target_branch: str | None = None) -> bool:
@@ -193,7 +221,11 @@ def execute_commit(bp, commit_message: str, target_branch: str | None = None) ->
     _stage_changes(bp)
     if not _create_commit(bp, commit_message):
         return True
-    _sync_branch(bp, branch)
+    try:
+        _sync_branch(bp, branch)
+    except (RuntimeError, subprocess.SubprocessError):
+        _record_unpublished_commit(bp, branch)
+        raise
     _push_branch(bp, branch)
     _log(bp, "green", _("Changes published to {0} with git commit and git push").format(branch))
     return True

@@ -90,31 +90,32 @@ APP_NAME_PATTERN = re.compile(r"APP_NAME\s*=\s*(?:_\(\s*)?[\"']([^\"']+)[\"']")
 def _locate_app_version_entry(bp):
     """Find the one APP_VERSION this repository owns, or nothing when unclear."""
     pattern = re.compile(r'(APP_VERSION\s*=\s*)(["\'])(\d+\.\d+\.\d+)(["\'])')
-    cached = _read_version_entry(bp._app_version_cache, pattern)
-    if cached:
-        return cached
     repo_path = bp.repo_path or GitUtils.get_repo_root_path()
+    candidates = list(_version_candidate_paths(repo_path))
     identifiers = _repository_identifiers(repo_path)
 
-    entries = []
-    for file_path in _version_candidate_paths(repo_path):
+    matching_entries = []
+    for file_path in candidates:
+        if not _is_regular_version_candidate(file_path):
+            if bp.logger:
+                bp.logger.log(
+                    "yellow",
+                    _("Skipping the version bump: {0} is not a regular file inside the repository.").format(file_path),
+                )
+            continue
         found = _read_version_entry(file_path, pattern)
         if not found:
             continue
         _path, content, _match = found
         app_name = APP_NAME_PATTERN.search(content)
         matches_repository = bool(app_name) and _normalize_identifier(app_name.group(1)) in identifiers
-        entries.append((0 if matches_repository else 1, file_path, found))
+        if matches_repository:
+            matching_entries.append((file_path, found))
 
-    if not entries:
-        return None, None, None
-    entries.sort(key=lambda entry: (entry[0], entry[1]))
-    # A repository holding several applications must say which one it versions;
-    # bumping an arbitrary one would publish the wrong version.
-    if len(entries) > 1 and entries[0][0] == entries[1][0]:
+    if len(matching_entries) != 1:
         return None, None, None
 
-    _rank, file_path, found = entries[0]
+    file_path, found = matching_entries[0]
     bp._app_version_cache = file_path
     return found
 
@@ -141,11 +142,9 @@ def _repository_identifiers(repo_path) -> set[str]:
 
 
 def _read_version_entry(file_path, pattern):
-    if not file_path:
+    if not _is_regular_version_candidate(file_path):
         return None
     try:
-        if os.path.getsize(file_path) > 1_000_000:
-            return None
         with open(file_path, "r", encoding="utf-8") as source:
             content = source.read()
     except (OSError, UnicodeDecodeError):
@@ -158,6 +157,16 @@ def _read_version_entry(file_path, pattern):
             continue
         return file_path, content, match
     return None
+
+
+def _is_regular_version_candidate(file_path) -> bool:
+    if not file_path:
+        return False
+    try:
+        info = os.lstat(file_path)
+    except OSError:
+        return False
+    return stat.S_ISREG(info.st_mode) and info.st_size <= 1_000_000
 
 
 def _version_candidate_paths(repo_path):
@@ -188,6 +197,14 @@ def _version_candidate_paths(repo_path):
         ".kt",
         ".vala",
     }
+
+    result = GitUtils.list_version_candidates(repo_path)
+    if result is not None:
+        for relative_path in result:
+            if os.path.splitext(relative_path)[1].lower() in extensions:
+                yield os.path.join(repo_path, relative_path)
+        return
+
     for root, directories, files in os.walk(repo_path):
         directories[:] = sorted(directory for directory in directories if directory not in ignored)
         for filename in sorted(files):

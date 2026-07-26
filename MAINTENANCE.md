@@ -63,9 +63,18 @@ links to other pages, or a second page owning the same decision, belongs merged.
 PKGBUILD names come from `makepkg --printsrcinfo`; do not add a second PKGBUILD parser. Destructive operations must use the existing confirmation and authorization boundary.
 
 Stable and extra packages are published only from `main`: `_merge_to_main()`
-first syncs the working branch with `origin/<branch>` and `origin/main`, pushes
-it, fast-forwards `main`, and finally restores the branch the user started from,
-while `_package_workflow_dispatch()` always sends `main` for those two types.
+preserves local-only `main` commits in `backup/main-before-stable-*`, syncs the
+working branch with `origin/<branch>` and `origin/main`, and publishes both
+remote refs in one `git push --atomic`. A remote race is fetched and retried;
+local `main` is aligned only after publication succeeds, and the branch the user
+started from is restored. When the journey already starts on `main`,
+`_publish_main()` synchronizes and publishes it before dispatch.
+`_package_workflow_dispatch()` always sends `main` for stable and extra.
+Testing resolves the repository-local `gitrepo.personalBranch`, the current
+`dev-*` branch, or `dev-<github-user>` in that order, then publishes that exact
+ref before dispatch. Commit journeys honor an explicit `gitrepo.personalBranch`;
+without that override, repositories with history remain on their current branch
+instead of moving work implicitly.
 A merge that needs conflict resolution is never resolved silently. The automatic
 path exists — `resolve_divergence(branch, "merge-keep-current", ...)` and
 `ConflictResolver.resolve_keeping_current()` merge with `-X ours` like upstream —
@@ -305,7 +314,7 @@ Refresh and merge catalogs from the repository root:
 ```bash
 find usr/share -name '*.py' -print0 | sort -z | \
   xargs -0 xgettext --language=Python --from-code=UTF-8 --keyword=_ \
-  --package-name=GitRepo --package-version=3.8.0 \
+  --package-name=GitRepo --package-version=3.8.1 \
   --copyright-holder='BigCommunity Team' --output=locale/gitrepo.pot
 
 for catalog in locale/*.po; do
