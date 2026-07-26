@@ -11,12 +11,12 @@ optdepends=(
     'nautilus-python: Nautilus context menu integration'
     'podman: local ISO builds with Podman'
 )
-pkgver=26.07.25.2214
-pkgrel=1
+pkgver=$(date +%y.%m.%d)
+pkgrel=$(date +%H%M)
 arch=('any')
 license=('MIT')
 url="https://github.com/big-comm/${pkgname}"
-_commit=b8a8e85e3a3b06dae1fc60d4a4799e1d38f10be5
+_commit=63921735d4f0eba9ffa69070303d7829bc874bbb
 source=("${pkgname}::git+${url}.git#commit=${_commit}")
 b2sums=('SKIP')
 
