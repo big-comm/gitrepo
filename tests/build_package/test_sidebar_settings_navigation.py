@@ -75,6 +75,7 @@ def test_feature_refresh_preserves_sidebar_and_reconciles_visible_state():
 
     assert "sync_feature_enabled()" in refresh_body
     assert "sync_from_settings()" in refresh_body
+    assert "package_widget.sync_from_settings()" not in refresh_body
     assert "content_stack.remove" not in refresh_body
     assert "nav_list.remove" not in refresh_body
 

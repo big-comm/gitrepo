@@ -71,3 +71,120 @@ def test_package_name_uses_makepkg_metadata(build_package_modules, tmp_path, mon
     assert git_utils.GitUtils.get_package_name() == "example-cli"
     assert command[0][0] == ["makepkg", "--printsrcinfo"]
     assert command[0][1]["cwd"] == str(tmp_path)
+
+
+def test_package_name_uses_nested_pkgbuild_directory(
+    build_package_modules,
+    tmp_path,
+    monkeypatch,
+):
+    git_utils = importlib.import_module("gitrepo.build_package.core.git_utils")
+    pkgbuild_directory = tmp_path / "pkgbuild"
+    pkgbuild_directory.mkdir()
+    (pkgbuild_directory / "PKGBUILD").write_text(
+        "pkgname=(ignored-by-design)\n",
+        encoding="utf-8",
+    )
+    command = []
+
+    monkeypatch.setattr(
+        git_utils.GitUtils,
+        "get_repo_root_path",
+        lambda: str(tmp_path),
+    )
+    monkeypatch.setattr(
+        git_utils.shutil,
+        "which",
+        lambda executable: f"/usr/bin/{executable}",
+    )
+    monkeypatch.setattr(
+        git_utils.subprocess,
+        "run",
+        lambda argv, **kwargs: (
+            command.append((argv, kwargs))
+            or subprocess.CompletedProcess(
+                argv,
+                0,
+                "pkgbase = example\n\tpkgname = nested-example\n",
+                "",
+            )
+        ),
+    )
+
+    assert git_utils.GitUtils.get_package_name() == "nested-example"
+    assert command[0][0] == ["makepkg", "--printsrcinfo"]
+    assert command[0][1]["cwd"] == str(pkgbuild_directory)
+
+
+def test_package_name_prefers_root_pkgbuild(
+    build_package_modules,
+    tmp_path,
+    monkeypatch,
+):
+    git_utils = importlib.import_module("gitrepo.build_package.core.git_utils")
+    (tmp_path / "PKGBUILD").write_text("pkgname=root\n", encoding="utf-8")
+    pkgbuild_directory = tmp_path / "pkgbuild"
+    pkgbuild_directory.mkdir()
+    (pkgbuild_directory / "PKGBUILD").write_text(
+        "pkgname=nested\n",
+        encoding="utf-8",
+    )
+    commands = []
+
+    monkeypatch.setattr(
+        git_utils.GitUtils,
+        "get_repo_root_path",
+        lambda: str(tmp_path),
+    )
+    monkeypatch.setattr(
+        git_utils.shutil,
+        "which",
+        lambda executable: f"/usr/bin/{executable}",
+    )
+    monkeypatch.setattr(
+        git_utils.subprocess,
+        "run",
+        lambda argv, **kwargs: (
+            commands.append((argv, kwargs))
+            or subprocess.CompletedProcess(
+                argv,
+                0,
+                "pkgname = root\n",
+                "",
+            )
+        ),
+    )
+
+    assert git_utils.GitUtils.get_package_name() == "root"
+    assert commands[0][1]["cwd"] == str(tmp_path)
+
+
+def test_package_name_rejects_symlinked_pkgbuild(
+    build_package_modules,
+    tmp_path,
+    monkeypatch,
+):
+    git_utils = importlib.import_module("gitrepo.build_package.core.git_utils")
+    outside = tmp_path / "outside-PKGBUILD"
+    outside.write_text("pkgname=outside\n", encoding="utf-8")
+    (tmp_path / "PKGBUILD").symlink_to(outside)
+    commands = []
+
+    monkeypatch.setattr(
+        git_utils.GitUtils,
+        "get_repo_root_path",
+        lambda: str(tmp_path),
+    )
+    monkeypatch.setattr(
+        git_utils.shutil,
+        "which",
+        lambda executable: f"/usr/bin/{executable}",
+    )
+    monkeypatch.setattr(
+        git_utils.subprocess,
+        "run",
+        lambda *args, **kwargs: commands.append((args, kwargs)),
+    )
+
+    assert git_utils.GitUtils.get_package_name() == ""
+    assert commands == []

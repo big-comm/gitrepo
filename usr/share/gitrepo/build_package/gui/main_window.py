@@ -498,9 +498,6 @@ class MainWindow(RepositoryActionsMixin, BranchActionsMixin, Adw.ApplicationWind
         self.aur_widget.sync_feature_enabled()
         self.behavior_widget.sync_from_settings()
 
-        if hasattr(self, "package_widget"):
-            self.package_widget.sync_from_settings()
-
     def refresh_all_widgets(self):
         """Capture repository state off the GTK main loop and discard stale replies."""
         self._snapshot_generation = getattr(self, "_snapshot_generation", 0) + 1
