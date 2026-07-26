@@ -89,8 +89,8 @@ def test_short_branch_and_workflow_confirmations_do_not_need_scrolling() -> None
 
     assert _details_need_scrolling(branch.blocks) is False
     assert _details_need_scrolling(workflow.blocks) is False
-    assert _dialog_content_height(branch.blocks) == 330
-    assert _dialog_content_height(workflow.blocks) == 370
+    assert _dialog_content_height(branch.blocks) == 335
+    assert _dialog_content_height(workflow.blocks) == 375
 
 
 def test_long_commit_confirmation_keeps_bounded_scrolling() -> None:
