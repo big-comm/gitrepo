@@ -147,6 +147,20 @@ def _details_list(blocks: tuple[ConfirmationBlock, ...]) -> Gtk.ListBox:
     return details
 
 
+def _details_need_scrolling(blocks: tuple[ConfirmationBlock, ...]) -> bool:
+    units = 0
+    for block in blocks:
+        value_lines = max(1, block.value.count("\n") + 1)
+        if block.kind == "command":
+            value_lines = max(value_lines, block.value.count("→") + 1)
+            units += value_lines + bool(block.label)
+        elif block.kind == "field":
+            units += value_lines + 1
+        else:
+            units += value_lines
+    return units > 10
+
+
 def _confirmation_content(question: str) -> tuple[Gtk.Widget, str, bool]:
     parsed = question.content if isinstance(question, StructuredConfirmation) else plain_confirmation_content(question)
     content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=16)
@@ -167,12 +181,16 @@ def _confirmation_content(question: str) -> tuple[Gtk.Widget, str, bool]:
     content.append(header)
 
     if parsed.blocks:
-        scrolled = Gtk.ScrolledWindow()
-        scrolled.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
-        scrolled.set_max_content_height(420)
-        scrolled.set_propagate_natural_height(True)
-        scrolled.set_child(_details_list(parsed.blocks))
-        content.append(scrolled)
+        details = _details_list(parsed.blocks)
+        if _details_need_scrolling(parsed.blocks):
+            scrolled = Gtk.ScrolledWindow()
+            scrolled.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+            scrolled.set_max_content_height(420)
+            scrolled.set_propagate_natural_height(True)
+            scrolled.set_child(details)
+            content.append(scrolled)
+        else:
+            content.append(details)
 
     return content, parsed.heading, bool(parsed.blocks)
 
