@@ -5,6 +5,7 @@
 import os
 import re
 import shutil
+import stat
 from urllib.parse import urlsplit
 
 from gitrepo.common import child_process as subprocess
@@ -18,6 +19,26 @@ from .git_status import STATUS_COMMAND, display_path, parse_status_records
 GITHUB_HOSTS = frozenset({"github.com", "www.github.com"})
 # SCP-style remote: [user@]host:path
 _SCP_REMOTE = re.compile(r"^(?:(?P<user>[^@/]+)@)?(?P<host>[^:/]+):(?P<path>.+)$")
+
+
+def _pkgbuild_directory(repo_path: str) -> str:
+    """Return the owned PKGBUILD directory, preferring the repository root."""
+    if not repo_path:
+        return ""
+    root = os.path.realpath(repo_path)
+    for relative_directory in ("", "pkgbuild"):
+        directory = os.path.join(repo_path, relative_directory)
+        if relative_directory and os.path.islink(directory):
+            continue
+        candidate = os.path.join(directory, "PKGBUILD")
+        try:
+            info = os.lstat(candidate)
+            inside_repository = os.path.commonpath([root, os.path.realpath(candidate)]) == root
+        except (OSError, ValueError):
+            continue
+        if stat.S_ISREG(info.st_mode) and inside_repository:
+            return os.path.normpath(directory)
+    return ""
 
 
 def _github_path_segments(path: str) -> tuple[str, str]:
@@ -580,12 +601,13 @@ class GitUtils:
     def get_package_name() -> str:
         """Read the first package name from makepkg's authoritative metadata."""
         repo_path = GitUtils.get_repo_root_path()
-        if not os.path.isfile(os.path.join(repo_path, "PKGBUILD")) or shutil.which("makepkg") is None:
+        pkgbuild_directory = _pkgbuild_directory(repo_path)
+        if not pkgbuild_directory or shutil.which("makepkg") is None:
             return ""
         try:
             result = subprocess.run(
                 ["makepkg", "--printsrcinfo"],
-                cwd=repo_path,
+                cwd=pkgbuild_directory,
                 capture_output=True,
                 text=True,
                 timeout=15,
