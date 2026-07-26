@@ -1,10 +1,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gitrepo\n"
+"Project-Id-Version: GitRepo 3.8.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-25 21:46-0300\n"
-"PO-Revision-Date: 2026-07-14 02:15-0300\n"
+"POT-Creation-Date: 2026-07-26 12:23-0300\n"
+"PO-Revision-Date: 2026-07-26 12:23-0300\n"
 "Last-Translator: AI Translator <auto@translator.ai>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: attranslate\n"
+"X-Generator: LangForge\n"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:95
 #: usr/share/gitrepo/build_package/core/build_package.py:97
@@ -131,7 +131,7 @@ msgstr "Greška: URL API spremišta nije pronađen: {0}"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:236
 msgid "the selected source returned no build directories"
-msgstr ""
+msgstr "odabrani izvor nije vratio direktorije za izgradnju"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:237
 #, python-brace-format
@@ -141,17 +141,17 @@ msgstr "Odaberite {0} za {1}:"
 #: usr/share/gitrepo/build_iso/build_iso.py:239
 #, python-brace-format
 msgid "Could not load remote build directories: {0}"
-msgstr ""
+msgstr "Nije moguće učitati udaljene direktorije za izgradnju: {0}"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:240
 #: usr/share/gitrepo/build_iso/build_iso.py:265
 msgid "Using the built-in fallback. Retry this step to query the source again."
-msgstr ""
+msgstr "Koristi se ugrađena rezervna opcija. Ponovite ovaj korak kako biste ponovo upitali izvor."
 
 #: usr/share/gitrepo/build_iso/build_iso.py:242
 #, python-brace-format
 msgid "Choose a {0} for {1} (built-in fallback):"
-msgstr ""
+msgstr "Odaberite {0} za {1} (ugrađena rezervna opcija):"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:250
 msgid "Repository and build directory must be selected first."
@@ -159,7 +159,7 @@ msgstr "Prvo morate odabrati repozitorij i direktorij za build."
 
 #: usr/share/gitrepo/build_iso/build_iso.py:261
 msgid "the selected source returned no supported editions"
-msgstr ""
+msgstr "odabrani izvor nije vratio podržana izdanja"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:262
 #, python-brace-format
@@ -169,12 +169,12 @@ msgstr "Odaberite {0} za {1}:"
 #: usr/share/gitrepo/build_iso/build_iso.py:264
 #, python-brace-format
 msgid "Could not load remote editions: {0}"
-msgstr ""
+msgstr "Nije moguće učitati udaljena izdanja: {0}"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:267
 #, python-brace-format
 msgid "Choose an {0} for {1} (built-in fallback):"
-msgstr ""
+msgstr "Odaberite {0} za {1} (ugrađena rezervna opcija):"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:294
 #: usr/share/gitrepo/build_iso/build_iso.py:307
@@ -380,38 +380,36 @@ msgid "Testing"
 msgstr "Testiranje"
 
 #: usr/share/gitrepo/build_iso/config.py:36
-#, fuzzy
 msgid "Unstable"
-msgstr "Stabilno"
+msgstr "Nestabilno"
 
 #: usr/share/gitrepo/build_iso/config.py:39
 msgid "Tested packages. Recommended for images you will hand to other people."
-msgstr ""
+msgstr "Testirani paketi. Preporučuje se za slike koje ćete predati drugim osobama."
 
 #: usr/share/gitrepo/build_iso/config.py:40
 msgid "Packages waiting for validation. Useful to preview the next stable set."
-msgstr ""
+msgstr "Paketi koji čekaju validaciju. Korisni za pregled sljedećeg stabilnog skupa."
 
 #: usr/share/gitrepo/build_iso/config.py:41
 msgid "Newest packages, closest to upstream. Expect breakage."
-msgstr ""
+msgstr "Najnoviji paketi, najbliži izvornom kodu. Očekujte probleme."
 
 #: usr/share/gitrepo/build_iso/config.py:70
 msgid "LTS (Recommended)"
-msgstr ""
+msgstr "LTS (Preporučeno)"
 
 #: usr/share/gitrepo/build_iso/config.py:71
-#, fuzzy
 msgid "Latest"
-msgstr "Povuci najnovije"
+msgstr "Najnovija"
 
 #: usr/share/gitrepo/build_iso/config.py:72
 msgid "Old LTS"
-msgstr ""
+msgstr "Stari LTS"
 
 #: usr/share/gitrepo/build_iso/config.py:73
 msgid "XanMod"
-msgstr ""
+msgstr "XanMod"
 
 #: usr/share/gitrepo/build_iso/config.py:163
 msgid "BUILD ISO"
@@ -428,43 +426,43 @@ msgstr "Omotač za izgradnju ISO-a koristeći GitHub Actions. Pojednostavljuje p
 
 #: usr/share/gitrepo/build_iso/core/container_manager.py:80
 msgid "Docker or Podman is not installed or is not available in PATH."
-msgstr ""
+msgstr "Docker ili Podman nisu instalirani ili nisu dostupni u PATH."
 
 #: usr/share/gitrepo/build_iso/core/container_manager.py:95
 #: usr/share/gitrepo/build_iso/core/container_manager.py:100
 msgid "The container engine did not respond."
-msgstr ""
+msgstr "Pogonski program spremnika nije odgovorio."
 
 #: usr/share/gitrepo/build_iso/core/container_manager.py:105
 msgid "The storage driver probe failed. Check the engine service, then refresh."
-msgstr ""
+msgstr "Provjera upravljačkog programa pohrane nije uspjela. Provjerite uslugu motora, zatim osvježite."
 
 #: usr/share/gitrepo/build_iso/core/container_manager.py:133
 msgid "The image metadata could not be read. Refresh or pull the image again."
-msgstr ""
+msgstr "Metapodaci slike nisu mogli biti pročitani. Osvježite ili ponovno povucite sliku."
 
 #: usr/share/gitrepo/build_iso/core/container_manager.py:135
 msgid "The image is not downloaded. Pull it, then refresh."
-msgstr ""
+msgstr "Slika nije preuzeta. Povucite je, zatim osvježite."
 
 #: usr/share/gitrepo/build_iso/core/container_manager.py:252
 msgid "No accessible parent directory was found."
-msgstr ""
+msgstr "Nije pronađen dostupan nadređeni direktorij."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:256
 #, python-brace-format
 msgid "Compressing filesystem — {0}%"
-msgstr ""
+msgstr "Komprimiranje datotečnog sustava — {0}%"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:263
 #, python-brace-format
 msgid "Creating ISO image — {0}%"
-msgstr ""
+msgstr "Stvaranje ISO slike — {0}%"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:285
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} at {1}"
-msgstr "{0} (verzija {1})"
+msgstr "{0} na {1}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:361
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:452
@@ -475,7 +473,7 @@ msgstr "Izrada otkazana"
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:372
 #, python-brace-format
 msgid "The output folder is not writable: {0}"
-msgstr ""
+msgstr "Izlazna mapa nije za pisanje: {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:378
 #, python-brace-format
@@ -485,19 +483,19 @@ msgstr "Dostupno slobodnog prostora na disku: {0:.1f} GB"
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:380
 #, python-brace-format
 msgid "Only {0:.1f} GB is free; 20 GB is recommended."
-msgstr ""
+msgstr "Slobodno je samo {0:.1f} GB; preporuča se 20 GB."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:384
 msgid "The selected container engine is unavailable."
-msgstr ""
+msgstr "Odabrani kontejnerski pogon nije dostupan."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:390
 msgid "Docker is unavailable or access was denied."
-msgstr ""
+msgstr "Docker nije dostupan ili je pristup odbijen."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:395
 msgid "Could not inspect output disk space"
-msgstr ""
+msgstr "Nije moguće provjeriti slobodni prostor izlaznog diska"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:396
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:526
@@ -505,9 +503,9 @@ msgid "Failed to pull container image"
 msgstr "Neuspjelo preuzimanje slike kontejnera"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:406
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Container image resolved to {0}"
-msgstr "Pronađen engine za kontejnere: {0}"
+msgstr "Slika spremnika razriješena na {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:410
 msgid "Container build failed"
@@ -516,7 +514,7 @@ msgstr "Neuspjela izgradnja kontejnera"
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:415
 #, python-brace-format
 msgid "Stopped container preserved for debugging: {0}"
-msgstr ""
+msgstr "Zaustavljeni kontejner sačuvan radi otklanjanja pogrešaka: {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:420
 msgid "No ISO files found after build"
@@ -525,7 +523,7 @@ msgstr "Nisu pronađene ISO datoteke nakon izgradnje"
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:445
 #, python-brace-format
 msgid "Build completed successfully: {0}"
-msgstr ""
+msgstr "Izgradnja uspješno dovršena: {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:448
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:801
@@ -536,20 +534,20 @@ msgstr "Izrada nije uspjela: {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:486
 msgid "Docker did not answer the storage-driver check."
-msgstr ""
+msgstr "Docker nije odgovorio na provjeru upravljačkog programa pohrane."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:491
 msgid "Docker is using the btrfs storage driver."
-msgstr ""
+msgstr "Docker koristi btrfs upravljački program pohrane."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:492
 msgid "GitRepo will not change Docker storage or remove Docker data."
-msgstr ""
+msgstr "GitRepo neće promijeniti Docker pohranu niti ukloniti Docker podatke."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:496
 #, python-brace-format
 msgid "Error checking Docker storage: {0}"
-msgstr ""
+msgstr "Pogreška prilikom provjere Docker pohrane: {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:524
 msgid "Container image pulled successfully"
@@ -570,13 +568,13 @@ msgid "Stopping container..."
 msgstr "Zaustavljanje kontejnera..."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:773
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not remove the build container {0}."
-msgstr "Nije moguće pregledati datoteku: {0}"
+msgstr "Nije moguće ukloniti spremnik za izgradnju {0}."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:789
 msgid "Failed to copy ISO artifacts from container"
-msgstr ""
+msgstr "Neuspješno kopiranje ISO artefakata iz spremnika"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:796
 #, python-brace-format
@@ -586,24 +584,24 @@ msgstr "ISO: {0}"
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:800
 #, python-brace-format
 msgid "Failed to publish ISO artifacts: {0}"
-msgstr ""
+msgstr "Neuspješno objavljivanje ISO artefakata: {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:808
 msgid "Container output contains an unsafe file"
-msgstr ""
+msgstr "Izlaz spremnika sadrži nesigurnu datoteku"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:811
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:819
 msgid "Container output contains an unexpected file"
-msgstr ""
+msgstr "Izlaz spremnika sadrži neočekivanu datoteku"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:815
 msgid "Container must produce exactly one ISO file"
-msgstr ""
+msgstr "Spremnik mora proizvesti točno jednu ISO datoteku"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:878
 msgid "An ISO artifact with the same name already exists"
-msgstr ""
+msgstr "ISO artefakt s istim imenom već postoji"
 
 #: usr/share/gitrepo/build_iso/github_api.py:60
 #, python-brace-format
@@ -618,45 +616,45 @@ msgstr "Token za organizaciju '{0}' nije pronađen."
 #: usr/share/gitrepo/build_iso/github_api.py:83
 #, python-brace-format
 msgid "Could not reach GitHub: {0}"
-msgstr ""
+msgstr "Nije moguće dohvatiti GitHub: {0}"
 
 #: usr/share/gitrepo/build_iso/github_api.py:86
 #, python-brace-format
 msgid "GitHub rejected the workflow request ({0})."
-msgstr ""
+msgstr "GitHub je odbio zahtjev radnog tijeka ({0})."
 
 #: usr/share/gitrepo/build_iso/github_api.py:88
 #, python-brace-format
 msgid "ISO build workflow triggered: {0}"
-msgstr ""
+msgstr "Pokrenut je radni tijek izrade ISO-a: {0}"
 
 #: usr/share/gitrepo/build_iso/github_api.py:89
 #, python-brace-format
 msgid "Monitor the build at: {0}"
-msgstr ""
+msgstr "Pratite izradu na: {0}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:30
 msgid "less than 1 min"
-msgstr ""
+msgstr "manje od 1 min"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:33
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:174
 #, python-brace-format
 msgid "{0} min"
-msgstr ""
+msgstr "{0} min"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:35
 #, python-brace-format
 msgid "{0} h {1} min"
-msgstr ""
+msgstr "{0} h {1} min"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:53
 msgid "Waiting"
-msgstr ""
+msgstr "Čekanje"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:54
 msgid "In progress"
-msgstr ""
+msgstr "U tijeku"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:55
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:368
@@ -672,32 +670,31 @@ msgstr "Neuspjelo"
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:57
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:159
 msgid "Cancelled"
-msgstr ""
+msgstr "Otkazano"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:90
 #, python-brace-format
 msgid "Step {0} of {1}: {2} — {3}"
-msgstr ""
+msgstr "Korak {0} od {1}: {2} — {3}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:132
 #, python-brace-format
 msgid "Build substep {0} of {1}: {2} — {3}"
-msgstr ""
+msgstr "Potkorak izgradnje {0} od {1}: {2} — {3}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:175
 msgid "Build Progress"
-msgstr ""
+msgstr "Napredak izgradnje"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:214
-#, fuzzy
 msgid "Building the ISO image"
-msgstr "Izradi sliku"
+msgstr "Izgradnja ISO slike"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:215
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:386
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} • {1} • kernel {2}"
-msgstr "{0}: {1} → {2}"
+msgstr "{0} • {1} • kernel {2}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:225
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:232
@@ -707,69 +704,67 @@ msgstr "Maksimiziraj"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:257
 msgid "Waiting to start"
-msgstr ""
+msgstr "Čeka se početak"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:265
-#, fuzzy
 msgid "Elapsed"
-msgstr "Proteklo: 00:00"
+msgstr "Proteklo"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:268
 msgid "Remaining"
-msgstr ""
+msgstr "Preostalo"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:269
-#, fuzzy
 msgid "estimating…"
-msgstr "Testiranje"
+msgstr "procjenjivanje…"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:277
 msgid "Overall build progress"
-msgstr ""
+msgstr "Ukupni napredak izgradnje"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:287
 msgid "Prepare environment"
-msgstr ""
+msgstr "Priprema okruženja"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:288
 msgid "Update image"
-msgstr ""
+msgstr "Ažuriranje slike"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:290
 msgid "Publish files"
-msgstr ""
+msgstr "Objava datoteka"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:291
 msgid "Finish"
-msgstr ""
+msgstr "Završetak"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:304
 msgid "Prepare profile"
-msgstr ""
+msgstr "Priprema profila"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:305
 msgid "Install system"
-msgstr ""
+msgstr "Instalacija sustava"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:306
 msgid "Prepare boot"
-msgstr ""
+msgstr "Pripremi pokretanje"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:307
 msgid "Compress files"
-msgstr ""
+msgstr "Sažmi datoteke"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:308
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:322
 msgid "Create ISO image"
-msgstr ""
+msgstr "Stvori ISO sliku"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:321
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:705
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:783
 #, python-brace-format
 msgid "Step {0} of {1}"
-msgstr ""
+msgstr "Korak {0} od {1}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:354
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:391
@@ -781,20 +776,20 @@ msgstr "Terminalski zapis"
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:361
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:141
 msgid "Copy the whole terminal log to the clipboard"
-msgstr ""
+msgstr "Kopiraj cijeli zapis terminala u međuspremnik"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:362
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:142
 msgid "Copy Log"
-msgstr ""
+msgstr "Kopiraj zapis"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:368
 msgid "Save the terminal log to a file you choose"
-msgstr ""
+msgstr "Spremi zapis terminala u datoteku po izboru"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:369
 msgid "Save Log…"
-msgstr ""
+msgstr "Spremi zapis…"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:404
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:856
@@ -803,94 +798,92 @@ msgstr "Otkaži izradu"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:601
 msgid "Terminal log copied to the clipboard"
-msgstr ""
+msgstr "Zapis terminala kopiran u međuspremnik"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:605
-#, fuzzy
 msgid "Save Terminal Log"
-msgstr "Terminalski zapis"
+msgstr "Spremi zapisnik terminala"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:620
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not save the log: {0}"
-msgstr "Nije moguće pregledati datoteku: {0}"
+msgstr "Zapisnik nije moguće spremiti: {0}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:624
 #, python-brace-format
 msgid "Terminal log saved to {0}"
-msgstr ""
+msgstr "Zapis terminala spremljen u {0}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:691
 msgid "Checking the container engine"
-msgstr ""
+msgstr "Provjera pokretača spremnika"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:692
 msgid "Checking container storage"
-msgstr ""
+msgstr "Provjera pohrane spremnika"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:693
 msgid "Checking available disk space"
-msgstr ""
+msgstr "Provjera dostupnog prostora na disku"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:694
 msgid "Updating the build image"
-msgstr ""
+msgstr "Ažuriranje slike za izgradnju"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:695
 msgid "Building and compressing the ISO"
-msgstr ""
+msgstr "Izgradnja i sažimanje ISO slike"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:696
 msgid "Publishing the ISO and package list"
-msgstr ""
+msgstr "Objavljivanje ISO-a i popisa paketa"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:697
 msgid "Removing temporary build resources"
-msgstr ""
+msgstr "Uklanjanje privremenih resursa za izgradnju"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:711
 msgid "Preparing the build profile"
-msgstr ""
+msgstr "Priprema profila za izgradnju"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:712
 msgid "Installing the system and desktop packages"
-msgstr ""
+msgstr "Instalacija sistemskih paketa i paketa radne površine"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:713
 msgid "Preparing kernel and boot files"
-msgstr ""
+msgstr "Priprema jezgre i datoteke za pokretanje"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:714
 msgid "Compressing system files"
-msgstr ""
+msgstr "Komprimiranje sistemskih datoteka"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:715
 msgid "Creating the bootable ISO image"
-msgstr ""
+msgstr "Stvaranje pokretljive ISO slike"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:721
 #, python-brace-format
 msgid "Step {0} of {1} • substep {2} of {3}"
-msgstr ""
+msgstr "Korak {0} od {1} • podkorak {2} od {3}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:767
 #, python-brace-format
 msgid "Built from {0} {1}"
-msgstr ""
+msgstr "Izgrađeno od {0} {1}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:768
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Build finished: {0}"
-msgstr "Izrada nije uspjela: {0}"
+msgstr "Izgradnja završena: {0}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:771
-#, fuzzy
 msgid "Total"
-msgstr "Lokalno: {0}"
+msgstr "Ukupno"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:785
 msgid "ISO built and published successfully"
-msgstr ""
+msgstr "ISO uspješno izgrađen i objavljen"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:805
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:224
@@ -920,7 +913,7 @@ msgstr "Nastavi s izgradnjom"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:864
 msgid "Cancelling the current step…"
-msgstr ""
+msgstr "Otkazivanje trenutnog koraka…"
 
 #: usr/share/gitrepo/build_iso/gui/main_gui.py:295
 #: usr/share/gitrepo/build_iso/gui/main_gui.py:337
@@ -953,13 +946,13 @@ msgstr "Osvježi status"
 #: usr/share/gitrepo/build_iso/gui/main_gui.py:339
 #: usr/share/gitrepo/build_iso/gui/main_window.py:142
 msgid "Create ISO"
-msgstr ""
+msgstr "Stvori ISO"
 
 #: usr/share/gitrepo/build_iso/gui/main_gui.py:340
 #: usr/share/gitrepo/build_iso/gui/main_window.py:143
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:52
 msgid "Generated ISOs"
-msgstr ""
+msgstr "Generirani ISO-i"
 
 #: usr/share/gitrepo/build_iso/gui/main_gui.py:341
 #: usr/share/gitrepo/build_iso/gui/main_window.py:144
@@ -997,33 +990,30 @@ msgid "Build completed! ISO: {0}"
 msgstr "Izrada završena! ISO: {0}"
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:288
-#, fuzzy
 msgid "ISO build finished"
-msgstr "Izrada ISO-a otkazana."
+msgstr "Izgradnja ISO-a završena"
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:290
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} is ready in {1}"
-msgstr "{0} (verzija {1})"
+msgstr "{0} je spreman u {1}"
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:295
-#, fuzzy
 msgid "Open Folder"
 msgstr "Otvori mapu"
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:297
-#, fuzzy
 msgid "ISO build failed"
-msgstr "Izrada ISO-a otkazana."
+msgstr "Izgradnja ISO-a nije uspjela"
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:298
 msgid "Open Build ISO to review the terminal log."
-msgstr ""
+msgstr "Otvorite Izgraditi ISO da biste pregledali zapisnik terminala."
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:342
 #, python-brace-format
 msgid "Settings — {0} environment item(s) need attention"
-msgstr ""
+msgstr "Postavke — {0} stavka(aka) okruženja zahtijeva(ju) pažnju"
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:354
 #: usr/share/gitrepo/build_package/gui/main_window.py:419
@@ -1039,67 +1029,65 @@ msgstr "U redu"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:69
 msgid "Create an installable ISO"
-msgstr ""
+msgstr "Stvori ISO za instalaciju"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:71
 msgid "Choose what the image contains and where it is saved. The build runs in an isolated container, so its tools and files stay separate from your installed system."
-msgstr ""
+msgstr "Odaberite što slika sadrži i gdje se sprema. Izgradnja se izvodi u izoliranom spremniku, tako da njezini alati i datoteke ostaju odvojeni od vašeg instaliranog sustava."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:83
-#, fuzzy
 msgid "Open settings"
-msgstr "Spremi postavke"
+msgstr "Otvori postavke"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:89
 msgid "Checking the build environment…"
-msgstr ""
+msgstr "Provjera okruženja za izgradnju…"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:102
 msgid "What the ISO will install"
-msgstr ""
+msgstr "Što će ISO instalirati"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:103
 msgid "Pick the package base and the desktop the image starts with."
-msgstr ""
+msgstr "Odaberite osnovni paket i radno okruženje (desktop) s kojim slika počinje."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:106
-#, fuzzy
 msgid "Distribution and edition"
-msgstr "Distribucija"
+msgstr "Distribucija i izdanje"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:108
 msgid "The distribution sets which package repositories the image is built from. The edition is the desktop it starts with — the same system with a different workspace, applications, and defaults."
-msgstr ""
+msgstr "Distribucija određuje iz kojih spremišta paketa se slika izrađuje. Izdanje je radno okruženje s kojim počinje — isti sustav s drugačijim radnim prostorom, aplikacijama i zadanim postavkama."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:117
 msgid "Sets the package base and compatible profiles"
-msgstr ""
+msgstr "Postavlja osnovni paket i kompatibilne profile"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:132
 msgid "Loading compatible desktop profiles…"
-msgstr ""
+msgstr "Učitavanje kompatibilnih desktop profila…"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:147
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:659
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:668
 msgid "Retry loading editions"
-msgstr ""
+msgstr "Pokušaj ponovnog učitavanja izdanja"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:157
 msgid "Where to save it"
-msgstr ""
+msgstr "Gdje spremiti"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:158
 msgid "Choose where completed images and build artifacts are stored."
-msgstr ""
+msgstr "Odaberite gdje se pohranjuju gotove slike i artefakti izgradnje."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:161
 msgid "Destination Folder"
-msgstr ""
+msgstr "Odredišna mapa"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:169
 msgid "Destination path"
-msgstr ""
+msgstr "Put odredišta"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:176
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:292
@@ -1107,67 +1095,65 @@ msgid "Browse..."
 msgstr "Pregledaj..."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:195
-#, fuzzy
 msgid "Advanced options"
-msgstr "Napredni izbornik"
+msgstr "Napredne opcije"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:196
 msgid "Kernel, package channels, and where profiles come from"
-msgstr ""
+msgstr "Jezgra, kanali paketa i odakle dolaze profili"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:200
 msgid "Kernel Variant"
-msgstr ""
+msgstr "Inačica jezgre"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:201
 msgid "Long-term stability or newer hardware support"
-msgstr ""
+msgstr "Dugoročna stabilnost ili potpora za noviji hardver"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:209
 msgid "Which kernel to choose"
-msgstr ""
+msgstr "Koje jezgro odabrati"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:211
 msgid "LTS receives long-term fixes and is the safest default. Latest supports very recent hardware but changes faster. Old LTS helps on older machines, and XanMod targets desktop responsiveness."
-msgstr ""
+msgstr "LTS prima dugoročne zakrpe i to je najsigurniji zadani odabir. Latest podržava vrlo novi hardver, ali se brže mijenja. Old LTS pomaže na starijim uređajima, a XanMod je usmjeren na odzivnost radne površine."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:226
 msgid "Manjaro Packages"
-msgstr ""
+msgstr "Manjaro paketi"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:227
 msgid "Base system packages"
-msgstr ""
+msgstr "Sistemski paketi osnove"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:231
-#, fuzzy
 msgid "Package channels"
-msgstr "Naziv paketa"
+msgstr "Kanali paketa"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:240
 msgid "BigLinux Packages"
-msgstr ""
+msgstr "BigLinux paketi"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:241
 msgid "BigLinux system components"
-msgstr ""
+msgstr "Komponente sustava BigLinux"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:246
 msgid "Community Packages"
-msgstr ""
+msgstr "Dodatni paketi"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:247
 msgid "Packages maintained by BigCommunity"
-msgstr ""
+msgstr "Pakete koje održava BigCommunity"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:254
 msgid "Profile source"
-msgstr ""
+msgstr "Predefinirani izvor profila"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:255
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:443
 msgid "Maintained profiles from the official GitHub repositories"
-msgstr ""
+msgstr "Profili koje održavaju službeni GitHub repozitoriji"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:257
 msgid "Official (GitHub)"
@@ -1183,11 +1169,11 @@ msgstr "Lokalna mapa"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:268
 msgid "Profile definitions"
-msgstr ""
+msgstr "Definicije profila"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:270
 msgid "A profile is the recipe of the image: package lists, enabled services, and files copied into the system. Keep the official source unless you maintain your own iso-profiles repository or folder."
-msgstr ""
+msgstr "Profil je recept za sliku: popisi paketa, omogućeni servisi i datoteke kopirane u sustav. Zadržite službeni izvor osim ako sami održavate vlastito spremište ili mapu iso-profilesa."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:279
 msgid "Repository URL"
@@ -1198,56 +1184,56 @@ msgid "Local Folder Path"
 msgstr "Putanja lokalne mape"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:346
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Container engine unavailable — {0}"
-msgstr "Pronađen engine za kontejnere: {0}"
+msgstr "Pokretač spremnika nije dostupan — {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:348
 #, python-brace-format
 msgid "Build image missing — {0}"
-msgstr ""
+msgstr "Build slika nedostaje — {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:350
 #, python-brace-format
 msgid "Output storage unavailable — {0}"
-msgstr ""
+msgstr "Izlazna pohrana nije dostupna — {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:362
 #, python-brace-format
 msgid "Environment ready • {0} {1} • {2:.1f} GB free"
-msgstr ""
+msgstr "Okruženje spremno • {0} {1} • {2:.1f} GB slobodno"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:378
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Manjaro {0}"
-msgstr "Manjaro grana"
+msgstr "Manjaro {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:379
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "BigLinux {0}"
-msgstr "BigLinux grana"
+msgstr "BigLinux {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:383
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Community {0}"
-msgstr "Commit na {0}"
+msgstr "Zajednica {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:393
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} • saved in {1}"
-msgstr "{0} (verzija {1})"
+msgstr "{0} • spremljeno u {1}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:393
 msgid "not chosen"
-msgstr ""
+msgstr "nije odabrano"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:445
 msgid "Profiles from a GitHub repository you control"
-msgstr ""
+msgstr "Profili iz GitHub repozitorija kojeg kontrolirate"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:447
 msgid "Profiles read directly from a local folder"
-msgstr ""
+msgstr "Profili koji se čitaju izravno iz lokalne mape"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:467
 msgid "Select iso-profiles Folder"
@@ -1256,51 +1242,51 @@ msgstr "Odaberite iso-profiles mapu"
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:570
 #, python-brace-format
 msgid "GitHub API quota reached — using built-in suggestions. Automatic retry at {0}."
-msgstr ""
+msgstr "Ograničenje GitHub API-ja dosegnuto – koriste se ugrađeni prijedlozi. Automatski ponovni pokušaj u {0}."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:579
 #, python-brace-format
 msgid "GitHub API quota reached — using cached profiles. Automatic refresh at {0}."
-msgstr ""
+msgstr "Ograničenje GitHub API-ja dosegnuto – koriste se predmemorirani profili. Automatsko osvježavanje u {0}."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:587
 #, python-brace-format
 msgid "Built-in suggestions — could not load the selected source: {0}"
-msgstr ""
+msgstr "Ugrađeni prijedlozi – nije moguće učitati odabrani izvor: {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:594
 msgid "Using cached profiles — the source is temporarily unreachable."
-msgstr ""
+msgstr "Koriste se predmemorirani profili – izvor je trenutno nedostupan."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:601
 msgid "Official profile • GitHub cache"
-msgstr ""
+msgstr "Službeni profil • GitHub predmemorija"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:601
 msgid "Official profile • GitHub"
-msgstr ""
+msgstr "Službeni profil • GitHub"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:606
 msgid "Custom profile • GitHub cache"
-msgstr ""
+msgstr "Prilagođeni profil • GitHub predmemorija"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:606
 msgid "Custom profile • GitHub"
-msgstr ""
+msgstr "Prilagođeni profil • GitHub"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:610
 msgid "Local profile folder"
-msgstr ""
+msgstr "Mapa lokalnih profila"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:630
 #, python-brace-format
 msgid "{0} (recommended)"
-msgstr ""
+msgstr "{0} (preporučeno)"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:652
 #, python-brace-format
 msgid "GitHub API available again at {0}"
-msgstr ""
+msgstr "GitHub API ponovno dostupan u {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:694
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:64
@@ -1310,31 +1296,29 @@ msgstr "Odaberite izlazni direktorij"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:716
 msgid "This folder does not exist yet; it will be created."
-msgstr ""
+msgstr "Ova mapa još ne postoji; bit će kreirana."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:728
 #, python-brace-format
 msgid "Only {0:.1f} GB free here; a build needs about 20 GB."
-msgstr ""
+msgstr "Ovdje je slobodno samo {0:.1f} GB; za izgradnju je potrebno oko 20 GB."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:802
 msgid "Could not save build settings. Check config permissions, then try again."
-msgstr ""
+msgstr "Nije moguće spremiti postavke izgradnje. Provjerite dozvole konfiguracije, zatim pokušajte ponovno."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:50
-#, fuzzy
 msgid "Build environment"
-msgstr "Direktorij za izgradnju"
+msgstr "Okruženje za izgradnju"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:51
 msgid "Runtime and image used by every ISO build."
-msgstr ""
+msgstr "Runtime i slika koju koristi svaka ISO izgradnja."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:59
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:77
-#, fuzzy
 msgid "Container engine"
-msgstr "Pokretač kontejnera"
+msgstr "Pokretač spremnika"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:60
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:135
@@ -1380,30 +1364,29 @@ msgstr "Očisti"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:103
 msgid "Docker storage is managed by the system"
-msgstr ""
+msgstr "Docker pohranom upravlja sustav"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:105
 msgid "GitRepo reports the active driver but never changes it or removes Docker data."
-msgstr ""
+msgstr "GitRepo prijavljuje aktivni upravljački program, ali ga nikada ne mijenja niti uklanja Docker podatke."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:115
 msgid "Pull Progress"
 msgstr "Napredak preuzimanja"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:147
-#, fuzzy
 msgid "driver unknown"
-msgstr "nepoznato"
+msgstr "upravljački program nepoznat"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:149
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} • {1} • storage {2}"
-msgstr "{0}: {1} → {2}"
+msgstr "{0} • {1} • pohrana {2}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:152
 #, python-brace-format
 msgid "Unavailable — {0}"
-msgstr ""
+msgstr "Nedostupno — {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:157
 #, python-brace-format
@@ -1412,7 +1395,7 @@ msgstr "Dostupno ({0:.1f} GB) - {1}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:160
 msgid "Not checked — start or install the engine, then refresh."
-msgstr ""
+msgstr "Nije provjereno — pokrenite ili instalirajte mehanizam, zatim osvježite."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:168
 msgid "Starting download..."
@@ -1429,12 +1412,12 @@ msgstr "Preuzimanje nije uspjelo"
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:210
 #, python-brace-format
 msgid "Remove {0} stopped build containers?"
-msgstr ""
+msgstr "Ukloniti {0} zaustavljene spremnike izgradnje?"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:212
 #, python-brace-format
 msgid "Only stopped containers created from {0} will be removed. Images and Docker storage are kept."
-msgstr ""
+msgstr "Uklonit će se samo zaustavljeni spremnici stvoreni iz {0}. Slike i Docker pohrana ostaju sačuvani."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:215
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:203
@@ -1457,26 +1440,26 @@ msgstr "Odustani"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:216
 msgid "Remove Stopped Containers"
-msgstr ""
+msgstr "Ukloni Zaustavljene Spremnike"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:232
 #, python-brace-format
 msgid "Required container image: {0}"
-msgstr ""
+msgstr "Potrebna slika spremnika: {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:28
 #, python-brace-format
 msgid "{0:.1f} GB"
-msgstr ""
+msgstr "{0:.1f} GB"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:29
 #, python-brace-format
 msgid "{0:.0f} MB"
-msgstr ""
+msgstr "{0:.0f} MB"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:53
 msgid "Review outcomes and durations, then open the ISO folder or the terminal log of a build."
-msgstr ""
+msgstr "Pregledajte ishode i trajanja, zatim otvorite ISO mapu ili terminalni dnevnik izgradnje."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:63
 msgid "No builds yet"
@@ -1484,7 +1467,7 @@ msgstr "Još nema izgradnji"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:65
 msgid "Finished and failed builds are listed here with their ISO, duration, and terminal log."
-msgstr ""
+msgstr "Završene i neuspješne izgradnje navedene su ovdje s njihovim ISO, trajanjem i terminal zapisnikom."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:79
 msgid "Clear History"
@@ -1492,7 +1475,7 @@ msgstr "Očisti povijest"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:80
 msgid "Delete the local history log; generated ISO files remain untouched"
-msgstr ""
+msgstr "Izbriši lokalni povijesni zapisnik; generirane ISO datoteke ostaju netaknute"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:82
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:204
@@ -1504,16 +1487,15 @@ msgstr "Očisti"
 #: usr/share/gitrepo/build_package/gui/main_window.py:387
 #, python-brace-format
 msgid "{0} • {1}"
-msgstr ""
+msgstr "{0} • {1}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:135
 msgid "Copy the ISO path"
-msgstr ""
+msgstr "Kopiraj ISO putanju"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:143
-#, fuzzy
 msgid "Open the terminal log of this build"
-msgstr "Operacija nije uspjela - provjerite terminalski zapis za detalje"
+msgstr "Otvorite terminalni zapis ove izgradnje"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:150
 msgid "Open folder"
@@ -1524,22 +1506,22 @@ msgid "Success"
 msgstr "Uspjeh"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:167
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} {1} • kernel {2}"
-msgstr "{0}: {1} → {2}"
+msgstr "{0} {1} • jezgra {2}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:182
 msgid "file no longer on disk"
-msgstr ""
+msgstr "datoteka više nije na disku"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:186
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "built from {0}"
-msgstr "Prilagođeno: {0}"
+msgstr "izgrađeno iz {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:200
 msgid "Clear the list of generated ISOs?"
-msgstr ""
+msgstr "Očistiti popis generiranih ISO-a?"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:201
 msgid "This will remove all build history entries. This cannot be undone."
@@ -1547,23 +1529,23 @@ msgstr "Ovo će ukloniti sve unose povijesti izgradnje. Ovo se ne može poništi
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:221
 msgid "ISO path copied to the clipboard"
-msgstr ""
+msgstr "ISO putanja kopirana u međuspremnik"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:43
 msgid "Configure build defaults"
-msgstr ""
+msgstr "Konfiguriraj zadane postavke izgradnje"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:44
 msgid "Set reusable defaults for storage, package channels, alerts, and the build environment."
-msgstr ""
+msgstr "Postavite zadane vrijednosti za pohranu, kanale paketa, upozorenja i okruženje za izgradnju."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:54
 msgid "Storage"
-msgstr ""
+msgstr "Pohrana"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:55
 msgid "Default destination for generated images and build artifacts."
-msgstr ""
+msgstr "Zadano odredište za generirane slike i artefakte izgradnje."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:59
 msgid "Default Output Directory"
@@ -1575,7 +1557,7 @@ msgstr "Kontejner"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:72
 msgid "Runtime and image used for isolated ISO builds."
-msgstr ""
+msgstr "Izvođenje i slika koja se koriste za izolirane ISO izgradnje."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:78
 msgid "Preferred container engine"
@@ -1587,11 +1569,11 @@ msgstr "Container Image"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:91
 msgid "Package Channels"
-msgstr ""
+msgstr "Kanali paketa"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:92
 msgid "Branches selected automatically when a new build is configured."
-msgstr ""
+msgstr "Grane se biraju automatski pri konfiguriranju nove izgradnje."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:101
 msgid "Default Manjaro Branch"
@@ -1611,7 +1593,7 @@ msgstr "Obavijesti"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:126
 msgid "Choose how GitRepo reports the end of a build."
-msgstr ""
+msgstr "Odaberite kako GitRepo prijavljuje završetak izgradnje."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:131
 msgid "Notify on build completion"
@@ -1636,7 +1618,7 @@ msgstr "Vrati na zadane postavke"
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
 msgid "Could not save settings. Check config permissions, then try again."
-msgstr ""
+msgstr "Neuspješno spremanje postavki. Provjerite dozvole konfiguracije, pa pokušajte ponovno."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:236
 msgid "Settings saved"
@@ -1657,7 +1639,7 @@ msgstr "Resetiraj"
 
 #: usr/share/gitrepo/build_iso/local_builder.py:28
 msgid "No supported container engine was found."
-msgstr ""
+msgstr "Nije pronađen nijedan podržani mehanizam kontejnera."
 
 #: usr/share/gitrepo/build_iso/local_builder.py:30
 #, python-brace-format
@@ -1667,24 +1649,24 @@ msgstr "Pronađen engine za kontejnere: {0}"
 #: usr/share/gitrepo/build_iso/local_builder.py:43
 #, python-brace-format
 msgid "ISO saved to: {0}"
-msgstr ""
+msgstr "ISO spremljen u: {0}"
 
 #: usr/share/gitrepo/build_iso/local_builder.py:45
 msgid "ISO build failed."
-msgstr ""
+msgstr "ISO izrada neuspješna."
 
 #: usr/share/gitrepo/build_iso/menu_system.py:43
 #: usr/share/gitrepo/build_package/cli/cli_menu.py:44
 msgid "Use arrow keys to navigate, Enter to select, or Escape to return."
-msgstr ""
+msgstr "Koristite tipke sa strelicama za navigaciju, Enter za odabir ili Escape za povratak."
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:47
 msgid "Could not preserve local changes"
-msgstr ""
+msgstr "Nije moguće sačuvati lokalne promjene"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:71
 msgid "Local changes remain in the stash and need manual resolution."
-msgstr ""
+msgstr "Lokalne promjene ostaju u stashu i zahtijevaju ručno rješavanje."
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:78
 #: usr/share/gitrepo/build_package/core/package_operations.py:60
@@ -1693,22 +1675,22 @@ msgstr ""
 #: usr/share/gitrepo/build_package/core/package_operations.py:408
 #, python-brace-format
 msgid "Invalid target branch: {0}"
-msgstr ""
+msgstr "Nevažeća ciljna grana: {0}"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:85
 #, python-brace-format
 msgid "Could not switch to {0}"
-msgstr ""
+msgstr "Nije moguće prebaciti se na {0}"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:91
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0}. {1}"
-msgstr "{0} (verzija {1})"
+msgstr "{0}. {1}"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:100
 #, python-brace-format
 msgid "Commit preparation failed: {0}"
-msgstr ""
+msgstr "Priprema potvrde nije uspjela: {0}"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:121
 msgid "Undoing last commit..."
@@ -1769,12 +1751,12 @@ msgstr "Push nije uspio: {0}"
 #: usr/share/gitrepo/build_package/core/branch_handler.py:201
 #, python-brace-format
 msgid "The branch '{0}' exists locally and was kept."
-msgstr ""
+msgstr "Grana '{0}' postoji lokalno i zadržana je."
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:202
 #, python-brace-format
 msgid "Retry publishing it with: git push -u origin {0}"
-msgstr ""
+msgstr "Pokušajte je objaviti ponovno s: git push -u origin {0}"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:212
 #: usr/share/gitrepo/build_package/core/package_operations.py:118
@@ -1794,16 +1776,16 @@ msgstr "Greška: {0}"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:232
 msgid "Invalid branch name"
-msgstr ""
+msgstr "Nevažeće ime grane"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:244
 msgid "Could not switch branch"
-msgstr ""
+msgstr "Nije moguće prebaciti granu"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:247
 #, python-brace-format
 msgid "Switched to {0} with local changes restored."
-msgstr ""
+msgstr "Prebačeno na {0} s vraćenim lokalnim promjenama."
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:248
 #, python-brace-format
@@ -1934,24 +1916,24 @@ msgstr "AUR - Sažetak odabira"
 #: usr/share/gitrepo/build_package/core/build_package.py:249
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:300
 msgid "Download updates"
-msgstr ""
+msgstr "Preuzmi ažuriranja"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:249
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:309
 msgid "Publish changes"
-msgstr ""
+msgstr "Objavi promjene"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:251
 msgid "Build package"
-msgstr ""
+msgstr "Izgradi paket"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:253
 msgid "Build from the AUR"
-msgstr ""
+msgstr "Izgradnja iz AUR-a"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:256
 msgid "Repository maintenance"
-msgstr ""
+msgstr "Održavanje repozitorija"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:274
 msgid "Select repository"
@@ -2046,7 +2028,7 @@ msgstr "Operacija pull requesta završena."
 #: usr/share/gitrepo/build_package/core/build_package.py:442
 #, python-brace-format
 msgid "Could not prepare the merge request: {0}"
-msgstr ""
+msgstr "Nije moguće pripremiti zahtjev za spajanje: {0}"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:484
 msgid "Configure GitHub organization (default: big-comm)"
@@ -2083,7 +2065,7 @@ msgstr "Pokrenite 'gh auth login' za autentikaciju putem GitHub CLI-ja"
 #: usr/share/gitrepo/build_package/core/commit_handler.py:37
 #, python-brace-format
 msgid "Check if your SSH key is added: {0}"
-msgstr ""
+msgstr "Provjerite je li vaš SSH ključ dodan: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:38
 msgid "For HTTPS, run: git credential reject"
@@ -2099,7 +2081,7 @@ msgstr "Udaljena grana ima promjene koje vi nemate lokalno"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:48
 msgid "Use 'Download updates' first (git fetch followed by git merge)"
-msgstr ""
+msgstr "Najprije koristite 'Preuzmi ažuriranja' (git fetch nakon čega slijedi git merge)"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:49
 #, python-brace-format
@@ -2187,7 +2169,7 @@ msgstr "Pokušajte pokrenuti 'git push' u terminalu za puni ispis"
 #: usr/share/gitrepo/build_package/core/commit_handler.py:103
 #, python-brace-format
 msgid "Check GitHub status: {0}"
-msgstr ""
+msgstr "Provjerite GitHub status: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:125
 #: usr/share/gitrepo/build_package/core/commit_handler.py:138
@@ -2218,12 +2200,12 @@ msgstr "Nema promjena za potvrditi"
 #: usr/share/gitrepo/build_package/core/commit_handler.py:142
 #, python-brace-format
 msgid "Failed to create commit: {0}"
-msgstr ""
+msgstr "Neuspjelo stvaranje commit-a: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:149
 #, python-brace-format
 msgid "Could not verify remote state: {0}"
-msgstr ""
+msgstr "Nije moguće provjeriti status udaljenog repozitorija: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:152
 msgid "✓ Already in sync with remote"
@@ -2232,26 +2214,26 @@ msgstr "✓ Već je sinkronizirano s udaljenim repozitorijem"
 #: usr/share/gitrepo/build_package/core/commit_handler.py:156
 #, python-brace-format
 msgid "✓ Remote changes integrated with {0}"
-msgstr ""
+msgstr "✓ Udaljene promjene integrirane s {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:163
 #, python-brace-format
 msgid "✓ Remote changes integrated keeping {0}"
-msgstr ""
+msgstr "✓ Udaljene promjene integrirane uz zadržavanje {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:165
 msgid "Remote changes conflict with the local branch; resolve them manually."
-msgstr ""
+msgstr "Udaljene promjene su u sukobu s lokalnom granom; riješite ih ručno."
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:180
 #, python-brace-format
 msgid "The commit {0} was created locally and was kept."
-msgstr ""
+msgstr "Commit {0} je stvoren lokalno i zadržan je."
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:181
 #, python-brace-format
 msgid "Retry publishing it with: {0}"
-msgstr ""
+msgstr "Ponovno objavljivanje s: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:198
 #, python-brace-format
@@ -2261,7 +2243,7 @@ msgstr "✓ Poslano na origin/{0}"
 #: usr/share/gitrepo/build_package/core/commit_handler.py:212
 #, python-brace-format
 msgid "Existing local commit published to origin/{0}."
-msgstr ""
+msgstr "Postojeća lokalna objava objavljena na origin/{0}."
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:220
 msgid "Could not determine branch name for push"
@@ -2270,12 +2252,12 @@ msgstr "Nije moguće odrediti ime grane za slanje"
 #: usr/share/gitrepo/build_package/core/commit_handler.py:230
 #, python-brace-format
 msgid "Changes published to {0} with git commit and git push"
-msgstr ""
+msgstr "Promjene objavljene na {0} pomoću git commit i git push"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:21
 #, python-brace-format
 msgid "Could not read commit message file: {0}"
-msgstr ""
+msgstr "Nije moguće pročitati datoteku poruke commit-a: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:70
 #: usr/share/gitrepo/build_package/core/revert_operations.py:261
@@ -2284,11 +2266,13 @@ msgid ""
 "\n"
 "• … and {0} more"
 msgstr ""
+"\n"
+"• … i {0} više"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:72
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Version: {0} → {1} ({2}) in {3}\n"
-msgstr "APP_VERSION povećan s {0} na {1} ({2} povećanje) u {3}"
+msgstr "Verzija: {0} → {1} ({2}) u {3}\n"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:79
 #, python-brace-format
@@ -2300,48 +2284,54 @@ msgid ""
 "{2}Files:\n"
 "{3}"
 msgstr ""
+"Objaviti ove promjene?\n"
+"Naredbe: git add -A → git commit -m \"MESSAGE\" → git push -u origin BRANCH\n"
+"Grana: {0}\n"
+"Poruka: {1}\n"
+"{2}Datoteke:\n"
+"{3}"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:86
 msgid "No changed paths detected"
-msgstr ""
+msgstr "Nisu detektirane promijenjene putanje"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:106
 #, python-brace-format
 msgid "Commit {0} is still waiting on {1}; switch to that branch before retrying."
-msgstr ""
+msgstr "Commit {0} još uvijek čeka na {1}; prebacite se na tu granu prije ponovnog pokušaja."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:114
 #, python-brace-format
 msgid "The branch tip changed after commit {0} failed to publish; review it before retrying."
-msgstr ""
+msgstr "Vrh grance promijenio se nakon što commit {0} nije uspio objaviti; pregledajte ga prije ponovnog pokušaja."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:122
 msgid "The local commit cannot be published because origin is not configured."
-msgstr ""
+msgstr "Lokalni commit ne može biti objavljen jer origin nije konfiguriran."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:129
 msgid "Could not verify whether the local commit reached origin."
-msgstr ""
+msgstr "Nije moguće provjeriti je li lokalni commit stigao do origin-a."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:140
 #, python-brace-format
 msgid "The previously created commit is already published on origin/{0}."
-msgstr ""
+msgstr "Prethodno kreirani commit je već objavljen na origin/{0}."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:148
 #, python-brace-format
 msgid "origin/{0} changed; download and review those updates before retrying the push."
-msgstr ""
+msgstr "origin/{0} se promijenio; preuzmite i pregledajte ta ažuriranja prije ponovnog push-a."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:177
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Local commits not on origin: {0}"
-msgstr "Putanja lokalnih iso-profila nije pronađena: {0}"
+msgstr "Lokalni commitovi koji nisu na originu: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:179
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "The branch origin/{0} does not exist yet."
-msgstr "Izlazni direktorij još ne postoji"
+msgstr "Grana origin/{0} još ne postoji."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:182
 #, python-brace-format
@@ -2353,49 +2343,54 @@ msgid ""
 "{2}\n"
 "Command: {3}"
 msgstr ""
+"Objaviti postojeći lokalni commit?\n"
+"Neće biti kreiran novi commit.\n"
+"Grana: {0}\n"
+"Commit: {1}\n"
+"{2}\n"
+"Naredba: {3}"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:190
-#, fuzzy
 msgid "Publication retry cancelled."
-msgstr "Postavljanje tokena otkazano."
+msgstr "Ponovno objavljivanje je otkazano."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:193
 msgid "Dry run completed; the pending commit was not pushed."
-msgstr ""
+msgstr "Suhi proba završena; podatkovni commit nije gurnut."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:199
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Publication retry failed: {0}"
-msgstr "Operacija nije uspjela: {0}"
+msgstr "Ponovno objavljivanje nije uspjelo: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:210
 msgid "This option is only available in Git repositories."
-msgstr ""
+msgstr "Ova opcija dostupna je samo u Git repozitorijima."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:213
 msgid "Resolve all conflicts before committing."
-msgstr ""
+msgstr "Riješite sve sukobe prije nego što napravite commit."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:233
 msgid "Commit cancelled."
-msgstr ""
+msgstr "Prekid commita od strane korisnika."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:236
 msgid "Dry run completed; no files or refs were changed."
-msgstr ""
+msgstr "Probno pokretanje završeno; nisu promijenjene datoteke ni reference."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:242
 msgid "Publication stopped because the reviewed version bump could not be written."
-msgstr ""
+msgstr "Objavljivanje je zaustavljeno jer nije moguće zapisati pregledano povećanje verzije."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:252
 msgid "Could not create or select the target branch."
-msgstr ""
+msgstr "Nije moguće stvoriti ili odabrati ciljnu granu."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:258
 #, python-brace-format
 msgid "Commit failed: {0}"
-msgstr ""
+msgstr "Commit nije uspio: {0}"
 
 #: usr/share/gitrepo/build_package/core/config.py:32
 msgid "BUILD PACKAGE"
@@ -2412,11 +2407,14 @@ msgid ""
 "Reason: {1}\n"
 "{2}"
 msgstr ""
+"Izbriši {0} dok rješavaš ovaj sukob?\n"
+"Razlog: {1}\n"
+"{2}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:95
 #, python-brace-format
 msgid "File deletion cancelled: {0}"
-msgstr ""
+msgstr "Brisanje datoteke otkazano: {0}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:173
 #, python-brace-format
@@ -2433,31 +2431,36 @@ msgid ""
 "\n"
 "Non-conflicting changes from {2} are still merged."
 msgstr ""
+"Zadrži {0} verziju u {1} datoteci(e) sa sukobom?\n"
+"\n"
+"Redovi sa sukobom koji dolaze iz {2} su odbačeni u:\n"
+"{3}\n"
+"\n"
+"Promjene bez sukoba iz {2} su i dalje spojene."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:214
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:234
 #: usr/share/gitrepo/build_package/core/git_utils.py:262
-#, fuzzy
 msgid "Automatic conflict resolution cancelled."
-msgstr "Potrebno ručno rješavanje konflikata"
+msgstr "Automatsko rješavanje sukoba je otkazano."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Discarded the {0} version of: {1}"
-msgstr "Odaberite {0} verziju:"
+msgstr "Odbijena je {0} verzija: {1}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:225
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
-msgstr ""
+msgstr "Odbijena verzija još uvijek je čitljiva s: {0}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
 msgid "local"
-msgstr ""
+msgstr "lokalna"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
 msgid "incoming"
-msgstr ""
+msgstr "dolazna"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:231
 #, python-brace-format
@@ -2465,6 +2468,8 @@ msgid ""
 "Replace every conflicted file with the {0} version?\n"
 "{1}"
 msgstr ""
+"Zamijeni svaku datoteku sa sukobom s {0} verzijom?\n"
+"{1}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:240
 msgid "Resolving conflicts: keeping our changes..."
@@ -2473,11 +2478,11 @@ msgstr "Rješavanje konflikata: zadržavamo naše promjene..."
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:247
 #, python-brace-format
 msgid "  Removing {0} (deleted in our version)"
-msgstr "Uklanjanje {0} (izbrisano u našoj verziji)"
+msgstr "  Uklanjanje {0} (izbrisano u našoj verziji)"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:248
 msgid "deleted in the local version"
-msgstr ""
+msgstr "izbrisana u lokalnoj verziji"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:260
 msgid "✓ Conflicts resolved (kept our changes)"
@@ -2496,12 +2501,12 @@ msgstr "Rješavanje konflikata: prihvaćanje udaljenih promjena..."
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:276
 #, python-brace-format
 msgid "  Removing {0} (deleted in remote version)"
-msgstr "Uklanjanje {0} (izbrisano u udaljenoj verziji)"
+msgstr "  Uklanjanje {0} (izbrisano u udaljenoj verziji)"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:277
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:344
 msgid "deleted in the incoming version"
-msgstr ""
+msgstr "izbrisano u dolaznoj verziji"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:289
 msgid "✓ Conflicts resolved (accepted remote)"
@@ -2514,7 +2519,7 @@ msgstr "✓ Svi konflikti su riješeni!"
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:308
 #, python-brace-format
 msgid "Accept the incoming version for all {0} compiled .mo files?"
-msgstr ""
+msgstr "Prihvati dolaznu verziju za sve {0} kompajlirane .mo datoteke?"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:319
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:570
@@ -2529,11 +2534,11 @@ msgstr "Prihvati udaljenu verziju"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:321
 msgid "Save both versions beside the file, then choose"
-msgstr ""
+msgstr "Spremi obje verzije pored datoteke, pa odaberi"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:322
 msgid "Edit manually"
-msgstr ""
+msgstr "Uredi ručno"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:323
 msgid "Show diff"
@@ -2547,16 +2552,16 @@ msgstr "Kako riješiti: {0}"
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:329
 #, python-brace-format
 msgid "Resolve {0} manually, then stage it with git add."
-msgstr ""
+msgstr "Ručno riješi {0}, pa ga označi s git add."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:344
 msgid "deleted in the selected local version"
-msgstr ""
+msgstr "izbrisano u odabranoj lokalnoj verziji"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:375
 #, python-brace-format
 msgid "Could not resolve {0}: {1}"
-msgstr ""
+msgstr "Nije moguće riješiti {0}: {1}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:380
 msgid "Manual conflict resolution needed"
@@ -2585,26 +2590,26 @@ msgstr "3. Pokrenite ovu naredbu ponovno"
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:398
 #, python-brace-format
 msgid "Conflicts detected. Newer branch: {0} ({1}); older branch: {2} ({3})."
-msgstr ""
+msgstr "Otkriveni sukobi. Novija grana: {0} ({1}); starija grana: {2} ({3})."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:406
 #, python-brace-format
 msgid "Use the newer branch '{0}' for all {1} conflicted files?"
-msgstr ""
+msgstr "Koristi noviju granu '{0}' za sve {1} sukobljene datoteke?"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:412
 #, python-brace-format
 msgid "Use {0} version (newer)"
-msgstr ""
+msgstr "Koristi {0} verziju (noviju)"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:413
 #, python-brace-format
 msgid "Use {0} version (older)"
-msgstr ""
+msgstr "Koristi {0} verziju (stariju)"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:414
 msgid "Leave unresolved for manual editing"
-msgstr ""
+msgstr "Ostavi neriješeno za ručno uređivanje"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:416
 #, python-brace-format
@@ -2614,7 +2619,7 @@ msgstr "Odaberi verziju za: {0}"
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:418
 #, python-brace-format
 msgid "{0} remains unresolved for manual editing."
-msgstr ""
+msgstr "{0} ostaje neriješeno za ručno uređivanje."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:422
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:445
@@ -2625,7 +2630,7 @@ msgstr "Nije uspjelo rješavanje {0}"
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:426
 #, python-brace-format
 msgid "Unresolved files: {0}"
-msgstr ""
+msgstr "Neriješene datoteke: {0}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:428
 msgid "✓ All conflicts resolved successfully!"
@@ -2667,76 +2672,73 @@ msgstr "Nije moguće pregledati datoteku: {0}"
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:510
 #, python-brace-format
 msgid "Could not produce a diff for {0}."
-msgstr ""
+msgstr "Nije moguće stvoriti diff za {0}."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:514
 msgid "No textual diff is available; the file may be binary."
-msgstr ""
+msgstr "Tekstualni diff nije dostupan; datoteka je možda binarna."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:516
 #, python-brace-format
 msgid "Conflict diff for {0}:"
-msgstr ""
+msgstr "Diff sukoba za {0}:"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:520
 #, python-brace-format
 msgid "… {0} additional lines omitted"
-msgstr ""
+msgstr "… izostavljeno je {0} dodatnih redaka"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:560
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not save both versions of {0}: {1}"
-msgstr "Nije moguće pregledati datoteku: {0}"
+msgstr "Nije moguće spremiti obje verzije {0}: {1}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:563
-#, fuzzy
 msgid "Saved both versions:"
-msgstr "Zadrži obje verzije"
+msgstr "Spremljeno je obje verzije:"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:564
-#, fuzzy
 msgid "our version"
-msgstr "Zadržati našu verziju"
+msgstr "naša verzija"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:565
-#, fuzzy
 msgid "remote version"
-msgstr "Prihvati udaljenu verziju"
+msgstr "udaljena verzija"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:569
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Which version resolves {0}?"
-msgstr "Nije uspjelo rješavanje {0}"
+msgstr "Koja verzija rješava {0}?"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:573
 #, python-brace-format
 msgid "Both versions were saved; {0} is still conflicted."
-msgstr ""
+msgstr "Obje verzije su spremljene; {0} je još uvijek u sukobu."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:161
 #, python-brace-format
 msgid "Could not delete local branch {0}: {1}"
-msgstr ""
+msgstr "Nije moguće izbrisati lokalnu granu {0}: {1}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:173
 #, python-brace-format
 msgid "Could not delete origin/{0}: {1}"
-msgstr ""
+msgstr "Nije moguće izbrisati origin/{0}: {1}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:225
 #, python-brace-format
 msgid "Remote changes integrated with {0}."
-msgstr ""
+msgstr "Udaljene promjene integrirane s {0}."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:229
 #: usr/share/gitrepo/build_package/core/git_utils.py:301
 msgid "Unknown Git error"
-msgstr ""
+msgstr "Nepoznata Git pogreška"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:230
 #, python-brace-format
 msgid "{0} failed: {1}"
-msgstr ""
+msgstr "{0} nije uspjelo: {1}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:255
 #, python-brace-format
@@ -2748,33 +2750,39 @@ msgid ""
 "\n"
 "Every other change from {1} is merged, and the discarded version stays readable with: git diff HEAD^2 -- FILE"
 msgstr ""
+"Riješi razilaženje zadržavajući {0} gdje se dvije grane ne slažu?\n"
+"\n"
+"Sukobljeni redci iz {1} se odbacuju u:\n"
+"{2}\n"
+"\n"
+"Sve ostale promjene iz {1} se spajaju, a odbačena verzija ostaje čitljiva pomoću: git diff HEAD^2 -- FILE"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:274
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not finish merge: {0}"
-msgstr "Nije moguće pregledati datoteku: {0}"
+msgstr "Spajanje nije moguće dovršiti: {0}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:296
 msgid "Remote changes integrated with merge."
-msgstr ""
+msgstr "Udaljene promjene integrirane spajanjem."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:302
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Merge failed: {0}"
-msgstr "Automatsko spajanje nije uspjelo: {0}"
+msgstr "Spajanje nije uspjelo: {0}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:321
 msgid "Merge aborted; the repository was restored."
-msgstr ""
+msgstr "Spajanje prekinuto; repozitorij je vraćen."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:329
 #, python-brace-format
 msgid "Kept {0} in {1} file(s); the {2} version was discarded there: {3}"
-msgstr ""
+msgstr "Zadržano {0} u {1} datoteci/e/ama; verzija {2} je tamo odbačena: {3}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:333
 msgid "Read the discarded version with: git diff HEAD^2 -- FILE"
-msgstr ""
+msgstr "Pročitajte odbačenu verziju s: git diff HEAD^2 -- FILE"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:345
 #, python-brace-format
@@ -2782,14 +2790,16 @@ msgid ""
 "Rewrite origin/{0}?\n"
 "{1}"
 msgstr ""
+"Prepisati origin/{0}?\n"
+"{1}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:347
 msgid "Force push cancelled."
-msgstr ""
+msgstr "Forsirani push otkazan."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:352
 msgid "Force push completed."
-msgstr ""
+msgstr "Forsirani push dovršen."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:354
 #, python-brace-format
@@ -2804,25 +2814,25 @@ msgstr "Ova operacija dostupna je samo u Git repozitorijima."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:614
 msgid "No main or master branch to compare against."
-msgstr ""
+msgstr "Nema glavne ili master grane za usporedbu."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:615
 msgid "Without a base, no branch can be proven merged, so none is offered."
-msgstr ""
+msgstr "Bez osnovne grane, nijedna grana se ne može dokazati spojena, pa se nijedna ne nudi."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:624
 #, python-brace-format
 msgid "Could not inventory branches: {0}"
-msgstr ""
+msgstr "Nije moguće inventarizirati grane: {0}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:630
 #, python-brace-format
 msgid "Kept {0} branch(es) whose commits are not in {1}: {2}"
-msgstr ""
+msgstr "Zadržano {0} gran(a/e) čiji commitovi nisu u {1}: {2}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:637
 msgid "No obsolete branches found."
-msgstr ""
+msgstr "Nisu pronađene zastarjele grane."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:641
 #, python-brace-format
@@ -2831,14 +2841,17 @@ msgid ""
 "Every one is already merged into {0}.\n"
 "{1}"
 msgstr ""
+"Trajno izbrisati ove grane?\n"
+"Svaka je već spojena u {0}.\n"
+"{1}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:644
 msgid "Branch cleanup cancelled."
-msgstr ""
+msgstr "Čišćenje grana otkazano."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:650
 msgid "Branch cleanup completed."
-msgstr ""
+msgstr "Čišćenje grana dovršeno."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:680
 #: usr/share/gitrepo/build_package/core/git_utils.py:719
@@ -2857,13 +2870,12 @@ msgstr "Nepoznata metoda rješavanja: {0}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:788
 #: usr/share/gitrepo/build_package/core/git_utils.py:817
-#, fuzzy
 msgid "Could not load the differences for this file."
-msgstr "Nije moguće analizirati razlike u datotekama"
+msgstr "Nije moguće učitati razlike za ovu datoteku."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:32
 msgid "Waiting for GitHub to report whether the PR can be merged..."
-msgstr ""
+msgstr "Čeka se izvješće s GitHub-a može li se PR spojiti..."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:42
 #, python-brace-format
@@ -2873,25 +2885,25 @@ msgstr "Pogreška pri provjeri PR-a: {0}"
 #: usr/share/gitrepo/build_package/core/github_api.py:49
 #, python-brace-format
 msgid "Attempt {0}/{1}: state={2}"
-msgstr ""
+msgstr "Pokušaj {0}/{1}: stanje={2}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:55
 #, python-brace-format
 msgid "Could not check the PR yet: {0}"
-msgstr ""
+msgstr "Nije moguće provjeriti PR: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:58
 #, python-brace-format
 msgid "Timed out waiting for PR state '{0}'. Merge it manually."
-msgstr ""
+msgstr "Isteklo je vrijeme čekanja na stanje PR-a '{0}'. Spojite ga ručno."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:64
 msgid "PR ready for merge."
-msgstr ""
+msgstr "PR spreman za spajanje."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:67
 msgid "PR has conflicts; resolve them before merging."
-msgstr ""
+msgstr "PR ima sukobe; riješite ih prije spajanja."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:92
 #, python-brace-format
@@ -2911,11 +2923,11 @@ msgstr "Build workflow ({0}) uspješno pokrenut."
 #: usr/share/gitrepo/build_package/core/github_api.py:99
 #, python-brace-format
 msgid "URL to monitor the build: {0}"
-msgstr ""
+msgstr "URL za praćenje izgradnje: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:127
 msgid "Repository and explicit workflow branch are required."
-msgstr ""
+msgstr "Spremište i eksplicitna grana tijeka rada su obavezni."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:138
 #, python-brace-format
@@ -2925,7 +2937,7 @@ msgstr "Otkriven repozitorij: {0}"
 #: usr/share/gitrepo/build_package/core/github_api.py:139
 #, python-brace-format
 msgid "Workflow branch: {0}"
-msgstr ""
+msgstr "Grana tijeka rada: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:146
 msgid "GitHub token not configured. Package operations will require token setup."
@@ -2946,27 +2958,27 @@ msgstr "Za kreiranje Personal Access Tokena:"
 #: usr/share/gitrepo/build_package/core/github_api.py:181
 #, python-brace-format
 msgid "  1. Go to: {0}"
-msgstr ""
+msgstr "  1. Idite na: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:182
 msgid "  2. Click 'Generate new token (classic)'"
-msgstr "2. Kliknite 'Generate new token (classic)'"
+msgstr "  2. Kliknite 'Generate new token (classic)'"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:183
 msgid "  3. Name: 'gitrepo' | Expiration: your choice"
-msgstr "3. Ime: 'gitrepo' | Istek: vaš izbor"
+msgstr "  3. Ime: 'gitrepo' | Istek: vaš izbor"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:184
 msgid "  4. Select scopes: 'repo' and 'workflow'"
-msgstr "4. Odaberite opsege: 'repo' i 'workflow'"
+msgstr "  4. Odaberite opsege: 'repo' i 'workflow'"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:185
 msgid "  5. Click 'Generate token' and copy it"
-msgstr "5. Kliknite 'Generate token' i kopirajte ga"
+msgstr "  5. Kliknite 'Generate token' i kopirajte ga"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:190
 msgid "GitHub username (or press Enter to cancel): "
-msgstr "GitHub korisničko ime (ili pritisnite Enter za otkazivanje):"
+msgstr "GitHub korisničko ime (ili pritisnite Enter za otkazivanje): "
 
 #: usr/share/gitrepo/build_package/core/github_api.py:192
 #: usr/share/gitrepo/build_package/core/github_api.py:197
@@ -2976,21 +2988,21 @@ msgstr "Postavljanje tokena otkazano."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:195
 msgid "GitHub token (or press Enter to cancel): "
-msgstr "GitHub token (ili pritisnite Enter za otkazivanje):"
+msgstr "GitHub token (ili pritisnite Enter za otkazivanje): "
 
 #: usr/share/gitrepo/build_package/core/github_api.py:203
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:165
 msgid "The token could not be saved. Unlock the system keyring and try again."
-msgstr ""
+msgstr "Token nije spremljen. Otključajte spremnik sistemskih ključeva i pokušajte ponovno."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:207
 msgid "✓ Token saved securely in the system keyring"
-msgstr ""
+msgstr "✓ Token je sigurno spremljen u spremniku sistemskih ključeva"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:224
 #: usr/share/gitrepo/build_package/core/github_api.py:274
 msgid "origin is not a GitHub repository; nothing was requested."
-msgstr ""
+msgstr "origin nije GitHub repozitorij; ništa nije zatraženo."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:227
 #, python-brace-format
@@ -3004,7 +3016,7 @@ msgstr "Nema pronađenih Actions poslova sa statusom '{0}'."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:243
 msgid "unnamed run"
-msgstr ""
+msgstr "izvođenje bez naziva"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:247
 #, python-brace-format
@@ -3012,10 +3024,12 @@ msgid ""
 "Permanently delete these {0} GitHub Actions runs from {1}?\n"
 "{2}"
 msgstr ""
+"Trajno izbrisati ova {0} GitHub Actions izvođenja iz {1}?\n"
+"{2}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:252
 msgid "Actions cleanup cancelled."
-msgstr ""
+msgstr "Čišćenje radnji je otkazano."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:258
 #, python-brace-format
@@ -3041,10 +3055,12 @@ msgid ""
 "Permanently delete these {0} remote tags from {1}?\n"
 "{2}"
 msgstr ""
+"Trajno izbrisati ove {0} udaljene oznake iz {1}?\n"
+"{2}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:294
 msgid "Tag cleanup cancelled."
-msgstr ""
+msgstr "Čišćenje oznaka je otkazano."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:299
 #, python-brace-format
@@ -3057,43 +3073,43 @@ msgid "Error cleaning tags: {0}"
 msgstr "Pogreška pri čišćenju oznaka: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:326
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Error listing {0}. Code: {1}"
-msgstr "Pogreška pri brisanju oznake {0}. Kod: {1}"
+msgstr "Pogreška pri ispisivanju {0}. Kod: {1}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:337
 #, python-brace-format
 msgid "Stopped after {0} pages; run the cleanup again to continue."
-msgstr ""
+msgstr "Zaustavljeno nakon {0} stranica; pokrenite čišćenje ponovo za nastavak."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:345
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not delete {0}: {1}"
-msgstr "Nije moguće pregledati datoteku: {0}"
+msgstr "Nije moguće izbrisati {0}: {1}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:349
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Error deleting {0}. Code: {1}"
-msgstr "Pogreška pri brisanju oznake {0}. Kod: {1}"
+msgstr "Greška pri brisanju {0}. Kôd: {1}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:357
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deleted {0} of {0} items."
-msgstr "Izbrisano {0} oznaka."
+msgstr "Izbrisano {0} od {0} stavki."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:359
 #, python-brace-format
 msgid "Deleted {0} of {1}; {2} could not be deleted."
-msgstr ""
+msgstr "Izbrisano {0} od {1}; {2} nije moguće izbrisati."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:360
 #, python-brace-format
 msgid "Still present: {0}"
-msgstr ""
+msgstr "Još uvijek prisutno: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:370
 msgid "Source branch and repository are required to create a pull request."
-msgstr ""
+msgstr "Izvorni ogranak i spremište su potrebni za stvaranje zahtjeva za povlačenje."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:373
 #, python-brace-format
@@ -3102,7 +3118,7 @@ msgstr "Stvaram pull request: {0} → {1}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:377
 msgid "Branches are already identical; no pull request is needed."
-msgstr ""
+msgstr "Grane su već identične; nije potreban zahtjev za povlačenje."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:388
 #, python-brace-format
@@ -3126,7 +3142,7 @@ msgstr "PR nije spreman: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:442
 msgid "Pull request merged successfully."
-msgstr ""
+msgstr "Zahtjev za povlačenje uspješno spojen."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:446
 #, python-brace-format
@@ -3173,16 +3189,16 @@ msgstr "Nije moguće prikazati sažetak PR-a: {0}"
 #: usr/share/gitrepo/build_package/core/operation_preview.py:39
 #, python-brace-format
 msgid "Failed: {0}"
-msgstr ""
+msgstr "Neuspješno: {0}"
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:56
 msgid "Merge conflict detected; resolution is required."
-msgstr ""
+msgstr "Otkriven je sukob spajanja; potrebno je rješavanje."
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:59
 #, python-brace-format
 msgid "Command failed: {0}"
-msgstr ""
+msgstr "Naredba nije uspjela: {0}"
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:118
 msgid "No operations planned"
@@ -3212,15 +3228,15 @@ msgstr "Nastaviti s ovim operacijama?"
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:176
 msgid "Dry-run mode; no operations will execute."
-msgstr ""
+msgstr "Način probnog izvođenja; nikakve operacije neće biti izvršene."
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:189
 msgid "Conflicts detected; resolution is required."
-msgstr ""
+msgstr "Otkriveni su sukobi; potrebno je rješavanje."
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:192
 msgid "Operation failed; remaining steps were not executed."
-msgstr ""
+msgstr "Operacija nije uspjela; preostali koraci nisu izvršeni."
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:203
 #, python-brace-format
@@ -3235,9 +3251,8 @@ msgstr "Operacija otkazana od strane korisnika"
 #: usr/share/gitrepo/build_package/core/package_operations.py:82
 #: usr/share/gitrepo/build_package/core/package_operations.py:91
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:462
-#, fuzzy
 msgid "unknown branch"
-msgstr "nepoznato"
+msgstr "nepoznata grana"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:68
 #, python-brace-format
@@ -3246,6 +3261,9 @@ msgid ""
 "Expected branch: {0}\n"
 "Selected branch: {1}"
 msgstr ""
+"Odabrana testna grana promijenila se tijekom pripreme paketa.\n"
+"Očekivana grana: {0}\n"
+"Odabrana grana: {1}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:78
 #, python-brace-format
@@ -3255,11 +3273,15 @@ msgid ""
 "Current branch: {1}\n"
 "Switch to {0} before committing or starting the workflow."
 msgstr ""
+"Testni paketi mogu objaviti samo aktivnu osobnu granu.\n"
+"Odabrana grana: {0}\n"
+"Trenutna grana: {1}\n"
+"Prebacite se na {0} prije potvrđivanja ili pokretanja tijeka rada."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:94
 #, python-brace-format
 msgid "The testing branch does not exist locally: {0}"
-msgstr ""
+msgstr "Testna grana ne postoji lokalno: {0}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:101
 #, python-brace-format
@@ -3268,18 +3290,21 @@ msgid ""
 "Branch: {0}\n"
 "Command: git push -u origin {1}"
 msgstr ""
+"Objaviti testnu granu prije pokretanja njenog tijeka rada paketa?\n"
+"Grana: {0}\n"
+"Naredba: git push -u origin {1}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:125
 msgid "Could not read a package name with makepkg --printsrcinfo."
-msgstr ""
+msgstr "Nije moguće pročitati naziv paketa pomoću makepkg --printsrcinfo."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:155
 msgid "Configure a GitHub token before generating a package."
-msgstr ""
+msgstr "Konfigurirajte GitHub token prije generiranja paketa."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:170
 msgid "Dry run completed; no workflow was triggered."
-msgstr ""
+msgstr "Probno pokretanje završeno; nije pokrenut nijedan tijek rada."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:173
 #, python-brace-format
@@ -3289,38 +3314,42 @@ msgid ""
 "Type: {1}\n"
 "Branch: {2}"
 msgstr ""
+"Pokrenuti ovaj tijek rada GitHub Actions paketa?\n"
+"Paket: {0}\n"
+"Vrsta: {1}\n"
+"Grana: {2}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:180
 msgid "Package workflow started."
-msgstr ""
+msgstr "Tijek rada paketa pokrenut."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:180
 msgid "Workflow failed."
-msgstr ""
+msgstr "Tijek rada nije uspio."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:194
 #, python-brace-format
 msgid "Merging {0} stopped because it requires conflict resolution. No history was rewritten."
-msgstr ""
+msgstr "Spajanje {0} zaustavljeno jer zahtijeva rješavanje sukoba. Povijest nije prepisana."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:243
 #, python-brace-format
 msgid "Created a recovery branch for local main: {0}"
-msgstr ""
+msgstr "Stvorena grana za oporavak lokalne glavne grane: {0}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:288
 msgid "The origin/main branch is required for stable and extra packages."
-msgstr ""
+msgstr "Grana origin/main potrebna je za stabilne i dodatne pakete."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:310
 #: usr/share/gitrepo/build_package/core/package_operations.py:341
 msgid "Remote refs changed during publication; retrying with their latest commits."
-msgstr ""
+msgstr "Udaljene reference promijenjene tijekom objave; ponovni pokušaj s njihovim najnovijim potvrdama."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:351
 #: usr/share/gitrepo/build_package/core/package_operations.py:403
 msgid "Commit or stash local changes before building a stable package."
-msgstr ""
+msgstr "Potvrdite ili sakrijte lokalne promjene prije izgradnje stabilnog paketa."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:358
 msgid ""
@@ -3329,6 +3358,10 @@ msgid ""
 "git merge refs/remotes/origin/main --no-edit (when present)\n"
 "git push origin refs/heads/main:refs/heads/main"
 msgstr ""
+"Sinkronizirati i objaviti glavnu granu prije pokretanja njenog tijeka rada paketa?\n"
+"git fetch origin --prune\n"
+"git merge refs/remotes/origin/main --no-edit (kad je prisutno)\n"
+"git push origin refs/heads/main:refs/heads/main"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:371
 #: usr/share/gitrepo/build_package/core/package_operations.py:446
@@ -3347,16 +3380,23 @@ msgid ""
 "git push --atomic origin refs/heads/{0}:refs/heads/{0} refs/heads/{0}:refs/heads/main\n"
 "Local-only main commits are preserved in backup/main-before-stable-*."
 msgstr ""
+"Objaviti {0} putem glavne grane?\n"
+"git fetch origin --prune\n"
+"git checkout {0}\n"
+"git merge refs/remotes/origin/{0} --no-edit (kad je prisutno)\n"
+"git merge refs/remotes/origin/main --no-edit\n"
+"git push --atomic origin refs/heads/{0}:refs/heads/{0} refs/heads/{0}:refs/heads/main\n"
+"Samo-lokalne potvrde glavne grane sačuvane su u backup/main-before-stable-*."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:438
 #, python-brace-format
 msgid "Remote branches {0} and main were published, but local main could not be aligned: {1}"
-msgstr ""
+msgstr "Udaljene grane {0} i main su objavljene, ali lokalnu granu main nije moguće uskladiti: {1}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:461
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not switch back to {0}: {1}"
-msgstr "Nije moguće pregledati datoteku: {0}"
+msgstr "Nije moguće vratiti se na {0}: {1}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:473
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:114
@@ -3382,80 +3422,80 @@ msgstr "📦 Konfiguracija izgradnje paketa"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:31
 msgid "Temporarily stash local changes"
-msgstr ""
+msgstr "Privremeno sakrij lokalne promjene"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:35
 #, python-brace-format
 msgid "Fetch origin/{0}"
-msgstr ""
+msgstr "Preuzmi origin/{0}"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:38
 #, python-brace-format
 msgid "Merge origin/{0} into {0}"
-msgstr ""
+msgstr "Spoji origin/{0} u {0}"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:49
 msgid "Merge remains incomplete; resolve the listed files manually."
-msgstr ""
+msgstr "Spajanje ostaje nedovršeno; ručno riješi navedene datoteke."
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:53
 #, python-brace-format
 msgid "Merge origin/{0} after conflict resolution"
-msgstr ""
+msgstr "Spoji origin/{0} nakon rješavanja sukoba"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:60
 #, python-brace-format
 msgid "Resolved files could not complete the merge: {0}"
-msgstr ""
+msgstr "Riješene datoteke nisu mogle dovršiti spajanje: {0}"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:74
 msgid "Local changes restored."
-msgstr ""
+msgstr "Lokalne promjene vraćene."
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:77
 msgid "stashed local changes"
-msgstr ""
+msgstr "lokalne promjene spremljene u stash"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:87
 #, python-brace-format
 msgid "Local changes remain in the stash: {0}"
-msgstr ""
+msgstr "Lokalne promjene ostaju u stashu: {0}"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:99
 msgid "Resolve the existing conflicts before pulling."
-msgstr ""
+msgstr "Riješi postojeće sukobe prije povlačenja."
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:104
 msgid "The current branch has no matching branch on origin."
-msgstr ""
+msgstr "Trenutna grana nema odgovarajuću granu na originu."
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:122
 #, python-brace-format
 msgid "Updated to {0}"
-msgstr ""
+msgstr "Ažurirano na {0}"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:122
 msgid "Already up to date"
-msgstr ""
+msgstr "Već je ažurno"
 
 #: usr/share/gitrepo/build_package/core/repository_lock.py:109
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "This repository is busy with: {0}"
-msgstr "Nema repozitorija"
+msgstr "Ovo spremište je zauzeto s: {0}"
 
 #: usr/share/gitrepo/build_package/core/repository_lock.py:110
 msgid "Wait for that operation to finish, then try again."
-msgstr ""
+msgstr "Pričekaj da se ta operacija dovrši, pa pokušaj ponovno."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:42
 #, python-brace-format
 msgid "You can only revert commits on your own branch ({0}) or main."
-msgstr ""
+msgstr "Možeš poništiti samo commitove na vlastitoj grani ({0}) ili main grani."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:51
 #, python-brace-format
 msgid "Proceed with {0} on {1}?"
-msgstr ""
+msgstr "Nastaviti s {0} na {1}?"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:57
 #, python-brace-format
@@ -3464,7 +3504,7 @@ msgstr "Neuspjelo {0} commit."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:67
 msgid "Shared main branch: only the history-preserving revert method is available."
-msgstr ""
+msgstr "Zajednička main grana: dostupna je samo metoda povlačenja koja čuva povijest."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:70
 #, python-brace-format
@@ -3524,17 +3564,16 @@ msgid "Result"
 msgstr "Rezultat"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:156
-#, fuzzy
 msgid "Every tracked file returns to this commit's exact state"
-msgstr "Kod će biti vraćen u točno stanje ovog commita"
+msgstr "Svaka praćena datoteka se vraća na točno stanje ovog predanka"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:157
 msgid "Files added later"
-msgstr ""
+msgstr "Datoteke dodane kasnije"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:157
 msgid "Removed, so the restored state is complete"
-msgstr ""
+msgstr "Uklonjeno, tako da je obnovljeno stanje potpuno"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:158
 msgid "New Commit"
@@ -3566,13 +3605,12 @@ msgid "Commits after this will be removed from history"
 msgstr "Commitovi nakon ovog bit će uklonjeni iz povijesti"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:164
-#, fuzzy
 msgid "Uncommitted work"
-msgstr "Postoje nekomitirane promjene"
+msgstr "Nepotvrđeni rad"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:164
 msgid "Required to be empty; the operation refuses otherwise"
-msgstr ""
+msgstr "Mora biti prazno; inače operacija odbija"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:166
 msgid "Revert Preview"
@@ -3601,36 +3639,36 @@ msgid "Error showing preview: {0}"
 msgstr "Pogreška pri prikazu pregleda: {0}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:254
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not read the repository state: {0}"
-msgstr "Nije moguće odrediti naziv repozitorija."
+msgstr "Nije moguće pročitati stanje spremišta: {0}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:255
 msgid "Nothing was changed. Resolve the Git error and try again."
-msgstr ""
+msgstr "Ništa nije promijenjeno. Riješite Git grešku i pokušajte ponovno."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:262
 #, python-brace-format
 msgid "{0} uncommitted file(s) would be destroyed by this operation:"
-msgstr ""
+msgstr "{0} nepotvrđene datoteke bi bile uništene ovom operacijom:"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:264
 msgid "Commit or stash them first: git stash push -u"
-msgstr ""
+msgstr "Prvo ih potvrdite ili spremite: git stash push -u"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:268
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "A {0} operation is still in progress."
-msgstr "Pregled operacije"
+msgstr "Operacija {0} je još uvijek u tijeku."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:269
 msgid "Finish or abort it first, then retry."
-msgstr ""
+msgstr "Prvo dovršite ili prekinite, zatim pokušajte ponovno."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:283
 #: usr/share/gitrepo/build_package/core/revert_operations.py:540
 msgid "Operation requires explicit confirmation."
-msgstr ""
+msgstr "Operacija zahtijeva izričitu potvrdu."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:293
 #, python-brace-format
@@ -3668,14 +3706,14 @@ msgid "Revert completed successfully - code restored to selected commit state"
 msgstr "Revert uspješno dovršen - kod vraćen u stanje odabranog commita"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:386
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not read origin/{0}: {1}"
-msgstr "Nije moguće pregledati datoteku: {0}"
+msgstr "Nije moguće pročitati origin/{0}: {1}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:390
 #, python-brace-format
 msgid "origin/{0} could not be verified; the remote was left untouched."
-msgstr ""
+msgstr "origin/{0} se nije mogao potvrditi; udaljeni spremište je ostavljeno netaknuto."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:404
 msgid "Commit exists in remote - force push required"
@@ -3687,6 +3725,8 @@ msgid ""
 "Rewrite origin/{0}, currently at {1}?\n"
 "{2}"
 msgstr ""
+"Prepiši origin/{0}, trenutno na {1}?\n"
+"{2}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:409
 msgid "Reset completed locally only (remote unchanged)"
@@ -3703,11 +3743,11 @@ msgstr "Resetiranje dovršeno i prisilno poslano"
 #: usr/share/gitrepo/build_package/core/revert_operations.py:427
 #, python-brace-format
 msgid "origin/{0} moved since it was read; nothing was overwritten."
-msgstr ""
+msgstr "origin/{0} je pomaknut otkad je pročitan; ništa nije prepisano."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:428
 msgid "Review the new commits, then repeat the operation."
-msgstr ""
+msgstr "Pregledajte nove potvrde, zatim ponovite operaciju."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:440
 msgid "Resetting to previous commit..."
@@ -3716,7 +3756,7 @@ msgstr "Resetiranje na prethodni commit..."
 #: usr/share/gitrepo/build_package/core/revert_operations.py:444
 #, python-brace-format
 msgid "Undo this locally with: git reset --hard {0}"
-msgstr ""
+msgstr "Poništite ovo lokalno pomoću: git reset --hard {0}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:450
 msgid "Reset completed (commit was only local)"
@@ -3741,17 +3781,17 @@ msgstr "Neuspjelo slanje povrata: {0}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:482
 msgid "The revert commit was created locally and was kept."
-msgstr ""
+msgstr "Povratna potvrda je stvorena lokalno i zadržana je."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:483
 #, python-brace-format
 msgid "Retry publishing it with: git push origin {0}"
-msgstr ""
+msgstr "Pokušajte ponovno objaviti pomoću: git push origin {0}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:501
 #, python-brace-format
 msgid "Restore the previous state with: git reset --hard {0}"
-msgstr ""
+msgstr "Vrati prethodno stanje pomoću: git reset --hard {0}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:513
 msgid "Operation"
@@ -3759,11 +3799,11 @@ msgstr "Operacija"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:514
 msgid "Target Commit"
-msgstr ""
+msgstr "Ciljani commit"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:515
 msgid "Target Message"
-msgstr ""
+msgstr "Ciljana poruka"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:516
 msgid "Current HEAD"
@@ -3773,19 +3813,19 @@ msgstr "Trenutni HEAD"
 #: usr/share/gitrepo/build_package/core/revert_operations.py:521
 #: usr/share/gitrepo/build_package/core/revert_operations.py:523
 msgid "Remote"
-msgstr ""
+msgstr "Udaljeni repozitorij"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:519
 msgid "Force-pushed after explicit confirmation"
-msgstr ""
+msgstr "Prisilno guranje (force push) nakon izričite potvrde"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:521
 msgid "Unchanged; reset is local only"
-msgstr ""
+msgstr "Nepromijenjeno; reset je samo lokalno"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:523
 msgid "Updated without rewriting history"
-msgstr ""
+msgstr "Ažurirano bez prepisivanja povijesti"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:524
 msgid "Operation completed"
@@ -3868,7 +3908,7 @@ msgstr "✓ Strategija rješavanja konflikta promijenjena u: {0}"
 #: usr/share/gitrepo/build_package/core/version_bumper.py:256
 #, python-brace-format
 msgid "Skipping the version bump: {0} is not a regular file inside the repository."
-msgstr ""
+msgstr "Preskačem povećanje verzije: {0} nije regularna datoteka unutar repozitorija."
 
 #: usr/share/gitrepo/build_package/core/version_bumper.py:246
 msgid "APP_VERSION constant not found. Skipping automatic version bump."
@@ -3886,7 +3926,7 @@ msgstr "APP_VERSION povećan s {0} na {1} ({2} povećanje) u {3}"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:22
 msgid "Repository status is unavailable. Refresh before switching branches."
-msgstr ""
+msgstr "Status repozitorija nije dostupan. Osvježi prije prebacivanja grana."
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:41
 msgid "Uncommitted Changes Detected"
@@ -3895,35 +3935,35 @@ msgstr "Otkrivene necommitane promjene"
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:43
 #, python-brace-format
 msgid "You have uncommitted changes. Preserve them with {0}, or discard them with {1}."
-msgstr ""
+msgstr "Imate nepredane promjene. Sačuvajte ih pomoću {0}, ili ih odbacite pomoću {1}."
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:75
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:102
 #, python-brace-format
 msgid "Current: {0}"
-msgstr ""
+msgstr "Trenutna: {0}"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:80
 #, python-brace-format
 msgid "Switch to: {0}"
-msgstr ""
+msgstr "Prebaci na: {0}"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:90
 msgid "Discard files and switch"
-msgstr ""
+msgstr "Odbaci datoteke i prebaci se"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:91
 msgid "Preserve files and switch"
-msgstr ""
+msgstr "Sačuvaj datoteke i prebaci se"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:125
 msgid "Opening another branch"
-msgstr ""
+msgstr "Otvaranje druge grane"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:126
 #, python-brace-format
 msgid "Running git checkout for '{0}'..."
-msgstr ""
+msgstr "Izvršavam git checkout za '{0}'..."
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:148
 #, python-brace-format
@@ -3937,20 +3977,23 @@ msgid ""
 "\n"
 "{2}"
 msgstr ""
+"Grana '{0}' još ne postoji. Želite li je stvoriti iz '{1}' i objaviti?\n"
+"\n"
+"{2}"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:185
 #, python-brace-format
 msgid "{0} (new)"
-msgstr ""
+msgstr "{0} (novo)"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:193
 #, python-brace-format
 msgid "This will copy all code from '{0}' to the new '{1}' branch"
-msgstr ""
+msgstr "Ovo će kopirati sav kod iz '{0}' u novu granu '{1}'"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:204
 msgid "Create and publish branch"
-msgstr ""
+msgstr "Stvori i objavi granu"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:222
 msgid "Creating Branch"
@@ -3963,28 +4006,28 @@ msgstr "Stvaranje '{0}' iz '{1}' i slanje..."
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:230
 msgid "Propose branch integration?"
-msgstr ""
+msgstr "Predložiti integraciju grane?"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:232
 msgid "open a Pull Request on GitHub; this does not run git merge on your computer"
-msgstr ""
+msgstr "otvorite Pull Request na GitHubu; ovo ne pokreće git merge na vašem računalu"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:268
 msgid "✓ Auto-merge enabled"
-msgstr ""
+msgstr "✓ Automatsko spajanje omogućeno"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:270
 msgid "Manual approval required"
-msgstr ""
+msgstr "Potrebno ručno odobrenje"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:280
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:234
 msgid "Open Pull Request"
-msgstr ""
+msgstr "Otvori Pull Request"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:302
 msgid "Opening Pull Request"
-msgstr ""
+msgstr "Otvaranje Pull Requesta"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:303
 #, python-brace-format
@@ -3993,28 +4036,28 @@ msgstr "{0}: {1} → {2}"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:318
 msgid "Removing old branches"
-msgstr ""
+msgstr "Uklanjanje starih grana"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:319
 msgid "Running the reviewed git branch and git push deletion commands..."
-msgstr ""
+msgstr "Izvršavam pregledane naredbe git branch i git push za brisanje..."
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:332
 msgid "Removing workflow runs"
-msgstr ""
+msgstr "Uklanjanje izvođenja tijeka rada"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:333
 #, python-brace-format
 msgid "delete {0} GitHub Actions runs"
-msgstr ""
+msgstr "obriši {0} GitHub Actions izvođenja"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:344
 msgid "Removing remote tags"
-msgstr ""
+msgstr "Uklanjanje udaljenih oznaka"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:345
 msgid "delete all remote tag references; local tags are unchanged"
-msgstr ""
+msgstr "izbriši sve reference na udaljene oznake; lokalne oznake ostaju nepromijenjene"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:357
 msgid "Reverting Commit"
@@ -4095,9 +4138,9 @@ msgid "Resolved {0} of {1} conflicts"
 msgstr "Riješeno {0} od {1} sukoba"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:381
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Opening {0}. After editing, click 'Mark as Edited' to continue."
-msgstr "Datoteka otvorena u {0}. Nakon uređivanja kliknite 'Označi kao uređeno' za nastavak."
+msgstr "Otvaram {0}. Nakon uređivanja kliknite 'Označi kao uređeno' za nastavak."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:426
 #, python-brace-format
@@ -4116,19 +4159,19 @@ msgstr "Usporedi: {0}"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:461
 msgid "◀ LOCAL (Your Version)"
-msgstr ""
+msgstr "◀ LOKALNO (Vaša verzija)"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:472
 msgid "REMOTE (Server) ▶"
-msgstr ""
+msgstr "UDALJENO (Poslužitelj) ▶"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:491
 msgid "📁 LOCAL VERSION"
-msgstr ""
+msgstr "📁 LOKALNA VERZIJA"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:525
 msgid "☁️ REMOTE VERSION"
-msgstr ""
+msgstr "☁️ UDALJENA VERZIJA"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:581
 msgid "✓ Use LOCAL Version"
@@ -4156,7 +4199,7 @@ msgstr "Svi sukobi riješeni (prihvaćene udaljene verzije)"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:713
 msgid "Delete files to resolve conflicts?"
-msgstr ""
+msgstr "Izbrisati datoteke za rješavanje sukoba?"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:714
 #, python-brace-format
@@ -4164,10 +4207,12 @@ msgid ""
 "The selected versions delete these files:\n"
 "{0}"
 msgstr ""
+"Odabrane verzije brišu ove datoteke:\n"
+"{0}"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:719
 msgid "Delete and Apply"
-msgstr ""
+msgstr "Izbriši i primijeni"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:848
 #, python-brace-format
@@ -4210,13 +4255,12 @@ msgid "Untracked"
 msgstr "Nepratljivo"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:20
-#, fuzzy
 msgid "Added and modified"
-msgstr "Dodano+Izmijenjeno"
+msgstr "Dodano i izmijenjeno"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:21
 msgid "Modified in index and working tree"
-msgstr ""
+msgstr "Izmijenjeno u indeksu i radnom stablu"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:37
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:553
@@ -4224,20 +4268,18 @@ msgstr ""
 msgid "{0} changed file(s)"
 msgstr "{0} promijenjena datoteka(e)"
 
-#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:96
-#, fuzzy
-msgid "File differences"
-msgstr "Nije moguće analizirati razlike u datotekama"
-
-#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:100
-#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:141
-#, fuzzy
-msgid "No changed files to display."
-msgstr "Nema promjena za potvrditi"
-
 #: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:106
+msgid "File differences"
+msgstr "Razlike u datotekama"
+
+#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:110
+#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:151
+msgid "No changed files to display."
+msgstr "Nema promijenjenih datoteka za prikaz."
+
+#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:116
 msgid "No textual differences to display."
-msgstr ""
+msgstr "Nema tekstualnih razlika za prikaz."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/preview_dialog.py:28
 #, python-brace-format
@@ -4263,12 +4305,12 @@ msgstr "Sljedeće operacije će biti izvršene:"
 #: usr/share/gitrepo/build_package/gui/dialogs/preview_dialog.py:124
 #, python-brace-format
 msgid "✓ {0} safe operations"
-msgstr ""
+msgstr "✓ {0} sigurne operacije"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/preview_dialog.py:131
 #, python-brace-format
 msgid "⚠ {0} destructive operations"
-msgstr ""
+msgstr "⚠ {0} destruktivne operacije"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/preview_dialog.py:148
 msgid "Proceed"
@@ -4276,24 +4318,23 @@ msgstr "Nastavi"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:30
 msgid "Operation Progress"
-msgstr ""
+msgstr "Napredak operacije"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:68
 msgid "Running"
-msgstr ""
+msgstr "Pokretanje"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:101
 msgid "Initializing..."
 msgstr "Inicijalizacija..."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:122
-#, fuzzy
 msgid "Operation progress"
-msgstr "Pregled operacije"
+msgstr "Napredovanje operacije"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:342
 msgid "The operation did not complete. The log below states the cause and what to do next."
-msgstr ""
+msgstr "Operacija nije dovršena. Prijavnik u nastavku navodi uzrok i što učiniti sljedeće."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:369
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:564
@@ -4317,28 +4358,27 @@ msgid "Open in GitHub"
 msgstr "Otvori na GitHubu"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:459
-#, fuzzy
 msgid "One operation at a time"
-msgstr "Pregled operacije"
+msgstr "Jedna operacija odjednom"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:460
 #, python-brace-format
 msgid "“{0}” cannot start while another operation is still running."
-msgstr ""
+msgstr "“{0}” se ne može pokrenuti dok je druga operacija još uvijek u tijeku."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:547
 #, python-brace-format
 msgid "The commit {0} exists locally on {1}."
-msgstr ""
+msgstr "Commit {0} postoji lokalno na {1}."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:551
 #, python-brace-format
 msgid "The branch {0} exists locally."
-msgstr ""
+msgstr "Grana {0} postoji lokalno."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:553
 msgid "The local part of this operation was kept."
-msgstr ""
+msgstr "Lokalni dio ove operacije je sačuvan."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:554
 #, python-brace-format
@@ -4346,6 +4386,8 @@ msgid ""
 "{0}\n"
 "The remote was not changed. Retry with: {1}"
 msgstr ""
+"{0}\n"
+"Udaljeni repozitorij nije promijenjen. Pokušajte ponovno s: {1}"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:570
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:592
@@ -4360,7 +4402,7 @@ msgstr "Operacija otkazana"
 
 #: usr/share/gitrepo/build_package/gui/gtk_adapters.py:125
 msgid "Select an option."
-msgstr ""
+msgstr "Odaberite opciju."
 
 #: usr/share/gitrepo/build_package/gui/gtk_logger.py:89
 #: usr/share/gitrepo/common/rich_logger.py:66
@@ -4393,23 +4435,22 @@ msgstr "O paketu za izgradnju"
 
 #: usr/share/gitrepo/build_package/gui/main_gui.py:253
 msgid "Open behavior settings"
-msgstr ""
+msgstr "Otvori postavke ponašanja"
 
 #: usr/share/gitrepo/build_package/gui/main_gui.py:256
 #: usr/share/gitrepo/build_package/gui/main_window.py:234
 msgid "Publish Changes"
-msgstr ""
+msgstr "Objavi promjene"
 
 #: usr/share/gitrepo/build_package/gui/main_gui.py:257
 #: usr/share/gitrepo/build_package/gui/main_window.py:235
 msgid "Organize Branches"
-msgstr ""
+msgstr "Organiziraj grane"
 
 #: usr/share/gitrepo/build_package/gui/main_gui.py:258
 #: usr/share/gitrepo/build_package/gui/main_window.py:236
-#, fuzzy
 msgid "Packages"
-msgstr "AUR paketi"
+msgstr "Paketi"
 
 #: usr/share/gitrepo/build_package/gui/main_gui.py:299
 #, python-brace-format
@@ -4428,15 +4469,15 @@ msgstr "Kritična pogreška GUI-ja: {0}"
 #: usr/share/gitrepo/build_package/gui/main_window.py:43
 #: usr/share/gitrepo/build_package/gui/main_window.py:517
 msgid "Checking repository…"
-msgstr ""
+msgstr "Provjeravanje repozitorija…"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:117
 msgid "GitHub"
-msgstr ""
+msgstr "GitHub"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:142
 msgid "Start Here"
-msgstr ""
+msgstr "Počni ovdje"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:198
 #, python-brace-format
@@ -4444,31 +4485,28 @@ msgid "Failed to initialize: {0}"
 msgstr "Neuspjelo inicijaliziranje: {0}"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:215
-#, fuzzy
 msgid "Build and publish packages"
-msgstr "Izgradi AUR paket"
+msgstr "Izradi i objavi pakete"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:216
 msgid "Start a build on GitHub Actions from this repository or from a community source."
-msgstr ""
+msgstr "Pokrenite izgradnju na GitHub Actions iz ovog repozitorija ili iz zajedničkog izvora."
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:218
-#, fuzzy
 msgid "This repository"
-msgstr "Nema repozitorija"
+msgstr "Ovaj repozitorij"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:219
-#, fuzzy
 msgid "AUR"
-msgstr "AUR URL"
+msgstr "AUR"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:226
 msgid "Settings and repository maintenance"
-msgstr ""
+msgstr "Postavke i održavanje repozitorija"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:227
 msgid "Local Git behavior, GitHub access, and the destructive operations that need confirmation."
-msgstr ""
+msgstr "Lokalno ponašanje Git-a, pristup GitHub-u i destruktivne operacije koje zahtijevaju potvrdu."
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:383
 msgid "No repository"
@@ -4477,7 +4515,7 @@ msgstr "Nema repozitorija"
 #: usr/share/gitrepo/build_package/gui/main_window.py:385
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:403
 msgid "Local Git repository"
-msgstr ""
+msgstr "Lokalni Git repozitorij"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:386
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:257
@@ -4486,7 +4524,7 @@ msgstr ""
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:432
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:375
 msgid "Detached HEAD"
-msgstr ""
+msgstr "Odvojeni HEAD"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:386
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:257
@@ -4499,12 +4537,12 @@ msgstr "Nepoznato"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:394
 msgid "Refreshing status…"
-msgstr ""
+msgstr "Osvježavanje statusa…"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:521
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:63
 msgid "Checking…"
-msgstr ""
+msgstr "Provjera…"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:550
 #, python-brace-format
@@ -4513,7 +4551,7 @@ msgstr "Commit ({0} promjena na čekanju)"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:552
 msgid "Commit (status unavailable)"
-msgstr ""
+msgstr "Commit (status nije dostupan)"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:554
 msgid "Commit"
@@ -4532,6 +4570,11 @@ msgid ""
 "\n"
 "{1}"
 msgstr ""
+"Upravo ćete napraviti commit direktno u '{0}'.\n"
+"\n"
+"Ovo je obično zaštićeno. Razmislite o korištenju vaše razvojne grane () umjesto toga.\n"
+"\n"
+"{1}"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:69
 msgid "Confirm Commit Branch"
@@ -4540,12 +4583,12 @@ msgstr "Potvrdi granu za commit"
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:71
 #, python-brace-format
 msgid "Choose where to publish your changes. {0}"
-msgstr ""
+msgstr "Odaberite gdje objaviti svoje promjene. {0}"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:107
 #, python-brace-format
 msgid "Your dev branch: {0}"
-msgstr ""
+msgstr "Vaša razvojna grana: {0}"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:118
 #, python-brace-format
@@ -4568,72 +4611,72 @@ msgstr "Commit na {0}"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:160
 msgid "Preparing and publishing changes"
-msgstr ""
+msgstr "Priprema i objava promjena"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:161
 #, python-brace-format
 msgid "Switching to {0}, then running the publish command sequence..."
-msgstr ""
+msgstr "Prebacivanje na {0}, zatim pokretanje niza naredbi za objavu..."
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:172
 msgid "Publishing changes"
-msgstr ""
+msgstr "Objavljivanje promjena"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:173
 #, python-brace-format
 msgid "Running git add, git commit, and git push for {0}..."
-msgstr ""
+msgstr "Pokretanje git add, git commit i git push za {0}..."
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:197
 msgid "Downloading updates"
-msgstr ""
+msgstr "Preuzimanje ažuriranja"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:198
 msgid "Running git fetch and git merge for the current branch..."
-msgstr ""
+msgstr "Pokretanje git fetch i git merge za trenutnu granu..."
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:207
 msgid "Repository is already up to date"
-msgstr ""
+msgstr "Repozitorij je već ažuran"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:212
 msgid "Changes received from the remote"
-msgstr ""
+msgstr "Promjene primljene s udaljenog repozitorija"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:223
 msgid "Undoing the last commit"
-msgstr ""
+msgstr "Poništavanje posljednjeg urezivanja"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:224
 msgid "Running git reset HEAD~1 and keeping the files changed..."
-msgstr ""
+msgstr "Pokretanje git reset HEAD~1 i zadržavanje izmijenjenih datoteka..."
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:245
 msgid "Starting package workflow"
-msgstr ""
+msgstr "Pokretanje radnog tijeka paketa"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:246
 #, python-brace-format
 msgid "build and publish the {0} package"
-msgstr ""
+msgstr "izrada i objavljivanje paketa {0}"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:267
 msgid "Publishing changes and starting package workflow"
-msgstr ""
+msgstr "Objavljivanje promjena i pokretanje radnog tijeka paketa"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:268
 #, python-brace-format
 msgid "Running the Git publish sequence, then asking GitHub Actions to build {0}..."
-msgstr ""
+msgstr "Pokretanje niza Git objave, zatim traženje GitHub Actions da izgradi {0}..."
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:282
 msgid "Starting AUR workflow"
-msgstr ""
+msgstr "Pokretanje AUR radnog tijeka"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:283
 #, python-brace-format
 msgid "clone and build the AUR package {0}"
-msgstr ""
+msgstr "kloniraj i izgradi AUR paket {0}"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:323
 msgid "GitHub Token Setup"
@@ -4683,7 +4726,7 @@ msgstr "Korisničko ime i token su obavezni"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:393
 msgid "The token could not be saved in the system keyring. Check that the keyring is unlocked and try again."
-msgstr ""
+msgstr "Token nije moguće spremiti u sistemski ključ. Provjerite je li ključ otključan i pokušajte ponovo."
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:404
 msgid "✓ Token saved successfully"
@@ -4691,11 +4734,11 @@ msgstr "✓ Token je uspješno spremljen"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:92
 msgid "Maintain and restore the repository"
-msgstr ""
+msgstr "Održavanje i vraćanje repozitorija"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:94
 msgid "Remove obsolete references or return files and history to an earlier point. Every destructive command requires confirmation."
-msgstr ""
+msgstr "Ukloni zastarjele reference ili vrati datoteke i povijest u raniju točku. Svaka destruktivna naredba zahtijeva potvrdu."
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:104
 msgid "Warning: These operations can be destructive"
@@ -4706,33 +4749,32 @@ msgid "Cleanup Operations"
 msgstr "Operacije čišćenja"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:113
-#, fuzzy
 msgid "Remove obsolete GitHub Actions runs and remote tags"
-msgstr "Ukloni stare grane, akcije i oznake"
+msgstr "Ukloni zastarjele GitHub Actions izvođenja i udaljene oznake"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:118
 msgid "Remove failed workflow runs"
-msgstr ""
+msgstr "Ukloni neuspješne izvođenja radnog tijeka"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:119
 msgid "delete failed GitHub Actions runs; no Git command is used"
-msgstr ""
+msgstr "izbriši neuspješne GitHub Actions izvođenja; ne koristi se Git naredba"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:125
 msgid "Remove successful workflow runs"
-msgstr ""
+msgstr "Uspješno uklonjeni tokovi rada"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:126
 msgid "delete successful GitHub Actions runs; no Git command is used"
-msgstr ""
+msgstr "briše uspješna pokretanja GitHub Actions; ne koristi se Git naredba"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:132
 msgid "Remove all remote tags"
-msgstr ""
+msgstr "Ukloni sve udaljene oznake (tagove)"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:133
 msgid "delete refs/tags through the GitHub API; local tags are unchanged"
-msgstr ""
+msgstr "briše refs/tags putem GitHub API-ja; lokalne oznake ostaju nepromijenjene"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:154
 msgid "Commit History"
@@ -4744,15 +4786,15 @@ msgstr "Pregled i poništavanje nedavnih potvrda"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:174
 msgid "How to return to the selected commit"
-msgstr ""
+msgstr "Kako se vratiti na odabrani commit"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:179
 msgid "Restore files with a new commit"
-msgstr ""
+msgstr "Vrati datoteke s novim commitom"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:180
 msgid "Move history back and delete newer commits"
-msgstr ""
+msgstr "Premjesti povijest unazad i izbriši novije commite"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:201
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:215
@@ -4762,7 +4804,7 @@ msgstr "Osvježi"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:207
 msgid "Return to selected commit"
-msgstr ""
+msgstr "Vrati se na odabrani commit"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:232
 msgid "No commits yet"
@@ -4775,11 +4817,11 @@ msgstr "Napravite svoj prvi commit da vidite povijest"
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:237
 #, python-brace-format
 msgid "{0} branch(es) and {1} commit(s) in the current branch."
-msgstr ""
+msgstr "{0} grane i {1} commit(ova) u trenutnoj grani."
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:295
 msgid "restore"
-msgstr ""
+msgstr "vrati"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:295
 msgid "reset"
@@ -4801,30 +4843,37 @@ msgid ""
 "\n"
 "{3}"
 msgstr ""
+"Jeste li sigurni da želite {0} ovaj commit?\n"
+"\n"
+"{1}\n"
+"\n"
+"Commit: {2}\n"
+"\n"
+"{3}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:43
 msgid "Build a package from the AUR"
-msgstr ""
+msgstr "Izgradi paket iz AUR-a"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:45
 msgid "Choose a community-maintained package. GitHub Actions downloads its AUR repository and builds it; no local Git command is run."
-msgstr ""
+msgstr "Odaberite paket koji održava zajednica. GitHub Actions preuzima njegov AUR repozitorij i izgrađuje ga; ne pokreće se lokalna Git naredba."
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:54
 msgid "GitHub AUR workflow"
-msgstr ""
+msgstr "GitHub AUR tok rada"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:56
 msgid "This optional feature asks GitHub Actions to download a community package recipe and build it remotely."
-msgstr ""
+msgstr "Ova opcijska značajka traži od GitHub Actionsa da preuzme recept paketa zajednice i izgradi ga udaljeno."
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:59
 msgid "Enable AUR package builds"
-msgstr ""
+msgstr "Omogući izgradnju AUR paketa"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:62
 msgid "Show the AUR package form below. Running it requires a GitHub access token; no local Git branch is created."
-msgstr ""
+msgstr "Prikaži AUR obrazac ispod. Pokretanje zahtijeva GitHub pristupni token; ne stvara se lokalna Git grana."
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:74
 msgid "AUR packages are built from community-maintained sources"
@@ -4840,15 +4889,15 @@ msgstr "Informacije o paketu"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:85
 msgid "What an AUR build does"
-msgstr ""
+msgstr "Što radi AUR izgradnja"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:87
 msgid "The workflow clones the package recipe from the Arch User Repository and builds it on GitHub. Nothing is compiled on this computer, and the recipe is maintained by the community, not by BigCommunity."
-msgstr ""
+msgstr "Radni tijek klonira recept paketa iz Arch User Repozitorija i izgrađuje ga na GitHubu. Ništa se ne kompajlira na ovom računalu, a recept održava zajednica, a ne BigCommunity."
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:93
 msgid "The package name determines the community source URL used by the build."
-msgstr ""
+msgstr "Naziv paketa određuje URL izvora zajednice koji se koristi za izgradnju."
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:96
 msgid "AUR Package Name"
@@ -4864,7 +4913,7 @@ msgstr "Opcije izgradnje"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:118
 msgid "Optional diagnostics for the AUR build job."
-msgstr ""
+msgstr "Opcionalna dijagnostika za AUR posao izgradnje."
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:121
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:300
@@ -4882,20 +4931,20 @@ msgstr "Sažetak izgradnje"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:131
 msgid "clone the selected AUR source and build it in BigCommunity infrastructure"
-msgstr ""
+msgstr "kloniraj odabrani AUR izvor i izgradi ga u BigCommunity infrastrukturi"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:144
 msgid "Execution method"
-msgstr ""
+msgstr "Način izvršavanja"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:149
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:268
 msgid "GitHub Actions workflow — no local branch is created"
-msgstr ""
+msgstr "GitHub Actions radni tijek — ne stvara se lokalna grana"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:166
 msgid "Start AUR workflow"
-msgstr ""
+msgstr "Pokreni AUR radni tijek"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:220
 msgid "Enter package name above"
@@ -4908,7 +4957,7 @@ msgstr "Potvrdi AUR izgradnju"
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:283
 #, python-brace-format
 msgid "Package: {0}"
-msgstr ""
+msgstr "Paket: {0}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:293
 msgid "This will:"
@@ -4916,41 +4965,40 @@ msgstr "Ovo će:"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:300
 msgid "• No local Git command or branch will be created"
-msgstr ""
+msgstr "• Neće se stvoriti nijedna lokalna Git naredba ili grana"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:301
 #, python-brace-format
 msgid "• GitHub Actions clones: {0}"
-msgstr ""
+msgstr "• GitHub Actions klonira: {0}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:302
 msgid "• The workflow builds the package in BigCommunity infrastructure"
-msgstr ""
+msgstr "• Radni tijek izgrađuje paket u BigCommunity infrastrukturi"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:39
 msgid "Checked out right now"
-msgstr ""
+msgstr "Upravo provjereno"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
-#, fuzzy
 msgid "Current"
-msgstr "Trenutni Kod"
+msgstr "Trenutno"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:52
 msgid "Only on origin; created locally on first checkout"
-msgstr ""
+msgstr "Samo na originu; stvara se lokalno pri prvom preuzimanju"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:56
 msgid "Exists only on origin; it is created locally on first checkout"
-msgstr ""
+msgstr "Postoji samo na originu; stvara se lokalno pri prvom preuzimanju"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:91
 msgid "Organize lines of work"
-msgstr ""
+msgstr "Organizirajte linije rada"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:93
 msgid "Switch branches with git checkout, publish new branches with git push, or propose integration on GitHub."
-msgstr ""
+msgstr "Mijenjajte grane pomoću git checkout, objavljujte nove grane pomoću git push ili predlažite integraciju na GitHubu."
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:103
 msgid "Current Status"
@@ -4958,7 +5006,7 @@ msgstr "Trenutni status"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:104
 msgid "Shows the active branch and the most recently updated local branch."
-msgstr ""
+msgstr "Prikazuje aktivnu granu i najnovije ažuriranu lokalnu granu."
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:107
 msgid "Active Branch"
@@ -4978,35 +5026,35 @@ msgstr "Dostupne grane"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:129
 msgid "Selecting another branch runs git checkout BRANCH; remote-only branches are created locally first."
-msgstr ""
+msgstr "Odabir druge grane pokreće git checkout BRANCH; udaljene grane koje postoje samo na udaljenom repozitoriju prvo se stvaraju lokalno."
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:152
 msgid "Return to the main line of development with an explicit Git command."
-msgstr ""
+msgstr "Vratite se na glavnu liniju razvoja pomoću eksplicitne Git naredbe."
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:156
 msgid "Return to the main branch"
-msgstr ""
+msgstr "Vratite se na glavnu granu"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:162
 msgid "Open main"
-msgstr ""
+msgstr "Otvori glavnu granu"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:174
 msgid "Propose branch integration"
-msgstr ""
+msgstr "Predloži integraciju grane"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:177
 msgid "How integration works"
-msgstr ""
+msgstr "Kako integracija funkcionira"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:179
 msgid "The source branch is the one carrying your work; the target is where it should land. GitRepo opens a pull request on GitHub instead of merging locally, so the review and the checks still run."
-msgstr ""
+msgstr "Izvorna grana nosi vaš rad; ciljna grana je mjesto gdje bi trebao završiti. GitRepo otvara zahtjev za povlačenje (pull request) na GitHubu umjesto da spaja lokalno, tako da pregled i provjere i dalje rade."
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:186
 msgid "open a Pull Request from the source branch to the target branch"
-msgstr ""
+msgstr "otvori Pull Request s izvorne grane na ciljnu granu"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:192
 msgid "Branch to merge from"
@@ -5026,61 +5074,59 @@ msgstr "Osvježi popis grana"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:222
 msgid "Remove old branches"
-msgstr ""
+msgstr "Uklonite stare grane"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:259
 msgid "Not available"
-msgstr ""
+msgstr "Nije dostupno"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:21
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:29
-#, fuzzy
 msgid "Checking"
-msgstr "Provjera..."
+msgstr "Provjeravanje"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:23
 msgid "Attention"
-msgstr ""
+msgstr "Pažnja"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:24
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:32
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:438
 msgid "Unavailable"
-msgstr ""
+msgstr "Nedostupno"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:30
 msgid "Ready"
-msgstr ""
+msgstr "Spremno"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:31
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:562
-#, fuzzy
 msgid "Pending changes"
-msgstr "Commit ({0} promjena na čekanju)"
+msgstr "Promjene na čekanju"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:131
 msgid "Refresh repository status"
-msgstr ""
+msgstr "Osvježi status repozitorija"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:136
 msgid "Publish your work"
-msgstr ""
+msgstr "Objavi svoj rad"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:137
 msgid "Review what changed, describe it, and send it to a remote branch."
-msgstr ""
+msgstr "Pregledajte promjene, opišite ih i pošaljite na udaljenu granu."
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:150
 msgid "Pending files and history"
-msgstr ""
+msgstr "Datoteke na čekanju i povijest"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:151
 msgid "Review what will be recorded before writing the commit."
-msgstr ""
+msgstr "Pregledajte što će biti zabilježeno prije zapisivanja predaje."
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:154
 msgid "What publishing runs"
-msgstr ""
+msgstr "Što se izvodi pri objavi"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:155
 #, python-brace-format
@@ -5089,6 +5135,9 @@ msgid ""
 "\n"
 "Publish changes: {1}"
 msgstr ""
+"Preuzmi ažuriranja: {0}\n"
+"\n"
+"Objavi promjene: {1}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:164
 msgid "Last Commit"
@@ -5100,7 +5149,7 @@ msgstr "Nema informacija o commitu"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:174
 msgid "Undo the last commit and keep its files changed — git reset HEAD~1"
-msgstr ""
+msgstr "Poništi posljednju predaju i zadrži njezine izmijenjene datoteke — git reset HEAD~1"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:185
 msgid "Changed Files"
@@ -5111,13 +5160,12 @@ msgid "Click to view files"
 msgstr "Kliknite za prikaz datoteka"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:194
-#, fuzzy
 msgid "Describe the commit"
-msgstr "Poništi commit"
+msgstr "Opiši promjenu (commit)"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:195
 msgid "The type prefixes the message recorded by Git."
-msgstr ""
+msgstr "Tip prefiksira poruku koju bilježi Git."
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:202
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:215
@@ -5125,9 +5173,8 @@ msgid "Commit Type"
 msgstr "Vrsta commita"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:205
-#, fuzzy
 msgid "Required — select the type of change"
-msgstr "Odaberi vrstu promjene"
+msgstr "Obavezno — odaberite vrstu promjene"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:232
 msgid "Description (supports multiple lines)"
@@ -5149,21 +5196,21 @@ msgstr "Opis za {0} (podržava više redaka)"
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:407
 #, python-brace-format
 msgid "{0} • branch {1} • status unavailable"
-msgstr ""
+msgstr "{0} • grana {1} • status nedostupan"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:409
 #, python-brace-format
 msgid "{0} • branch {1} • {2} changed file(s)"
-msgstr ""
+msgstr "{0} • grana {1} • {2} izmijenjena/e datoteke"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:410
 #, python-brace-format
 msgid "{0} • branch {1} • working tree clean"
-msgstr ""
+msgstr "{0} • grana {1} • radno stablo čisto"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:423
 msgid "Branch"
-msgstr ""
+msgstr "Grana"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:424
 msgid "Changes"
@@ -5174,29 +5221,28 @@ msgid "Commits"
 msgstr "Commitovi"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:437
-#, fuzzy
 msgid "Status unavailable"
-msgstr "{0} (dostupno)"
+msgstr "Status nije dostupan"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:440
 msgid "Repository status unavailable"
-msgstr ""
+msgstr "Status repozitorija nedostupan"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:443
 msgid "Commit count may be stale"
-msgstr ""
+msgstr "Broj mogućih promjena (commitova) možda nije aktualan"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:447
 msgid "Active branch detected"
-msgstr ""
+msgstr "Otkrivena aktivna grana"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:448
 msgid "Commit history available"
-msgstr ""
+msgstr "Povijest promjena (commitova) dostupna"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:453
 msgid "Ready to publish"
-msgstr ""
+msgstr "Spremno za objavu"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:455
 msgid "No changes"
@@ -5204,45 +5250,43 @@ msgstr "Nema promjena"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:456
 msgid "Working tree clean"
-msgstr ""
+msgstr "Radno stablo je čisto"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:464
 msgid "Nothing to publish"
-msgstr ""
+msgstr "Nema ništa za objavu"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:465
 #, python-brace-format
 msgid "The working tree on {0} is clean."
-msgstr ""
+msgstr "Radno stablo na {0} je čisto."
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:468
 msgid "choose a type"
-msgstr ""
+msgstr "odaberite vrstu"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:470
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} • {1} file(s) • branch {2}"
-msgstr "{0}: {1} → {2}"
+msgstr "{0} • {1} datoteka(e) • grana {2}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:473
-#, fuzzy
 msgid "commit type"
-msgstr "Vrsta commita"
+msgstr "vrsta promjene"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:475
-#, fuzzy
 msgid "description"
-msgstr "Izdanje"
+msgstr "opis"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:477
 #, python-brace-format
 msgid "Still missing: {0}"
-msgstr ""
+msgstr "Još uvijek nedostaje: {0}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:479
 #, python-brace-format
 msgid "git add -A → git commit → git push origin {0}"
-msgstr ""
+msgstr "git add -A → git commit → git push origin {0}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:524
 msgid "Added+Modified"
@@ -5272,42 +5316,40 @@ msgstr "Poništi komit"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:59
 msgid "Build and publish a package"
-msgstr ""
+msgstr "Izradi i objavi paket"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:60
 msgid "Choose a destination and start a build on GitHub Actions."
-msgstr ""
+msgstr "Odaberite odredište i pokrenite izradu na GitHub Actions."
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:68
 msgid "GitHub package workflow"
-msgstr ""
+msgstr "Tijek rada GitHub paketa"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:73
 msgid "Enable package generation"
-msgstr ""
+msgstr "Omogući generiranje paketa"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:74
 msgid "Requires a GitHub access token."
-msgstr ""
+msgstr "Zahtijeva GitHub pristupni token."
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:78
-#, fuzzy
 msgid "Before publishing a package"
-msgstr "Izvršavanje force pusha promjena..."
+msgstr "Prije objave paketa"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:79
 #, python-brace-format
 msgid "Pending files must be committed first: {0}"
-msgstr ""
+msgstr "Datoteke na čekanju moraju se prvo predati: {0}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:95
-#, fuzzy
 msgid "Package generation is off"
-msgstr "Generiranje paketa"
+msgstr "Generiranje paketa je isključeno"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:98
 msgid "Turn it on to publish this repository to the testing, stable, or extra repository. The build runs on GitHub Actions and needs an access token; nothing is compiled here."
-msgstr ""
+msgstr "Uključite kako biste objavili ovaj repozitorij na testno, stabilno ili dodatno spremište. Izgradnja se pokreće na GitHub Actions i zahtijeva pristupni token; ništa se ovdje ne prevodi."
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:110
 msgid "Repository Status"
@@ -5315,7 +5357,7 @@ msgstr "Status repozitorija"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:111
 msgid "Confirms the package, branch, and working tree used by the workflow."
-msgstr ""
+msgstr "Potvrđuje paket, granu i radno stablo koje koristi tijek rada."
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:130
 msgid "Changes Status"
@@ -5327,23 +5369,23 @@ msgstr "Ciljani repozitorij"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:144
 msgid "Which repository to publish to"
-msgstr ""
+msgstr "Koji repozitorij objaviti"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:146
 msgid "Testing receives packages for validation and is built from your development branch. Stable is what users install, and it is always built from main. Extra holds complementary packages that follow the same stable rules."
-msgstr ""
+msgstr "Testno prima pakete za provjeru i izgrađuje se s vaše razvojne grane. Stabilno je ono što korisnici instaliraju, a uvijek se izgrađuje s main grane. Dodatno sadrži komplementarne pakete koji slijede ista stabilna pravila."
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:153
 msgid "build the package and publish it to the selected repository"
-msgstr ""
+msgstr "izgradi paket i objavi ga u odabrani repozitorij"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:161
 msgid "Validate the package before a stable release"
-msgstr ""
+msgstr "Provjeri paket prije stabilnog izdanja"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:164
 msgid "Publish the package for all users"
-msgstr ""
+msgstr "Objavi paket za sve korisnike"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:165
 msgid "Extra"
@@ -5351,11 +5393,11 @@ msgstr "Dodatno"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:165
 msgid "Publish an optional or additional package"
-msgstr ""
+msgstr "Objavi izborni ili dodatni paket"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:203
 msgid "Record pending files before building"
-msgstr ""
+msgstr "Zabilježi datoteke na čekanju prije izgradnje"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:216
 msgid "Select the type of change"
@@ -5367,24 +5409,24 @@ msgstr "Poruka commita"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:292
 msgid "Advanced Options"
-msgstr ""
+msgstr "Napredne opcije"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:293
 msgid "Optional tools for diagnosing the remote workflow."
-msgstr ""
+msgstr "Izborni alati za dijagnosticiranje udaljenog tijeka rada."
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:296
 msgid "Remote Debugging"
-msgstr ""
+msgstr "Daljinsko otklanjanje pogrešaka"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:297
 msgid "Keep disabled for normal package builds"
-msgstr ""
+msgstr "Ostavi onemogućeno za standardne izgradnje paketa"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:320
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:521
 msgid "Start package workflow"
-msgstr ""
+msgstr "Pokreni tijek rada paketa"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:370
 msgid "Error: PKGBUILD not found"
@@ -5392,7 +5434,7 @@ msgstr "Greška: PKGBUILD nije pronađen"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:384
 msgid "Working tree status unavailable"
-msgstr ""
+msgstr "Status radnog stabla nedostupan"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:390
 msgid "Uncommitted changes present"
@@ -5404,232 +5446,231 @@ msgstr "Radni direktorij je čist"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:431
 msgid "Start testing build"
-msgstr ""
+msgstr "Pokreni testnu izgradnju"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:432
 msgid "Start stable build"
-msgstr ""
+msgstr "Pokreni stabilnu izgradnju"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:433
 msgid "Start extra build"
-msgstr ""
+msgstr "Pokreni dodatnu izgradnju"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:35
 msgid "Connect GitHub securely"
-msgstr ""
+msgstr "Poveži se sigurno s GitHubom"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:37
 msgid "Local Git commands do not need a token. A token is used only when this app asks GitHub to run package workflows or manage remote automation."
-msgstr ""
+msgstr "Lokalne Git naredbe ne trebaju token. Token se koristi samo kada ova aplikacija traži od GitHub-a da pokrene tijekove rada paketa ili upravlja udaljenom automatizacijom."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:46
 msgid "Tokens saved on this computer"
-msgstr ""
+msgstr "Tokeni spremljeni na ovom računalu"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:48
 msgid "Values are protected by the system keyring and are never displayed by this app."
-msgstr ""
+msgstr "Vrijednosti su zaštićene sistemskim prstenom ključeva i nikad nisu prikazane od strane ove aplikacije."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:56
 msgid "About GitHub access tokens"
-msgstr ""
+msgstr "O pristupnim tokenima za GitHub"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:58
 msgid "The token identifies your account so the app can start GitHub workflows that Git alone cannot. It authorizes one organization or user, and saving it does not verify its permissions. Package workflows need: repo, workflow, write:packages, delete:packages, read:org."
-msgstr ""
+msgstr "Token identificira vaš račun kako bi aplikacija mogla pokrenuti GitHub tijekove rada koje sam Git ne može. Ovlašćuje jednu organizaciju ili korisnika, a njegovo spremanje ne provjerava njegova dopuštenja. Tijekovi rada paketa trebaju: repo, workflow, write:packages, delete:packages, read:org."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:67
 msgid "Create a classic access token on GitHub"
-msgstr ""
+msgstr "Stvori klasični pristupni token na GitHubu"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:79
 msgid "Save or replace an access token"
-msgstr ""
+msgstr "Spremi ili zamijeni pristupni token"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:83
 msgid "Use the GitHub organization or username that owns the repositories where workflows will run."
-msgstr ""
+msgstr "Koristi GitHub organizaciju ili korisničko ime koje posjeduje repozitorije na kojima će se tijekovi rada pokretati."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:87
 msgid "GitHub organization or username"
-msgstr ""
+msgstr "GitHub organizacija ili korisničko ime"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:92
 msgid "Personal access token"
-msgstr ""
+msgstr "Osobni pristupni token"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:97
 msgid "Store in the system keyring"
-msgstr ""
+msgstr "Spremi u sistemski ključ"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:98
 msgid "The token value will be cleared from this form after it is stored."
-msgstr ""
+msgstr "Vrijednost tokena bit će izbrisana iz ovog obrasca nakon spremanja."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:99
 msgid "Save access token"
-msgstr ""
+msgstr "Spremi pristupni token"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:108
 msgid "Checking the system keyring…"
-msgstr ""
+msgstr "Provjera sistemskog ključa…"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:123
 msgid "No access tokens saved"
-msgstr ""
+msgstr "Nema spremljenih pristupnih tokena"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:124
 msgid "Use the form below when you want to run a GitHub workflow."
-msgstr ""
+msgstr "Koristite donji obrazac kada želite pokrenuti GitHub radni tijek."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:132
 msgid "Stored securely in the system keyring"
-msgstr ""
+msgstr "Sigurno spremljeno u sistemski ključ"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:138
 #, python-brace-format
 msgid "Delete access token for {0}"
-msgstr ""
+msgstr "Izbriši pristupni token za {0}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:150
 msgid "Enter both the GitHub organization and the access token."
-msgstr ""
+msgstr "Unesite i GitHub organizaciju i pristupni token."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:178
 msgid "Access token saved in the system keyring"
-msgstr ""
+msgstr "Pristupni token spremljen u sistemski ključ"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:190
 msgid "Access token removed"
-msgstr ""
+msgstr "Pristupni token uklonjen"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:194
 msgid "The token could not be removed. Unlock the system keyring and try again."
-msgstr ""
+msgstr "Token nije moguće ukloniti. Otključajte sistemski ključ i pokušajte ponovno."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:218
 msgid "Choose how local Git operations behave"
-msgstr ""
+msgstr "Odaberite kako se ponašaju lokalne Git operacije"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:220
 msgid "These settings affect work in the current repository. They do not connect to GitHub and do not require an access token."
-msgstr ""
+msgstr "Ove postavke utječu na rad u trenutnom repozitoriju. Ne povezuju se s GitHubom i ne zahtijevaju pristupni token."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:232
 msgid "When downloaded and local changes conflict"
-msgstr ""
+msgstr "Kada se preuzete i lokalne promjene sukobljavaju"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:235
 msgid "Protection against data loss"
-msgstr ""
+msgstr "Zaštita od gubitka podataka"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:237
 msgid "Safety confirmations are part of the app and cannot be disabled: it always asks before a force push, a hard reset, branch cleanup, tag deletion, or workflow deletion."
-msgstr ""
+msgstr "Sigurnosne potvrde su dio aplikacije i ne mogu se onemogućiti: uvijek pita prije prisilnog guranja, tvrdog resetiranja, čišćenja grana, brisanja oznaka ili brisanja tijekova rada."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:243
 msgid "Choose whether the app asks you what to keep or stops so you can resolve the conflict manually."
-msgstr ""
+msgstr "Odaberite hoće li vas aplikacija pitati što želite zadržati ili će stati kako biste ručno riješili sukob."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:246
 msgid "Conflict resolution method"
-msgstr ""
+msgstr "Način rješavanja sukoba"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:248
 msgid "Ask each time"
-msgstr ""
+msgstr "Pitaj svaki put"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:249
 msgid "Keep local changes"
-msgstr ""
+msgstr "Zadrži lokalne promjene"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:250
 msgid "Keep downloaded changes"
-msgstr ""
+msgstr "Zadrži preuzete promjene"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:251
 msgid "Resolve manually"
-msgstr ""
+msgstr "Riješi ručno"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:259
-#, fuzzy
 msgid "Package version and defaults"
-msgstr "Generiranje paketa"
+msgstr "Verzija paketa i zadane postavke"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:261
 msgid "Update the package version automatically"
-msgstr ""
+msgstr "Automatski ažuriraj verziju paketa"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:263
 msgid "When publishing a typed commit, calculate the next version from the selected change type."
-msgstr ""
+msgstr "Prilikom objavljivanja tipiziranog zapisa, izračunaj sljedeću verziju na temelju odabrane vrste promjene."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:269
 msgid "Reset all Build Package settings"
-msgstr ""
+msgstr "Ponovo postavi sve postavke izgradnje paketa"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:270
 msgid "Disable optional GitHub workflows and restore the recommended local Git behavior."
-msgstr ""
+msgstr "Onemogući izborne GitHub tijekove rada i vrati preporučeno lokalno Git ponašanje."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:271
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:314
 msgid "Reset settings"
-msgstr ""
+msgstr "Ponovo postavi postavke"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:294
 msgid "The conflict setting could not be saved."
-msgstr ""
+msgstr "Postavka sukoba nije mogla biti spremljena."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:305
 msgid "The version setting could not be saved."
-msgstr ""
+msgstr "Postavka verzije nije mogla biti spremljena."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:310
 msgid "Reset all settings?"
-msgstr ""
+msgstr "Resetirati sve postavke?"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:311
 msgid "Optional GitHub workflows will be disabled and local Git behavior will return to its defaults."
-msgstr ""
+msgstr "Izborni GitHub tijekovi rada bit će onemogućeni, a lokalno Git ponašanje vratit će se na zadane vrijednosti."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:326
 msgid "Settings restored"
-msgstr ""
+msgstr "Postavke vraćene"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:328
 msgid "Settings could not be restored. Try again."
-msgstr ""
+msgstr "Postavke nije moguće vratiti. Pokušajte ponovno."
 
 #: usr/share/gitrepo/common/desktop_launch.py:62
 #: usr/share/gitrepo/common/desktop_launch.py:90
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not open {0}:"
-msgstr "Nije moguće pregledati datoteku: {0}"
+msgstr "Nije moguće otvoriti {0}:"
 
 #: usr/share/gitrepo/common/desktop_launch.py:76
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not open the folder for {0}:"
-msgstr "Nije moguće pregledati datoteku: {0}"
+msgstr "Nije moguće otvoriti mapu za {0}:"
 
 #: usr/share/gitrepo/common/help_popover.py:41
 msgid "What does this mean?"
-msgstr ""
+msgstr "Što to znači?"
 
 #: usr/share/gitrepo/common/help_popover.py:42
 #, python-brace-format
 msgid "Explain: {0}"
-msgstr ""
+msgstr "Objasni: {0}"
 
 #: usr/share/gitrepo/common/page_hero.py:16
 #, python-brace-format
 msgid "Git commands: {0}"
-msgstr ""
+msgstr "Git naredbe: {0}"
 
 #: usr/share/gitrepo/common/page_hero.py:21
 #, python-brace-format
 msgid "GitHub action: {0}"
-msgstr ""
+msgstr "GitHub radnja: {0}"
 
 #: usr/share/gitrepo/common/rich_logger.py:88
 msgid "Field"
@@ -5691,205 +5732,3 @@ msgstr "Nije moguće pronaći GitRepo. Je li instaliran?"
 #: usr/share/nautilus-python/extensions/gitrepo_extension.py:155
 msgid "Launch Error"
 msgstr "Pogreška pri pokretanju"
-
-#~ msgid "✓ File permissions set to 600 (owner read/write only)"
-#~ msgstr "✓ Dozvole datoteke postavljene na 600 (samo vlasnik može čitati/pisati)"
-
-#, python-brace-format
-#~ msgid "Disk space: {0:.1f} GB free of {1:.1f} GB"
-#~ msgstr "Prostor na disku: {0:.1f} GB slobodno od {1:.1f} GB"
-
-#~ msgid "Build History"
-#~ msgstr "Povijest izgradnje"
-
-#~ msgid "Clear Build History?"
-#~ msgstr "Očistiti povijest izgradnji?"
-
-#~ msgid "Container Engine"
-#~ msgstr "Pokretač kontejnera"
-
-#, python-brace-format
-#~ msgid "Error fetching Actions jobs. Code: {0}"
-#~ msgstr "Pogreška pri dohvaćanju Actions poslova. Kod: {0}"
-
-#, python-brace-format
-#~ msgid "Error deleting job {0}. Code: {1}"
-#~ msgstr "Pogreška pri brisanju zadatka {0}. Kod: {1}"
-
-#, python-brace-format
-#~ msgid "Deleted {0} Actions jobs with '{1}' status."
-#~ msgstr "Izbrisano {0} Actions zadataka sa statusom '{1}'."
-
-#, python-brace-format
-#~ msgid "Error fetching tags. Code: {0}"
-#~ msgstr "Pogreška pri dohvaćanju oznaka. Kod: {0}"
-
-#~ msgid "No Editor Found"
-#~ msgstr "Nije pronađen uređivač"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Could not find a text editor. Please edit the file manually:\n"
-#~ "\n"
-#~ "{0}"
-#~ msgstr ""
-#~ "Nije moguće pronaći uređivač teksta. Molimo uredite datoteku ručno:\n"
-#~ "\n"
-#~ "{0}"
-
-#~ msgid "Operation failed - check terminal log for details"
-#~ msgstr "Operacija nije uspjela - provjerite terminalski zapis za detalje"
-
-#~ msgid "Keep both (create .ours and .theirs files)"
-#~ msgstr "Zadržati obje (kreirati .ours i .theirs datoteke)"
-
-#~ msgid "Created files:"
-#~ msgstr "Kreirane datoteke:"
-
-#, python-brace-format
-#~ msgid "Error creating versions: {0}"
-#~ msgstr "Pogreška pri kreiranju verzija: {0}"
-
-#~ msgid "Staging restored files..."
-#~ msgstr "Staging vraćenih datoteka..."
-
-#, python-brace-format
-#~ msgid "Error during revert operation: {0}"
-#~ msgstr "Pogreška tijekom revert operacije: {0}"
-
-#, python-brace-format
-#~ msgid "Unexpected error during revert: {0}"
-#~ msgstr "Neočekivana pogreška tijekom reverta: {0}"
-
-#~ msgid "Engine"
-#~ msgstr "Pokretač"
-
-#~ msgid "Storage Driver"
-#~ msgstr "Vozač za pohranu"
-
-#~ msgid "Version"
-#~ msgstr "Verzija"
-
-#~ msgid "Maintenance"
-#~ msgstr "Održavanje"
-
-#~ msgid "Repository Statistics"
-#~ msgstr "Statistika spremišta"
-
-#~ msgid "Total Branches"
-#~ msgstr "Ukupno grana"
-
-#~ msgid "Commits in Current Branch"
-#~ msgstr "Potvrde u trenutnoj grani"
-
-#, fuzzy
-#~ msgid "After publishing"
-#~ msgstr "Izvršavanje force pusha promjena..."
-
-#, fuzzy
-#~ msgid "Build a package"
-#~ msgstr "Izgradi AUR paket"
-
-#, fuzzy
-#~ msgid "Use a community-maintained recipe"
-#~ msgstr "AUR paketi se grade iz izvora održavanih od strane zajednice"
-
-#~ msgid "Behavior"
-#~ msgstr "Ponašanje"
-
-#~ msgid "Source"
-#~ msgstr "Izvor"
-
-#~ msgid "Output"
-#~ msgstr "Izlaz"
-
-#, fuzzy
-#~ msgid "Choose the system profile"
-#~ msgstr "Odaberite spremište ISO profila:"
-
-#~ msgid "System Status"
-#~ msgstr "Status sustava"
-
-#~ msgid "Disk Space"
-#~ msgstr "Prostor na disku"
-
-#~ msgid "Last Build"
-#~ msgstr "Zadnja izgradnja"
-
-#, python-brace-format
-#~ msgid "{0:.1f} GB free of {1:.1f} GB"
-#~ msgstr "{0:.1f} GB slobodno od {1:.1f} GB"
-
-#~ msgid "(directory will be created)"
-#~ msgstr "(direktorij će biti kreiran)"
-
-#, fuzzy, python-brace-format
-#~ msgid "Selected: {0} • {1}"
-#~ msgstr "Tijek: {0} → {1}"
-
-#~ msgid "Refresh profiles"
-#~ msgstr "Osvježi profile"
-
-#, python-brace-format
-#~ msgid "Local: {0}"
-#~ msgstr "Lokalno: {0}"
-
-#~ msgid "not configured"
-#~ msgstr "nije konfigurirano"
-
-#~ msgid "Official GitHub repositories"
-#~ msgstr "Službeni GitHub repozitoriji"
-
-#~ msgid "Package Generation"
-#~ msgstr "Generiranje paketa"
-
-#~ msgid "Working Directory"
-#~ msgstr "Radni direktorij"
-
-#~ msgid "Current Branch"
-#~ msgstr "Trenutna grana"
-
-#~ msgid "View changed files"
-#~ msgstr "Prikaži promijenjene datoteke"
-
-#~ msgid "Recent Activity"
-#~ msgstr "Nedavne aktivnosti"
-
-#~ msgid "No recent activity"
-#~ msgstr "Nema nedavnih aktivnosti"
-
-#~ msgid "Activity will appear here after operations"
-#~ msgstr "Aktivnosti će se ovdje prikazivati nakon operacija"
-
-#~ msgid "Create your first commit to start tracking activity"
-#~ msgstr "Napravite svoj prvi commit da započnete praćenje aktivnosti"
-
-#~ msgid "Last commit"
-#~ msgstr "Zadnji commit"
-
-#~ msgid "Current branch"
-#~ msgstr "Trenutna grana"
-
-#~ msgid "Starting..."
-#~ msgstr "Pokretanje..."
-
-#~ msgid "✓ Operation completed successfully"
-#~ msgstr "✓ Operacija je uspješno dovršena"
-
-#, python-brace-format
-#~ msgid "✗ Operation failed: {0}"
-#~ msgstr "✗ Operacija nije uspjela: {0}"
-
-#, fuzzy, python-brace-format
-#~ msgid "Estimated: {0}"
-#~ msgstr "Prilagođeno: {0}"
-
-#, python-brace-format
-#~ msgid "Elapsed: {0:02d}:{1:02d}"
-#~ msgstr "Proteklo vrijeme: {0:02d}:{1:02d}"
-
-#~ msgid "Build history will appear here after your first build"
-#~ msgstr "Povijest izgradnji će se pojaviti ovdje nakon vaše prve izgradnje"
-
-#~ msgid "This will force push and rewrite remote history. Continue?"
-#~ msgstr "Ovo će izvršiti force push i prepisati povijest na udaljenom repozitoriju. Nastaviti?"

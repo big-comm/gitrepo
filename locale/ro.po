@@ -1,18 +1,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gitrepo\n"
+"Project-Id-Version: GitRepo 3.8.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-25 21:46-0300\n"
-"PO-Revision-Date: 2026-07-14 02:15-0300\n"
+"POT-Creation-Date: 2026-07-26 12:23-0300\n"
+"PO-Revision-Date: 2026-07-26 12:23-0300\n"
 "Last-Translator: AI Translator <auto@translator.ai>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||(n%100==0)&&(n!=0))?2:1));\n"
-"X-Generator: attranslate\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2);\n"
+"X-Generator: LangForge\n"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:95
 #: usr/share/gitrepo/build_package/core/build_package.py:97
@@ -131,7 +131,7 @@ msgstr "Eroare: URL-ul API al depozitului nu a fost găsit: {0}"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:236
 msgid "the selected source returned no build directories"
-msgstr ""
+msgstr "sursa selectată nu a returnat directoare de compilare"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:237
 #, python-brace-format
@@ -141,17 +141,17 @@ msgstr "Alege un {0} pentru {1}:"
 #: usr/share/gitrepo/build_iso/build_iso.py:239
 #, python-brace-format
 msgid "Could not load remote build directories: {0}"
-msgstr ""
+msgstr "Nu s-au putut încărca directoarele de compilare la distanță: {0}"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:240
 #: usr/share/gitrepo/build_iso/build_iso.py:265
 msgid "Using the built-in fallback. Retry this step to query the source again."
-msgstr ""
+msgstr "Se utilizează fallback-ul încorporat. Repetați acest pas pentru a interoga din nou sursa."
 
 #: usr/share/gitrepo/build_iso/build_iso.py:242
 #, python-brace-format
 msgid "Choose a {0} for {1} (built-in fallback):"
-msgstr ""
+msgstr "Alegeți un {0} pentru {1} (fallback încorporat):"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:250
 msgid "Repository and build directory must be selected first."
@@ -159,7 +159,7 @@ msgstr "Trebuie selectat mai întâi depozitul și directorul de build."
 
 #: usr/share/gitrepo/build_iso/build_iso.py:261
 msgid "the selected source returned no supported editions"
-msgstr ""
+msgstr "sursa selectată nu a returnat ediții acceptate"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:262
 #, python-brace-format
@@ -169,12 +169,12 @@ msgstr "Alege un {0} pentru {1}:"
 #: usr/share/gitrepo/build_iso/build_iso.py:264
 #, python-brace-format
 msgid "Could not load remote editions: {0}"
-msgstr ""
+msgstr "Nu s-au putut încărca edițiile la distanță: {0}"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:267
 #, python-brace-format
 msgid "Choose an {0} for {1} (built-in fallback):"
-msgstr ""
+msgstr "Alegeți o {0} pentru {1} (fallback încorporat):"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:294
 #: usr/share/gitrepo/build_iso/build_iso.py:307
@@ -380,38 +380,36 @@ msgid "Testing"
 msgstr "Testare"
 
 #: usr/share/gitrepo/build_iso/config.py:36
-#, fuzzy
 msgid "Unstable"
-msgstr "Stabil"
+msgstr "Nestabilă"
 
 #: usr/share/gitrepo/build_iso/config.py:39
 msgid "Tested packages. Recommended for images you will hand to other people."
-msgstr ""
+msgstr "Pachete testate. Recomandate pentru imagini pe care le veți oferi altor persoane."
 
 #: usr/share/gitrepo/build_iso/config.py:40
 msgid "Packages waiting for validation. Useful to preview the next stable set."
-msgstr ""
+msgstr "Pachete care așteaptă validarea. Utile pentru previzualizarea următorului set stabil."
 
 #: usr/share/gitrepo/build_iso/config.py:41
 msgid "Newest packages, closest to upstream. Expect breakage."
-msgstr ""
+msgstr "Cele mai noi pachete, cele mai apropiate de versiunea upstream. Așteptați-vă la probleme de funcționare."
 
 #: usr/share/gitrepo/build_iso/config.py:70
 msgid "LTS (Recommended)"
-msgstr ""
+msgstr "LTS (Recomandat)"
 
 #: usr/share/gitrepo/build_iso/config.py:71
-#, fuzzy
 msgid "Latest"
-msgstr "Preia ultimele"
+msgstr "Cea mai recentă"
 
 #: usr/share/gitrepo/build_iso/config.py:72
 msgid "Old LTS"
-msgstr ""
+msgstr "LTS Vechi"
 
 #: usr/share/gitrepo/build_iso/config.py:73
 msgid "XanMod"
-msgstr ""
+msgstr "XanMod"
 
 #: usr/share/gitrepo/build_iso/config.py:163
 msgid "BUILD ISO"
@@ -428,43 +426,43 @@ msgstr "Wrapper pentru construirea ISO folosind GitHub Actions. Simplifică proc
 
 #: usr/share/gitrepo/build_iso/core/container_manager.py:80
 msgid "Docker or Podman is not installed or is not available in PATH."
-msgstr ""
+msgstr "Docker sau Podman nu este instalat sau nu este disponibil în PATH."
 
 #: usr/share/gitrepo/build_iso/core/container_manager.py:95
 #: usr/share/gitrepo/build_iso/core/container_manager.py:100
 msgid "The container engine did not respond."
-msgstr ""
+msgstr "Motorul de containere nu a răspuns."
 
 #: usr/share/gitrepo/build_iso/core/container_manager.py:105
 msgid "The storage driver probe failed. Check the engine service, then refresh."
-msgstr ""
+msgstr "Sondarea driverului de stocare a eșuat. Verificați serviciul engine, apoi reîmprospătați."
 
 #: usr/share/gitrepo/build_iso/core/container_manager.py:133
 msgid "The image metadata could not be read. Refresh or pull the image again."
-msgstr ""
+msgstr "Metadatele imaginii nu au putut fi citite. Reîmprospătați sau trageți imaginea din nou."
 
 #: usr/share/gitrepo/build_iso/core/container_manager.py:135
 msgid "The image is not downloaded. Pull it, then refresh."
-msgstr ""
+msgstr "Imaginea nu este descărcată. Trageți-o, apoi reîmprospătați."
 
 #: usr/share/gitrepo/build_iso/core/container_manager.py:252
 msgid "No accessible parent directory was found."
-msgstr ""
+msgstr "Nu s-a găsit niciun director părinte accesibil."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:256
 #, python-brace-format
 msgid "Compressing filesystem — {0}%"
-msgstr ""
+msgstr "Comprimarea sistemului de fișiere — {0}%"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:263
 #, python-brace-format
 msgid "Creating ISO image — {0}%"
-msgstr ""
+msgstr "Crearea imaginii ISO — {0}%"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:285
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} at {1}"
-msgstr "{0} (versiunea {1})"
+msgstr "{0} la {1}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:361
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:452
@@ -475,7 +473,7 @@ msgstr "Construirea a fost anulată"
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:372
 #, python-brace-format
 msgid "The output folder is not writable: {0}"
-msgstr ""
+msgstr "Folderul de ieșire nu poate fi scris: {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:378
 #, python-brace-format
@@ -485,19 +483,19 @@ msgstr "Spațiu pe disc disponibil: {0:.1f} GB"
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:380
 #, python-brace-format
 msgid "Only {0:.1f} GB is free; 20 GB is recommended."
-msgstr ""
+msgstr "Doar {0:.1f} GB sunt liberi; se recomandă 20 GB."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:384
 msgid "The selected container engine is unavailable."
-msgstr ""
+msgstr "Motorul de containere selectat nu este disponibil."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:390
 msgid "Docker is unavailable or access was denied."
-msgstr ""
+msgstr "Docker nu este disponibil sau accesul a fost refuzat."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:395
 msgid "Could not inspect output disk space"
-msgstr ""
+msgstr "Nu s-a putut inspecta spațiul pe disc de ieșire"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:396
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:526
@@ -505,9 +503,9 @@ msgid "Failed to pull container image"
 msgstr "Descărcarea imaginii containerului a eșuat"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:406
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Container image resolved to {0}"
-msgstr "Motor de containere găsit: {0}"
+msgstr "Imaginea containerului rezolvată la {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:410
 msgid "Container build failed"
@@ -516,7 +514,7 @@ msgstr "Build-ul containerului a eșuat"
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:415
 #, python-brace-format
 msgid "Stopped container preserved for debugging: {0}"
-msgstr ""
+msgstr "Container oprit păstrat pentru depanare: {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:420
 msgid "No ISO files found after build"
@@ -525,7 +523,7 @@ msgstr "Nu s-au găsit fișiere ISO după build"
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:445
 #, python-brace-format
 msgid "Build completed successfully: {0}"
-msgstr ""
+msgstr "Construire finalizată cu succes: {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:448
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:801
@@ -536,20 +534,20 @@ msgstr "Construirea a eșuat: {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:486
 msgid "Docker did not answer the storage-driver check."
-msgstr ""
+msgstr "Docker nu a răspuns la verificarea driverului de stocare."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:491
 msgid "Docker is using the btrfs storage driver."
-msgstr ""
+msgstr "Docker utilizează driverul de stocare btrfs."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:492
 msgid "GitRepo will not change Docker storage or remove Docker data."
-msgstr ""
+msgstr "GitRepo nu va modifica spațiul de stocare Docker și nici nu va șterge datele Docker."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:496
 #, python-brace-format
 msgid "Error checking Docker storage: {0}"
-msgstr ""
+msgstr "Eroare la verificarea spațiului de stocare Docker: {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:524
 msgid "Container image pulled successfully"
@@ -570,13 +568,13 @@ msgid "Stopping container..."
 msgstr "Oprirea containerului..."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:773
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not remove the build container {0}."
-msgstr "Nu s-a putut previzualiza fișierul: {0}"
+msgstr "Nu s-a putut elimina containerul de construcție {0}."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:789
 msgid "Failed to copy ISO artifacts from container"
-msgstr ""
+msgstr "Nu s-au putut copia artefactele ISO din container"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:796
 #, python-brace-format
@@ -586,24 +584,24 @@ msgstr "ISO: {0}"
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:800
 #, python-brace-format
 msgid "Failed to publish ISO artifacts: {0}"
-msgstr ""
+msgstr "Nu s-au putut publica artefactele ISO: {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:808
 msgid "Container output contains an unsafe file"
-msgstr ""
+msgstr "Ieșirea containerului conține un fișier nesigur"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:811
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:819
 msgid "Container output contains an unexpected file"
-msgstr ""
+msgstr "Ieșirea containerului conține un fișier neașteptat"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:815
 msgid "Container must produce exactly one ISO file"
-msgstr ""
+msgstr "Containerul trebuie să producă exact un fișier ISO"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:878
 msgid "An ISO artifact with the same name already exists"
-msgstr ""
+msgstr "Există deja un artefact ISO cu același nume"
 
 #: usr/share/gitrepo/build_iso/github_api.py:60
 #, python-brace-format
@@ -618,45 +616,45 @@ msgstr "Token pentru organizația '{0}' nu a fost găsit."
 #: usr/share/gitrepo/build_iso/github_api.py:83
 #, python-brace-format
 msgid "Could not reach GitHub: {0}"
-msgstr ""
+msgstr "Nu s-a putut contacta GitHub: {0}"
 
 #: usr/share/gitrepo/build_iso/github_api.py:86
 #, python-brace-format
 msgid "GitHub rejected the workflow request ({0})."
-msgstr ""
+msgstr "GitHub a respins cererea fluxului de lucru ({0})."
 
 #: usr/share/gitrepo/build_iso/github_api.py:88
 #, python-brace-format
 msgid "ISO build workflow triggered: {0}"
-msgstr ""
+msgstr "Fluxul de lucru pentru construirea ISO a fost declanșat: {0}"
 
 #: usr/share/gitrepo/build_iso/github_api.py:89
 #, python-brace-format
 msgid "Monitor the build at: {0}"
-msgstr ""
+msgstr "Monitorizați construirea la: {0}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:30
 msgid "less than 1 min"
-msgstr ""
+msgstr "mai puțin de 1 minut"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:33
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:174
 #, python-brace-format
 msgid "{0} min"
-msgstr ""
+msgstr "{0} minut"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:35
 #, python-brace-format
 msgid "{0} h {1} min"
-msgstr ""
+msgstr "{0} h {1} min"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:53
 msgid "Waiting"
-msgstr ""
+msgstr "În așteptare"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:54
 msgid "In progress"
-msgstr ""
+msgstr "În progres"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:55
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:368
@@ -672,32 +670,31 @@ msgstr "Eșuat"
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:57
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:159
 msgid "Cancelled"
-msgstr ""
+msgstr "Anulat"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:90
 #, python-brace-format
 msgid "Step {0} of {1}: {2} — {3}"
-msgstr ""
+msgstr "Pasul {0} din {1}: {2} — {3}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:132
 #, python-brace-format
 msgid "Build substep {0} of {1}: {2} — {3}"
-msgstr ""
+msgstr "Subpasul de compilare {0} din {1}: {2} — {3}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:175
 msgid "Build Progress"
-msgstr ""
+msgstr "Progres compilare"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:214
-#, fuzzy
 msgid "Building the ISO image"
-msgstr "Construiește imaginea"
+msgstr "Se construiește imaginea ISO"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:215
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:386
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} • {1} • kernel {2}"
-msgstr "{0}: {1} → {2}"
+msgstr "{0} • {1} • nucleul {2}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:225
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:232
@@ -707,69 +704,67 @@ msgstr "Maximizează"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:257
 msgid "Waiting to start"
-msgstr ""
+msgstr "Se așteaptă pornirea"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:265
-#, fuzzy
 msgid "Elapsed"
-msgstr "Timp scurs: 00:00"
+msgstr "Timp scurs"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:268
 msgid "Remaining"
-msgstr ""
+msgstr "Rămas"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:269
-#, fuzzy
 msgid "estimating…"
-msgstr "Testare"
+msgstr "estimare…"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:277
 msgid "Overall build progress"
-msgstr ""
+msgstr "Progres general al compilării"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:287
 msgid "Prepare environment"
-msgstr ""
+msgstr "Pregătește mediul"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:288
 msgid "Update image"
-msgstr ""
+msgstr "Actualizează imaginea"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:290
 msgid "Publish files"
-msgstr ""
+msgstr "Publică fișierele"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:291
 msgid "Finish"
-msgstr ""
+msgstr "Finalizează"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:304
 msgid "Prepare profile"
-msgstr ""
+msgstr "Pregătește profilul"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:305
 msgid "Install system"
-msgstr ""
+msgstr "Instalează sistemul"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:306
 msgid "Prepare boot"
-msgstr ""
+msgstr "Pregătește boot-ul"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:307
 msgid "Compress files"
-msgstr ""
+msgstr "Comprimă fișierele"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:308
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:322
 msgid "Create ISO image"
-msgstr ""
+msgstr "Creează imaginea ISO"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:321
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:705
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:783
 #, python-brace-format
 msgid "Step {0} of {1}"
-msgstr ""
+msgstr "Pasul {0} din {1}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:354
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:391
@@ -781,20 +776,20 @@ msgstr "Jurnal Terminal"
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:361
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:141
 msgid "Copy the whole terminal log to the clipboard"
-msgstr ""
+msgstr "Copiază întregul jurnal al terminalului în clipboard"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:362
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:142
 msgid "Copy Log"
-msgstr ""
+msgstr "Copiază jurnalul"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:368
 msgid "Save the terminal log to a file you choose"
-msgstr ""
+msgstr "Salvează jurnalul terminalului într-un fișier la alegere"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:369
 msgid "Save Log…"
-msgstr ""
+msgstr "Salvează jurnalul…"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:404
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:856
@@ -803,94 +798,92 @@ msgstr "Anulează compilarea"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:601
 msgid "Terminal log copied to the clipboard"
-msgstr ""
+msgstr "Jurnalul terminalului a fost copiat în clipboard"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:605
-#, fuzzy
 msgid "Save Terminal Log"
-msgstr "Jurnal Terminal"
+msgstr "Salvare jurnal de terminal"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:620
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not save the log: {0}"
-msgstr "Nu s-a putut previzualiza fișierul: {0}"
+msgstr "Nu s-a putut salva jurnalul: {0}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:624
 #, python-brace-format
 msgid "Terminal log saved to {0}"
-msgstr ""
+msgstr "Jurnalul terminalului a fost salvat în {0}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:691
 msgid "Checking the container engine"
-msgstr ""
+msgstr "Se verifică motorul containerelor"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:692
 msgid "Checking container storage"
-msgstr ""
+msgstr "Se verifică spațiul de stocare al containerelor"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:693
 msgid "Checking available disk space"
-msgstr ""
+msgstr "Se verifică spațiul disponibil pe disc"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:694
 msgid "Updating the build image"
-msgstr ""
+msgstr "Se actualizează imaginea de construcție"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:695
 msgid "Building and compressing the ISO"
-msgstr ""
+msgstr "Se construiește și se comprimă ISO-ul"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:696
 msgid "Publishing the ISO and package list"
-msgstr ""
+msgstr "Publicarea ISO și a listei de pachete"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:697
 msgid "Removing temporary build resources"
-msgstr ""
+msgstr "Eliminarea resurselor temporare de build"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:711
 msgid "Preparing the build profile"
-msgstr ""
+msgstr "Pregătirea profilului de build"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:712
 msgid "Installing the system and desktop packages"
-msgstr ""
+msgstr "Instalarea pachetelor de sistem și a desktopului"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:713
 msgid "Preparing kernel and boot files"
-msgstr ""
+msgstr "Pregătirea kernelului și a fișierelor de boot"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:714
 msgid "Compressing system files"
-msgstr ""
+msgstr "Comprimarea fișierelor de sistem"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:715
 msgid "Creating the bootable ISO image"
-msgstr ""
+msgstr "Crearea imaginii ISO bootabile"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:721
 #, python-brace-format
 msgid "Step {0} of {1} • substep {2} of {3}"
-msgstr ""
+msgstr "Pasul {0} din {1} • subpasul {2} din {3}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:767
 #, python-brace-format
 msgid "Built from {0} {1}"
-msgstr ""
+msgstr "Construit din {0} {1}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:768
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Build finished: {0}"
-msgstr "Construirea a eșuat: {0}"
+msgstr "Construire finalizată: {0}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:771
-#, fuzzy
 msgid "Total"
-msgstr "Local: {0}"
+msgstr "Total"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:785
 msgid "ISO built and published successfully"
-msgstr ""
+msgstr "ISO creat și publicat cu succes"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:805
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:224
@@ -920,7 +913,7 @@ msgstr "Continuă build-ul"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:864
 msgid "Cancelling the current step…"
-msgstr ""
+msgstr "Se anulează pasul curent…"
 
 #: usr/share/gitrepo/build_iso/gui/main_gui.py:295
 #: usr/share/gitrepo/build_iso/gui/main_gui.py:337
@@ -953,13 +946,13 @@ msgstr "Reîmprospătează starea"
 #: usr/share/gitrepo/build_iso/gui/main_gui.py:339
 #: usr/share/gitrepo/build_iso/gui/main_window.py:142
 msgid "Create ISO"
-msgstr ""
+msgstr "Creează ISO"
 
 #: usr/share/gitrepo/build_iso/gui/main_gui.py:340
 #: usr/share/gitrepo/build_iso/gui/main_window.py:143
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:52
 msgid "Generated ISOs"
-msgstr ""
+msgstr "ISO-uri generate"
 
 #: usr/share/gitrepo/build_iso/gui/main_gui.py:341
 #: usr/share/gitrepo/build_iso/gui/main_window.py:144
@@ -997,33 +990,30 @@ msgid "Build completed! ISO: {0}"
 msgstr "Construirea a fost finalizată! ISO: {0}"
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:288
-#, fuzzy
 msgid "ISO build finished"
-msgstr "Construirea ISO a fost anulată."
+msgstr "Construirea ISO-ului s-a finalizat"
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:290
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} is ready in {1}"
-msgstr "{0} (versiunea {1})"
+msgstr "{0} este gata în {1}"
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:295
-#, fuzzy
 msgid "Open Folder"
-msgstr "Deschide folderul"
+msgstr "Deschidere dosar"
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:297
-#, fuzzy
 msgid "ISO build failed"
-msgstr "Construirea ISO a fost anulată."
+msgstr "Construirea ISO-ului a eșuat"
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:298
 msgid "Open Build ISO to review the terminal log."
-msgstr ""
+msgstr "Deschideți Build ISO pentru a verifica jurnalul terminalului."
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:342
 #, python-brace-format
 msgid "Settings — {0} environment item(s) need attention"
-msgstr ""
+msgstr "Setări — element(e) de mediu {0} necesită atenție"
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:354
 #: usr/share/gitrepo/build_package/gui/main_window.py:419
@@ -1039,67 +1029,65 @@ msgstr "OK"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:69
 msgid "Create an installable ISO"
-msgstr ""
+msgstr "Creați un ISO instalabil"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:71
 msgid "Choose what the image contains and where it is saved. The build runs in an isolated container, so its tools and files stay separate from your installed system."
-msgstr ""
+msgstr "Alegeți ce conține imaginea și unde este salvată. Construirea rulează într-un container izolat, astfel încât instrumentele și fișierele sale rămân separate de sistemul dvs. instalat."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:83
-#, fuzzy
 msgid "Open settings"
-msgstr "Salvează setările"
+msgstr "Deschidere setări"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:89
 msgid "Checking the build environment…"
-msgstr ""
+msgstr "Se verifică mediul de construire…"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:102
 msgid "What the ISO will install"
-msgstr ""
+msgstr "Ce va instala ISO-ul"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:103
 msgid "Pick the package base and the desktop the image starts with."
-msgstr ""
+msgstr "Alegeți baza de pachete și desktopul cu care pornește imaginea."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:106
-#, fuzzy
 msgid "Distribution and edition"
-msgstr "Distribuție"
+msgstr "Distribuție și ediție"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:108
 msgid "The distribution sets which package repositories the image is built from. The edition is the desktop it starts with — the same system with a different workspace, applications, and defaults."
-msgstr ""
+msgstr "Distribuția stabilește din ce depozite de pachete este construită imaginea. Ediția este desktopul cu care pornește — același sistem cu un spațiu de lucru, aplicații și setări implicite diferite."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:117
 msgid "Sets the package base and compatible profiles"
-msgstr ""
+msgstr "Setează baza de pachete și profilele compatibile"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:132
 msgid "Loading compatible desktop profiles…"
-msgstr ""
+msgstr "Se încarcă profilele de desktop compatibile…"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:147
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:659
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:668
 msgid "Retry loading editions"
-msgstr ""
+msgstr "Reîncercați încărcarea edițiilor"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:157
 msgid "Where to save it"
-msgstr ""
+msgstr "Unde să fie salvată"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:158
 msgid "Choose where completed images and build artifacts are stored."
-msgstr ""
+msgstr "Alegeți unde sunt stocate imaginile finalizate și artefactele de construire."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:161
 msgid "Destination Folder"
-msgstr ""
+msgstr "Folderul destinație"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:169
 msgid "Destination path"
-msgstr ""
+msgstr "Calea destinației"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:176
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:292
@@ -1107,67 +1095,65 @@ msgid "Browse..."
 msgstr "Răsfoiește..."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:195
-#, fuzzy
 msgid "Advanced options"
-msgstr "Meniu Avansat"
+msgstr "Opțiuni avansate"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:196
 msgid "Kernel, package channels, and where profiles come from"
-msgstr ""
+msgstr "Kernel, canale de pachete și de unde provin profilele"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:200
 msgid "Kernel Variant"
-msgstr ""
+msgstr "Varianta de kernel"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:201
 msgid "Long-term stability or newer hardware support"
-msgstr ""
+msgstr "Stabilitate pe termen lung sau suport pentru hardware mai nou"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:209
 msgid "Which kernel to choose"
-msgstr ""
+msgstr "Ce nucleu să alegi"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:211
 msgid "LTS receives long-term fixes and is the safest default. Latest supports very recent hardware but changes faster. Old LTS helps on older machines, and XanMod targets desktop responsiveness."
-msgstr ""
+msgstr "LTS primește actualizări pe termen lung și este cea mai sigură opțiune implicită. Latest suportă hardware foarte recent, dar se schimbă mai rapid. Old LTS ajută pe mașinile mai vechi, iar XanMod vizează capacitatea de răspuns a desktopului."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:226
 msgid "Manjaro Packages"
-msgstr ""
+msgstr "Pachete Manjaro"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:227
 msgid "Base system packages"
-msgstr ""
+msgstr "Pachete de sistem de bază"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:231
-#, fuzzy
 msgid "Package channels"
-msgstr "Nume pachet"
+msgstr "Canale de pachete"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:240
 msgid "BigLinux Packages"
-msgstr ""
+msgstr "Pachete BigLinux"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:241
 msgid "BigLinux system components"
-msgstr ""
+msgstr "Componente de sistem BigLinux"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:246
 msgid "Community Packages"
-msgstr ""
+msgstr "Pachete comunitare"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:247
 msgid "Packages maintained by BigCommunity"
-msgstr ""
+msgstr "Pachete întreținute de BigCommunity"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:254
 msgid "Profile source"
-msgstr ""
+msgstr "Sursa profilului"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:255
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:443
 msgid "Maintained profiles from the official GitHub repositories"
-msgstr ""
+msgstr "Profiluri întreținute din depozitele oficiale GitHub"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:257
 msgid "Official (GitHub)"
@@ -1183,11 +1169,11 @@ msgstr "Folder local"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:268
 msgid "Profile definitions"
-msgstr ""
+msgstr "Definiții de profiluri"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:270
 msgid "A profile is the recipe of the image: package lists, enabled services, and files copied into the system. Keep the official source unless you maintain your own iso-profiles repository or folder."
-msgstr ""
+msgstr "Un profil este rețeta imaginii: liste de pachete, servicii activate și fișiere copiate în sistem. Păstrează sursa oficială, cu excepția cazului în care întreții propriul depozit sau folder de iso-profiles."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:279
 msgid "Repository URL"
@@ -1198,56 +1184,56 @@ msgid "Local Folder Path"
 msgstr "Calea folderului local"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:346
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Container engine unavailable — {0}"
-msgstr "Motor de containere găsit: {0}"
+msgstr "Motor container indisponibil — {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:348
 #, python-brace-format
 msgid "Build image missing — {0}"
-msgstr ""
+msgstr "Imaginea de construire lipsește — {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:350
 #, python-brace-format
 msgid "Output storage unavailable — {0}"
-msgstr ""
+msgstr "Stocarea de ieșire indisponibilă — {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:362
 #, python-brace-format
 msgid "Environment ready • {0} {1} • {2:.1f} GB free"
-msgstr ""
+msgstr "Mediu pregătit • {0} {1} • {2:.1f} GB liber"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:378
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Manjaro {0}"
-msgstr "Ramură Manjaro"
+msgstr "Manjaro {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:379
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "BigLinux {0}"
-msgstr "Ramură BigLinux"
+msgstr "BigLinux {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:383
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Community {0}"
-msgstr "Fă commit pe {0}"
+msgstr "Comunitate {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:393
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} • saved in {1}"
-msgstr "{0} (versiunea {1})"
+msgstr "{0} • salvat în {1}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:393
 msgid "not chosen"
-msgstr ""
+msgstr "neselectat"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:445
 msgid "Profiles from a GitHub repository you control"
-msgstr ""
+msgstr "Profile dintr-un depozit GitHub pe care îl controlați"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:447
 msgid "Profiles read directly from a local folder"
-msgstr ""
+msgstr "Profile citite direct dintr-un folder local"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:467
 msgid "Select iso-profiles Folder"
@@ -1256,51 +1242,51 @@ msgstr "Selectează folderul iso-profiles"
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:570
 #, python-brace-format
 msgid "GitHub API quota reached — using built-in suggestions. Automatic retry at {0}."
-msgstr ""
+msgstr "Cotă API GitHub atinsă — se folosesc sugestii încorporate. Reîncercare automată la {0}."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:579
 #, python-brace-format
 msgid "GitHub API quota reached — using cached profiles. Automatic refresh at {0}."
-msgstr ""
+msgstr "Cotă API GitHub atinsă — se folosesc profile stocate în cache. Reîmprospătare automată la {0}."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:587
 #, python-brace-format
 msgid "Built-in suggestions — could not load the selected source: {0}"
-msgstr ""
+msgstr "Sugestii încorporate — nu s-a putut încărca sursa selectată: {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:594
 msgid "Using cached profiles — the source is temporarily unreachable."
-msgstr ""
+msgstr "Se folosesc profile stocate în cache — sursa este temporar inaccesibilă."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:601
 msgid "Official profile • GitHub cache"
-msgstr ""
+msgstr "Profil oficial • Cache GitHub"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:601
 msgid "Official profile • GitHub"
-msgstr ""
+msgstr "Profil oficial • GitHub"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:606
 msgid "Custom profile • GitHub cache"
-msgstr ""
+msgstr "Profil personalizat • Cache GitHub"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:606
 msgid "Custom profile • GitHub"
-msgstr ""
+msgstr "Profil personalizat • GitHub"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:610
 msgid "Local profile folder"
-msgstr ""
+msgstr "Folder profil local"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:630
 #, python-brace-format
 msgid "{0} (recommended)"
-msgstr ""
+msgstr "{0} (recomandat)"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:652
 #, python-brace-format
 msgid "GitHub API available again at {0}"
-msgstr ""
+msgstr "API GitHub disponibil din nou la {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:694
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:64
@@ -1310,31 +1296,29 @@ msgstr "Selectează directorul de ieșire"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:716
 msgid "This folder does not exist yet; it will be created."
-msgstr ""
+msgstr "Acest folder nu există încă; va fi creat."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:728
 #, python-brace-format
 msgid "Only {0:.1f} GB free here; a build needs about 20 GB."
-msgstr ""
+msgstr "Doar {0:.1f} GB liberi aici; o construcție necesită aproximativ 20 GB."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:802
 msgid "Could not save build settings. Check config permissions, then try again."
-msgstr ""
+msgstr "Nu s-au putut salva setările de construire. Verificați permisiunile configurației, apoi încercați din nou."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:50
-#, fuzzy
 msgid "Build environment"
-msgstr "Director de compilare"
+msgstr "Mediu de construire"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:51
 msgid "Runtime and image used by every ISO build."
-msgstr ""
+msgstr "Mediu de execuție și imagine folosite de fiecare construcție ISO."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:59
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:77
-#, fuzzy
 msgid "Container engine"
-msgstr "Motor Container"
+msgstr "Motor container"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:60
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:135
@@ -1380,30 +1364,29 @@ msgstr "Curățare"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:103
 msgid "Docker storage is managed by the system"
-msgstr ""
+msgstr "Stocarea Docker este gestionată de sistem."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:105
 msgid "GitRepo reports the active driver but never changes it or removes Docker data."
-msgstr ""
+msgstr "GitRepo raportează driverul activ, dar nu îl schimbă niciodată și nu șterge datele Docker."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:115
 msgid "Pull Progress"
 msgstr "Progres la preluare"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:147
-#, fuzzy
 msgid "driver unknown"
-msgstr "necunoscut"
+msgstr "Șofer necunoscut"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:149
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} • {1} • storage {2}"
-msgstr "{0}: {1} → {2}"
+msgstr "{0} • {1} • spațiu de stocare {2}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:152
 #, python-brace-format
 msgid "Unavailable — {0}"
-msgstr ""
+msgstr "Indisponibil — {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:157
 #, python-brace-format
@@ -1412,7 +1395,7 @@ msgstr "Disponibil ({0:.1f} GB) - {1}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:160
 msgid "Not checked — start or install the engine, then refresh."
-msgstr ""
+msgstr "Neverificat — porniți sau instalați motorul, apoi reîmprospătați."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:168
 msgid "Starting download..."
@@ -1429,12 +1412,12 @@ msgstr "Descărcarea a eșuat"
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:210
 #, python-brace-format
 msgid "Remove {0} stopped build containers?"
-msgstr ""
+msgstr "Eliminați containerele de construcție oprite {0}?"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:212
 #, python-brace-format
 msgid "Only stopped containers created from {0} will be removed. Images and Docker storage are kept."
-msgstr ""
+msgstr "Doar containerele oprite create din {0} vor fi eliminate. Imaginile și stocarea Docker se păstrează."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:215
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:203
@@ -1457,26 +1440,26 @@ msgstr "Anulare"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:216
 msgid "Remove Stopped Containers"
-msgstr ""
+msgstr "Elimină Containerele Oprite"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:232
 #, python-brace-format
 msgid "Required container image: {0}"
-msgstr ""
+msgstr "Imagine de container necesară: {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:28
 #, python-brace-format
 msgid "{0:.1f} GB"
-msgstr ""
+msgstr "{0:.1f} GB"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:29
 #, python-brace-format
 msgid "{0:.0f} MB"
-msgstr ""
+msgstr "{0:.0f} MB"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:53
 msgid "Review outcomes and durations, then open the ISO folder or the terminal log of a build."
-msgstr ""
+msgstr "Examinați rezultatele și duratele, apoi deschideți folderul ISO sau jurnalul terminal al unei construcții."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:63
 msgid "No builds yet"
@@ -1484,7 +1467,7 @@ msgstr "Nicio compilare încă"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:65
 msgid "Finished and failed builds are listed here with their ISO, duration, and terminal log."
-msgstr ""
+msgstr "Construcțiile finalizate și eșuate sunt listate aici împreună cu ISO-ul, durata și jurnalul terminalului."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:79
 msgid "Clear History"
@@ -1492,7 +1475,7 @@ msgstr "Șterge Istoricul"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:80
 msgid "Delete the local history log; generated ISO files remain untouched"
-msgstr ""
+msgstr "Șterge jurnalul istoric local; fișierele ISO generate rămân nemodificate"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:82
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:204
@@ -1504,16 +1487,15 @@ msgstr "Șterge"
 #: usr/share/gitrepo/build_package/gui/main_window.py:387
 #, python-brace-format
 msgid "{0} • {1}"
-msgstr ""
+msgstr "{0} • {1}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:135
 msgid "Copy the ISO path"
-msgstr ""
+msgstr "Copiază calea ISO"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:143
-#, fuzzy
 msgid "Open the terminal log of this build"
-msgstr "Operațiune eșuată - verifică jurnalul terminalului pentru detalii"
+msgstr "Deschide jurnalul terminal al acestei compilări"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:150
 msgid "Open folder"
@@ -1524,22 +1506,22 @@ msgid "Success"
 msgstr "Succes"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:167
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} {1} • kernel {2}"
-msgstr "{0}: {1} → {2}"
+msgstr "{0} {1} • nucleu {2}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:182
 msgid "file no longer on disk"
-msgstr ""
+msgstr "fișierul nu mai este pe disc"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:186
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "built from {0}"
-msgstr "Personalizat: {0}"
+msgstr "construit din {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:200
 msgid "Clear the list of generated ISOs?"
-msgstr ""
+msgstr "Ștergeți lista ISO-urilor generate?"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:201
 msgid "This will remove all build history entries. This cannot be undone."
@@ -1547,23 +1529,23 @@ msgstr "Aceasta va șterge toate intrările din istoricul construirii. Această 
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:221
 msgid "ISO path copied to the clipboard"
-msgstr ""
+msgstr "Calea ISO a fost copiată în clipboard"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:43
 msgid "Configure build defaults"
-msgstr ""
+msgstr "Configurează valorile implicite de construcție"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:44
 msgid "Set reusable defaults for storage, package channels, alerts, and the build environment."
-msgstr ""
+msgstr "Setează valori implicite reutilizabile pentru stocare, canale de pachete, alerte și mediul de construcție."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:54
 msgid "Storage"
-msgstr ""
+msgstr "Stocare"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:55
 msgid "Default destination for generated images and build artifacts."
-msgstr ""
+msgstr "Destinația implicită pentru imaginile generate și artefactele de construcție."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:59
 msgid "Default Output Directory"
@@ -1575,7 +1557,7 @@ msgstr "Container"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:72
 msgid "Runtime and image used for isolated ISO builds."
-msgstr ""
+msgstr "Mediu de execuție și imagine utilizate pentru construcțiile ISO izolate."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:78
 msgid "Preferred container engine"
@@ -1587,11 +1569,11 @@ msgstr "Imagine container"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:91
 msgid "Package Channels"
-msgstr ""
+msgstr "Canale de pachete"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:92
 msgid "Branches selected automatically when a new build is configured."
-msgstr ""
+msgstr "Ramuri selectate automat atunci când se configurează o nouă construcție."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:101
 msgid "Default Manjaro Branch"
@@ -1611,7 +1593,7 @@ msgstr "Notificări"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:126
 msgid "Choose how GitRepo reports the end of a build."
-msgstr ""
+msgstr "Alegeți cum raportează GitRepo finalizarea unei construcții."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:131
 msgid "Notify on build completion"
@@ -1636,7 +1618,7 @@ msgstr "Resetare la valorile implicite"
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
 msgid "Could not save settings. Check config permissions, then try again."
-msgstr ""
+msgstr "Nu s-au putut salva setările. Verifică permisiunile de configurare, apoi încearcă din nou."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:236
 msgid "Settings saved"
@@ -1657,7 +1639,7 @@ msgstr "Resetează"
 
 #: usr/share/gitrepo/build_iso/local_builder.py:28
 msgid "No supported container engine was found."
-msgstr ""
+msgstr "Nu a fost găsit niciun motor de container acceptat."
 
 #: usr/share/gitrepo/build_iso/local_builder.py:30
 #, python-brace-format
@@ -1667,24 +1649,24 @@ msgstr "Motor de containere găsit: {0}"
 #: usr/share/gitrepo/build_iso/local_builder.py:43
 #, python-brace-format
 msgid "ISO saved to: {0}"
-msgstr ""
+msgstr "ISO salvată în: {0}"
 
 #: usr/share/gitrepo/build_iso/local_builder.py:45
 msgid "ISO build failed."
-msgstr ""
+msgstr "Construirea ISO a eșuat."
 
 #: usr/share/gitrepo/build_iso/menu_system.py:43
 #: usr/share/gitrepo/build_package/cli/cli_menu.py:44
 msgid "Use arrow keys to navigate, Enter to select, or Escape to return."
-msgstr ""
+msgstr "Folosește tastele săgeată pentru navigare, Enter pentru selectare sau Escape pentru revenire."
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:47
 msgid "Could not preserve local changes"
-msgstr ""
+msgstr "Nu s-au putut păstra modificările locale"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:71
 msgid "Local changes remain in the stash and need manual resolution."
-msgstr ""
+msgstr "Modificările locale rămân în stash și necesită rezolvare manuală."
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:78
 #: usr/share/gitrepo/build_package/core/package_operations.py:60
@@ -1693,22 +1675,22 @@ msgstr ""
 #: usr/share/gitrepo/build_package/core/package_operations.py:408
 #, python-brace-format
 msgid "Invalid target branch: {0}"
-msgstr ""
+msgstr "Ramură țintă invalidă: {0}"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:85
 #, python-brace-format
 msgid "Could not switch to {0}"
-msgstr ""
+msgstr "Nu s-a putut comuta la {0}"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:91
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0}. {1}"
-msgstr "{0} (versiunea {1})"
+msgstr "{0}. {1}"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:100
 #, python-brace-format
 msgid "Commit preparation failed: {0}"
-msgstr ""
+msgstr "Pregătirea commit-ului a eșuat: {0}"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:121
 msgid "Undoing last commit..."
@@ -1769,12 +1751,12 @@ msgstr "Eșec la push: {0}"
 #: usr/share/gitrepo/build_package/core/branch_handler.py:201
 #, python-brace-format
 msgid "The branch '{0}' exists locally and was kept."
-msgstr ""
+msgstr "Ramura '{0}' există local și a fost păstrată."
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:202
 #, python-brace-format
 msgid "Retry publishing it with: git push -u origin {0}"
-msgstr ""
+msgstr "Încearcă să o publici din nou cu: git push -u origin {0}"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:212
 #: usr/share/gitrepo/build_package/core/package_operations.py:118
@@ -1794,16 +1776,16 @@ msgstr "Eroare: {0}"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:232
 msgid "Invalid branch name"
-msgstr ""
+msgstr "Nume de ramură invalid"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:244
 msgid "Could not switch branch"
-msgstr ""
+msgstr "Nu s-a putut comuta ramura"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:247
 #, python-brace-format
 msgid "Switched to {0} with local changes restored."
-msgstr ""
+msgstr "S-a comutat la {0} cu modificările locale restaurate."
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:248
 #, python-brace-format
@@ -1934,24 +1916,24 @@ msgstr "AUR - Rezumatul opțiunilor"
 #: usr/share/gitrepo/build_package/core/build_package.py:249
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:300
 msgid "Download updates"
-msgstr ""
+msgstr "Descărcați actualizări"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:249
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:309
 msgid "Publish changes"
-msgstr ""
+msgstr "Publicați modificări"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:251
 msgid "Build package"
-msgstr ""
+msgstr "Construiți pachet"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:253
 msgid "Build from the AUR"
-msgstr ""
+msgstr "Construiți din AUR"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:256
 msgid "Repository maintenance"
-msgstr ""
+msgstr "Întreținerea depozitului"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:274
 msgid "Select repository"
@@ -2046,7 +2028,7 @@ msgstr "Operațiunea pull request finalizată."
 #: usr/share/gitrepo/build_package/core/build_package.py:442
 #, python-brace-format
 msgid "Could not prepare the merge request: {0}"
-msgstr ""
+msgstr "Nu s-a putut pregăti cererea de îmbinare: {0}"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:484
 msgid "Configure GitHub organization (default: big-comm)"
@@ -2083,7 +2065,7 @@ msgstr "Rulează 'gh auth login' pentru a te autentifica cu GitHub CLI"
 #: usr/share/gitrepo/build_package/core/commit_handler.py:37
 #, python-brace-format
 msgid "Check if your SSH key is added: {0}"
-msgstr ""
+msgstr "Verificați dacă cheia dvs. SSH este adăugată: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:38
 msgid "For HTTPS, run: git credential reject"
@@ -2099,7 +2081,7 @@ msgstr "Ramura remote are modificări pe care nu le ai local"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:48
 msgid "Use 'Download updates' first (git fetch followed by git merge)"
-msgstr ""
+msgstr "Utilizați mai întâi 'Descărcați actualizări' (git fetch urmat de git merge)"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:49
 #, python-brace-format
@@ -2116,7 +2098,7 @@ msgstr "Această ramură are reguli de protecție - push direct nu este permis"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:59
 msgid "Push to a development branch instead (e.g., dev-yourname)"
-msgstr "Fă push pe o ramură de dezvoltare în schimb (ex: dev-numeletau)"
+msgstr "Trimiteți într-o ramură de dezvoltare în schimb (de exemplu, dev-yourname)"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:60
 msgid "Create a Pull Request to merge your changes"
@@ -2187,7 +2169,7 @@ msgstr "Încercați să rulați 'git push' în terminal pentru a vedea tot outpu
 #: usr/share/gitrepo/build_package/core/commit_handler.py:103
 #, python-brace-format
 msgid "Check GitHub status: {0}"
-msgstr ""
+msgstr "Verificați starea GitHub: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:125
 #: usr/share/gitrepo/build_package/core/commit_handler.py:138
@@ -2218,12 +2200,12 @@ msgstr "Nicio modificare de comis"
 #: usr/share/gitrepo/build_package/core/commit_handler.py:142
 #, python-brace-format
 msgid "Failed to create commit: {0}"
-msgstr ""
+msgstr "Eroare la crearea commit-ului: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:149
 #, python-brace-format
 msgid "Could not verify remote state: {0}"
-msgstr ""
+msgstr "Nu s-a putut verifica starea la distanță: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:152
 msgid "✓ Already in sync with remote"
@@ -2232,26 +2214,26 @@ msgstr "✓ Deja sincronizat cu remote"
 #: usr/share/gitrepo/build_package/core/commit_handler.py:156
 #, python-brace-format
 msgid "✓ Remote changes integrated with {0}"
-msgstr ""
+msgstr "✓ Modificările la distanță integrate cu {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:163
 #, python-brace-format
 msgid "✓ Remote changes integrated keeping {0}"
-msgstr ""
+msgstr "✓ Modificările la distanță integrate păstrând {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:165
 msgid "Remote changes conflict with the local branch; resolve them manually."
-msgstr ""
+msgstr "Modificările la distanță intră în conflict cu ramura locală; rezolvați-le manual."
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:180
 #, python-brace-format
 msgid "The commit {0} was created locally and was kept."
-msgstr ""
+msgstr "Commit-ul {0} a fost creat local și a fost păstrat."
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:181
 #, python-brace-format
 msgid "Retry publishing it with: {0}"
-msgstr ""
+msgstr "Reîncercați publicarea acestuia cu: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:198
 #, python-brace-format
@@ -2261,7 +2243,7 @@ msgstr "✓ Împins către origin/{0}"
 #: usr/share/gitrepo/build_package/core/commit_handler.py:212
 #, python-brace-format
 msgid "Existing local commit published to origin/{0}."
-msgstr ""
+msgstr "Commit-ul local existent a fost publicat pe origin/{0}."
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:220
 msgid "Could not determine branch name for push"
@@ -2270,12 +2252,12 @@ msgstr "Nu s-a putut determina numele ramurii pentru push"
 #: usr/share/gitrepo/build_package/core/commit_handler.py:230
 #, python-brace-format
 msgid "Changes published to {0} with git commit and git push"
-msgstr ""
+msgstr "Modificările au fost publicate pe {0} prin git commit și git push"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:21
 #, python-brace-format
 msgid "Could not read commit message file: {0}"
-msgstr ""
+msgstr "Nu s-a putut citi fișierul cu mesajul commit-ului: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:70
 #: usr/share/gitrepo/build_package/core/revert_operations.py:261
@@ -2284,11 +2266,13 @@ msgid ""
 "\n"
 "• … and {0} more"
 msgstr ""
+"\n"
+"• … și încă {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:72
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Version: {0} → {1} ({2}) in {3}\n"
-msgstr "APP_VERSION a fost actualizată de la {0} la {1} (actualizare {2}) în {3}"
+msgstr "Versiune: {0} → {1} ({2}) în {3}\n"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:79
 #, python-brace-format
@@ -2300,48 +2284,54 @@ msgid ""
 "{2}Files:\n"
 "{3}"
 msgstr ""
+"Publicați aceste modificări?\n"
+"Comenzi: git add -A → git commit -m \"MESSAGE\" → git push -u origin BRANCH\n"
+"Ramură: {0}\n"
+"Mesaj: {1}\n"
+"{2}Fișiere:\n"
+"{3}"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:86
 msgid "No changed paths detected"
-msgstr ""
+msgstr "Nu s-au detectat fișiere modificate"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:106
 #, python-brace-format
 msgid "Commit {0} is still waiting on {1}; switch to that branch before retrying."
-msgstr ""
+msgstr "Commit-ul {0} așteaptă încă după {1}; comutați pe acea branșă înainte de reîncercare."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:114
 #, python-brace-format
 msgid "The branch tip changed after commit {0} failed to publish; review it before retrying."
-msgstr ""
+msgstr "Vârful branșei s-a modificat după ce commit-ul {0} nu a putut fi publicat; revizuiți-l înainte de reîncercare."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:122
 msgid "The local commit cannot be published because origin is not configured."
-msgstr ""
+msgstr "Commit-ul local nu poate fi publicat deoarece origin nu este configurat."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:129
 msgid "Could not verify whether the local commit reached origin."
-msgstr ""
+msgstr "Nu s-a putut verifica dacă commit-ul local a ajuns pe origin."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:140
 #, python-brace-format
 msgid "The previously created commit is already published on origin/{0}."
-msgstr ""
+msgstr "Commit-ul creat anterior este deja publicat pe origin/{0}."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:148
 #, python-brace-format
 msgid "origin/{0} changed; download and review those updates before retrying the push."
-msgstr ""
+msgstr "origin/{0} s-a modificat; descărcați și revizuiți acele actualizări înainte de a reîncerca împingerea."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:177
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Local commits not on origin: {0}"
-msgstr "Calea pentru iso-profile locale nu a fost găsită: {0}"
+msgstr "Comiteri locale care nu sunt pe originea: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:179
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "The branch origin/{0} does not exist yet."
-msgstr "Directorul de ieșire nu există încă"
+msgstr "Ramura origin/{0} nu există încă."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:182
 #, python-brace-format
@@ -2353,49 +2343,54 @@ msgid ""
 "{2}\n"
 "Command: {3}"
 msgstr ""
+"Publicați commit-ul local existent?\n"
+"Nu se va crea niciun commit nou.\n"
+"Branșă: {0}\n"
+"Commit: {1}\n"
+"{2}\n"
+"Comandă: {3}"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:190
-#, fuzzy
 msgid "Publication retry cancelled."
-msgstr "Configurarea tokenului a fost anulată."
+msgstr "Reîncercarea publicării a fost anulată."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:193
 msgid "Dry run completed; the pending commit was not pushed."
-msgstr ""
+msgstr "Pregătire uscată finalizată; commit-ul în așteptare nu a fost împins."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:199
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Publication retry failed: {0}"
-msgstr "Operațiune eșuată: {0}"
+msgstr "Reîncercarea publicării a eșuat: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:210
 msgid "This option is only available in Git repositories."
-msgstr ""
+msgstr "Această opțiune este disponibilă doar în depozitele Git."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:213
 msgid "Resolve all conflicts before committing."
-msgstr ""
+msgstr "Rezolvă toate conflictele înainte de a confirma."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:233
 msgid "Commit cancelled."
-msgstr ""
+msgstr "Confirmare anulată."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:236
 msgid "Dry run completed; no files or refs were changed."
-msgstr ""
+msgstr "Simulare finalizată; nu s-au modificat fișiere sau referințe."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:242
 msgid "Publication stopped because the reviewed version bump could not be written."
-msgstr ""
+msgstr "Publicarea s-a oprit deoarece versiunea verificată a actualizării nu a putut fi scrisă."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:252
 msgid "Could not create or select the target branch."
-msgstr ""
+msgstr "Nu s-a putut crea sau selecta ramura țintă."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:258
 #, python-brace-format
 msgid "Commit failed: {0}"
-msgstr ""
+msgstr "Confirmare eșuată: {0}"
 
 #: usr/share/gitrepo/build_package/core/config.py:32
 msgid "BUILD PACKAGE"
@@ -2412,11 +2407,14 @@ msgid ""
 "Reason: {1}\n"
 "{2}"
 msgstr ""
+"Șterge {0} în timp ce rezolvi acest conflict?\n"
+"Motiv: {1}\n"
+"{2}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:95
 #, python-brace-format
 msgid "File deletion cancelled: {0}"
-msgstr ""
+msgstr "Ștergere fișier anulată: {0}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:173
 #, python-brace-format
@@ -2433,31 +2431,36 @@ msgid ""
 "\n"
 "Non-conflicting changes from {2} are still merged."
 msgstr ""
+"Păstrezi versiunea {0} în {1} fișier(e) cu conflicte?\n"
+"\n"
+"Liniile conflictuale care provin din {2} sunt eliminate în:\n"
+"{3}\n"
+"\n"
+"Modificările neconflictuale din {2} sunt încă îmbinate."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:214
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:234
 #: usr/share/gitrepo/build_package/core/git_utils.py:262
-#, fuzzy
 msgid "Automatic conflict resolution cancelled."
-msgstr "Este necesară rezolvarea manuală a conflictelor"
+msgstr "Rezolvarea automată a conflictelor a fost anulată."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Discarded the {0} version of: {1}"
-msgstr "Alege versiunea {0}:"
+msgstr "S-a renunțat la versiunea {0} a: {1}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:225
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
-msgstr ""
+msgstr "Versiunea eliminată poate fi citită în continuare cu: {0}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
 msgid "local"
-msgstr ""
+msgstr "local"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
 msgid "incoming"
-msgstr ""
+msgstr "primit"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:231
 #, python-brace-format
@@ -2465,6 +2468,8 @@ msgid ""
 "Replace every conflicted file with the {0} version?\n"
 "{1}"
 msgstr ""
+"Înlocuiești fiecare fișier cu conflicte cu versiunea {0}?\n"
+"{1}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:240
 msgid "Resolving conflicts: keeping our changes..."
@@ -2473,11 +2478,11 @@ msgstr "Rezolvarea conflictelor: păstrăm modificările noastre..."
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:247
 #, python-brace-format
 msgid "  Removing {0} (deleted in our version)"
-msgstr "Eliminarea {0} (șters în versiunea noastră)"
+msgstr "  Eliminarea {0} (șters în versiunea noastră)"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:248
 msgid "deleted in the local version"
-msgstr ""
+msgstr "șters în versiunea locală"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:260
 msgid "✓ Conflicts resolved (kept our changes)"
@@ -2496,12 +2501,12 @@ msgstr "Rezolvarea conflictelor: acceptăm modificările de la distanță..."
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:276
 #, python-brace-format
 msgid "  Removing {0} (deleted in remote version)"
-msgstr "Eliminarea {0} (șters în versiunea remote)"
+msgstr "  Eliminarea {0} (șters în versiunea remote)"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:277
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:344
 msgid "deleted in the incoming version"
-msgstr ""
+msgstr "ștearsă în versiunea primită"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:289
 msgid "✓ Conflicts resolved (accepted remote)"
@@ -2514,7 +2519,7 @@ msgstr "✓ Toate conflictele au fost rezolvate!"
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:308
 #, python-brace-format
 msgid "Accept the incoming version for all {0} compiled .mo files?"
-msgstr ""
+msgstr "Acceptați versiunea primită pentru toate fișierele {0} .mo compilate?"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:319
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:570
@@ -2529,11 +2534,11 @@ msgstr "Acceptă versiunea remote"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:321
 msgid "Save both versions beside the file, then choose"
-msgstr ""
+msgstr "Salvați ambele versiuni lângă fișier, apoi alegeți"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:322
 msgid "Edit manually"
-msgstr ""
+msgstr "Editează manual"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:323
 msgid "Show diff"
@@ -2547,16 +2552,16 @@ msgstr "Cum să rezolvi: {0}"
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:329
 #, python-brace-format
 msgid "Resolve {0} manually, then stage it with git add."
-msgstr ""
+msgstr "Rezolvați {0} manual, apoi adăugați în staging cu git add."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:344
 msgid "deleted in the selected local version"
-msgstr ""
+msgstr "ștearsă în versiunea locală selectată"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:375
 #, python-brace-format
 msgid "Could not resolve {0}: {1}"
-msgstr ""
+msgstr "Nu s-a putut rezolva {0}: {1}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:380
 msgid "Manual conflict resolution needed"
@@ -2585,26 +2590,26 @@ msgstr "3. Rulează din nou această comandă"
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:398
 #, python-brace-format
 msgid "Conflicts detected. Newer branch: {0} ({1}); older branch: {2} ({3})."
-msgstr ""
+msgstr "Conflicte detectate. Ramură mai nouă: {0} ({1}); ramură mai veche: {2} ({3})."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:406
 #, python-brace-format
 msgid "Use the newer branch '{0}' for all {1} conflicted files?"
-msgstr ""
+msgstr "Utilizați ramura mai nouă '{0}' pentru toate cele {1} fișiere cu conflicte?"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:412
 #, python-brace-format
 msgid "Use {0} version (newer)"
-msgstr ""
+msgstr "Utilizați versiunea {0} (mai nouă)"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:413
 #, python-brace-format
 msgid "Use {0} version (older)"
-msgstr ""
+msgstr "Utilizați versiunea {0} (mai veche)"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:414
 msgid "Leave unresolved for manual editing"
-msgstr ""
+msgstr "Lasă nerezolvat pentru editare manuală"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:416
 #, python-brace-format
@@ -2614,7 +2619,7 @@ msgstr "Alege versiunea pentru: {0}"
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:418
 #, python-brace-format
 msgid "{0} remains unresolved for manual editing."
-msgstr ""
+msgstr "{0} rămâne nerezolvat pentru editare manuală."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:422
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:445
@@ -2625,7 +2630,7 @@ msgstr "Nu s-a putut rezolva {0}"
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:426
 #, python-brace-format
 msgid "Unresolved files: {0}"
-msgstr ""
+msgstr "Fișiere nerezolvate: {0}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:428
 msgid "✓ All conflicts resolved successfully!"
@@ -2667,76 +2672,73 @@ msgstr "Nu s-a putut previzualiza fișierul: {0}"
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:510
 #, python-brace-format
 msgid "Could not produce a diff for {0}."
-msgstr ""
+msgstr "Nu s-a putut genera o diferență pentru {0}."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:514
 msgid "No textual diff is available; the file may be binary."
-msgstr ""
+msgstr "Nu există un dif text; fișierul este posibil binar."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:516
 #, python-brace-format
 msgid "Conflict diff for {0}:"
-msgstr ""
+msgstr "Dif de conflict pentru {0}:"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:520
 #, python-brace-format
 msgid "… {0} additional lines omitted"
-msgstr ""
+msgstr "… {0} linii suplimentare omise"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:560
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not save both versions of {0}: {1}"
-msgstr "Nu s-a putut previzualiza fișierul: {0}"
+msgstr "Nu s-au putut salva ambele versiuni ale {0}: {1}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:563
-#, fuzzy
 msgid "Saved both versions:"
-msgstr "Păstrează ambele versiuni"
+msgstr "Ambele versiuni au fost salvate:"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:564
-#, fuzzy
 msgid "our version"
-msgstr "Păstrează versiunea noastră"
+msgstr "versiunea noastră"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:565
-#, fuzzy
 msgid "remote version"
-msgstr "Acceptă versiunea remote"
+msgstr "versiunea la distanță"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:569
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Which version resolves {0}?"
-msgstr "Nu s-a putut rezolva {0}"
+msgstr "Care versiune rezolvă {0}?"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:573
 #, python-brace-format
 msgid "Both versions were saved; {0} is still conflicted."
-msgstr ""
+msgstr "Ambele versiuni au fost salvate; {0} este încă în conflict."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:161
 #, python-brace-format
 msgid "Could not delete local branch {0}: {1}"
-msgstr ""
+msgstr "Nu s-a putut șterge ramura locală {0}: {1}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:173
 #, python-brace-format
 msgid "Could not delete origin/{0}: {1}"
-msgstr ""
+msgstr "Nu s-a putut șterge origin/{0}: {1}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:225
 #, python-brace-format
 msgid "Remote changes integrated with {0}."
-msgstr ""
+msgstr "Modificările de la distanță au fost integrate cu {0}."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:229
 #: usr/share/gitrepo/build_package/core/git_utils.py:301
 msgid "Unknown Git error"
-msgstr ""
+msgstr "Eroare Git necunoscută"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:230
 #, python-brace-format
 msgid "{0} failed: {1}"
-msgstr ""
+msgstr "{0} a eșuat: {1}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:255
 #, python-brace-format
@@ -2748,33 +2750,39 @@ msgid ""
 "\n"
 "Every other change from {1} is merged, and the discarded version stays readable with: git diff HEAD^2 -- FILE"
 msgstr ""
+"Rezolvați divergența păstrând {0} acolo unde cele două ramuri nu sunt de acord?\n"
+"\n"
+"Liniile conflictuale din {1} sunt eliminate în:\n"
+"{2}\n"
+"\n"
+"Orice altă modificare din {1} este îmbinată, iar versiunea eliminată rămâne accesibilă cu: git diff HEAD^2 -- FILE"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:274
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not finish merge: {0}"
-msgstr "Nu s-a putut previzualiza fișierul: {0}"
+msgstr "Nu s-a putut finaliza îmbinarea: {0}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:296
 msgid "Remote changes integrated with merge."
-msgstr ""
+msgstr "Modificările de la distanță au fost integrate prin îmbinare."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:302
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Merge failed: {0}"
-msgstr "Auto-îmbinarea a eșuat: {0}"
+msgstr "Îmbinarea a eșuat: {0}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:321
 msgid "Merge aborted; the repository was restored."
-msgstr ""
+msgstr "Îmbinare anulată; depozitul a fost restaurat."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:329
 #, python-brace-format
 msgid "Kept {0} in {1} file(s); the {2} version was discarded there: {3}"
-msgstr ""
+msgstr "S-a păstrat {0} în fișierul(ele) {1}; versiunea {2} a fost eliminată acolo: {3}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:333
 msgid "Read the discarded version with: git diff HEAD^2 -- FILE"
-msgstr ""
+msgstr "Citiți versiunea eliminată cu: git diff HEAD^2 -- FILE"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:345
 #, python-brace-format
@@ -2782,14 +2790,16 @@ msgid ""
 "Rewrite origin/{0}?\n"
 "{1}"
 msgstr ""
+"Rescriere origin/{0}?\n"
+"{1}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:347
 msgid "Force push cancelled."
-msgstr ""
+msgstr "Forțarea actualizării (force push) a fost anulată."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:352
 msgid "Force push completed."
-msgstr ""
+msgstr "Forțarea actualizării (force push) a fost finalizată."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:354
 #, python-brace-format
@@ -2804,25 +2814,25 @@ msgstr "Această operațiune este disponibilă doar în depozitele Git."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:614
 msgid "No main or master branch to compare against."
-msgstr ""
+msgstr "Nu există o ramură principală (main sau master) pentru comparație."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:615
 msgid "Without a base, no branch can be proven merged, so none is offered."
-msgstr ""
+msgstr "Fără o ramură de bază, nici o ramură nu poate fi dovedită ca fiind îmbinată, deci niciuna nu este oferită."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:624
 #, python-brace-format
 msgid "Could not inventory branches: {0}"
-msgstr ""
+msgstr "Nu s-au putut inventaria ramurile: {0}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:630
 #, python-brace-format
 msgid "Kept {0} branch(es) whose commits are not in {1}: {2}"
-msgstr ""
+msgstr "S-au păstrat {0} ramură(i) ale căror commit-uri nu sunt în {1}: {2}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:637
 msgid "No obsolete branches found."
-msgstr ""
+msgstr "Nu s-au găsit ramuri obsolete."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:641
 #, python-brace-format
@@ -2831,14 +2841,17 @@ msgid ""
 "Every one is already merged into {0}.\n"
 "{1}"
 msgstr ""
+"Ștergeți definitiv aceste ramuri?\n"
+"Fiecare este deja îmbinată în {0}.\n"
+"{1}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:644
 msgid "Branch cleanup cancelled."
-msgstr ""
+msgstr "Curățarea ramurilor a fost anulată."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:650
 msgid "Branch cleanup completed."
-msgstr ""
+msgstr "Curățarea ramurilor a fost finalizată."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:680
 #: usr/share/gitrepo/build_package/core/git_utils.py:719
@@ -2857,13 +2870,12 @@ msgstr "Metodă de rezolvare necunoscută: {0}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:788
 #: usr/share/gitrepo/build_package/core/git_utils.py:817
-#, fuzzy
 msgid "Could not load the differences for this file."
-msgstr "Nu s-au putut analiza diferențele dintre fișiere"
+msgstr "Nu s-au putut încărca diferențele pentru acest fișier."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:32
 msgid "Waiting for GitHub to report whether the PR can be merged..."
-msgstr ""
+msgstr "Se așteaptă ca GitHub să raporteze dacă PR poate fi îmbinat (merge)..."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:42
 #, python-brace-format
@@ -2873,25 +2885,25 @@ msgstr "Eroare la verificarea PR: {0}"
 #: usr/share/gitrepo/build_package/core/github_api.py:49
 #, python-brace-format
 msgid "Attempt {0}/{1}: state={2}"
-msgstr ""
+msgstr "Încercarea {0}/{1}: stare={2}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:55
 #, python-brace-format
 msgid "Could not check the PR yet: {0}"
-msgstr ""
+msgstr "Nu s-a putut verifica încă PR-ul: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:58
 #, python-brace-format
 msgid "Timed out waiting for PR state '{0}'. Merge it manually."
-msgstr ""
+msgstr "S-a depășit timpul de așteptare pentru starea PR-ului '{0}'. Îmbinați-l manual."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:64
 msgid "PR ready for merge."
-msgstr ""
+msgstr "PR gata pentru îmbinare (merge)."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:67
 msgid "PR has conflicts; resolve them before merging."
-msgstr ""
+msgstr "PR-ul are conflicte; rezolvați-le înainte de a face merge."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:92
 #, python-brace-format
@@ -2911,11 +2923,11 @@ msgstr "Workflow-ul de build ({0}) a fost declanșat cu succes."
 #: usr/share/gitrepo/build_package/core/github_api.py:99
 #, python-brace-format
 msgid "URL to monitor the build: {0}"
-msgstr ""
+msgstr "URL pentru monitorizarea build-ului: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:127
 msgid "Repository and explicit workflow branch are required."
-msgstr ""
+msgstr "Sunt necesare repository-ul și ramura explicită a workflow-ului."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:138
 #, python-brace-format
@@ -2925,7 +2937,7 @@ msgstr "Depozit detectat: {0}"
 #: usr/share/gitrepo/build_package/core/github_api.py:139
 #, python-brace-format
 msgid "Workflow branch: {0}"
-msgstr ""
+msgstr "Ramura workflow: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:146
 msgid "GitHub token not configured. Package operations will require token setup."
@@ -2946,27 +2958,27 @@ msgstr "Pentru a crea un Token de Acces Personal:"
 #: usr/share/gitrepo/build_package/core/github_api.py:181
 #, python-brace-format
 msgid "  1. Go to: {0}"
-msgstr ""
+msgstr "  1. Accesați: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:182
 msgid "  2. Click 'Generate new token (classic)'"
-msgstr "2. Apasă 'Generate new token (classic)'"
+msgstr "  2. Apasă 'Generate new token (classic)'"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:183
 msgid "  3. Name: 'gitrepo' | Expiration: your choice"
-msgstr "3. Nume: 'gitrepo' | Expirare: alegerea ta"
+msgstr "  3. Nume: 'gitrepo' | Expirare: alegerea ta"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:184
 msgid "  4. Select scopes: 'repo' and 'workflow'"
-msgstr "4. Selectează domeniile: 'repo' și 'workflow'"
+msgstr "  4. Selectează domeniile: 'repo' și 'workflow'"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:185
 msgid "  5. Click 'Generate token' and copy it"
-msgstr "5. Apasă 'Generate token' și copiază-l"
+msgstr "  5. Apasă 'Generate token' și copiază-l"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:190
 msgid "GitHub username (or press Enter to cancel): "
-msgstr "Nume utilizator GitHub (sau apasă Enter pentru a anula):"
+msgstr "Nume utilizator GitHub (sau apasă Enter pentru a anula): "
 
 #: usr/share/gitrepo/build_package/core/github_api.py:192
 #: usr/share/gitrepo/build_package/core/github_api.py:197
@@ -2976,21 +2988,21 @@ msgstr "Configurarea tokenului a fost anulată."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:195
 msgid "GitHub token (or press Enter to cancel): "
-msgstr "Token GitHub (sau apasă Enter pentru a anula):"
+msgstr "Token GitHub (sau apasă Enter pentru a anula): "
 
 #: usr/share/gitrepo/build_package/core/github_api.py:203
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:165
 msgid "The token could not be saved. Unlock the system keyring and try again."
-msgstr ""
+msgstr "Tokenul nu a putut fi salvat. Deblocați keyring-ul sistemului și încercați din nou."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:207
 msgid "✓ Token saved securely in the system keyring"
-msgstr ""
+msgstr "✓ Token salvat în siguranță în keyring-ul sistemului"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:224
 #: usr/share/gitrepo/build_package/core/github_api.py:274
 msgid "origin is not a GitHub repository; nothing was requested."
-msgstr ""
+msgstr "origin nu este un repository GitHub; nu s-a solicitat nimic."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:227
 #, python-brace-format
@@ -3004,7 +3016,7 @@ msgstr "Nu s-au găsit job-uri Action cu status '{0}'."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:243
 msgid "unnamed run"
-msgstr ""
+msgstr "rulare fără nume"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:247
 #, python-brace-format
@@ -3012,10 +3024,12 @@ msgid ""
 "Permanently delete these {0} GitHub Actions runs from {1}?\n"
 "{2}"
 msgstr ""
+"Ștergeți definitiv aceste {0} execuții GitHub Actions din {1}?\n"
+"{2}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:252
 msgid "Actions cleanup cancelled."
-msgstr ""
+msgstr "Curățarea acțiunilor a fost anulată."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:258
 #, python-brace-format
@@ -3041,10 +3055,12 @@ msgid ""
 "Permanently delete these {0} remote tags from {1}?\n"
 "{2}"
 msgstr ""
+"Ștergeți definitiv aceste {0} taguri remote din {1}?\n"
+"{2}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:294
 msgid "Tag cleanup cancelled."
-msgstr ""
+msgstr "Curățarea tagurilor a fost anulată."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:299
 #, python-brace-format
@@ -3057,43 +3073,43 @@ msgid "Error cleaning tags: {0}"
 msgstr "Eroare la curățarea tagurilor: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:326
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Error listing {0}. Code: {1}"
-msgstr "Eroare la ștergerea tagului {0}. Cod: {1}"
+msgstr "Eroare la listarea {0}. Cod: {1}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:337
 #, python-brace-format
 msgid "Stopped after {0} pages; run the cleanup again to continue."
-msgstr ""
+msgstr "Procesul s-a oprit după {0} pagini; reporniți curățarea pentru a continua."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:345
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not delete {0}: {1}"
-msgstr "Nu s-a putut previzualiza fișierul: {0}"
+msgstr "Nu s-a putut șterge: {0}: {1}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:349
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Error deleting {0}. Code: {1}"
-msgstr "Eroare la ștergerea tagului {0}. Cod: {1}"
+msgstr "Eroare la ștergerea {0}. Cod: {1}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:357
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deleted {0} of {0} items."
-msgstr "Au fost șterse {0} taguri."
+msgstr "Șters {0} din {0} elemente."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:359
 #, python-brace-format
 msgid "Deleted {0} of {1}; {2} could not be deleted."
-msgstr ""
+msgstr "Șters {0} din {1}; {2} nu au putut fi șterse."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:360
 #, python-brace-format
 msgid "Still present: {0}"
-msgstr ""
+msgstr "Încă prezent: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:370
 msgid "Source branch and repository are required to create a pull request."
-msgstr ""
+msgstr "Sursa branch și depozitul sunt necesare pentru a crea un pull request."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:373
 #, python-brace-format
@@ -3102,7 +3118,7 @@ msgstr "Se creează cererea de pull: {0} → {1}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:377
 msgid "Branches are already identical; no pull request is needed."
-msgstr ""
+msgstr "Branch-urile sunt deja identice; nu este necesar niciun pull request."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:388
 #, python-brace-format
@@ -3126,7 +3142,7 @@ msgstr "PR nu este gata: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:442
 msgid "Pull request merged successfully."
-msgstr ""
+msgstr "Pull request-ul a fost îmbinat cu succes."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:446
 #, python-brace-format
@@ -3173,16 +3189,16 @@ msgstr "Nu s-a putut afișa rezumatul PR: {0}"
 #: usr/share/gitrepo/build_package/core/operation_preview.py:39
 #, python-brace-format
 msgid "Failed: {0}"
-msgstr ""
+msgstr "Eșuat: {0}"
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:56
 msgid "Merge conflict detected; resolution is required."
-msgstr ""
+msgstr "Conflict de îmbinare detectat; soluționarea este necesară."
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:59
 #, python-brace-format
 msgid "Command failed: {0}"
-msgstr ""
+msgstr "Comanda a eșuat: {0}"
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:118
 msgid "No operations planned"
@@ -3212,15 +3228,15 @@ msgstr "Continuăm cu aceste operațiuni?"
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:176
 msgid "Dry-run mode; no operations will execute."
-msgstr ""
+msgstr "Modul dry-run; nu se vor executa operațiuni."
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:189
 msgid "Conflicts detected; resolution is required."
-msgstr ""
+msgstr "Conflicte detectate; soluționarea este necesară."
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:192
 msgid "Operation failed; remaining steps were not executed."
-msgstr ""
+msgstr "Operațiunea a eșuat; pașii rămași nu au fost executați."
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:203
 #, python-brace-format
@@ -3235,9 +3251,8 @@ msgstr "Operațiune anulată de utilizator"
 #: usr/share/gitrepo/build_package/core/package_operations.py:82
 #: usr/share/gitrepo/build_package/core/package_operations.py:91
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:462
-#, fuzzy
 msgid "unknown branch"
-msgstr "necunoscut"
+msgstr "ramură necunoscută"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:68
 #, python-brace-format
@@ -3246,6 +3261,9 @@ msgid ""
 "Expected branch: {0}\n"
 "Selected branch: {1}"
 msgstr ""
+"Branch-ul de testare selectat s-a modificat în timpul pregătirii pachetului.\n"
+"Branch așteptat: {0}\n"
+"Branch selectat: {1}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:78
 #, python-brace-format
@@ -3255,11 +3273,15 @@ msgid ""
 "Current branch: {1}\n"
 "Switch to {0} before committing or starting the workflow."
 msgstr ""
+"Pachetele de testare pot publica doar branch-ul personal activ.\n"
+"Branch selectat: {0}\n"
+"Branch curent: {1}\n"
+"Comutați la {0} înainte de a efectua commit sau de a începe workflow-ul."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:94
 #, python-brace-format
 msgid "The testing branch does not exist locally: {0}"
-msgstr ""
+msgstr "Branch-ul de testare nu există local: {0}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:101
 #, python-brace-format
@@ -3268,18 +3290,21 @@ msgid ""
 "Branch: {0}\n"
 "Command: git push -u origin {1}"
 msgstr ""
+"Publicați branch-ul de testare înainte de a începe workflow-ul pachetului său?\n"
+"Branch: {0}\n"
+"Comandă: git push -u origin {1}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:125
 msgid "Could not read a package name with makepkg --printsrcinfo."
-msgstr ""
+msgstr "Nu s-a putut citi un nume de pachet cu makepkg --printsrcinfo."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:155
 msgid "Configure a GitHub token before generating a package."
-msgstr ""
+msgstr "Configurează un token GitHub înainte de a genera un pachet."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:170
 msgid "Dry run completed; no workflow was triggered."
-msgstr ""
+msgstr "Simulare finalizată; nu a fost declanșat niciun flux de lucru."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:173
 #, python-brace-format
@@ -3289,38 +3314,42 @@ msgid ""
 "Type: {1}\n"
 "Branch: {2}"
 msgstr ""
+"Declanșează această construire de pachet GitHub Actions?\n"
+"Pachet: {0}\n"
+"Tip: {1}\n"
+"Ramură: {2}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:180
 msgid "Package workflow started."
-msgstr ""
+msgstr "Fluxul de lucru al pachetului a început."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:180
 msgid "Workflow failed."
-msgstr ""
+msgstr "Fluxul de lucru a eșuat."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:194
 #, python-brace-format
 msgid "Merging {0} stopped because it requires conflict resolution. No history was rewritten."
-msgstr ""
+msgstr "Îmbinarea {0} s-a oprit deoarece necesită rezolvarea conflictelor. Niciun istoric nu a fost rescris."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:243
 #, python-brace-format
 msgid "Created a recovery branch for local main: {0}"
-msgstr ""
+msgstr "S-a creat o ramură de recuperare pentru local main: {0}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:288
 msgid "The origin/main branch is required for stable and extra packages."
-msgstr ""
+msgstr "Ramura origin/main este necesară pentru pachetele stabile și suplimentare."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:310
 #: usr/share/gitrepo/build_package/core/package_operations.py:341
 msgid "Remote refs changed during publication; retrying with their latest commits."
-msgstr ""
+msgstr "Referințele de la distanță s-au modificat în timpul publicării; se reîncearcă cu ultimele lor comitere."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:351
 #: usr/share/gitrepo/build_package/core/package_operations.py:403
 msgid "Commit or stash local changes before building a stable package."
-msgstr ""
+msgstr "Comite sau ascunde modificările locale înainte de a construi un pachet stabil."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:358
 msgid ""
@@ -3329,6 +3358,10 @@ msgid ""
 "git merge refs/remotes/origin/main --no-edit (when present)\n"
 "git push origin refs/heads/main:refs/heads/main"
 msgstr ""
+"Sincronizează și publică main înainte de a începe fluxul de lucru al pachetului său?\n"
+"git fetch origin --prune\n"
+"git merge refs/remotes/origin/main --no-edit (când este prezent)\n"
+"git push origin refs/heads/main:refs/heads/main"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:371
 #: usr/share/gitrepo/build_package/core/package_operations.py:446
@@ -3347,16 +3380,23 @@ msgid ""
 "git push --atomic origin refs/heads/{0}:refs/heads/{0} refs/heads/{0}:refs/heads/main\n"
 "Local-only main commits are preserved in backup/main-before-stable-*."
 msgstr ""
+"Publică {0} prin main?\n"
+"git fetch origin --prune\n"
+"git checkout {0}\n"
+"git merge refs/remotes/origin/{0} --no-edit (când este prezent)\n"
+"git merge refs/remotes/origin/main --no-edit\n"
+"git push --atomic origin refs/heads/{0}:refs/heads/{0} refs/heads/{0}:refs/heads/main\n"
+"Comitările locale doar pe main sunt păstrate în backup/main-before-stable-*."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:438
 #, python-brace-format
 msgid "Remote branches {0} and main were published, but local main could not be aligned: {1}"
-msgstr ""
+msgstr "Ramurile de la distanță {0} și main au fost publicate, dar local main nu a putut fi aliniat: {1}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:461
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not switch back to {0}: {1}"
-msgstr "Nu s-a putut previzualiza fișierul: {0}"
+msgstr "Nu s-a putut reveni la {0}: {1}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:473
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:114
@@ -3382,80 +3422,80 @@ msgstr "📦 Configurare Build Pachet"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:31
 msgid "Temporarily stash local changes"
-msgstr ""
+msgstr "Ascunde temporar modificările locale"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:35
 #, python-brace-format
 msgid "Fetch origin/{0}"
-msgstr ""
+msgstr "Preia origin/{0}"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:38
 #, python-brace-format
 msgid "Merge origin/{0} into {0}"
-msgstr ""
+msgstr "Fuzionează origin/{0} în {0}"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:49
 msgid "Merge remains incomplete; resolve the listed files manually."
-msgstr ""
+msgstr "Fuzionarea rămâne neterminată; rezolvă fișierele listate manual."
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:53
 #, python-brace-format
 msgid "Merge origin/{0} after conflict resolution"
-msgstr ""
+msgstr "Fuzionează origin/{0} după rezolvarea conflictelor"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:60
 #, python-brace-format
 msgid "Resolved files could not complete the merge: {0}"
-msgstr ""
+msgstr "Fișierele rezolvate nu au putut finaliza fuzionarea: {0}"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:74
 msgid "Local changes restored."
-msgstr ""
+msgstr "Modificările locale au fost restaurate."
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:77
 msgid "stashed local changes"
-msgstr ""
+msgstr "modificări locale salvate în stash"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:87
 #, python-brace-format
 msgid "Local changes remain in the stash: {0}"
-msgstr ""
+msgstr "Modificările locale rămân în stash: {0}"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:99
 msgid "Resolve the existing conflicts before pulling."
-msgstr ""
+msgstr "Rezolvă conflictele existente înainte de a trage (pull)."
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:104
 msgid "The current branch has no matching branch on origin."
-msgstr ""
+msgstr "Ramura curentă nu are o ramură corespunzătoare pe origin."
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:122
 #, python-brace-format
 msgid "Updated to {0}"
-msgstr ""
+msgstr "Actualizat la {0}"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:122
 msgid "Already up to date"
-msgstr ""
+msgstr "Deja la zi"
 
 #: usr/share/gitrepo/build_package/core/repository_lock.py:109
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "This repository is busy with: {0}"
-msgstr "Fără depozit"
+msgstr "Acest depozit este ocupat cu: {0}"
 
 #: usr/share/gitrepo/build_package/core/repository_lock.py:110
 msgid "Wait for that operation to finish, then try again."
-msgstr ""
+msgstr "Așteaptă ca acea operațiune să se termine, apoi încearcă din nou."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:42
 #, python-brace-format
 msgid "You can only revert commits on your own branch ({0}) or main."
-msgstr ""
+msgstr "Poți doar să anulezi commit-uri pe propria ta ramură ({0}) sau pe ramura principală (main)."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:51
 #, python-brace-format
 msgid "Proceed with {0} on {1}?"
-msgstr ""
+msgstr "Continui cu {0} pe {1}?"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:57
 #, python-brace-format
@@ -3464,7 +3504,7 @@ msgstr "Eșuat la {0} commit-ul."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:67
 msgid "Shared main branch: only the history-preserving revert method is available."
-msgstr ""
+msgstr "Ramură principală partajată: numai metoda de anulare care păstrează istoricul este disponibilă."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:70
 #, python-brace-format
@@ -3524,17 +3564,16 @@ msgid "Result"
 msgstr "Rezultat"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:156
-#, fuzzy
 msgid "Every tracked file returns to this commit's exact state"
-msgstr "Codul va fi restaurat la starea exactă a acestui commit"
+msgstr "Fiecare fișier urmărit revine la starea exactă a acestui commit"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:157
 msgid "Files added later"
-msgstr ""
+msgstr "Fișiere adăugate ulterior"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:157
 msgid "Removed, so the restored state is complete"
-msgstr ""
+msgstr "Șterse, astfel încât starea restaurată este completă"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:158
 msgid "New Commit"
@@ -3566,13 +3605,12 @@ msgid "Commits after this will be removed from history"
 msgstr "Commit-urile după acesta vor fi eliminate din istoric"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:164
-#, fuzzy
 msgid "Uncommitted work"
-msgstr "Modificări necomise prezente"
+msgstr "Lucrare necomisată"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:164
 msgid "Required to be empty; the operation refuses otherwise"
-msgstr ""
+msgstr "Necesită să fie gol; în caz contrar, operațiunea refuză"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:166
 msgid "Revert Preview"
@@ -3601,36 +3639,36 @@ msgid "Error showing preview: {0}"
 msgstr "Eroare la afișarea previzualizării: {0}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:254
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not read the repository state: {0}"
-msgstr "Nu s-a putut determina numele depozitului."
+msgstr "Nu s-a putut citi starea depozitului: {0}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:255
 msgid "Nothing was changed. Resolve the Git error and try again."
-msgstr ""
+msgstr "Nimic nu a fost modificat. Rezolvați eroarea Git și încercați din nou."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:262
 #, python-brace-format
 msgid "{0} uncommitted file(s) would be destroyed by this operation:"
-msgstr ""
+msgstr "{0} fișier(e) necomandat(e) ar fi distrus(e) de această operațiune:"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:264
 msgid "Commit or stash them first: git stash push -u"
-msgstr ""
+msgstr "Comandați sau puneți-le deoparte mai întâi: git stash push -u"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:268
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "A {0} operation is still in progress."
-msgstr "Previzualizare Operațiune"
+msgstr "O operațiune {0} este încă în desfășurare."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:269
 msgid "Finish or abort it first, then retry."
-msgstr ""
+msgstr "Finalizați sau anulați-o mai întâi, apoi reîncercați."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:283
 #: usr/share/gitrepo/build_package/core/revert_operations.py:540
 msgid "Operation requires explicit confirmation."
-msgstr ""
+msgstr "Operațiunea necesită confirmare explicită."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:293
 #, python-brace-format
@@ -3668,14 +3706,14 @@ msgid "Revert completed successfully - code restored to selected commit state"
 msgstr "Revenirea a fost realizată cu succes - codul a fost restaurat la starea commit-ului selectat"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:386
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not read origin/{0}: {1}"
-msgstr "Nu s-a putut previzualiza fișierul: {0}"
+msgstr "Nu s-a putut citi origin/{0}: {1}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:390
 #, python-brace-format
 msgid "origin/{0} could not be verified; the remote was left untouched."
-msgstr ""
+msgstr "origin/{0} nu a putut fi verificat(ă); depozitul la distanță a rămas nemodificat."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:404
 msgid "Commit exists in remote - force push required"
@@ -3687,6 +3725,8 @@ msgid ""
 "Rewrite origin/{0}, currently at {1}?\n"
 "{2}"
 msgstr ""
+"Rescrie origin/{0}, aflat(ă) acum la {1}?\n"
+"{2}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:409
 msgid "Reset completed locally only (remote unchanged)"
@@ -3703,11 +3743,11 @@ msgstr "Resetarea a fost finalizată și forțat push"
 #: usr/share/gitrepo/build_package/core/revert_operations.py:427
 #, python-brace-format
 msgid "origin/{0} moved since it was read; nothing was overwritten."
-msgstr ""
+msgstr "origin/{0} s-a mutat de când a fost citit(ă); nimic nu a fost suprascris."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:428
 msgid "Review the new commits, then repeat the operation."
-msgstr ""
+msgstr "Revizuiți noile comiteri, apoi repetați operațiunea."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:440
 msgid "Resetting to previous commit..."
@@ -3716,7 +3756,7 @@ msgstr "Resetare la commit-ul anterior..."
 #: usr/share/gitrepo/build_package/core/revert_operations.py:444
 #, python-brace-format
 msgid "Undo this locally with: git reset --hard {0}"
-msgstr ""
+msgstr "Anulați aceasta local cu: git reset --hard {0}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:450
 msgid "Reset completed (commit was only local)"
@@ -3741,17 +3781,17 @@ msgstr "Eșec la împingerea revert-ului: {0}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:482
 msgid "The revert commit was created locally and was kept."
-msgstr ""
+msgstr "Comiterea de revenire a fost creată local și a fost păstrată."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:483
 #, python-brace-format
 msgid "Retry publishing it with: git push origin {0}"
-msgstr ""
+msgstr "Reîncercați publicarea cu: git push origin {0}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:501
 #, python-brace-format
 msgid "Restore the previous state with: git reset --hard {0}"
-msgstr ""
+msgstr "Restabiliți starea anterioară cu: git reset --hard {0}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:513
 msgid "Operation"
@@ -3759,11 +3799,11 @@ msgstr "Operațiune"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:514
 msgid "Target Commit"
-msgstr ""
+msgstr "Commit țintă"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:515
 msgid "Target Message"
-msgstr ""
+msgstr "Mesaj țintă"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:516
 msgid "Current HEAD"
@@ -3773,19 +3813,19 @@ msgstr "HEAD curent"
 #: usr/share/gitrepo/build_package/core/revert_operations.py:521
 #: usr/share/gitrepo/build_package/core/revert_operations.py:523
 msgid "Remote"
-msgstr ""
+msgstr "Depozit la distanță"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:519
 msgid "Force-pushed after explicit confirmation"
-msgstr ""
+msgstr "Forțat prin push după confirmare explicită"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:521
 msgid "Unchanged; reset is local only"
-msgstr ""
+msgstr "Neschimbat; resetarea este doar locală"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:523
 msgid "Updated without rewriting history"
-msgstr ""
+msgstr "Actualizat fără rescrierea istoricului"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:524
 msgid "Operation completed"
@@ -3868,7 +3908,7 @@ msgstr "✓ Strategia de rezolvare a conflictelor a fost schimbată în: {0}"
 #: usr/share/gitrepo/build_package/core/version_bumper.py:256
 #, python-brace-format
 msgid "Skipping the version bump: {0} is not a regular file inside the repository."
-msgstr ""
+msgstr "Se omite avansarea versiunii: {0} nu este un fișier obișnuit în interiorul depozitului."
 
 #: usr/share/gitrepo/build_package/core/version_bumper.py:246
 msgid "APP_VERSION constant not found. Skipping automatic version bump."
@@ -3886,7 +3926,7 @@ msgstr "APP_VERSION a fost actualizată de la {0} la {1} (actualizare {2}) în {
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:22
 msgid "Repository status is unavailable. Refresh before switching branches."
-msgstr ""
+msgstr "Starea depozitului este indisponibilă. Reîmprospătați înainte de a comuta ramuri."
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:41
 msgid "Uncommitted Changes Detected"
@@ -3895,35 +3935,35 @@ msgstr "Modificări necomise detectate"
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:43
 #, python-brace-format
 msgid "You have uncommitted changes. Preserve them with {0}, or discard them with {1}."
-msgstr ""
+msgstr "Aveți modificări necomandate. Păstrați-le cu {0}, sau renunțați la ele cu {1}."
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:75
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:102
 #, python-brace-format
 msgid "Current: {0}"
-msgstr ""
+msgstr "Actual: {0}"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:80
 #, python-brace-format
 msgid "Switch to: {0}"
-msgstr ""
+msgstr "Comutați la: {0}"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:90
 msgid "Discard files and switch"
-msgstr ""
+msgstr "Renunțați la fișiere și comutați"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:91
 msgid "Preserve files and switch"
-msgstr ""
+msgstr "Păstrați fișierele și comutați"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:125
 msgid "Opening another branch"
-msgstr ""
+msgstr "Deschiderea unei alte ramuri"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:126
 #, python-brace-format
 msgid "Running git checkout for '{0}'..."
-msgstr ""
+msgstr "Se execută git checkout pentru '{0}'..."
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:148
 #, python-brace-format
@@ -3937,20 +3977,23 @@ msgid ""
 "\n"
 "{2}"
 msgstr ""
+"Ramura '{0}' nu există încă. Dorești să o creezi din '{1}' și să o publice?\n"
+"\n"
+"{2}"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:185
 #, python-brace-format
 msgid "{0} (new)"
-msgstr ""
+msgstr "{0} (nou)"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:193
 #, python-brace-format
 msgid "This will copy all code from '{0}' to the new '{1}' branch"
-msgstr ""
+msgstr "Aceasta va copia tot codul din '{0}' în noua ramură '{1}'"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:204
 msgid "Create and publish branch"
-msgstr ""
+msgstr "Creează și publică ramura"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:222
 msgid "Creating Branch"
@@ -3963,28 +4006,28 @@ msgstr "Se creează '{0}' din '{1}' și se împinge..."
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:230
 msgid "Propose branch integration?"
-msgstr ""
+msgstr "Propui integrarea ramurii?"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:232
 msgid "open a Pull Request on GitHub; this does not run git merge on your computer"
-msgstr ""
+msgstr "deschide un Pull Request pe GitHub; aceasta nu execută git merge pe calculatorul tău"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:268
 msgid "✓ Auto-merge enabled"
-msgstr ""
+msgstr "✓ Fuziunea automată activată"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:270
 msgid "Manual approval required"
-msgstr ""
+msgstr "Aprobare manuală necesară"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:280
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:234
 msgid "Open Pull Request"
-msgstr ""
+msgstr "Deschide Pull Request"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:302
 msgid "Opening Pull Request"
-msgstr ""
+msgstr "Se deschide Pull Request"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:303
 #, python-brace-format
@@ -3993,28 +4036,28 @@ msgstr "{0}: {1} → {2}"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:318
 msgid "Removing old branches"
-msgstr ""
+msgstr "Se elimină ramurile vechi"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:319
 msgid "Running the reviewed git branch and git push deletion commands..."
-msgstr ""
+msgstr "Se execută comenzile de ștergere git branch și git push revizuite..."
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:332
 msgid "Removing workflow runs"
-msgstr ""
+msgstr "Se elimină execuțiile workflow-urilor"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:333
 #, python-brace-format
 msgid "delete {0} GitHub Actions runs"
-msgstr ""
+msgstr "șterge execuțiile GitHub Actions pentru {0}"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:344
 msgid "Removing remote tags"
-msgstr ""
+msgstr "Se elimină tag-urile de la distanță"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:345
 msgid "delete all remote tag references; local tags are unchanged"
-msgstr ""
+msgstr "șterge toate referințele către tag-urile de la distanță; tag-urile locale rămân neschimbate"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:357
 msgid "Reverting Commit"
@@ -4095,9 +4138,9 @@ msgid "Resolved {0} of {1} conflicts"
 msgstr "Rezolvate {0} din {1} conflicte"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:381
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Opening {0}. After editing, click 'Mark as Edited' to continue."
-msgstr "Fișier deschis în {0}. După editare, apasă 'Marchează ca editat' pentru a continua."
+msgstr "Se deschide {0}. După editare, faceți clic pe 'Marcare ca Editat' pentru a continua."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:426
 #, python-brace-format
@@ -4116,19 +4159,19 @@ msgstr "Compară: {0}"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:461
 msgid "◀ LOCAL (Your Version)"
-msgstr ""
+msgstr "◀ LOCAL (Versiunea ta)"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:472
 msgid "REMOTE (Server) ▶"
-msgstr ""
+msgstr "REMOTE (Server) ▶"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:491
 msgid "📁 LOCAL VERSION"
-msgstr ""
+msgstr "📁 VERSIUNEA LOCALĂ"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:525
 msgid "☁️ REMOTE VERSION"
-msgstr ""
+msgstr "☁️ VERSIUNEA DE LA DISTANȚĂ"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:581
 msgid "✓ Use LOCAL Version"
@@ -4156,7 +4199,7 @@ msgstr "Toate conflictele rezolvate (au fost acceptate versiunile de la distanț
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:713
 msgid "Delete files to resolve conflicts?"
-msgstr ""
+msgstr "Șterg fișierele pentru a rezolva conflictele?"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:714
 #, python-brace-format
@@ -4164,10 +4207,12 @@ msgid ""
 "The selected versions delete these files:\n"
 "{0}"
 msgstr ""
+"Versiunile selectate șterg aceste fișiere:\n"
+"{0}"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:719
 msgid "Delete and Apply"
-msgstr ""
+msgstr "Șterge și aplică"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:848
 #, python-brace-format
@@ -4210,13 +4255,12 @@ msgid "Untracked"
 msgstr "Netratat"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:20
-#, fuzzy
 msgid "Added and modified"
-msgstr "Adăugat+Modificat"
+msgstr "Adăugat și modificat"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:21
 msgid "Modified in index and working tree"
-msgstr ""
+msgstr "Modificat în index și în arborele de lucru"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:37
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:553
@@ -4224,20 +4268,18 @@ msgstr ""
 msgid "{0} changed file(s)"
 msgstr "{0} fișier(e) modificat(e)"
 
-#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:96
-#, fuzzy
-msgid "File differences"
-msgstr "Nu s-au putut analiza diferențele dintre fișiere"
-
-#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:100
-#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:141
-#, fuzzy
-msgid "No changed files to display."
-msgstr "Nicio modificare de comis"
-
 #: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:106
+msgid "File differences"
+msgstr "Diferențe între fișiere"
+
+#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:110
+#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:151
+msgid "No changed files to display."
+msgstr "Niciun fișier modificat de afișat."
+
+#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:116
 msgid "No textual differences to display."
-msgstr ""
+msgstr "Nu există diferențe textuale de afișat."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/preview_dialog.py:28
 #, python-brace-format
@@ -4263,12 +4305,12 @@ msgstr "Următoarele operațiuni vor fi executate:"
 #: usr/share/gitrepo/build_package/gui/dialogs/preview_dialog.py:124
 #, python-brace-format
 msgid "✓ {0} safe operations"
-msgstr ""
+msgstr "✓ {0} operațiuni sigure"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/preview_dialog.py:131
 #, python-brace-format
 msgid "⚠ {0} destructive operations"
-msgstr ""
+msgstr "⚠ {0} operațiuni distructive"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/preview_dialog.py:148
 msgid "Proceed"
@@ -4276,24 +4318,23 @@ msgstr "Continuă"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:30
 msgid "Operation Progress"
-msgstr ""
+msgstr "Progresul operațiunii"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:68
 msgid "Running"
-msgstr ""
+msgstr "Se execută"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:101
 msgid "Initializing..."
 msgstr "Inițializare..."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:122
-#, fuzzy
 msgid "Operation progress"
-msgstr "Previzualizare Operațiune"
+msgstr "Progresul operațiunii"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:342
 msgid "The operation did not complete. The log below states the cause and what to do next."
-msgstr ""
+msgstr "Operația nu s-a finalizat. Jurnalul de mai jos indică cauza și ce trebuie făcut în continuare."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:369
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:564
@@ -4317,28 +4358,27 @@ msgid "Open in GitHub"
 msgstr "Deschide în GitHub"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:459
-#, fuzzy
 msgid "One operation at a time"
-msgstr "Previzualizare Operațiune"
+msgstr "O singură operațiune odată"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:460
 #, python-brace-format
 msgid "“{0}” cannot start while another operation is still running."
-msgstr ""
+msgstr "„{0}” nu poate porni în timp ce o altă operație este încă în desfășurare."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:547
 #, python-brace-format
 msgid "The commit {0} exists locally on {1}."
-msgstr ""
+msgstr "Commit-ul {0} există local pe {1}."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:551
 #, python-brace-format
 msgid "The branch {0} exists locally."
-msgstr ""
+msgstr "Ramura {0} există local."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:553
 msgid "The local part of this operation was kept."
-msgstr ""
+msgstr "Partea locală a acestei operații a fost păstrată."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:554
 #, python-brace-format
@@ -4346,6 +4386,8 @@ msgid ""
 "{0}\n"
 "The remote was not changed. Retry with: {1}"
 msgstr ""
+"{0}\n"
+"Depozitul la distanță nu a fost modificat. Reîncercați cu: {1}"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:570
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:592
@@ -4360,7 +4402,7 @@ msgstr "Operațiune anulată"
 
 #: usr/share/gitrepo/build_package/gui/gtk_adapters.py:125
 msgid "Select an option."
-msgstr ""
+msgstr "Selectați o opțiune."
 
 #: usr/share/gitrepo/build_package/gui/gtk_logger.py:89
 #: usr/share/gitrepo/common/rich_logger.py:66
@@ -4393,23 +4435,22 @@ msgstr "Despre pachetul de construire"
 
 #: usr/share/gitrepo/build_package/gui/main_gui.py:253
 msgid "Open behavior settings"
-msgstr ""
+msgstr "Deschideți setările de comportament"
 
 #: usr/share/gitrepo/build_package/gui/main_gui.py:256
 #: usr/share/gitrepo/build_package/gui/main_window.py:234
 msgid "Publish Changes"
-msgstr ""
+msgstr "Publicați modificările"
 
 #: usr/share/gitrepo/build_package/gui/main_gui.py:257
 #: usr/share/gitrepo/build_package/gui/main_window.py:235
 msgid "Organize Branches"
-msgstr ""
+msgstr "Organizați ramuri"
 
 #: usr/share/gitrepo/build_package/gui/main_gui.py:258
 #: usr/share/gitrepo/build_package/gui/main_window.py:236
-#, fuzzy
 msgid "Packages"
-msgstr "Pachete AUR"
+msgstr "Pachete"
 
 #: usr/share/gitrepo/build_package/gui/main_gui.py:299
 #, python-brace-format
@@ -4428,15 +4469,15 @@ msgstr "Eroare fatală GUI: {0}"
 #: usr/share/gitrepo/build_package/gui/main_window.py:43
 #: usr/share/gitrepo/build_package/gui/main_window.py:517
 msgid "Checking repository…"
-msgstr ""
+msgstr "Se verifică depozitul…"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:117
 msgid "GitHub"
-msgstr ""
+msgstr "GitHub"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:142
 msgid "Start Here"
-msgstr ""
+msgstr "Începeți aici"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:198
 #, python-brace-format
@@ -4444,31 +4485,28 @@ msgid "Failed to initialize: {0}"
 msgstr "Inițializare eșuată: {0}"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:215
-#, fuzzy
 msgid "Build and publish packages"
-msgstr "Construiește pachetul AUR"
+msgstr "Construiește și publică pachete"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:216
 msgid "Start a build on GitHub Actions from this repository or from a community source."
-msgstr ""
+msgstr "Porniți o compilare pe GitHub Actions din acest depozit sau dintr-o sursă comunitară."
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:218
-#, fuzzy
 msgid "This repository"
-msgstr "Fără depozit"
+msgstr "Acest depozit"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:219
-#, fuzzy
 msgid "AUR"
-msgstr "URL AUR"
+msgstr "AUR"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:226
 msgid "Settings and repository maintenance"
-msgstr ""
+msgstr "Setări și întreținerea depozitului"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:227
 msgid "Local Git behavior, GitHub access, and the destructive operations that need confirmation."
-msgstr ""
+msgstr "Comportamentul Git local, accesul GitHub și operațiunile distructive care necesită confirmare."
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:383
 msgid "No repository"
@@ -4477,7 +4515,7 @@ msgstr "Fără depozit"
 #: usr/share/gitrepo/build_package/gui/main_window.py:385
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:403
 msgid "Local Git repository"
-msgstr ""
+msgstr "Depozit Git local"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:386
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:257
@@ -4486,7 +4524,7 @@ msgstr ""
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:432
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:375
 msgid "Detached HEAD"
-msgstr ""
+msgstr "HEAD detașat"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:386
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:257
@@ -4499,12 +4537,12 @@ msgstr "Necunoscut"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:394
 msgid "Refreshing status…"
-msgstr ""
+msgstr "Actualizare stare…"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:521
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:63
 msgid "Checking…"
-msgstr ""
+msgstr "Verificare…"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:550
 #, python-brace-format
@@ -4513,7 +4551,7 @@ msgstr "Commit ({0} modificări în așteptare)"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:552
 msgid "Commit (status unavailable)"
-msgstr ""
+msgstr "Commit (stare indisponibilă)"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:554
 msgid "Commit"
@@ -4532,6 +4570,11 @@ msgid ""
 "\n"
 "{1}"
 msgstr ""
+"Sunteți pe cale să faceți commit direct în '{0}'.\n"
+"\n"
+"Aceasta este de obicei protejată. Luați în considerare utilizarea ramurii dvs. de dezvoltare.\n"
+"\n"
+"{1}"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:69
 msgid "Confirm Commit Branch"
@@ -4540,12 +4583,12 @@ msgstr "Confirmă ramura pentru commit"
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:71
 #, python-brace-format
 msgid "Choose where to publish your changes. {0}"
-msgstr ""
+msgstr "Alegeți unde să publicați modificările. {0}"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:107
 #, python-brace-format
 msgid "Your dev branch: {0}"
-msgstr ""
+msgstr "Ramura dvs. de dezvoltare: {0}"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:118
 #, python-brace-format
@@ -4568,72 +4611,72 @@ msgstr "Fă commit pe {0}"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:160
 msgid "Preparing and publishing changes"
-msgstr ""
+msgstr "Pregătirea și publicarea modificărilor"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:161
 #, python-brace-format
 msgid "Switching to {0}, then running the publish command sequence..."
-msgstr ""
+msgstr "Se comută la {0}, apoi se execută secvența comenzii de publicare..."
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:172
 msgid "Publishing changes"
-msgstr ""
+msgstr "Publicarea modificărilor"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:173
 #, python-brace-format
 msgid "Running git add, git commit, and git push for {0}..."
-msgstr ""
+msgstr "Se execută git add, git commit și git push pentru {0}..."
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:197
 msgid "Downloading updates"
-msgstr ""
+msgstr "Descărcarea actualizărilor"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:198
 msgid "Running git fetch and git merge for the current branch..."
-msgstr ""
+msgstr "Se execută git fetch și git merge pentru ramura curentă..."
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:207
 msgid "Repository is already up to date"
-msgstr ""
+msgstr "Repository-ul este deja actualizat"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:212
 msgid "Changes received from the remote"
-msgstr ""
+msgstr "Modificări primite de la distanță"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:223
 msgid "Undoing the last commit"
-msgstr ""
+msgstr "Anularea ultimului commit"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:224
 msgid "Running git reset HEAD~1 and keeping the files changed..."
-msgstr ""
+msgstr "Se execută git reset HEAD~1 și se păstrează fișierele modificate..."
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:245
 msgid "Starting package workflow"
-msgstr ""
+msgstr "Pornirea fluxului de lucru pentru pachet"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:246
 #, python-brace-format
 msgid "build and publish the {0} package"
-msgstr ""
+msgstr "construirea și publicarea pachetului {0}"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:267
 msgid "Publishing changes and starting package workflow"
-msgstr ""
+msgstr "Publicarea modificărilor și pornirea fluxului de lucru pentru pachet"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:268
 #, python-brace-format
 msgid "Running the Git publish sequence, then asking GitHub Actions to build {0}..."
-msgstr ""
+msgstr "Se execută secvența de publicare Git, apoi se solicită GitHub Actions să construiască {0}..."
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:282
 msgid "Starting AUR workflow"
-msgstr ""
+msgstr "Pornirea fluxului de lucru AUR"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:283
 #, python-brace-format
 msgid "clone and build the AUR package {0}"
-msgstr ""
+msgstr "clonarea și construirea pachetului AUR {0}"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:323
 msgid "GitHub Token Setup"
@@ -4683,7 +4726,7 @@ msgstr "Numele de utilizator și tokenul sunt obligatorii"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:393
 msgid "The token could not be saved in the system keyring. Check that the keyring is unlocked and try again."
-msgstr ""
+msgstr "Tokenul nu a putut fi salvat în sistemul de chei. Verificați că sistemul de chei este deblocat și încercați din nou."
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:404
 msgid "✓ Token saved successfully"
@@ -4691,11 +4734,11 @@ msgstr "✓ Tokenul a fost salvat cu succes"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:92
 msgid "Maintain and restore the repository"
-msgstr ""
+msgstr "Menține și restaurează repository-ul"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:94
 msgid "Remove obsolete references or return files and history to an earlier point. Every destructive command requires confirmation."
-msgstr ""
+msgstr "Elimină referințe învechite sau readuce fișierele și istoricul la un punct anterior. Orice comandă distructivă necesită confirmare."
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:104
 msgid "Warning: These operations can be destructive"
@@ -4706,33 +4749,32 @@ msgid "Cleanup Operations"
 msgstr "Operațiuni de Curățare"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:113
-#, fuzzy
 msgid "Remove obsolete GitHub Actions runs and remote tags"
-msgstr "Elimină ramurile, acțiunile și etichetele vechi"
+msgstr "Elimină rulările vechi GitHub Actions și tagurile la distanță"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:118
 msgid "Remove failed workflow runs"
-msgstr ""
+msgstr "Elimină rulările de flux de lucru eșuate"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:119
 msgid "delete failed GitHub Actions runs; no Git command is used"
-msgstr ""
+msgstr "șterge rulările GitHub Actions eșuate; nu se utilizează nicio comandă Git"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:125
 msgid "Remove successful workflow runs"
-msgstr ""
+msgstr "Elimină rulările de flux de lucru reușite"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:126
 msgid "delete successful GitHub Actions runs; no Git command is used"
-msgstr ""
+msgstr "șterge rulările reușite de GitHub Actions; nu se utilizează nicio comandă Git"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:132
 msgid "Remove all remote tags"
-msgstr ""
+msgstr "Șterge toate etichetele la distanță"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:133
 msgid "delete refs/tags through the GitHub API; local tags are unchanged"
-msgstr ""
+msgstr "șterge refs/tags prin API-ul GitHub; etichetele locale rămân neschimbate"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:154
 msgid "Commit History"
@@ -4744,15 +4786,15 @@ msgstr "Vizualizează și revino la commit-urile recente"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:174
 msgid "How to return to the selected commit"
-msgstr ""
+msgstr "Cum să revii la commitul selectat"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:179
 msgid "Restore files with a new commit"
-msgstr ""
+msgstr "Restaurează fișierele cu un commit nou"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:180
 msgid "Move history back and delete newer commits"
-msgstr ""
+msgstr "Deplasează istoricul înapoi și șterge commiturile mai noi"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:201
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:215
@@ -4762,7 +4804,7 @@ msgstr "Reîmprospătează"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:207
 msgid "Return to selected commit"
-msgstr ""
+msgstr "Revino la commitul selectat"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:232
 msgid "No commits yet"
@@ -4775,11 +4817,11 @@ msgstr "Creează primul tău commit pentru a vedea istoricul"
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:237
 #, python-brace-format
 msgid "{0} branch(es) and {1} commit(s) in the current branch."
-msgstr ""
+msgstr "{0} ramură(ri) și {1} commit(uri) în ramura curentă."
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:295
 msgid "restore"
-msgstr ""
+msgstr "restaurează"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:295
 msgid "reset"
@@ -4801,30 +4843,37 @@ msgid ""
 "\n"
 "{3}"
 msgstr ""
+"Ești sigur că vrei să {0} acest commit?\n"
+"\n"
+"{1}\n"
+"\n"
+"Commit: {2}\n"
+"\n"
+"{3}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:43
 msgid "Build a package from the AUR"
-msgstr ""
+msgstr "Construiește un pachet din AUR"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:45
 msgid "Choose a community-maintained package. GitHub Actions downloads its AUR repository and builds it; no local Git command is run."
-msgstr ""
+msgstr "Alege un pachet întreținut de comunitate. GitHub Actions descarcă depozitul AUR și îl construiește; nu se execută nicio comandă Git locală."
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:54
 msgid "GitHub AUR workflow"
-msgstr ""
+msgstr "Flux de lucru GitHub AUR"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:56
 msgid "This optional feature asks GitHub Actions to download a community package recipe and build it remotely."
-msgstr ""
+msgstr "Această funcționalitate opțională solicită GitHub Actions să descarce o rețetă de pachet comunitar și să o construiască de la distanță."
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:59
 msgid "Enable AUR package builds"
-msgstr ""
+msgstr "Activează construirea pachetelor AUR"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:62
 msgid "Show the AUR package form below. Running it requires a GitHub access token; no local Git branch is created."
-msgstr ""
+msgstr "Afișează formularul pentru pachet AUR mai jos. Pentru a-l rula, este necesar un token de acces GitHub; nu se creează nicio ramură Git locală."
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:74
 msgid "AUR packages are built from community-maintained sources"
@@ -4840,15 +4889,15 @@ msgstr "Informații despre pachet"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:85
 msgid "What an AUR build does"
-msgstr ""
+msgstr "Ce face o construire AUR"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:87
 msgid "The workflow clones the package recipe from the Arch User Repository and builds it on GitHub. Nothing is compiled on this computer, and the recipe is maintained by the community, not by BigCommunity."
-msgstr ""
+msgstr "Fluxul de lucru clonează rețeta pachetului din Arch User Repository și o construiește pe GitHub. Nimic nu este compilat pe acest calculator, iar rețeta este întreținută de comunitate, nu de BigCommunity."
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:93
 msgid "The package name determines the community source URL used by the build."
-msgstr ""
+msgstr "Numele pachetului determină URL-ul sursei comunitare utilizat de construire."
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:96
 msgid "AUR Package Name"
@@ -4864,7 +4913,7 @@ msgstr "Opțiuni de construire"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:118
 msgid "Optional diagnostics for the AUR build job."
-msgstr ""
+msgstr "Diagnosticări opționale pentru jobul de construire AUR."
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:121
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:300
@@ -4882,20 +4931,20 @@ msgstr "Rezumat construire"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:131
 msgid "clone the selected AUR source and build it in BigCommunity infrastructure"
-msgstr ""
+msgstr "clonează sursa AUR selectată și o construiește în infrastructura BigCommunity"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:144
 msgid "Execution method"
-msgstr ""
+msgstr "Metodă de execuție"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:149
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:268
 msgid "GitHub Actions workflow — no local branch is created"
-msgstr ""
+msgstr "Flux de lucru GitHub Actions — nu se creează nicio ramură locală"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:166
 msgid "Start AUR workflow"
-msgstr ""
+msgstr "Pornește fluxul de lucru AUR"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:220
 msgid "Enter package name above"
@@ -4908,7 +4957,7 @@ msgstr "Confirmă construire AUR"
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:283
 #, python-brace-format
 msgid "Package: {0}"
-msgstr ""
+msgstr "Pachet: {0}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:293
 msgid "This will:"
@@ -4916,41 +4965,40 @@ msgstr "Aceasta va:"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:300
 msgid "• No local Git command or branch will be created"
-msgstr ""
+msgstr "• Nu se va crea nicio comandă sau ramură Git locală"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:301
 #, python-brace-format
 msgid "• GitHub Actions clones: {0}"
-msgstr ""
+msgstr "• GitHub Actions clonează: {0}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:302
 msgid "• The workflow builds the package in BigCommunity infrastructure"
-msgstr ""
+msgstr "• Fluxul de lucru construiește pachetul în infrastructura BigCommunity"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:39
 msgid "Checked out right now"
-msgstr ""
+msgstr "Verificat chiar acum"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
-#, fuzzy
 msgid "Current"
-msgstr "Cod curent"
+msgstr "Curent"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:52
 msgid "Only on origin; created locally on first checkout"
-msgstr ""
+msgstr "Doar pe origine; creat local la prima verificare"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:56
 msgid "Exists only on origin; it is created locally on first checkout"
-msgstr ""
+msgstr "Există doar pe origine; este creat local la prima verificare"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:91
 msgid "Organize lines of work"
-msgstr ""
+msgstr "Organizează liniile de lucru"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:93
 msgid "Switch branches with git checkout, publish new branches with git push, or propose integration on GitHub."
-msgstr ""
+msgstr "Comută între ramuri cu git checkout, publică ramuri noi cu git push sau propune integrarea pe GitHub."
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:103
 msgid "Current Status"
@@ -4958,7 +5006,7 @@ msgstr "Stare curentă"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:104
 msgid "Shows the active branch and the most recently updated local branch."
-msgstr ""
+msgstr "Afișează ramura activă și cea mai recent actualizată ramură locală."
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:107
 msgid "Active Branch"
@@ -4978,35 +5026,35 @@ msgstr "Ramuri disponibile"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:129
 msgid "Selecting another branch runs git checkout BRANCH; remote-only branches are created locally first."
-msgstr ""
+msgstr "Selectarea unei alte ramuri rulează comanda git checkout BRANCH; ramurile numai de la distanță sunt create mai întâi local."
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:152
 msgid "Return to the main line of development with an explicit Git command."
-msgstr ""
+msgstr "Revino la linia principală de dezvoltare cu o comandă Git explicită."
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:156
 msgid "Return to the main branch"
-msgstr ""
+msgstr "Revino la ramura principală"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:162
 msgid "Open main"
-msgstr ""
+msgstr "Deschide principalul"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:174
 msgid "Propose branch integration"
-msgstr ""
+msgstr "Propune integrarea ramurii"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:177
 msgid "How integration works"
-msgstr ""
+msgstr "Cum funcționează integrarea"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:179
 msgid "The source branch is the one carrying your work; the target is where it should land. GitRepo opens a pull request on GitHub instead of merging locally, so the review and the checks still run."
-msgstr ""
+msgstr "Ramura sursă este cea care conține munca ta; ținta este unde ar trebui să ajungă. GitRepo deschide un pull request pe GitHub în loc să facă integrarea local, astfel încât revizuirea și verificările rulează în continuare."
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:186
 msgid "open a Pull Request from the source branch to the target branch"
-msgstr ""
+msgstr "deschide un Pull Request de la ramura sursă la ramura țintă"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:192
 msgid "Branch to merge from"
@@ -5026,61 +5074,59 @@ msgstr "Reîmprospătează lista de ramuri"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:222
 msgid "Remove old branches"
-msgstr ""
+msgstr "Elimină ramurile vechi"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:259
 msgid "Not available"
-msgstr ""
+msgstr "Nu este disponibil"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:21
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:29
-#, fuzzy
 msgid "Checking"
-msgstr "Verificare..."
+msgstr "Se verifică"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:23
 msgid "Attention"
-msgstr ""
+msgstr "Atenție"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:24
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:32
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:438
 msgid "Unavailable"
-msgstr ""
+msgstr "Indisponibil"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:30
 msgid "Ready"
-msgstr ""
+msgstr "Pregătit"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:31
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:562
-#, fuzzy
 msgid "Pending changes"
-msgstr "Commit ({0} modificări în așteptare)"
+msgstr "Modificări în așteptare"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:131
 msgid "Refresh repository status"
-msgstr ""
+msgstr "Reîmprospătează starea depozitului"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:136
 msgid "Publish your work"
-msgstr ""
+msgstr "Publică-ți munca"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:137
 msgid "Review what changed, describe it, and send it to a remote branch."
-msgstr ""
+msgstr "Revizuiește ce s-a schimbat, descrie modificările și trimite-le către o ramură la distanță."
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:150
 msgid "Pending files and history"
-msgstr ""
+msgstr "Fișiere în așteptare și istoric"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:151
 msgid "Review what will be recorded before writing the commit."
-msgstr ""
+msgstr "Revizuiește ce va fi înregistrat înainte de a scrie commit-ul."
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:154
 msgid "What publishing runs"
-msgstr ""
+msgstr "Ce operează publicarea"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:155
 #, python-brace-format
@@ -5089,6 +5135,9 @@ msgid ""
 "\n"
 "Publish changes: {1}"
 msgstr ""
+"Descarcă actualizări: {0}\n"
+"\n"
+"Publică modificări: {1}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:164
 msgid "Last Commit"
@@ -5100,7 +5149,7 @@ msgstr "Fără informații despre commit"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:174
 msgid "Undo the last commit and keep its files changed — git reset HEAD~1"
-msgstr ""
+msgstr "Anulează ultimul commit și păstrează fișierele modificate — git reset HEAD~1"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:185
 msgid "Changed Files"
@@ -5111,13 +5160,12 @@ msgid "Click to view files"
 msgstr "Click pentru a vizualiza fișierele"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:194
-#, fuzzy
 msgid "Describe the commit"
-msgstr "Revocă commit"
+msgstr "Descrie commit-ul"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:195
 msgid "The type prefixes the message recorded by Git."
-msgstr ""
+msgstr "Tipul prefixează mesajul înregistrat de Git."
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:202
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:215
@@ -5125,9 +5173,8 @@ msgid "Commit Type"
 msgstr "Tip commit"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:205
-#, fuzzy
 msgid "Required — select the type of change"
-msgstr "Selectează tipul modificării"
+msgstr "Obligatoriu – selectează tipul de modificare"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:232
 msgid "Description (supports multiple lines)"
@@ -5149,21 +5196,21 @@ msgstr "Descriere pentru {0} (suportă mai multe linii)"
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:407
 #, python-brace-format
 msgid "{0} • branch {1} • status unavailable"
-msgstr ""
+msgstr "{0} • ramură {1} • stare indisponibilă"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:409
 #, python-brace-format
 msgid "{0} • branch {1} • {2} changed file(s)"
-msgstr ""
+msgstr "{0} • ramură {1} • {2} fișier(e) modificat(e)"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:410
 #, python-brace-format
 msgid "{0} • branch {1} • working tree clean"
-msgstr ""
+msgstr "{0} • ramură {1} • arborele de lucru curat"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:423
 msgid "Branch"
-msgstr ""
+msgstr "Ramură"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:424
 msgid "Changes"
@@ -5174,29 +5221,28 @@ msgid "Commits"
 msgstr "Commit-uri"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:437
-#, fuzzy
 msgid "Status unavailable"
-msgstr "{0} (disponibil)"
+msgstr "Stare indisponibilă"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:440
 msgid "Repository status unavailable"
-msgstr ""
+msgstr "Starea depozitului indisponibilă"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:443
 msgid "Commit count may be stale"
-msgstr ""
+msgstr "Numărul de confirmări poate fi învechit"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:447
 msgid "Active branch detected"
-msgstr ""
+msgstr "Ramură activă detectată"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:448
 msgid "Commit history available"
-msgstr ""
+msgstr "Istoricul confirmărilor disponibil"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:453
 msgid "Ready to publish"
-msgstr ""
+msgstr "Gata de publicare"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:455
 msgid "No changes"
@@ -5204,45 +5250,43 @@ msgstr "Fără modificări"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:456
 msgid "Working tree clean"
-msgstr ""
+msgstr "Arborele de lucru este curat"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:464
 msgid "Nothing to publish"
-msgstr ""
+msgstr "Nimic de publicat"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:465
 #, python-brace-format
 msgid "The working tree on {0} is clean."
-msgstr ""
+msgstr "Arborele de lucru pe {0} este curat."
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:468
 msgid "choose a type"
-msgstr ""
+msgstr "alege un tip"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:470
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} • {1} file(s) • branch {2}"
-msgstr "{0}: {1} → {2}"
+msgstr "{0} • {1} fișier(e) • branch {2}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:473
-#, fuzzy
 msgid "commit type"
-msgstr "Tip commit"
+msgstr "tip commit"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:475
-#, fuzzy
 msgid "description"
-msgstr "Ediție"
+msgstr "descriere"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:477
 #, python-brace-format
 msgid "Still missing: {0}"
-msgstr ""
+msgstr "Încă lipsesc: {0}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:479
 #, python-brace-format
 msgid "git add -A → git commit → git push origin {0}"
-msgstr ""
+msgstr "git add -A → git commit → git push origin {0}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:524
 msgid "Added+Modified"
@@ -5272,42 +5316,40 @@ msgstr "Anulează commitarea"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:59
 msgid "Build and publish a package"
-msgstr ""
+msgstr "Construiește și publică un pachet"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:60
 msgid "Choose a destination and start a build on GitHub Actions."
-msgstr ""
+msgstr "Alege o destinație și pornește o construcție pe GitHub Actions."
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:68
 msgid "GitHub package workflow"
-msgstr ""
+msgstr "Flux de lucru pentru pachetul GitHub"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:73
 msgid "Enable package generation"
-msgstr ""
+msgstr "Activează generarea pachetelor"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:74
 msgid "Requires a GitHub access token."
-msgstr ""
+msgstr "Necesită un token de acces GitHub."
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:78
-#, fuzzy
 msgid "Before publishing a package"
-msgstr "Forțarea push-ului modificărilor..."
+msgstr "Înainte de a publica un pachet"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:79
 #, python-brace-format
 msgid "Pending files must be committed first: {0}"
-msgstr ""
+msgstr "Fișierele în așteptare trebuie confirmate mai întâi: {0}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:95
-#, fuzzy
 msgid "Package generation is off"
-msgstr "Generare Pachet"
+msgstr "Generarea pachetului este dezactivată"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:98
 msgid "Turn it on to publish this repository to the testing, stable, or extra repository. The build runs on GitHub Actions and needs an access token; nothing is compiled here."
-msgstr ""
+msgstr "Activează pentru a publica acest depozit în depozitul de testare, stabil sau suplimentar. Construirea rulează pe GitHub Actions și necesită un token de acces; aici nu se compilează nimic."
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:110
 msgid "Repository Status"
@@ -5315,7 +5357,7 @@ msgstr "Starea depozitului"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:111
 msgid "Confirms the package, branch, and working tree used by the workflow."
-msgstr ""
+msgstr "Confirmă pachetul, ramura și arborele de lucru utilizate de fluxul de lucru."
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:130
 msgid "Changes Status"
@@ -5327,23 +5369,23 @@ msgstr "Depozitul țintă"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:144
 msgid "Which repository to publish to"
-msgstr ""
+msgstr "Ce depozit să se publice"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:146
 msgid "Testing receives packages for validation and is built from your development branch. Stable is what users install, and it is always built from main. Extra holds complementary packages that follow the same stable rules."
-msgstr ""
+msgstr "Depozitul de testare primește pachete pentru validare și este construit din ramura ta de dezvoltare. Depozitul stabil este cel pe care utilizatorii îl instalează și este întotdeauna construit din ramura principală. Depozitul suplimentar conține pachete complementare care respectă aceleași reguli stabile."
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:153
 msgid "build the package and publish it to the selected repository"
-msgstr ""
+msgstr "construiește pachetul și publică-l în depozitul selectat"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:161
 msgid "Validate the package before a stable release"
-msgstr ""
+msgstr "Validează pachetul înainte de o lansare stabilă"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:164
 msgid "Publish the package for all users"
-msgstr ""
+msgstr "Publică pachetul pentru toți utilizatorii"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:165
 msgid "Extra"
@@ -5351,11 +5393,11 @@ msgstr "Extra"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:165
 msgid "Publish an optional or additional package"
-msgstr ""
+msgstr "Publică un pachet opțional sau suplimentar"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:203
 msgid "Record pending files before building"
-msgstr ""
+msgstr "Înregistrează fișierele în așteptare înainte de construire"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:216
 msgid "Select the type of change"
@@ -5367,24 +5409,24 @@ msgstr "Mesaj commit"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:292
 msgid "Advanced Options"
-msgstr ""
+msgstr "Opțiuni avansate"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:293
 msgid "Optional tools for diagnosing the remote workflow."
-msgstr ""
+msgstr "Instrumente opționale pentru diagnosticarea fluxului de lucru la distanță."
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:296
 msgid "Remote Debugging"
-msgstr ""
+msgstr "Depanare la distanță"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:297
 msgid "Keep disabled for normal package builds"
-msgstr ""
+msgstr "Păstrați dezactivat pentru compilări normale de pachete"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:320
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:521
 msgid "Start package workflow"
-msgstr ""
+msgstr "Porniți fluxul de lucru pentru pachete"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:370
 msgid "Error: PKGBUILD not found"
@@ -5392,7 +5434,7 @@ msgstr "Eroare: PKGBUILD nu a fost găsit"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:384
 msgid "Working tree status unavailable"
-msgstr ""
+msgstr "Starea arborelui de lucru indisponibilă"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:390
 msgid "Uncommitted changes present"
@@ -5404,232 +5446,231 @@ msgstr "Directorul de lucru este curat"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:431
 msgid "Start testing build"
-msgstr ""
+msgstr "Porniți compilarea de testare"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:432
 msgid "Start stable build"
-msgstr ""
+msgstr "Porniți compilarea stabilă"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:433
 msgid "Start extra build"
-msgstr ""
+msgstr "Porniți compilarea suplimentară"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:35
 msgid "Connect GitHub securely"
-msgstr ""
+msgstr "Conectați-vă securizat la GitHub"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:37
 msgid "Local Git commands do not need a token. A token is used only when this app asks GitHub to run package workflows or manage remote automation."
-msgstr ""
+msgstr "Comenzile Git locale nu necesită un token. Un token este folosit doar când această aplicație solicită GitHub să ruleze fluxuri de lucru pentru pachete sau să gestioneze automatizarea la distanță."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:46
 msgid "Tokens saved on this computer"
-msgstr ""
+msgstr "Token-uri salvate pe acest computer"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:48
 msgid "Values are protected by the system keyring and are never displayed by this app."
-msgstr ""
+msgstr "Valorile sunt protejate de sistemul de chei și nu sunt niciodată afișate de această aplicație."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:56
 msgid "About GitHub access tokens"
-msgstr ""
+msgstr "Despre token-urile de acces GitHub"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:58
 msgid "The token identifies your account so the app can start GitHub workflows that Git alone cannot. It authorizes one organization or user, and saving it does not verify its permissions. Package workflows need: repo, workflow, write:packages, delete:packages, read:org."
-msgstr ""
+msgstr "Token-ul vă identifică contul, astfel încât aplicația să poată porni fluxurile de lucru GitHub pe care Git singur nu le poate face. Acesta autorizează o organizație sau un utilizator, iar salvarea lui nu îi verifică permisiunile. Fluxurile de lucru pentru pachete necesită: repo, workflow, write:packages, delete:packages, read:org."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:67
 msgid "Create a classic access token on GitHub"
-msgstr ""
+msgstr "Creați un token de acces clasic pe GitHub"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:79
 msgid "Save or replace an access token"
-msgstr ""
+msgstr "Salvați sau înlocuiți un token de acces"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:83
 msgid "Use the GitHub organization or username that owns the repositories where workflows will run."
-msgstr ""
+msgstr "Utilizați organizația GitHub sau numele de utilizator care deține depozitele unde vor rula fluxurile de lucru."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:87
 msgid "GitHub organization or username"
-msgstr ""
+msgstr "Organizație sau nume de utilizator GitHub"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:92
 msgid "Personal access token"
-msgstr ""
+msgstr "Token de acces personal"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:97
 msgid "Store in the system keyring"
-msgstr ""
+msgstr "Stochează în keyring-ul sistemului"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:98
 msgid "The token value will be cleared from this form after it is stored."
-msgstr ""
+msgstr "Valoarea token-ului va fi ștearsă din acest formular după stocare."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:99
 msgid "Save access token"
-msgstr ""
+msgstr "Salvează token-ul de acces"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:108
 msgid "Checking the system keyring…"
-msgstr ""
+msgstr "Se verifică keyring-ul sistemului…"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:123
 msgid "No access tokens saved"
-msgstr ""
+msgstr "Niciun token de acces salvat"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:124
 msgid "Use the form below when you want to run a GitHub workflow."
-msgstr ""
+msgstr "Utilizați formularul de mai jos când doriți să rulați un workflow GitHub."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:132
 msgid "Stored securely in the system keyring"
-msgstr ""
+msgstr "Stocat în siguranță în keyring-ul sistemului"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:138
 #, python-brace-format
 msgid "Delete access token for {0}"
-msgstr ""
+msgstr "Ștergeți token-ul de acces pentru {0}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:150
 msgid "Enter both the GitHub organization and the access token."
-msgstr ""
+msgstr "Introduceți atât organizația GitHub, cât și token-ul de acces."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:178
 msgid "Access token saved in the system keyring"
-msgstr ""
+msgstr "Token de acces salvat în keyring-ul sistemului"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:190
 msgid "Access token removed"
-msgstr ""
+msgstr "Token de acces eliminat"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:194
 msgid "The token could not be removed. Unlock the system keyring and try again."
-msgstr ""
+msgstr "Token-ul nu a putut fi eliminat. Deblocați keyring-ul sistemului și încercați din nou."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:218
 msgid "Choose how local Git operations behave"
-msgstr ""
+msgstr "Alegeți cum se comportă operațiunile locale Git"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:220
 msgid "These settings affect work in the current repository. They do not connect to GitHub and do not require an access token."
-msgstr ""
+msgstr "Aceste setări afectează munca în depozitul curent. Nu se conectează la GitHub și nu necesită un token de acces."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:232
 msgid "When downloaded and local changes conflict"
-msgstr ""
+msgstr "Când descărcarea și modificările locale intrat în conflict"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:235
 msgid "Protection against data loss"
-msgstr ""
+msgstr "Protecție împotriva pierderii de date"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:237
 msgid "Safety confirmations are part of the app and cannot be disabled: it always asks before a force push, a hard reset, branch cleanup, tag deletion, or workflow deletion."
-msgstr ""
+msgstr "Confirmările de siguranță fac parte din aplicație și nu pot fi dezactivate: întreabă întotdeauna înainte de un force push, un hard reset, curățarea ramurilor, ștergerea etichetelor sau ștergerea fluxurilor de lucru."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:243
 msgid "Choose whether the app asks you what to keep or stops so you can resolve the conflict manually."
-msgstr ""
+msgstr "Alegeți dacă aplicația vă întreabă ce să păstreze sau se oprește pentru a putea rezolva conflictul manual."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:246
 msgid "Conflict resolution method"
-msgstr ""
+msgstr "Metodă de rezolvare a conflictelor"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:248
 msgid "Ask each time"
-msgstr ""
+msgstr "Întreabă de fiecare dată"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:249
 msgid "Keep local changes"
-msgstr ""
+msgstr "Păstrează modificările locale"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:250
 msgid "Keep downloaded changes"
-msgstr ""
+msgstr "Păstrează modificările descărcate"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:251
 msgid "Resolve manually"
-msgstr ""
+msgstr "Rezolvă manual"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:259
-#, fuzzy
 msgid "Package version and defaults"
-msgstr "Generare Pachet"
+msgstr "Versiunea pachetului și valorile implicite"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:261
 msgid "Update the package version automatically"
-msgstr ""
+msgstr "Actualizează automat versiunea pachetului"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:263
 msgid "When publishing a typed commit, calculate the next version from the selected change type."
-msgstr ""
+msgstr "La publicarea unui commit tipizat, calculează următoarea versiune pe baza tipului de schimbare selectat."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:269
 msgid "Reset all Build Package settings"
-msgstr ""
+msgstr "Resetează toate setările Build Package"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:270
 msgid "Disable optional GitHub workflows and restore the recommended local Git behavior."
-msgstr ""
+msgstr "Dezactivează fluxurile de lucru GitHub opționale și restabilește comportamentul Git local recomandat."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:271
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:314
 msgid "Reset settings"
-msgstr ""
+msgstr "Resetează setările"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:294
 msgid "The conflict setting could not be saved."
-msgstr ""
+msgstr "Setarea pentru conflict nu a putut fi salvată."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:305
 msgid "The version setting could not be saved."
-msgstr ""
+msgstr "Setarea pentru versiune nu a putut fi salvată."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:310
 msgid "Reset all settings?"
-msgstr ""
+msgstr "Resetați toate setările?"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:311
 msgid "Optional GitHub workflows will be disabled and local Git behavior will return to its defaults."
-msgstr ""
+msgstr "Fluxurile de lucru GitHub opționale vor fi dezactivate, iar comportamentul local al Git va reveni la valorile implicite."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:326
 msgid "Settings restored"
-msgstr ""
+msgstr "Setări restaurate"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:328
 msgid "Settings could not be restored. Try again."
-msgstr ""
+msgstr "Setările nu au putut fi restaurate. Încercați din nou."
 
 #: usr/share/gitrepo/common/desktop_launch.py:62
 #: usr/share/gitrepo/common/desktop_launch.py:90
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not open {0}:"
-msgstr "Nu s-a putut previzualiza fișierul: {0}"
+msgstr "Nu s-a putut deschide {0}:"
 
 #: usr/share/gitrepo/common/desktop_launch.py:76
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not open the folder for {0}:"
-msgstr "Nu s-a putut previzualiza fișierul: {0}"
+msgstr "Nu s-a putut deschide dosarul pentru {0}:"
 
 #: usr/share/gitrepo/common/help_popover.py:41
 msgid "What does this mean?"
-msgstr ""
+msgstr "Ce înseamnă asta?"
 
 #: usr/share/gitrepo/common/help_popover.py:42
 #, python-brace-format
 msgid "Explain: {0}"
-msgstr ""
+msgstr "Explicație: {0}"
 
 #: usr/share/gitrepo/common/page_hero.py:16
 #, python-brace-format
 msgid "Git commands: {0}"
-msgstr ""
+msgstr "Comenzi Git: {0}"
 
 #: usr/share/gitrepo/common/page_hero.py:21
 #, python-brace-format
 msgid "GitHub action: {0}"
-msgstr ""
+msgstr "Acțiune GitHub: {0}"
 
 #: usr/share/gitrepo/common/rich_logger.py:88
 msgid "Field"
@@ -5669,12 +5710,12 @@ msgstr "Acest program vine cu absolut NICIO garanție."
 #: usr/share/nautilus-python/extensions/gitrepo_extension.py:74
 #: usr/share/nautilus-python/extensions/gitrepo_extension.py:102
 msgid "Open in GitRepo"
-msgstr "Deschide în Gitrepo"
+msgstr "Deschideți în GitRepo"
 
 #: usr/share/nautilus-python/extensions/gitrepo_extension.py:76
 #: usr/share/nautilus-python/extensions/gitrepo_extension.py:104
 msgid "Manage this Git repository with GitRepo"
-msgstr "Gestionează acest depozit Git cu Gitrepo"
+msgstr "Gestionați acest depozit Git cu GitRepo."
 
 #: usr/share/nautilus-python/extensions/gitrepo_extension.py:143
 msgid "Could not get the path for the selected folder."
@@ -5691,205 +5732,3 @@ msgstr "Nu s-a găsit GitRepo. Este instalat?"
 #: usr/share/nautilus-python/extensions/gitrepo_extension.py:155
 msgid "Launch Error"
 msgstr "Eroare la lansare"
-
-#~ msgid "✓ File permissions set to 600 (owner read/write only)"
-#~ msgstr "✓ Permisiunile fișierului setate la 600 (doar citire/scriere pentru proprietar)"
-
-#, python-brace-format
-#~ msgid "Disk space: {0:.1f} GB free of {1:.1f} GB"
-#~ msgstr "Spațiu pe disc: {0:.1f} GB liberi din {1:.1f} GB"
-
-#~ msgid "Build History"
-#~ msgstr "Istoric compilări"
-
-#~ msgid "Clear Build History?"
-#~ msgstr "Ștergi Istoricul Compilărilor?"
-
-#~ msgid "Container Engine"
-#~ msgstr "Motor Container"
-
-#, python-brace-format
-#~ msgid "Error fetching Actions jobs. Code: {0}"
-#~ msgstr "Eroare la preluarea job-urilor Actions. Cod: {0}"
-
-#, python-brace-format
-#~ msgid "Error deleting job {0}. Code: {1}"
-#~ msgstr "Eroare la ștergerea jobului {0}. Cod: {1}"
-
-#, python-brace-format
-#~ msgid "Deleted {0} Actions jobs with '{1}' status."
-#~ msgstr "Au fost șterse {0} joburi Actions cu statusul '{1}'."
-
-#, python-brace-format
-#~ msgid "Error fetching tags. Code: {0}"
-#~ msgstr "Eroare la preluarea tagurilor. Cod: {0}"
-
-#~ msgid "No Editor Found"
-#~ msgstr "Nu a fost găsit niciun editor"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Could not find a text editor. Please edit the file manually:\n"
-#~ "\n"
-#~ "{0}"
-#~ msgstr ""
-#~ "Nu am putut găsi un editor de text. Vă rugăm să editați fișierul manual:\n"
-#~ "\n"
-#~ "{0}"
-
-#~ msgid "Operation failed - check terminal log for details"
-#~ msgstr "Operațiune eșuată - verifică jurnalul terminalului pentru detalii"
-
-#~ msgid "Keep both (create .ours and .theirs files)"
-#~ msgstr "Păstrează ambele (creează fișiere .ours și .theirs)"
-
-#~ msgid "Created files:"
-#~ msgstr "Fișiere create:"
-
-#, python-brace-format
-#~ msgid "Error creating versions: {0}"
-#~ msgstr "Eroare la crearea versiunilor: {0}"
-
-#~ msgid "Staging restored files..."
-#~ msgstr "Pregătirea fișierelor restaurate..."
-
-#, python-brace-format
-#~ msgid "Error during revert operation: {0}"
-#~ msgstr "Eroare în timpul operațiunii de revenire: {0}"
-
-#, python-brace-format
-#~ msgid "Unexpected error during revert: {0}"
-#~ msgstr "Eroare neașteptată în timpul revenirii: {0}"
-
-#~ msgid "Engine"
-#~ msgstr "Motor"
-
-#~ msgid "Storage Driver"
-#~ msgstr "Driver de stocare"
-
-#~ msgid "Version"
-#~ msgstr "Versiune"
-
-#~ msgid "Maintenance"
-#~ msgstr "Întreținere"
-
-#~ msgid "Repository Statistics"
-#~ msgstr "Statistici depozit"
-
-#~ msgid "Total Branches"
-#~ msgstr "Total ramuri"
-
-#~ msgid "Commits in Current Branch"
-#~ msgstr "Commit-uri în ramura curentă"
-
-#, fuzzy
-#~ msgid "After publishing"
-#~ msgstr "Forțarea push-ului modificărilor..."
-
-#, fuzzy
-#~ msgid "Build a package"
-#~ msgstr "Construiește pachetul AUR"
-
-#, fuzzy
-#~ msgid "Use a community-maintained recipe"
-#~ msgstr "Pachetele AUR sunt construite din surse întreținute de comunitate"
-
-#~ msgid "Behavior"
-#~ msgstr "Comportament"
-
-#~ msgid "Source"
-#~ msgstr "Sursă"
-
-#~ msgid "Output"
-#~ msgstr "Ieșire"
-
-#, fuzzy
-#~ msgid "Choose the system profile"
-#~ msgstr "Alege depozitul profilurilor ISO:"
-
-#~ msgid "System Status"
-#~ msgstr "Starea sistemului"
-
-#~ msgid "Disk Space"
-#~ msgstr "Spațiu pe disc"
-
-#~ msgid "Last Build"
-#~ msgstr "Ultima compilare"
-
-#, python-brace-format
-#~ msgid "{0:.1f} GB free of {1:.1f} GB"
-#~ msgstr "{0:.1f} GB liberi din {1:.1f} GB"
-
-#~ msgid "(directory will be created)"
-#~ msgstr "(directorul va fi creat)"
-
-#, fuzzy, python-brace-format
-#~ msgid "Selected: {0} • {1}"
-#~ msgstr "Flux: {0} → {1}"
-
-#~ msgid "Refresh profiles"
-#~ msgstr "Reîmprospătează profilurile"
-
-#, python-brace-format
-#~ msgid "Local: {0}"
-#~ msgstr "Local: {0}"
-
-#~ msgid "not configured"
-#~ msgstr "neconfigurat"
-
-#~ msgid "Official GitHub repositories"
-#~ msgstr "Repozitoare oficiale GitHub"
-
-#~ msgid "Package Generation"
-#~ msgstr "Generare Pachet"
-
-#~ msgid "Working Directory"
-#~ msgstr "Director de lucru"
-
-#~ msgid "Current Branch"
-#~ msgstr "Ramura curentă"
-
-#~ msgid "View changed files"
-#~ msgstr "Vizualizează fișierele modificate"
-
-#~ msgid "Recent Activity"
-#~ msgstr "Activitate recentă"
-
-#~ msgid "No recent activity"
-#~ msgstr "Nicio activitate recentă"
-
-#~ msgid "Activity will appear here after operations"
-#~ msgstr "Activitatea va apărea aici după operațiuni"
-
-#~ msgid "Create your first commit to start tracking activity"
-#~ msgstr "Creează primul tău commit pentru a începe urmărirea activității"
-
-#~ msgid "Last commit"
-#~ msgstr "Ultimul commit"
-
-#~ msgid "Current branch"
-#~ msgstr "Ramura curentă"
-
-#~ msgid "Starting..."
-#~ msgstr "Pornire..."
-
-#~ msgid "✓ Operation completed successfully"
-#~ msgstr "✓ Operațiune finalizată cu succes"
-
-#, python-brace-format
-#~ msgid "✗ Operation failed: {0}"
-#~ msgstr "✗ Operațiune eșuată: {0}"
-
-#, fuzzy, python-brace-format
-#~ msgid "Estimated: {0}"
-#~ msgstr "Personalizat: {0}"
-
-#, python-brace-format
-#~ msgid "Elapsed: {0:02d}:{1:02d}"
-#~ msgstr "Timp scurs: {0:02d}:{1:02d}"
-
-#~ msgid "Build history will appear here after your first build"
-#~ msgstr "Istoricul compilărilor va apărea aici după prima ta compilare"
-
-#~ msgid "This will force push and rewrite remote history. Continue?"
-#~ msgstr "Aceasta va forța push-ul și va rescrie istoricul remote. Continuați?"

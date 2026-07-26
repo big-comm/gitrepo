@@ -1,18 +1,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gitrepo\n"
+"Project-Id-Version: GitRepo 3.8.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-25 21:46-0300\n"
-"PO-Revision-Date: 2026-07-14 02:15-0300\n"
+"POT-Creation-Date: 2026-07-26 12:23-0300\n"
+"PO-Revision-Date: 2026-07-26 12:23-0300\n"
 "Last-Translator: AI Translator <auto@translator.ai>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
-"X-Generator: attranslate\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: LangForge\n"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:95
 #: usr/share/gitrepo/build_package/core/build_package.py:97
@@ -131,7 +131,7 @@ msgstr "Błąd: Nie znaleziono URL API repozytorium: {0}"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:236
 msgid "the selected source returned no build directories"
-msgstr ""
+msgstr "wybrane źródło nie zwróciło żadnych katalogów budowania"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:237
 #, python-brace-format
@@ -141,17 +141,17 @@ msgstr "Wybierz {0} dla {1}:"
 #: usr/share/gitrepo/build_iso/build_iso.py:239
 #, python-brace-format
 msgid "Could not load remote build directories: {0}"
-msgstr ""
+msgstr "Nie można załadować zdalnych katalogów budowania: {0}"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:240
 #: usr/share/gitrepo/build_iso/build_iso.py:265
 msgid "Using the built-in fallback. Retry this step to query the source again."
-msgstr ""
+msgstr "Używane jest wbudowane zastępcze rozwiązanie. Wykonaj ten krok ponownie, aby zapytać źródło."
 
 #: usr/share/gitrepo/build_iso/build_iso.py:242
 #, python-brace-format
 msgid "Choose a {0} for {1} (built-in fallback):"
-msgstr ""
+msgstr "Wybierz {0} dla {1} (wbudowane zastępcze rozwiązanie):"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:250
 msgid "Repository and build directory must be selected first."
@@ -159,7 +159,7 @@ msgstr "Najpierw należy wybrać repozytorium i katalog kompilacji."
 
 #: usr/share/gitrepo/build_iso/build_iso.py:261
 msgid "the selected source returned no supported editions"
-msgstr ""
+msgstr "wybrane źródło nie zwróciło żadnych obsługiwanych wersji"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:262
 #, python-brace-format
@@ -169,12 +169,12 @@ msgstr "Wybierz {0} dla {1}:"
 #: usr/share/gitrepo/build_iso/build_iso.py:264
 #, python-brace-format
 msgid "Could not load remote editions: {0}"
-msgstr ""
+msgstr "Nie można załadować zdalnych wersji: {0}"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:267
 #, python-brace-format
 msgid "Choose an {0} for {1} (built-in fallback):"
-msgstr ""
+msgstr "Wybierz {0} dla {1} (wbudowane zastępcze rozwiązanie):"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:294
 #: usr/share/gitrepo/build_iso/build_iso.py:307
@@ -380,38 +380,36 @@ msgid "Testing"
 msgstr "Testowanie"
 
 #: usr/share/gitrepo/build_iso/config.py:36
-#, fuzzy
 msgid "Unstable"
-msgstr "Stabilna"
+msgstr "Niestabilna"
 
 #: usr/share/gitrepo/build_iso/config.py:39
 msgid "Tested packages. Recommended for images you will hand to other people."
-msgstr ""
+msgstr "Przetestowane pakiety. Zalecane dla obrazów, które przekażesz innym osobom."
 
 #: usr/share/gitrepo/build_iso/config.py:40
 msgid "Packages waiting for validation. Useful to preview the next stable set."
-msgstr ""
+msgstr "Pakiety oczekujące na walidację. Przydatne do podglądu następnego stabilnego zestawu."
 
 #: usr/share/gitrepo/build_iso/config.py:41
 msgid "Newest packages, closest to upstream. Expect breakage."
-msgstr ""
+msgstr "Najnowsze pakiety, najbliższe źródłom. Spodziewaj się błędów."
 
 #: usr/share/gitrepo/build_iso/config.py:70
 msgid "LTS (Recommended)"
-msgstr ""
+msgstr "LTS (zalecane)"
 
 #: usr/share/gitrepo/build_iso/config.py:71
-#, fuzzy
 msgid "Latest"
-msgstr "Pobierz najnowsze"
+msgstr "Najnowsza"
 
 #: usr/share/gitrepo/build_iso/config.py:72
 msgid "Old LTS"
-msgstr ""
+msgstr "Stara wersja LTS"
 
 #: usr/share/gitrepo/build_iso/config.py:73
 msgid "XanMod"
-msgstr ""
+msgstr "XanMod"
 
 #: usr/share/gitrepo/build_iso/config.py:163
 msgid "BUILD ISO"
@@ -428,43 +426,43 @@ msgstr "Nakładka do budowania ISO za pomocą GitHub Actions. Usprawnia proces t
 
 #: usr/share/gitrepo/build_iso/core/container_manager.py:80
 msgid "Docker or Podman is not installed or is not available in PATH."
-msgstr ""
+msgstr "Docker lub Podman nie jest zainstalowany lub nie jest dostępny w zmiennej PATH."
 
 #: usr/share/gitrepo/build_iso/core/container_manager.py:95
 #: usr/share/gitrepo/build_iso/core/container_manager.py:100
 msgid "The container engine did not respond."
-msgstr ""
+msgstr "Silnik kontenerów nie odpowiedział."
 
 #: usr/share/gitrepo/build_iso/core/container_manager.py:105
 msgid "The storage driver probe failed. Check the engine service, then refresh."
-msgstr ""
+msgstr "Sprawdzenie sterownika pamięci masowej nie powiodło się. Sprawdź działanie silnika, a następnie odśwież."
 
 #: usr/share/gitrepo/build_iso/core/container_manager.py:133
 msgid "The image metadata could not be read. Refresh or pull the image again."
-msgstr ""
+msgstr "Nie udało się odczytać metadanych obrazu. Odśwież lub pobierz obraz ponownie."
 
 #: usr/share/gitrepo/build_iso/core/container_manager.py:135
 msgid "The image is not downloaded. Pull it, then refresh."
-msgstr ""
+msgstr "Obraz nie został pobrany. Pobierz go, a następnie odśwież."
 
 #: usr/share/gitrepo/build_iso/core/container_manager.py:252
 msgid "No accessible parent directory was found."
-msgstr ""
+msgstr "Nie znaleziono dostępnego katalogu nadrzędnego."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:256
 #, python-brace-format
 msgid "Compressing filesystem — {0}%"
-msgstr ""
+msgstr "Kompresowanie systemu plików — {0}%"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:263
 #, python-brace-format
 msgid "Creating ISO image — {0}%"
-msgstr ""
+msgstr "Tworzenie obrazu ISO — {0}%"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:285
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} at {1}"
-msgstr "{0} (wersja {1})"
+msgstr "{0} o {1}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:361
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:452
@@ -475,7 +473,7 @@ msgstr "Budowa anulowana"
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:372
 #, python-brace-format
 msgid "The output folder is not writable: {0}"
-msgstr ""
+msgstr "Folder wyjściowy nie ma uprawnień do zapisu: {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:378
 #, python-brace-format
@@ -485,19 +483,19 @@ msgstr "Dostępne miejsce na dysku: {0:.1f} GB"
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:380
 #, python-brace-format
 msgid "Only {0:.1f} GB is free; 20 GB is recommended."
-msgstr ""
+msgstr "Wolne jest tylko {0:.1f} GB; zalecane jest 20 GB."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:384
 msgid "The selected container engine is unavailable."
-msgstr ""
+msgstr "Wybrany silnik kontenerów jest niedostępny."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:390
 msgid "Docker is unavailable or access was denied."
-msgstr ""
+msgstr "Docker jest niedostępny lub odmówiono dostępu."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:395
 msgid "Could not inspect output disk space"
-msgstr ""
+msgstr "Nie można sprawdzić dostępnego miejsca na dysku wyjściowym"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:396
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:526
@@ -505,9 +503,9 @@ msgid "Failed to pull container image"
 msgstr "Nie udało się pobrać obrazu kontenera"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:406
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Container image resolved to {0}"
-msgstr "Znaleziono silnik kontenerów: {0}"
+msgstr "Obraz kontenera rozpoznany jako {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:410
 msgid "Container build failed"
@@ -516,7 +514,7 @@ msgstr "Budowa kontenera nie powiodła się"
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:415
 #, python-brace-format
 msgid "Stopped container preserved for debugging: {0}"
-msgstr ""
+msgstr "Zatrzymany kontener został zachowany do debugowania: {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:420
 msgid "No ISO files found after build"
@@ -525,7 +523,7 @@ msgstr "Nie znaleziono plików ISO po budowie"
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:445
 #, python-brace-format
 msgid "Build completed successfully: {0}"
-msgstr ""
+msgstr "Kompilacja zakończona pomyślnie: {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:448
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:801
@@ -536,20 +534,20 @@ msgstr "Budowa nie powiodła się: {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:486
 msgid "Docker did not answer the storage-driver check."
-msgstr ""
+msgstr "Docker nie odpowiedział na sprawdzenie sterownika pamięci masowej."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:491
 msgid "Docker is using the btrfs storage driver."
-msgstr ""
+msgstr "Docker używa sterownika pamięci masowej btrfs."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:492
 msgid "GitRepo will not change Docker storage or remove Docker data."
-msgstr ""
+msgstr "GitRepo nie zmieni przechowywania Dockera ani nie usunie danych Dockera."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:496
 #, python-brace-format
 msgid "Error checking Docker storage: {0}"
-msgstr ""
+msgstr "Błąd podczas sprawdzania przechowywania Dockera: {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:524
 msgid "Container image pulled successfully"
@@ -570,13 +568,13 @@ msgid "Stopping container..."
 msgstr "Zatrzymywanie kontenera..."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:773
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not remove the build container {0}."
-msgstr "Nie można podglądnąć pliku: {0}"
+msgstr "Nie udało się usunąć kontenera kompilacji {0}."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:789
 msgid "Failed to copy ISO artifacts from container"
-msgstr ""
+msgstr "Nie udało się skopiować artefaktów ISO z kontenera"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:796
 #, python-brace-format
@@ -586,24 +584,24 @@ msgstr "ISO: {0}"
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:800
 #, python-brace-format
 msgid "Failed to publish ISO artifacts: {0}"
-msgstr ""
+msgstr "Nie udało się opublikować artefaktów ISO: {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:808
 msgid "Container output contains an unsafe file"
-msgstr ""
+msgstr "Wynik kontenera zawiera niebezpieczny plik"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:811
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:819
 msgid "Container output contains an unexpected file"
-msgstr ""
+msgstr "Wynik kontenera zawiera nieoczekiwany plik"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:815
 msgid "Container must produce exactly one ISO file"
-msgstr ""
+msgstr "Kontener musi wygenerować dokładnie jeden plik ISO"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:878
 msgid "An ISO artifact with the same name already exists"
-msgstr ""
+msgstr "Artefakt ISO o tej samej nazwie już istnieje"
 
 #: usr/share/gitrepo/build_iso/github_api.py:60
 #, python-brace-format
@@ -618,45 +616,45 @@ msgstr "Token dla organizacji '{0}' nie został znaleziony."
 #: usr/share/gitrepo/build_iso/github_api.py:83
 #, python-brace-format
 msgid "Could not reach GitHub: {0}"
-msgstr ""
+msgstr "Nie można połączyć się z GitHub: {0}"
 
 #: usr/share/gitrepo/build_iso/github_api.py:86
 #, python-brace-format
 msgid "GitHub rejected the workflow request ({0})."
-msgstr ""
+msgstr "GitHub odrzucił żądanie przepływu pracy ({0})."
 
 #: usr/share/gitrepo/build_iso/github_api.py:88
 #, python-brace-format
 msgid "ISO build workflow triggered: {0}"
-msgstr ""
+msgstr "Wyzwolono przepływ pracy budowania ISO: {0}"
 
 #: usr/share/gitrepo/build_iso/github_api.py:89
 #, python-brace-format
 msgid "Monitor the build at: {0}"
-msgstr ""
+msgstr "Monitoruj budowanie pod adresem: {0}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:30
 msgid "less than 1 min"
-msgstr ""
+msgstr "mniej niż 1 min"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:33
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:174
 #, python-brace-format
 msgid "{0} min"
-msgstr ""
+msgstr "{0} min"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:35
 #, python-brace-format
 msgid "{0} h {1} min"
-msgstr ""
+msgstr "{0} h {1} min"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:53
 msgid "Waiting"
-msgstr ""
+msgstr "Oczekiwanie"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:54
 msgid "In progress"
-msgstr ""
+msgstr "W toku"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:55
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:368
@@ -672,32 +670,31 @@ msgstr "Niepowodzenie"
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:57
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:159
 msgid "Cancelled"
-msgstr ""
+msgstr "Anulowano"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:90
 #, python-brace-format
 msgid "Step {0} of {1}: {2} — {3}"
-msgstr ""
+msgstr "Krok {0} z {1}: {2} — {3}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:132
 #, python-brace-format
 msgid "Build substep {0} of {1}: {2} — {3}"
-msgstr ""
+msgstr "Podkrok kompilacji {0} z {1}: {2} — {3}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:175
 msgid "Build Progress"
-msgstr ""
+msgstr "Postęp kompilacji"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:214
-#, fuzzy
 msgid "Building the ISO image"
-msgstr "Buduj obraz"
+msgstr "Tworzenie obrazu ISO"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:215
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:386
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} • {1} • kernel {2}"
-msgstr "{0}: {1} → {2}"
+msgstr "{0} • {1} • jądro {2}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:225
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:232
@@ -707,69 +704,67 @@ msgstr "Maksymalizuj"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:257
 msgid "Waiting to start"
-msgstr ""
+msgstr "Oczekiwanie na rozpoczęcie"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:265
-#, fuzzy
 msgid "Elapsed"
-msgstr "Czas trwania: 00:00"
+msgstr "Upłynęło"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:268
 msgid "Remaining"
-msgstr ""
+msgstr "Pozostało"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:269
-#, fuzzy
 msgid "estimating…"
-msgstr "Testowanie"
+msgstr "szacowanie…"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:277
 msgid "Overall build progress"
-msgstr ""
+msgstr "Ogólny postęp kompilacji"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:287
 msgid "Prepare environment"
-msgstr ""
+msgstr "Przygotowanie środowiska"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:288
 msgid "Update image"
-msgstr ""
+msgstr "Aktualizacja obrazu"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:290
 msgid "Publish files"
-msgstr ""
+msgstr "Publikowanie plików"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:291
 msgid "Finish"
-msgstr ""
+msgstr "Zakończ"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:304
 msgid "Prepare profile"
-msgstr ""
+msgstr "Przygotowywanie profilu"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:305
 msgid "Install system"
-msgstr ""
+msgstr "Instalowanie systemu"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:306
 msgid "Prepare boot"
-msgstr ""
+msgstr "Przygotowanie rozruchu"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:307
 msgid "Compress files"
-msgstr ""
+msgstr "Kompresja plików"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:308
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:322
 msgid "Create ISO image"
-msgstr ""
+msgstr "Tworzenie obrazu ISO"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:321
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:705
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:783
 #, python-brace-format
 msgid "Step {0} of {1}"
-msgstr ""
+msgstr "Krok {0} z {1}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:354
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:391
@@ -781,20 +776,20 @@ msgstr "Log terminala"
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:361
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:141
 msgid "Copy the whole terminal log to the clipboard"
-msgstr ""
+msgstr "Skopiuj cały dziennik terminala do schowka"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:362
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:142
 msgid "Copy Log"
-msgstr ""
+msgstr "Kopiuj dziennik"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:368
 msgid "Save the terminal log to a file you choose"
-msgstr ""
+msgstr "Zapisz dziennik terminala do wybranego pliku"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:369
 msgid "Save Log…"
-msgstr ""
+msgstr "Zapisz dziennik…"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:404
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:856
@@ -803,94 +798,92 @@ msgstr "Anuluj kompilację"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:601
 msgid "Terminal log copied to the clipboard"
-msgstr ""
+msgstr "Dziennik terminala został skopiowany do schowka"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:605
-#, fuzzy
 msgid "Save Terminal Log"
-msgstr "Log terminala"
+msgstr "Zapisz log terminala"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:620
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not save the log: {0}"
-msgstr "Nie można podglądnąć pliku: {0}"
+msgstr "Nie udało się zapisać logu: {0}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:624
 #, python-brace-format
 msgid "Terminal log saved to {0}"
-msgstr ""
+msgstr "Dziennik terminala zapisany w {0}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:691
 msgid "Checking the container engine"
-msgstr ""
+msgstr "Sprawdzanie silnika kontenera"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:692
 msgid "Checking container storage"
-msgstr ""
+msgstr "Sprawdzanie pamięci kontenera"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:693
 msgid "Checking available disk space"
-msgstr ""
+msgstr "Sprawdzanie dostępnego miejsca na dysku"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:694
 msgid "Updating the build image"
-msgstr ""
+msgstr "Aktualizowanie obrazu kompilacji"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:695
 msgid "Building and compressing the ISO"
-msgstr ""
+msgstr "Kompilowanie i kompresja ISO"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:696
 msgid "Publishing the ISO and package list"
-msgstr ""
+msgstr "Publikowanie pliku ISO i listy pakietów"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:697
 msgid "Removing temporary build resources"
-msgstr ""
+msgstr "Usuwanie tymczasowych zasobów budowania"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:711
 msgid "Preparing the build profile"
-msgstr ""
+msgstr "Przygotowywanie profilu budowania"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:712
 msgid "Installing the system and desktop packages"
-msgstr ""
+msgstr "Instalowanie pakietów systemowych i pulpitu"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:713
 msgid "Preparing kernel and boot files"
-msgstr ""
+msgstr "Przygotowywanie plików jądra i rozruchu"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:714
 msgid "Compressing system files"
-msgstr ""
+msgstr "Kompresowanie plików systemowych"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:715
 msgid "Creating the bootable ISO image"
-msgstr ""
+msgstr "Tworzenie bootowalnego obrazu ISO"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:721
 #, python-brace-format
 msgid "Step {0} of {1} • substep {2} of {3}"
-msgstr ""
+msgstr "Krok {0} z {1} • podkrok {2} z {3}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:767
 #, python-brace-format
 msgid "Built from {0} {1}"
-msgstr ""
+msgstr "Zbudowane z {0} {1}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:768
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Build finished: {0}"
-msgstr "Budowa nie powiodła się: {0}"
+msgstr "Kompilacja zakończona: {0}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:771
-#, fuzzy
 msgid "Total"
-msgstr "Lokalnie: {0}"
+msgstr "Łącznie"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:785
 msgid "ISO built and published successfully"
-msgstr ""
+msgstr "Obraz ISO został pomyślnie zbudowany i opublikowany"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:805
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:224
@@ -920,7 +913,7 @@ msgstr "Kontynuuj budowę"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:864
 msgid "Cancelling the current step…"
-msgstr ""
+msgstr "Anulowanie bieżącego kroku…"
 
 #: usr/share/gitrepo/build_iso/gui/main_gui.py:295
 #: usr/share/gitrepo/build_iso/gui/main_gui.py:337
@@ -953,13 +946,13 @@ msgstr "Odśwież status"
 #: usr/share/gitrepo/build_iso/gui/main_gui.py:339
 #: usr/share/gitrepo/build_iso/gui/main_window.py:142
 msgid "Create ISO"
-msgstr ""
+msgstr "Utwórz ISO"
 
 #: usr/share/gitrepo/build_iso/gui/main_gui.py:340
 #: usr/share/gitrepo/build_iso/gui/main_window.py:143
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:52
 msgid "Generated ISOs"
-msgstr ""
+msgstr "Wygenerowane ISO"
 
 #: usr/share/gitrepo/build_iso/gui/main_gui.py:341
 #: usr/share/gitrepo/build_iso/gui/main_window.py:144
@@ -997,33 +990,30 @@ msgid "Build completed! ISO: {0}"
 msgstr "Budowa zakończona! ISO: {0}"
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:288
-#, fuzzy
 msgid "ISO build finished"
-msgstr "Budowa ISO anulowana."
+msgstr "Tworzenie obrazu ISO zakończone"
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:290
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} is ready in {1}"
-msgstr "{0} (wersja {1})"
+msgstr "{0} jest gotowy w {1}"
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:295
-#, fuzzy
 msgid "Open Folder"
 msgstr "Otwórz folder"
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:297
-#, fuzzy
 msgid "ISO build failed"
-msgstr "Budowa ISO anulowana."
+msgstr "Tworzenie obrazu ISO nie powiodło się"
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:298
 msgid "Open Build ISO to review the terminal log."
-msgstr ""
+msgstr "Otwórz „Build ISO”, aby przejrzeć dziennik terminala."
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:342
 #, python-brace-format
 msgid "Settings — {0} environment item(s) need attention"
-msgstr ""
+msgstr "Ustawienia — {0} element(y) środowiska wymaga(ją) uwagi"
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:354
 #: usr/share/gitrepo/build_package/gui/main_window.py:419
@@ -1039,67 +1029,65 @@ msgstr "OK"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:69
 msgid "Create an installable ISO"
-msgstr ""
+msgstr "Utwórz instalowalny obraz ISO"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:71
 msgid "Choose what the image contains and where it is saved. The build runs in an isolated container, so its tools and files stay separate from your installed system."
-msgstr ""
+msgstr "Wybierz, co ma zawierać obraz i gdzie ma zostać zapisany. Kompilacja jest wykonywana w izolowanym kontenerze, więc narzędzia i pliki pozostają oddzielone od zainstalowanego systemu."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:83
-#, fuzzy
 msgid "Open settings"
-msgstr "Zapisz ustawienia"
+msgstr "Otwórz ustawienia"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:89
 msgid "Checking the build environment…"
-msgstr ""
+msgstr "Sprawdzanie środowiska kompilacji…"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:102
 msgid "What the ISO will install"
-msgstr ""
+msgstr "Co będzie instalowane za pomocą obrazu ISO"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:103
 msgid "Pick the package base and the desktop the image starts with."
-msgstr ""
+msgstr "Wybierz bazę pakietów i środowisko graficzne, z którym obraz startuje."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:106
-#, fuzzy
 msgid "Distribution and edition"
-msgstr "Dystrybucja"
+msgstr "Dystrybucja i edycja"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:108
 msgid "The distribution sets which package repositories the image is built from. The edition is the desktop it starts with — the same system with a different workspace, applications, and defaults."
-msgstr ""
+msgstr "Dystrybucja określa, z jakich repozytoriów pakietów budowany jest obraz. Edycja to środowisko graficzne, z którym startuje — ten sam system, ale inne pulpit, aplikacje i ustawienia domyślne."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:117
 msgid "Sets the package base and compatible profiles"
-msgstr ""
+msgstr "Ustawia bazę pakietów i zgodne profile"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:132
 msgid "Loading compatible desktop profiles…"
-msgstr ""
+msgstr "Wczytywanie zgodnych profili pulpitu…"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:147
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:659
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:668
 msgid "Retry loading editions"
-msgstr ""
+msgstr "Spróbuj ponownie wczytać edycje"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:157
 msgid "Where to save it"
-msgstr ""
+msgstr "Gdzie zapisać"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:158
 msgid "Choose where completed images and build artifacts are stored."
-msgstr ""
+msgstr "Wybierz, gdzie mają być przechowywane ukończone obrazy i artefakty kompilacji."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:161
 msgid "Destination Folder"
-msgstr ""
+msgstr "Folder docelowy"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:169
 msgid "Destination path"
-msgstr ""
+msgstr "Ścieżka docelowa"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:176
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:292
@@ -1107,67 +1095,65 @@ msgid "Browse..."
 msgstr "Przeglądaj..."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:195
-#, fuzzy
 msgid "Advanced options"
-msgstr "Zaawansowane menu"
+msgstr "Opcje zaawansowane"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:196
 msgid "Kernel, package channels, and where profiles come from"
-msgstr ""
+msgstr "Jądro, kanały pakietów oraz źródło profilów"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:200
 msgid "Kernel Variant"
-msgstr ""
+msgstr "Wariant jądra"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:201
 msgid "Long-term stability or newer hardware support"
-msgstr ""
+msgstr "Długoterminowa stabilność lub nowsze wsparcie sprzętu"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:209
 msgid "Which kernel to choose"
-msgstr ""
+msgstr "Które jądro wybrać"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:211
 msgid "LTS receives long-term fixes and is the safest default. Latest supports very recent hardware but changes faster. Old LTS helps on older machines, and XanMod targets desktop responsiveness."
-msgstr ""
+msgstr "LTS otrzymuje długoterminowe poprawki i jest najbezpieczniejszym domyślnym wyborem. Najnowsze obsługuje najnowszy sprzęt, ale zmienia się szybciej. Stare LTS pomaga na starszych maszynach, a XanMod ukierunkowany jest na responsywność komputerów stacjonarnych."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:226
 msgid "Manjaro Packages"
-msgstr ""
+msgstr "Pakiety Manjaro"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:227
 msgid "Base system packages"
-msgstr ""
+msgstr "Pakiet podstawowego systemu"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:231
-#, fuzzy
 msgid "Package channels"
-msgstr "Nazwa pakietu"
+msgstr "Kanały pakietów"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:240
 msgid "BigLinux Packages"
-msgstr ""
+msgstr "Pakiety BigLinux"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:241
 msgid "BigLinux system components"
-msgstr ""
+msgstr "Składniki systemu BigLinux"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:246
 msgid "Community Packages"
-msgstr ""
+msgstr "Pakiety społecznościowe"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:247
 msgid "Packages maintained by BigCommunity"
-msgstr ""
+msgstr "Pakiety utrzymywane przez BigCommunity"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:254
 msgid "Profile source"
-msgstr ""
+msgstr "Źródło profilu"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:255
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:443
 msgid "Maintained profiles from the official GitHub repositories"
-msgstr ""
+msgstr "Utrzymywane profile z oficjalnych repozytoriów GitHub"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:257
 msgid "Official (GitHub)"
@@ -1183,11 +1169,11 @@ msgstr "Lokalny folder"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:268
 msgid "Profile definitions"
-msgstr ""
+msgstr "Definicje profili"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:270
 msgid "A profile is the recipe of the image: package lists, enabled services, and files copied into the system. Keep the official source unless you maintain your own iso-profiles repository or folder."
-msgstr ""
+msgstr "Profil to przepis na obraz: listy pakietów, uruchomione usługi i pliki kopiowane do systemu. Zachowaj oficjalne źródło, chyba że utrzymujesz własne repozytorium iso-profiles lub folder."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:279
 msgid "Repository URL"
@@ -1198,56 +1184,56 @@ msgid "Local Folder Path"
 msgstr "Ścieżka do lokalnego folderu"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:346
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Container engine unavailable — {0}"
-msgstr "Znaleziono silnik kontenerów: {0}"
+msgstr "Silnik kontenera niedostępny — {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:348
 #, python-brace-format
 msgid "Build image missing — {0}"
-msgstr ""
+msgstr "Brak obrazu do zbudowania — {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:350
 #, python-brace-format
 msgid "Output storage unavailable — {0}"
-msgstr ""
+msgstr "Miejsce docelowe jest niedostępne — {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:362
 #, python-brace-format
 msgid "Environment ready • {0} {1} • {2:.1f} GB free"
-msgstr ""
+msgstr "Środowisko gotowe • {0} {1} • {2:.1f} GB wolne"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:378
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Manjaro {0}"
-msgstr "Gałąź Manjaro"
+msgstr "Manjaro {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:379
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "BigLinux {0}"
-msgstr "Gałąź BigLinux"
+msgstr "BigLinux {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:383
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Community {0}"
-msgstr "Zatwierdź do {0}"
+msgstr "Społeczność {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:393
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} • saved in {1}"
-msgstr "{0} (wersja {1})"
+msgstr "{0} • zapisane w {1}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:393
 msgid "not chosen"
-msgstr ""
+msgstr "nie wybrano"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:445
 msgid "Profiles from a GitHub repository you control"
-msgstr ""
+msgstr "Profile z repozytorium GitHub, które kontrolujesz"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:447
 msgid "Profiles read directly from a local folder"
-msgstr ""
+msgstr "Profile odczytywane bezpośrednio z lokalnego folderu"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:467
 msgid "Select iso-profiles Folder"
@@ -1256,51 +1242,51 @@ msgstr "Wybierz folder iso-profiles"
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:570
 #, python-brace-format
 msgid "GitHub API quota reached — using built-in suggestions. Automatic retry at {0}."
-msgstr ""
+msgstr "Limit API GitHub osiągnięty — używane są wbudowane sugestie. Automatyczna ponowna próba o {0}."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:579
 #, python-brace-format
 msgid "GitHub API quota reached — using cached profiles. Automatic refresh at {0}."
-msgstr ""
+msgstr "Limit API GitHub osiągnięty — używane są zapisane w pamięci podręcznej profile. Automatyczne odświeżenie o {0}."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:587
 #, python-brace-format
 msgid "Built-in suggestions — could not load the selected source: {0}"
-msgstr ""
+msgstr "Wbudowane sugestie — nie można załadować wybranego źródła: {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:594
 msgid "Using cached profiles — the source is temporarily unreachable."
-msgstr ""
+msgstr "Używane są profile z pamięci podręcznej — źródło jest tymczasowo niedostępne."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:601
 msgid "Official profile • GitHub cache"
-msgstr ""
+msgstr "Oficjalny profil • Pamięć podręczna GitHub"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:601
 msgid "Official profile • GitHub"
-msgstr ""
+msgstr "Oficjalny profil • GitHub"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:606
 msgid "Custom profile • GitHub cache"
-msgstr ""
+msgstr "Niestandardowy profil • Pamięć podręczna GitHub"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:606
 msgid "Custom profile • GitHub"
-msgstr ""
+msgstr "Niestandardowy profil • GitHub"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:610
 msgid "Local profile folder"
-msgstr ""
+msgstr "Lokalny folder profilu"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:630
 #, python-brace-format
 msgid "{0} (recommended)"
-msgstr ""
+msgstr "{0} (zalecane)"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:652
 #, python-brace-format
 msgid "GitHub API available again at {0}"
-msgstr ""
+msgstr "API GitHub ponownie dostępne o {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:694
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:64
@@ -1310,29 +1296,27 @@ msgstr "Wybierz katalog wyjściowy"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:716
 msgid "This folder does not exist yet; it will be created."
-msgstr ""
+msgstr "Ten folder jeszcze nie istnieje – zostanie utworzony."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:728
 #, python-brace-format
 msgid "Only {0:.1f} GB free here; a build needs about 20 GB."
-msgstr ""
+msgstr "Wolne jest tylko {0:.1f} GB – budowanie wymaga około 20 GB."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:802
 msgid "Could not save build settings. Check config permissions, then try again."
-msgstr ""
+msgstr "Nie udało się zapisać ustawień budowania. Sprawdź uprawnienia konfiguracji, a następnie spróbuj ponownie."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:50
-#, fuzzy
 msgid "Build environment"
-msgstr "Katalog kompilacji"
+msgstr "Środowisko budowania"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:51
 msgid "Runtime and image used by every ISO build."
-msgstr ""
+msgstr "Środowisko uruchomieniowe (runtime) i obraz używane przez każde budowanie ISO."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:59
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:77
-#, fuzzy
 msgid "Container engine"
 msgstr "Silnik kontenera"
 
@@ -1380,30 +1364,29 @@ msgstr "Wyczyść"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:103
 msgid "Docker storage is managed by the system"
-msgstr ""
+msgstr "Miejsce przechowywania Dockera jest zarządzane przez system."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:105
 msgid "GitRepo reports the active driver but never changes it or removes Docker data."
-msgstr ""
+msgstr "GitRepo raportuje aktywny sterownik, ale nigdy go nie zmienia ani nie usuwa danych Dockera."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:115
 msgid "Pull Progress"
 msgstr "Postęp pobierania"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:147
-#, fuzzy
 msgid "driver unknown"
-msgstr "nieznany"
+msgstr "nieznany sterownik"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:149
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} • {1} • storage {2}"
-msgstr "{0}: {1} → {2}"
+msgstr "{0} • {1} • magazyn {2}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:152
 #, python-brace-format
 msgid "Unavailable — {0}"
-msgstr ""
+msgstr "Niedostępne — {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:157
 #, python-brace-format
@@ -1412,7 +1395,7 @@ msgstr "Dostępne ({0:.1f} GB) - {1}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:160
 msgid "Not checked — start or install the engine, then refresh."
-msgstr ""
+msgstr "Nie sprawdzono — uruchom lub zainstaluj silnik, a następnie odśwież."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:168
 msgid "Starting download..."
@@ -1429,12 +1412,12 @@ msgstr "Pobieranie nie powiodło się"
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:210
 #, python-brace-format
 msgid "Remove {0} stopped build containers?"
-msgstr ""
+msgstr "Usunąć {0} zatrzymanych kontenerów budowania?"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:212
 #, python-brace-format
 msgid "Only stopped containers created from {0} will be removed. Images and Docker storage are kept."
-msgstr ""
+msgstr "Zostaną usunięte tylko zatrzymane kontenery utworzone z {0}. Obrazy i miejsce przechowywania Dockera zostaną zachowane."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:215
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:203
@@ -1457,26 +1440,26 @@ msgstr "Anuluj"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:216
 msgid "Remove Stopped Containers"
-msgstr ""
+msgstr "Usuń zatrzymane kontenery"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:232
 #, python-brace-format
 msgid "Required container image: {0}"
-msgstr ""
+msgstr "Wymagany obraz kontenera: {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:28
 #, python-brace-format
 msgid "{0:.1f} GB"
-msgstr ""
+msgstr "{0:.1f} GB"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:29
 #, python-brace-format
 msgid "{0:.0f} MB"
-msgstr ""
+msgstr "{0:.0f} MB"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:53
 msgid "Review outcomes and durations, then open the ISO folder or the terminal log of a build."
-msgstr ""
+msgstr "Przejrzyj wyniki i czasy trwania, a następnie otwórz folder ISO lub dziennik terminala budowania."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:63
 msgid "No builds yet"
@@ -1484,7 +1467,7 @@ msgstr "Brak kompilacji"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:65
 msgid "Finished and failed builds are listed here with their ISO, duration, and terminal log."
-msgstr ""
+msgstr "Ukończone i nieudane kompilacje są tutaj wymienione wraz z ich ISO, czasem trwania i logiem terminala."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:79
 msgid "Clear History"
@@ -1492,7 +1475,7 @@ msgstr "Wyczyść historię"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:80
 msgid "Delete the local history log; generated ISO files remain untouched"
-msgstr ""
+msgstr "Usuń lokalny log historii; wygenerowane pliki ISO pozostają nietknięte."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:82
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:204
@@ -1504,16 +1487,15 @@ msgstr "Wyczyść"
 #: usr/share/gitrepo/build_package/gui/main_window.py:387
 #, python-brace-format
 msgid "{0} • {1}"
-msgstr ""
+msgstr "{0} • {1}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:135
 msgid "Copy the ISO path"
-msgstr ""
+msgstr "Kopiuj ścieżkę ISO"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:143
-#, fuzzy
 msgid "Open the terminal log of this build"
-msgstr "Operacja nie powiodła się - sprawdź log terminala, aby uzyskać szczegóły"
+msgstr "Otwórz log terminala tego budowania"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:150
 msgid "Open folder"
@@ -1524,22 +1506,22 @@ msgid "Success"
 msgstr "Sukces"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:167
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} {1} • kernel {2}"
-msgstr "{0}: {1} → {2}"
+msgstr "{0} {1} • jądro {2}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:182
 msgid "file no longer on disk"
-msgstr ""
+msgstr "plik nie znajduje się już na dysku"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:186
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "built from {0}"
-msgstr "Niestandardowe: {0}"
+msgstr "zbudowane z {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:200
 msgid "Clear the list of generated ISOs?"
-msgstr ""
+msgstr "Wyczyścić listę wygenerowanych obrazów ISO?"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:201
 msgid "This will remove all build history entries. This cannot be undone."
@@ -1547,23 +1529,23 @@ msgstr "To usunie wszystkie wpisy historii kompilacji. Nie można tego cofnąć.
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:221
 msgid "ISO path copied to the clipboard"
-msgstr ""
+msgstr "Ścieżka ISO skopiowana do schowka"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:43
 msgid "Configure build defaults"
-msgstr ""
+msgstr "Skonfiguruj domyślne ustawienia kompilacji"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:44
 msgid "Set reusable defaults for storage, package channels, alerts, and the build environment."
-msgstr ""
+msgstr "Ustaw domyślne wartości dla pamięci masowej, kanałów pakietów, alertów i środowiska kompilacji."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:54
 msgid "Storage"
-msgstr ""
+msgstr "Pamięć masowa"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:55
 msgid "Default destination for generated images and build artifacts."
-msgstr ""
+msgstr "Domyślne miejsce docelowe dla wygenerowanych obrazów i artefaktów kompilacji."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:59
 msgid "Default Output Directory"
@@ -1575,7 +1557,7 @@ msgstr "Kontener"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:72
 msgid "Runtime and image used for isolated ISO builds."
-msgstr ""
+msgstr "Środowisko uruchomieniowe i obraz używane do izolowanych kompilacji ISO."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:78
 msgid "Preferred container engine"
@@ -1587,11 +1569,11 @@ msgstr "Obraz kontenera"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:91
 msgid "Package Channels"
-msgstr ""
+msgstr "Kanały pakietów"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:92
 msgid "Branches selected automatically when a new build is configured."
-msgstr ""
+msgstr "Gałęzie wybierane automatycznie podczas konfigurowania nowej kompilacji."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:101
 msgid "Default Manjaro Branch"
@@ -1611,7 +1593,7 @@ msgstr "Powiadomienia"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:126
 msgid "Choose how GitRepo reports the end of a build."
-msgstr ""
+msgstr "Wybierz, jak GitRepo zgłasza zakończenie kompilacji."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:131
 msgid "Notify on build completion"
@@ -1636,7 +1618,7 @@ msgstr "Resetuj do ustawień domyślnych"
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
 msgid "Could not save settings. Check config permissions, then try again."
-msgstr ""
+msgstr "Nie można zapisać ustawień. Sprawdź uprawnienia konfiguracji, a następnie spróbuj ponownie."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:236
 msgid "Settings saved"
@@ -1657,7 +1639,7 @@ msgstr "Resetuj"
 
 #: usr/share/gitrepo/build_iso/local_builder.py:28
 msgid "No supported container engine was found."
-msgstr ""
+msgstr "Nie znaleziono obsługiwanego silnika kontenerów."
 
 #: usr/share/gitrepo/build_iso/local_builder.py:30
 #, python-brace-format
@@ -1667,24 +1649,24 @@ msgstr "Znaleziono silnik kontenerów: {0}"
 #: usr/share/gitrepo/build_iso/local_builder.py:43
 #, python-brace-format
 msgid "ISO saved to: {0}"
-msgstr ""
+msgstr "ISO zapisano w: {0}"
 
 #: usr/share/gitrepo/build_iso/local_builder.py:45
 msgid "ISO build failed."
-msgstr ""
+msgstr "Budowa ISO nie powiodła się."
 
 #: usr/share/gitrepo/build_iso/menu_system.py:43
 #: usr/share/gitrepo/build_package/cli/cli_menu.py:44
 msgid "Use arrow keys to navigate, Enter to select, or Escape to return."
-msgstr ""
+msgstr "Użyj klawiszy strzałek do nawigacji, Enter, aby wybrać, lub Escape, aby powrócić."
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:47
 msgid "Could not preserve local changes"
-msgstr ""
+msgstr "Nie można zachować lokalnych zmian."
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:71
 msgid "Local changes remain in the stash and need manual resolution."
-msgstr ""
+msgstr "Lokalne zmiany pozostają w schowku i wymagają ręcznego rozwiązania."
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:78
 #: usr/share/gitrepo/build_package/core/package_operations.py:60
@@ -1693,22 +1675,22 @@ msgstr ""
 #: usr/share/gitrepo/build_package/core/package_operations.py:408
 #, python-brace-format
 msgid "Invalid target branch: {0}"
-msgstr ""
+msgstr "Nieprawidłowa gałąź docelowa: {0}"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:85
 #, python-brace-format
 msgid "Could not switch to {0}"
-msgstr ""
+msgstr "Nie można przełączyć na {0}"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:91
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0}. {1}"
-msgstr "{0} (wersja {1})"
+msgstr "{0}. {1}"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:100
 #, python-brace-format
 msgid "Commit preparation failed: {0}"
-msgstr ""
+msgstr "Przygotowanie commitu nie powiodło się: {0}"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:121
 msgid "Undoing last commit..."
@@ -1769,12 +1751,12 @@ msgstr "Wypychanie nie powiodło się: {0}"
 #: usr/share/gitrepo/build_package/core/branch_handler.py:201
 #, python-brace-format
 msgid "The branch '{0}' exists locally and was kept."
-msgstr ""
+msgstr "Gałąź '{0}' istnieje lokalnie i została zachowana."
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:202
 #, python-brace-format
 msgid "Retry publishing it with: git push -u origin {0}"
-msgstr ""
+msgstr "Spróbuj opublikować ją za pomocą: git push -u origin {0}"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:212
 #: usr/share/gitrepo/build_package/core/package_operations.py:118
@@ -1794,16 +1776,16 @@ msgstr "Błąd: {0}"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:232
 msgid "Invalid branch name"
-msgstr ""
+msgstr "Nieprawidłowa nazwa gałęzi"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:244
 msgid "Could not switch branch"
-msgstr ""
+msgstr "Nie można przełączyć gałęzi"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:247
 #, python-brace-format
 msgid "Switched to {0} with local changes restored."
-msgstr ""
+msgstr "Przełączono na {0} z przywróconymi lokalnymi zmianami."
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:248
 #, python-brace-format
@@ -1934,24 +1916,24 @@ msgstr "AUR - Podsumowanie wyboru"
 #: usr/share/gitrepo/build_package/core/build_package.py:249
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:300
 msgid "Download updates"
-msgstr ""
+msgstr "Pobierz aktualizacje"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:249
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:309
 msgid "Publish changes"
-msgstr ""
+msgstr "Opublikuj zmiany"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:251
 msgid "Build package"
-msgstr ""
+msgstr "Zbuduj pakiet"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:253
 msgid "Build from the AUR"
-msgstr ""
+msgstr "Zbuduj z AUR"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:256
 msgid "Repository maintenance"
-msgstr ""
+msgstr "Konserwacja repozytorium"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:274
 msgid "Select repository"
@@ -2046,7 +2028,7 @@ msgstr "Operacja pull request zakończona."
 #: usr/share/gitrepo/build_package/core/build_package.py:442
 #, python-brace-format
 msgid "Could not prepare the merge request: {0}"
-msgstr ""
+msgstr "Nie można przygotować zgłoszenia scalenia: {0}"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:484
 msgid "Configure GitHub organization (default: big-comm)"
@@ -2083,7 +2065,7 @@ msgstr "Uruchom 'gh auth login', aby uwierzytelnić się za pomocą GitHub CLI"
 #: usr/share/gitrepo/build_package/core/commit_handler.py:37
 #, python-brace-format
 msgid "Check if your SSH key is added: {0}"
-msgstr ""
+msgstr "Sprawdź, czy Twój klucz SSH został dodany: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:38
 msgid "For HTTPS, run: git credential reject"
@@ -2099,7 +2081,7 @@ msgstr "Zdalna gałąź zawiera zmiany, których nie masz lokalnie"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:48
 msgid "Use 'Download updates' first (git fetch followed by git merge)"
-msgstr ""
+msgstr "Najpierw użyj opcji „Pobierz aktualizacje” (git fetch, a następnie git merge)"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:49
 #, python-brace-format
@@ -2116,7 +2098,7 @@ msgstr "Ta gałąź ma zasady ochrony - bezpośrednie wypchnięcie jest niedozwo
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:59
 msgid "Push to a development branch instead (e.g., dev-yourname)"
-msgstr "Wypchnij zmiany na gałąź developerską (np. dev-twojanazwa)"
+msgstr "Wypchnij na gałąź deweloperską zamiast tego (np. dev-yourname)"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:60
 msgid "Create a Pull Request to merge your changes"
@@ -2187,7 +2169,7 @@ msgstr "Spróbuj uruchomić 'git push' w terminalu, aby zobaczyć pełny wynik"
 #: usr/share/gitrepo/build_package/core/commit_handler.py:103
 #, python-brace-format
 msgid "Check GitHub status: {0}"
-msgstr ""
+msgstr "Sprawdź status GitHub: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:125
 #: usr/share/gitrepo/build_package/core/commit_handler.py:138
@@ -2218,12 +2200,12 @@ msgstr "Brak zmian do zatwierdzenia"
 #: usr/share/gitrepo/build_package/core/commit_handler.py:142
 #, python-brace-format
 msgid "Failed to create commit: {0}"
-msgstr ""
+msgstr "Nie udało się utworzyć commita: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:149
 #, python-brace-format
 msgid "Could not verify remote state: {0}"
-msgstr ""
+msgstr "Nie można zweryfikować stanu zdalnego: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:152
 msgid "✓ Already in sync with remote"
@@ -2232,26 +2214,26 @@ msgstr "✓ Już zsynchronizowano z repozytorium zdalnym"
 #: usr/share/gitrepo/build_package/core/commit_handler.py:156
 #, python-brace-format
 msgid "✓ Remote changes integrated with {0}"
-msgstr ""
+msgstr "✓ Zmiany zdalne zintegrowane z {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:163
 #, python-brace-format
 msgid "✓ Remote changes integrated keeping {0}"
-msgstr ""
+msgstr "✓ Zmiany zdalne zintegrowane z zachowaniem {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:165
 msgid "Remote changes conflict with the local branch; resolve them manually."
-msgstr ""
+msgstr "Zmiany zdalne są w konflikcie z lokalną gałęzią; rozwiąż je ręcznie."
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:180
 #, python-brace-format
 msgid "The commit {0} was created locally and was kept."
-msgstr ""
+msgstr "Commit {0} został utworzony lokalnie i został zachowany."
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:181
 #, python-brace-format
 msgid "Retry publishing it with: {0}"
-msgstr ""
+msgstr "Spróbuj ponownie opublikować to za pomocą: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:198
 #, python-brace-format
@@ -2261,7 +2243,7 @@ msgstr "✓ Wysłano do origin/{0}"
 #: usr/share/gitrepo/build_package/core/commit_handler.py:212
 #, python-brace-format
 msgid "Existing local commit published to origin/{0}."
-msgstr ""
+msgstr "Istniejący lokalny commit opublikowany na origin/{0}."
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:220
 msgid "Could not determine branch name for push"
@@ -2270,12 +2252,12 @@ msgstr "Nie można określić nazwy gałęzi do wysłania"
 #: usr/share/gitrepo/build_package/core/commit_handler.py:230
 #, python-brace-format
 msgid "Changes published to {0} with git commit and git push"
-msgstr ""
+msgstr "Zmiany opublikowane na {0} przez git commit i git push"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:21
 #, python-brace-format
 msgid "Could not read commit message file: {0}"
-msgstr ""
+msgstr "Nie można odczytać pliku z treścią commita: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:70
 #: usr/share/gitrepo/build_package/core/revert_operations.py:261
@@ -2284,11 +2266,13 @@ msgid ""
 "\n"
 "• … and {0} more"
 msgstr ""
+"\n"
+"• … i {0} więcej"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:72
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Version: {0} → {1} ({2}) in {3}\n"
-msgstr "APP_VERSION zwiększona z {0} do {1} (zwiększenie {2}) w {3}"
+msgstr "Wersja: {0} → {1} ({2}) w {3}\n"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:79
 #, python-brace-format
@@ -2300,48 +2284,54 @@ msgid ""
 "{2}Files:\n"
 "{3}"
 msgstr ""
+"Czy opublikować te zmiany?\n"
+"Polecenia: git add -A → git commit -m \"MESSAGE\" → git push -u origin BRANCH\n"
+"Gałąź: {0}\n"
+"Wiadomość: {1}\n"
+"{2}Pliki:\n"
+"{3}"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:86
 msgid "No changed paths detected"
-msgstr ""
+msgstr "Nie wykryto zmienionych ścieżek"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:106
 #, python-brace-format
 msgid "Commit {0} is still waiting on {1}; switch to that branch before retrying."
-msgstr ""
+msgstr "Commit {0} wciąż oczekuje na {1}; przełącz się na tę gałąź przed ponowną próbą."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:114
 #, python-brace-format
 msgid "The branch tip changed after commit {0} failed to publish; review it before retrying."
-msgstr ""
+msgstr "Końcówka gałęzi zmieniła się po tym, jak commit {0} nie został opublikowany; przejrzyj ją przed ponowną próbą."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:122
 msgid "The local commit cannot be published because origin is not configured."
-msgstr ""
+msgstr "Lokalny commit nie może zostać opublikowany, ponieważ origin nie jest skonfigurowane."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:129
 msgid "Could not verify whether the local commit reached origin."
-msgstr ""
+msgstr "Nie można zweryfikować, czy lokalny commit dotarł do origin."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:140
 #, python-brace-format
 msgid "The previously created commit is already published on origin/{0}."
-msgstr ""
+msgstr "Wcześniej utworzony commit jest już opublikowany na origin/{0}."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:148
 #, python-brace-format
 msgid "origin/{0} changed; download and review those updates before retrying the push."
-msgstr ""
+msgstr "origin/{0} zmieniło się; pobierz i przejrzyj te aktualizacje przed ponowną próbą wysłania."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:177
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Local commits not on origin: {0}"
-msgstr "Nie znaleziono lokalnej ścieżki iso-profiles: {0}"
+msgstr "Lokalne commity nieobecne w origin: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:179
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "The branch origin/{0} does not exist yet."
-msgstr "Katalog wyjściowy jeszcze nie istnieje"
+msgstr "Gałąź origin/{0} jeszcze nie istnieje."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:182
 #, python-brace-format
@@ -2353,49 +2343,54 @@ msgid ""
 "{2}\n"
 "Command: {3}"
 msgstr ""
+"Opublikować istniejący lokalny commit?\n"
+"Nie zostanie utworzony nowy commit.\n"
+"Gałąź: {0}\n"
+"Commit: {1}\n"
+"{2}\n"
+"Polecenie: {3}"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:190
-#, fuzzy
 msgid "Publication retry cancelled."
-msgstr "Konfiguracja tokena anulowana."
+msgstr "Anulowano ponowną próbę publikacji."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:193
 msgid "Dry run completed; the pending commit was not pushed."
-msgstr ""
+msgstr "Sucha próba zakończona; oczekujący commit nie został wysłany (push)"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:199
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Publication retry failed: {0}"
-msgstr "Operacja nie powiodła się: {0}"
+msgstr "Ponowna próba publikacji nie powiodła się: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:210
 msgid "This option is only available in Git repositories."
-msgstr ""
+msgstr "Ta opcja jest dostępna tylko w repozytoriach Git."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:213
 msgid "Resolve all conflicts before committing."
-msgstr ""
+msgstr "Rozwiąż wszystkie konflikty przed zatwierdzeniem."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:233
 msgid "Commit cancelled."
-msgstr ""
+msgstr "Zatwierdzenie anulowane."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:236
 msgid "Dry run completed; no files or refs were changed."
-msgstr ""
+msgstr "Symulacja zakończona; nie zmieniono żadnych plików ani referencji."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:242
 msgid "Publication stopped because the reviewed version bump could not be written."
-msgstr ""
+msgstr "Publikacja zatrzymana, ponieważ nie można było zapisać przejrzanej wersji aktualizacji wersji."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:252
 msgid "Could not create or select the target branch."
-msgstr ""
+msgstr "Nie można utworzyć ani wybrać gałęzi docelowej."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:258
 #, python-brace-format
 msgid "Commit failed: {0}"
-msgstr ""
+msgstr "Zatwierdzenie nie powiodło się: {0}"
 
 #: usr/share/gitrepo/build_package/core/config.py:32
 msgid "BUILD PACKAGE"
@@ -2412,11 +2407,14 @@ msgid ""
 "Reason: {1}\n"
 "{2}"
 msgstr ""
+"Usunąć {0} podczas rozwiązywania tego konfliktu?\n"
+"Powód: {1}\n"
+"{2}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:95
 #, python-brace-format
 msgid "File deletion cancelled: {0}"
-msgstr ""
+msgstr "Anulowano usunięcie pliku: {0}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:173
 #, python-brace-format
@@ -2433,31 +2431,36 @@ msgid ""
 "\n"
 "Non-conflicting changes from {2} are still merged."
 msgstr ""
+"Zachować wersję {0} w {1} plikach z konfliktem?\n"
+"\n"
+"Wiersze konfliktowe pochodzące z {2} są odrzucane w:\n"
+"{3}\n"
+"\n"
+"Niekonfliktowe zmiany z {2} są nadal scalane."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:214
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:234
 #: usr/share/gitrepo/build_package/core/git_utils.py:262
-#, fuzzy
 msgid "Automatic conflict resolution cancelled."
-msgstr "Wymagana ręczna rozwiązywanie konfliktów"
+msgstr "Anulowano automatyczne rozwiązywanie konfliktów."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Discarded the {0} version of: {1}"
-msgstr "Wybierz wersję {0}:"
+msgstr "Odrzucono wersję {0} z: {1}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:225
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
-msgstr ""
+msgstr "Odrzucaną wersję można nadal odczytać za pomocą: {0}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
 msgid "local"
-msgstr ""
+msgstr "lokalna"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
 msgid "incoming"
-msgstr ""
+msgstr "nadesłana"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:231
 #, python-brace-format
@@ -2465,6 +2468,8 @@ msgid ""
 "Replace every conflicted file with the {0} version?\n"
 "{1}"
 msgstr ""
+"Zastąpić każdy plik z konfliktem wersją {0}?\n"
+"{1}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:240
 msgid "Resolving conflicts: keeping our changes..."
@@ -2473,11 +2478,11 @@ msgstr "Rozwiązywanie konfliktów: zachowujemy nasze zmiany..."
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:247
 #, python-brace-format
 msgid "  Removing {0} (deleted in our version)"
-msgstr "Usuwanie {0} (usunięte w naszej wersji)"
+msgstr "  Usuwanie {0} (usunięte w naszej wersji)"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:248
 msgid "deleted in the local version"
-msgstr ""
+msgstr "usunięta w wersji lokalnej"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:260
 msgid "✓ Conflicts resolved (kept our changes)"
@@ -2496,12 +2501,12 @@ msgstr "Rozwiązywanie konfliktów: akceptowanie zmian zdalnych..."
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:276
 #, python-brace-format
 msgid "  Removing {0} (deleted in remote version)"
-msgstr "Usuwanie {0} (usunięte w wersji zdalnej)"
+msgstr "  Usuwanie {0} (usunięte w wersji zdalnej)"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:277
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:344
 msgid "deleted in the incoming version"
-msgstr ""
+msgstr "usunięto w nadchodzącej wersji"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:289
 msgid "✓ Conflicts resolved (accepted remote)"
@@ -2514,7 +2519,7 @@ msgstr "✓ Wszystkie konflikty rozwiązane!"
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:308
 #, python-brace-format
 msgid "Accept the incoming version for all {0} compiled .mo files?"
-msgstr ""
+msgstr "Zaakceptować nadchodzącą wersję dla wszystkich skompilowanych plików .mo {0}?"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:319
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:570
@@ -2529,11 +2534,11 @@ msgstr "Zaakceptuj zdalną wersję"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:321
 msgid "Save both versions beside the file, then choose"
-msgstr ""
+msgstr "Zapisz obie wersje obok pliku, a następnie wybierz"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:322
 msgid "Edit manually"
-msgstr ""
+msgstr "Edytuj ręcznie"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:323
 msgid "Show diff"
@@ -2547,16 +2552,16 @@ msgstr "Jak rozwiązać: {0}"
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:329
 #, python-brace-format
 msgid "Resolve {0} manually, then stage it with git add."
-msgstr ""
+msgstr "Rozwiąż {0} ręcznie, a następnie dodaj do stagingu za pomocą git add."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:344
 msgid "deleted in the selected local version"
-msgstr ""
+msgstr "usunięto w wybranej lokalnej wersji"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:375
 #, python-brace-format
 msgid "Could not resolve {0}: {1}"
-msgstr ""
+msgstr "Nie można rozwiązać {0}: {1}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:380
 msgid "Manual conflict resolution needed"
@@ -2585,26 +2590,26 @@ msgstr "3. Uruchom ponownie to polecenie"
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:398
 #, python-brace-format
 msgid "Conflicts detected. Newer branch: {0} ({1}); older branch: {2} ({3})."
-msgstr ""
+msgstr "Wykryto konflikty. Nowsza gałąź: {0} ({1}); starsza gałąź: {2} ({3})."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:406
 #, python-brace-format
 msgid "Use the newer branch '{0}' for all {1} conflicted files?"
-msgstr ""
+msgstr "Użyć nowszej gałęzi '{0}' dla wszystkich {1} plików z konfliktami?"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:412
 #, python-brace-format
 msgid "Use {0} version (newer)"
-msgstr ""
+msgstr "Użyj wersji {0} (nowsza)"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:413
 #, python-brace-format
 msgid "Use {0} version (older)"
-msgstr ""
+msgstr "Użyj wersji {0} (starsza)"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:414
 msgid "Leave unresolved for manual editing"
-msgstr ""
+msgstr "Pozostaw nierozwiązane do ręcznej edycji"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:416
 #, python-brace-format
@@ -2614,7 +2619,7 @@ msgstr "Wybierz wersję dla: {0}"
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:418
 #, python-brace-format
 msgid "{0} remains unresolved for manual editing."
-msgstr ""
+msgstr "{0} pozostaje nierozwiązane do ręcznej edycji."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:422
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:445
@@ -2625,7 +2630,7 @@ msgstr "Nie udało się rozwiązać {0}"
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:426
 #, python-brace-format
 msgid "Unresolved files: {0}"
-msgstr ""
+msgstr "Nierozwiązane pliki: {0}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:428
 msgid "✓ All conflicts resolved successfully!"
@@ -2667,76 +2672,73 @@ msgstr "Nie można podglądnąć pliku: {0}"
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:510
 #, python-brace-format
 msgid "Could not produce a diff for {0}."
-msgstr ""
+msgstr "Nie można utworzyć różnicy dla {0}."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:514
 msgid "No textual diff is available; the file may be binary."
-msgstr ""
+msgstr "Brak różnicy tekstowej; plik może być binarny."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:516
 #, python-brace-format
 msgid "Conflict diff for {0}:"
-msgstr ""
+msgstr "Podgląd konfliktu dla {0}:"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:520
 #, python-brace-format
 msgid "… {0} additional lines omitted"
-msgstr ""
+msgstr "… pominięto {0} dodatkowych wierszy"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:560
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not save both versions of {0}: {1}"
-msgstr "Nie można podglądnąć pliku: {0}"
+msgstr "Nie można zapisać obu wersji {0}: {1}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:563
-#, fuzzy
 msgid "Saved both versions:"
-msgstr "Zachowaj obie wersje"
+msgstr "Zapobieżono obie wersje:"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:564
-#, fuzzy
 msgid "our version"
-msgstr "Zachowaj naszą wersję"
+msgstr "nasza wersja"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:565
-#, fuzzy
 msgid "remote version"
-msgstr "Zaakceptuj zdalną wersję"
+msgstr "wersja zdalna"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:569
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Which version resolves {0}?"
-msgstr "Nie udało się rozwiązać {0}"
+msgstr "Która wersja rozwiązuje {0}?"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:573
 #, python-brace-format
 msgid "Both versions were saved; {0} is still conflicted."
-msgstr ""
+msgstr "Obie wersje zostały zapisane; {0} nadal zawiera konflikt."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:161
 #, python-brace-format
 msgid "Could not delete local branch {0}: {1}"
-msgstr ""
+msgstr "Nie można usunąć lokalnej gałęzi {0}: {1}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:173
 #, python-brace-format
 msgid "Could not delete origin/{0}: {1}"
-msgstr ""
+msgstr "Nie można usunąć origin/{0}: {1}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:225
 #, python-brace-format
 msgid "Remote changes integrated with {0}."
-msgstr ""
+msgstr "Zmiany zdalne scalone z {0}."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:229
 #: usr/share/gitrepo/build_package/core/git_utils.py:301
 msgid "Unknown Git error"
-msgstr ""
+msgstr "Nieznany błąd Gita"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:230
 #, python-brace-format
 msgid "{0} failed: {1}"
-msgstr ""
+msgstr "{0} nie powiodło się: {1}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:255
 #, python-brace-format
@@ -2748,33 +2750,39 @@ msgid ""
 "\n"
 "Every other change from {1} is merged, and the discarded version stays readable with: git diff HEAD^2 -- FILE"
 msgstr ""
+"Rozwiązać rozbieżność, zachowując {0}, gdzie dwie gałęzie się różnią?\n"
+"\n"
+"Sprzeczne linie z {1} są odrzucone w:\n"
+"{2}\n"
+"\n"
+"Wszystkie pozostałe zmiany z {1} są scalane, a odrzucona wersja pozostaje czytelna przy użyciu: git diff HEAD^2 -- FILE"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:274
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not finish merge: {0}"
-msgstr "Nie można podglądnąć pliku: {0}"
+msgstr "Nie można dokończyć scalania: {0}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:296
 msgid "Remote changes integrated with merge."
-msgstr ""
+msgstr "Zmiany zdalne scalone za pomocą merga."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:302
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Merge failed: {0}"
-msgstr "Automatyczne scalanie nie powiodło się: {0}"
+msgstr "Scalenie nie powiodło się: {0}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:321
 msgid "Merge aborted; the repository was restored."
-msgstr ""
+msgstr "Scalanie przerwane; repozytorium zostało przywrócone."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:329
 #, python-brace-format
 msgid "Kept {0} in {1} file(s); the {2} version was discarded there: {3}"
-msgstr ""
+msgstr "Zachowano {0} w {1} pliku(-ach); wersja {2} została tam odrzucona: {3}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:333
 msgid "Read the discarded version with: git diff HEAD^2 -- FILE"
-msgstr ""
+msgstr "Przeczytaj odrzuconą wersję za pomocą: git diff HEAD^2 -- FILE"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:345
 #, python-brace-format
@@ -2782,14 +2790,16 @@ msgid ""
 "Rewrite origin/{0}?\n"
 "{1}"
 msgstr ""
+"Przepisać origin/{0}?\n"
+"{1}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:347
 msgid "Force push cancelled."
-msgstr ""
+msgstr "Anulowano wymuszone wysłanie."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:352
 msgid "Force push completed."
-msgstr ""
+msgstr "Wymuszone wysłanie zakończone."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:354
 #, python-brace-format
@@ -2804,25 +2814,25 @@ msgstr "Ta operacja jest dostępna tylko w repozytoriach Git."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:614
 msgid "No main or master branch to compare against."
-msgstr ""
+msgstr "Brak gałęzi main lub master do porównania."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:615
 msgid "Without a base, no branch can be proven merged, so none is offered."
-msgstr ""
+msgstr "Bez gałęzi bazowej nie można udowodnić scalenia żadnej gałęzi, więc żadna nie jest oferowana."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:624
 #, python-brace-format
 msgid "Could not inventory branches: {0}"
-msgstr ""
+msgstr "Nie można wyświetlić listy gałęzi: {0}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:630
 #, python-brace-format
 msgid "Kept {0} branch(es) whose commits are not in {1}: {2}"
-msgstr ""
+msgstr "Zachowano {0} gałęzi, którychCommity nie znajdują się w {1}: {2}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:637
 msgid "No obsolete branches found."
-msgstr ""
+msgstr "Nie znaleziono nieaktualnych gałęzi."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:641
 #, python-brace-format
@@ -2831,14 +2841,17 @@ msgid ""
 "Every one is already merged into {0}.\n"
 "{1}"
 msgstr ""
+"Trwale usunąć te gałęzie?\n"
+"Każda z nich jest już scalona z {0}.\n"
+"{1}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:644
 msgid "Branch cleanup cancelled."
-msgstr ""
+msgstr "Czyszczenie gałęzi anulowane."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:650
 msgid "Branch cleanup completed."
-msgstr ""
+msgstr "Czyszczenie gałęzi zakończone."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:680
 #: usr/share/gitrepo/build_package/core/git_utils.py:719
@@ -2857,13 +2870,12 @@ msgstr "Nieznana metoda rozwiązywania: {0}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:788
 #: usr/share/gitrepo/build_package/core/git_utils.py:817
-#, fuzzy
 msgid "Could not load the differences for this file."
-msgstr "Nie można było przeanalizować różnic w plikach"
+msgstr "Nie można wczytać różnic dla tego pliku."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:32
 msgid "Waiting for GitHub to report whether the PR can be merged..."
-msgstr ""
+msgstr "Oczekiwanie na zgłoszenie przez GitHub, czy PR może zostać scalony..."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:42
 #, python-brace-format
@@ -2873,25 +2885,25 @@ msgstr "Błąd podczas sprawdzania PR: {0}"
 #: usr/share/gitrepo/build_package/core/github_api.py:49
 #, python-brace-format
 msgid "Attempt {0}/{1}: state={2}"
-msgstr ""
+msgstr "Próba {0}/{1}: stan={2}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:55
 #, python-brace-format
 msgid "Could not check the PR yet: {0}"
-msgstr ""
+msgstr "Nie można jeszcze sprawdzić PR: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:58
 #, python-brace-format
 msgid "Timed out waiting for PR state '{0}'. Merge it manually."
-msgstr ""
+msgstr "Przekroczono limit czasu oczekiwania na stan PR '{0}'. Scal go ręcznie."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:64
 msgid "PR ready for merge."
-msgstr ""
+msgstr "PR gotowy do scalenia."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:67
 msgid "PR has conflicts; resolve them before merging."
-msgstr ""
+msgstr "PR ma konflikty; rozwiąż je przed scaleniem."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:92
 #, python-brace-format
@@ -2911,11 +2923,11 @@ msgstr "Workflow budowania ({0}) uruchomiony pomyślnie."
 #: usr/share/gitrepo/build_package/core/github_api.py:99
 #, python-brace-format
 msgid "URL to monitor the build: {0}"
-msgstr ""
+msgstr "URL do monitorowania budowania: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:127
 msgid "Repository and explicit workflow branch are required."
-msgstr ""
+msgstr "Wymagane jest repozytorium i jawna gałąź przepływu pracy."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:138
 #, python-brace-format
@@ -2925,7 +2937,7 @@ msgstr "Wykryto repozytorium: {0}"
 #: usr/share/gitrepo/build_package/core/github_api.py:139
 #, python-brace-format
 msgid "Workflow branch: {0}"
-msgstr ""
+msgstr "Gałąź przepływu pracy: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:146
 msgid "GitHub token not configured. Package operations will require token setup."
@@ -2946,27 +2958,27 @@ msgstr "Aby utworzyć osobisty token dostępu:"
 #: usr/share/gitrepo/build_package/core/github_api.py:181
 #, python-brace-format
 msgid "  1. Go to: {0}"
-msgstr ""
+msgstr "  1. Przejdź do: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:182
 msgid "  2. Click 'Generate new token (classic)'"
-msgstr "2. Kliknij 'Generate new token (classic)'"
+msgstr "  2. Kliknij 'Generate new token (classic)'"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:183
 msgid "  3. Name: 'gitrepo' | Expiration: your choice"
-msgstr "3. Nazwa: 'gitrepo' | Data wygaśnięcia: według Twojego wyboru"
+msgstr "  3. Nazwa: 'gitrepo' | Data wygaśnięcia: według Twojego wyboru"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:184
 msgid "  4. Select scopes: 'repo' and 'workflow'"
-msgstr "4. Wybierz zakresy: 'repo' i 'workflow'"
+msgstr "  4. Wybierz zakresy: 'repo' i 'workflow'"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:185
 msgid "  5. Click 'Generate token' and copy it"
-msgstr "5. Kliknij 'Generate token' i skopiuj go"
+msgstr "  5. Kliknij 'Generate token' i skopiuj go"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:190
 msgid "GitHub username (or press Enter to cancel): "
-msgstr "Nazwa użytkownika GitHub (lub naciśnij Enter, aby anulować):"
+msgstr "Nazwa użytkownika GitHub (lub naciśnij Enter, aby anulować): "
 
 #: usr/share/gitrepo/build_package/core/github_api.py:192
 #: usr/share/gitrepo/build_package/core/github_api.py:197
@@ -2976,21 +2988,21 @@ msgstr "Konfiguracja tokena anulowana."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:195
 msgid "GitHub token (or press Enter to cancel): "
-msgstr "Token GitHub (lub naciśnij Enter, aby anulować):"
+msgstr "Token GitHub (lub naciśnij Enter, aby anulować): "
 
 #: usr/share/gitrepo/build_package/core/github_api.py:203
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:165
 msgid "The token could not be saved. Unlock the system keyring and try again."
-msgstr ""
+msgstr "Token nie mógł zostać zapisany. Odblokuj pęklę kluczy systemowych i spróbuj ponownie."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:207
 msgid "✓ Token saved securely in the system keyring"
-msgstr ""
+msgstr "✓ Token został bezpiecznie zapisany w pęku kluczy systemowych"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:224
 #: usr/share/gitrepo/build_package/core/github_api.py:274
 msgid "origin is not a GitHub repository; nothing was requested."
-msgstr ""
+msgstr "origin nie jest repozytorium GitHub; nic nie zostało żądane."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:227
 #, python-brace-format
@@ -3004,7 +3016,7 @@ msgstr "Nie znaleziono zadań Actions ze statusem '{0}'."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:243
 msgid "unnamed run"
-msgstr ""
+msgstr "nienazwane uruchomienie"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:247
 #, python-brace-format
@@ -3012,10 +3024,12 @@ msgid ""
 "Permanently delete these {0} GitHub Actions runs from {1}?\n"
 "{2}"
 msgstr ""
+"Masz usunąć trwale te {0} uruchomienia GitHub Actions z {1}?\n"
+"{2}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:252
 msgid "Actions cleanup cancelled."
-msgstr ""
+msgstr "Czyszczenie akcji anulowane."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:258
 #, python-brace-format
@@ -3041,10 +3055,12 @@ msgid ""
 "Permanently delete these {0} remote tags from {1}?\n"
 "{2}"
 msgstr ""
+"Masz usunąć trwale te {0} zdalne tagi z {1}?\n"
+"{2}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:294
 msgid "Tag cleanup cancelled."
-msgstr ""
+msgstr "Czyszczenie tagów anulowane."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:299
 #, python-brace-format
@@ -3057,43 +3073,43 @@ msgid "Error cleaning tags: {0}"
 msgstr "Błąd podczas czyszczenia tagów: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:326
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Error listing {0}. Code: {1}"
-msgstr "Błąd podczas usuwania tagu {0}. Kod: {1}"
+msgstr "Błąd wyświetlania {0}. Kod: {1}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:337
 #, python-brace-format
 msgid "Stopped after {0} pages; run the cleanup again to continue."
-msgstr ""
+msgstr "Zatrzymano po {0} stronach; uruchom ponownie czyszczenie, aby kontynuować."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:345
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not delete {0}: {1}"
-msgstr "Nie można podglądnąć pliku: {0}"
+msgstr "Nie można usunąć {0}: {1}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:349
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Error deleting {0}. Code: {1}"
-msgstr "Błąd podczas usuwania tagu {0}. Kod: {1}"
+msgstr "Błąd podczas usuwania {0}. Kod: {1}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:357
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deleted {0} of {0} items."
-msgstr "Usunięto {0} tagów."
+msgstr "Usunięto {0} z {0} elementów."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:359
 #, python-brace-format
 msgid "Deleted {0} of {1}; {2} could not be deleted."
-msgstr ""
+msgstr "Usunięto {0} z {1}; {2} nie mogło zostać usunięte."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:360
 #, python-brace-format
 msgid "Still present: {0}"
-msgstr ""
+msgstr "Nadal obecne: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:370
 msgid "Source branch and repository are required to create a pull request."
-msgstr ""
+msgstr "Aby utworzyć żądanie pull request, wymagane są gałąź źródłowa i repozytorium."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:373
 #, python-brace-format
@@ -3102,7 +3118,7 @@ msgstr "Tworzenie pull requesta: {0} → {1}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:377
 msgid "Branches are already identical; no pull request is needed."
-msgstr ""
+msgstr "Gałęzie są już identyczne; żądanie pull request nie jest potrzebne."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:388
 #, python-brace-format
@@ -3126,7 +3142,7 @@ msgstr "PR nie jest gotowy: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:442
 msgid "Pull request merged successfully."
-msgstr ""
+msgstr "Pull request scalony pomyślnie."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:446
 #, python-brace-format
@@ -3173,16 +3189,16 @@ msgstr "Nie można wyświetlić podsumowania PR: {0}"
 #: usr/share/gitrepo/build_package/core/operation_preview.py:39
 #, python-brace-format
 msgid "Failed: {0}"
-msgstr ""
+msgstr "Niepowodzenie: {0}"
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:56
 msgid "Merge conflict detected; resolution is required."
-msgstr ""
+msgstr "Wykryto konflikt scalania; wymagane jest rozwiązanie."
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:59
 #, python-brace-format
 msgid "Command failed: {0}"
-msgstr ""
+msgstr "Polecenie nie powiodło się: {0}"
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:118
 msgid "No operations planned"
@@ -3212,15 +3228,15 @@ msgstr "Kontynuować te operacje?"
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:176
 msgid "Dry-run mode; no operations will execute."
-msgstr ""
+msgstr "Tryb suchej symulacji; żadne operacje nie zostaną wykonane."
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:189
 msgid "Conflicts detected; resolution is required."
-msgstr ""
+msgstr "Wykryto konflikty; wymagane jest ich rozwiązanie."
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:192
 msgid "Operation failed; remaining steps were not executed."
-msgstr ""
+msgstr "Operacja nie powiodła się; pozostałe kroki nie zostały wykonane."
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:203
 #, python-brace-format
@@ -3235,9 +3251,8 @@ msgstr "Operacja anulowana przez użytkownika"
 #: usr/share/gitrepo/build_package/core/package_operations.py:82
 #: usr/share/gitrepo/build_package/core/package_operations.py:91
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:462
-#, fuzzy
 msgid "unknown branch"
-msgstr "nieznany"
+msgstr "nieznana gałąź"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:68
 #, python-brace-format
@@ -3246,6 +3261,9 @@ msgid ""
 "Expected branch: {0}\n"
 "Selected branch: {1}"
 msgstr ""
+"Wybrana gałąź testowa uległa zmianie podczas przygotowywania pakietu.\n"
+"Oczekiwana gałąź: {0}\n"
+"Wybrana gałąź: {1}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:78
 #, python-brace-format
@@ -3255,11 +3273,15 @@ msgid ""
 "Current branch: {1}\n"
 "Switch to {0} before committing or starting the workflow."
 msgstr ""
+"Pakiety testowe mogą publikować tylko aktywną gałąź osobistą.\n"
+"Wybrana gałąź: {0}\n"
+"Bieżąca gałąź: {1}\n"
+"Przełącz na {0} przed zatwierdzeniem lub rozpoczęciem przepływu pracy."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:94
 #, python-brace-format
 msgid "The testing branch does not exist locally: {0}"
-msgstr ""
+msgstr "Gałąź testowa nie istnieje lokalnie: {0}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:101
 #, python-brace-format
@@ -3268,18 +3290,21 @@ msgid ""
 "Branch: {0}\n"
 "Command: git push -u origin {1}"
 msgstr ""
+"Opublikować gałąź testową przed uruchomieniem jej przepływu pracy pakietu?\n"
+"Gałąź: {0}\n"
+"Polecenie: git push -u origin {1}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:125
 msgid "Could not read a package name with makepkg --printsrcinfo."
-msgstr ""
+msgstr "Nie można odczytać nazwy pakietu za pomocą makepkg --printsrcinfo."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:155
 msgid "Configure a GitHub token before generating a package."
-msgstr ""
+msgstr "Skonfiguruj token GitHub przed wygenerowaniem pakietu."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:170
 msgid "Dry run completed; no workflow was triggered."
-msgstr ""
+msgstr "Symulacja zakończona; nie uruchomiono żadnego przepływu pracy."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:173
 #, python-brace-format
@@ -3289,38 +3314,42 @@ msgid ""
 "Type: {1}\n"
 "Branch: {2}"
 msgstr ""
+"Uruchomić to budowanie pakietu GitHub Actions?\n"
+"Pakiet: {0}\n"
+"Typ: {1}\n"
+"Gałąź: {2}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:180
 msgid "Package workflow started."
-msgstr ""
+msgstr "Uruchomiono przepływ pracy dla pakietu."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:180
 msgid "Workflow failed."
-msgstr ""
+msgstr "Przepływ pracy nie powiódł się."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:194
 #, python-brace-format
 msgid "Merging {0} stopped because it requires conflict resolution. No history was rewritten."
-msgstr ""
+msgstr "Scalanie {0} zostało zatrzymane, ponieważ wymaga rozwiązania konfliktu. Historia nie została przepisana."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:243
 #, python-brace-format
 msgid "Created a recovery branch for local main: {0}"
-msgstr ""
+msgstr "Utworzono gałąź przywracania dla lokalnej gałęzi main: {0}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:288
 msgid "The origin/main branch is required for stable and extra packages."
-msgstr ""
+msgstr "Gałąź origin/main jest wymagana dla pakietów stabilnych i dodatkowych."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:310
 #: usr/share/gitrepo/build_package/core/package_operations.py:341
 msgid "Remote refs changed during publication; retrying with their latest commits."
-msgstr ""
+msgstr "Zdalne referencje uległy zmianie podczas publikacji; ponawianie próby z ich najnowszymi zatwierdzeniami."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:351
 #: usr/share/gitrepo/build_package/core/package_operations.py:403
 msgid "Commit or stash local changes before building a stable package."
-msgstr ""
+msgstr "Zatwierdź lub przechowaj lokalne zmiany przed budowaniem pakietu stabilnego."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:358
 msgid ""
@@ -3329,6 +3358,10 @@ msgid ""
 "git merge refs/remotes/origin/main --no-edit (when present)\n"
 "git push origin refs/heads/main:refs/heads/main"
 msgstr ""
+"Zsynchronizować i opublikować main przed uruchomieniem jego przepływu pracy pakietu?\n"
+"git fetch origin --prune\n"
+"git merge refs/remotes/origin/main --no-edit (jeśli istnieje)\n"
+"git push origin refs/heads/main:refs/heads/main"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:371
 #: usr/share/gitrepo/build_package/core/package_operations.py:446
@@ -3347,16 +3380,23 @@ msgid ""
 "git push --atomic origin refs/heads/{0}:refs/heads/{0} refs/heads/{0}:refs/heads/main\n"
 "Local-only main commits are preserved in backup/main-before-stable-*."
 msgstr ""
+"Opublikować {0} przez main?\n"
+"git fetch origin --prune\n"
+"git checkout {0}\n"
+"git merge refs/remotes/origin/{0} --no-edit (jeśli istnieje)\n"
+"git merge refs/remotes/origin/main --no-edit\n"
+"git push --atomic origin refs/heads/{0}:refs/heads/{0} refs/heads/{0}:refs/heads/main\n"
+"Lokalne zatwierdzenia wyłącznie w main są zachowane w backup/main-before-stable-*."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:438
 #, python-brace-format
 msgid "Remote branches {0} and main were published, but local main could not be aligned: {1}"
-msgstr ""
+msgstr "Zdalne gałęzie {0} i main zostały opublikowane, ale nie można było wyrównać lokalnej gałęzi main: {1}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:461
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not switch back to {0}: {1}"
-msgstr "Nie można podglądnąć pliku: {0}"
+msgstr "Nie można przełączyć z powrotem na {0}: {1}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:473
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:114
@@ -3382,80 +3422,80 @@ msgstr "📦 Konfiguracja budowy pakietu"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:31
 msgid "Temporarily stash local changes"
-msgstr ""
+msgstr "Tymczasowo przechowaj lokalne zmiany"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:35
 #, python-brace-format
 msgid "Fetch origin/{0}"
-msgstr ""
+msgstr "Pobierz origin/{0}"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:38
 #, python-brace-format
 msgid "Merge origin/{0} into {0}"
-msgstr ""
+msgstr "Scal gałąź origin/{0} z {0}"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:49
 msgid "Merge remains incomplete; resolve the listed files manually."
-msgstr ""
+msgstr "Scalanie pozostaje niekompletne; rozwiąż konflikty we wskazanych plikach ręcznie."
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:53
 #, python-brace-format
 msgid "Merge origin/{0} after conflict resolution"
-msgstr ""
+msgstr "Scal gałąź origin/{0} po rozwiązaniu konfliktów"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:60
 #, python-brace-format
 msgid "Resolved files could not complete the merge: {0}"
-msgstr ""
+msgstr "Rozwiązane pliki nie mogły ukończyć scalania: {0}"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:74
 msgid "Local changes restored."
-msgstr ""
+msgstr "Przywrócono lokalne zmiany."
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:77
 msgid "stashed local changes"
-msgstr ""
+msgstr "schowano lokalne zmiany"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:87
 #, python-brace-format
 msgid "Local changes remain in the stash: {0}"
-msgstr ""
+msgstr "Lokalne zmiany pozostały w schowku: {0}"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:99
 msgid "Resolve the existing conflicts before pulling."
-msgstr ""
+msgstr "Rozwiąż istniejące konflikty przed wykonaniem pull."
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:104
 msgid "The current branch has no matching branch on origin."
-msgstr ""
+msgstr "Bieżąca gałąź nie ma pasującej gałęzi na origin."
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:122
 #, python-brace-format
 msgid "Updated to {0}"
-msgstr ""
+msgstr "Zaktualizowano do {0}"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:122
 msgid "Already up to date"
-msgstr ""
+msgstr "Już aktualne"
 
 #: usr/share/gitrepo/build_package/core/repository_lock.py:109
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "This repository is busy with: {0}"
-msgstr "Brak repozytorium"
+msgstr "To repozytorium jest zajęte: {0}"
 
 #: usr/share/gitrepo/build_package/core/repository_lock.py:110
 msgid "Wait for that operation to finish, then try again."
-msgstr ""
+msgstr "Poczekaj na zakończenie tej operacji, a następnie spróbuj ponownie."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:42
 #, python-brace-format
 msgid "You can only revert commits on your own branch ({0}) or main."
-msgstr ""
+msgstr "Możesz cofnąć tylko zatwierdzenia na własnej gałęzi ({0}) lub gałęzi main."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:51
 #, python-brace-format
 msgid "Proceed with {0} on {1}?"
-msgstr ""
+msgstr "Kontynuować {0} w {1}?"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:57
 #, python-brace-format
@@ -3464,7 +3504,7 @@ msgstr "Nie udało się {0} commit."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:67
 msgid "Shared main branch: only the history-preserving revert method is available."
-msgstr ""
+msgstr "Współdzielona gałąź główna: dostępna jest tylko metoda wycofania zachowująca historię."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:70
 #, python-brace-format
@@ -3524,17 +3564,16 @@ msgid "Result"
 msgstr "Wynik"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:156
-#, fuzzy
 msgid "Every tracked file returns to this commit's exact state"
-msgstr "Kod zostanie przywrócony do dokładnego stanu tego commita"
+msgstr "Każdy śledzony plik wraca do dokładnego stanu tego zatwierdzenia"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:157
 msgid "Files added later"
-msgstr ""
+msgstr "Pliki dodane później"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:157
 msgid "Removed, so the restored state is complete"
-msgstr ""
+msgstr "Usunięto, aby stan przywrócony był kompletny"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:158
 msgid "New Commit"
@@ -3566,13 +3605,12 @@ msgid "Commits after this will be removed from history"
 msgstr "Commity po tym zostaną usunięte z historii"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:164
-#, fuzzy
 msgid "Uncommitted work"
-msgstr "Niezatwierdzone zmiany obecne"
+msgstr "Niezatwierdzona praca"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:164
 msgid "Required to be empty; the operation refuses otherwise"
-msgstr ""
+msgstr "Musi być puste; w przeciwnym razie operacja zostaje odrzucona"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:166
 msgid "Revert Preview"
@@ -3601,36 +3639,36 @@ msgid "Error showing preview: {0}"
 msgstr "Błąd podczas wyświetlania podglądu: {0}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:254
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not read the repository state: {0}"
-msgstr "Nie można określić nazwy repozytorium."
+msgstr "Nie można odczytać stanu repozytorium: {0}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:255
 msgid "Nothing was changed. Resolve the Git error and try again."
-msgstr ""
+msgstr "Nic nie zostało zmienione. Rozwiąż błąd Gita i spróbuj ponownie."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:262
 #, python-brace-format
 msgid "{0} uncommitted file(s) would be destroyed by this operation:"
-msgstr ""
+msgstr "{0} niezatwierdzonych plików zostałoby zniszczonych przez tę operację:"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:264
 msgid "Commit or stash them first: git stash push -u"
-msgstr ""
+msgstr "Najpierw zatwierdź je lub odłóż na stos: git stash push -u"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:268
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "A {0} operation is still in progress."
-msgstr "Podgląd operacji"
+msgstr "Operacja {0} jest wciąż w toku."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:269
 msgid "Finish or abort it first, then retry."
-msgstr ""
+msgstr "Najpierw zakończ lub anuluj, a następnie spróbuj ponownie."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:283
 #: usr/share/gitrepo/build_package/core/revert_operations.py:540
 msgid "Operation requires explicit confirmation."
-msgstr ""
+msgstr "Operacja wymaga wyraźnego potwierdzenia."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:293
 #, python-brace-format
@@ -3668,14 +3706,14 @@ msgid "Revert completed successfully - code restored to selected commit state"
 msgstr "Cofnięcie zakończone pomyślnie - kod przywrócony do stanu wybranego commita"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:386
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not read origin/{0}: {1}"
-msgstr "Nie można podglądnąć pliku: {0}"
+msgstr "Nie można odczytać origin/{0}: {1}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:390
 #, python-brace-format
 msgid "origin/{0} could not be verified; the remote was left untouched."
-msgstr ""
+msgstr "Nie można zweryfikować origin/{0}; zdalne repozytorium pozostało nienaruszone."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:404
 msgid "Commit exists in remote - force push required"
@@ -3687,6 +3725,8 @@ msgid ""
 "Rewrite origin/{0}, currently at {1}?\n"
 "{2}"
 msgstr ""
+"Przepisz origin/{0}, obecnie w {1}?\n"
+"{2}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:409
 msgid "Reset completed locally only (remote unchanged)"
@@ -3703,11 +3743,11 @@ msgstr "Reset zakończony i wymuszono push"
 #: usr/share/gitrepo/build_package/core/revert_operations.py:427
 #, python-brace-format
 msgid "origin/{0} moved since it was read; nothing was overwritten."
-msgstr ""
+msgstr "origin/{0} zostało przesunięte od czasu odczytu; nic nie zostało nadpisane."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:428
 msgid "Review the new commits, then repeat the operation."
-msgstr ""
+msgstr "Przejrzyj nowe zatwierdzenia, a następnie powtórz operację."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:440
 msgid "Resetting to previous commit..."
@@ -3716,7 +3756,7 @@ msgstr "Resetowanie do poprzedniego commita..."
 #: usr/share/gitrepo/build_package/core/revert_operations.py:444
 #, python-brace-format
 msgid "Undo this locally with: git reset --hard {0}"
-msgstr ""
+msgstr "Cofnij to lokalnie za pomocą: git reset --hard {0}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:450
 msgid "Reset completed (commit was only local)"
@@ -3741,17 +3781,17 @@ msgstr "Nie udało się wysłać cofnięcia: {0}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:482
 msgid "The revert commit was created locally and was kept."
-msgstr ""
+msgstr "Zatwierdzenie wycofania zostało utworzone lokalnie i pozostawione."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:483
 #, python-brace-format
 msgid "Retry publishing it with: git push origin {0}"
-msgstr ""
+msgstr "Spróbuj opublikować je ponownie za pomocą: git push origin {0}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:501
 #, python-brace-format
 msgid "Restore the previous state with: git reset --hard {0}"
-msgstr ""
+msgstr "Przywróć poprzedni stan za pomocą: git reset --hard {0}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:513
 msgid "Operation"
@@ -3759,11 +3799,11 @@ msgstr "Operacja"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:514
 msgid "Target Commit"
-msgstr ""
+msgstr "Docelowy Commit"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:515
 msgid "Target Message"
-msgstr ""
+msgstr "Docelowa Wiadomość"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:516
 msgid "Current HEAD"
@@ -3773,19 +3813,19 @@ msgstr "Bieżący HEAD"
 #: usr/share/gitrepo/build_package/core/revert_operations.py:521
 #: usr/share/gitrepo/build_package/core/revert_operations.py:523
 msgid "Remote"
-msgstr ""
+msgstr "Zdalny"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:519
 msgid "Force-pushed after explicit confirmation"
-msgstr ""
+msgstr "Wypchnięty siłowo po wyraźnym potwierdzeniu"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:521
 msgid "Unchanged; reset is local only"
-msgstr ""
+msgstr "Bez zmian; reset dotyczy tylko lokalnego repozytorium"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:523
 msgid "Updated without rewriting history"
-msgstr ""
+msgstr "Zaktualizowano bez przepisywania historii"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:524
 msgid "Operation completed"
@@ -3868,7 +3908,7 @@ msgstr "✓ Strategia rozwiązywania konfliktów zmieniona na: {0}"
 #: usr/share/gitrepo/build_package/core/version_bumper.py:256
 #, python-brace-format
 msgid "Skipping the version bump: {0} is not a regular file inside the repository."
-msgstr ""
+msgstr "Pomijanie zwiększania wersji: {0} nie jest zwykłym plikiem w repozytorium."
 
 #: usr/share/gitrepo/build_package/core/version_bumper.py:246
 msgid "APP_VERSION constant not found. Skipping automatic version bump."
@@ -3886,7 +3926,7 @@ msgstr "APP_VERSION zwiększona z {0} do {1} (zwiększenie {2}) w {3}"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:22
 msgid "Repository status is unavailable. Refresh before switching branches."
-msgstr ""
+msgstr "Status repozytorium jest niedostępny. Odśwież przed przełączeniem gałęzi."
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:41
 msgid "Uncommitted Changes Detected"
@@ -3895,35 +3935,35 @@ msgstr "Wykryto niezacommitowane zmiany"
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:43
 #, python-brace-format
 msgid "You have uncommitted changes. Preserve them with {0}, or discard them with {1}."
-msgstr ""
+msgstr "Masz niezapisane zmiany. Zachowaj je za pomocą {0} lub odrzuć za pomocą {1}."
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:75
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:102
 #, python-brace-format
 msgid "Current: {0}"
-msgstr ""
+msgstr "Obecna: {0}"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:80
 #, python-brace-format
 msgid "Switch to: {0}"
-msgstr ""
+msgstr "Przełącz na: {0}"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:90
 msgid "Discard files and switch"
-msgstr ""
+msgstr "Odrzuć pliki i przełącz"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:91
 msgid "Preserve files and switch"
-msgstr ""
+msgstr "Zachowaj pliki i przełącz"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:125
 msgid "Opening another branch"
-msgstr ""
+msgstr "Otwieranie innej gałęzi"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:126
 #, python-brace-format
 msgid "Running git checkout for '{0}'..."
-msgstr ""
+msgstr "Wykonywanie `git checkout` dla '{0}'..."
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:148
 #, python-brace-format
@@ -3937,20 +3977,23 @@ msgid ""
 "\n"
 "{2}"
 msgstr ""
+"Gałąź '{0}' jeszcze nie istnieje. Utworzyć ją z '{1}' i opublikować?\n"
+"\n"
+"{2}"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:185
 #, python-brace-format
 msgid "{0} (new)"
-msgstr ""
+msgstr "{0} (nowa)"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:193
 #, python-brace-format
 msgid "This will copy all code from '{0}' to the new '{1}' branch"
-msgstr ""
+msgstr "Spowoduje to skopiowanie całego kodu z '{0}' do nowej gałęzi '{1}'"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:204
 msgid "Create and publish branch"
-msgstr ""
+msgstr "Utwórz i opublikuj gałąź"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:222
 msgid "Creating Branch"
@@ -3963,28 +4006,28 @@ msgstr "Tworzenie '{0}' z '{1}' i wypychanie..."
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:230
 msgid "Propose branch integration?"
-msgstr ""
+msgstr "Zaproponować integrację gałęzi?"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:232
 msgid "open a Pull Request on GitHub; this does not run git merge on your computer"
-msgstr ""
+msgstr "otwórz Pull Request na GitHub; nie wykonuje to `git merge` na Twoim komputerze"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:268
 msgid "✓ Auto-merge enabled"
-msgstr ""
+msgstr "✓ Automatyczne scalanie włączone"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:270
 msgid "Manual approval required"
-msgstr ""
+msgstr "Wymagana ręczna akceptacja"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:280
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:234
 msgid "Open Pull Request"
-msgstr ""
+msgstr "Otwórz Pull Request"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:302
 msgid "Opening Pull Request"
-msgstr ""
+msgstr "Otwieranie Pull Request"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:303
 #, python-brace-format
@@ -3993,28 +4036,28 @@ msgstr "{0}: {1} → {2}"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:318
 msgid "Removing old branches"
-msgstr ""
+msgstr "Usuwanie starych gałęzi"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:319
 msgid "Running the reviewed git branch and git push deletion commands..."
-msgstr ""
+msgstr "Wykonywanie sprawdzonych poleceń `git branch` i `git push` do usuwania..."
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:332
 msgid "Removing workflow runs"
-msgstr ""
+msgstr "Usuwanie uruchomień przepływów pracy"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:333
 #, python-brace-format
 msgid "delete {0} GitHub Actions runs"
-msgstr ""
+msgstr "usuń uruchomienia {0} GitHub Actions"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:344
 msgid "Removing remote tags"
-msgstr ""
+msgstr "Usuwanie zdalnych tagów"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:345
 msgid "delete all remote tag references; local tags are unchanged"
-msgstr ""
+msgstr "usuń wszystkie odniesienia do zdalnych tagów; lokalne tagi pozostają niezmienione"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:357
 msgid "Reverting Commit"
@@ -4095,9 +4138,9 @@ msgid "Resolved {0} of {1} conflicts"
 msgstr "Rozwiązano {0} z {1} konfliktów"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:381
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Opening {0}. After editing, click 'Mark as Edited' to continue."
-msgstr "Plik otwarty w {0}. Po edycji kliknij 'Oznacz jako edytowany', aby kontynuować."
+msgstr "Otwieranie {0}. Po edycji kliknij „Oznacz jako edytowane”, aby kontynuować."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:426
 #, python-brace-format
@@ -4116,19 +4159,19 @@ msgstr "Porównaj: {0}"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:461
 msgid "◀ LOCAL (Your Version)"
-msgstr ""
+msgstr "◀ LOKALNIE (Twoja wersja)"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:472
 msgid "REMOTE (Server) ▶"
-msgstr ""
+msgstr "ZDALNIE (Serwer) ▶"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:491
 msgid "📁 LOCAL VERSION"
-msgstr ""
+msgstr "📁 WERSJA LOKALNA"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:525
 msgid "☁️ REMOTE VERSION"
-msgstr ""
+msgstr "☁️ WERSJA ZDALNA"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:581
 msgid "✓ Use LOCAL Version"
@@ -4156,7 +4199,7 @@ msgstr "Wszystkie konflikty rozwiązane (zaakceptowano wersje zdalne)"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:713
 msgid "Delete files to resolve conflicts?"
-msgstr ""
+msgstr "Usunąć pliki, aby rozwiązać konflikty?"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:714
 #, python-brace-format
@@ -4164,10 +4207,12 @@ msgid ""
 "The selected versions delete these files:\n"
 "{0}"
 msgstr ""
+"Wybrane wersje usuwają następujące pliki:\n"
+"{0}"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:719
 msgid "Delete and Apply"
-msgstr ""
+msgstr "Usuń i zastosuj"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:848
 #, python-brace-format
@@ -4210,13 +4255,12 @@ msgid "Untracked"
 msgstr "Nieśledzony"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:20
-#, fuzzy
 msgid "Added and modified"
-msgstr "Dodano+Zmodyfikowano"
+msgstr "Dodane i zmodyfikowane"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:21
 msgid "Modified in index and working tree"
-msgstr ""
+msgstr "Zmodyfikowane w indeksie i katalogu roboczym"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:37
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:553
@@ -4224,20 +4268,18 @@ msgstr ""
 msgid "{0} changed file(s)"
 msgstr "{0} zmieniony(-e) plik(-i)"
 
-#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:96
-#, fuzzy
-msgid "File differences"
-msgstr "Nie można było przeanalizować różnic w plikach"
-
-#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:100
-#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:141
-#, fuzzy
-msgid "No changed files to display."
-msgstr "Brak zmian do zatwierdzenia"
-
 #: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:106
+msgid "File differences"
+msgstr "Różnice między plikami"
+
+#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:110
+#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:151
+msgid "No changed files to display."
+msgstr "Brak zmienionych plików do wyświetlenia."
+
+#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:116
 msgid "No textual differences to display."
-msgstr ""
+msgstr "Brak różnic tekstowych do wyświetlenia."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/preview_dialog.py:28
 #, python-brace-format
@@ -4263,12 +4305,12 @@ msgstr "Następujące operacje zostaną wykonane:"
 #: usr/share/gitrepo/build_package/gui/dialogs/preview_dialog.py:124
 #, python-brace-format
 msgid "✓ {0} safe operations"
-msgstr ""
+msgstr "✓ {0} bezpieczne operacje"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/preview_dialog.py:131
 #, python-brace-format
 msgid "⚠ {0} destructive operations"
-msgstr ""
+msgstr "⚠ {0} niszczące operacje"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/preview_dialog.py:148
 msgid "Proceed"
@@ -4276,24 +4318,23 @@ msgstr "Kontynuuj"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:30
 msgid "Operation Progress"
-msgstr ""
+msgstr "Postęp operacji"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:68
 msgid "Running"
-msgstr ""
+msgstr "Uruchamianie"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:101
 msgid "Initializing..."
 msgstr "Inicjalizacja..."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:122
-#, fuzzy
 msgid "Operation progress"
-msgstr "Podgląd operacji"
+msgstr "Postęp operacji"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:342
 msgid "The operation did not complete. The log below states the cause and what to do next."
-msgstr ""
+msgstr "Operacja nie została ukończona. Poniższy dziennik informuje o przyczynie i sugeruje dalsze kroki."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:369
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:564
@@ -4317,28 +4358,27 @@ msgid "Open in GitHub"
 msgstr "Otwórz w GitHub"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:459
-#, fuzzy
 msgid "One operation at a time"
-msgstr "Podgląd operacji"
+msgstr "Jedna operacja na raz"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:460
 #, python-brace-format
 msgid "“{0}” cannot start while another operation is still running."
-msgstr ""
+msgstr "Nie można uruchomić „{0}”, gdy inna operacja jest nadal w trakcie wykonywania."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:547
 #, python-brace-format
 msgid "The commit {0} exists locally on {1}."
-msgstr ""
+msgstr "Rewizja {0} istnieje lokalnie na {1}."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:551
 #, python-brace-format
 msgid "The branch {0} exists locally."
-msgstr ""
+msgstr "Gałąź {0} istnieje lokalnie."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:553
 msgid "The local part of this operation was kept."
-msgstr ""
+msgstr "Lokalna część tej operacji została zachowana."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:554
 #, python-brace-format
@@ -4346,6 +4386,8 @@ msgid ""
 "{0}\n"
 "The remote was not changed. Retry with: {1}"
 msgstr ""
+"{0}\n"
+"Zdalne repozytorium nie zostało zmienione. Spróbuj ponownie za pomocą: {1}"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:570
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:592
@@ -4360,7 +4402,7 @@ msgstr "Operacja anulowana"
 
 #: usr/share/gitrepo/build_package/gui/gtk_adapters.py:125
 msgid "Select an option."
-msgstr ""
+msgstr "Wybierz opcję."
 
 #: usr/share/gitrepo/build_package/gui/gtk_logger.py:89
 #: usr/share/gitrepo/common/rich_logger.py:66
@@ -4393,23 +4435,22 @@ msgstr "Informacje o pakiecie Build"
 
 #: usr/share/gitrepo/build_package/gui/main_gui.py:253
 msgid "Open behavior settings"
-msgstr ""
+msgstr "Otwórz ustawienia zachowania"
 
 #: usr/share/gitrepo/build_package/gui/main_gui.py:256
 #: usr/share/gitrepo/build_package/gui/main_window.py:234
 msgid "Publish Changes"
-msgstr ""
+msgstr "Publikuj zmiany"
 
 #: usr/share/gitrepo/build_package/gui/main_gui.py:257
 #: usr/share/gitrepo/build_package/gui/main_window.py:235
 msgid "Organize Branches"
-msgstr ""
+msgstr "Zarządzaj gałęziami"
 
 #: usr/share/gitrepo/build_package/gui/main_gui.py:258
 #: usr/share/gitrepo/build_package/gui/main_window.py:236
-#, fuzzy
 msgid "Packages"
-msgstr "Pakiety AUR"
+msgstr "Pakiety"
 
 #: usr/share/gitrepo/build_package/gui/main_gui.py:299
 #, python-brace-format
@@ -4428,15 +4469,15 @@ msgstr "Krytyczny błąd GUI: {0}"
 #: usr/share/gitrepo/build_package/gui/main_window.py:43
 #: usr/share/gitrepo/build_package/gui/main_window.py:517
 msgid "Checking repository…"
-msgstr ""
+msgstr "Sprawdzanie repozytorium…"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:117
 msgid "GitHub"
-msgstr ""
+msgstr "GitHub"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:142
 msgid "Start Here"
-msgstr ""
+msgstr "Rozpocznij tutaj"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:198
 #, python-brace-format
@@ -4444,31 +4485,28 @@ msgid "Failed to initialize: {0}"
 msgstr "Nie udało się zainicjalizować: {0}"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:215
-#, fuzzy
 msgid "Build and publish packages"
-msgstr "Buduj pakiet AUR"
+msgstr "Buduj i publikuj pakiety"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:216
 msgid "Start a build on GitHub Actions from this repository or from a community source."
-msgstr ""
+msgstr "Rozpocznij budowanie w GitHub Actions z tego repozytorium lub z zewnętrznego źródła."
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:218
-#, fuzzy
 msgid "This repository"
-msgstr "Brak repozytorium"
+msgstr "To repozytorium"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:219
-#, fuzzy
 msgid "AUR"
-msgstr "URL AUR"
+msgstr "AUR"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:226
 msgid "Settings and repository maintenance"
-msgstr ""
+msgstr "Ustawienia i konserwacja repozytorium"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:227
 msgid "Local Git behavior, GitHub access, and the destructive operations that need confirmation."
-msgstr ""
+msgstr "Zachowanie lokalnego Gita, dostęp do GitHub oraz destrukcyjne operacje wymagające potwierdzenia."
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:383
 msgid "No repository"
@@ -4477,7 +4515,7 @@ msgstr "Brak repozytorium"
 #: usr/share/gitrepo/build_package/gui/main_window.py:385
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:403
 msgid "Local Git repository"
-msgstr ""
+msgstr "Lokalne repozytorium Git"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:386
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:257
@@ -4486,7 +4524,7 @@ msgstr ""
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:432
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:375
 msgid "Detached HEAD"
-msgstr ""
+msgstr "Odłączona gałąź HEAD"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:386
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:257
@@ -4499,12 +4537,12 @@ msgstr "Nieznany"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:394
 msgid "Refreshing status…"
-msgstr ""
+msgstr "Odświeżanie statusu…"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:521
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:63
 msgid "Checking…"
-msgstr ""
+msgstr "Sprawdzanie…"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:550
 #, python-brace-format
@@ -4513,7 +4551,7 @@ msgstr "Commit ({0} oczekujących zmian)"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:552
 msgid "Commit (status unavailable)"
-msgstr ""
+msgstr "Commituj (status niedostępny)"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:554
 msgid "Commit"
@@ -4532,6 +4570,11 @@ msgid ""
 "\n"
 "{1}"
 msgstr ""
+"Zamierzasz commitować bezpośrednio do '{0}'.\n"
+"\n"
+"Ta gałąź jest zwykle chroniona. Rozważ użycie gałęzi rozwojowej.\n"
+"\n"
+"{1}"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:69
 msgid "Confirm Commit Branch"
@@ -4540,12 +4583,12 @@ msgstr "Potwierdź gałąź zatwierdzenia"
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:71
 #, python-brace-format
 msgid "Choose where to publish your changes. {0}"
-msgstr ""
+msgstr "Wybierz, gdzie opublikować zmiany. {0}"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:107
 #, python-brace-format
 msgid "Your dev branch: {0}"
-msgstr ""
+msgstr "Twoja gałąź rozwojowa: {0}"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:118
 #, python-brace-format
@@ -4568,72 +4611,72 @@ msgstr "Zatwierdź do {0}"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:160
 msgid "Preparing and publishing changes"
-msgstr ""
+msgstr "Przygotowywanie i publikowanie zmian"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:161
 #, python-brace-format
 msgid "Switching to {0}, then running the publish command sequence..."
-msgstr ""
+msgstr "Przełączanie na {0}, a następnie uruchamianie sekwencji poleceń publikacji…"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:172
 msgid "Publishing changes"
-msgstr ""
+msgstr "Publikowanie zmian"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:173
 #, python-brace-format
 msgid "Running git add, git commit, and git push for {0}..."
-msgstr ""
+msgstr "Uruchamianie git add, git commit i git push dla {0}…"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:197
 msgid "Downloading updates"
-msgstr ""
+msgstr "Pobieranie aktualizacji"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:198
 msgid "Running git fetch and git merge for the current branch..."
-msgstr ""
+msgstr "Uruchamianie git fetch i git merge dla bieżącej gałęzi…"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:207
 msgid "Repository is already up to date"
-msgstr ""
+msgstr "Repozytorium jest już aktualne"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:212
 msgid "Changes received from the remote"
-msgstr ""
+msgstr "Otrzymano zmiany ze zdalnego repozytorium"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:223
 msgid "Undoing the last commit"
-msgstr ""
+msgstr "Cofanie ostatniego zatwierdzenia"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:224
 msgid "Running git reset HEAD~1 and keeping the files changed..."
-msgstr ""
+msgstr "Wykonywanie git reset HEAD~1 i zachowywanie zmienionych plików..."
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:245
 msgid "Starting package workflow"
-msgstr ""
+msgstr "Rozpoczynanie przepływu pracy dla pakietów"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:246
 #, python-brace-format
 msgid "build and publish the {0} package"
-msgstr ""
+msgstr "zbuduj i opublikuj pakiet {0}"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:267
 msgid "Publishing changes and starting package workflow"
-msgstr ""
+msgstr "Publikowanie zmian i rozpoczynanie przepływu pracy dla pakietów"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:268
 #, python-brace-format
 msgid "Running the Git publish sequence, then asking GitHub Actions to build {0}..."
-msgstr ""
+msgstr "Wykonywanie sekwencji publikowania Git, a następnie proszenie GitHub Actions o zbudowanie {0}..."
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:282
 msgid "Starting AUR workflow"
-msgstr ""
+msgstr "Rozpoczynanie przepływu pracy AUR"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:283
 #, python-brace-format
 msgid "clone and build the AUR package {0}"
-msgstr ""
+msgstr "sklonuj i zbuduj pakiet AUR {0}"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:323
 msgid "GitHub Token Setup"
@@ -4683,7 +4726,7 @@ msgstr "Wymagane są nazwa użytkownika i token"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:393
 msgid "The token could not be saved in the system keyring. Check that the keyring is unlocked and try again."
-msgstr ""
+msgstr "Token nie mógł zostać zapisany w pętli kluczy systemowych. Sprawdź, czy pętla kluczy jest odblokowana i spróbuj ponownie."
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:404
 msgid "✓ Token saved successfully"
@@ -4691,11 +4734,11 @@ msgstr "✓ Token został pomyślnie zapisany"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:92
 msgid "Maintain and restore the repository"
-msgstr ""
+msgstr "Utrzymuj i przywracaj repozytorium"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:94
 msgid "Remove obsolete references or return files and history to an earlier point. Every destructive command requires confirmation."
-msgstr ""
+msgstr "Usuń nieaktualne odniesienia lub cofnij pliki i historię do wcześniejszego punktu. Każde destrukcyjne polecenie wymaga potwierdzenia."
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:104
 msgid "Warning: These operations can be destructive"
@@ -4706,33 +4749,32 @@ msgid "Cleanup Operations"
 msgstr "Operacje czyszczenia"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:113
-#, fuzzy
 msgid "Remove obsolete GitHub Actions runs and remote tags"
-msgstr "Usuń stare gałęzie, akcje i tagi"
+msgstr "Usuń nieaktualne uruchomienia GitHub Actions i zdalne tagi"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:118
 msgid "Remove failed workflow runs"
-msgstr ""
+msgstr "Usuń nieudane przebiegi przepływu pracy"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:119
 msgid "delete failed GitHub Actions runs; no Git command is used"
-msgstr ""
+msgstr "usuń nieudane przebiegi GitHub Actions; nie jest używane polecenie Git"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:125
 msgid "Remove successful workflow runs"
-msgstr ""
+msgstr "Usuń udane przebiegi workflowów"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:126
 msgid "delete successful GitHub Actions runs; no Git command is used"
-msgstr ""
+msgstr "usuń udane przebiegi GitHub Actions; nie jest używane żadne polecenie Git"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:132
 msgid "Remove all remote tags"
-msgstr ""
+msgstr "Usuń wszystkie zdalne tagi"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:133
 msgid "delete refs/tags through the GitHub API; local tags are unchanged"
-msgstr ""
+msgstr "usuń refs/tags przez API GitHub; lokalne tagi pozostają bez zmian"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:154
 msgid "Commit History"
@@ -4744,15 +4786,15 @@ msgstr "Przeglądaj i cofnij ostatnie commity"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:174
 msgid "How to return to the selected commit"
-msgstr ""
+msgstr "Jak wrócić do wybranego commitu"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:179
 msgid "Restore files with a new commit"
-msgstr ""
+msgstr "Przywróć pliki za pomocą nowego commitu"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:180
 msgid "Move history back and delete newer commits"
-msgstr ""
+msgstr "Przesuń historię wstecz i usuń nowsze commity"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:201
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:215
@@ -4762,7 +4804,7 @@ msgstr "Odśwież"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:207
 msgid "Return to selected commit"
-msgstr ""
+msgstr "Wróć do wybranego commitu"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:232
 msgid "No commits yet"
@@ -4775,11 +4817,11 @@ msgstr "Utwórz swój pierwszy commit, aby zobaczyć historię"
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:237
 #, python-brace-format
 msgid "{0} branch(es) and {1} commit(s) in the current branch."
-msgstr ""
+msgstr "{0} gałąź(-zie) i {1} commit(y) w bieżącej gałęzi"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:295
 msgid "restore"
-msgstr ""
+msgstr "przywróć"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:295
 msgid "reset"
@@ -4801,30 +4843,37 @@ msgid ""
 "\n"
 "{3}"
 msgstr ""
+"Czy na pewno chcesz {0} ten commit?\n"
+"\n"
+"{1}\n"
+"\n"
+"Commit: {2}\n"
+"\n"
+"{3}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:43
 msgid "Build a package from the AUR"
-msgstr ""
+msgstr "Zbuduj pakiet z AUR"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:45
 msgid "Choose a community-maintained package. GitHub Actions downloads its AUR repository and builds it; no local Git command is run."
-msgstr ""
+msgstr "Wybierz pakiet utrzymywany przez społeczność. GitHub Actions pobiera jego repozytorium AUR i buduje go; nie jest uruchamiane żadne lokalne polecenie Git."
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:54
 msgid "GitHub AUR workflow"
-msgstr ""
+msgstr "Workflow AUR GitHub"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:56
 msgid "This optional feature asks GitHub Actions to download a community package recipe and build it remotely."
-msgstr ""
+msgstr "Ta opcjonalna funkcja prosi GitHub Actions o pobranie przepisu pakietu społecznościowego i zdalne zbudowanie go."
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:59
 msgid "Enable AUR package builds"
-msgstr ""
+msgstr "Włącz budowanie pakietów AUR"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:62
 msgid "Show the AUR package form below. Running it requires a GitHub access token; no local Git branch is created."
-msgstr ""
+msgstr "Pokaż poniżej formularz pakietu AUR. Jego uruchomienie wymaga tokena dostępu GitHub; żadna lokalna gałąź Git nie zostanie utworzona."
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:74
 msgid "AUR packages are built from community-maintained sources"
@@ -4840,15 +4889,15 @@ msgstr "Informacje o pakiecie"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:85
 msgid "What an AUR build does"
-msgstr ""
+msgstr "Co robi budowanie pakietów AUR"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:87
 msgid "The workflow clones the package recipe from the Arch User Repository and builds it on GitHub. Nothing is compiled on this computer, and the recipe is maintained by the community, not by BigCommunity."
-msgstr ""
+msgstr "Przepływ pracy klonuje przepis pakietu z Arch User Repository i buduje go na GitHub. Nic nie jest kompilowane na tym komputerze, a przepis jest utrzymywany przez społeczność, a nie przez BigCommunity."
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:93
 msgid "The package name determines the community source URL used by the build."
-msgstr ""
+msgstr "Nazwa pakietu określa adres URL źródła społecznościowego używanego podczas budowania."
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:96
 msgid "AUR Package Name"
@@ -4864,7 +4913,7 @@ msgstr "Opcje budowania"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:118
 msgid "Optional diagnostics for the AUR build job."
-msgstr ""
+msgstr "Opcjonalna diagnostyka dla zadania budowania pakietów AUR."
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:121
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:300
@@ -4882,20 +4931,20 @@ msgstr "Podsumowanie budowania"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:131
 msgid "clone the selected AUR source and build it in BigCommunity infrastructure"
-msgstr ""
+msgstr "sklonuj wybrane źródło AUR i zbuduj je w infrastrukturze BigCommunity"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:144
 msgid "Execution method"
-msgstr ""
+msgstr "Metoda wykonania"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:149
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:268
 msgid "GitHub Actions workflow — no local branch is created"
-msgstr ""
+msgstr "Przepływ pracy GitHub Actions — żadna lokalna gałąź nie jest tworzona"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:166
 msgid "Start AUR workflow"
-msgstr ""
+msgstr "Uruchom przepływ pracy AUR"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:220
 msgid "Enter package name above"
@@ -4908,7 +4957,7 @@ msgstr "Potwierdź budowanie AUR"
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:283
 #, python-brace-format
 msgid "Package: {0}"
-msgstr ""
+msgstr "Pakiet: {0}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:293
 msgid "This will:"
@@ -4916,41 +4965,40 @@ msgstr "To spowoduje:"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:300
 msgid "• No local Git command or branch will be created"
-msgstr ""
+msgstr "• Nie zostanie utworzone żadne lokalne polecenie ani gałąź Git"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:301
 #, python-brace-format
 msgid "• GitHub Actions clones: {0}"
-msgstr ""
+msgstr "• GitHub Actions klonuje: {0}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:302
 msgid "• The workflow builds the package in BigCommunity infrastructure"
-msgstr ""
+msgstr "• Przepływ pracy buduje pakiet w infrastrukturze BigCommunity"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:39
 msgid "Checked out right now"
-msgstr ""
+msgstr "Sprawdzone teraz"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
-#, fuzzy
 msgid "Current"
-msgstr "Bieżący Kod"
+msgstr "Bieżący"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:52
 msgid "Only on origin; created locally on first checkout"
-msgstr ""
+msgstr "Tylko w origin; utworzone lokalnie przy pierwszym checkout"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:56
 msgid "Exists only on origin; it is created locally on first checkout"
-msgstr ""
+msgstr "Istnieje wyłącznie na origin; jest tworzona lokalnie podczas pierwszego checkout"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:91
 msgid "Organize lines of work"
-msgstr ""
+msgstr "Organizuj gałęzie prac"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:93
 msgid "Switch branches with git checkout, publish new branches with git push, or propose integration on GitHub."
-msgstr ""
+msgstr "Przełączaj gałęzie za pomocą git checkout, publikuj nowe gałęzie za pomocą git push lub proponuj integrację na GitHubie."
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:103
 msgid "Current Status"
@@ -4958,7 +5006,7 @@ msgstr "Bieżący status"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:104
 msgid "Shows the active branch and the most recently updated local branch."
-msgstr ""
+msgstr "Pokazuje aktywną gałąź oraz ostatnio zaktualizowaną gałąź lokalną."
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:107
 msgid "Active Branch"
@@ -4978,35 +5026,35 @@ msgstr "Dostępne gałęzie"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:129
 msgid "Selecting another branch runs git checkout BRANCH; remote-only branches are created locally first."
-msgstr ""
+msgstr "Wybór innej gałęzi uruchamia git checkout BRANCH; gałęzie wyłącznie zdalne są najpierw tworzone lokalnie."
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:152
 msgid "Return to the main line of development with an explicit Git command."
-msgstr ""
+msgstr "Wróć do głównej linii rozwoju za pomocą jawnego polecenia Git."
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:156
 msgid "Return to the main branch"
-msgstr ""
+msgstr "Wróć do gałęzi głównej"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:162
 msgid "Open main"
-msgstr ""
+msgstr "Otwórz główną"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:174
 msgid "Propose branch integration"
-msgstr ""
+msgstr "Zaproponuj integrację gałęzi"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:177
 msgid "How integration works"
-msgstr ""
+msgstr "Jak działa integracja"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:179
 msgid "The source branch is the one carrying your work; the target is where it should land. GitRepo opens a pull request on GitHub instead of merging locally, so the review and the checks still run."
-msgstr ""
+msgstr "Gałąź źródłowa to ta, która zawiera Twoją pracę; gałąź docelowa to ta, do której ma trafić. GitRepo otwiera pull request na GitHubie zamiast scalić lokalnie, więc przegląd i testy są nadal uruchamiane."
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:186
 msgid "open a Pull Request from the source branch to the target branch"
-msgstr ""
+msgstr "otwórz Pull Request z gałęzi źródłowej do gałęzi docelowej"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:192
 msgid "Branch to merge from"
@@ -5026,61 +5074,59 @@ msgstr "Odśwież listę gałęzi"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:222
 msgid "Remove old branches"
-msgstr ""
+msgstr "Usuń stare gałęzie"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:259
 msgid "Not available"
-msgstr ""
+msgstr "Niedostępne"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:21
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:29
-#, fuzzy
 msgid "Checking"
-msgstr "Sprawdzanie..."
+msgstr "Sprawdzanie"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:23
 msgid "Attention"
-msgstr ""
+msgstr "Uwaga"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:24
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:32
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:438
 msgid "Unavailable"
-msgstr ""
+msgstr "Niedostępne"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:30
 msgid "Ready"
-msgstr ""
+msgstr "Gotowe"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:31
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:562
-#, fuzzy
 msgid "Pending changes"
-msgstr "Commit ({0} oczekujących zmian)"
+msgstr "Oczekujące zmiany"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:131
 msgid "Refresh repository status"
-msgstr ""
+msgstr "Odśwież stan repozytorium"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:136
 msgid "Publish your work"
-msgstr ""
+msgstr "Opublikuj swoją pracę"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:137
 msgid "Review what changed, describe it, and send it to a remote branch."
-msgstr ""
+msgstr "Sprawdź, co się zmieniło, opisz to i wyślij do zdalnej gałęzi."
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:150
 msgid "Pending files and history"
-msgstr ""
+msgstr "Oczekujące pliki i historia"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:151
 msgid "Review what will be recorded before writing the commit."
-msgstr ""
+msgstr "Sprawdź, co zostanie zarejestrowane przed zapisaniem commita."
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:154
 msgid "What publishing runs"
-msgstr ""
+msgstr "Co jest uruchamiane podczas publikowania"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:155
 #, python-brace-format
@@ -5089,6 +5135,9 @@ msgid ""
 "\n"
 "Publish changes: {1}"
 msgstr ""
+"Pobierz aktualizacje: {0}\n"
+"\n"
+"Opublikuj zmiany: {1}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:164
 msgid "Last Commit"
@@ -5100,7 +5149,7 @@ msgstr "Brak informacji o commicie"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:174
 msgid "Undo the last commit and keep its files changed — git reset HEAD~1"
-msgstr ""
+msgstr "Cofnij ostatniego commita i pozostaw jego pliki zmienione — git reset HEAD~1"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:185
 msgid "Changed Files"
@@ -5111,13 +5160,12 @@ msgid "Click to view files"
 msgstr "Kliknij, aby zobaczyć pliki"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:194
-#, fuzzy
 msgid "Describe the commit"
-msgstr "Cofnij commit"
+msgstr "Opisz commit"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:195
 msgid "The type prefixes the message recorded by Git."
-msgstr ""
+msgstr "Typ poprzedza wiadomość zapisywaną przez Gita."
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:202
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:215
@@ -5125,9 +5173,8 @@ msgid "Commit Type"
 msgstr "Typ commita"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:205
-#, fuzzy
 msgid "Required — select the type of change"
-msgstr "Wybierz typ zmiany"
+msgstr "Wymagane — wybierz typ zmiany"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:232
 msgid "Description (supports multiple lines)"
@@ -5149,21 +5196,21 @@ msgstr "Opis dla {0} (obsługuje wiele linii)"
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:407
 #, python-brace-format
 msgid "{0} • branch {1} • status unavailable"
-msgstr ""
+msgstr "{0} • gałąź {1} • stan niedostępny"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:409
 #, python-brace-format
 msgid "{0} • branch {1} • {2} changed file(s)"
-msgstr ""
+msgstr "{0} • gałąź {1} • {2} zmieniony plik(i)"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:410
 #, python-brace-format
 msgid "{0} • branch {1} • working tree clean"
-msgstr ""
+msgstr "{0} • gałąź {1} • drzewo robocze czyste"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:423
 msgid "Branch"
-msgstr ""
+msgstr "Gałąź"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:424
 msgid "Changes"
@@ -5174,29 +5221,28 @@ msgid "Commits"
 msgstr "Commity"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:437
-#, fuzzy
 msgid "Status unavailable"
-msgstr "{0} (dostępne)"
+msgstr "Status niedostępny"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:440
 msgid "Repository status unavailable"
-msgstr ""
+msgstr "Status repozytorium niedostępny"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:443
 msgid "Commit count may be stale"
-msgstr ""
+msgstr "Liczba commitów może być nieaktualna"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:447
 msgid "Active branch detected"
-msgstr ""
+msgstr "Wykryto aktywną gałąź"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:448
 msgid "Commit history available"
-msgstr ""
+msgstr "Historia commitów dostępna"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:453
 msgid "Ready to publish"
-msgstr ""
+msgstr "Gotowe do publikacji"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:455
 msgid "No changes"
@@ -5204,45 +5250,43 @@ msgstr "Brak zmian"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:456
 msgid "Working tree clean"
-msgstr ""
+msgstr "Drzewo robocze czyste"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:464
 msgid "Nothing to publish"
-msgstr ""
+msgstr "Nic do publikacji"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:465
 #, python-brace-format
 msgid "The working tree on {0} is clean."
-msgstr ""
+msgstr "Drzewo robocze na {0} jest czyste."
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:468
 msgid "choose a type"
-msgstr ""
+msgstr "wybierz typ"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:470
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} • {1} file(s) • branch {2}"
-msgstr "{0}: {1} → {2}"
+msgstr "{0} • {1} plik(i) • gałąź {2}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:473
-#, fuzzy
 msgid "commit type"
-msgstr "Typ commita"
+msgstr "typ commita"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:475
-#, fuzzy
 msgid "description"
-msgstr "Wersja"
+msgstr "opis"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:477
 #, python-brace-format
 msgid "Still missing: {0}"
-msgstr ""
+msgstr "Wciąż brakuje: {0}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:479
 #, python-brace-format
 msgid "git add -A → git commit → git push origin {0}"
-msgstr ""
+msgstr "git add -A → git commit → git push origin {0}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:524
 msgid "Added+Modified"
@@ -5272,42 +5316,40 @@ msgstr "Cofnij zatwierdzenie"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:59
 msgid "Build and publish a package"
-msgstr ""
+msgstr "Zbuduj i opublikuj pakiet"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:60
 msgid "Choose a destination and start a build on GitHub Actions."
-msgstr ""
+msgstr "Wybierz miejsce docelowe i rozpocznij budowanie w GitHub Actions."
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:68
 msgid "GitHub package workflow"
-msgstr ""
+msgstr "Workflow pakietu GitHub"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:73
 msgid "Enable package generation"
-msgstr ""
+msgstr "Włącz generowanie pakietu"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:74
 msgid "Requires a GitHub access token."
-msgstr ""
+msgstr "Wymaga tokena dostępu do GitHub."
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:78
-#, fuzzy
 msgid "Before publishing a package"
-msgstr "Wymuszanie wypchnięcia zmian..."
+msgstr "Przed opublikowaniem pakietu"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:79
 #, python-brace-format
 msgid "Pending files must be committed first: {0}"
-msgstr ""
+msgstr "Oczekujące pliki muszą zostać najpierw zatwierdzone: {0}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:95
-#, fuzzy
 msgid "Package generation is off"
-msgstr "Generowanie pakietów"
+msgstr "Generowanie pakietu jest wyłączone"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:98
 msgid "Turn it on to publish this repository to the testing, stable, or extra repository. The build runs on GitHub Actions and needs an access token; nothing is compiled here."
-msgstr ""
+msgstr "Włącz, aby opublikować to repozytorium w testowym, stabilnym lub dodatkowym repozytorium. Kompilacja jest uruchamiana w GitHub Actions i wymaga tokena dostępu; nic nie jest tutaj kompilowane."
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:110
 msgid "Repository Status"
@@ -5315,7 +5357,7 @@ msgstr "Status repozytorium"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:111
 msgid "Confirms the package, branch, and working tree used by the workflow."
-msgstr ""
+msgstr "Potwierdza pakiet, gałąź i drzewo robocze używane przez przepływ pracy."
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:130
 msgid "Changes Status"
@@ -5327,23 +5369,23 @@ msgstr "Docelowe repozytorium"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:144
 msgid "Which repository to publish to"
-msgstr ""
+msgstr "Do którego repozytorium opublikować"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:146
 msgid "Testing receives packages for validation and is built from your development branch. Stable is what users install, and it is always built from main. Extra holds complementary packages that follow the same stable rules."
-msgstr ""
+msgstr "Testowe otrzymuje pakiety do walidacji i jest budowane z Twojej gałęzi deweloperskiej. Stabilne to to, co instalują użytkownicy i jest zawsze budowane z gałęzi main. Dodatkowe zawiera pakiety uzupełniające, które podlegają tym samym zasadom co stabilne."
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:153
 msgid "build the package and publish it to the selected repository"
-msgstr ""
+msgstr "zbuduj pakiet i opublikuj go w wybranym repozytorium"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:161
 msgid "Validate the package before a stable release"
-msgstr ""
+msgstr "Zwaliduj pakiet przed wydaniem stabilnym"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:164
 msgid "Publish the package for all users"
-msgstr ""
+msgstr "Opublikuj pakiet dla wszystkich użytkowników"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:165
 msgid "Extra"
@@ -5351,11 +5393,11 @@ msgstr "Dodatkowe"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:165
 msgid "Publish an optional or additional package"
-msgstr ""
+msgstr "Opublikuj opcjonalny lub dodatkowy pakiet"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:203
 msgid "Record pending files before building"
-msgstr ""
+msgstr "Rejestruj oczekujące pliki przed budowaniem"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:216
 msgid "Select the type of change"
@@ -5367,24 +5409,24 @@ msgstr "Komentarz commita"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:292
 msgid "Advanced Options"
-msgstr ""
+msgstr "Opcje zaawansowane"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:293
 msgid "Optional tools for diagnosing the remote workflow."
-msgstr ""
+msgstr "Opcjonalne narzędzia do diagnozowania zdalnego przepływu pracy."
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:296
 msgid "Remote Debugging"
-msgstr ""
+msgstr "Zdalne debugowanie"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:297
 msgid "Keep disabled for normal package builds"
-msgstr ""
+msgstr "Pozostaw wyłączone dla normalnych kompilacji pakietów"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:320
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:521
 msgid "Start package workflow"
-msgstr ""
+msgstr "Uruchom przepływ pracy pakietów"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:370
 msgid "Error: PKGBUILD not found"
@@ -5392,7 +5434,7 @@ msgstr "Błąd: PKGBUILD nie znaleziony"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:384
 msgid "Working tree status unavailable"
-msgstr ""
+msgstr "Status drzewa roboczego niedostępny"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:390
 msgid "Uncommitted changes present"
@@ -5404,232 +5446,231 @@ msgstr "Katalog roboczy czysty"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:431
 msgid "Start testing build"
-msgstr ""
+msgstr "Rozpocznij kompilację testową"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:432
 msgid "Start stable build"
-msgstr ""
+msgstr "Rozpocznij stabilną kompilację"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:433
 msgid "Start extra build"
-msgstr ""
+msgstr "Rozpocznij dodatkową kompilację"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:35
 msgid "Connect GitHub securely"
-msgstr ""
+msgstr "Bezpieczne połączenie z GitHub"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:37
 msgid "Local Git commands do not need a token. A token is used only when this app asks GitHub to run package workflows or manage remote automation."
-msgstr ""
+msgstr "Lokalne polecenia Git nie wymagają tokena. Token jest używany tylko wtedy, gdy ta aplikacja prosi GitHub o uruchomienie przepływów pracy pakietów lub zarządzanie zdalną automatyzacją."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:46
 msgid "Tokens saved on this computer"
-msgstr ""
+msgstr "Tokeny zapisane na tym komputerze"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:48
 msgid "Values are protected by the system keyring and are never displayed by this app."
-msgstr ""
+msgstr "Wartości są chronione przez systemową usługę przechowywania haseł i nigdy nie są wyświetlane przez tę aplikację."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:56
 msgid "About GitHub access tokens"
-msgstr ""
+msgstr "O tokenach dostępu do GitHub"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:58
 msgid "The token identifies your account so the app can start GitHub workflows that Git alone cannot. It authorizes one organization or user, and saving it does not verify its permissions. Package workflows need: repo, workflow, write:packages, delete:packages, read:org."
-msgstr ""
+msgstr "Token identyfikuje Twoje konto, dzięki czemu aplikacja może uruchamiać przepływy pracy GitHub, których sam Git nie może. Autoryzuje on jednego organizacja lub użytkownika, a zapisanie go nie weryfikuje jego uprawnień. Do przepływów pracy pakietów potrzebne są: repo, workflow, write:packages, delete:packages, read:org."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:67
 msgid "Create a classic access token on GitHub"
-msgstr ""
+msgstr "Utwórz klasyczny token dostępu na GitHub"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:79
 msgid "Save or replace an access token"
-msgstr ""
+msgstr "Zapisz lub zastąp token dostępu"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:83
 msgid "Use the GitHub organization or username that owns the repositories where workflows will run."
-msgstr ""
+msgstr "Użyj organizacji GitHub lub nazwy użytkownika, która jest właścicielem repozytoriów, w których będą uruchamiane przepływy pracy."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:87
 msgid "GitHub organization or username"
-msgstr ""
+msgstr "Organizacja GitHub lub nazwa użytkownika"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:92
 msgid "Personal access token"
-msgstr ""
+msgstr "Osobisty token dostępu"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:97
 msgid "Store in the system keyring"
-msgstr ""
+msgstr "Przechowuj w systemowej magazynie kluczy"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:98
 msgid "The token value will be cleared from this form after it is stored."
-msgstr ""
+msgstr "Wartość tokena zostanie wyczyszczona z tego formularza po jego zapisaniu."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:99
 msgid "Save access token"
-msgstr ""
+msgstr "Zapisz token dostępu"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:108
 msgid "Checking the system keyring…"
-msgstr ""
+msgstr "Sprawdzanie systemowego magazynu kluczy…"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:123
 msgid "No access tokens saved"
-msgstr ""
+msgstr "Nie zapisano żadnych tokenów dostępu"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:124
 msgid "Use the form below when you want to run a GitHub workflow."
-msgstr ""
+msgstr "Skorzystaj z poniższego formularza, gdy chcesz uruchomić workflow GitHub."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:132
 msgid "Stored securely in the system keyring"
-msgstr ""
+msgstr "Przechowywany bezpiecznie w systemowym magazynie kluczy"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:138
 #, python-brace-format
 msgid "Delete access token for {0}"
-msgstr ""
+msgstr "Usuń token dostępu dla {0}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:150
 msgid "Enter both the GitHub organization and the access token."
-msgstr ""
+msgstr "Wprowadź zarówno organizację GitHub, jak i token dostępu."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:178
 msgid "Access token saved in the system keyring"
-msgstr ""
+msgstr "Token dostępu zapisany w systemowym magazynie kluczy"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:190
 msgid "Access token removed"
-msgstr ""
+msgstr "Token dostępu usunięty"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:194
 msgid "The token could not be removed. Unlock the system keyring and try again."
-msgstr ""
+msgstr "Nie można było usunąć tokena. Odblokuj systemowy magazyn kluczy i spróbuj ponownie."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:218
 msgid "Choose how local Git operations behave"
-msgstr ""
+msgstr "Wybierz sposób działania lokalnych operacji Git"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:220
 msgid "These settings affect work in the current repository. They do not connect to GitHub and do not require an access token."
-msgstr ""
+msgstr "Te ustawienia dotyczą pracy w bieżącym repozytorium. Nie łączą się z GitHub i nie wymagają tokena dostępu."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:232
 msgid "When downloaded and local changes conflict"
-msgstr ""
+msgstr "Gdy pobrane i lokalne zmiany są ze sobą sprzeczne"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:235
 msgid "Protection against data loss"
-msgstr ""
+msgstr "Ochrona przed utratą danych"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:237
 msgid "Safety confirmations are part of the app and cannot be disabled: it always asks before a force push, a hard reset, branch cleanup, tag deletion, or workflow deletion."
-msgstr ""
+msgstr "Potwierdzenia bezpieczeństwa są częścią aplikacji i nie można ich wyłączyć: zawsze pyta przed wymuszonym wysłaniem zmian, twardym resetem, czyszczeniem gałęzi, usunięciem tagu lub usunięciem przepływu pracy."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:243
 msgid "Choose whether the app asks you what to keep or stops so you can resolve the conflict manually."
-msgstr ""
+msgstr "Wybierz, czy aplikacja ma pytać, co zachować, czy zatrzymać się, aby umożliwić ręczne rozwiązanie konfliktu."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:246
 msgid "Conflict resolution method"
-msgstr ""
+msgstr "Metoda rozwiązywania konfliktów"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:248
 msgid "Ask each time"
-msgstr ""
+msgstr "Pytaj za każdym razem"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:249
 msgid "Keep local changes"
-msgstr ""
+msgstr "Zachowaj zmiany lokalne"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:250
 msgid "Keep downloaded changes"
-msgstr ""
+msgstr "Zachowaj pobrane zmiany"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:251
 msgid "Resolve manually"
-msgstr ""
+msgstr "Rozwiąż ręcznie"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:259
-#, fuzzy
 msgid "Package version and defaults"
-msgstr "Generowanie pakietów"
+msgstr "Wersja pakietu i ustawienia domyślne"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:261
 msgid "Update the package version automatically"
-msgstr ""
+msgstr "Aktualizuj wersję pakietu automatycznie"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:263
 msgid "When publishing a typed commit, calculate the next version from the selected change type."
-msgstr ""
+msgstr "Podczas publikowania sformatowanego zatwierdzenia obliczaj kolejną wersję na podstawie wybranego typu zmiany."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:269
 msgid "Reset all Build Package settings"
-msgstr ""
+msgstr "Resetuj wszystkie ustawienia pakietu kompilacji"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:270
 msgid "Disable optional GitHub workflows and restore the recommended local Git behavior."
-msgstr ""
+msgstr "Wyłącz opcjonalne przepływy pracy GitHub i przywróć zalecane lokalne zachowanie Gita."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:271
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:314
 msgid "Reset settings"
-msgstr ""
+msgstr "Resetuj ustawienia"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:294
 msgid "The conflict setting could not be saved."
-msgstr ""
+msgstr "Nie udało się zapisać ustawienia konfliktu."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:305
 msgid "The version setting could not be saved."
-msgstr ""
+msgstr "Nie udało się zapisać ustawienia wersji."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:310
 msgid "Reset all settings?"
-msgstr ""
+msgstr "Zresetować wszystkie ustawienia?"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:311
 msgid "Optional GitHub workflows will be disabled and local Git behavior will return to its defaults."
-msgstr ""
+msgstr "Opcjonalne przepływy pracy GitHub zostaną wyłączone, a lokalne zachowanie Git powróci do ustawień domyślnych."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:326
 msgid "Settings restored"
-msgstr ""
+msgstr "Ustawienia przywrócone"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:328
 msgid "Settings could not be restored. Try again."
-msgstr ""
+msgstr "Nie udało się przywrócić ustawień. Spróbuj ponownie."
 
 #: usr/share/gitrepo/common/desktop_launch.py:62
 #: usr/share/gitrepo/common/desktop_launch.py:90
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not open {0}:"
-msgstr "Nie można podglądnąć pliku: {0}"
+msgstr "Nie można otworzyć {0}:"
 
 #: usr/share/gitrepo/common/desktop_launch.py:76
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not open the folder for {0}:"
-msgstr "Nie można podglądnąć pliku: {0}"
+msgstr "Nie można otworzyć folderu dla {0}:"
 
 #: usr/share/gitrepo/common/help_popover.py:41
 msgid "What does this mean?"
-msgstr ""
+msgstr "Co to oznacza?"
 
 #: usr/share/gitrepo/common/help_popover.py:42
 #, python-brace-format
 msgid "Explain: {0}"
-msgstr ""
+msgstr "Wyjaśnienie: {0}"
 
 #: usr/share/gitrepo/common/page_hero.py:16
 #, python-brace-format
 msgid "Git commands: {0}"
-msgstr ""
+msgstr "Polecenia Git: {0}"
 
 #: usr/share/gitrepo/common/page_hero.py:21
 #, python-brace-format
 msgid "GitHub action: {0}"
-msgstr ""
+msgstr "Akcja GitHub: {0}"
 
 #: usr/share/gitrepo/common/rich_logger.py:88
 msgid "Field"
@@ -5669,12 +5710,12 @@ msgstr "Ten program jest dostarczany bez ŻADNEJ gwarancji."
 #: usr/share/nautilus-python/extensions/gitrepo_extension.py:74
 #: usr/share/nautilus-python/extensions/gitrepo_extension.py:102
 msgid "Open in GitRepo"
-msgstr "Otwórz w Gitrepo"
+msgstr "Otwórz w GitRepo"
 
 #: usr/share/nautilus-python/extensions/gitrepo_extension.py:76
 #: usr/share/nautilus-python/extensions/gitrepo_extension.py:104
 msgid "Manage this Git repository with GitRepo"
-msgstr "Zarządzaj tym repozytorium Git za pomocą Gitrepo"
+msgstr "Zarządzaj tym repozytorium Git za pomocą GitRepo"
 
 #: usr/share/nautilus-python/extensions/gitrepo_extension.py:143
 msgid "Could not get the path for the selected folder."
@@ -5686,210 +5727,8 @@ msgstr "Aplikacja nie znaleziona"
 
 #: usr/share/nautilus-python/extensions/gitrepo_extension.py:152
 msgid "Could not find GitRepo. Is it installed?"
-msgstr "Nie można znaleźć Gitrepo. Czy jest zainstalowany?"
+msgstr "Nie można znaleźć GitRepo. Czy jest zainstalowane?"
 
 #: usr/share/nautilus-python/extensions/gitrepo_extension.py:155
 msgid "Launch Error"
 msgstr "Błąd uruchomienia"
-
-#~ msgid "✓ File permissions set to 600 (owner read/write only)"
-#~ msgstr "✓ Uprawnienia do pliku ustawione na 600 (tylko odczyt/zapis właściciela)"
-
-#, python-brace-format
-#~ msgid "Disk space: {0:.1f} GB free of {1:.1f} GB"
-#~ msgstr "Miejsce na dysku: {0:.1f} GB wolne z {1:.1f} GB"
-
-#~ msgid "Build History"
-#~ msgstr "Historia kompilacji"
-
-#~ msgid "Clear Build History?"
-#~ msgstr "Wyczyścić historię kompilacji?"
-
-#~ msgid "Container Engine"
-#~ msgstr "Silnik kontenera"
-
-#, python-brace-format
-#~ msgid "Error fetching Actions jobs. Code: {0}"
-#~ msgstr "Błąd pobierania zadań Actions. Kod: {0}"
-
-#, python-brace-format
-#~ msgid "Error deleting job {0}. Code: {1}"
-#~ msgstr "Błąd podczas usuwania zadania {0}. Kod: {1}"
-
-#, python-brace-format
-#~ msgid "Deleted {0} Actions jobs with '{1}' status."
-#~ msgstr "Usunięto {0} zadań Actions o statusie '{1}'."
-
-#, python-brace-format
-#~ msgid "Error fetching tags. Code: {0}"
-#~ msgstr "Błąd podczas pobierania tagów. Kod: {0}"
-
-#~ msgid "No Editor Found"
-#~ msgstr "Nie znaleziono edytora"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Could not find a text editor. Please edit the file manually:\n"
-#~ "\n"
-#~ "{0}"
-#~ msgstr ""
-#~ "Nie znaleziono edytora tekstu. Proszę edytować plik ręcznie:\n"
-#~ "\n"
-#~ "{0}"
-
-#~ msgid "Operation failed - check terminal log for details"
-#~ msgstr "Operacja nie powiodła się - sprawdź log terminala, aby uzyskać szczegóły"
-
-#~ msgid "Keep both (create .ours and .theirs files)"
-#~ msgstr "Zachowaj obie (utwórz pliki .ours i .theirs)"
-
-#~ msgid "Created files:"
-#~ msgstr "Utworzone pliki:"
-
-#, python-brace-format
-#~ msgid "Error creating versions: {0}"
-#~ msgstr "Błąd tworzenia wersji: {0}"
-
-#~ msgid "Staging restored files..."
-#~ msgstr "Dodawanie przywróconych plików do indeksu..."
-
-#, python-brace-format
-#~ msgid "Error during revert operation: {0}"
-#~ msgstr "Błąd podczas operacji cofania: {0}"
-
-#, python-brace-format
-#~ msgid "Unexpected error during revert: {0}"
-#~ msgstr "Nieoczekiwany błąd podczas cofania: {0}"
-
-#~ msgid "Engine"
-#~ msgstr "Silnik"
-
-#~ msgid "Storage Driver"
-#~ msgstr "Sterownik pamięci masowej"
-
-#~ msgid "Version"
-#~ msgstr "Wersja"
-
-#~ msgid "Maintenance"
-#~ msgstr "Konserwacja"
-
-#~ msgid "Repository Statistics"
-#~ msgstr "Statystyki repozytorium"
-
-#~ msgid "Total Branches"
-#~ msgstr "Łączna liczba gałęzi"
-
-#~ msgid "Commits in Current Branch"
-#~ msgstr "Commity w bieżącej gałęzi"
-
-#, fuzzy
-#~ msgid "After publishing"
-#~ msgstr "Wymuszanie wypchnięcia zmian..."
-
-#, fuzzy
-#~ msgid "Build a package"
-#~ msgstr "Buduj pakiet AUR"
-
-#, fuzzy
-#~ msgid "Use a community-maintained recipe"
-#~ msgstr "Pakiety AUR są budowane ze źródeł utrzymywanych przez społeczność"
-
-#~ msgid "Behavior"
-#~ msgstr "Zachowanie"
-
-#~ msgid "Source"
-#~ msgstr "Źródło"
-
-#~ msgid "Output"
-#~ msgstr "Wynik"
-
-#, fuzzy
-#~ msgid "Choose the system profile"
-#~ msgstr "Wybierz repozytorium profili ISO:"
-
-#~ msgid "System Status"
-#~ msgstr "Status systemu"
-
-#~ msgid "Disk Space"
-#~ msgstr "Miejsce na dysku"
-
-#~ msgid "Last Build"
-#~ msgstr "Ostatnia kompilacja"
-
-#, python-brace-format
-#~ msgid "{0:.1f} GB free of {1:.1f} GB"
-#~ msgstr "{0:.1f} GB wolne z {1:.1f} GB"
-
-#~ msgid "(directory will be created)"
-#~ msgstr "(katalog zostanie utworzony)"
-
-#, fuzzy, python-brace-format
-#~ msgid "Selected: {0} • {1}"
-#~ msgstr "Przepływ: {0} → {1}"
-
-#~ msgid "Refresh profiles"
-#~ msgstr "Odśwież profile"
-
-#, python-brace-format
-#~ msgid "Local: {0}"
-#~ msgstr "Lokalnie: {0}"
-
-#~ msgid "not configured"
-#~ msgstr "nie skonfigurowano"
-
-#~ msgid "Official GitHub repositories"
-#~ msgstr "Oficjalne repozytoria GitHub"
-
-#~ msgid "Package Generation"
-#~ msgstr "Generowanie pakietów"
-
-#~ msgid "Working Directory"
-#~ msgstr "Katalog roboczy"
-
-#~ msgid "Current Branch"
-#~ msgstr "Aktualna gałąź"
-
-#~ msgid "View changed files"
-#~ msgstr "Pokaż zmienione pliki"
-
-#~ msgid "Recent Activity"
-#~ msgstr "Ostatnia aktywność"
-
-#~ msgid "No recent activity"
-#~ msgstr "Brak ostatniej aktywności"
-
-#~ msgid "Activity will appear here after operations"
-#~ msgstr "Aktywność pojawi się tutaj po wykonaniu operacji"
-
-#~ msgid "Create your first commit to start tracking activity"
-#~ msgstr "Utwórz pierwszy commit, aby rozpocząć śledzenie aktywności"
-
-#~ msgid "Last commit"
-#~ msgstr "Ostatni commit"
-
-#~ msgid "Current branch"
-#~ msgstr "Bieżąca gałąź"
-
-#~ msgid "Starting..."
-#~ msgstr "Uruchamianie..."
-
-#~ msgid "✓ Operation completed successfully"
-#~ msgstr "✓ Operacja zakończona pomyślnie"
-
-#, python-brace-format
-#~ msgid "✗ Operation failed: {0}"
-#~ msgstr "✗ Operacja nie powiodła się: {0}"
-
-#, fuzzy, python-brace-format
-#~ msgid "Estimated: {0}"
-#~ msgstr "Niestandardowe: {0}"
-
-#, python-brace-format
-#~ msgid "Elapsed: {0:02d}:{1:02d}"
-#~ msgstr "Upłynęło: {0:02d}:{1:02d}"
-
-#~ msgid "Build history will appear here after your first build"
-#~ msgstr "Historia kompilacji pojawi się tutaj po pierwszej kompilacji"
-
-#~ msgid "This will force push and rewrite remote history. Continue?"
-#~ msgstr "To spowoduje wymuszone wypchnięcie i nadpisanie historii na zdalnym repozytorium. Kontynuować?"

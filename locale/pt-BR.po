@@ -1,10 +1,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gitrepo\n"
+"Project-Id-Version: GitRepo 3.8.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-25 21:46-0300\n"
-"PO-Revision-Date: 2026-07-14 02:15-0300\n"
+"POT-Creation-Date: 2026-07-26 12:23-0300\n"
+"PO-Revision-Date: 2026-07-26 12:23-0300\n"
 "Last-Translator: AI Translator <auto@translator.ai>\n"
 "Language-Team: Portuguese (Brazil) <pt_BR@li.org>\n"
 "Language: pt_BR\n"
@@ -12,6 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: LangForge\n"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:95
 #: usr/share/gitrepo/build_package/core/build_package.py:97
@@ -1524,7 +1525,7 @@ msgstr "Limpar a lista de ISOs geradas?"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:201
 msgid "This will remove all build history entries. This cannot be undone."
-msgstr "Isso removerá todas as entradas do histórico de builds. Esta ação não pode ser desfeita.Isso removerá todas as entradas do histórico de builds. Esta ação não pode ser desfeita."
+msgstr "Isso removerá todas as entradas do histórico de compilações. Essa ação não pode ser desfeita."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:221
 msgid "ISO path copied to the clipboard"
@@ -1818,7 +1819,7 @@ msgstr "Alterações que não afetam o significado do código"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:107
 msgid "A code change that neither fixes a bug nor adds a feature"
-msgstr "Uma alteração de código que não corrige um bug nem adiciona um recursoUma alteração no código que não corrige um bug nem adiciona um recurso"
+msgstr "Uma alteração de código que não corrige um bug nem adiciona um recurso"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:108
 msgid "A code change that improves performance"
@@ -2055,7 +2056,7 @@ msgstr "Simular operações sem executar"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:34
 msgid "Authentication failed - credentials may be expired or invalid"
-msgstr "Autenticação falhou - as credenciais podem estar expiradas ou inválidasFalha na autenticação - credenciais podem estar expiradas ou inválidas"
+msgstr "Falha na autenticação - as credenciais podem ter expirado ou estar inválidas"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:36
 msgid "Run 'gh auth login' to authenticate with GitHub CLI"
@@ -2097,7 +2098,7 @@ msgstr "Este branch possui regras de proteção - push direto não é permitido"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:59
 msgid "Push to a development branch instead (e.g., dev-yourname)"
-msgstr "Faça push para um branch de desenvolvimento (ex: dev-seunome)Faça push para um branch de desenvolvimento em vez disso (ex: dev-seunome)"
+msgstr "Faça push para um branch de desenvolvimento em vez disso (por exemplo, dev-yourname)"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:60
 msgid "Create a Pull Request to merge your changes"
@@ -2105,7 +2106,7 @@ msgstr "Crie um Pull Request para mesclar suas alterações"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:61
 msgid "Ask a maintainer to temporarily disable branch protection"
-msgstr "Peça a um mantenedor para desativar temporariamente a proteção do branchPeça a um mantenedor para desabilitar temporariamente a proteção do branch"
+msgstr "Peça a um mantenedor para desativar temporariamente a proteção do branch."
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:68
 msgid "Network error - cannot reach remote server"
@@ -2284,7 +2285,7 @@ msgid ""
 "{3}"
 msgstr ""
 "Publicar estas alterações?\n"
-"Comandos: git add -A → git commit -m \"MENSAGEM\" → git push -u origin BRANCH\n"
+"Comandos: git add -A → git commit -m \"MESSAGE\" → git push -u origin BRANCH\n"
 "Branch: {0}\n"
 "Mensagem: {1}\n"
 "{2}Arquivos:\n"
@@ -2477,7 +2478,7 @@ msgstr "Resolvendo conflitos: mantendo nossas alterações..."
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:247
 #, python-brace-format
 msgid "  Removing {0} (deleted in our version)"
-msgstr "Removendo {0} (excluído em nossa versão)"
+msgstr "  Removendo {0} (excluído em nossa versão)"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:248
 msgid "deleted in the local version"
@@ -2500,7 +2501,7 @@ msgstr "Resolvendo conflitos: aceitando alterações remotas..."
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:276
 #, python-brace-format
 msgid "  Removing {0} (deleted in remote version)"
-msgstr "Removendo {0} (excluído na versão remota)"
+msgstr "  Removendo {0} (excluído na versão remota)"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:277
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:344
@@ -2749,12 +2750,12 @@ msgid ""
 "\n"
 "Every other change from {1} is merged, and the discarded version stays readable with: git diff HEAD^2 -- FILE"
 msgstr ""
-"Resolver a divergência mantendo {0} onde as duas branches discordam?\n"
+"Resolver a divergência mantendo {0} onde houver divergência entre os dois branches?\n"
 "\n"
 "As linhas conflitantes de {1} serão descartadas em:\n"
 "{2}\n"
 "\n"
-"Todas as outras alterações de {1} são mescladas, e a versão descartada continua legível com: git diff HEAD^2 -- ARQUIVO"
+"Todas as outras mudanças de {1} serão mescladas, e a versão descartada permanecerá legível com: git diff HEAD^2 -- FILE"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:274
 #, python-brace-format
@@ -2781,7 +2782,7 @@ msgstr "Mantido {0} em {1} arquivo(s); a versão de {2} foi descartada neles: {3
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:333
 msgid "Read the discarded version with: git diff HEAD^2 -- FILE"
-msgstr "Veja a versão descartada com: git diff HEAD^2 -- ARQUIVO"
+msgstr "Leia a versão descartada com: git diff HEAD^2 -- FILE"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:345
 #, python-brace-format
@@ -2961,23 +2962,23 @@ msgstr "  1. Acesse: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:182
 msgid "  2. Click 'Generate new token (classic)'"
-msgstr "2. Clique em 'Generate new token (classic)'"
+msgstr "  2. Clique em 'Generate new token (classic)'"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:183
 msgid "  3. Name: 'gitrepo' | Expiration: your choice"
-msgstr "3. Nome: 'gitrepo' | Expiração: sua escolha"
+msgstr "  3. Nome: 'gitrepo' | Expiração: sua escolha"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:184
 msgid "  4. Select scopes: 'repo' and 'workflow'"
-msgstr "4. Selecione os escopos: 'repo' e 'workflow'"
+msgstr "  4. Selecione os escopos: 'repo' e 'workflow'"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:185
 msgid "  5. Click 'Generate token' and copy it"
-msgstr "5. Clique em 'Generate token' e copie-o"
+msgstr "  5. Clique em 'Generate token' e copie-o"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:190
 msgid "GitHub username (or press Enter to cancel): "
-msgstr "Nome de usuário do GitHub (ou pressione Enter para cancelar):"
+msgstr "Nome de usuário do GitHub (ou pressione Enter para cancelar): "
 
 #: usr/share/gitrepo/build_package/core/github_api.py:192
 #: usr/share/gitrepo/build_package/core/github_api.py:197
@@ -2987,7 +2988,7 @@ msgstr "Configuração do token cancelada."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:195
 msgid "GitHub token (or press Enter to cancel): "
-msgstr "Token do GitHub (ou pressione Enter para cancelar):"
+msgstr "Token do GitHub (ou pressione Enter para cancelar): "
 
 #: usr/share/gitrepo/build_package/core/github_api.py:203
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:165
@@ -3702,7 +3703,7 @@ msgstr "Criando commit de reversão..."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:358
 msgid "Revert completed successfully - code restored to selected commit state"
-msgstr "Reversão concluída com sucesso - código restaurado ao estado do commit selecionadoReversão concluída com sucesso - código restaurado para o estado do commit selecionado"
+msgstr "Reversão concluída com sucesso - código restaurado para o estado do commit selecionado"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:386
 #, python-brace-format
@@ -4267,16 +4268,16 @@ msgstr "Modificado no índice e na árvore de trabalho"
 msgid "{0} changed file(s)"
 msgstr "{0} arquivo(s) modificado(s)"
 
-#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:96
+#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:106
 msgid "File differences"
 msgstr "Diferenças do arquivo"
 
-#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:100
-#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:141
+#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:110
+#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:151
 msgid "No changed files to display."
 msgstr "Nenhum arquivo alterado para exibir."
 
-#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:106
+#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:116
 msgid "No textual differences to display."
 msgstr "Nenhuma diferença textual para exibir."
 
@@ -4876,7 +4877,7 @@ msgstr "Exiba abaixo o formulário de pacotes AUR. A execução exige um token d
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:74
 msgid "AUR packages are built from community-maintained sources"
-msgstr "Pacotes AUR são construídos a partir de fontes mantidas pela comunidadePacotes AUR são construídos a partir de fontes mantidas pela comunidade"
+msgstr "Pacotes AUR são construídos a partir de fontes mantidas pela comunidade"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:75
 msgid "Learn More"
@@ -5731,462 +5732,3 @@ msgstr "Não foi possível encontrar o GitRepo. Está instalado?"
 #: usr/share/nautilus-python/extensions/gitrepo_extension.py:155
 msgid "Launch Error"
 msgstr "Erro de inicialização"
-
-#~ msgid "✓ File permissions set to 600 (owner read/write only)"
-#~ msgstr "✓ Permissões do arquivo definidas para 600 (leitura/escrita apenas do proprietário)✓ Permissões do arquivo definidas para 600 (somente leitura/gravação do proprietário)"
-
-#, python-brace-format
-#~ msgid "Disk space: {0:.1f} GB free of {1:.1f} GB"
-#~ msgstr "Espaço em disco: {0:.1f} GB livres de {1:.1f} GB"
-
-#~ msgid "Output directory does not exist yet"
-#~ msgstr "Diretório de saída ainda não existe"
-
-#~ msgid "Build History"
-#~ msgstr "Histórico de Compilações"
-
-#~ msgid "Clear Build History?"
-#~ msgstr "Limpar Histórico de Builds?"
-
-#~ msgid "Container Engine"
-#~ msgstr "Motor do Container"
-
-#~ msgid "Select to run git checkout"
-#~ msgstr "Selecione para executar git checkout"
-
-#~ msgid "This optional feature publishes a request to GitHub Actions. It does not build the package on this computer."
-#~ msgstr "Este recurso opcional envia uma solicitação ao GitHub Actions. Ele não gera o pacote neste computador."
-
-#~ msgid "Show the testing, stable, and extra publication workflow. Running it requires a GitHub access token with the permissions listed on the Access Tokens page."
-#~ msgstr "Exiba o fluxo de publicação nos repositórios testing, stable e extra. A execução exige um token do GitHub com as permissões indicadas na página Tokens de acesso."
-
-#, python-brace-format
-#~ msgid "Error fetching Actions jobs. Code: {0}"
-#~ msgstr "Erro ao buscar tarefas do Actions. Código: {0}"
-
-#, python-brace-format
-#~ msgid "Error deleting job {0}. Code: {1}"
-#~ msgstr "Erro ao excluir tarefa {0}. Código: {1}"
-
-#, python-brace-format
-#~ msgid "Deleted {0} Actions jobs with '{1}' status."
-#~ msgstr "Excluídas {0} tarefas do Actions com status '{1}'."
-
-#, python-brace-format
-#~ msgid "Error fetching tags. Code: {0}"
-#~ msgstr "Erro ao buscar tags. Código: {0}"
-
-#~ msgid "No Editor Found"
-#~ msgstr "Nenhum Editor Encontrado"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Could not find a text editor. Please edit the file manually:\n"
-#~ "\n"
-#~ "{0}"
-#~ msgstr ""
-#~ "Não foi possível encontrar um editor de texto. Por favor, edite o arquivo manualmente:\n"
-#~ "\n"
-#~ "{0}"
-
-#~ msgid "Operation failed - check terminal log for details"
-#~ msgstr "Operação falhou - verifique o log do terminal para mais detalhes"
-
-#~ msgid "Keep both (create .ours and .theirs files)"
-#~ msgstr "Manter ambos (criar arquivos .ours e .theirs)"
-
-#~ msgid "Created files:"
-#~ msgstr "Arquivos criados:"
-
-#, python-brace-format
-#~ msgid "Error creating versions: {0}"
-#~ msgstr "Erro ao criar versões: {0}"
-
-#, python-brace-format
-#~ msgid "Permanently delete these branches?\\n{0}"
-#~ msgstr "Excluir permanentemente estas branches?\\n{0}"
-
-#~ msgid "Could not determine repository name."
-#~ msgstr "Não foi possível determinar o nome do repositório."
-
-#~ msgid "Staging restored files..."
-#~ msgstr "Preparando arquivos restaurados..."
-
-#, python-brace-format
-#~ msgid "Error during revert operation: {0}"
-#~ msgstr "Erro durante a operação de reversão: {0}"
-
-#, python-brace-format
-#~ msgid "Unexpected error during revert: {0}"
-#~ msgstr "Erro inesperado durante a reversão: {0}"
-
-#~ msgid "Engine"
-#~ msgstr "Motor"
-
-#~ msgid "Storage Driver"
-#~ msgstr "Driver de Armazenamento"
-
-#~ msgid "Version"
-#~ msgstr "Versão"
-
-#~ msgid "Maintenance"
-#~ msgstr "Manutenção"
-
-#~ msgid "Removes stopped build containers without deleting images or package data."
-#~ msgstr "Remove contêineres de compilação parados sem excluir imagens ou dados de pacotes."
-
-#~ msgid "Recommended"
-#~ msgstr "Recomendado"
-
-#, python-brace-format
-#~ msgid "Profile folder “{0}”"
-#~ msgstr "Pasta de perfil “{0}”"
-
-#~ msgid "Repository Statistics"
-#~ msgstr "Estatísticas do Repositório"
-
-#~ msgid "A compact inventory of the current repository."
-#~ msgstr "Um inventário compacto do repositório atual."
-
-#~ msgid "Total Branches"
-#~ msgstr "Total de Branches"
-
-#~ msgid "Commits in Current Branch"
-#~ msgstr "Commits no Branch Atual"
-
-#~ msgid "Classify the change"
-#~ msgstr "Classificar a alteração"
-
-#~ msgid "This prefix becomes part of the message passed to git commit -m \"MESSAGE\"."
-#~ msgstr "Este prefixo passa a fazer parte da mensagem enviada para git commit -m \"MESSAGE\"."
-
-#~ msgid "Describe what changed"
-#~ msgstr "Descrever o que mudou"
-
-#~ msgid "This text is recorded by git commit -m \"MESSAGE\" so others can understand the change."
-#~ msgstr "Este texto é registrado por git commit -m \"MESSAGE\" para que outras pessoas entendam a alteração."
-
-#~ msgid "After publishing"
-#~ msgstr "Depois de publicar"
-
-#~ msgid "Build the package on GitHub Actions from this repository or from the AUR."
-#~ msgstr "Compile o pacote no GitHub Actions a partir deste repositório ou do AUR."
-
-#~ msgid "Build a package"
-#~ msgstr "Compilar um pacote"
-
-#~ msgid "Publish to testing, stable, or extra"
-#~ msgstr "Publicar em testing, stable ou extra"
-
-#~ msgid "Use a community-maintained recipe"
-#~ msgstr "Usar uma receita mantida pela comunidade"
-
-#~ msgid "What these actions run"
-#~ msgstr "O que estas ações executam"
-
-#~ msgid "The exact Git commands behind the two buttons below"
-#~ msgstr "Os comandos Git exatos por trás dos dois botões abaixo"
-
-#~ msgid "Before adding a token"
-#~ msgstr "Antes de adicionar um token"
-
-#~ msgid "The token authorizes GitHub operations for one organization or user. Saving it does not verify that its permissions are valid."
-#~ msgstr "O token autoriza operações do GitHub para uma organização ou usuário. Salvá-lo não verifica se as permissões são válidas."
-
-#~ msgid "Why GitHub needs it"
-#~ msgstr "Por que o GitHub precisa dele"
-
-#~ msgid "GitHub uses the token to identify your account and authorize workflows that Git alone cannot start."
-#~ msgstr "O GitHub usa o token para identificar sua conta e autorizar fluxos que o Git sozinho não pode iniciar."
-
-#~ msgid "Permissions required by the package workflows"
-#~ msgstr "Permissões exigidas pelos fluxos de geração de pacotes"
-
-#~ msgid "Safety confirmations are part of the app and cannot be disabled."
-#~ msgstr "As confirmações de segurança fazem parte do programa e não podem ser desativadas."
-
-#~ msgid "Confirm destructive Git operations"
-#~ msgstr "Confirmar operações destrutivas do Git"
-
-#~ msgid "Restore the original configuration"
-#~ msgstr "Restaurar a configuração original"
-
-#~ msgid "Behavior"
-#~ msgstr "Comportamento"
-
-#~ msgid "Access Tokens"
-#~ msgstr "Tokens de acesso"
-
-#~ msgid "Remove old branches, actions, and tags"
-#~ msgstr "Remover branches, ações e tags antigas"
-
-#~ msgid "Choose Profile"
-#~ msgstr "Escolher perfil"
-
-#~ msgid "Configure the installable system"
-#~ msgstr "Configurar o sistema instalável"
-
-#~ msgid "Target System"
-#~ msgstr "Sistema Alvo"
-
-#~ msgid "Profile Definitions"
-#~ msgstr "Definições dos Perfis"
-
-#~ msgid "Profiles control packages, services, and defaults applied to the image."
-#~ msgstr "Os perfis controlam os pacotes, serviços e padrões aplicados à imagem."
-
-#~ msgid "Source"
-#~ msgstr "Fonte"
-
-#~ msgid "Select the repositories used to resolve packages during the build."
-#~ msgstr "Selecione os repositórios usados para resolver pacotes durante a compilação."
-
-#~ msgid "Output"
-#~ msgstr "Saída"
-
-#~ msgid "Prepare the build environment"
-#~ msgstr "Preparar o ambiente de compilação"
-
-#~ msgid "Inspect the container runtime, update the required image, and clean stopped build containers."
-#~ msgstr "Verifique o runtime de contêiner, atualize a imagem necessária e limpe contêineres de compilação parados."
-
-#~ msgid "Runtime diagnostics used by ISO builds."
-#~ msgstr "Diagnósticos do runtime usado pelas compilações de ISO."
-
-#~ msgid "Open Environment"
-#~ msgstr "Abrir ambiente"
-
-#~ msgid "Choose the system profile"
-#~ msgstr "Escolher o perfil do sistema"
-
-#~ msgid "Create the ISO image"
-#~ msgstr "Criar a imagem ISO"
-
-#~ msgid "Open Create ISO"
-#~ msgstr "Abrir Criar ISO"
-
-#~ msgid "Blocked"
-#~ msgstr "Bloqueado"
-
-#~ msgid "Build ISO with confidence"
-#~ msgstr "Construa ISOs com confiança"
-
-#~ msgid "An ISO is the file used to install or test a system"
-#~ msgstr "Uma ISO é o arquivo usado para instalar ou testar um sistema"
-
-#~ msgid "It boots from a USB drive or virtual machine and installs the system it contains."
-#~ msgstr "Ela inicia a partir de um pendrive ou máquina virtual e instala o sistema que contém."
-
-#~ msgid "System Status"
-#~ msgstr "Status do Sistema"
-
-#~ msgid "Disk Space"
-#~ msgstr "Espaço em Disco"
-
-#~ msgid "Three steps to your ISO"
-#~ msgstr "Três etapas até a sua ISO"
-
-#~ msgid "Last Build"
-#~ msgstr "Última Compilação"
-
-#~ msgid "Choose a profile, configure the system, and start your first ISO build."
-#~ msgstr "Escolha um perfil, configure o sistema e inicie sua primeira compilação de ISO."
-
-#, python-brace-format
-#~ msgid "Checking {0}..."
-#~ msgstr "Verificando {0}..."
-
-#, python-brace-format
-#~ msgid "{0} (available)"
-#~ msgstr "{0} (disponível)"
-
-#~ msgid "Not checked — install or start Docker/Podman, then refresh."
-#~ msgstr "Não verificado — instale ou inicie o Docker/Podman e atualize."
-
-#, python-brace-format
-#~ msgid "Unavailable — {0} Pull the image, then refresh."
-#~ msgstr "Indisponível — {0} Baixe a imagem e atualize."
-
-#, python-brace-format
-#~ msgid "{0:.1f} GB free of {1:.1f} GB"
-#~ msgstr "{0:.1f} GB livres de {1:.1f} GB"
-
-#~ msgid "(directory will be created)"
-#~ msgstr "(diretório será criado)"
-
-#, python-brace-format
-#~ msgid "Unavailable — {0} Choose another output directory, then refresh."
-#~ msgstr "Indisponível — {0} Escolha outro diretório de saída e atualize."
-
-#~ msgid "Container engine unavailable • install or start Docker/Podman"
-#~ msgstr "Motor de contêiner indisponível • instale ou inicie Docker/Podman"
-
-#~ msgid "Build image missing • open Container to prepare the environment"
-#~ msgstr "Imagem de compilação ausente • abra Contêiner para preparar o ambiente"
-
-#~ msgid "Storage needs attention • review the output directory"
-#~ msgstr "O armazenamento requer atenção • revise o diretório de saída"
-
-#~ msgid "Environment ready • choose a profile and configure the next ISO"
-#~ msgstr "Ambiente pronto • escolha um perfil e configure a próxima ISO"
-
-#~ msgid "Docker or Podman and the build image are ready."
-#~ msgstr "O Docker ou Podman e a imagem de compilação estão prontos."
-
-#~ msgid "The engine or the build image still needs attention."
-#~ msgstr "O motor ou a imagem de compilação ainda precisa de atenção."
-
-#, python-brace-format
-#~ msgid "Selected: {0} • {1}"
-#~ msgstr "Selecionado: {0} • {1}"
-
-#~ msgid "Review the settings and start the build."
-#~ msgstr "Revise as configurações e inicie a compilação."
-
-#~ msgid "Available after the environment is ready."
-#~ msgstr "Disponível depois que o ambiente estiver pronto."
-
-#~ msgid "Build history unavailable"
-#~ msgstr "Histórico de compilações indisponível"
-
-#~ msgid "The history file is invalid. Review or remove it, then refresh."
-#~ msgstr "O arquivo de histórico é inválido. Revise-o ou remova-o e atualize."
-
-#~ msgid "Available ISO Profiles"
-#~ msgstr "Perfis ISO Disponíveis"
-
-#~ msgid "Browse editions from the selected source. Choosing one opens the build page with that profile."
-#~ msgstr "Explore as edições da origem selecionada. Ao escolher uma, a página de compilação será aberta com esse perfil."
-
-#~ msgid "Current Source"
-#~ msgstr "Origem Atual"
-
-#~ msgid "Refresh profiles"
-#~ msgstr "Atualizar perfis"
-
-#, python-brace-format
-#~ msgid "Local: {0}"
-#~ msgstr "Local: {0}"
-
-#~ msgid "not configured"
-#~ msgstr "não configurado"
-
-#~ msgid "Official GitHub repositories"
-#~ msgstr "Repositórios oficiais do GitHub"
-
-#~ msgid "Repository Maintenance"
-#~ msgstr "Manutenção do repositório"
-
-#~ msgid "Package Generation"
-#~ msgstr "Geração de Pacotes"
-
-#~ msgid "Prepare and publish changes"
-#~ msgstr "Preparar e publicar alterações"
-
-#~ msgid "Confirm the active branch and pending files before creating a commit."
-#~ msgstr "Confirme a branch ativa e os arquivos pendentes antes de criar um commit."
-
-#~ msgid "Working Directory"
-#~ msgstr "Diretório de Trabalho"
-
-#~ msgid "Current Branch"
-#~ msgstr "Branch Atual"
-
-#~ msgid "Repository workspace"
-#~ msgstr "Área de trabalho do repositório"
-
-#~ msgid "Checking repository state…"
-#~ msgstr "Verificando o estado do repositório…"
-
-#~ msgid "View changed files"
-#~ msgstr "Ver arquivos modificados"
-
-#~ msgid "Expand to review the working tree"
-#~ msgstr "Expanda para revisar a árvore de trabalho"
-
-#~ msgid "Recent Activity"
-#~ msgstr "Atividade recente"
-
-#~ msgid "No recent activity"
-#~ msgstr "Nenhuma atividade recente"
-
-#~ msgid "Activity will appear here after operations"
-#~ msgstr "A atividade aparecerá aqui após as operações"
-
-#~ msgid "Local repository"
-#~ msgstr "Repositório local"
-
-#~ msgid "Open GitRepo from a Git repository to enable repository actions."
-#~ msgstr "Abra o GitRepo a partir de um repositório Git para habilitar as ações do repositório."
-
-#~ msgid "Commit history unavailable"
-#~ msgstr "Histórico de commits indisponível"
-
-#~ msgid "Create your first commit to start tracking activity"
-#~ msgstr "Crie seu primeiro commit para começar a rastrear a atividade"
-
-#~ msgid "Last commit"
-#~ msgstr "Último commit"
-
-#~ msgid "Downloads and combines the remote branch. Local changes are preserved."
-#~ msgstr "Baixa e combina a branch remota. As alterações locais são preservadas."
-
-#~ msgid "Records and sends pending changes."
-#~ msgstr "Registra e envia as alterações pendentes."
-
-#~ msgid "Test a package"
-#~ msgstr "Testar um pacote"
-
-#~ msgid "build and publish the package in the testing repository"
-#~ msgstr "compilar e publicar o pacote no repositório de testes"
-
-#~ msgid "Publish a stable package"
-#~ msgstr "Publicar um pacote estável"
-
-#~ msgid "build and publish the package in the stable repository"
-#~ msgstr "compilar e publicar o pacote no repositório estável"
-
-#~ msgid "build a package from the selected community source"
-#~ msgstr "compilar um pacote a partir da fonte comunitária selecionada"
-
-#~ msgid "Current branch"
-#~ msgstr "Branch atual"
-
-#~ msgid "Starting..."
-#~ msgstr "Iniciando..."
-
-#~ msgid "✓ Operation completed successfully"
-#~ msgstr "✓ Operação concluída com sucesso"
-
-#, python-brace-format
-#~ msgid "✗ Operation failed: {0}"
-#~ msgstr "✗ Operação falhou: {0}"
-
-#, python-brace-format
-#~ msgid "Estimated: {0}"
-#~ msgstr "Estimado: {0}"
-
-#~ msgid "Estimate after the first successful build"
-#~ msgstr "Estimativa após a primeira compilação bem-sucedida"
-
-#, python-brace-format
-#~ msgid "Elapsed: {0:02d}:{1:02d}"
-#~ msgstr "Decorrido: {0:02d}:{1:02d}"
-
-#~ msgid "An ISO is the file used to install or test a system from a USB drive or virtual machine. Choose a distribution profile and package channels; the application builds them in an isolated container and saves the finished ISO in your output folder."
-#~ msgstr "Uma ISO é o arquivo usado para instalar ou testar um sistema a partir de uma unidade USB ou máquina virtual. Escolha um perfil de distribuição e os canais de pacotes; o programa faz a compilação em um contêiner isolado e salva a ISO pronta na pasta de saída."
-
-#~ msgid "Choose the next step"
-#~ msgstr "Escolha a próxima etapa"
-
-#~ msgid "A profile defines the desktop, packages, services, and defaults included in the ISO. Choosing one opens the build configuration."
-#~ msgstr "Um perfil define a área de trabalho, os pacotes, os serviços e os padrões incluídos na ISO. Ao escolher um, a configuração da compilação será aberta."
-
-#~ msgid "See which builds succeeded, how long they took, and where each finished ISO was saved."
-#~ msgstr "Veja quais compilações foram concluídas, quanto tempo levaram e onde cada ISO pronta foi salva."
-
-#~ msgid "Build history will appear here after your first build"
-#~ msgstr "O histórico de builds aparecerá aqui após sua primeira compilação"
-
-#~ msgid "This will force push and rewrite remote history. Continue?"
-#~ msgstr "Isso fará push forçado e reescreverá o histórico remoto. Continuar?"

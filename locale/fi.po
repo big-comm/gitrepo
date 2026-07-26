@@ -1,10 +1,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gitrepo\n"
+"Project-Id-Version: GitRepo 3.8.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-25 21:46-0300\n"
-"PO-Revision-Date: 2026-07-14 02:15-0300\n"
+"POT-Creation-Date: 2026-07-26 12:23-0300\n"
+"PO-Revision-Date: 2026-07-26 12:23-0300\n"
 "Last-Translator: AI Translator <auto@translator.ai>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "Language: fi\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: attranslate\n"
+"X-Generator: LangForge\n"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:95
 #: usr/share/gitrepo/build_package/core/build_package.py:97
@@ -131,7 +131,7 @@ msgstr "Virhe: Repositorion API-osoitetta ei löytynyt: {0}"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:236
 msgid "the selected source returned no build directories"
-msgstr ""
+msgstr "valittu lähde ei palauttanut rakennushakemistoja"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:237
 #, python-brace-format
@@ -141,17 +141,17 @@ msgstr "Valitse {0} kohteelle {1}:"
 #: usr/share/gitrepo/build_iso/build_iso.py:239
 #, python-brace-format
 msgid "Could not load remote build directories: {0}"
-msgstr ""
+msgstr "Etärakennushakemistoja ei voitu ladata: {0}"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:240
 #: usr/share/gitrepo/build_iso/build_iso.py:265
 msgid "Using the built-in fallback. Retry this step to query the source again."
-msgstr ""
+msgstr "Käytetään sisäänrakennettua vararatkaisua. Yritä tätä vaihetta uudelleen kysyäksesi lähdettä uudestaan."
 
 #: usr/share/gitrepo/build_iso/build_iso.py:242
 #, python-brace-format
 msgid "Choose a {0} for {1} (built-in fallback):"
-msgstr ""
+msgstr "Valitse {0} kohteelle {1} (sisäänrakennettu vararatkaisu):"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:250
 msgid "Repository and build directory must be selected first."
@@ -159,7 +159,7 @@ msgstr "Arkisto ja rakennushakemisto on valittava ensin."
 
 #: usr/share/gitrepo/build_iso/build_iso.py:261
 msgid "the selected source returned no supported editions"
-msgstr ""
+msgstr "valittu lähde ei palauttanut tuettuja versioita"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:262
 #, python-brace-format
@@ -169,12 +169,12 @@ msgstr "Valitse {0} kohteelle {1}:"
 #: usr/share/gitrepo/build_iso/build_iso.py:264
 #, python-brace-format
 msgid "Could not load remote editions: {0}"
-msgstr ""
+msgstr "Etäversioita ei voitu ladata: {0}"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:267
 #, python-brace-format
 msgid "Choose an {0} for {1} (built-in fallback):"
-msgstr ""
+msgstr "Valitse {0} kohteelle {1} (sisäänrakennettu vararatkaisu):"
 
 #: usr/share/gitrepo/build_iso/build_iso.py:294
 #: usr/share/gitrepo/build_iso/build_iso.py:307
@@ -380,38 +380,36 @@ msgid "Testing"
 msgstr "Testaus"
 
 #: usr/share/gitrepo/build_iso/config.py:36
-#, fuzzy
 msgid "Unstable"
-msgstr "Vakaa"
+msgstr "Epävakaa"
 
 #: usr/share/gitrepo/build_iso/config.py:39
 msgid "Tested packages. Recommended for images you will hand to other people."
-msgstr ""
+msgstr "Testattuja paketteja. Suositellaan kuville, jotka annat muiden käyttöön."
 
 #: usr/share/gitrepo/build_iso/config.py:40
 msgid "Packages waiting for validation. Useful to preview the next stable set."
-msgstr ""
+msgstr "Vahvistusta odottavat paketit. Hyödyllinen edellisen vakaan pakettisarjan esikatseluun."
 
 #: usr/share/gitrepo/build_iso/config.py:41
 msgid "Newest packages, closest to upstream. Expect breakage."
-msgstr ""
+msgstr "Uusimmat paketit, lähimpänä ylävirtaa. Varaudu virheisiin."
 
 #: usr/share/gitrepo/build_iso/config.py:70
 msgid "LTS (Recommended)"
-msgstr ""
+msgstr "LTS (suositeltu)"
 
 #: usr/share/gitrepo/build_iso/config.py:71
-#, fuzzy
 msgid "Latest"
-msgstr "Hae uusimmat"
+msgstr "Viimeisin"
 
 #: usr/share/gitrepo/build_iso/config.py:72
 msgid "Old LTS"
-msgstr ""
+msgstr "Vanha LTS"
 
 #: usr/share/gitrepo/build_iso/config.py:73
 msgid "XanMod"
-msgstr ""
+msgstr "XanMod"
 
 #: usr/share/gitrepo/build_iso/config.py:163
 msgid "BUILD ISO"
@@ -428,43 +426,43 @@ msgstr "Kääre ISO:n rakentamiseen GitHub Actionsin avulla. Virtaviivaistaa muk
 
 #: usr/share/gitrepo/build_iso/core/container_manager.py:80
 msgid "Docker or Podman is not installed or is not available in PATH."
-msgstr ""
+msgstr "Dockeria tai Podmania ei ole asennettu tai se ei ole käytettävissä PATHissa."
 
 #: usr/share/gitrepo/build_iso/core/container_manager.py:95
 #: usr/share/gitrepo/build_iso/core/container_manager.py:100
 msgid "The container engine did not respond."
-msgstr ""
+msgstr "Konttimoottori ei vastannut."
 
 #: usr/share/gitrepo/build_iso/core/container_manager.py:105
 msgid "The storage driver probe failed. Check the engine service, then refresh."
-msgstr ""
+msgstr "Tallentimen ohjaimen tarkistus epäonnistui. Tarkista konttipalvelun tila ja päivitä."
 
 #: usr/share/gitrepo/build_iso/core/container_manager.py:133
 msgid "The image metadata could not be read. Refresh or pull the image again."
-msgstr ""
+msgstr "Kuvan metatietoja ei voitu lukea. Päivitä tai vedä kuva uudelleen."
 
 #: usr/share/gitrepo/build_iso/core/container_manager.py:135
 msgid "The image is not downloaded. Pull it, then refresh."
-msgstr ""
+msgstr "Kuvaa ei ole ladattu. Vedä se ja päivitä."
 
 #: usr/share/gitrepo/build_iso/core/container_manager.py:252
 msgid "No accessible parent directory was found."
-msgstr ""
+msgstr "Yksikään saavutettava pääkansio ei löytynyt."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:256
 #, python-brace-format
 msgid "Compressing filesystem — {0}%"
-msgstr ""
+msgstr "Tiedostojärjestelmää pakataan — {0}%"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:263
 #, python-brace-format
 msgid "Creating ISO image — {0}%"
-msgstr ""
+msgstr "Luodaan ISO-kuvaa — {0}%"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:285
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} at {1}"
-msgstr "{0} (versio {1})"
+msgstr "{0} kohteessa {1}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:361
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:452
@@ -475,7 +473,7 @@ msgstr "Rakennus peruutettu"
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:372
 #, python-brace-format
 msgid "The output folder is not writable: {0}"
-msgstr ""
+msgstr "Tulostuskansioon ei voi kirjoittaa: {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:378
 #, python-brace-format
@@ -485,19 +483,19 @@ msgstr "Levyn vapaa tila: {0:.1f} GB"
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:380
 #, python-brace-format
 msgid "Only {0:.1f} GB is free; 20 GB is recommended."
-msgstr ""
+msgstr "Vain {0:.1f} Gt on vapaana; 20 Gt suositellaan."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:384
 msgid "The selected container engine is unavailable."
-msgstr ""
+msgstr "Valittu konttimoottori ei ole käytettävissä."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:390
 msgid "Docker is unavailable or access was denied."
-msgstr ""
+msgstr "Docker ei ole käytettävissä tai käyttöoikeus evättiin."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:395
 msgid "Could not inspect output disk space"
-msgstr ""
+msgstr "Tulostuslevytilaa ei pystytty tarkastamaan"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:396
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:526
@@ -505,9 +503,9 @@ msgid "Failed to pull container image"
 msgstr "Konttikuvakkeen vetäminen epäonnistui"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:406
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Container image resolved to {0}"
-msgstr "Säilömoottori löydetty: {0}"
+msgstr "Konttikuva ratkaistu kohteeseen {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:410
 msgid "Container build failed"
@@ -516,7 +514,7 @@ msgstr "Kontin rakentaminen epäonnistui"
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:415
 #, python-brace-format
 msgid "Stopped container preserved for debugging: {0}"
-msgstr ""
+msgstr "Pysäytetty kontti säilytetty virheenjäljitystä varten: {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:420
 msgid "No ISO files found after build"
@@ -525,7 +523,7 @@ msgstr "Rakennuksen jälkeen ei löytynyt ISO-tiedostoja"
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:445
 #, python-brace-format
 msgid "Build completed successfully: {0}"
-msgstr ""
+msgstr "Kokoaminen onnistui: {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:448
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:801
@@ -536,20 +534,20 @@ msgstr "Rakennus epäonnistui: {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:486
 msgid "Docker did not answer the storage-driver check."
-msgstr ""
+msgstr "Docker ei vastannut tallentimen ohjaimen tarkistuskyselyyn."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:491
 msgid "Docker is using the btrfs storage driver."
-msgstr ""
+msgstr "Docker käyttää btrfs-tallentimen ohjainta."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:492
 msgid "GitRepo will not change Docker storage or remove Docker data."
-msgstr ""
+msgstr "GitRepo ei muuta Docker-tallennustilaa tai poista Dockerin tietoja."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:496
 #, python-brace-format
 msgid "Error checking Docker storage: {0}"
-msgstr ""
+msgstr "Virhe tarkistettaessa Dockerin tallennustilaa: {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:524
 msgid "Container image pulled successfully"
@@ -570,13 +568,13 @@ msgid "Stopping container..."
 msgstr "Säiliön pysäyttäminen..."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:773
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not remove the build container {0}."
-msgstr "Tiedostoa ei voitu esikatsella: {0}"
+msgstr "Rakennuskonttia {0} ei voitu poistaa."
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:789
 msgid "Failed to copy ISO artifacts from container"
-msgstr ""
+msgstr "ISO-levykuvan artefaktien kopiointi säiliöstä epäonnistui"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:796
 #, python-brace-format
@@ -586,24 +584,24 @@ msgstr "ISO: {0}"
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:800
 #, python-brace-format
 msgid "Failed to publish ISO artifacts: {0}"
-msgstr ""
+msgstr "ISO-levykuvan artefaktien julkaisu epäonnistui: {0}"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:808
 msgid "Container output contains an unsafe file"
-msgstr ""
+msgstr "Säiliön tulos sisältää turvattoman tiedoston"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:811
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:819
 msgid "Container output contains an unexpected file"
-msgstr ""
+msgstr "Säiliön tulos sisältää odottamattoman tiedoston"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:815
 msgid "Container must produce exactly one ISO file"
-msgstr ""
+msgstr "Säiliön täytyy tuottaa täsmälleen yksi ISO-tiedosto"
 
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:878
 msgid "An ISO artifact with the same name already exists"
-msgstr ""
+msgstr "Samanniminen ISO-levykuvan artefakti on jo olemassa"
 
 #: usr/share/gitrepo/build_iso/github_api.py:60
 #, python-brace-format
@@ -618,45 +616,45 @@ msgstr "Organisaation '{0}' tokenia ei löydy."
 #: usr/share/gitrepo/build_iso/github_api.py:83
 #, python-brace-format
 msgid "Could not reach GitHub: {0}"
-msgstr ""
+msgstr "GitHubiin ei saatu yhteyttä: {0}"
 
 #: usr/share/gitrepo/build_iso/github_api.py:86
 #, python-brace-format
 msgid "GitHub rejected the workflow request ({0})."
-msgstr ""
+msgstr "GitHub hylkäsi työnkulkupyynnön ({0})."
 
 #: usr/share/gitrepo/build_iso/github_api.py:88
 #, python-brace-format
 msgid "ISO build workflow triggered: {0}"
-msgstr ""
+msgstr "ISO-levykuvan rakennustyönkulku käynnistetty: {0}"
 
 #: usr/share/gitrepo/build_iso/github_api.py:89
 #, python-brace-format
 msgid "Monitor the build at: {0}"
-msgstr ""
+msgstr "Seuraa rakennusta osoitteessa: {0}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:30
 msgid "less than 1 min"
-msgstr ""
+msgstr "alle 1 min"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:33
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:174
 #, python-brace-format
 msgid "{0} min"
-msgstr ""
+msgstr "{0} min"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:35
 #, python-brace-format
 msgid "{0} h {1} min"
-msgstr ""
+msgstr "{0} t {1} min"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:53
 msgid "Waiting"
-msgstr ""
+msgstr "Odotetaan"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:54
 msgid "In progress"
-msgstr ""
+msgstr "Käynnissä"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:55
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:368
@@ -672,32 +670,31 @@ msgstr "Epäonnistui"
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:57
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:159
 msgid "Cancelled"
-msgstr ""
+msgstr "Peruutettu"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:90
 #, python-brace-format
 msgid "Step {0} of {1}: {2} — {3}"
-msgstr ""
+msgstr "Vaihe {0} / {1}: {2} — {3}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:132
 #, python-brace-format
 msgid "Build substep {0} of {1}: {2} — {3}"
-msgstr ""
+msgstr "Koontialavaihe {0} / {1}: {2} — {3}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:175
 msgid "Build Progress"
-msgstr ""
+msgstr "Koonnin edistyminen"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:214
-#, fuzzy
 msgid "Building the ISO image"
-msgstr "Rakenna kuva"
+msgstr "Rakennetaan ISO-tiedostoa"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:215
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:386
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} • {1} • kernel {2}"
-msgstr "{0}: {1} → {2}"
+msgstr "{0} • {1} • kernel {2}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:225
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:232
@@ -707,69 +704,67 @@ msgstr "Suurenna"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:257
 msgid "Waiting to start"
-msgstr ""
+msgstr "Odotetaan aloitusta"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:265
-#, fuzzy
 msgid "Elapsed"
-msgstr "Kulunut aika: 00:00"
+msgstr "Kulunut aika"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:268
 msgid "Remaining"
-msgstr ""
+msgstr "Jäljellä"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:269
-#, fuzzy
 msgid "estimating…"
-msgstr "Testaus"
+msgstr "arvioidaan…"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:277
 msgid "Overall build progress"
-msgstr ""
+msgstr "Koko profiilin koontiedistyminen"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:287
 msgid "Prepare environment"
-msgstr ""
+msgstr "Valmistele ympäristö"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:288
 msgid "Update image"
-msgstr ""
+msgstr "Päivitä levykuva"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:290
 msgid "Publish files"
-msgstr ""
+msgstr "Julkaise tiedostot"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:291
 msgid "Finish"
-msgstr ""
+msgstr "Valmis"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:304
 msgid "Prepare profile"
-msgstr ""
+msgstr "Valmistele profiili"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:305
 msgid "Install system"
-msgstr ""
+msgstr "Asenna järjestelmä"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:306
 msgid "Prepare boot"
-msgstr ""
+msgstr "Valmistele käynnistys"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:307
 msgid "Compress files"
-msgstr ""
+msgstr "Pakkaa tiedostot"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:308
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:322
 msgid "Create ISO image"
-msgstr ""
+msgstr "Luo ISO-levykuva"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:321
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:705
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:783
 #, python-brace-format
 msgid "Step {0} of {1}"
-msgstr ""
+msgstr "Vaihe {0} / {1}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:354
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:391
@@ -781,20 +776,20 @@ msgstr "Päätelaiteloki"
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:361
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:141
 msgid "Copy the whole terminal log to the clipboard"
-msgstr ""
+msgstr "Kopioi koko pääteikkunan loki leikepöydälle"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:362
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:142
 msgid "Copy Log"
-msgstr ""
+msgstr "Kopioi loki"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:368
 msgid "Save the terminal log to a file you choose"
-msgstr ""
+msgstr "Tallenna pääteikkunan loki valitsemaasi tiedostoon"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:369
 msgid "Save Log…"
-msgstr ""
+msgstr "Tallenna loki…"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:404
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:856
@@ -803,94 +798,92 @@ msgstr "Peruuta rakennus"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:601
 msgid "Terminal log copied to the clipboard"
-msgstr ""
+msgstr "Pääteikkunan loki kopioitu leikepöydälle"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:605
-#, fuzzy
 msgid "Save Terminal Log"
-msgstr "Päätelaiteloki"
+msgstr "Tallenna terminaaliloki"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:620
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not save the log: {0}"
-msgstr "Tiedostoa ei voitu esikatsella: {0}"
+msgstr "Lokia ei voitu tallentaa: {0}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:624
 #, python-brace-format
 msgid "Terminal log saved to {0}"
-msgstr ""
+msgstr "Pääteikkunan loki tallennettu tiedostoon {0}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:691
 msgid "Checking the container engine"
-msgstr ""
+msgstr "Tarkistetaan konttimoottoria"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:692
 msgid "Checking container storage"
-msgstr ""
+msgstr "Tarkistetaan konttivarastoa"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:693
 msgid "Checking available disk space"
-msgstr ""
+msgstr "Tarkistetaan käytettävissä olevaa levytilaa"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:694
 msgid "Updating the build image"
-msgstr ""
+msgstr "Päivitetään koontikuvaa"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:695
 msgid "Building and compressing the ISO"
-msgstr ""
+msgstr "Luodaan ja pakataan ISO-tiedostoa"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:696
 msgid "Publishing the ISO and package list"
-msgstr ""
+msgstr "Julkaistaan ISO-levykuvaa ja pakettilistaa"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:697
 msgid "Removing temporary build resources"
-msgstr ""
+msgstr "Poistetaan väliaikaisia rakennusresursseja"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:711
 msgid "Preparing the build profile"
-msgstr ""
+msgstr "Valmistellaan rakennusprofiilia"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:712
 msgid "Installing the system and desktop packages"
-msgstr ""
+msgstr "Asennetaan järjestelmä- ja työpöytäpaketteja"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:713
 msgid "Preparing kernel and boot files"
-msgstr ""
+msgstr "Valmistellaan ydintä ja käynnistystiedostoja"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:714
 msgid "Compressing system files"
-msgstr ""
+msgstr "Pakataan järjestelmätiedostoja"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:715
 msgid "Creating the bootable ISO image"
-msgstr ""
+msgstr "Luodaan käynnistettävää ISO-levykuvaa"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:721
 #, python-brace-format
 msgid "Step {0} of {1} • substep {2} of {3}"
-msgstr ""
+msgstr "Vaihe {0} / {1} • alivaihe {2} / {3}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:767
 #, python-brace-format
 msgid "Built from {0} {1}"
-msgstr ""
+msgstr "Rakennettu tiedostosta {0} {1}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:768
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Build finished: {0}"
-msgstr "Rakennus epäonnistui: {0}"
+msgstr "Rakennus valmis: {0}"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:771
-#, fuzzy
 msgid "Total"
-msgstr "Paikallinen: {0}"
+msgstr "Yhteensä"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:785
 msgid "ISO built and published successfully"
-msgstr ""
+msgstr "ISO-levykuva rakennettu ja julkaistu onnistuneesti"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:805
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:224
@@ -920,7 +913,7 @@ msgstr "Jatka rakentamista"
 
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:864
 msgid "Cancelling the current step…"
-msgstr ""
+msgstr "Perutaan nykyistä vaihetta…"
 
 #: usr/share/gitrepo/build_iso/gui/main_gui.py:295
 #: usr/share/gitrepo/build_iso/gui/main_gui.py:337
@@ -953,13 +946,13 @@ msgstr "Päivitä tila"
 #: usr/share/gitrepo/build_iso/gui/main_gui.py:339
 #: usr/share/gitrepo/build_iso/gui/main_window.py:142
 msgid "Create ISO"
-msgstr ""
+msgstr "Luo ISO"
 
 #: usr/share/gitrepo/build_iso/gui/main_gui.py:340
 #: usr/share/gitrepo/build_iso/gui/main_window.py:143
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:52
 msgid "Generated ISOs"
-msgstr ""
+msgstr "Luodut ISO-levykuvat"
 
 #: usr/share/gitrepo/build_iso/gui/main_gui.py:341
 #: usr/share/gitrepo/build_iso/gui/main_window.py:144
@@ -997,33 +990,30 @@ msgid "Build completed! ISO: {0}"
 msgstr "Rakenne valmis! ISO: {0}"
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:288
-#, fuzzy
 msgid "ISO build finished"
-msgstr "ISO-rakennus peruutettu."
+msgstr "ISO-tiedoston rakennus valmis"
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:290
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} is ready in {1}"
-msgstr "{0} (versio {1})"
+msgstr "{0} on valmis ajassa {1}"
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:295
-#, fuzzy
 msgid "Open Folder"
 msgstr "Avaa kansio"
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:297
-#, fuzzy
 msgid "ISO build failed"
-msgstr "ISO-rakennus peruutettu."
+msgstr "ISO-tiedoston rakennus epäonnistui"
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:298
 msgid "Open Build ISO to review the terminal log."
-msgstr ""
+msgstr "Avaa Build ISO tarkastaaksesi pääte lokin."
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:342
 #, python-brace-format
 msgid "Settings — {0} environment item(s) need attention"
-msgstr ""
+msgstr "Asetukset — {0} ympäristökohde(tta) vaatii huomiota"
 
 #: usr/share/gitrepo/build_iso/gui/main_window.py:354
 #: usr/share/gitrepo/build_package/gui/main_window.py:419
@@ -1039,67 +1029,65 @@ msgstr "OK"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:69
 msgid "Create an installable ISO"
-msgstr ""
+msgstr "Luo asennettava ISO-tiedosto"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:71
 msgid "Choose what the image contains and where it is saved. The build runs in an isolated container, so its tools and files stay separate from your installed system."
-msgstr ""
+msgstr "Valitse, mitä kuva sisältää ja minne se tallennetaan. Kokoaminen suoritetaan eristetyssä säiliössä, joten sen työkalut ja tiedostot pysyvät erillään asennetusta järjestelmästäsi."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:83
-#, fuzzy
 msgid "Open settings"
-msgstr "Tallenna asetukset"
+msgstr "Avaa asetukset"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:89
 msgid "Checking the build environment…"
-msgstr ""
+msgstr "Tarkistetaan kokoamisympäristöä…"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:102
 msgid "What the ISO will install"
-msgstr ""
+msgstr "Mitä ISO-tiedosto asentaa"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:103
 msgid "Pick the package base and the desktop the image starts with."
-msgstr ""
+msgstr "Valitse pakettipohja ja työpöytäympäristö, jolla kuva käynnistyy."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:106
-#, fuzzy
 msgid "Distribution and edition"
-msgstr "Jakelu"
+msgstr "Jakeluversio ja työpöytäympäristö"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:108
 msgid "The distribution sets which package repositories the image is built from. The edition is the desktop it starts with — the same system with a different workspace, applications, and defaults."
-msgstr ""
+msgstr "Jakeluversio määrittää, mistä pakettivarastoista kuva kootaan. Edition (työpöytäympäristö) on se, jolla se käynnistyy — sama järjestelmä eri työpöydällä, sovelluksilla ja oletusasetuksilla."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:117
 msgid "Sets the package base and compatible profiles"
-msgstr ""
+msgstr "Asettaa pakettipohjan ja yhteensopivat profiilit"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:132
 msgid "Loading compatible desktop profiles…"
-msgstr ""
+msgstr "Ladataan yhteensopivia työpöytäprofiileja…"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:147
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:659
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:668
 msgid "Retry loading editions"
-msgstr ""
+msgstr "Yritä ladata versiot uudelleen"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:157
 msgid "Where to save it"
-msgstr ""
+msgstr "Minne tallennetaan"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:158
 msgid "Choose where completed images and build artifacts are stored."
-msgstr ""
+msgstr "Valitse, minne valmiit kuvat ja kokoamistuotokset tallennetaan."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:161
 msgid "Destination Folder"
-msgstr ""
+msgstr "Kohdekansio"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:169
 msgid "Destination path"
-msgstr ""
+msgstr "Kohdepolku"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:176
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:292
@@ -1107,67 +1095,65 @@ msgid "Browse..."
 msgstr "Selaa..."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:195
-#, fuzzy
 msgid "Advanced options"
-msgstr "Lisävalikko"
+msgstr "Edistyneet valinnat"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:196
 msgid "Kernel, package channels, and where profiles come from"
-msgstr ""
+msgstr "Kernel, pakettikanavat ja profiilien alkuperä"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:200
 msgid "Kernel Variant"
-msgstr ""
+msgstr "Ytimen variantti"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:201
 msgid "Long-term stability or newer hardware support"
-msgstr ""
+msgstr "Pitkäaikainen vakaus tai uudempi laitteistotuki"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:209
 msgid "Which kernel to choose"
-msgstr ""
+msgstr "Mikä ydin valita"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:211
 msgid "LTS receives long-term fixes and is the safest default. Latest supports very recent hardware but changes faster. Old LTS helps on older machines, and XanMod targets desktop responsiveness."
-msgstr ""
+msgstr "LTS saa pitkäaikaisia korjauksia ja on turvallisin oletus. Viimeisin tukee erittäin uutta laitteistoa, mutta muuttuu nopeammin. Vanha LTS auttaa vanhemmissa koneissa, ja XanMod keskittyy työpöydän vasteaikaan."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:226
 msgid "Manjaro Packages"
-msgstr ""
+msgstr "Manjaro-paketit"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:227
 msgid "Base system packages"
-msgstr ""
+msgstr "Perusjärjestelmän paketit"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:231
-#, fuzzy
 msgid "Package channels"
-msgstr "Paketin nimi"
+msgstr "Pakettikanavat"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:240
 msgid "BigLinux Packages"
-msgstr ""
+msgstr "BigLinux-paketit"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:241
 msgid "BigLinux system components"
-msgstr ""
+msgstr "BigLinux-järjestelmäkomponentit"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:246
 msgid "Community Packages"
-msgstr ""
+msgstr "Yhteisön paketit"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:247
 msgid "Packages maintained by BigCommunity"
-msgstr ""
+msgstr "BigCommunityn ylläpitämät paketit"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:254
 msgid "Profile source"
-msgstr ""
+msgstr "Profiilin lähde"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:255
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:443
 msgid "Maintained profiles from the official GitHub repositories"
-msgstr ""
+msgstr "Virallisista GitHub-arkistoista ylläpidetyt profiilit"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:257
 msgid "Official (GitHub)"
@@ -1183,11 +1169,11 @@ msgstr "Paikallinen kansio"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:268
 msgid "Profile definitions"
-msgstr ""
+msgstr "Profiilimääritykset"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:270
 msgid "A profile is the recipe of the image: package lists, enabled services, and files copied into the system. Keep the official source unless you maintain your own iso-profiles repository or folder."
-msgstr ""
+msgstr "Profiili on kuvan resepti: pakettilistaukset, käyttöön otetut palvelut ja järjestelmään kopioidut tiedostot. Pidä virallinen lähde, ellet ylläpidä omaa iso-profiles-arkistoa tai -kansiota."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:279
 msgid "Repository URL"
@@ -1198,56 +1184,56 @@ msgid "Local Folder Path"
 msgstr "Paikallisen kansion polku"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:346
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Container engine unavailable — {0}"
-msgstr "Säilömoottori löydetty: {0}"
+msgstr "Konttimoottori ei saatavilla — {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:348
 #, python-brace-format
 msgid "Build image missing — {0}"
-msgstr ""
+msgstr "Muistitikku puuttuu — {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:350
 #, python-brace-format
 msgid "Output storage unavailable — {0}"
-msgstr ""
+msgstr "Ulostulon tallennus ei käytettävissä — {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:362
 #, python-brace-format
 msgid "Environment ready • {0} {1} • {2:.1f} GB free"
-msgstr ""
+msgstr "Ympäristö valmis • {0} {1} • {2:.1f} Gt vapaana"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:378
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Manjaro {0}"
-msgstr "Manjaro-haara"
+msgstr "Manjaro {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:379
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "BigLinux {0}"
-msgstr "BigLinux-haara"
+msgstr "BigLinux {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:383
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Community {0}"
-msgstr "Tee commit haaraan {0}"
+msgstr "Yhteisö {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:393
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} • saved in {1}"
-msgstr "{0} (versio {1})"
+msgstr "{0} • tallennettu kohteeseen {1}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:393
 msgid "not chosen"
-msgstr ""
+msgstr "ei valittu"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:445
 msgid "Profiles from a GitHub repository you control"
-msgstr ""
+msgstr "Profiilit hallitsemaltasi GitHub-säilöstä"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:447
 msgid "Profiles read directly from a local folder"
-msgstr ""
+msgstr "Profiilit luettu suoraan paikallisesta kansiosta"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:467
 msgid "Select iso-profiles Folder"
@@ -1256,51 +1242,51 @@ msgstr "Valitse iso-profiles-kansio"
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:570
 #, python-brace-format
 msgid "GitHub API quota reached — using built-in suggestions. Automatic retry at {0}."
-msgstr ""
+msgstr "GitHub API -kiintiö täynnä — käytetään sisäänrakennettuja ehdotuksia. Automaattinen uusintayritys kello {0}."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:579
 #, python-brace-format
 msgid "GitHub API quota reached — using cached profiles. Automatic refresh at {0}."
-msgstr ""
+msgstr "GitHub API -kiintiö täynnä — käytetään välimuistissa olevia profiileja. Automaattinen päivitys kello {0}."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:587
 #, python-brace-format
 msgid "Built-in suggestions — could not load the selected source: {0}"
-msgstr ""
+msgstr "Sisäänrakennetut ehdotukset — valittua lähdettä ei voitu ladata: {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:594
 msgid "Using cached profiles — the source is temporarily unreachable."
-msgstr ""
+msgstr "Käytetään välimuistissa olevia profiileja — lähde on tilapäisesti tavoittamattomissa."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:601
 msgid "Official profile • GitHub cache"
-msgstr ""
+msgstr "Virallinen profiili • GitHub-välimuisti"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:601
 msgid "Official profile • GitHub"
-msgstr ""
+msgstr "Virallinen profiili • GitHub"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:606
 msgid "Custom profile • GitHub cache"
-msgstr ""
+msgstr "Mukautettu profiili • GitHub-välimuisti"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:606
 msgid "Custom profile • GitHub"
-msgstr ""
+msgstr "Mukautettu profiili • GitHub"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:610
 msgid "Local profile folder"
-msgstr ""
+msgstr "Paikallinen profiilikansio"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:630
 #, python-brace-format
 msgid "{0} (recommended)"
-msgstr ""
+msgstr "{0} (suositellaan)"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:652
 #, python-brace-format
 msgid "GitHub API available again at {0}"
-msgstr ""
+msgstr "GitHub API palautunut käyttöön kello {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:694
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:64
@@ -1310,31 +1296,29 @@ msgstr "Valitse tulostuskansio"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:716
 msgid "This folder does not exist yet; it will be created."
-msgstr ""
+msgstr "Tätä kansiota ei ole vielä olemassa; se luodaan."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:728
 #, python-brace-format
 msgid "Only {0:.1f} GB free here; a build needs about 20 GB."
-msgstr ""
+msgstr "Täällä on vain {0:.1f} Gt vapaana; rakennus tarvitsee noin 20 Gt."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:802
 msgid "Could not save build settings. Check config permissions, then try again."
-msgstr ""
+msgstr "Rakennusasetuksia ei voitu tallentaa. Tarkista konfiguraation oikeudet ja yritä uudelleen."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:50
-#, fuzzy
 msgid "Build environment"
-msgstr "Rakennushakemisto"
+msgstr "Koonttiympäristö"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:51
 msgid "Runtime and image used by every ISO build."
-msgstr ""
+msgstr "Suoritusympäristö ja levykuva, joita käytetään jokaisessa ISO-rakennuksessa."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:59
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:77
-#, fuzzy
 msgid "Container engine"
-msgstr "Säiliömoottori"
+msgstr "Konttimoottori"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:60
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:135
@@ -1380,30 +1364,29 @@ msgstr "Siivoa"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:103
 msgid "Docker storage is managed by the system"
-msgstr ""
+msgstr "Docker-tallennustila on järjestelmän hallinnoima"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:105
 msgid "GitRepo reports the active driver but never changes it or removes Docker data."
-msgstr ""
+msgstr "GitRepo raportoi aktiivisen ajurin, mutta ei koskaan vaihda sitä tai poista Docker-dataa."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:115
 msgid "Pull Progress"
 msgstr "Haku etenee"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:147
-#, fuzzy
 msgid "driver unknown"
-msgstr "tuntematon"
+msgstr "ajuri tuntematon"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:149
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} • {1} • storage {2}"
-msgstr "{0}: {1} → {2}"
+msgstr "{0} • {1} • tallennustila {2}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:152
 #, python-brace-format
 msgid "Unavailable — {0}"
-msgstr ""
+msgstr "Ei käytettävissä — {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:157
 #, python-brace-format
@@ -1412,7 +1395,7 @@ msgstr "Saatavilla ({0:.1f} GB) - {1}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:160
 msgid "Not checked — start or install the engine, then refresh."
-msgstr ""
+msgstr "Ei tarkistettu — käynnistä tai asenna moottori ja päivitä sitten."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:168
 msgid "Starting download..."
@@ -1429,12 +1412,12 @@ msgstr "Vedä epäonnistui"
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:210
 #, python-brace-format
 msgid "Remove {0} stopped build containers?"
-msgstr ""
+msgstr "Poistetaanko {0} pysäytetyt rakennussäiliöt?"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:212
 #, python-brace-format
 msgid "Only stopped containers created from {0} will be removed. Images and Docker storage are kept."
-msgstr ""
+msgstr "Vain säiliöt, jotka on luotu {0}-kohteesta ja pysäytetty, poistetaan. Levykuvat ja Docker-tallennustila säilytetään."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:215
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:203
@@ -1457,26 +1440,26 @@ msgstr "Peruuta"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:216
 msgid "Remove Stopped Containers"
-msgstr ""
+msgstr "Poista pysäytetyt säiliöt"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:232
 #, python-brace-format
 msgid "Required container image: {0}"
-msgstr ""
+msgstr "Vaadittu säiliölevykuva: {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:28
 #, python-brace-format
 msgid "{0:.1f} GB"
-msgstr ""
+msgstr "{0:.1f} Gt"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:29
 #, python-brace-format
 msgid "{0:.0f} MB"
-msgstr ""
+msgstr "{0:.0f} MB"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:53
 msgid "Review outcomes and durations, then open the ISO folder or the terminal log of a build."
-msgstr ""
+msgstr "Tarkastele tuloksia ja kestoja, ja avaa ISO-kansio tai rakennuksen pääteloki."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:63
 msgid "No builds yet"
@@ -1484,7 +1467,7 @@ msgstr "Ei rakennuksia vielä"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:65
 msgid "Finished and failed builds are listed here with their ISO, duration, and terminal log."
-msgstr ""
+msgstr "Valmistuneet ja epäonnistuneet koontiversiot listataan tässä niiden ISO-tiedoston, keston ja pääteistunnon lokin kanssa."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:79
 msgid "Clear History"
@@ -1492,7 +1475,7 @@ msgstr "Tyhjennä historia"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:80
 msgid "Delete the local history log; generated ISO files remain untouched"
-msgstr ""
+msgstr "Poista paikallishistorian loki; luodut ISO-tiedostot pysyvät koskemattomina"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:82
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:204
@@ -1504,16 +1487,15 @@ msgstr "Tyhjennä"
 #: usr/share/gitrepo/build_package/gui/main_window.py:387
 #, python-brace-format
 msgid "{0} • {1}"
-msgstr ""
+msgstr "{0} • {1}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:135
 msgid "Copy the ISO path"
-msgstr ""
+msgstr "Kopioi ISO-polku"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:143
-#, fuzzy
 msgid "Open the terminal log of this build"
-msgstr "Toiminto epäonnistui – tarkista päätelaiteloki lisätietoja varten"
+msgstr "Avaa tämän koontitulosteen pääteikkunaloki"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:150
 msgid "Open folder"
@@ -1524,22 +1506,22 @@ msgid "Success"
 msgstr "Onnistui"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:167
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} {1} • kernel {2}"
-msgstr "{0}: {1} → {2}"
+msgstr "{0} {1} • ydin {2}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:182
 msgid "file no longer on disk"
-msgstr ""
+msgstr "tiedostoa ei enää levyllä"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:186
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "built from {0}"
-msgstr "Mukautettu: {0}"
+msgstr "koottu lähteestä {0}"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:200
 msgid "Clear the list of generated ISOs?"
-msgstr ""
+msgstr "Tyhjennetäänkö luotujen ISO-tiedostojen luettelo?"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:201
 msgid "This will remove all build history entries. This cannot be undone."
@@ -1547,23 +1529,23 @@ msgstr "Tämä poistaa kaikki rakennushistorian merkinnät. Tätä ei voi peruut
 
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:221
 msgid "ISO path copied to the clipboard"
-msgstr ""
+msgstr "ISO-polku kopioitu leikepöydälle"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:43
 msgid "Configure build defaults"
-msgstr ""
+msgstr "Määritä oletusasetukset koontiversiolle"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:44
 msgid "Set reusable defaults for storage, package channels, alerts, and the build environment."
-msgstr ""
+msgstr "Aseta uudelleenkäytettävät oletukset tallennustilalle, pakettikanaville, hälytyksille ja koontiympäristölle."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:54
 msgid "Storage"
-msgstr ""
+msgstr "Tallennustila"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:55
 msgid "Default destination for generated images and build artifacts."
-msgstr ""
+msgstr "Oletuskohde luoduille levykuville ja koontiartefakteille."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:59
 msgid "Default Output Directory"
@@ -1575,7 +1557,7 @@ msgstr "Säilö"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:72
 msgid "Runtime and image used for isolated ISO builds."
-msgstr ""
+msgstr "Suoritusympäristö ja levykuva, jota käytetään eristetyissä ISO-koontiversioissa."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:78
 msgid "Preferred container engine"
@@ -1587,11 +1569,11 @@ msgstr "Konttikuvake"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:91
 msgid "Package Channels"
-msgstr ""
+msgstr "Pakettikanavat"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:92
 msgid "Branches selected automatically when a new build is configured."
-msgstr ""
+msgstr "Haarat valitaan automaattisesti, kun uusi koontiversio määritetään."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:101
 msgid "Default Manjaro Branch"
@@ -1611,7 +1593,7 @@ msgstr "Ilmoitukset"
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:126
 msgid "Choose how GitRepo reports the end of a build."
-msgstr ""
+msgstr "Valitse, miten GitRepo ilmoittaa koontiversion päättymisestä."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:131
 msgid "Notify on build completion"
@@ -1636,7 +1618,7 @@ msgstr "Palauta oletusasetukset"
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
 msgid "Could not save settings. Check config permissions, then try again."
-msgstr ""
+msgstr "Asetuksia ei voitu tallentaa. Tarkista config-kansioiden oikeudet ja yritä uudelleen."
 
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:236
 msgid "Settings saved"
@@ -1657,7 +1639,7 @@ msgstr "Nollaa"
 
 #: usr/share/gitrepo/build_iso/local_builder.py:28
 msgid "No supported container engine was found."
-msgstr ""
+msgstr "Yhtään tuettua säiliömoottoria ei löytynyt."
 
 #: usr/share/gitrepo/build_iso/local_builder.py:30
 #, python-brace-format
@@ -1667,24 +1649,24 @@ msgstr "Säilömoottori löydetty: {0}"
 #: usr/share/gitrepo/build_iso/local_builder.py:43
 #, python-brace-format
 msgid "ISO saved to: {0}"
-msgstr ""
+msgstr "ISO tallennettu kohteeseen: {0}"
 
 #: usr/share/gitrepo/build_iso/local_builder.py:45
 msgid "ISO build failed."
-msgstr ""
+msgstr "ISO-rakennus epäonnistui."
 
 #: usr/share/gitrepo/build_iso/menu_system.py:43
 #: usr/share/gitrepo/build_package/cli/cli_menu.py:44
 msgid "Use arrow keys to navigate, Enter to select, or Escape to return."
-msgstr ""
+msgstr "Siirry nuolinäppäimillä, valitse Enterillä, tai palaa Escapella."
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:47
 msgid "Could not preserve local changes"
-msgstr ""
+msgstr "Paikallisia muutoksia ei voitu säilyttää"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:71
 msgid "Local changes remain in the stash and need manual resolution."
-msgstr ""
+msgstr "Paikalliset muutokset jäävät stashiin ja vaativat käsittelyä manuaalisesti."
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:78
 #: usr/share/gitrepo/build_package/core/package_operations.py:60
@@ -1693,22 +1675,22 @@ msgstr ""
 #: usr/share/gitrepo/build_package/core/package_operations.py:408
 #, python-brace-format
 msgid "Invalid target branch: {0}"
-msgstr ""
+msgstr "Virheellinen kohdehaara: {0}"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:85
 #, python-brace-format
 msgid "Could not switch to {0}"
-msgstr ""
+msgstr "Kohteeseen {0} ei voitu vaihtaa"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:91
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0}. {1}"
-msgstr "{0} (versio {1})"
+msgstr "{0}. {1}"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:100
 #, python-brace-format
 msgid "Commit preparation failed: {0}"
-msgstr ""
+msgstr "Commit-valmistelu epäonnistui: {0}"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:121
 msgid "Undoing last commit..."
@@ -1769,12 +1751,12 @@ msgstr "Push epäonnistui: {0}"
 #: usr/share/gitrepo/build_package/core/branch_handler.py:201
 #, python-brace-format
 msgid "The branch '{0}' exists locally and was kept."
-msgstr ""
+msgstr "Haara '{0}' löytyi paikallisesti ja pidettiin tallessa."
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:202
 #, python-brace-format
 msgid "Retry publishing it with: git push -u origin {0}"
-msgstr ""
+msgstr "Yritä julkaista se uudelleen komennolla: git push -u origin {0}"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:212
 #: usr/share/gitrepo/build_package/core/package_operations.py:118
@@ -1794,16 +1776,16 @@ msgstr "Virhe: {0}"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:232
 msgid "Invalid branch name"
-msgstr ""
+msgstr "Virheellinen haaran nimi"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:244
 msgid "Could not switch branch"
-msgstr ""
+msgstr "Haaraan ei voitu vaihtaa"
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:247
 #, python-brace-format
 msgid "Switched to {0} with local changes restored."
-msgstr ""
+msgstr "Vaihdettu kohteeseen {0}, paikalliset muutokset palautettu."
 
 #: usr/share/gitrepo/build_package/core/branch_handler.py:248
 #, python-brace-format
@@ -1934,24 +1916,24 @@ msgstr "AUR - Yhteenveto valinnoista"
 #: usr/share/gitrepo/build_package/core/build_package.py:249
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:300
 msgid "Download updates"
-msgstr ""
+msgstr "Lataa päivitykset"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:249
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:309
 msgid "Publish changes"
-msgstr ""
+msgstr "Julkaise muutokset"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:251
 msgid "Build package"
-msgstr ""
+msgstr "Rakenna paketti"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:253
 msgid "Build from the AUR"
-msgstr ""
+msgstr "Rakenna AURista"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:256
 msgid "Repository maintenance"
-msgstr ""
+msgstr "Säilytä arkistoa"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:274
 msgid "Select repository"
@@ -2046,7 +2028,7 @@ msgstr "Pull request -toiminto suoritettu loppuun."
 #: usr/share/gitrepo/build_package/core/build_package.py:442
 #, python-brace-format
 msgid "Could not prepare the merge request: {0}"
-msgstr ""
+msgstr "Yhdistämispyynnön valmistelu epäonnistui: {0}"
 
 #: usr/share/gitrepo/build_package/core/build_package.py:484
 msgid "Configure GitHub organization (default: big-comm)"
@@ -2083,7 +2065,7 @@ msgstr "Suorita 'gh auth login' kirjautuaksesi GitHub CLI:llä"
 #: usr/share/gitrepo/build_package/core/commit_handler.py:37
 #, python-brace-format
 msgid "Check if your SSH key is added: {0}"
-msgstr ""
+msgstr "Tarkista, onko SSH-avaimesi lisätty: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:38
 msgid "For HTTPS, run: git credential reject"
@@ -2099,7 +2081,7 @@ msgstr "Etähaarassa on muutoksia, joita sinulla ei ole paikallisesti"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:48
 msgid "Use 'Download updates' first (git fetch followed by git merge)"
-msgstr ""
+msgstr "Käytä ensin 'Lataa päivitykset' (git fetch ja sitten git merge)"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:49
 #, python-brace-format
@@ -2187,7 +2169,7 @@ msgstr "Kokeile suorittaa 'git push' terminaalissa nähdäksesi koko tulosteen"
 #: usr/share/gitrepo/build_package/core/commit_handler.py:103
 #, python-brace-format
 msgid "Check GitHub status: {0}"
-msgstr ""
+msgstr "Tarkista GitHubin tila: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:125
 #: usr/share/gitrepo/build_package/core/commit_handler.py:138
@@ -2218,12 +2200,12 @@ msgstr "Ei muutoksia tallennettavaksi"
 #: usr/share/gitrepo/build_package/core/commit_handler.py:142
 #, python-brace-format
 msgid "Failed to create commit: {0}"
-msgstr ""
+msgstr "Tilin luonti epäonnistui: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:149
 #, python-brace-format
 msgid "Could not verify remote state: {0}"
-msgstr ""
+msgstr "Etäprojektin tilan varmistus epäonnistui: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:152
 msgid "✓ Already in sync with remote"
@@ -2232,26 +2214,26 @@ msgstr "✓ Jo synkronissa etäpalvelimen kanssa"
 #: usr/share/gitrepo/build_package/core/commit_handler.py:156
 #, python-brace-format
 msgid "✓ Remote changes integrated with {0}"
-msgstr ""
+msgstr "✓ Etämuutokset yhdistetty kohteesta {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:163
 #, python-brace-format
 msgid "✓ Remote changes integrated keeping {0}"
-msgstr ""
+msgstr "✓ Etämuutokset yhdistetty säilyttäen {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:165
 msgid "Remote changes conflict with the local branch; resolve them manually."
-msgstr ""
+msgstr "Etämuutokset ovat ristiriidassa paikallisen haaran kanssa; ratkaise ne manuaalisesti."
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:180
 #, python-brace-format
 msgid "The commit {0} was created locally and was kept."
-msgstr ""
+msgstr "Tili {0} luotiin paikallisesti ja se säilytettiin."
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:181
 #, python-brace-format
 msgid "Retry publishing it with: {0}"
-msgstr ""
+msgstr "Yritä julkaista se uudelleen komennolla: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:198
 #, python-brace-format
@@ -2261,7 +2243,7 @@ msgstr "✓ Työnnetty origin/{0}"
 #: usr/share/gitrepo/build_package/core/commit_handler.py:212
 #, python-brace-format
 msgid "Existing local commit published to origin/{0}."
-msgstr ""
+msgstr "Olemassa oleva paikallinen commit julkaistu kohteeseen origin/{0}."
 
 #: usr/share/gitrepo/build_package/core/commit_handler.py:220
 msgid "Could not determine branch name for push"
@@ -2270,12 +2252,12 @@ msgstr "Haaraa ei voitu määrittää push-toimintoa varten"
 #: usr/share/gitrepo/build_package/core/commit_handler.py:230
 #, python-brace-format
 msgid "Changes published to {0} with git commit and git push"
-msgstr ""
+msgstr "Muutokset julkaistu kohteeseen {0} git commit- ja git push -komennoilla"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:21
 #, python-brace-format
 msgid "Could not read commit message file: {0}"
-msgstr ""
+msgstr "Commit-viestitiedostoa ei voitu lukea: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:70
 #: usr/share/gitrepo/build_package/core/revert_operations.py:261
@@ -2284,11 +2266,13 @@ msgid ""
 "\n"
 "• … and {0} more"
 msgstr ""
+"\n"
+"• … ja {0} lisää"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:72
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Version: {0} → {1} ({2}) in {3}\n"
-msgstr "APP_VERSION korotettu arvosta {0} arvoon {1} ({2} korotus) tiedostossa {3}"
+msgstr "Versio: {0} → {1} ({2}) kohteessa {3}\n"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:79
 #, python-brace-format
@@ -2300,48 +2284,54 @@ msgid ""
 "{2}Files:\n"
 "{3}"
 msgstr ""
+"Julkaistaanko nämä muutokset?\n"
+"Komennot: git add -A → git commit -m \"MESSAGE\" → git push -u origin BRANCH\n"
+"Haara: {0}\n"
+"Viesti: {1}\n"
+"{2}Tiedostot:\n"
+"{3}"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:86
 msgid "No changed paths detected"
-msgstr ""
+msgstr "Muuttuneita polkuja ei havaittu"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:106
 #, python-brace-format
 msgid "Commit {0} is still waiting on {1}; switch to that branch before retrying."
-msgstr ""
+msgstr "Commit {0} odottaa yhä kohdetta {1}; vaihda siihen haaraan ennen uudelleenyritystä."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:114
 #, python-brace-format
 msgid "The branch tip changed after commit {0} failed to publish; review it before retrying."
-msgstr ""
+msgstr "Haaran kärki muuttui, kun commit {0} epäonnistui julkaisussa; tarkista se ennen uudelleenyritystä."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:122
 msgid "The local commit cannot be published because origin is not configured."
-msgstr ""
+msgstr "Paikallista committia ei voi julkaista, koska originia ei ole määritetty."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:129
 msgid "Could not verify whether the local commit reached origin."
-msgstr ""
+msgstr "Ei voitu varmistaa, päätyikö paikallinen commit originiin."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:140
 #, python-brace-format
 msgid "The previously created commit is already published on origin/{0}."
-msgstr ""
+msgstr "Aiemmin luotu commit on jo julkaistu kohteessa origin/{0}."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:148
 #, python-brace-format
 msgid "origin/{0} changed; download and review those updates before retrying the push."
-msgstr ""
+msgstr "origin/{0} muuttui; lataa ja tarkista nämä päivitykset ennen pushin uudelleenyritystä."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:177
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Local commits not on origin: {0}"
-msgstr "Paikallista iso-profiilien polkua ei löytynyt: {0}"
+msgstr "Paikalliset commitit, joita ei ole originissa: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:179
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "The branch origin/{0} does not exist yet."
-msgstr "Tulostuskansio ei vielä ole olemassa"
+msgstr "Haara origin/{0} ei ole vielä olemassa."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:182
 #, python-brace-format
@@ -2353,49 +2343,54 @@ msgid ""
 "{2}\n"
 "Command: {3}"
 msgstr ""
+"Julkaistaanko olemassa oleva paikallinen commit?\n"
+"Uutta committia ei luoda.\n"
+"Haara: {0}\n"
+"Commit: {1}\n"
+"{2}\n"
+"Komento: {3}"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:190
-#, fuzzy
 msgid "Publication retry cancelled."
-msgstr "Tokenin asetus peruutettu."
+msgstr "Julkaisun uudelleenyritys peruutettu."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:193
 msgid "Dry run completed; the pending commit was not pushed."
-msgstr ""
+msgstr "Kuivaharjoittelu suoritettu; odottavaa committia ei työnnetty."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:199
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Publication retry failed: {0}"
-msgstr "Toiminto epäonnistui: {0}"
+msgstr "Julkaisun uudelleenyritys epäonnistui: {0}"
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:210
 msgid "This option is only available in Git repositories."
-msgstr ""
+msgstr "Tämä vaihtoehto on käytettävissä vain Git-varastoissa."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:213
 msgid "Resolve all conflicts before committing."
-msgstr ""
+msgstr "Ratkaise kaikki ristiriidat ennen sitomista."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:233
 msgid "Commit cancelled."
-msgstr ""
+msgstr "Sitominen peruutettu."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:236
 msgid "Dry run completed; no files or refs were changed."
-msgstr ""
+msgstr "Kuivaharjoittelu suoritettu; tiedostoja tai viittauksia ei muutettu."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:242
 msgid "Publication stopped because the reviewed version bump could not be written."
-msgstr ""
+msgstr "Julkaiseminen pysäytettiin, koska tarkasteltua versionmuutosta ei voitu kirjoittaa."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:252
 msgid "Could not create or select the target branch."
-msgstr ""
+msgstr "Kohdehaaraa ei voitu luoda tai valita."
 
 #: usr/share/gitrepo/build_package/core/commit_operations.py:258
 #, python-brace-format
 msgid "Commit failed: {0}"
-msgstr ""
+msgstr "Sitominen epäonnistui: {0}"
 
 #: usr/share/gitrepo/build_package/core/config.py:32
 msgid "BUILD PACKAGE"
@@ -2412,11 +2407,14 @@ msgid ""
 "Reason: {1}\n"
 "{2}"
 msgstr ""
+"Poistetaanko {0}, kun ratkaiset tämän ristiriidan?\n"
+"Syy: {1}\n"
+"{2}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:95
 #, python-brace-format
 msgid "File deletion cancelled: {0}"
-msgstr ""
+msgstr "Tiedoston poisto peruutettu: {0}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:173
 #, python-brace-format
@@ -2433,31 +2431,36 @@ msgid ""
 "\n"
 "Non-conflicting changes from {2} are still merged."
 msgstr ""
+"Säilytetäänkö {0}-versio {1}:ssa ristiriitaisessa tiedostossa/tiedostoissa?\n"
+"\n"
+"Ristiriitaa aiheuttaneet {2}:sta peräisin olevat rivit hylätään kohteessa:\n"
+"{3}\n"
+"\n"
+"{2}:n ristiriidattomat muutokset yhdistetään silti."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:214
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:234
 #: usr/share/gitrepo/build_package/core/git_utils.py:262
-#, fuzzy
 msgid "Automatic conflict resolution cancelled."
-msgstr "Manuaalinen ristiriitojen ratkaisu tarvitaan"
+msgstr "Automaattinen ristiriitojen ratkaisu peruutettiin."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Discarded the {0} version of: {1}"
-msgstr "Valitse {0} versio:"
+msgstr "Hylättiin {0} versio: {1}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:225
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
-msgstr ""
+msgstr "Hylätty versio on edelleen luettavissa komennolla: {0}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
 msgid "local"
-msgstr ""
+msgstr "paikallinen"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
 msgid "incoming"
-msgstr ""
+msgstr "saapuva"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:231
 #, python-brace-format
@@ -2465,6 +2468,8 @@ msgid ""
 "Replace every conflicted file with the {0} version?\n"
 "{1}"
 msgstr ""
+"Korvataanko jokainen ristiriitainen tiedosto {0}-versiolla?\n"
+"{1}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:240
 msgid "Resolving conflicts: keeping our changes..."
@@ -2473,11 +2478,11 @@ msgstr "Ratkaistaan ristiriitoja: säilytetään omat muutokset..."
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:247
 #, python-brace-format
 msgid "  Removing {0} (deleted in our version)"
-msgstr "Poistetaan {0} (poistettu versiostamme)"
+msgstr "  Poistetaan {0} (poistettu versiostamme)"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:248
 msgid "deleted in the local version"
-msgstr ""
+msgstr "poistettu paikallisessa versiossa"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:260
 msgid "✓ Conflicts resolved (kept our changes)"
@@ -2496,12 +2501,12 @@ msgstr "Ratkaistaan ristiriitoja: hyväksytään etämuutokset..."
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:276
 #, python-brace-format
 msgid "  Removing {0} (deleted in remote version)"
-msgstr "Poistetaan {0} (poistettu etäversiossa)"
+msgstr "  Poistetaan {0} (poistettu etäversiossa)"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:277
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:344
 msgid "deleted in the incoming version"
-msgstr ""
+msgstr "poistettu saapuvassa versiossa"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:289
 msgid "✓ Conflicts resolved (accepted remote)"
@@ -2514,7 +2519,7 @@ msgstr "✓ Kaikki ristiriidat ratkaistu!"
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:308
 #, python-brace-format
 msgid "Accept the incoming version for all {0} compiled .mo files?"
-msgstr ""
+msgstr "Hyväksyykö saapuva versio kaikille {0} käännettyille .mo-tiedostoille?"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:319
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:570
@@ -2529,11 +2534,11 @@ msgstr "Hyväksy etäversio"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:321
 msgid "Save both versions beside the file, then choose"
-msgstr ""
+msgstr "Tallenna molemmat versiot tiedoston viereen, valitse sitten"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:322
 msgid "Edit manually"
-msgstr ""
+msgstr "Muokkaa manuaalisesti"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:323
 msgid "Show diff"
@@ -2547,16 +2552,16 @@ msgstr "Kuinka ratkaista: {0}"
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:329
 #, python-brace-format
 msgid "Resolve {0} manually, then stage it with git add."
-msgstr ""
+msgstr "Ratkaise {0} manuaalisesti ja sijoita se stagelle git add -komennolla."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:344
 msgid "deleted in the selected local version"
-msgstr ""
+msgstr "poistettu valitussa paikallisessa versiossa"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:375
 #, python-brace-format
 msgid "Could not resolve {0}: {1}"
-msgstr ""
+msgstr "Ei voitu ratkaista {0}: {1}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:380
 msgid "Manual conflict resolution needed"
@@ -2585,26 +2590,26 @@ msgstr "3. Suorita tämä komento uudelleen"
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:398
 #, python-brace-format
 msgid "Conflicts detected. Newer branch: {0} ({1}); older branch: {2} ({3})."
-msgstr ""
+msgstr "Ristiriitoja havaittu. Uudempi haara: {0} ({1}); vanhempi haara: {2} ({3})."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:406
 #, python-brace-format
 msgid "Use the newer branch '{0}' for all {1} conflicted files?"
-msgstr ""
+msgstr "Käytetäänkö uudempaa haaraa '{0}' kaikille {1} ristiriitaisille tiedostoille?"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:412
 #, python-brace-format
 msgid "Use {0} version (newer)"
-msgstr ""
+msgstr "Käytä {0}-versiota (uudempi)"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:413
 #, python-brace-format
 msgid "Use {0} version (older)"
-msgstr ""
+msgstr "Käytä {0}-versiota (vanhempi)"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:414
 msgid "Leave unresolved for manual editing"
-msgstr ""
+msgstr "Jätä ratkaisematta manuaalista muokkausta varten"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:416
 #, python-brace-format
@@ -2614,7 +2619,7 @@ msgstr "Valitse versio kohteelle: {0}"
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:418
 #, python-brace-format
 msgid "{0} remains unresolved for manual editing."
-msgstr ""
+msgstr "{0} jää ratkaisematta manuaalista muokkausta varten."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:422
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:445
@@ -2625,7 +2630,7 @@ msgstr "Ratkaisu epäonnistui kohteelle {0}"
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:426
 #, python-brace-format
 msgid "Unresolved files: {0}"
-msgstr ""
+msgstr "Ratkaisemattomat tiedostot: {0}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:428
 msgid "✓ All conflicts resolved successfully!"
@@ -2667,76 +2672,73 @@ msgstr "Tiedostoa ei voitu esikatsella: {0}"
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:510
 #, python-brace-format
 msgid "Could not produce a diff for {0}."
-msgstr ""
+msgstr "Ei voitu tuottaa eroavuuksia tiedostolle {0}."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:514
 msgid "No textual diff is available; the file may be binary."
-msgstr ""
+msgstr "Tekstuaalista eroa ei ole saatavilla; tiedosto voi olla binääritiedosto."
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:516
 #, python-brace-format
 msgid "Conflict diff for {0}:"
-msgstr ""
+msgstr "Konfliktiero kohteelle {0}:"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:520
 #, python-brace-format
 msgid "… {0} additional lines omitted"
-msgstr ""
+msgstr "… {0} lisäriviä jätetty pois"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:560
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not save both versions of {0}: {1}"
-msgstr "Tiedostoa ei voitu esikatsella: {0}"
+msgstr "Kohteen {0} molempia versioita ei voitu tallentaa: {1}"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:563
-#, fuzzy
 msgid "Saved both versions:"
-msgstr "Säilytä molemmat versiot"
+msgstr "Molemmat versiot tallennettiin:"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:564
-#, fuzzy
 msgid "our version"
-msgstr "Säilytä oma versio"
+msgstr "oma versio"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:565
-#, fuzzy
 msgid "remote version"
-msgstr "Hyväksy etäversio"
+msgstr "etäversio"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:569
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Which version resolves {0}?"
-msgstr "Ratkaisu epäonnistui kohteelle {0}"
+msgstr "Mikä versio ratkaisee {0}?"
 
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:573
 #, python-brace-format
 msgid "Both versions were saved; {0} is still conflicted."
-msgstr ""
+msgstr "Molemmat versiot tallennettiin; {0} on edelleen ristiriidassa."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:161
 #, python-brace-format
 msgid "Could not delete local branch {0}: {1}"
-msgstr ""
+msgstr "Paikallista haaraa {0} ei voitu poistaa: {1}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:173
 #, python-brace-format
 msgid "Could not delete origin/{0}: {1}"
-msgstr ""
+msgstr "Ei voitu poistaa origin/{0}: {1}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:225
 #, python-brace-format
 msgid "Remote changes integrated with {0}."
-msgstr ""
+msgstr "Etämuutokset yhdistettiin kohteeseen {0}."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:229
 #: usr/share/gitrepo/build_package/core/git_utils.py:301
 msgid "Unknown Git error"
-msgstr ""
+msgstr "Tuntematon Git-virhe"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:230
 #, python-brace-format
 msgid "{0} failed: {1}"
-msgstr ""
+msgstr "{0} epäonnistui: {1}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:255
 #, python-brace-format
@@ -2748,33 +2750,39 @@ msgid ""
 "\n"
 "Every other change from {1} is merged, and the discarded version stays readable with: git diff HEAD^2 -- FILE"
 msgstr ""
+"Ratkaistaanko eroavaisuus pitämällä {0} siellä, missä kaksi haaraa ovat eri mieltä?\n"
+"\n"
+"{1}:n ristiriitaiset rivit hylätään tiedostossa:\n"
+"{2}\n"
+"\n"
+"Kaikki muut {1}:n muutokset yhdistetään, ja hylätty versio pysyy luettavissa komennolla: git diff HEAD^2 -- FILE"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:274
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not finish merge: {0}"
-msgstr "Tiedostoa ei voitu esikatsella: {0}"
+msgstr "Ei voitu viimeistellä yhdistämistä: {0}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:296
 msgid "Remote changes integrated with merge."
-msgstr ""
+msgstr "Etämuutokset yhdistettiin yhdistämällä (merge)."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:302
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Merge failed: {0}"
-msgstr "Automaattinen yhdistäminen epäonnistui: {0}"
+msgstr "Yhdistäminen epäonnistui: {0}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:321
 msgid "Merge aborted; the repository was restored."
-msgstr ""
+msgstr "Yhdistäminen peruutettiin; repositorio palautettiin."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:329
 #, python-brace-format
 msgid "Kept {0} in {1} file(s); the {2} version was discarded there: {3}"
-msgstr ""
+msgstr "{0} säilytettiin seuraavissa tiedostoissa ({1} kpl); {2}-versio hylättiin niissä: {3}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:333
 msgid "Read the discarded version with: git diff HEAD^2 -- FILE"
-msgstr ""
+msgstr "Lue hylätty versio komennolla: git diff HEAD^2 -- FILE"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:345
 #, python-brace-format
@@ -2782,14 +2790,16 @@ msgid ""
 "Rewrite origin/{0}?\n"
 "{1}"
 msgstr ""
+"Kirjoitetaanko origin/{0} uudelleen?\n"
+"{1}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:347
 msgid "Force push cancelled."
-msgstr ""
+msgstr "Pakotettu työntäminen peruttu."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:352
 msgid "Force push completed."
-msgstr ""
+msgstr "Pakotettu työntäminen valmis."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:354
 #, python-brace-format
@@ -2804,25 +2814,25 @@ msgstr "Tämä toiminto on käytettävissä vain Git-repositorioissa."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:614
 msgid "No main or master branch to compare against."
-msgstr ""
+msgstr "Ei pää- tai master-haaraa, johon verrata."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:615
 msgid "Without a base, no branch can be proven merged, so none is offered."
-msgstr ""
+msgstr "Ilman vertailupohjaa yhtään haaraa ei voida todistaa yhdistetyksi, joten yhtäkään ei tarjota."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:624
 #, python-brace-format
 msgid "Could not inventory branches: {0}"
-msgstr ""
+msgstr "Haaroja ei voitu inventoida: {0}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:630
 #, python-brace-format
 msgid "Kept {0} branch(es) whose commits are not in {1}: {2}"
-msgstr ""
+msgstr "Säilytettiin {0} haara(a), joiden commitit eivät ole kohteessa {1}: {2}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:637
 msgid "No obsolete branches found."
-msgstr ""
+msgstr "Vanhentuneita haaroja ei löytynyt."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:641
 #, python-brace-format
@@ -2831,14 +2841,17 @@ msgid ""
 "Every one is already merged into {0}.\n"
 "{1}"
 msgstr ""
+"Poistetaanko nämä haarat pysyvästi?\n"
+"Jokainen on jo yhdistetty {0}:ään.\n"
+"{1}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:644
 msgid "Branch cleanup cancelled."
-msgstr ""
+msgstr "Haarasiiivous peruttu."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:650
 msgid "Branch cleanup completed."
-msgstr ""
+msgstr "Haarasiiivous valmis."
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:680
 #: usr/share/gitrepo/build_package/core/git_utils.py:719
@@ -2857,13 +2870,12 @@ msgstr "Tuntematon ratkaisutapa: {0}"
 
 #: usr/share/gitrepo/build_package/core/git_utils.py:788
 #: usr/share/gitrepo/build_package/core/git_utils.py:817
-#, fuzzy
 msgid "Could not load the differences for this file."
-msgstr "Tiedostojen eroja ei voitu analysoida"
+msgstr "Tämän tiedoston erot eivät latautuneet."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:32
 msgid "Waiting for GitHub to report whether the PR can be merged..."
-msgstr ""
+msgstr "Odotetaan GitHubin ilmoitusta, voidaanko PR yhdistää..."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:42
 #, python-brace-format
@@ -2873,25 +2885,25 @@ msgstr "Virhe PR:n tarkistuksessa: {0}"
 #: usr/share/gitrepo/build_package/core/github_api.py:49
 #, python-brace-format
 msgid "Attempt {0}/{1}: state={2}"
-msgstr ""
+msgstr "Yritys {0}/{1}: tila={2}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:55
 #, python-brace-format
 msgid "Could not check the PR yet: {0}"
-msgstr ""
+msgstr "PR:n tilaa ei voitu vielä tarkistaa: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:58
 #, python-brace-format
 msgid "Timed out waiting for PR state '{0}'. Merge it manually."
-msgstr ""
+msgstr "Odotusaika PR-tilan '{0}' odotukselle umpeutui. Yhdistä se manuaalisesti."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:64
 msgid "PR ready for merge."
-msgstr ""
+msgstr "PR on valmis yhdistettäväksi."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:67
 msgid "PR has conflicts; resolve them before merging."
-msgstr ""
+msgstr "PR:ssä on konflikteja; ratkaise ne ennen yhdistämistä."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:92
 #, python-brace-format
@@ -2911,11 +2923,11 @@ msgstr "Rakennustyönkulku ({0}) käynnistettiin onnistuneesti."
 #: usr/share/gitrepo/build_package/core/github_api.py:99
 #, python-brace-format
 msgid "URL to monitor the build: {0}"
-msgstr ""
+msgstr "URL-osoite koontiversion seurantaan: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:127
 msgid "Repository and explicit workflow branch are required."
-msgstr ""
+msgstr "Varasto ja eksplisiittinen workflow-haara ovat pakollisia."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:138
 #, python-brace-format
@@ -2925,7 +2937,7 @@ msgstr "Havaittu varasto: {0}"
 #: usr/share/gitrepo/build_package/core/github_api.py:139
 #, python-brace-format
 msgid "Workflow branch: {0}"
-msgstr ""
+msgstr "Workflow-haara: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:146
 msgid "GitHub token not configured. Package operations will require token setup."
@@ -2946,27 +2958,27 @@ msgstr "Luo Personal Access Token seuraavasti:"
 #: usr/share/gitrepo/build_package/core/github_api.py:181
 #, python-brace-format
 msgid "  1. Go to: {0}"
-msgstr ""
+msgstr "  1. Siirry osoitteeseen: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:182
 msgid "  2. Click 'Generate new token (classic)'"
-msgstr "2. Klikkaa 'Generate new token (classic)'"
+msgstr "  2. Klikkaa 'Generate new token (classic)'"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:183
 msgid "  3. Name: 'gitrepo' | Expiration: your choice"
-msgstr "3. Nimi: 'gitrepo' | Vanhentuminen: valintasi"
+msgstr "  3. Nimi: 'gitrepo' | Vanhentuminen: valintasi"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:184
 msgid "  4. Select scopes: 'repo' and 'workflow'"
-msgstr "4. Valitse laajuudet: 'repo' ja 'workflow'"
+msgstr "  4. Valitse laajuudet: 'repo' ja 'workflow'"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:185
 msgid "  5. Click 'Generate token' and copy it"
-msgstr "5. Klikkaa 'Generate token' ja kopioi se"
+msgstr "  5. Klikkaa 'Generate token' ja kopioi se"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:190
 msgid "GitHub username (or press Enter to cancel): "
-msgstr "GitHub-käyttäjänimi (tai paina Enter peruuttaaksesi):"
+msgstr "GitHub-käyttäjänimi (tai paina Enter peruuttaaksesi): "
 
 #: usr/share/gitrepo/build_package/core/github_api.py:192
 #: usr/share/gitrepo/build_package/core/github_api.py:197
@@ -2976,21 +2988,21 @@ msgstr "Tokenin asetus peruutettu."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:195
 msgid "GitHub token (or press Enter to cancel): "
-msgstr "GitHub-tunnus (tai paina Enter peruuttaaksesi):"
+msgstr "GitHub-tunnus (tai paina Enter peruuttaaksesi): "
 
 #: usr/share/gitrepo/build_package/core/github_api.py:203
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:165
 msgid "The token could not be saved. Unlock the system keyring and try again."
-msgstr ""
+msgstr "Tunnistetta ei voitu tallentaa. Avaa järjestelmän avainnippu ja yritä uudelleen."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:207
 msgid "✓ Token saved securely in the system keyring"
-msgstr ""
+msgstr "✓ Tunniste tallennettu turvallisesti järjestelmän avainnippuun"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:224
 #: usr/share/gitrepo/build_package/core/github_api.py:274
 msgid "origin is not a GitHub repository; nothing was requested."
-msgstr ""
+msgstr "origin ei ole GitHub-varasto; mitään ei pyydetty."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:227
 #, python-brace-format
@@ -3004,7 +3016,7 @@ msgstr "Ei löytynyt Actions-töitä, joiden tila on '{0}'."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:243
 msgid "unnamed run"
-msgstr ""
+msgstr "nimeämätön ajo"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:247
 #, python-brace-format
@@ -3012,10 +3024,12 @@ msgid ""
 "Permanently delete these {0} GitHub Actions runs from {1}?\n"
 "{2}"
 msgstr ""
+"Poistetaanko nämä {0} GitHub Actions -ajot pysyvästi kohteesta {1}?\n"
+"{2}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:252
 msgid "Actions cleanup cancelled."
-msgstr ""
+msgstr "Toimintojen siivous peruutettu."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:258
 #, python-brace-format
@@ -3041,10 +3055,12 @@ msgid ""
 "Permanently delete these {0} remote tags from {1}?\n"
 "{2}"
 msgstr ""
+"Poistetaanko nämä {0} etätägit pysyvästi kohteesta {1}?\n"
+"{2}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:294
 msgid "Tag cleanup cancelled."
-msgstr ""
+msgstr "Tägien siivous peruutettu."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:299
 #, python-brace-format
@@ -3057,43 +3073,43 @@ msgid "Error cleaning tags: {0}"
 msgstr "Virhe siivotessa tunnuksia: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:326
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Error listing {0}. Code: {1}"
-msgstr "Virhe poistaessa tunnusta {0}. Koodi: {1}"
+msgstr "Virhe luetteloitaessa {0}. Koodi: {1}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:337
 #, python-brace-format
 msgid "Stopped after {0} pages; run the cleanup again to continue."
-msgstr ""
+msgstr "Keskeytetty {0} sivun jälkeen; suorita siivous uudelleen jatkaaksesi."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:345
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not delete {0}: {1}"
-msgstr "Tiedostoa ei voitu esikatsella: {0}"
+msgstr "{0}:n poistaminen epäonnistui: {1}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:349
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Error deleting {0}. Code: {1}"
-msgstr "Virhe poistaessa tunnusta {0}. Koodi: {1}"
+msgstr "Virhe poistettaessa kohdetta {0}. Koodi: {1}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:357
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Deleted {0} of {0} items."
-msgstr "Poistettiin {0} tunnusta."
+msgstr "Poistettu {0} / {0} kohteesta."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:359
 #, python-brace-format
 msgid "Deleted {0} of {1}; {2} could not be deleted."
-msgstr ""
+msgstr "Poistettu {0} / {1}; {2} ei voitu poistaa."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:360
 #, python-brace-format
 msgid "Still present: {0}"
-msgstr ""
+msgstr "Edelleen olemassa: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:370
 msgid "Source branch and repository are required to create a pull request."
-msgstr ""
+msgstr "Lähdehaara ja -varasto ovat pakollisia vetopyynnön luomiseksi."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:373
 #, python-brace-format
@@ -3102,7 +3118,7 @@ msgstr "Luodaan pull request: {0} → {1}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:377
 msgid "Branches are already identical; no pull request is needed."
-msgstr ""
+msgstr "Haarat ovat jo identtisiä; vetopyyntöä ei tarvita."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:388
 #, python-brace-format
@@ -3126,7 +3142,7 @@ msgstr "PR ei ole valmis: {0}"
 
 #: usr/share/gitrepo/build_package/core/github_api.py:442
 msgid "Pull request merged successfully."
-msgstr ""
+msgstr "Vetopyyntö yhdistettiin onnistuneesti."
 
 #: usr/share/gitrepo/build_package/core/github_api.py:446
 #, python-brace-format
@@ -3173,16 +3189,16 @@ msgstr "PR-yhteenvedon näyttö epäonnistui: {0}"
 #: usr/share/gitrepo/build_package/core/operation_preview.py:39
 #, python-brace-format
 msgid "Failed: {0}"
-msgstr ""
+msgstr "Epäonnistui: {0}"
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:56
 msgid "Merge conflict detected; resolution is required."
-msgstr ""
+msgstr "Yhdistämisristiriita havaittu; ratkaisu vaaditaan."
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:59
 #, python-brace-format
 msgid "Command failed: {0}"
-msgstr ""
+msgstr "Komento epäonnistui: {0}"
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:118
 msgid "No operations planned"
@@ -3212,15 +3228,15 @@ msgstr "Jatketaanko näillä toiminnoilla?"
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:176
 msgid "Dry-run mode; no operations will execute."
-msgstr ""
+msgstr "Kuiva-ajotila; mitään toimintoja ei suoriteta."
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:189
 msgid "Conflicts detected; resolution is required."
-msgstr ""
+msgstr "Ristiriitoja havaittu; ratkaisu vaaditaan."
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:192
 msgid "Operation failed; remaining steps were not executed."
-msgstr ""
+msgstr "Toiminto epäonnistui; jäljellä olevia vaiheita ei suoritettu."
 
 #: usr/share/gitrepo/build_package/core/operation_preview.py:203
 #, python-brace-format
@@ -3235,9 +3251,8 @@ msgstr "Toiminto peruttu käyttäjän toimesta"
 #: usr/share/gitrepo/build_package/core/package_operations.py:82
 #: usr/share/gitrepo/build_package/core/package_operations.py:91
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:462
-#, fuzzy
 msgid "unknown branch"
-msgstr "tuntematon"
+msgstr "tuntematon haara"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:68
 #, python-brace-format
@@ -3246,6 +3261,9 @@ msgid ""
 "Expected branch: {0}\n"
 "Selected branch: {1}"
 msgstr ""
+"Valittu testaushaara muuttui paketin valmistelun aikana.\n"
+"Odotettu haara: {0}\n"
+"Valittu haara: {1}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:78
 #, python-brace-format
@@ -3255,11 +3273,15 @@ msgid ""
 "Current branch: {1}\n"
 "Switch to {0} before committing or starting the workflow."
 msgstr ""
+"Testauspaketit voivat julkaista vain aktiivisen henkilökohtaisen haaran.\n"
+"Valittu haara: {0}\n"
+"Nykyinen haara: {1}\n"
+"Vaihda haaraan {0} ennen sitoutumista tai työnkulun aloittamista."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:94
 #, python-brace-format
 msgid "The testing branch does not exist locally: {0}"
-msgstr ""
+msgstr "Testaushaaraa ei ole olemassa paikallisesti: {0}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:101
 #, python-brace-format
@@ -3268,18 +3290,21 @@ msgid ""
 "Branch: {0}\n"
 "Command: git push -u origin {1}"
 msgstr ""
+"Julkaistaanko testaushaara ennen sen pakettityönkulun aloittamista?\n"
+"Haara: {0}\n"
+"Komento: git push -u origin {1}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:125
 msgid "Could not read a package name with makepkg --printsrcinfo."
-msgstr ""
+msgstr "Paketin nimeä ei voitu lukea komennolla makepkg --printsrcinfo."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:155
 msgid "Configure a GitHub token before generating a package."
-msgstr ""
+msgstr "Määritä GitHub-tunnus ennen paketin luomista."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:170
 msgid "Dry run completed; no workflow was triggered."
-msgstr ""
+msgstr "Kuiva-ajo suoritettu; yhtään työnkulkua ei käynnistetty."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:173
 #, python-brace-format
@@ -3289,38 +3314,42 @@ msgid ""
 "Type: {1}\n"
 "Branch: {2}"
 msgstr ""
+"Käynnistetäänkö tämä GitHub Actions -pakettirakennus?\n"
+"Paketti: {0}\n"
+"Tyyppi: {1}\n"
+"Haara: {2}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:180
 msgid "Package workflow started."
-msgstr ""
+msgstr "Paketin työnkulku käynnistetty."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:180
 msgid "Workflow failed."
-msgstr ""
+msgstr "Työnkulku epäonnistui."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:194
 #, python-brace-format
 msgid "Merging {0} stopped because it requires conflict resolution. No history was rewritten."
-msgstr ""
+msgstr "{0}:n yhdistäminen keskeytettiin, koska se vaatii ristiriitojen ratkaisua. Mitään historiaa ei kirjoitettu uudelleen."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:243
 #, python-brace-format
 msgid "Created a recovery branch for local main: {0}"
-msgstr ""
+msgstr "Luotiin palautushaara paikalliselle main-haaralle: {0}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:288
 msgid "The origin/main branch is required for stable and extra packages."
-msgstr ""
+msgstr "origin/main-haara vaaditaan vakaita ja lisäpaketteja varten."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:310
 #: usr/share/gitrepo/build_package/core/package_operations.py:341
 msgid "Remote refs changed during publication; retrying with their latest commits."
-msgstr ""
+msgstr "Etäviittaukset muuttuivat julkaisun aikana; yritetään uudelleen niiden uusimmilla sitoumuksilla."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:351
 #: usr/share/gitrepo/build_package/core/package_operations.py:403
 msgid "Commit or stash local changes before building a stable package."
-msgstr ""
+msgstr "Tallenna tai piilota paikalliset muutokset ennen vakaan paketin rakentamista."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:358
 msgid ""
@@ -3329,6 +3358,10 @@ msgid ""
 "git merge refs/remotes/origin/main --no-edit (when present)\n"
 "git push origin refs/heads/main:refs/heads/main"
 msgstr ""
+"Synkronoidaanko ja julkaistaanko main-haara ennen sen paketin työnkulun aloittamista?\n"
+"git fetch origin --prune\n"
+"git merge refs/remotes/origin/main --no-edit (kun läsnä)\n"
+"git push origin refs/heads/main:refs/heads/main"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:371
 #: usr/share/gitrepo/build_package/core/package_operations.py:446
@@ -3347,16 +3380,23 @@ msgid ""
 "git push --atomic origin refs/heads/{0}:refs/heads/{0} refs/heads/{0}:refs/heads/main\n"
 "Local-only main commits are preserved in backup/main-before-stable-*."
 msgstr ""
+"Julkaistaanko {0} päähaaran kautta?\n"
+"git fetch origin --prune\n"
+"git checkout {0}\n"
+"git merge refs/remotes/origin/{0} --no-edit (jos saatavilla)\n"
+"git merge refs/remotes/origin/main --no-edit\n"
+"git push --atomic origin refs/heads/{0}:refs/heads/{0} refs/heads/{0}:refs/heads/main\n"
+"Vain paikalliset main-commitit säilytetään kansiossa backup/main-before-stable-*."
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:438
 #, python-brace-format
 msgid "Remote branches {0} and main were published, but local main could not be aligned: {1}"
-msgstr ""
+msgstr "Etähaarat {0} ja main julkaistiin, mutta paikallista main-haaraa ei voitu kohdistaa: {1}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:461
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not switch back to {0}: {1}"
-msgstr "Tiedostoa ei voitu esikatsella: {0}"
+msgstr "Takaisin vaihto haaraan {0} epäonnistui: {1}"
 
 #: usr/share/gitrepo/build_package/core/package_operations.py:473
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:114
@@ -3382,80 +3422,80 @@ msgstr "📦 Paketin rakennusasetukset"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:31
 msgid "Temporarily stash local changes"
-msgstr ""
+msgstr "Piilota paikalliset muutokset väliaikaisesti"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:35
 #, python-brace-format
 msgid "Fetch origin/{0}"
-msgstr ""
+msgstr "Nouda origin/{0}"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:38
 #, python-brace-format
 msgid "Merge origin/{0} into {0}"
-msgstr ""
+msgstr "Yhdistä origin/{0} osaksi {0}"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:49
 msgid "Merge remains incomplete; resolve the listed files manually."
-msgstr ""
+msgstr "Yhdistäminen jää keskeneräiseksi; ratkaise listatut tiedostot manuaalisesti."
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:53
 #, python-brace-format
 msgid "Merge origin/{0} after conflict resolution"
-msgstr ""
+msgstr "Yhdistä origin/{0} konfliktien ratkaisun jälkeen"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:60
 #, python-brace-format
 msgid "Resolved files could not complete the merge: {0}"
-msgstr ""
+msgstr "Ratkotut tiedostot eivät saaneet yhdistämistä loppuun: {0}"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:74
 msgid "Local changes restored."
-msgstr ""
+msgstr "Paikalliset muutokset palautettu."
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:77
 msgid "stashed local changes"
-msgstr ""
+msgstr "tallennettu paikalliset muutokset säilöön"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:87
 #, python-brace-format
 msgid "Local changes remain in the stash: {0}"
-msgstr ""
+msgstr "Paikalliset muutokset jäävät stashiin: {0}"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:99
 msgid "Resolve the existing conflicts before pulling."
-msgstr ""
+msgstr "Ratkaise olemassa olevat konfliktit ennen noutamista."
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:104
 msgid "The current branch has no matching branch on origin."
-msgstr ""
+msgstr "Nykyisellä haaralla ei ole vastaavaa haaraa etäällä originissa."
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:122
 #, python-brace-format
 msgid "Updated to {0}"
-msgstr ""
+msgstr "Päivitetty versioon {0}"
 
 #: usr/share/gitrepo/build_package/core/pull_operations.py:122
 msgid "Already up to date"
-msgstr ""
+msgstr "Jo ajan tasalla"
 
 #: usr/share/gitrepo/build_package/core/repository_lock.py:109
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "This repository is busy with: {0}"
-msgstr "Ei varastoa"
+msgstr "Tämä varasto on varattu toiminnolle: {0}"
 
 #: usr/share/gitrepo/build_package/core/repository_lock.py:110
 msgid "Wait for that operation to finish, then try again."
-msgstr ""
+msgstr "Odota, että toiminto valmistuu, ja yritä sitten uudelleen."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:42
 #, python-brace-format
 msgid "You can only revert commits on your own branch ({0}) or main."
-msgstr ""
+msgstr "Voit palauttaa versioita vain omasta haarastasi ({0}) tai main-haarasta."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:51
 #, python-brace-format
 msgid "Proceed with {0} on {1}?"
-msgstr ""
+msgstr "Jatketaanko {0} kohteessa {1}?"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:57
 #, python-brace-format
@@ -3464,7 +3504,7 @@ msgstr "Sitoumuksen {0} kumoaminen epäonnistui."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:67
 msgid "Shared main branch: only the history-preserving revert method is available."
-msgstr ""
+msgstr "Jaettu päähaara: vain historian säilyttävä palautustapa on käytettävissä."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:70
 #, python-brace-format
@@ -3524,17 +3564,16 @@ msgid "Result"
 msgstr "Tulos"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:156
-#, fuzzy
 msgid "Every tracked file returns to this commit's exact state"
-msgstr "Koodi palautetaan tämän commitin tarkkaan tilaan"
+msgstr "Jokainen seurattu tiedosto palautuu tämän tilauksen tarkkaan tilaan"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:157
 msgid "Files added later"
-msgstr ""
+msgstr "Myöhemmin lisätyt tiedostot"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:157
 msgid "Removed, so the restored state is complete"
-msgstr ""
+msgstr "Poistettu, joten palautettu tila on täydellinen"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:158
 msgid "New Commit"
@@ -3566,13 +3605,12 @@ msgid "Commits after this will be removed from history"
 msgstr "Tätä seuraavat commitit poistetaan historiasta"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:164
-#, fuzzy
 msgid "Uncommitted work"
-msgstr "Sitouttamatta olevia muutoksia"
+msgstr "Tallentamattomat työt"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:164
 msgid "Required to be empty; the operation refuses otherwise"
-msgstr ""
+msgstr "Täytyy olla tyhjä; operaatio kieltäytyy muuten"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:166
 msgid "Revert Preview"
@@ -3601,36 +3639,36 @@ msgid "Error showing preview: {0}"
 msgstr "Esikatselun näyttövirhe: {0}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:254
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not read the repository state: {0}"
-msgstr "Arkiston nimeä ei voitu määrittää."
+msgstr "Varaston tilan lukeminen epäonnistui: {0}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:255
 msgid "Nothing was changed. Resolve the Git error and try again."
-msgstr ""
+msgstr "Mitään ei muutettu. Korjaa Git-virhe ja yritä uudelleen."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:262
 #, python-brace-format
 msgid "{0} uncommitted file(s) would be destroyed by this operation:"
-msgstr ""
+msgstr "{0} vahvistamatonta tiedostoa tuhoutuisi tässä operaatiossa:"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:264
 msgid "Commit or stash them first: git stash push -u"
-msgstr ""
+msgstr "Tallenna tai piilota ne ensin: git stash push -u"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:268
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "A {0} operation is still in progress."
-msgstr "Toimintojen esikatselu"
+msgstr "{0}-toiminto on edelleen käynnissä."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:269
 msgid "Finish or abort it first, then retry."
-msgstr ""
+msgstr "Viimeistele tai keskeytä se ensin ja yritä sitten uudelleen."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:283
 #: usr/share/gitrepo/build_package/core/revert_operations.py:540
 msgid "Operation requires explicit confirmation."
-msgstr ""
+msgstr "Operaatio vaatii nimenomaisen vahvistuksen."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:293
 #, python-brace-format
@@ -3668,14 +3706,14 @@ msgid "Revert completed successfully - code restored to selected commit state"
 msgstr "Peruuttaminen onnistui – koodi palautettu valitun commitin tilaan"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:386
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not read origin/{0}: {1}"
-msgstr "Tiedostoa ei voitu esikatsella: {0}"
+msgstr "Ei voitu lukea origin/{0}: {1}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:390
 #, python-brace-format
 msgid "origin/{0} could not be verified; the remote was left untouched."
-msgstr ""
+msgstr "origin/{0} ei voitu vahvistaa; etävarastoa ei muutettu."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:404
 msgid "Commit exists in remote - force push required"
@@ -3687,6 +3725,8 @@ msgid ""
 "Rewrite origin/{0}, currently at {1}?\n"
 "{2}"
 msgstr ""
+"Kirjoita uudelleen origin/{0}, joka on nyt osoitteessa {1}?\n"
+"{2}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:409
 msgid "Reset completed locally only (remote unchanged)"
@@ -3703,11 +3743,11 @@ msgstr "Nollaus suoritettu ja pakotettu push"
 #: usr/share/gitrepo/build_package/core/revert_operations.py:427
 #, python-brace-format
 msgid "origin/{0} moved since it was read; nothing was overwritten."
-msgstr ""
+msgstr "origin/{0} on siirtynyt lukemisen jälkeen; mitään ei ylikirjoitettu."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:428
 msgid "Review the new commits, then repeat the operation."
-msgstr ""
+msgstr "Tarkista uudet commitit ja toista sitten operaatio."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:440
 msgid "Resetting to previous commit..."
@@ -3716,7 +3756,7 @@ msgstr "Nollataan edelliseen committiin..."
 #: usr/share/gitrepo/build_package/core/revert_operations.py:444
 #, python-brace-format
 msgid "Undo this locally with: git reset --hard {0}"
-msgstr ""
+msgstr "Kumoa tämä paikallisesti komennolla: git reset --hard {0}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:450
 msgid "Reset completed (commit was only local)"
@@ -3741,17 +3781,17 @@ msgstr "Palautuksen työntäminen epäonnistui: {0}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:482
 msgid "The revert commit was created locally and was kept."
-msgstr ""
+msgstr "Paluucommitti luotiin paikallisesti ja se pidettiin."
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:483
 #, python-brace-format
 msgid "Retry publishing it with: git push origin {0}"
-msgstr ""
+msgstr "Yritä julkaista se uudelleen komennolla: git push origin {0}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:501
 #, python-brace-format
 msgid "Restore the previous state with: git reset --hard {0}"
-msgstr ""
+msgstr "Palauta edellinen tila komennolla: git reset --hard {0}"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:513
 msgid "Operation"
@@ -3759,11 +3799,11 @@ msgstr "Toiminto"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:514
 msgid "Target Commit"
-msgstr ""
+msgstr "Kohdecommit"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:515
 msgid "Target Message"
-msgstr ""
+msgstr "Kohdeviesti"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:516
 msgid "Current HEAD"
@@ -3773,19 +3813,19 @@ msgstr "Nykyinen HEAD"
 #: usr/share/gitrepo/build_package/core/revert_operations.py:521
 #: usr/share/gitrepo/build_package/core/revert_operations.py:523
 msgid "Remote"
-msgstr ""
+msgstr "Etä"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:519
 msgid "Force-pushed after explicit confirmation"
-msgstr ""
+msgstr "Pakkopäivitetty nimenomaisen vahvistuksen jälkeen"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:521
 msgid "Unchanged; reset is local only"
-msgstr ""
+msgstr "Muuttumaton; nollaus on vain paikallinen"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:523
 msgid "Updated without rewriting history"
-msgstr ""
+msgstr "Päivitetty uudelleenkirjoittamatta historiaa"
 
 #: usr/share/gitrepo/build_package/core/revert_operations.py:524
 msgid "Operation completed"
@@ -3868,7 +3908,7 @@ msgstr "✓ Ristiriidan ratkaisutapa vaihdettu muotoon: {0}"
 #: usr/share/gitrepo/build_package/core/version_bumper.py:256
 #, python-brace-format
 msgid "Skipping the version bump: {0} is not a regular file inside the repository."
-msgstr ""
+msgstr "Ohitetaan versionkorotus: {0} ei ole tavallinen tiedosto säilytyspaikassa."
 
 #: usr/share/gitrepo/build_package/core/version_bumper.py:246
 msgid "APP_VERSION constant not found. Skipping automatic version bump."
@@ -3886,7 +3926,7 @@ msgstr "APP_VERSION korotettu arvosta {0} arvoon {1} ({2} korotus) tiedostossa {
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:22
 msgid "Repository status is unavailable. Refresh before switching branches."
-msgstr ""
+msgstr "Säilytyspaikan tila ei ole saatavilla. Päivitä ennen haaran vaihtamista."
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:41
 msgid "Uncommitted Changes Detected"
@@ -3895,35 +3935,35 @@ msgstr "Havaitut tallentamattomat muutokset"
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:43
 #, python-brace-format
 msgid "You have uncommitted changes. Preserve them with {0}, or discard them with {1}."
-msgstr ""
+msgstr "Sinulla on tallentamattomia muutoksia. Säilytä ne {0}, tai hylkää ne {1}."
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:75
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:102
 #, python-brace-format
 msgid "Current: {0}"
-msgstr ""
+msgstr "Nykyinen: {0}"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:80
 #, python-brace-format
 msgid "Switch to: {0}"
-msgstr ""
+msgstr "Vaihda: {0}"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:90
 msgid "Discard files and switch"
-msgstr ""
+msgstr "Hylkää tiedostot ja vaihda"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:91
 msgid "Preserve files and switch"
-msgstr ""
+msgstr "Säilytä tiedostot ja vaihda"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:125
 msgid "Opening another branch"
-msgstr ""
+msgstr "Avataan toinen haara"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:126
 #, python-brace-format
 msgid "Running git checkout for '{0}'..."
-msgstr ""
+msgstr "Suoritetaan git checkout kohteelle '{0}'..."
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:148
 #, python-brace-format
@@ -3937,20 +3977,23 @@ msgid ""
 "\n"
 "{2}"
 msgstr ""
+"Haaraa '{0}' ei ole vielä olemassa. Luodaanko se kohteesta '{1}' ja julkaistaanko se?\n"
+"\n"
+"{2}"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:185
 #, python-brace-format
 msgid "{0} (new)"
-msgstr ""
+msgstr "{0} (uusi)"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:193
 #, python-brace-format
 msgid "This will copy all code from '{0}' to the new '{1}' branch"
-msgstr ""
+msgstr "Tämä kopioi kaiken koodin kohteesta '{0}' uuteen '{1}'-haaraan"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:204
 msgid "Create and publish branch"
-msgstr ""
+msgstr "Luo ja julkaise haara"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:222
 msgid "Creating Branch"
@@ -3963,28 +4006,28 @@ msgstr "Luodaan '{0}' haarasta '{1}' ja työnnetään..."
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:230
 msgid "Propose branch integration?"
-msgstr ""
+msgstr "Ehdotetaanko haaran integrointia?"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:232
 msgid "open a Pull Request on GitHub; this does not run git merge on your computer"
-msgstr ""
+msgstr "avaa Pull Request GitHubiin; tämä ei suorita git merge -komentoa tietokoneellasi"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:268
 msgid "✓ Auto-merge enabled"
-msgstr ""
+msgstr "✓ Automaattinen yhdistäminen käytössä"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:270
 msgid "Manual approval required"
-msgstr ""
+msgstr "Manuaalinen hyväksyntä vaaditaan"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:280
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:234
 msgid "Open Pull Request"
-msgstr ""
+msgstr "Avaa Pull Request"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:302
 msgid "Opening Pull Request"
-msgstr ""
+msgstr "Avataan Pull Requestia"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:303
 #, python-brace-format
@@ -3993,28 +4036,28 @@ msgstr "{0}: {1} → {2}"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:318
 msgid "Removing old branches"
-msgstr ""
+msgstr "Poistetaan vanhoja haaroja"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:319
 msgid "Running the reviewed git branch and git push deletion commands..."
-msgstr ""
+msgstr "Suoritetaan tarkastetut git branch- ja git push -poistokomennot..."
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:332
 msgid "Removing workflow runs"
-msgstr ""
+msgstr "Poistetaan työnkulkusuorituksia"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:333
 #, python-brace-format
 msgid "delete {0} GitHub Actions runs"
-msgstr ""
+msgstr "poista {0} GitHub Actions -suoritukset"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:344
 msgid "Removing remote tags"
-msgstr ""
+msgstr "Poistetaan etätunnisteita"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:345
 msgid "delete all remote tag references; local tags are unchanged"
-msgstr ""
+msgstr "poista kaikki etätunnisteiden viittaukset; paikalliset tunnisteet pysyvät muuttumattomina"
 
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:357
 msgid "Reverting Commit"
@@ -4095,9 +4138,9 @@ msgid "Resolved {0} of {1} conflicts"
 msgstr "Ratkaistu {0} / {1} ristiriidasta"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:381
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Opening {0}. After editing, click 'Mark as Edited' to continue."
-msgstr "Tiedosto avattu {0}. Muokkauksen jälkeen napsauta 'Merkitse muokatuksi' jatkaaksesi."
+msgstr "Avataan {0}. Muokkauksen jälkeen klikkaa 'Merkitse muokatuksi' jatkaaksesi."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:426
 #, python-brace-format
@@ -4116,19 +4159,19 @@ msgstr "Vertaa: {0}"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:461
 msgid "◀ LOCAL (Your Version)"
-msgstr ""
+msgstr "◀ PAIKALLINEN (Sinun versiosi)"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:472
 msgid "REMOTE (Server) ▶"
-msgstr ""
+msgstr "ETÄ (Palvelin) ▶"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:491
 msgid "📁 LOCAL VERSION"
-msgstr ""
+msgstr "📁 PAIKALLINEN VERSIO"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:525
 msgid "☁️ REMOTE VERSION"
-msgstr ""
+msgstr "☁️ ETÄVERSIO"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:581
 msgid "✓ Use LOCAL Version"
@@ -4156,7 +4199,7 @@ msgstr "Kaikki ristiriidat ratkaistu (hyväksytty etäversiot)"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:713
 msgid "Delete files to resolve conflicts?"
-msgstr ""
+msgstr "Poistetaanko tiedostoja konfliktien ratkaisemiseksi?"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:714
 #, python-brace-format
@@ -4164,10 +4207,12 @@ msgid ""
 "The selected versions delete these files:\n"
 "{0}"
 msgstr ""
+"Valitut versiot poistavat nämä tiedostot:\n"
+"{0}"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:719
 msgid "Delete and Apply"
-msgstr ""
+msgstr "Poista ja käytä"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:848
 #, python-brace-format
@@ -4210,13 +4255,12 @@ msgid "Untracked"
 msgstr "Seurantaton"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:20
-#, fuzzy
 msgid "Added and modified"
-msgstr "Lisätty+Muokattu"
+msgstr "Lisätty ja muokattu"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:21
 msgid "Modified in index and working tree"
-msgstr ""
+msgstr "Muokattu indeksissä ja työhakemistossa"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:37
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:553
@@ -4224,20 +4268,18 @@ msgstr ""
 msgid "{0} changed file(s)"
 msgstr "{0} muutettu tiedosto(t)"
 
-#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:96
-#, fuzzy
-msgid "File differences"
-msgstr "Tiedostojen eroja ei voitu analysoida"
-
-#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:100
-#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:141
-#, fuzzy
-msgid "No changed files to display."
-msgstr "Ei muutoksia tallennettavaksi"
-
 #: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:106
+msgid "File differences"
+msgstr "Tiedostoerot"
+
+#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:110
+#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:151
+msgid "No changed files to display."
+msgstr "Ei näytettäviä muuttuneita tiedostoja."
+
+#: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py:116
 msgid "No textual differences to display."
-msgstr ""
+msgstr "Ei näytettäviä tekstierovuuksia."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/preview_dialog.py:28
 #, python-brace-format
@@ -4263,12 +4305,12 @@ msgstr "Seuraavat toiminnot suoritetaan:"
 #: usr/share/gitrepo/build_package/gui/dialogs/preview_dialog.py:124
 #, python-brace-format
 msgid "✓ {0} safe operations"
-msgstr ""
+msgstr "✓ {0} turvalliset toimenpiteet"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/preview_dialog.py:131
 #, python-brace-format
 msgid "⚠ {0} destructive operations"
-msgstr ""
+msgstr "⚠ {0} tuhoisat toimenpiteet"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/preview_dialog.py:148
 msgid "Proceed"
@@ -4276,24 +4318,23 @@ msgstr "Jatka"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:30
 msgid "Operation Progress"
-msgstr ""
+msgstr "Toimenpiteen edistyminen"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:68
 msgid "Running"
-msgstr ""
+msgstr "Suoritetaan"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:101
 msgid "Initializing..."
 msgstr "Alustetaan..."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:122
-#, fuzzy
 msgid "Operation progress"
-msgstr "Toimintojen esikatselu"
+msgstr "Toiminnan edistyminen"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:342
 msgid "The operation did not complete. The log below states the cause and what to do next."
-msgstr ""
+msgstr "Toiminto ei onnistunut. Alla olevassa lokissa kerrotaan syy ja mitä tehdä seuraavaksi."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:369
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:564
@@ -4317,28 +4358,27 @@ msgid "Open in GitHub"
 msgstr "Avaa GitHubissa"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:459
-#, fuzzy
 msgid "One operation at a time"
-msgstr "Toimintojen esikatselu"
+msgstr "Yksi toiminto kerrallaan"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:460
 #, python-brace-format
 msgid "“{0}” cannot start while another operation is still running."
-msgstr ""
+msgstr "”{0}” ei voi käynnistyä, kun toinen toiminto on vielä käynnissä."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:547
 #, python-brace-format
 msgid "The commit {0} exists locally on {1}."
-msgstr ""
+msgstr "Tietueversio {0} on olemassa paikallisesti kohteessa {1}."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:551
 #, python-brace-format
 msgid "The branch {0} exists locally."
-msgstr ""
+msgstr "Haara {0} on olemassa paikallisesti."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:553
 msgid "The local part of this operation was kept."
-msgstr ""
+msgstr "Tämän toiminnon paikallinen osuus säilytettiin."
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:554
 #, python-brace-format
@@ -4346,6 +4386,8 @@ msgid ""
 "{0}\n"
 "The remote was not changed. Retry with: {1}"
 msgstr ""
+"{0}\n"
+"Etävarastoa ei muutettu. Yritä uudelleen komennolla: {1}"
 
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:570
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:592
@@ -4360,7 +4402,7 @@ msgstr "Toiminto peruutettu"
 
 #: usr/share/gitrepo/build_package/gui/gtk_adapters.py:125
 msgid "Select an option."
-msgstr ""
+msgstr "Valitse vaihtoehto."
 
 #: usr/share/gitrepo/build_package/gui/gtk_logger.py:89
 #: usr/share/gitrepo/common/rich_logger.py:66
@@ -4393,23 +4435,22 @@ msgstr "Tietoja Build-paketista"
 
 #: usr/share/gitrepo/build_package/gui/main_gui.py:253
 msgid "Open behavior settings"
-msgstr ""
+msgstr "Avaa käyttäytymisen asetukset"
 
 #: usr/share/gitrepo/build_package/gui/main_gui.py:256
 #: usr/share/gitrepo/build_package/gui/main_window.py:234
 msgid "Publish Changes"
-msgstr ""
+msgstr "Julkaise muutokset"
 
 #: usr/share/gitrepo/build_package/gui/main_gui.py:257
 #: usr/share/gitrepo/build_package/gui/main_window.py:235
 msgid "Organize Branches"
-msgstr ""
+msgstr "Järjestä haarat"
 
 #: usr/share/gitrepo/build_package/gui/main_gui.py:258
 #: usr/share/gitrepo/build_package/gui/main_window.py:236
-#, fuzzy
 msgid "Packages"
-msgstr "AUR-paketit"
+msgstr "Paketit"
 
 #: usr/share/gitrepo/build_package/gui/main_gui.py:299
 #, python-brace-format
@@ -4428,15 +4469,15 @@ msgstr "Vakava GUI-virhe: {0}"
 #: usr/share/gitrepo/build_package/gui/main_window.py:43
 #: usr/share/gitrepo/build_package/gui/main_window.py:517
 msgid "Checking repository…"
-msgstr ""
+msgstr "Tarkistetaan varastoa…"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:117
 msgid "GitHub"
-msgstr ""
+msgstr "GitHub"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:142
 msgid "Start Here"
-msgstr ""
+msgstr "Aloita tästä"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:198
 #, python-brace-format
@@ -4444,31 +4485,28 @@ msgid "Failed to initialize: {0}"
 msgstr "Alustaminen epäonnistui: {0}"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:215
-#, fuzzy
 msgid "Build and publish packages"
-msgstr "Rakenna AUR-paketti"
+msgstr "Rakenna ja julkaise paketit"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:216
 msgid "Start a build on GitHub Actions from this repository or from a community source."
-msgstr ""
+msgstr "Käynnistä rakennus GitHub Actionsissa tästä varastosta tai yhteisön lähteestä."
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:218
-#, fuzzy
 msgid "This repository"
-msgstr "Ei varastoa"
+msgstr "Tämä arkisto"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:219
-#, fuzzy
 msgid "AUR"
-msgstr "AUR-URL"
+msgstr "AUR"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:226
 msgid "Settings and repository maintenance"
-msgstr ""
+msgstr "Asetukset ja varaston ylläpito"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:227
 msgid "Local Git behavior, GitHub access, and the destructive operations that need confirmation."
-msgstr ""
+msgstr "Paikallinen Git-käyttäytyminen, GitHub-pääsy ja vahvistusta vaativat tuhoavat toiminnot"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:383
 msgid "No repository"
@@ -4477,7 +4515,7 @@ msgstr "Ei varastoa"
 #: usr/share/gitrepo/build_package/gui/main_window.py:385
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:403
 msgid "Local Git repository"
-msgstr ""
+msgstr "Paikallinen Git-varasto"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:386
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:257
@@ -4486,7 +4524,7 @@ msgstr ""
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:432
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:375
 msgid "Detached HEAD"
-msgstr ""
+msgstr "Irrallinen HEAD"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:386
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:257
@@ -4499,12 +4537,12 @@ msgstr "Tuntematon"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:394
 msgid "Refreshing status…"
-msgstr ""
+msgstr "Päivitetään tilaa…"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:521
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:63
 msgid "Checking…"
-msgstr ""
+msgstr "Tarkistetaan…"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:550
 #, python-brace-format
@@ -4513,7 +4551,7 @@ msgstr "Tee commit ({0} odottavat muutokset)"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:552
 msgid "Commit (status unavailable)"
-msgstr ""
+msgstr "Kommitoin (tila ei saatavilla)"
 
 #: usr/share/gitrepo/build_package/gui/main_window.py:554
 msgid "Commit"
@@ -4532,6 +4570,11 @@ msgid ""
 "\n"
 "{1}"
 msgstr ""
+"Olet kommitoimassa suoraan kohteeseen '{0}'.\n"
+"\n"
+"Tämä on yleensä suojattu. Harkitse kehityshaarasi käyttämistä sen sijaan.\n"
+"\n"
+"{1}"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:69
 msgid "Confirm Commit Branch"
@@ -4540,12 +4583,12 @@ msgstr "Vahvista commit-haara"
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:71
 #, python-brace-format
 msgid "Choose where to publish your changes. {0}"
-msgstr ""
+msgstr "Valitse, mihin julkaiset muutoksesi. {0}"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:107
 #, python-brace-format
 msgid "Your dev branch: {0}"
-msgstr ""
+msgstr "Kehityshaarasi: {0}"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:118
 #, python-brace-format
@@ -4568,72 +4611,72 @@ msgstr "Tee commit haaraan {0}"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:160
 msgid "Preparing and publishing changes"
-msgstr ""
+msgstr "Valmistellaan ja julkaistaan muutoksia"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:161
 #, python-brace-format
 msgid "Switching to {0}, then running the publish command sequence..."
-msgstr ""
+msgstr "Vaihdetaan kohteeseen {0}, sitten suoritetaan julkaisukomento sekvenssi..."
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:172
 msgid "Publishing changes"
-msgstr ""
+msgstr "Julkaistaan muutoksia"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:173
 #, python-brace-format
 msgid "Running git add, git commit, and git push for {0}..."
-msgstr ""
+msgstr "Suoritetaan git add, git commit ja git push kohteelle {0}..."
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:197
 msgid "Downloading updates"
-msgstr ""
+msgstr "Ladataan päivityksiä"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:198
 msgid "Running git fetch and git merge for the current branch..."
-msgstr ""
+msgstr "Suoritetaan git fetch ja git merge nykyiselle haaralle..."
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:207
 msgid "Repository is already up to date"
-msgstr ""
+msgstr "Arkisto on jo ajan tasalla"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:212
 msgid "Changes received from the remote"
-msgstr ""
+msgstr "Muutoksia vastaanotettu etäpalvelimelta"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:223
 msgid "Undoing the last commit"
-msgstr ""
+msgstr "Peruutetaan viimeisin kommitti"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:224
 msgid "Running git reset HEAD~1 and keeping the files changed..."
-msgstr ""
+msgstr "Suoritetaan git reset HEAD~1 ja säilytetään muuttuneet tiedostot..."
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:245
 msgid "Starting package workflow"
-msgstr ""
+msgstr "Käynnistetään pakettityönkulku"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:246
 #, python-brace-format
 msgid "build and publish the {0} package"
-msgstr ""
+msgstr "rakennetaan ja julkaistaan {0} paketti"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:267
 msgid "Publishing changes and starting package workflow"
-msgstr ""
+msgstr "Julkaistaan muutoksia ja käynnistetään pakettityönkulku"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:268
 #, python-brace-format
 msgid "Running the Git publish sequence, then asking GitHub Actions to build {0}..."
-msgstr ""
+msgstr "Suoritetaan Git-julkaisusarja, sitten pyydetään GitHub Actionsia rakentamaan {0}..."
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:282
 msgid "Starting AUR workflow"
-msgstr ""
+msgstr "Käynnistetään AUR-työnkulku"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:283
 #, python-brace-format
 msgid "clone and build the AUR package {0}"
-msgstr ""
+msgstr "kloonataan ja rakennetaan AUR-paketti {0}"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:323
 msgid "GitHub Token Setup"
@@ -4683,7 +4726,7 @@ msgstr "Käyttäjänimi ja tunnus vaaditaan"
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:393
 msgid "The token could not be saved in the system keyring. Check that the keyring is unlocked and try again."
-msgstr ""
+msgstr "Tunnusta ei voitu tallentaa järjestelmän avainnippuun. Tarkista, että avainnippu on avattu ja yritä uudelleen."
 
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:404
 msgid "✓ Token saved successfully"
@@ -4691,11 +4734,11 @@ msgstr "✓ Tunnus tallennettu onnistuneesti"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:92
 msgid "Maintain and restore the repository"
-msgstr ""
+msgstr "Ylläpidä ja palauta arkisto"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:94
 msgid "Remove obsolete references or return files and history to an earlier point. Every destructive command requires confirmation."
-msgstr ""
+msgstr "Poista vanhentuneet viittaukset tai palauta tiedostot ja historia aikaisempaan pisteeseen. Jokainen tuhoava komento vaatii vahvistuksen."
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:104
 msgid "Warning: These operations can be destructive"
@@ -4706,33 +4749,32 @@ msgid "Cleanup Operations"
 msgstr "Siivoustoiminnot"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:113
-#, fuzzy
 msgid "Remove obsolete GitHub Actions runs and remote tags"
-msgstr "Poista vanhat haarat, toiminnot ja tagit"
+msgstr "Poista vanhentuneet GitHub Actions -ajot ja etätägit"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:118
 msgid "Remove failed workflow runs"
-msgstr ""
+msgstr "Poista epäonnistuneet työnkulkusuoritukset"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:119
 msgid "delete failed GitHub Actions runs; no Git command is used"
-msgstr ""
+msgstr "poista epäonnistuneet GitHub Actions -suoritukset; Git-komentoja ei käytetä"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:125
 msgid "Remove successful workflow runs"
-msgstr ""
+msgstr "Poista onnistuneet työnkulkuajot"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:126
 msgid "delete successful GitHub Actions runs; no Git command is used"
-msgstr ""
+msgstr "Poista onnistuneet GitHub Actions -ajot; Git-komentoa ei käytetä"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:132
 msgid "Remove all remote tags"
-msgstr ""
+msgstr "Poista kaikki etätagit"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:133
 msgid "delete refs/tags through the GitHub API; local tags are unchanged"
-msgstr ""
+msgstr "Poistaa refs/tags-viittaukset GitHub-rajapinnan kautta; paikalliset tagit pysyvät ennallaan"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:154
 msgid "Commit History"
@@ -4744,15 +4786,15 @@ msgstr "Näytä ja peruuta viimeisimmät commitit"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:174
 msgid "How to return to the selected commit"
-msgstr ""
+msgstr "Miten palata valittuun sitoumukseen"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:179
 msgid "Restore files with a new commit"
-msgstr ""
+msgstr "Palauta tiedostot uudella sitoumuksella"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:180
 msgid "Move history back and delete newer commits"
-msgstr ""
+msgstr "Siirrä historia taaksepäin ja poista uudemmat sitoumukset"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:201
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:215
@@ -4762,7 +4804,7 @@ msgstr "Päivitä"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:207
 msgid "Return to selected commit"
-msgstr ""
+msgstr "Palauta valittuun sitoumukseen"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:232
 msgid "No commits yet"
@@ -4775,11 +4817,11 @@ msgstr "Tee ensimmäinen commit nähdäksesi historian"
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:237
 #, python-brace-format
 msgid "{0} branch(es) and {1} commit(s) in the current branch."
-msgstr ""
+msgstr "{0} haaraa ja {1} sitoumusta nykyisessä haarautumassa."
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:295
 msgid "restore"
-msgstr ""
+msgstr "palauta"
 
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:295
 msgid "reset"
@@ -4801,30 +4843,37 @@ msgid ""
 "\n"
 "{3}"
 msgstr ""
+"Oletko varma, että haluat {0} tämän sitoumuksen?\n"
+"\n"
+"{1}\n"
+"\n"
+"Sitoumus: {2}\n"
+"\n"
+"{3}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:43
 msgid "Build a package from the AUR"
-msgstr ""
+msgstr "Rakenna paketti AUR:stä"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:45
 msgid "Choose a community-maintained package. GitHub Actions downloads its AUR repository and builds it; no local Git command is run."
-msgstr ""
+msgstr "Valitse yhteisön ylläpitämä paketti. GitHub Actions lataa sen AUR-arkiston ja rakentaa sen; paikallista Git-komentoa ei suoriteta."
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:54
 msgid "GitHub AUR workflow"
-msgstr ""
+msgstr "GitHub AUR -työnkulku"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:56
 msgid "This optional feature asks GitHub Actions to download a community package recipe and build it remotely."
-msgstr ""
+msgstr "Tämä valinnainen toiminto pyytää GitHub Actionsia lataamaan yhteisön pakettiohjeen ja rakentamaan sen etänä."
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:59
 msgid "Enable AUR package builds"
-msgstr ""
+msgstr "Ota AUR-pakettien rakennukset käyttöön"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:62
 msgid "Show the AUR package form below. Running it requires a GitHub access token; no local Git branch is created."
-msgstr ""
+msgstr "Näytä AUR-pakettilomake alla. Sen suorittaminen vaatii GitHub-pääsytunnuksen; paikallista Git-haaraa ei luoda."
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:74
 msgid "AUR packages are built from community-maintained sources"
@@ -4840,15 +4889,15 @@ msgstr "Pakettitiedot"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:85
 msgid "What an AUR build does"
-msgstr ""
+msgstr "Mitä AUR-rakennus tekee"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:87
 msgid "The workflow clones the package recipe from the Arch User Repository and builds it on GitHub. Nothing is compiled on this computer, and the recipe is maintained by the community, not by BigCommunity."
-msgstr ""
+msgstr "Työnkulku kloonaa pakettireseptin Arch User Repository -arkistosta ja rakentaa sen GitHubissa. Mitään ei käännetä tällä tietokoneella, ja reseptiä ylläpitää yhteisö, ei BigCommunity."
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:93
 msgid "The package name determines the community source URL used by the build."
-msgstr ""
+msgstr "Paketin nimi määrittää rakennuksessa käytettävän yhteisölähteen URL-osoitteen."
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:96
 msgid "AUR Package Name"
@@ -4864,7 +4913,7 @@ msgstr "Rakennusasetukset"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:118
 msgid "Optional diagnostics for the AUR build job."
-msgstr ""
+msgstr "Valinnaiset diagnostiikkatoiminnot AUR-rakennustyölle."
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:121
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:300
@@ -4882,20 +4931,20 @@ msgstr "Rakennuksen yhteenveto"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:131
 msgid "clone the selected AUR source and build it in BigCommunity infrastructure"
-msgstr ""
+msgstr "kloonaa valitun AUR-lähteen ja rakenna se BigCommunity-infrastruktuurissa"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:144
 msgid "Execution method"
-msgstr ""
+msgstr "Suoritustapa"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:149
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:268
 msgid "GitHub Actions workflow — no local branch is created"
-msgstr ""
+msgstr "GitHub Actions -työnkulku — paikallista haaraa ei luoda"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:166
 msgid "Start AUR workflow"
-msgstr ""
+msgstr "Käynnistä AUR-työnkulku"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:220
 msgid "Enter package name above"
@@ -4908,7 +4957,7 @@ msgstr "Vahvista AUR-rakennus"
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:283
 #, python-brace-format
 msgid "Package: {0}"
-msgstr ""
+msgstr "Paketti: {0}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:293
 msgid "This will:"
@@ -4916,41 +4965,40 @@ msgstr "Tämä tekee:"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:300
 msgid "• No local Git command or branch will be created"
-msgstr ""
+msgstr "• Paikallista Git-komentoa tai -haaraa ei luoda"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:301
 #, python-brace-format
 msgid "• GitHub Actions clones: {0}"
-msgstr ""
+msgstr "• GitHub Actions kloonaa: {0}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:302
 msgid "• The workflow builds the package in BigCommunity infrastructure"
-msgstr ""
+msgstr "• Työnkulku rakentaa paketin BigCommunity-infrastruktuurissa"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:39
 msgid "Checked out right now"
-msgstr ""
+msgstr "Haettu juuri nyt"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
-#, fuzzy
 msgid "Current"
-msgstr "Nykyinen koodi"
+msgstr "Nykyinen"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:52
 msgid "Only on origin; created locally on first checkout"
-msgstr ""
+msgstr "Vain originissa; luotu paikallisesti ensimmäisellä checkoutilla"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:56
 msgid "Exists only on origin; it is created locally on first checkout"
-msgstr ""
+msgstr "On vain originissa; se luodaan paikallisesti ensimmäisellä checkoutilla"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:91
 msgid "Organize lines of work"
-msgstr ""
+msgstr "Järjestä työhaaroja"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:93
 msgid "Switch branches with git checkout, publish new branches with git push, or propose integration on GitHub."
-msgstr ""
+msgstr "Vaihda haaraa komennolla git checkout, julkaise uusia haaroja komennolla git push tai ehdota integraatiota GitHubissa."
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:103
 msgid "Current Status"
@@ -4958,7 +5006,7 @@ msgstr "Nykyinen tila"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:104
 msgid "Shows the active branch and the most recently updated local branch."
-msgstr ""
+msgstr "Näyttää aktiivisen haaran ja viimeksi päivitetyn paikallisen haaran."
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:107
 msgid "Active Branch"
@@ -4978,35 +5026,35 @@ msgstr "Saatavilla olevat haarat"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:129
 msgid "Selecting another branch runs git checkout BRANCH; remote-only branches are created locally first."
-msgstr ""
+msgstr "Toisen haaran valinta suorittaa komennon git checkout BRANCH; vain alkuperäällä olevat haarat luodaan ensin paikallisesti."
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:152
 msgid "Return to the main line of development with an explicit Git command."
-msgstr ""
+msgstr "Palaa pääkehityshaaraan eksplisiittisellä Git-komennolla."
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:156
 msgid "Return to the main branch"
-msgstr ""
+msgstr "Palaa päähaaraan"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:162
 msgid "Open main"
-msgstr ""
+msgstr "Avaa päähaara"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:174
 msgid "Propose branch integration"
-msgstr ""
+msgstr "Ehdota haaran integraatiota"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:177
 msgid "How integration works"
-msgstr ""
+msgstr "Miten integraatio toimii"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:179
 msgid "The source branch is the one carrying your work; the target is where it should land. GitRepo opens a pull request on GitHub instead of merging locally, so the review and the checks still run."
-msgstr ""
+msgstr "Lähdehaara on se, jossa työsi sijaitsee; kohdehaara on sinne, mihin sen pitäisi päätyä. GitRepo avaa pull requestin GitHubissa sen sijaan, että yhdistäisi paikallisesti, joten tarkistus ja testit suoritetaan silti."
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:186
 msgid "open a Pull Request from the source branch to the target branch"
-msgstr ""
+msgstr "avaa Pull Request lähdehaarasta kohdehaaraan"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:192
 msgid "Branch to merge from"
@@ -5026,61 +5074,59 @@ msgstr "Päivitä haaralista"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:222
 msgid "Remove old branches"
-msgstr ""
+msgstr "Poista vanhat haarat"
 
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:259
 msgid "Not available"
-msgstr ""
+msgstr "Ei saatavilla"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:21
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:29
-#, fuzzy
 msgid "Checking"
-msgstr "Tarkistetaan..."
+msgstr "Tarkistetaan"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:23
 msgid "Attention"
-msgstr ""
+msgstr "Huomio"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:24
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:32
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:438
 msgid "Unavailable"
-msgstr ""
+msgstr "Poissa käytöstä"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:30
 msgid "Ready"
-msgstr ""
+msgstr "Valmis"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:31
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:562
-#, fuzzy
 msgid "Pending changes"
-msgstr "Tee commit ({0} odottavat muutokset)"
+msgstr "Odottavat muutokset"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:131
 msgid "Refresh repository status"
-msgstr ""
+msgstr "Päivitä varaston tila"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:136
 msgid "Publish your work"
-msgstr ""
+msgstr "Julkaise työsi"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:137
 msgid "Review what changed, describe it, and send it to a remote branch."
-msgstr ""
+msgstr "Tarkista mitä muuttui, kuvaile se ja lähetä etähaaralle."
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:150
 msgid "Pending files and history"
-msgstr ""
+msgstr "Odottavat tiedostot ja historia"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:151
 msgid "Review what will be recorded before writing the commit."
-msgstr ""
+msgstr "Tarkista mitä tallennetaan ennen commitin kirjoittamista."
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:154
 msgid "What publishing runs"
-msgstr ""
+msgstr "Mitä julkaiseminen suorittaa"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:155
 #, python-brace-format
@@ -5089,6 +5135,9 @@ msgid ""
 "\n"
 "Publish changes: {1}"
 msgstr ""
+"Lataa päivitykset: {0}\n"
+"\n"
+"Julkaise muutokset: {1}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:164
 msgid "Last Commit"
@@ -5100,7 +5149,7 @@ msgstr "Ei commit-tietoja"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:174
 msgid "Undo the last commit and keep its files changed — git reset HEAD~1"
-msgstr ""
+msgstr "Kumoa viimeinen commit ja pidä sen tiedostot muuttuneina — git reset HEAD~1"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:185
 msgid "Changed Files"
@@ -5111,13 +5160,12 @@ msgid "Click to view files"
 msgstr "Napsauta nähdäksesi tiedostot"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:194
-#, fuzzy
 msgid "Describe the commit"
-msgstr "Kumoa commit"
+msgstr "Kuvaile commit"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:195
 msgid "The type prefixes the message recorded by Git."
-msgstr ""
+msgstr "Tyyppi etuliittää Gitin tallentaman viestin."
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:202
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:215
@@ -5125,9 +5173,8 @@ msgid "Commit Type"
 msgstr "Commit-tyyppi"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:205
-#, fuzzy
 msgid "Required — select the type of change"
-msgstr "Valitse muutoksen tyyppi"
+msgstr "Pakollinen — valitse muutoksen tyyppi"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:232
 msgid "Description (supports multiple lines)"
@@ -5149,21 +5196,21 @@ msgstr "Kuvaus kohteelle {0} (tukee useita rivejä)"
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:407
 #, python-brace-format
 msgid "{0} • branch {1} • status unavailable"
-msgstr ""
+msgstr "{0} • haara {1} • tila ei saatavilla"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:409
 #, python-brace-format
 msgid "{0} • branch {1} • {2} changed file(s)"
-msgstr ""
+msgstr "{0} • haara {1} • {2} muuttunutta tiedostoa"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:410
 #, python-brace-format
 msgid "{0} • branch {1} • working tree clean"
-msgstr ""
+msgstr "{0} • haara {1} • työhakemisto puhdas"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:423
 msgid "Branch"
-msgstr ""
+msgstr "Haara"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:424
 msgid "Changes"
@@ -5174,29 +5221,28 @@ msgid "Commits"
 msgstr "Commitit"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:437
-#, fuzzy
 msgid "Status unavailable"
-msgstr "{0} (käytettävissä)"
+msgstr "Tila ei saatavilla"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:440
 msgid "Repository status unavailable"
-msgstr ""
+msgstr "Arkiston tilaa ei saatavilla"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:443
 msgid "Commit count may be stale"
-msgstr ""
+msgstr "Välitysmäärä saattaa olla vanhentunut"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:447
 msgid "Active branch detected"
-msgstr ""
+msgstr "Aktiivinen haara havaittu"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:448
 msgid "Commit history available"
-msgstr ""
+msgstr "Välityshistoria saatavilla"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:453
 msgid "Ready to publish"
-msgstr ""
+msgstr "Valmis julkaistavaksi"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:455
 msgid "No changes"
@@ -5204,45 +5250,43 @@ msgstr "Ei muutoksia"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:456
 msgid "Working tree clean"
-msgstr ""
+msgstr "Työhakemisto puhdas"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:464
 msgid "Nothing to publish"
-msgstr ""
+msgstr "Ei mitään julkaistavaa"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:465
 #, python-brace-format
 msgid "The working tree on {0} is clean."
-msgstr ""
+msgstr "Työhakemisto kohteessa {0} on puhdas."
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:468
 msgid "choose a type"
-msgstr ""
+msgstr "valitse tyyppi"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:470
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "{0} • {1} file(s) • branch {2}"
-msgstr "{0}: {1} → {2}"
+msgstr "{0} • {1} tiedosto(a) • haara {2}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:473
-#, fuzzy
 msgid "commit type"
-msgstr "Commit-tyyppi"
+msgstr "commit-tyyppi"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:475
-#, fuzzy
 msgid "description"
-msgstr "Versio"
+msgstr "kuvaus"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:477
 #, python-brace-format
 msgid "Still missing: {0}"
-msgstr ""
+msgstr "Yhä puuttuu: {0}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:479
 #, python-brace-format
 msgid "git add -A → git commit → git push origin {0}"
-msgstr ""
+msgstr "git add -A → git commit → git push origin {0}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:524
 msgid "Added+Modified"
@@ -5272,42 +5316,40 @@ msgstr "Kumoa sitoumus"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:59
 msgid "Build and publish a package"
-msgstr ""
+msgstr "Rakenna ja julkaise paketti"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:60
 msgid "Choose a destination and start a build on GitHub Actions."
-msgstr ""
+msgstr "Valitse kohde ja käynnistä rakennus GitHub Actionsissa."
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:68
 msgid "GitHub package workflow"
-msgstr ""
+msgstr "GitHub-paketin työnkulku"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:73
 msgid "Enable package generation"
-msgstr ""
+msgstr "Ota paketin luonti käyttöön"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:74
 msgid "Requires a GitHub access token."
-msgstr ""
+msgstr "Vaatii GitHub-pääsytunnisteen."
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:78
-#, fuzzy
 msgid "Before publishing a package"
-msgstr "Pakotettu push käynnissä..."
+msgstr "Ennen paketin julkaisua"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:79
 #, python-brace-format
 msgid "Pending files must be committed first: {0}"
-msgstr ""
+msgstr "Odottavat tiedostot on vietävä ensin: {0}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:95
-#, fuzzy
 msgid "Package generation is off"
-msgstr "Pakettien luonti"
+msgstr "Paketin luonti on pois päältä"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:98
 msgid "Turn it on to publish this repository to the testing, stable, or extra repository. The build runs on GitHub Actions and needs an access token; nothing is compiled here."
-msgstr ""
+msgstr "Ota tämä käyttöön julkaistaksesi tämä repositorio testaus-, vakaa- tai lisävarastoon. Kokoelma suoritetaan GitHub Actionsissa ja tarvitsee pääsytunnisteen; mitään ei käännetä täällä."
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:110
 msgid "Repository Status"
@@ -5315,7 +5357,7 @@ msgstr "Repositorion tila"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:111
 msgid "Confirms the package, branch, and working tree used by the workflow."
-msgstr ""
+msgstr "Vahvistaa työnkulun käyttämän paketin, haaran ja työhakemiston."
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:130
 msgid "Changes Status"
@@ -5327,23 +5369,23 @@ msgstr "Kohdearkisto"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:144
 msgid "Which repository to publish to"
-msgstr ""
+msgstr "Mihin varastoon julkaistaan"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:146
 msgid "Testing receives packages for validation and is built from your development branch. Stable is what users install, and it is always built from main. Extra holds complementary packages that follow the same stable rules."
-msgstr ""
+msgstr "Testing vastaanottaa paketteja validointia varten ja kootaan kehityshaarastasi. Stable on mitä käyttäjät asentavat, ja se kootaan aina päähaarasta. Extra sisältää täydentäviä paketteja, jotka noudattavat samoja Stable-sääntöjä."
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:153
 msgid "build the package and publish it to the selected repository"
-msgstr ""
+msgstr "Rakenna paketti ja julkaise se valittuun varastoon"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:161
 msgid "Validate the package before a stable release"
-msgstr ""
+msgstr "Validoi paketti ennen vakaata julkaisua"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:164
 msgid "Publish the package for all users"
-msgstr ""
+msgstr "Julkaise paketti kaikille käyttäjille"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:165
 msgid "Extra"
@@ -5351,11 +5393,11 @@ msgstr "Lisä"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:165
 msgid "Publish an optional or additional package"
-msgstr ""
+msgstr "Julkaise valinnainen tai lisäpaketti"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:203
 msgid "Record pending files before building"
-msgstr ""
+msgstr "Merkitse odottavat tiedostot ennen kokoamista"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:216
 msgid "Select the type of change"
@@ -5367,24 +5409,24 @@ msgstr "Commit-viesti"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:292
 msgid "Advanced Options"
-msgstr ""
+msgstr "Lisäasetukset"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:293
 msgid "Optional tools for diagnosing the remote workflow."
-msgstr ""
+msgstr "Valinnaiset työkalut etätyönkulun vianmääritykseen."
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:296
 msgid "Remote Debugging"
-msgstr ""
+msgstr "Etävianmääritys"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:297
 msgid "Keep disabled for normal package builds"
-msgstr ""
+msgstr "Pidä pois päältä normaalien pakettien rakennuksille"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:320
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:521
 msgid "Start package workflow"
-msgstr ""
+msgstr "Käynnistä pakettityönkulku"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:370
 msgid "Error: PKGBUILD not found"
@@ -5392,7 +5434,7 @@ msgstr "Virhe: PKGBUILD-tiedostoa ei löytynyt"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:384
 msgid "Working tree status unavailable"
-msgstr ""
+msgstr "Työhakemiston tila ei saatavilla"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:390
 msgid "Uncommitted changes present"
@@ -5404,232 +5446,231 @@ msgstr "Työhakemisto puhdas"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:431
 msgid "Start testing build"
-msgstr ""
+msgstr "Käynnistä testirakennus"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:432
 msgid "Start stable build"
-msgstr ""
+msgstr "Käynnistä vakaa rakennus"
 
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:433
 msgid "Start extra build"
-msgstr ""
+msgstr "Käynnistä lisärakennus"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:35
 msgid "Connect GitHub securely"
-msgstr ""
+msgstr "Yhdistä GitHubiin turvallisesti"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:37
 msgid "Local Git commands do not need a token. A token is used only when this app asks GitHub to run package workflows or manage remote automation."
-msgstr ""
+msgstr "Paikalliset Git-komennot eivät tarvitse tunnistetta. Tunnistetta käytetään vain, kun tämä sovellus pyytää GitHubia suorittamaan pakettityönkulkuja tai hallinnoimaan etäautomaatiota."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:46
 msgid "Tokens saved on this computer"
-msgstr ""
+msgstr "Tälle tietokoneelle tallennetut tunnisteet"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:48
 msgid "Values are protected by the system keyring and are never displayed by this app."
-msgstr ""
+msgstr "Arvot on suojattu järjestelmän avainnipulla, eikä tämä sovellus koskaan näytä niitä."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:56
 msgid "About GitHub access tokens"
-msgstr ""
+msgstr "Tietoja GitHub-pääsytunnisteista"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:58
 msgid "The token identifies your account so the app can start GitHub workflows that Git alone cannot. It authorizes one organization or user, and saving it does not verify its permissions. Package workflows need: repo, workflow, write:packages, delete:packages, read:org."
-msgstr ""
+msgstr "Tunniste tunnistaa tilisi, jotta sovellus voi käynnistää GitHub-työnkulkuja, joita Git yksin ei pysty käynnistämään. Se valtuuttaa yhden organisaation tai käyttäjän, eikä sen tallentaminen vahvista sen oikeuksia. Pakettityönkulut tarvitsevat: repo, workflow, write:packages, delete:packages, read:org."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:67
 msgid "Create a classic access token on GitHub"
-msgstr ""
+msgstr "Luo klassinen pääsytunniste GitHubissa"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:79
 msgid "Save or replace an access token"
-msgstr ""
+msgstr "Tallenna tai korvaa pääsytunniste"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:83
 msgid "Use the GitHub organization or username that owns the repositories where workflows will run."
-msgstr ""
+msgstr "Käytä GitHub-organisaatiota tai käyttäjänimeä, joka omistaa ne repositoriot, joissa työnkulkuja suoritetaan."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:87
 msgid "GitHub organization or username"
-msgstr ""
+msgstr "GitHub-organisaatio tai käyttäjätunnus"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:92
 msgid "Personal access token"
-msgstr ""
+msgstr "Henkilökohtainen käyttöoikeustunnus (token)"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:97
 msgid "Store in the system keyring"
-msgstr ""
+msgstr "Tallenna järjestelmän avainnippuun"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:98
 msgid "The token value will be cleared from this form after it is stored."
-msgstr ""
+msgstr "Token-arvo poistetaan tästä lomakkeesta, kun se on tallennettu."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:99
 msgid "Save access token"
-msgstr ""
+msgstr "Tallenna käyttöoikeustunnus"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:108
 msgid "Checking the system keyring…"
-msgstr ""
+msgstr "Tarkistetaan järjestelmän avainnippua…"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:123
 msgid "No access tokens saved"
-msgstr ""
+msgstr "Ei tallennettuja käyttöoikeustunnuksia"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:124
 msgid "Use the form below when you want to run a GitHub workflow."
-msgstr ""
+msgstr "Käytä alla olevaa lomaketta, kun haluat suorittaa GitHub-työnkulun."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:132
 msgid "Stored securely in the system keyring"
-msgstr ""
+msgstr "Tallennettu turvallisesti järjestelmän avainnippuun"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:138
 #, python-brace-format
 msgid "Delete access token for {0}"
-msgstr ""
+msgstr "Poista käyttöoikeustunnus kohteelle {0}"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:150
 msgid "Enter both the GitHub organization and the access token."
-msgstr ""
+msgstr "Anna sekä GitHub-organisaatio että käyttöoikeustunnus."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:178
 msgid "Access token saved in the system keyring"
-msgstr ""
+msgstr "Käyttöoikeustunnus tallennettu järjestelmän avainnippuun"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:190
 msgid "Access token removed"
-msgstr ""
+msgstr "Käyttöoikeustunnus poistettu"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:194
 msgid "The token could not be removed. Unlock the system keyring and try again."
-msgstr ""
+msgstr "Tokenia ei voitu poistaa. Avaa järjestelmän avainnippu ja yritä uudelleen."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:218
 msgid "Choose how local Git operations behave"
-msgstr ""
+msgstr "Valitse, miten paikalliset Git-toiminnot toimivat"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:220
 msgid "These settings affect work in the current repository. They do not connect to GitHub and do not require an access token."
-msgstr ""
+msgstr "Nämä asetukset vaikuttavat työhösi nykyisessä repositoriossa. Ne eivät muodosta yhteyttetä GitHubiin eivätkä vaadi käyttöoikeudenkieltä."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:232
 msgid "When downloaded and local changes conflict"
-msgstr ""
+msgstr "Kun ladatut ja paikalliset muutokset ovat ristiriidassa"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:235
 msgid "Protection against data loss"
-msgstr ""
+msgstr "Suojaus tietojen menetykseltä"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:237
 msgid "Safety confirmations are part of the app and cannot be disabled: it always asks before a force push, a hard reset, branch cleanup, tag deletion, or workflow deletion."
-msgstr ""
+msgstr "Turvallisuusvahvistukset ovat osa sovellusta eikä niitä voi poistaa käytöstä: sovellus kysyy aina ennen pakkotyöntöä, kovaa nollausta, haaran siivousta, tunnisteen poistoa tai työnkulun poistoa."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:243
 msgid "Choose whether the app asks you what to keep or stops so you can resolve the conflict manually."
-msgstr ""
+msgstr "Valitse, kysyykö sovellus, mitä haluat pitää, vai pysähtyykö se, jotta voit ratkaista ristiriidan manuaalisesti."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:246
 msgid "Conflict resolution method"
-msgstr ""
+msgstr "Ristiriidan ratkaisutapa"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:248
 msgid "Ask each time"
-msgstr ""
+msgstr "Kysy aina"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:249
 msgid "Keep local changes"
-msgstr ""
+msgstr "Säilytä paikalliset muutokset"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:250
 msgid "Keep downloaded changes"
-msgstr ""
+msgstr "Säilytä ladatut muutokset"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:251
 msgid "Resolve manually"
-msgstr ""
+msgstr "Ratkaise manuaalisesti"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:259
-#, fuzzy
 msgid "Package version and defaults"
-msgstr "Pakettien luonti"
+msgstr "Paketin versio ja oletusasetukset"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:261
 msgid "Update the package version automatically"
-msgstr ""
+msgstr "Päivitä paketin versio automaattisesti"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:263
 msgid "When publishing a typed commit, calculate the next version from the selected change type."
-msgstr ""
+msgstr "Kun julkaiset kirjoitetun commitin, laske seuraava versio valitusta muutostyypistä."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:269
 msgid "Reset all Build Package settings"
-msgstr ""
+msgstr "Nollaa kaikki Build Package -asetukset"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:270
 msgid "Disable optional GitHub workflows and restore the recommended local Git behavior."
-msgstr ""
+msgstr "Poista käytöstä valinnaiset GitHub-työnkulut ja palauta suositeltu paikallinen Git-käyttäytyminen."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:271
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:314
 msgid "Reset settings"
-msgstr ""
+msgstr "Nollaa asetukset"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:294
 msgid "The conflict setting could not be saved."
-msgstr ""
+msgstr "Konfliktiasetusta ei voitu tallentaa."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:305
 msgid "The version setting could not be saved."
-msgstr ""
+msgstr "Versioasetusta ei voitu tallentaa."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:310
 msgid "Reset all settings?"
-msgstr ""
+msgstr "Nollataanko kaikki asetukset?"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:311
 msgid "Optional GitHub workflows will be disabled and local Git behavior will return to its defaults."
-msgstr ""
+msgstr "Valinnaiset GitHub-työnkulut poistetaan käytöstä ja paikallinen Git-käyttäytyminen palautuu oletusarvoihinsa."
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:326
 msgid "Settings restored"
-msgstr ""
+msgstr "Asetukset palautettu"
 
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:328
 msgid "Settings could not be restored. Try again."
-msgstr ""
+msgstr "Asetuksia ei voitu palauttaa. Yritä uudelleen."
 
 #: usr/share/gitrepo/common/desktop_launch.py:62
 #: usr/share/gitrepo/common/desktop_launch.py:90
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not open {0}:"
-msgstr "Tiedostoa ei voitu esikatsella: {0}"
+msgstr "Ei voitu avata {0}:"
 
 #: usr/share/gitrepo/common/desktop_launch.py:76
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Could not open the folder for {0}:"
-msgstr "Tiedostoa ei voitu esikatsella: {0}"
+msgstr "Ei voitu avata kansiota kohteelle {0}:"
 
 #: usr/share/gitrepo/common/help_popover.py:41
 msgid "What does this mean?"
-msgstr ""
+msgstr "Mitä tämä tarkoittaa?"
 
 #: usr/share/gitrepo/common/help_popover.py:42
 #, python-brace-format
 msgid "Explain: {0}"
-msgstr ""
+msgstr "Selitys: {0}"
 
 #: usr/share/gitrepo/common/page_hero.py:16
 #, python-brace-format
 msgid "Git commands: {0}"
-msgstr ""
+msgstr "Git-komennot: {0}"
 
 #: usr/share/gitrepo/common/page_hero.py:21
 #, python-brace-format
 msgid "GitHub action: {0}"
-msgstr ""
+msgstr "GitHub-toiminto: {0}"
 
 #: usr/share/gitrepo/common/rich_logger.py:88
 msgid "Field"
@@ -5691,205 +5732,3 @@ msgstr "GitRepoa ei löytynyt. Onko se asennettu?"
 #: usr/share/nautilus-python/extensions/gitrepo_extension.py:155
 msgid "Launch Error"
 msgstr "Käynnistysvirhe"
-
-#~ msgid "✓ File permissions set to 600 (owner read/write only)"
-#~ msgstr "✓ Tiedostojen käyttöoikeudet asetettu arvoon 600 (vain omistajalla luku/kirjoitus)"
-
-#, python-brace-format
-#~ msgid "Disk space: {0:.1f} GB free of {1:.1f} GB"
-#~ msgstr "Levyn tila: {0:.1f} GB vapaana {1:.1f} GB:stä"
-
-#~ msgid "Build History"
-#~ msgstr "Rakennushistoria"
-
-#~ msgid "Clear Build History?"
-#~ msgstr "Tyhjennetäänkö rakennushistoria?"
-
-#~ msgid "Container Engine"
-#~ msgstr "Säiliömoottori"
-
-#, python-brace-format
-#~ msgid "Error fetching Actions jobs. Code: {0}"
-#~ msgstr "Virhe haettaessa Actions-töitä. Koodi: {0}"
-
-#, python-brace-format
-#~ msgid "Error deleting job {0}. Code: {1}"
-#~ msgstr "Virhe poistaessa työtä {0}. Koodi: {1}"
-
-#, python-brace-format
-#~ msgid "Deleted {0} Actions jobs with '{1}' status."
-#~ msgstr "Poistettiin {0} Actions-työtä, joiden tila on '{1}'."
-
-#, python-brace-format
-#~ msgid "Error fetching tags. Code: {0}"
-#~ msgstr "Virhe haettaessa tunnuksia. Koodi: {0}"
-
-#~ msgid "No Editor Found"
-#~ msgstr "Ei löydetty editoria"
-
-#, python-brace-format
-#~ msgid ""
-#~ "Could not find a text editor. Please edit the file manually:\n"
-#~ "\n"
-#~ "{0}"
-#~ msgstr ""
-#~ "Ei voitu löytää tekstieditoria. Muokkaa tiedostoa manuaalisesti:\n"
-#~ "\n"
-#~ "{0}"
-
-#~ msgid "Operation failed - check terminal log for details"
-#~ msgstr "Toiminto epäonnistui – tarkista päätelaiteloki lisätietoja varten"
-
-#~ msgid "Keep both (create .ours and .theirs files)"
-#~ msgstr "Säilytä molemmat (luo .ours- ja .theirs-tiedostot)"
-
-#~ msgid "Created files:"
-#~ msgstr "Luodut tiedostot:"
-
-#, python-brace-format
-#~ msgid "Error creating versions: {0}"
-#~ msgstr "Virhe versioiden luomisessa: {0}"
-
-#~ msgid "Staging restored files..."
-#~ msgstr "Valmistellaan palautetut tiedostot..."
-
-#, python-brace-format
-#~ msgid "Error during revert operation: {0}"
-#~ msgstr "Virhe peruuttamisen aikana: {0}"
-
-#, python-brace-format
-#~ msgid "Unexpected error during revert: {0}"
-#~ msgstr "Odottamaton virhe peruuttamisen aikana: {0}"
-
-#~ msgid "Engine"
-#~ msgstr "Moottori"
-
-#~ msgid "Storage Driver"
-#~ msgstr "Tallennusajuri"
-
-#~ msgid "Version"
-#~ msgstr "Versio"
-
-#~ msgid "Maintenance"
-#~ msgstr "Ylläpito"
-
-#~ msgid "Repository Statistics"
-#~ msgstr "Repositorion tilastot"
-
-#~ msgid "Total Branches"
-#~ msgstr "Yhteensä haaroja"
-
-#~ msgid "Commits in Current Branch"
-#~ msgstr "Commits nykyisessä haarassa"
-
-#, fuzzy
-#~ msgid "After publishing"
-#~ msgstr "Pakotettu push käynnissä..."
-
-#, fuzzy
-#~ msgid "Build a package"
-#~ msgstr "Rakenna AUR-paketti"
-
-#, fuzzy
-#~ msgid "Use a community-maintained recipe"
-#~ msgstr "AUR-paketit rakennetaan yhteisön ylläpitämistä lähteistä"
-
-#~ msgid "Behavior"
-#~ msgstr "Käyttäytyminen"
-
-#~ msgid "Source"
-#~ msgstr "Lähde"
-
-#~ msgid "Output"
-#~ msgstr "Tuloste"
-
-#, fuzzy
-#~ msgid "Choose the system profile"
-#~ msgstr "Valitse ISO-profiilien repositorio:"
-
-#~ msgid "System Status"
-#~ msgstr "Järjestelmän tila"
-
-#~ msgid "Disk Space"
-#~ msgstr "Levytila"
-
-#~ msgid "Last Build"
-#~ msgstr "Viimeisin rakennus"
-
-#, python-brace-format
-#~ msgid "{0:.1f} GB free of {1:.1f} GB"
-#~ msgstr "{0:.1f} Gt vapaana {1:.1f} Gt:stä"
-
-#~ msgid "(directory will be created)"
-#~ msgstr "(hakemisto luodaan)"
-
-#, fuzzy, python-brace-format
-#~ msgid "Selected: {0} • {1}"
-#~ msgstr "Virtaus: {0} → {1}"
-
-#~ msgid "Refresh profiles"
-#~ msgstr "Päivitä profiilit"
-
-#, python-brace-format
-#~ msgid "Local: {0}"
-#~ msgstr "Paikallinen: {0}"
-
-#~ msgid "not configured"
-#~ msgstr "ei konfiguroitu"
-
-#~ msgid "Official GitHub repositories"
-#~ msgstr "Viralliset GitHub-repositoriot"
-
-#~ msgid "Package Generation"
-#~ msgstr "Pakettien luonti"
-
-#~ msgid "Working Directory"
-#~ msgstr "Työhakemisto"
-
-#~ msgid "Current Branch"
-#~ msgstr "Nykyinen haara"
-
-#~ msgid "View changed files"
-#~ msgstr "Näytä muutetut tiedostot"
-
-#~ msgid "Recent Activity"
-#~ msgstr "Viimeaikainen toiminta"
-
-#~ msgid "No recent activity"
-#~ msgstr "Ei viimeaikaista toimintaa"
-
-#~ msgid "Activity will appear here after operations"
-#~ msgstr "Toiminta näkyy tässä operaatioiden jälkeen"
-
-#~ msgid "Create your first commit to start tracking activity"
-#~ msgstr "Luo ensimmäinen commitisi aloittaaksesi toiminnan seurannan"
-
-#~ msgid "Last commit"
-#~ msgstr "Viimeisin commit"
-
-#~ msgid "Current branch"
-#~ msgstr "Nykyinen haara"
-
-#~ msgid "Starting..."
-#~ msgstr "Käynnistetään..."
-
-#~ msgid "✓ Operation completed successfully"
-#~ msgstr "✓ Toiminto suoritettu onnistuneesti"
-
-#, python-brace-format
-#~ msgid "✗ Operation failed: {0}"
-#~ msgstr "✗ Toiminto epäonnistui: {0}"
-
-#, fuzzy, python-brace-format
-#~ msgid "Estimated: {0}"
-#~ msgstr "Mukautettu: {0}"
-
-#, python-brace-format
-#~ msgid "Elapsed: {0:02d}:{1:02d}"
-#~ msgstr "Kulunut aika: {0:02d}:{1:02d}"
-
-#~ msgid "Build history will appear here after your first build"
-#~ msgstr "Rakennushistoria näkyy täällä ensimmäisen rakennuksen jälkeen"
-
-#~ msgid "This will force push and rewrite remote history. Continue?"
-#~ msgstr "Tämä pakottaa pushin ja muuttaa etähistorian. Jatketaanko?"
