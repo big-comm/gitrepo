@@ -159,7 +159,7 @@ ORG_DEFAULT_CONFIGS = {
 }
 
 # Script version
-APP_VERSION = "3.8.0"
+APP_VERSION = "3.8.1"
 APP_NAME = _("BUILD ISO")
 APP_DISPLAY_NAME = _("Build ISO")
 APP_DESC = _(

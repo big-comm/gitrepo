@@ -33,8 +33,10 @@ class RepositoryActionsMixin:
     def on_commit_requested(self, widget, commit_message):
         """Handle commit request from commit widget - show branch confirmation first"""
         current_branch = GitUtils.get_current_branch()
-        username = self.build_package.github_user_name or "unknown"
-        dev_branch = f"dev-{username}"
+        dev_branch = GitUtils.get_personal_branch(
+            self.build_package.github_user_name,
+            getattr(self.build_package, "repo_path", None),
+        )
 
         # Store commit message for later use
         self._pending_commit_message = commit_message

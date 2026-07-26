@@ -28,7 +28,7 @@ LOG_DIR_BASE = os.path.join(
 )
 
 # Script version
-APP_VERSION = "3.2.0"
+APP_VERSION = "3.2.1"
 APP_NAME = _("BUILD PACKAGE")
 APP_DESC = _(
     "A comprehensive tool for package building, testing, and deployment. Streamlines Git operations, automates builds and manages package workflows for BigCommunity repositories and AUR packages."

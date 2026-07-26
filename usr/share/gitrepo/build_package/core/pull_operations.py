@@ -63,12 +63,27 @@ def _complete_merge_conflict(bp, branch: str) -> bool:
 
 
 def _restore_stash(bp, branch: str) -> bool:
-    result = subprocess.run_git(["git", "stash", "pop"], capture_output=True, text=True, check=False, intent="ordinary")
+    result = subprocess.run_git(
+        ["git", "stash", "pop", "--index"],
+        capture_output=True,
+        text=True,
+        check=False,
+        intent="ordinary",
+    )
     if result.returncode == 0:
         bp.logger.log("green", _("Local changes restored."))
         return True
     if bp.conflict_resolver.has_conflicts():
-        return bp.conflict_resolver.resolve(branch, _("stashed local changes"))
+        if bp.conflict_resolver.resolve(branch, _("stashed local changes")):
+            subprocess.run_git(
+                ["git", "stash", "drop", "stash@{0}"],
+                capture_output=True,
+                text=True,
+                check=False,
+                intent="ordinary",
+            )
+            return True
+        return False
     bp.logger.log("red", _("Local changes remain in the stash: {0}").format(result.stderr.strip()))
     return False
 
