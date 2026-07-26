@@ -85,6 +85,7 @@ def _bump_semver(current_version: str, bump_level: str) -> str:
 
 
 APP_NAME_PATTERN = re.compile(r"APP_NAME\s*=\s*(?:_\(\s*)?[\"']([^\"']+)[\"']")
+APP_VERSION_OWNER_PATTERN = re.compile(r"APP_VERSION_OWNER\s*=\s*[\"']([^\"']+)[\"']")
 
 
 def _locate_app_version_entry(bp):
@@ -107,8 +108,10 @@ def _locate_app_version_entry(bp):
         if not found:
             continue
         _path, content, _match = found
+        owner = APP_VERSION_OWNER_PATTERN.search(content)
         app_name = APP_NAME_PATTERN.search(content)
-        matches_repository = bool(app_name) and _normalize_identifier(app_name.group(1)) in identifiers
+        identity = owner or app_name
+        matches_repository = bool(identity) and _normalize_identifier(identity.group(1)) in identifiers
         if matches_repository:
             matching_entries.append((file_path, found))
 

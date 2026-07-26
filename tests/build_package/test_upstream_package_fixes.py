@@ -7,6 +7,9 @@ from gitrepo.build_package.core.github_api import GitHubAPI
 from gitrepo.build_package.core.version_bumper import _locate_app_version_entry
 
 
+_OWNER_KEY = "APP_VERSION_" + "OWNER"
+
+
 class Logger:
     def __init__(self):
         self.messages = []
@@ -62,6 +65,35 @@ def test_version_bump_refuses_to_guess_between_two_applications(tmp_path):
     (tmp_path / "PKGBUILD").write_text("pkgname=gitrepo\n", encoding="utf-8")
     (tmp_path / "a_iso.py").write_text('APP_VERSION = "3.7.8"\nAPP_NAME = _("BUILD ISO")\n', encoding="utf-8")
     (tmp_path / "b_pkg.py").write_text('APP_VERSION = "3.1.5"\nAPP_NAME = _("BUILD PACKAGE")\n', encoding="utf-8")
+
+    assert _locate_app_version_entry(_bumper(tmp_path)) == (None, None, None)
+
+
+def test_version_bump_prefers_explicit_repository_owner(tmp_path):
+    (tmp_path / "PKGBUILD").write_text("pkgname=gitrepo\n", encoding="utf-8")
+    (tmp_path / "a_iso.py").write_text(
+        'APP_VERSION = "3.8.1"\nAPP_NAME = _("BUILD ISO")\n',
+        encoding="utf-8",
+    )
+    package = tmp_path / "b_package.py"
+    package.write_text(
+        f'{_OWNER_KEY} = "gitrepo"\nAPP_VERSION = "4.0.0"\nAPP_NAME = _("BUILD PACKAGE")\n',
+        encoding="utf-8",
+    )
+
+    file_path, _content, match = _locate_app_version_entry(_bumper(tmp_path))
+
+    assert file_path == str(package)
+    assert match.group(3) == "4.0.0"
+
+
+def test_version_bump_refuses_duplicate_explicit_owners(tmp_path):
+    (tmp_path / "PKGBUILD").write_text("pkgname=gitrepo\n", encoding="utf-8")
+    for name in ("first.py", "second.py"):
+        (tmp_path / name).write_text(
+            f'{_OWNER_KEY} = "gitrepo"\nAPP_VERSION = "4.0.0"\n',
+            encoding="utf-8",
+        )
 
     assert _locate_app_version_entry(_bumper(tmp_path)) == (None, None, None)
 

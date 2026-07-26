@@ -10,7 +10,10 @@ from gitrepo.build_package.core.confirmation import (
     plain_confirmation_content,
 )
 from gitrepo.build_package.cli.cli_menu import MenuSystem
-from gitrepo.build_package.gui.confirmation_dialog import _format_command
+from gitrepo.build_package.gui.confirmation_dialog import (
+    _details_need_scrolling,
+    _format_command,
+)
 from rich.text import Text
 
 
@@ -65,6 +68,29 @@ def test_workflow_confirmation_keeps_package_type_and_branch_as_fields() -> None
 
     assert [block.kind for block in content.blocks] == ["field", "field", "field"]
     assert [block.value for block in content.blocks] == ["gitrepo", "testing", "dev-talesam"]
+
+
+def test_short_branch_and_workflow_confirmations_do_not_need_scrolling() -> None:
+    branch = parse_confirmation_content(
+        "Publish branch?\n"
+        "Branch: dev-talesam\n"
+        "Command: git push -u origin refs/heads/dev-talesam:refs/heads/dev-talesam"
+    )
+    workflow = parse_confirmation_content("Trigger build?\nPackage: gitrepo\nType: Testing\nBranch: dev-talesam")
+
+    assert _details_need_scrolling(branch.blocks) is False
+    assert _details_need_scrolling(workflow.blocks) is False
+
+
+def test_long_commit_confirmation_keeps_bounded_scrolling() -> None:
+    prompt = _commit_confirmation_prompt(
+        "dev-talesam",
+        "feat: improve dialogs\n\n- first\n- second\n- third\n- fourth",
+        "",
+        "\n".join(f"• file-{index}.py" for index in range(8)),
+    )
+
+    assert _details_need_scrolling(prompt.content.blocks) is True
 
 
 def test_raw_git_steps_are_commands_and_urls_remain_text() -> None:
