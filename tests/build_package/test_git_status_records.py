@@ -45,6 +45,28 @@ def test_changed_files_report_a_newline_in_a_real_filename(build_package_modules
     assert ("??", "two\nlines.txt") in changed
 
 
+def test_file_diffs_use_repository_root_from_nested_directory(build_package_modules, tmp_path, monkeypatch):
+    git_utils = importlib.import_module("gitrepo.build_package.core.git_utils")
+    repository, _remote = create_repository_with_remote(tmp_path)
+    nested_directory = repository / "usr" / "share" / "application"
+    nested_directory.mkdir(parents=True)
+    before = run_git(repository, "rev-parse", "HEAD").stdout.strip()
+    (repository / "tracked.txt").write_text("changed\n", encoding="utf-8")
+    monkeypatch.chdir(nested_directory)
+
+    assert ("M", "tracked.txt") in git_utils.GitUtils.get_changed_files()
+    diff = git_utils.GitUtils.get_worktree_file_diff("tracked.txt")
+    assert "-base" in diff
+    assert "+changed" in diff
+
+    run_git(repository, "add", "tracked.txt")
+    run_git(repository, "commit", "-m", "change")
+    after = run_git(repository, "rev-parse", "HEAD").stdout.strip()
+    revision_diff = git_utils.GitUtils.get_revision_file_diff(before, after, "tracked.txt")
+    assert "-base" in revision_diff
+    assert "+changed" in revision_diff
+
+
 def test_snapshot_and_conflict_enumeration_read_the_same_records(build_package_modules, tmp_path, monkeypatch):
     snapshots = importlib.import_module("gitrepo.build_package.core.repository_snapshot")
     conflict_resolver = importlib.import_module("gitrepo.build_package.core.conflict_resolver")
