@@ -15,7 +15,9 @@ from gitrepo.build_package.core import (
     pull_operations,
     version_bumper,
 )
+from gitrepo.build_package.core.conflict_resolver import ConflictResolver
 from gitrepo.build_package.core.git_utils import GitUtils
+from gitrepo.build_package.gui.gtk_adapters import GTKConflictResolver
 
 from .git_fixtures import AlwaysConfirm, Logger, create_repository_with_remote, run_git
 
@@ -91,6 +93,15 @@ def test_personal_branch_is_repository_specific_and_prefers_current_dev(tmp_path
     assert GitUtils.get_personal_branch("friend", str(repository)) == "dev-friend"
 
 
+def test_personal_branch_uses_existing_dev_when_github_user_is_unknown(tmp_path, monkeypatch):
+    repository, _remote = create_repository_with_remote(tmp_path)
+    run_git(repository, "checkout", "-b", "dev-talesam")
+    run_git(repository, "checkout", "main")
+    monkeypatch.chdir(tmp_path)
+
+    assert GitUtils.get_personal_branch("unknown", str(repository)) == "dev-talesam"
+
+
 def _stage_and_modify(repository):
     tracked = repository / "tracked.txt"
     tracked.write_text("staged\n", encoding="utf-8")
@@ -133,6 +144,56 @@ def test_failed_checkout_restores_stashed_work_on_original_branch(tmp_path, monk
     assert not branch_handler.switch_and_commit(_bp(), "dev-target", "fix: preserve work")
     assert run_git(repository, "branch", "--show-current").stdout.strip() == "main"
     _assert_index_and_worktree_restored(repository, tracked)
+
+
+def test_switch_and_commit_treats_stashed_work_as_the_local_version(tmp_path, monkeypatch):
+    repository, _remote = create_repository_with_remote(tmp_path)
+    run_git(repository, "branch", "dev-source")
+    (repository / "tracked.txt").write_text("target branch\n", encoding="utf-8")
+    run_git(repository, "commit", "-am", "target change")
+    run_git(repository, "checkout", "dev-source")
+    (repository / "tracked.txt").write_text("saved local work\n", encoding="utf-8")
+    monkeypatch.chdir(repository)
+
+    logger = Logger()
+    menu = RecordingMenu(answer=True)
+    resolver = ConflictResolver(logger, menu, "auto-ours")
+    bp = SimpleNamespace(logger=logger, menu=menu, conflict_resolver=resolver)
+
+    def inspect_commit(_bp, _message, target_branch):
+        assert target_branch == "main"
+        assert run_git(repository, "branch", "--show-current").stdout.strip() == "main"
+        assert (repository / "tracked.txt").read_text(encoding="utf-8") == "saved local work\n"
+        assert "gitrepo-switch-main" in run_git(repository, "stash", "list").stdout
+        return True
+
+    monkeypatch.setattr(commit_handler, "execute_commit", inspect_commit)
+
+    assert branch_handler.switch_and_commit(bp, "main", "fix: keep saved work")
+    assert "saved work" in menu.question
+
+
+def test_gtk_stash_conflict_maps_saved_work_to_git_theirs():
+    captured = {}
+    resolver = SimpleNamespace(
+        _show_conflict_dialog=lambda files, source, target, local_side: (
+            captured.update(
+                files=files,
+                source=source,
+                target=target,
+                local_side=local_side,
+            )
+            or True
+        )
+    )
+
+    assert GTKConflictResolver._resolve_interactive_stash(resolver, ["tracked.txt"], "dev-source", "main")
+    assert captured == {
+        "files": ["tracked.txt"],
+        "source": "dev-source",
+        "target": "main",
+        "local_side": "theirs",
+    }
 
 
 def test_commit_uses_the_configured_personal_branch(tmp_path, monkeypatch):
