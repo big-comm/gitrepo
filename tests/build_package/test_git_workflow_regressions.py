@@ -170,7 +170,7 @@ def test_switch_and_commit_treats_stashed_work_as_the_local_version(tmp_path, mo
     monkeypatch.setattr(commit_handler, "execute_commit", inspect_commit)
 
     assert branch_handler.switch_and_commit(bp, "main", "fix: keep saved work")
-    assert "saved work" in menu.question
+    assert all(value in menu.question for value in ("tracked.txt", "dev-source", "main"))
 
 
 def test_gtk_stash_conflict_maps_saved_work_to_git_theirs():
