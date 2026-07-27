@@ -29,7 +29,7 @@ LOG_DIR_BASE = os.path.join(
 
 # Script version
 APP_VERSION_OWNER = "gitrepo"
-APP_VERSION = "4.0.6"
+APP_VERSION = "4.0.7"
 APP_NAME = _("BUILD PACKAGE")
 APP_DESC = _(
     "A comprehensive tool for package building, testing, and deployment. Streamlines Git operations, automates builds and manages package workflows for BigCommunity repositories and AUR packages."
