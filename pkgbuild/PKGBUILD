@@ -16,8 +16,7 @@ pkgrel=$(date +%H%M)
 arch=('any')
 license=('MIT')
 url="https://github.com/big-comm/${pkgname}"
-_commit=caa265612c8697c842023358b22d3ebfef60a9b8
-source=("${pkgname}::git+${url}.git#commit=${_commit}")
+source=("${pkgname}::git+${url}.git#branch=main")
 b2sums=('SKIP')
 
 check() {

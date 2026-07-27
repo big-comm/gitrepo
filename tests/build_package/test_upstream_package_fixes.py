@@ -1,5 +1,6 @@
 """Regressions for the package-generator fixes ported from upstream."""
 
+from pathlib import Path
 from types import SimpleNamespace
 
 from gitrepo.build_package.core.git_utils import GitUtils
@@ -39,6 +40,13 @@ def test_testing_packages_keep_the_selected_development_branch(monkeypatch):
 
     assert payload["branch"] == "dev-tester"
     assert payload["new_branch"] == "dev-tester"
+
+
+def test_package_source_allows_workflow_branch_selection():
+    pkgbuild = Path("pkgbuild/PKGBUILD").read_text(encoding="utf-8")
+
+    assert "#branch=main" in pkgbuild
+    assert "#commit=" not in pkgbuild
 
 
 def _bumper(tmp_path, cache=None):

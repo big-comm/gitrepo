@@ -114,6 +114,12 @@ def _protected_terms(source: str) -> set[str]:
     return terms
 
 
+def _catalog_project(text: str) -> str:
+    match = re.search(r'"Project-Id-Version:\s*([^\\]+)\\n"', text)
+    assert match, "missing Project-Id-Version header"
+    return match.group(1).split(maxsplit=1)[0].casefold()
+
+
 def test_shipped_catalogs_match_their_sources(tmp_path) -> None:
     """A stale .mo shows a mixed-language interface even with a complete .po."""
     for catalog_path in sorted(Path("locale").glob("*.po")):
@@ -134,12 +140,12 @@ def test_shipped_catalogs_match_their_sources(tmp_path) -> None:
 
 def test_catalogs_are_valid_and_reproducible() -> None:
     template_text = Path("locale/gitrepo.pot").read_text(encoding="utf-8")
-    assert "Project-Id-Version: GitRepo 3.8.1" in template_text
+    assert _catalog_project(template_text) == "gitrepo"
     assert not any(line.startswith("#: /") for line in template_text.splitlines())
 
     for catalog_path in sorted(Path("locale").glob("*.po")):
         catalog_text = catalog_path.read_text(encoding="utf-8")
-        assert "Project-Id-Version: GitRepo 3.8.1" in catalog_text
+        assert _catalog_project(catalog_text) == "gitrepo"
         assert "#~ " not in catalog_text, f"obsolete entry in {catalog_path}"
         assert not any(line.startswith("#: /") for line in catalog_text.splitlines()), (
             f"absolute source reference in {catalog_path}"
