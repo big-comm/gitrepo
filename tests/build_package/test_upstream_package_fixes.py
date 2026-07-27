@@ -69,6 +69,21 @@ def test_version_bump_targets_the_application_named_after_the_repository(tmp_pat
     assert match.group(3) == "3.1.5"
 
 
+def test_version_bump_accepts_branding_before_repository_name(tmp_path):
+    (tmp_path / "PKGBUILD").write_text("pkgname=sample-switcher\n", encoding="utf-8")
+    constants = tmp_path / "usr/share/sample-switcher/constants.py"
+    constants.parent.mkdir(parents=True)
+    constants.write_text(
+        'APP_VERSION = "1.2.3"\nAPP_NAME = "Community Sample Switcher"\n',
+        encoding="utf-8",
+    )
+
+    file_path, _content, match = _locate_app_version_entry(_bumper(tmp_path))
+
+    assert file_path == str(constants)
+    assert match.group(3) == "1.2.3"
+
+
 def test_version_bump_refuses_to_guess_between_two_applications(tmp_path):
     (tmp_path / "PKGBUILD").write_text("pkgname=gitrepo\n", encoding="utf-8")
     (tmp_path / "a_iso.py").write_text('APP_VERSION = "3.7.8"\nAPP_NAME = _("BUILD ISO")\n', encoding="utf-8")

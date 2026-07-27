@@ -110,8 +110,16 @@ def _locate_app_version_entry(bp):
         _path, content, _match = found
         owner = APP_VERSION_OWNER_PATTERN.search(content)
         app_name = APP_NAME_PATTERN.search(content)
-        identity = owner or app_name
-        matches_repository = bool(identity) and _normalize_identifier(identity.group(1)) in identifiers
+        if owner:
+            matches_repository = _normalize_identifier(owner.group(1)) in identifiers
+        elif app_name:
+            normalized_name = _normalize_identifier(app_name.group(1))
+            matches_repository = any(
+                normalized_name == identifier or (len(identifier) >= 5 and normalized_name.endswith(identifier))
+                for identifier in identifiers
+            )
+        else:
+            matches_repository = False
         if matches_repository:
             matching_entries.append((file_path, found))
 
