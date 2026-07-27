@@ -46,6 +46,11 @@ def build_step_states(active_index: int, step_count: int, outcome: str | None = 
     )
 
 
+def _is_at_log_tail(value: float, upper: float, page_size: float, tolerance: float = 2.0) -> bool:
+    """Return whether the viewport is already following the newest log line."""
+    return upper <= page_size or value + page_size >= upper - tolerance
+
+
 class BuildStepIndicator(Gtk.Box):
     """Compact visual and semantic state for one build step."""
 
@@ -371,12 +376,13 @@ class BuildProgressDialog(Adw.Window):
         header.append(self.save_log_button)
         card.append(header)
 
-        scrolled = Gtk.ScrolledWindow()
-        scrolled.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
-        scrolled.set_min_content_height(220)
-        scrolled.set_vexpand(True)
+        self.log_scrolled = Gtk.ScrolledWindow()
+        self.log_scrolled.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+        self.log_scrolled.set_min_content_height(220)
+        self.log_scrolled.set_vexpand(True)
 
         self.log_buffer = Gtk.TextBuffer()
+        self._log_end_mark = self.log_buffer.create_mark(None, self.log_buffer.get_end_iter(), False)
         self.log_view = Gtk.TextView()
         self.log_view.set_buffer(self.log_buffer)
         self.log_view.set_editable(False)
@@ -390,8 +396,8 @@ class BuildProgressDialog(Adw.Window):
         self.log_view.add_css_class("build-log-view")
         self.log_view.update_property([Gtk.AccessibleProperty.LABEL], [_("Terminal Log")])
 
-        scrolled.set_child(self.log_view)
-        card.append(scrolled)
+        self.log_scrolled.set_child(self.log_view)
+        card.append(self.log_scrolled)
         return card
 
     def _create_action_bar(self) -> Gtk.Widget:
@@ -526,6 +532,7 @@ class BuildProgressDialog(Adw.Window):
 
     def _append_log(self, color, message):
         """Append text to terminal log, parsing ANSI codes for colors"""
+        follow_tail = self._log_is_at_end()
         self._clear_live_log()
         message = redact_diagnostic(message)
         if not self._tags_initialized:
@@ -584,9 +591,17 @@ class BuildProgressDialog(Adw.Window):
         excess = self.log_buffer.get_char_count() - 200_000
         if excess > 0:
             self.log_buffer.delete(self.log_buffer.get_start_iter(), self.log_buffer.get_iter_at_offset(excess))
-        end_iter = self.log_buffer.get_end_iter()
-        self.log_view.scroll_to_iter(end_iter, 0.0, False, 0.0, 1.0)
+        if follow_tail:
+            self._scroll_log_to_end()
         return False
+
+    def _log_is_at_end(self) -> bool:
+        adjustment = self.log_scrolled.get_vadjustment()
+        return _is_at_log_tail(adjustment.get_value(), adjustment.get_upper(), adjustment.get_page_size())
+
+    def _scroll_log_to_end(self) -> None:
+        """Keep the newest log line visible after GTK validates its layout."""
+        self.log_view.scroll_to_mark(self._log_end_mark, 0.0, True, 0.0, 1.0)
 
     def _log_text(self) -> str:
         return self.log_buffer.get_text(self.log_buffer.get_start_iter(), self.log_buffer.get_end_iter(), False)
@@ -633,6 +648,7 @@ class BuildProgressDialog(Adw.Window):
 
     def _replace_live_log(self, color, message):
         """Replace the unfinished terminal line produced through carriage return."""
+        follow_tail = self._log_is_at_end()
         message = redact_diagnostic(message)
         if not self._tags_initialized:
             self._setup_text_tags()
@@ -642,7 +658,8 @@ class BuildProgressDialog(Adw.Window):
         self._live_log_mark = self.log_buffer.create_mark(None, end_iter, True)
         tag_name = color if self.log_buffer.get_tag_table().lookup(color) else "white"
         self.log_buffer.insert_with_tags_by_name(end_iter, message, tag_name)
-        self.log_view.scroll_to_iter(self.log_buffer.get_end_iter(), 0.0, False, 0.0, 1.0)
+        if follow_tail:
+            self._scroll_log_to_end()
         return False
 
     def start_build(self):

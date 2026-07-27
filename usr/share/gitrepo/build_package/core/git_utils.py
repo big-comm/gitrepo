@@ -790,9 +790,11 @@ class GitUtils:
     @staticmethod
     def get_worktree_file_diff(filepath: str) -> str:
         """Return the staged and unstaged diff of one working-tree file."""
+        repo_root = GitUtils.get_repo_root_path()
         tracked = (
             subprocess.run_git(
                 ["git", "ls-files", "--error-unmatch", "--", filepath],
+                cwd=repo_root,
                 capture_output=True,
                 check=False,
                 intent="ordinary",
@@ -804,7 +806,13 @@ class GitUtils:
             if tracked
             else ["git", "diff", "--no-ext-diff", "--no-index", "--", os.devnull, filepath]
         )
-        result = subprocess.run_git(command, capture_output=True, check=False, intent="ordinary")
+        result = subprocess.run_git(
+            command,
+            cwd=repo_root,
+            capture_output=True,
+            check=False,
+            intent="ordinary",
+        )
         # git diff exits 1 when differences exist; only other codes are failures.
         if result.returncode not in (0, 1):
             return _("Could not load the differences for this file.")
@@ -831,6 +839,7 @@ class GitUtils:
         """Return a unified diff for one file between two revisions."""
         result = subprocess.run_git(
             ["git", "diff", "--no-ext-diff", "--unified=5", before, after, "--", filepath],
+            cwd=GitUtils.get_repo_root_path(),
             capture_output=True,
             check=False,
             intent="ordinary",

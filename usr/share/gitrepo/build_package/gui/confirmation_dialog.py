@@ -164,7 +164,7 @@ def _details_need_scrolling(blocks: tuple[ConfirmationBlock, ...]) -> bool:
 def _dialog_content_height(blocks: tuple[ConfirmationBlock, ...]) -> int:
     if not blocks or _details_need_scrolling(blocks):
         return -1
-    return 375 if len(blocks) >= 3 else 335
+    return 380 if len(blocks) >= 3 else 340
 
 
 def _confirmation_content(question: str) -> tuple[Gtk.Widget, str, bool, int]:
