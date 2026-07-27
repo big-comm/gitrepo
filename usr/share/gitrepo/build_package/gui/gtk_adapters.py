@@ -36,19 +36,45 @@ class GTKConflictResolver(ConflictResolver):
         """
         return self._show_conflict_dialog(conflict_files, current_branch, incoming_branch)
 
-    def _show_conflict_dialog(self, conflict_files, current_branch=None, incoming_branch=None):
+    def _resolve_interactive_stash(self, conflict_files, source_branch, target_branch):
+        """Present saved work as local even though Git stores it in stage three."""
+        return self._show_conflict_dialog(
+            conflict_files,
+            source_branch,
+            target_branch,
+            local_side="theirs",
+        )
+
+    def _show_conflict_dialog(
+        self,
+        conflict_files,
+        current_branch=None,
+        incoming_branch=None,
+        local_side="ours",
+    ):
         """Present conflict UI on GTK and wait only on the operation worker."""
         self._result_event.clear()
         self.dialog_result = False
-        GLib.idle_add(self._present_conflict_dialog, conflict_files, current_branch, incoming_branch)
+        GLib.idle_add(
+            self._present_conflict_dialog,
+            conflict_files,
+            current_branch,
+            incoming_branch,
+            local_side,
+        )
         self._result_event.wait()
         return self.dialog_result
 
-    def _present_conflict_dialog(self, conflict_files, current_branch, incoming_branch):
+    def _present_conflict_dialog(self, conflict_files, current_branch, incoming_branch, local_side):
         progress_dialog = getattr(getattr(self.parent_window, "operation_runner", None), "current_dialog", None)
         self._set_progress_visible(progress_dialog, False)
         try:
-            dialog = ConflictDialog(self.parent_window, conflict_files, repo_root=self.repo_root)
+            dialog = ConflictDialog(
+                self.parent_window,
+                conflict_files,
+                repo_root=self.repo_root,
+                local_side=local_side,
+            )
             if current_branch and incoming_branch and hasattr(dialog, "set_branch_info"):
                 dialog.set_branch_info(current_branch, incoming_branch)
             dialog.connect("conflicts-resolved", self._finish_conflict_dialog, progress_dialog)

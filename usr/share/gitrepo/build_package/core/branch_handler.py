@@ -48,7 +48,7 @@ def _stash_working_tree(branch: str) -> bool:
     return True
 
 
-def _restore_working_tree(bp) -> None:
+def _restore_working_tree(bp, source_branch: str, target_branch: str) -> None:
     result = subprocess.run_git(
         ["git", "stash", "pop", "--index"],
         capture_output=True,
@@ -59,13 +59,15 @@ def _restore_working_tree(bp) -> None:
     if result.returncode == 0:
         return
     resolver = getattr(bp, "conflict_resolver", None)
-    if resolver and resolver.has_conflicts() and resolver.resolve():
-        subprocess.run_git(
-            ["git", "stash", "drop", "stash@{0}"],
-            capture_output=True,
-            text=True,
-            check=False,
-            intent="ordinary",
+    if (
+        resolver
+        and resolver.has_conflicts()
+        and hasattr(resolver, "resolve_stashed_work")
+        and resolver.resolve_stashed_work(source_branch, target_branch)
+    ):
+        bp.logger.log(
+            "yellow",
+            _("A backup of the transferred work remains in Git stash because conflicts occurred."),
         )
         return
     raise RuntimeError(_("Local changes remain in the stash and need manual resolution."))
@@ -85,13 +87,13 @@ def switch_and_commit(bp, target_branch: str, commit_message: str) -> bool:
             switch_error = _("Could not switch to {0}").format(target_branch)
             if stashed:
                 try:
-                    _restore_working_tree(bp)
+                    _restore_working_tree(bp, original_branch, original_branch)
                     stashed = False
                 except RuntimeError as restore_error:
                     raise RuntimeError(_("{0}. {1}").format(switch_error, restore_error)) from restore_error
             raise RuntimeError(switch_error)
         if stashed:
-            _restore_working_tree(bp)
+            _restore_working_tree(bp, original_branch, target_branch)
             stashed = False
         from .commit_handler import execute_commit
 

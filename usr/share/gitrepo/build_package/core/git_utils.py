@@ -551,11 +551,33 @@ class GitUtils:
         if configured:
             return configured
 
-        current = GitUtils.get_current_branch()
+        current = GitUtils.get_current_branch(repo_path)
         if current.startswith("dev-") and GitUtils.is_valid_branch_name(current):
             return current
 
         username = (username or GitUtils.get_github_username() or "unknown").strip()
+        if username == "unknown":
+            result = subprocess.run_git(
+                [
+                    "git",
+                    "for-each-ref",
+                    "--sort=-committerdate",
+                    "--format=%(refname)",
+                    "refs/heads",
+                    "refs/remotes/origin",
+                ],
+                cwd=repo_path or GitUtils.get_repo_root_path(),
+                capture_output=True,
+                text=True,
+                check=False,
+                intent="ordinary",
+            )
+            if result.returncode == 0:
+                for reference in result.stdout.splitlines():
+                    branch = reference.removeprefix("refs/heads/").removeprefix("refs/remotes/origin/")
+                    if branch.startswith("dev-") and GitUtils.is_valid_branch_name(branch):
+                        return branch
+
         inferred = f"dev-{username}"
         return inferred if GitUtils.is_valid_branch_name(inferred) else "dev-unknown"
 
@@ -673,14 +695,15 @@ class GitUtils:
         return True
 
     @staticmethod
-    def get_current_branch() -> str:
+    def get_current_branch(repo_path: str | None = None) -> str:
         """Gets the name of the current branch"""
-        if not GitUtils.is_git_repo():
+        if not repo_path and not GitUtils.is_git_repo():
             return ""
 
         try:
             result = subprocess.run_git(
                 ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+                cwd=repo_path,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,

@@ -193,6 +193,80 @@ class ConflictResolver:
         else:  # manual
             return self._resolve_manual(conflict_files)
 
+    def resolve_stashed_work(self, source_branch, target_branch):
+        """Resolve a stash transfer without reversing the user's local/remote choice."""
+        conflict_files = self.get_conflict_files()
+        if not conflict_files:
+            return True
+
+        self.logger.log(
+            "yellow",
+            _("Saved work from {0} conflicts with {1} in {2} file(s).").format(
+                source_branch,
+                target_branch,
+                len(conflict_files),
+            ),
+        )
+        if self.strategy == "auto-ours":
+            if not self._confirm_stash_side(conflict_files, source_branch, target_branch, "theirs"):
+                return False
+            return self._resolve_stash_side(conflict_files, "theirs", source_branch)
+        if self.strategy == "auto-theirs":
+            if not self._confirm_stash_side(conflict_files, source_branch, target_branch, "ours"):
+                return False
+            return self._resolve_stash_side(conflict_files, "ours", target_branch)
+        if self.strategy == "interactive":
+            return self._resolve_interactive_stash(conflict_files, source_branch, target_branch)
+
+        self.logger.log("yellow", _("The saved work remains in Git stash for manual resolution."))
+        return False
+
+    def _confirm_stash_side(self, conflict_files, source_branch, target_branch, side):
+        paths = "\n".join(f"• {display_path(path)}" for path in conflict_files)
+        if side == "theirs":
+            question = _(
+                "Restore your saved work from {0} in every conflicted file?\n\n"
+                "Target branch: {1}\n"
+                "In this stash transfer, the saved work is your local version:\n{2}"
+            ).format(source_branch, target_branch, paths)
+        else:
+            question = _(
+                "Keep the {0} version in every conflicted file?\n\n"
+                "The saved work from {1} remains recoverable in Git stash:\n{2}"
+            ).format(target_branch, source_branch, paths)
+        return self.menu is not None and self.menu.confirm(question, default_yes=False)
+
+    def _resolve_stash_side(self, conflict_files, side, branch):
+        for file_path in conflict_files:
+            if not self._resolve_index_side(file_path, side):
+                return False
+        self.logger.log(
+            "green",
+            _("Resolved stash conflicts using the {0} version.").format(branch),
+        )
+        return True
+
+    def _resolve_interactive_stash(self, conflict_files, source_branch, target_branch):
+        options = [
+            _("Use saved work from {0}").format(source_branch),
+            _("Keep target branch {0}").format(target_branch),
+            _("Stop and resolve manually"),
+        ]
+        for file_path in conflict_files:
+            result = self.menu.show_menu(
+                _("Which version should be used for {0}?").format(display_path(file_path)),
+                options,
+                default_index=0,
+            )
+            if result is None or result[0] == 2:
+                self.logger.log("yellow", _("The saved work remains in Git stash for manual resolution."))
+                return False
+            side = "theirs" if result[0] == 0 else "ours"
+            if not self._resolve_index_side(file_path, side):
+                return False
+        self.logger.log("green", _("All saved-work conflicts were resolved."))
+        return True
+
     def resolve_keeping_current(self, current_branch, incoming_ref, recovery_hint=""):
         """Resolve every conflict with the current branch, saying what is dropped.
 

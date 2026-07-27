@@ -23,17 +23,22 @@ class ConflictFileRow(Adw.ActionRow):
 
     __gtype_name__ = "ConflictFileRow"
 
-    # CSS classes for each action state
-    _ACTION_CLASSES = {
-        "ours": "conflict-local",
-        "theirs": "conflict-remote",
-        "both": "conflict-both",
-    }
-
-    def __init__(self, filepath: str):
+    def __init__(self, filepath: str, local_side: str = "ours"):
         super().__init__()
 
         self.filepath = filepath
+        self.local_side = local_side
+        self.remote_side = "theirs" if local_side == "ours" else "ours"
+        self._action_classes = {
+            self.local_side: "conflict-local",
+            self.remote_side: "conflict-remote",
+            "both": "conflict-both",
+        }
+        self._action_semantics = {
+            self.local_side: "local",
+            self.remote_side: "remote",
+            "both": "both",
+        }
         self.current_action: str | None = None
         self.set_title(filepath)
 
@@ -47,13 +52,13 @@ class ConflictFileRow(Adw.ActionRow):
         self.ours_button = Gtk.Button(label=_("Keep Local"))
         self.ours_button.set_tooltip_text(_("Keep local version"))
         self.ours_button.add_css_class("flat")
-        self.ours_button.connect("clicked", self._on_action_clicked, "ours")
+        self.ours_button.connect("clicked", self._on_action_clicked, self.local_side)
         button_box.append(self.ours_button)
 
         self.theirs_button = Gtk.Button(label=_("Accept Remote"))
         self.theirs_button.set_tooltip_text(_("Accept remote version"))
         self.theirs_button.add_css_class("flat")
-        self.theirs_button.connect("clicked", self._on_action_clicked, "theirs")
+        self.theirs_button.connect("clicked", self._on_action_clicked, self.remote_side)
         button_box.append(self.theirs_button)
 
         self.both_button = Gtk.Button(label=_("Keep Both"))
@@ -82,8 +87,8 @@ class ConflictFileRow(Adw.ActionRow):
 
         # Map action -> button for styling
         self._action_buttons = {
-            "ours": self.ours_button,
-            "theirs": self.theirs_button,
+            self.local_side: self.ours_button,
+            self.remote_side: self.theirs_button,
             "both": self.both_button,
         }
 
@@ -103,7 +108,7 @@ class ConflictFileRow(Adw.ActionRow):
 
     def _clear_visual(self) -> None:
         """Remove all action styling"""
-        for cls in self._ACTION_CLASSES.values():
+        for cls in self._action_classes.values():
             self.remove_css_class(cls)
         for btn in self._action_buttons.values():
             btn.remove_css_class("conflict-btn-active-local")
@@ -114,13 +119,13 @@ class ConflictFileRow(Adw.ActionRow):
 
     def _apply_visual(self, action: str) -> None:
         """Apply visual style for the selected action"""
-        row_cls = self._ACTION_CLASSES.get(action)
+        row_cls = self._action_classes.get(action)
         if row_cls:
             self.add_css_class(row_cls)
 
         btn = self._action_buttons.get(action)
         if btn:
-            btn.add_css_class(f"conflict-btn-active-{action.replace('theirs', 'remote').replace('ours', 'local')}")
+            btn.add_css_class(f"conflict-btn-active-{self._action_semantics[action]}")
 
         self.status_icon.set_from_icon_name("emblem-ok-symbolic")
 
@@ -128,7 +133,7 @@ class ConflictFileRow(Adw.ActionRow):
         """Programmatically set the action (used by bulk operations and diff dialog)"""
         self._clear_visual()
         self.current_action = action
-        if action in self._ACTION_CLASSES:
+        if action in self._action_classes:
             self._apply_visual(action)
         else:
             # Generic resolved state (e.g. 'manual')
@@ -150,13 +155,15 @@ class ConflictDialog(Adw.Window):
         "conflicts-resolved": (GObject.SignalFlags.RUN_FIRST, None, (bool,)),  # success
     }
 
-    def __init__(self, parent, conflict_files, repo_root=None):
+    def __init__(self, parent, conflict_files, repo_root=None, local_side="ours"):
         super().__init__(transient_for=parent, modal=True)
 
         self.conflict_files = conflict_files
         self.resolutions = {}  # filepath -> action
         self.resolved_count = 0
         self.repo_root = repo_root  # Git repo root for subprocess cwd
+        self.local_side = local_side
+        self.remote_side = "theirs" if local_side == "ours" else "ours"
 
         self.set_title(_("Resolve Conflicts"))
         self.set_default_size(800, 600)
@@ -302,7 +309,7 @@ class ConflictDialog(Adw.Window):
 
         # Add conflict rows
         for filepath in self.conflict_files:
-            row = ConflictFileRow(filepath)
+            row = ConflictFileRow(filepath, self.local_side)
             row.connect("action-selected", self.on_file_action_selected)
             row.connect("action-deselected", self.on_file_action_deselected)
             row.connect("show-diff", self.on_show_diff)
@@ -391,18 +398,17 @@ class ConflictDialog(Adw.Window):
         """Show a theme-adaptive side-by-side diff dialog."""
         # Get both versions from git
         try:
-            # Get "ours" version (local/current branch)
-            ours_result = subprocess.run_git(
-                ["git", "show", f":2:{filepath}"],
+            local_stage = "2" if self.local_side == "ours" else "3"
+            remote_stage = "3" if self.local_side == "ours" else "2"
+            local_result = subprocess.run_git(
+                ["git", "show", f":{local_stage}:{filepath}"],
                 capture_output=True,
                 check=False,
                 cwd=self.repo_root,
                 intent="ordinary",
             )
-
-            # Get "theirs" version (remote/incoming)
-            theirs_result = subprocess.run_git(
-                ["git", "show", f":3:{filepath}"],
+            remote_result = subprocess.run_git(
+                ["git", "show", f":{remote_stage}:{filepath}"],
                 capture_output=True,
                 check=False,
                 cwd=self.repo_root,
@@ -411,20 +417,20 @@ class ConflictDialog(Adw.Window):
 
             # Try to decode as UTF-8, fallback to latin-1
             try:
-                ours_content = ours_result.stdout.decode("utf-8") if ours_result.stdout else ""
+                local_content = local_result.stdout.decode("utf-8") if local_result.stdout else ""
             except UnicodeDecodeError:
-                ours_content = ours_result.stdout.decode("latin-1", errors="replace") if ours_result.stdout else ""
+                local_content = local_result.stdout.decode("latin-1", errors="replace") if local_result.stdout else ""
 
             try:
-                theirs_content = theirs_result.stdout.decode("utf-8") if theirs_result.stdout else ""
+                remote_content = remote_result.stdout.decode("utf-8") if remote_result.stdout else ""
             except UnicodeDecodeError:
-                theirs_content = (
-                    theirs_result.stdout.decode("latin-1", errors="replace") if theirs_result.stdout else ""
+                remote_content = (
+                    remote_result.stdout.decode("latin-1", errors="replace") if remote_result.stdout else ""
                 )
 
         except Exception as e:
-            ours_content = _("Error reading local version: {0}").format(str(e))
-            theirs_content = _("Error reading remote version: {0}").format(str(e))
+            local_content = _("Error reading local version: {0}").format(str(e))
+            remote_content = _("Error reading remote version: {0}").format(str(e))
 
         # Create diff dialog - larger and maximizable
         dialog = Adw.Window(transient_for=self, modal=True, title=_("Compare: {0}").format(filepath))
@@ -481,7 +487,7 @@ class ConflictDialog(Adw.Window):
         paned.set_vexpand(True)
         paned.set_wide_handle(True)
 
-        # Left side - LOCAL version (ours)
+        # Left side - the version presented as the user's local work
         left_frame = Gtk.Frame()
         left_frame.add_css_class("view")
 
@@ -509,13 +515,13 @@ class ConflictDialog(Adw.Window):
         left_text.set_bottom_margin(8)
 
         # Apply theme-independent syntax emphasis.
-        self._apply_diff_highlighting(left_text, ours_content, is_local=True)
+        self._apply_diff_highlighting(left_text, local_content, is_local=True)
 
         left_scrolled.set_child(left_text)
         left_box.append(left_scrolled)
         left_frame.set_child(left_box)
 
-        # Right side - REMOTE version (theirs)
+        # Right side - the other side of the conflict
         right_frame = Gtk.Frame()
         right_frame.add_css_class("view")
 
@@ -543,7 +549,7 @@ class ConflictDialog(Adw.Window):
         right_text.set_bottom_margin(8)
 
         # Apply theme-independent syntax emphasis.
-        self._apply_diff_highlighting(right_text, theirs_content, is_local=False)
+        self._apply_diff_highlighting(right_text, remote_content, is_local=False)
 
         right_scrolled.set_child(right_text)
         right_box.append(right_scrolled)
@@ -583,7 +589,7 @@ class ConflictDialog(Adw.Window):
         use_local_btn.set_tooltip_text(_("Keep your local changes"))
 
         def on_use_local(btn):
-            self._apply_choice_from_diff(filepath, "ours")
+            self._apply_choice_from_diff(filepath, self.local_side)
             dialog.close()
 
         use_local_btn.connect("clicked", on_use_local)
@@ -602,7 +608,7 @@ class ConflictDialog(Adw.Window):
         use_remote_btn.set_tooltip_text(_("Accept the remote server version"))
 
         def on_use_remote(btn):
-            self._apply_choice_from_diff(filepath, "theirs")
+            self._apply_choice_from_diff(filepath, self.remote_side)
             dialog.close()
 
         use_remote_btn.connect("clicked", on_use_remote)
@@ -674,21 +680,21 @@ class ConflictDialog(Adw.Window):
                 break
 
     def on_auto_ours_clicked(self, button):
-        """Apply 'ours' to all unresolved conflicts"""
+        """Keep the semantic local side in all unresolved conflicts."""
         for child in self._iter_conflict_rows():
             if child.filepath not in self.resolutions:
-                self.resolutions[child.filepath] = "ours"
-                child.set_action("ours")
+                self.resolutions[child.filepath] = self.local_side
+                child.set_action(self.local_side)
 
         self._update_status()
         self.status_label.set_text(_("All conflicts resolved (kept local versions)"))
 
     def on_auto_theirs_clicked(self, button):
-        """Apply 'theirs' to all unresolved conflicts"""
+        """Keep the semantic remote side in all unresolved conflicts."""
         for child in self._iter_conflict_rows():
             if child.filepath not in self.resolutions:
-                self.resolutions[child.filepath] = "theirs"
-                child.set_action("theirs")
+                self.resolutions[child.filepath] = self.remote_side
+                child.set_action(self.remote_side)
 
         self._update_status()
         self.status_label.set_text(_("All conflicts resolved (accepted remote versions)"))
@@ -878,7 +884,7 @@ class ConflictDialog(Adw.Window):
 
                 with authorize_destructive_git():
                     subprocess.run_git(
-                        ["git", "checkout", "--ours", "--", filepath],
+                        ["git", "checkout", f"--{getattr(self, 'local_side', 'ours')}", "--", filepath],
                         check=True,
                         capture_output=True,
                         cwd=self.repo_root,
