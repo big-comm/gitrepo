@@ -792,6 +792,22 @@ def test_reviewed_pull_expires_when_local_head_changes(build_package_modules, tm
     assert not (repository / "remote.txt").exists()
 
 
+def test_pull_fetch_error_keeps_git_ref_outside_translation(build_package_modules, monkeypatch):
+    pull_operations = importlib.import_module("gitrepo.build_package.core.pull_operations")
+    translated = []
+    monkeypatch.setattr(pull_operations, "_", lambda message: translated.append(message) or message)
+    monkeypatch.setattr(
+        pull_operations.subprocess,
+        "run_git",
+        lambda *args, **kwargs: SimpleNamespace(returncode=1, stdout="", stderr="offline"),
+    )
+    bp = SimpleNamespace(logger=Logger())
+
+    assert pull_operations._fetch_remote_branch(bp, "topic") is False
+    assert translated == ["Could not verify remote state: {0}"]
+    assert bp.logger.messages == [("red", "Could not verify remote state: origin/topic: offline")]
+
+
 def _revert_flow_bp(menu):
     return SimpleNamespace(logger=Logger(), menu=menu)
 

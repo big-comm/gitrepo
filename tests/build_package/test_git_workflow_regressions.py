@@ -95,11 +95,11 @@ def test_personal_branch_is_repository_specific_and_prefers_current_dev(tmp_path
 
 def test_personal_branch_uses_existing_dev_when_github_user_is_unknown(tmp_path, monkeypatch):
     repository, _remote = create_repository_with_remote(tmp_path)
-    run_git(repository, "checkout", "-b", "dev-talesam")
+    run_git(repository, "checkout", "-b", "dev-personal")
     run_git(repository, "checkout", "main")
     monkeypatch.chdir(tmp_path)
 
-    assert GitUtils.get_personal_branch("unknown", str(repository)) == "dev-talesam"
+    assert GitUtils.get_personal_branch("unknown", str(repository)) == "dev-personal"
 
 
 def _stage_and_modify(repository):
@@ -198,7 +198,7 @@ def test_gtk_stash_conflict_maps_saved_work_to_git_theirs():
 
 def test_commit_uses_the_configured_personal_branch(tmp_path, monkeypatch):
     repository, _remote = create_repository_with_remote(tmp_path)
-    assert GitUtils.set_personal_branch("dev-talesam", str(repository))
+    assert GitUtils.set_personal_branch("dev-personal", str(repository))
     tracked = _stage_and_modify(repository)
     monkeypatch.chdir(repository)
     menu = RecordingMenu()
@@ -216,7 +216,7 @@ def test_commit_uses_the_configured_personal_branch(tmp_path, monkeypatch):
     )
 
     def inspect_commit(_bp, _message, target_branch):
-        assert target_branch == "dev-talesam"
+        assert target_branch == "dev-personal"
         assert run_git(repository, "branch", "--show-current").stdout.strip() == target_branch
         _assert_index_and_worktree_restored(repository, tracked)
         return True
@@ -224,14 +224,14 @@ def test_commit_uses_the_configured_personal_branch(tmp_path, monkeypatch):
     monkeypatch.setattr(commit_handler, "execute_commit", inspect_commit)
 
     assert commit_operations.commit_and_push(bp)
-    assert "dev-talesam" in menu.question
+    assert "dev-personal" in menu.question
 
 
 def test_commit_gui_suggests_the_configured_personal_branch(tmp_path, monkeypatch):
     from gitrepo.build_package.gui.repository_actions import RepositoryActionsMixin
 
     repository, _remote = create_repository_with_remote(tmp_path)
-    assert GitUtils.set_personal_branch("dev-talesam", str(repository))
+    assert GitUtils.set_personal_branch("dev-personal", str(repository))
     monkeypatch.chdir(repository)
     shown = {}
     window = SimpleNamespace(
@@ -245,7 +245,7 @@ def test_commit_gui_suggests_the_configured_personal_branch(tmp_path, monkeypatc
 
     RepositoryActionsMixin.on_commit_requested(window, None, "fix: choose branch")
 
-    assert shown == {"current": "main", "personal": "dev-talesam", "protected": True}
+    assert shown == {"current": "main", "personal": "dev-personal", "protected": True}
     assert window._pending_commit_message == "fix: choose branch"
 
 
@@ -274,12 +274,12 @@ def test_pull_request_creation_routes_through_the_token_gate():
         window,
         None,
         "create",
-        "dev-talesam",
+        "dev-personal",
         "main",
         True,
     )
 
-    assert captured["request"] == ("dev-talesam", "main", True, logger)
+    assert captured["request"] == ("dev-personal", "main", True, logger)
     assert captured["result"] == {"number": 42}
     assert "gate" in captured
 

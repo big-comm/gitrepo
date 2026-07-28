@@ -53,7 +53,8 @@ def _fetch_remote_branch(bp, branch: str) -> bool:
     )
     if result.returncode == 0:
         return True
-    bp.logger.log("red", _("Could not fetch origin/{0}: {1}").format(branch, result.stderr.strip()))
+    detail = f"origin/{branch}: {result.stderr.strip()}"
+    bp.logger.log("red", _("Could not verify remote state: {0}").format(detail))
     return False
 
 

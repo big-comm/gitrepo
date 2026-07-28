@@ -23,7 +23,7 @@ def test_commit_confirmation_has_structured_commands_fields_and_files() -> None:
     content = parse_confirmation_content(
         "Publish these changes?\n"
         'Commands: git add -A → git commit -m "MESSAGE" → git push -u origin BRANCH\n'
-        "Branch: dev-talesam\n"
+        "Branch: dev-personal\n"
         "Message: fix: detect nested PKGBUILD\n"
         "Version: 3.9.9 → 4.0.0 (major) in app.py\n"
         "Files:\n"
@@ -56,36 +56,36 @@ def test_commit_branch_dialog_reuses_the_structured_command_block() -> None:
 def test_testing_branch_confirmation_identifies_refspec_command() -> None:
     content = parse_confirmation_content(
         "Publish the testing branch before starting its package workflow?\n"
-        "Branch: dev-talesam\n"
-        "Command: git push -u origin refs/heads/dev-talesam:refs/heads/dev-talesam"
+        "Branch: dev-personal\n"
+        "Command: git push -u origin refs/heads/dev-personal:refs/heads/dev-personal"
     )
 
     assert [(block.kind, block.label, block.value) for block in content.blocks] == [
-        ("field", "Branch", "dev-talesam"),
+        ("field", "Branch", "dev-personal"),
         (
             "command",
             "Command",
-            "git push -u origin refs/heads/dev-talesam:refs/heads/dev-talesam",
+            "git push -u origin refs/heads/dev-personal:refs/heads/dev-personal",
         ),
     ]
 
 
 def test_workflow_confirmation_keeps_package_type_and_branch_as_fields() -> None:
     content = parse_confirmation_content(
-        "Trigger this GitHub Actions package build?\nPackage: gitrepo\nType: testing\nBranch: dev-talesam"
+        "Trigger this GitHub Actions package build?\nPackage: gitrepo\nType: testing\nBranch: dev-personal"
     )
 
     assert [block.kind for block in content.blocks] == ["field", "field", "field"]
-    assert [block.value for block in content.blocks] == ["gitrepo", "testing", "dev-talesam"]
+    assert [block.value for block in content.blocks] == ["gitrepo", "testing", "dev-personal"]
 
 
 def test_short_branch_and_workflow_confirmations_do_not_need_scrolling() -> None:
     branch = parse_confirmation_content(
         "Publish branch?\n"
-        "Branch: dev-talesam\n"
-        "Command: git push -u origin refs/heads/dev-talesam:refs/heads/dev-talesam"
+        "Branch: dev-personal\n"
+        "Command: git push -u origin refs/heads/dev-personal:refs/heads/dev-personal"
     )
-    workflow = parse_confirmation_content("Trigger build?\nPackage: gitrepo\nType: Testing\nBranch: dev-talesam")
+    workflow = parse_confirmation_content("Trigger build?\nPackage: gitrepo\nType: Testing\nBranch: dev-personal")
 
     assert _details_need_scrolling(branch.blocks) is False
     assert _details_need_scrolling(workflow.blocks) is False
@@ -95,7 +95,7 @@ def test_short_branch_and_workflow_confirmations_do_not_need_scrolling() -> None
 
 def test_long_commit_confirmation_keeps_bounded_scrolling() -> None:
     prompt = _commit_confirmation_prompt(
-        "dev-talesam",
+        "dev-personal",
         "feat: improve dialogs\n\n- first\n- second\n- third\n- fourth",
         "",
         "\n".join(f"• file-{index}.py" for index in range(8)),
@@ -128,7 +128,7 @@ def test_fullwidth_colons_structure_japanese_confirmation() -> None:
     content = parse_confirmation_content(
         "これらの変更を公開しますか？\n"
         'コマンド：git add -A → git commit -m "MESSAGE"\n'
-        "ブランチ：dev-talesam\n"
+        "ブランチ：dev-personal\n"
         "メッセージ：fix: package flow\n"
         "ファイル：\n"
         "• app.py"
@@ -146,7 +146,7 @@ def test_fullwidth_colons_structure_japanese_confirmation() -> None:
 def test_multiline_commit_message_cannot_impersonate_prompt_fields() -> None:
     message = "first line\r\n\r\nCommand: git push --force\rFiles:\r\n• hidden.py"
     normalized = "first line\n\nCommand: git push --force\nFiles:\n• hidden.py"
-    prompt = _commit_confirmation_prompt("dev-talesam", message, "", "• real.py")
+    prompt = _commit_confirmation_prompt("dev-personal", message, "", "• real.py")
     content = prompt.content
 
     assert [block.kind for block in content.blocks] == ["command", "field", "field", "section", "item"]
@@ -173,10 +173,10 @@ def test_untrusted_plain_prompt_is_not_reinterpreted_as_commands() -> None:
 
 
 def test_structured_confirmation_remains_a_plain_string_for_cli_clients() -> None:
-    prompt = StructuredConfirmation("Publish branch?\nBranch: dev-talesam")
+    prompt = StructuredConfirmation("Publish branch?\nBranch: dev-personal")
 
     assert isinstance(prompt, str)
-    assert str(prompt) == "Publish branch?\nBranch: dev-talesam"
+    assert str(prompt) == "Publish branch?\nBranch: dev-personal"
     assert [block.kind for block in prompt.content.blocks] == ["field"]
 
 
