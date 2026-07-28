@@ -285,10 +285,11 @@ msgstr "Εκτέλεση git add, git commit και git push για το {0}..."
 msgid "Downloading updates"
 msgstr "Λήψη ενημερώσεων"
 # 
-# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 217
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:198
-msgid "Running git fetch and git merge for the current branch..."
-msgstr "Εκτέλεση git fetch και git merge για τον τρέχοντα κλάδο..."
+# File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 73
+# File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 136
+#: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:73 usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:136
+msgid "Checking..."
+msgstr "Έλεγχος..."
 # 
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 226
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:207
@@ -299,6 +300,19 @@ msgstr "Το αποθετήριο είναι ήδη ενημερωμένο"
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:212
 msgid "Changes received from the remote"
 msgstr "Λήφθηκαν αλλαγές από το απομακρυσμένο"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 300
+# File: usr/share/gitrepo/build_package/core/build_package.py, line: 249
+#: usr/share/gitrepo/build_package/core/build_package.py:249 usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:300
+msgid "Download updates"
+msgstr "Λήψη ενημερώσεων"
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 217
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:198
+msgid "Running git fetch and git merge for the current branch..."
+msgstr "Εκτέλεση git fetch και git merge για τον τρέχοντα κλάδο..."
 # 
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 242
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:223
@@ -2466,14 +2480,6 @@ msgstr "Περιγραφή (υποστηρίζει πολλαπλές γραμμ
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 300
-# File: usr/share/gitrepo/build_package/core/build_package.py, line: 249
-#: usr/share/gitrepo/build_package/core/build_package.py:249 usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:300
-msgid "Download updates"
-msgstr "Λήψη ενημερώσεων"
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 309
 # File: usr/share/gitrepo/build_package/core/build_package.py, line: 249
 #: usr/share/gitrepo/build_package/core/build_package.py:249 usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:309
@@ -4278,6 +4284,12 @@ msgstr ""
 "Git, αυτοματοποιεί τις κατασκευές και διαχειρίζεται τις ροές εργασίας πακέτων για αποθετήρια "
 "BigCommunity και πακέτα AUR."
 # 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 56
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not fetch origin/{0}: {1}"
+msgstr "Δεν ήταν δυνατή η λήψη του origin/{0}: {1}"
+# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 31
 #: usr/share/gitrepo/build_package/core/pull_operations.py:31
 msgid "Temporarily stash local changes"
@@ -4337,6 +4349,26 @@ msgstr "Επιλύστε τις υπάρχουσες συγκρούσεις πρ
 #: usr/share/gitrepo/build_package/core/pull_operations.py:104
 msgid "The current branch has no matching branch on origin."
 msgstr "Το τρέχον branch δεν έχει αντίστοιχο branch στο origin."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
+#: NEEDS WORK
+msgid "Could not compare the local and remote revisions."
+msgstr "Δεν ήταν δυνατή η σύγκριση των τοπικών και απομακρυσμένων αναθεωρήσεων."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
+#: NEEDS WORK
+msgid "Repository is already up to date."
+msgstr "Το αποθετήριο είναι ήδη ενημερωμένο."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 182
+#: NEEDS WORK
+msgid "Repository state no longer allows this update. Review it again."
+msgstr "Η κατάσταση του αποθετηρίου δεν επιτρέπει πλέον αυτή την ενημέρωση. Επανεξετάστε το ξανά."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 189
+#: NEEDS WORK
+msgid "The repository changed after the preview. Review the updates again."
+msgstr "Το αποθετήριο άλλαξε μετά την προεπισκόπηση. Επανεξετάστε τις ενημερώσεις ξανά."
 # 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 122
 #: usr/share/gitrepo/build_package/core/pull_operations.py:122
@@ -6375,12 +6407,6 @@ msgstr "Δημιουργία εικόνας"
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:72
 msgid "Image Status"
 msgstr "Κατάσταση εικόνας"
-# 
-# File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 73
-# File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 136
-#: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:73 usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:136
-msgid "Checking..."
-msgstr "Έλεγχος..."
 # 
 # File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 79
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:79

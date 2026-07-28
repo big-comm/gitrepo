@@ -285,10 +285,11 @@ msgstr "Spouštím git add, git commit a git push pro {0}..."
 msgid "Downloading updates"
 msgstr "Stahování aktualizací"
 # 
-# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 217
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:198
-msgid "Running git fetch and git merge for the current branch..."
-msgstr "Spouštím git fetch a git merge pro aktuální větev..."
+# File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 73
+# File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 136
+#: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:73 usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:136
+msgid "Checking..."
+msgstr "Kontrola..."
 # 
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 226
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:207
@@ -299,6 +300,19 @@ msgstr "Úložiště je již aktuální"
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:212
 msgid "Changes received from the remote"
 msgstr "Změny přijaté ze vzdáleného úložiště"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 300
+# File: usr/share/gitrepo/build_package/core/build_package.py, line: 249
+#: usr/share/gitrepo/build_package/core/build_package.py:249 usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:300
+msgid "Download updates"
+msgstr "Stáhnout aktualizace"
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 217
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:198
+msgid "Running git fetch and git merge for the current branch..."
+msgstr "Spouštím git fetch a git merge pro aktuální větev..."
 # 
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 242
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:223
@@ -2441,14 +2455,6 @@ msgstr "Popis (podporuje více řádků)"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 300
-# File: usr/share/gitrepo/build_package/core/build_package.py, line: 249
-#: usr/share/gitrepo/build_package/core/build_package.py:249 usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:300
-msgid "Download updates"
-msgstr "Stáhnout aktualizace"
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 309
 # File: usr/share/gitrepo/build_package/core/build_package.py, line: 249
 #: usr/share/gitrepo/build_package/core/build_package.py:249 usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:309
@@ -4250,6 +4256,12 @@ msgstr ""
 "automatizuje sestavení a spravuje pracovní postupy balíčků pro repozitáře BigCommunity a balíčky "
 "AUR."
 # 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 56
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not fetch origin/{0}: {1}"
+msgstr "Nelze načíst origin/{0}: {1}"
+# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 31
 #: usr/share/gitrepo/build_package/core/pull_operations.py:31
 msgid "Temporarily stash local changes"
@@ -4309,6 +4321,26 @@ msgstr "Před stažením vyřešte stávající konflikty."
 #: usr/share/gitrepo/build_package/core/pull_operations.py:104
 msgid "The current branch has no matching branch on origin."
 msgstr "Aktuální větev nemá odpovídající větev v úložišti origin."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
+#: NEEDS WORK
+msgid "Could not compare the local and remote revisions."
+msgstr "Nelze porovnat místní a vzdálené revize."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
+#: NEEDS WORK
+msgid "Repository is already up to date."
+msgstr "Repozitář je již aktuální."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 182
+#: NEEDS WORK
+msgid "Repository state no longer allows this update. Review it again."
+msgstr "Stav repozitáře již neumožňuje tuto aktualizaci. Zkontrolujte to znovu."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 189
+#: NEEDS WORK
+msgid "The repository changed after the preview. Review the updates again."
+msgstr "Repozitář se po náhledu změnil. Znovu zkontrolujte aktualizace."
 # 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 122
 #: usr/share/gitrepo/build_package/core/pull_operations.py:122
@@ -6338,12 +6370,6 @@ msgstr "Vytvořit image"
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:72
 msgid "Image Status"
 msgstr "Stav image"
-# 
-# File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 73
-# File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 136
-#: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:73 usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:136
-msgid "Checking..."
-msgstr "Kontrola..."
 # 
 # File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 79
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:79

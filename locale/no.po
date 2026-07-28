@@ -335,10 +335,12 @@ msgstr "Kjører git add, git commit og git push for {0}..."
 msgid "Downloading updates"
 msgstr "Laster ned oppdateringer"
 # 
-# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 217
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:198
-msgid "Running git fetch and git merge for the current branch..."
-msgstr "Kjører git fetch og git merge for gjeldende gren..."
+# File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 73
+# File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 136
+#: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:73
+#: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:136
+msgid "Checking..."
+msgstr "Sjekker..."
 # 
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 226
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:207
@@ -349,6 +351,20 @@ msgstr "Repository er allerede oppdatert"
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:212
 msgid "Changes received from the remote"
 msgstr "Endringer mottatt fra det eksterne depotet"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 300
+# File: usr/share/gitrepo/build_package/core/build_package.py, line: 249
+#: usr/share/gitrepo/build_package/core/build_package.py:249
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:300
+msgid "Download updates"
+msgstr "Last ned oppdateringer"
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 217
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:198
+msgid "Running git fetch and git merge for the current branch..."
+msgstr "Kjører git fetch og git merge for gjeldende gren..."
 # 
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 242
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:223
@@ -2604,15 +2620,6 @@ msgstr "Beskrivelse (støtter flere linjer)"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 300
-# File: usr/share/gitrepo/build_package/core/build_package.py, line: 249
-#: usr/share/gitrepo/build_package/core/build_package.py:249
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:300
-msgid "Download updates"
-msgstr "Last ned oppdateringer"
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 309
 # File: usr/share/gitrepo/build_package/core/build_package.py, line: 249
 #: usr/share/gitrepo/build_package/core/build_package.py:249
@@ -4456,6 +4463,12 @@ msgstr ""
 "Et omfattende verktøy for pakkeoppbygging, testing og distribusjon. Effektiviserer Git-operasjoner, "
 "automatiserer bygg og håndterer pakke-arbeidsflyter for BigCommunity-repositorier og AUR-pakker."
 # 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 56
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not fetch origin/{0}: {1}"
+msgstr "Kunne ikke hente origin/{0}: {1}"
+# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 31
 #: usr/share/gitrepo/build_package/core/pull_operations.py:31
 msgid "Temporarily stash local changes"
@@ -4515,6 +4528,26 @@ msgstr "Løs de eksisterende konfliktene før du henter."
 #: usr/share/gitrepo/build_package/core/pull_operations.py:104
 msgid "The current branch has no matching branch on origin."
 msgstr "Den gjeldende grenen har ingen tilsvarende gren på origin."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
+#: NEEDS WORK
+msgid "Could not compare the local and remote revisions."
+msgstr "Kunne ikke sammenligne de lokale og eksterne revisjonene."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
+#: NEEDS WORK
+msgid "Repository is already up to date."
+msgstr "Lageret er allerede oppdatert."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 182
+#: NEEDS WORK
+msgid "Repository state no longer allows this update. Review it again."
+msgstr "Repositorytilstanden tillater ikke lenger denne oppdateringen. Vennligst gjennomgå den igjen."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 189
+#: NEEDS WORK
+msgid "The repository changed after the preview. Review the updates again."
+msgstr "Repositoryet ble endret etter forhåndsvisningen. Gå gjennom oppdateringene igjen."
 # 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 122
 #: usr/share/gitrepo/build_package/core/pull_operations.py:122
@@ -6578,13 +6611,6 @@ msgstr "Bygg bilde"
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:72
 msgid "Image Status"
 msgstr "Bildestatus"
-# 
-# File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 73
-# File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 136
-#: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:73
-#: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:136
-msgid "Checking..."
-msgstr "Sjekker..."
 # 
 # File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 79
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:79

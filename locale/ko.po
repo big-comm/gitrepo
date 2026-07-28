@@ -285,10 +285,11 @@ msgstr "{0}에 대해 git add, git commit, git push를 실행 중..."
 msgid "Downloading updates"
 msgstr "업데이트 다운로드 중"
 # 
-# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 217
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:198
-msgid "Running git fetch and git merge for the current branch..."
-msgstr "현재 브랜치에 대해 git fetch 및 git merge를 실행 중..."
+# File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 73
+# File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 136
+#: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:73 usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:136
+msgid "Checking..."
+msgstr "확인 중..."
 # 
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 226
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:207
@@ -299,6 +300,19 @@ msgstr "저장소가 이미 최신 상태입니다"
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:212
 msgid "Changes received from the remote"
 msgstr "원격에서 변경 사항을 수신했습니다"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 300
+# File: usr/share/gitrepo/build_package/core/build_package.py, line: 249
+#: usr/share/gitrepo/build_package/core/build_package.py:249 usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:300
+msgid "Download updates"
+msgstr "업데이트 다운로드"
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 217
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:198
+msgid "Running git fetch and git merge for the current branch..."
+msgstr "현재 브랜치에 대해 git fetch 및 git merge를 실행 중..."
 # 
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 242
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:223
@@ -2418,14 +2432,6 @@ msgstr "설명 (여러 줄 지원)"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 300
-# File: usr/share/gitrepo/build_package/core/build_package.py, line: 249
-#: usr/share/gitrepo/build_package/core/build_package.py:249 usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:300
-msgid "Download updates"
-msgstr "업데이트 다운로드"
-# 
-# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 309
 # File: usr/share/gitrepo/build_package/core/build_package.py, line: 249
 #: usr/share/gitrepo/build_package/core/build_package.py:249 usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:309
@@ -4221,6 +4227,12 @@ msgstr ""
 "패키지 빌드, 테스트 및 배포를 위한 종합 도구입니다. Git 작업을 간소화하고, 빌드를 자동화하며, BigCommunity 저장소와 AUR 패키지의 패키지 워크플로우를 "
 "관리합니다."
 # 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 56
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not fetch origin/{0}: {1}"
+msgstr "원본/{0}을(를) 가져올 수 없습니다: {1}"
+# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 31
 #: usr/share/gitrepo/build_package/core/pull_operations.py:31
 msgid "Temporarily stash local changes"
@@ -4280,6 +4292,26 @@ msgstr "가져오기 전에 기존 충돌을 해결하세요."
 #: usr/share/gitrepo/build_package/core/pull_operations.py:104
 msgid "The current branch has no matching branch on origin."
 msgstr "현재 브랜치에 origin의 일치하는 브랜치가 없습니다."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
+#: NEEDS WORK
+msgid "Could not compare the local and remote revisions."
+msgstr "로컬 및 원격 수정 사항을 비교할 수 없습니다."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
+#: NEEDS WORK
+msgid "Repository is already up to date."
+msgstr "저장소가 이미 최신 상태입니다."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 182
+#: NEEDS WORK
+msgid "Repository state no longer allows this update. Review it again."
+msgstr "저장소 상태가 더 이상 이 업데이트를 허용하지 않습니다. 다시 검토하십시오."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 189
+#: NEEDS WORK
+msgid "The repository changed after the preview. Review the updates again."
+msgstr "미리보기 후 리포지토리가 변경되었습니다. 업데이트를 다시 검토하세요."
 # 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 122
 #: usr/share/gitrepo/build_package/core/pull_operations.py:122
@@ -6304,12 +6336,6 @@ msgstr "이미지 빌드"
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:72
 msgid "Image Status"
 msgstr "이미지 상태"
-# 
-# File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 73
-# File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 136
-#: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:73 usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:136
-msgid "Checking..."
-msgstr "확인 중..."
 # 
 # File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 79
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:79
