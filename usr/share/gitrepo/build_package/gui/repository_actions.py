@@ -199,38 +199,41 @@ class RepositoryActionsMixin:
         return _execute(self.build_package, commit_message, target_branch)
 
     def on_pull_requested(self, widget):
-        """Handle pull request"""
-
-        def pull_operation():
-            # Import V2 operation
-            from gitrepo.build_package.core.pull_operations import pull_latest
-
-            before = GitUtils.get_head_sha()
-            if not pull_latest(self.build_package):
-                return False
-            after = GitUtils.get_head_sha()
-            return {"before": before, "after": after, "changes": GitUtils.get_revision_changes(before, after)}
+        """Fetch remote updates and let the user review them before merging."""
+        from gitrepo.build_package.core.pull_operations import prepare_pull
 
         self.operation_runner.run_with_progress(
-            pull_operation,
+            lambda: prepare_pull(self.build_package),
             _("Downloading updates"),
-            _("Running git fetch and git merge for the current branch..."),
-            completion_callback=self._show_pulled_changes,
+            _("Checking..."),
+            completion_callback=self._show_pull_preview,
         )
 
-    def _show_pulled_changes(self, result):
-        """Show which files a completed pull brought in."""
+    def _show_pull_preview(self, preview):
+        """Show incoming file differences with the update action beside them."""
+        from gitrepo.build_package.core.pull_operations import PullPreview
         from gitrepo.build_package.gui.dialogs.diff_viewer_dialog import present_diff_viewer
 
-        if not isinstance(result, dict) or not result.get("changes"):
+        if not isinstance(preview, PullPreview) or not preview.changes:
             self.show_toast(_("Repository is already up to date"))
             return
-        before, after = result["before"], result["after"]
         present_diff_viewer(
             self,
             _("Changes received from the remote"),
-            result["changes"],
-            lambda filepath: GitUtils.get_revision_file_diff(before, after, filepath),
+            preview.changes,
+            lambda filepath: GitUtils.get_revision_file_diff(preview.merge_base, preview.remote_head, filepath),
+            action_label=_("Download updates"),
+            action_callback=lambda: self._apply_pull_preview(preview),
+        )
+
+    def _apply_pull_preview(self, preview):
+        """Apply the immutable remote update accepted in the diff viewer."""
+        from gitrepo.build_package.core.pull_operations import apply_pull_preview
+
+        self.operation_runner.run_with_progress(
+            lambda: apply_pull_preview(self.build_package, preview),
+            _("Downloading updates"),
+            _("Running git fetch and git merge for the current branch..."),
         )
 
     def on_undo_commit_requested(self, widget):

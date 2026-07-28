@@ -24,7 +24,7 @@ class ProgressDialog(Adw.Window):
         "operation-cancelled": (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
-    def __init__(self, parent, title, message="", cancellable=False):
+    def __init__(self, parent, title, message="", cancellable=False, auto_advance=False):
         super().__init__(transient_for=parent, modal=True)
 
         self.set_title(_("Operation Progress"))
@@ -34,6 +34,7 @@ class ProgressDialog(Adw.Window):
         self.operation_title = title
         self.operation_message = message
         self.cancellable = cancellable
+        self.auto_advance = auto_advance
         self.operation_thread = None
         self.operation_function = None
         self.operation_args = ()
@@ -396,6 +397,9 @@ class ProgressDialog(Adw.Window):
         # Store result for later access
         self._operation_success = success
         self._operation_result = result
+        if success and self.auto_advance:
+            self.cancel_button.set_visible(False)
+            self.emit("operation-completed", success, result)
 
         return False
 
@@ -478,7 +482,7 @@ class OperationRunner:
         self._busy = True
         self._completion_callback = completion_callback
 
-        dialog = ProgressDialog(self.parent, title, message, cancellable)
+        dialog = ProgressDialog(self.parent, title, message, cancellable, auto_advance=completion_callback is not None)
         self.current_dialog = dialog
 
         # Connect logger to dialog so log messages go there
@@ -556,15 +560,15 @@ class OperationRunner:
     def _on_operation_success(self, result):
         """Handle successful operation"""
         callback = getattr(self, "_completion_callback", None)
+        continues_to_review = callback is not None
         if callback:
             self._completion_callback = None
             callback(result)
         if self.parent:
-            # Show success toast
-            self.parent.show_toast(_("Operation completed successfully"))
+            if not continues_to_review:
+                self.parent.show_toast(_("Operation completed successfully"))
 
-            # Send system notification if window is not focused
-            if not self.parent.is_active():
+            if not continues_to_review and not self.parent.is_active():
                 if hasattr(self.parent, "send_system_notification"):
                     self.parent.send_system_notification(
                         _("Build Package"), _("Operation completed successfully"), "emblem-ok-symbolic"
