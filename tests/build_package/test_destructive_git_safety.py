@@ -730,6 +730,68 @@ def test_pull_updates_branch_and_restores_untracked_file(build_package_modules, 
     assert run_git(repository, "stash", "list").stdout.strip() == ""
 
 
+def test_reviewed_pull_previews_before_changing_worktree(build_package_modules, tmp_path, monkeypatch):
+    pull_operations = importlib.import_module("gitrepo.build_package.core.pull_operations")
+    repository, remote = create_repository_with_remote(tmp_path)
+    publisher = tmp_path / "publisher"
+    subprocess.run(["git", "clone", "--branch", "main", str(remote), str(publisher)], check=True, capture_output=True)
+    run_git(publisher, "config", "user.name", "Publisher")
+    run_git(publisher, "config", "user.email", "publisher@example.invalid")
+    (publisher / "remote.txt").write_text("from remote\n", encoding="utf-8")
+    run_git(publisher, "add", "remote.txt")
+    run_git(publisher, "commit", "-m", "remote update")
+    run_git(publisher, "push", "origin", "main")
+    (repository / "local.txt").write_text("keep me\n", encoding="utf-8")
+    head_before = run_git(repository, "rev-parse", "HEAD").stdout.strip()
+    monkeypatch.chdir(repository)
+
+    class Menu:
+        def confirm(self, *_args, **_kwargs):
+            raise AssertionError("The reviewed GUI flow must not ask for a second generic confirmation")
+
+    bp = _pull_flow_bp(Menu())
+    preview = pull_operations.prepare_pull(bp)
+
+    assert isinstance(preview, pull_operations.PullPreview)
+    assert preview.changes == (("A", "remote.txt"),)
+    assert run_git(repository, "rev-parse", "HEAD").stdout.strip() == head_before
+    assert not (repository / "remote.txt").exists()
+
+    assert pull_operations.apply_pull_preview(bp, preview) is True
+    assert (repository / "remote.txt").read_text(encoding="utf-8") == "from remote\n"
+    assert (repository / "local.txt").read_text(encoding="utf-8") == "keep me\n"
+    assert run_git(repository, "stash", "list").stdout.strip() == ""
+
+
+def test_reviewed_pull_expires_when_local_head_changes(build_package_modules, tmp_path, monkeypatch):
+    pull_operations = importlib.import_module("gitrepo.build_package.core.pull_operations")
+    repository, remote = create_repository_with_remote(tmp_path)
+    publisher = tmp_path / "publisher"
+    subprocess.run(["git", "clone", "--branch", "main", str(remote), str(publisher)], check=True, capture_output=True)
+    run_git(publisher, "config", "user.name", "Publisher")
+    run_git(publisher, "config", "user.email", "publisher@example.invalid")
+    (publisher / "remote.txt").write_text("from remote\n", encoding="utf-8")
+    run_git(publisher, "add", "remote.txt")
+    run_git(publisher, "commit", "-m", "remote update")
+    run_git(publisher, "push", "origin", "main")
+    monkeypatch.chdir(repository)
+
+    class Menu:
+        def confirm(self, *_args, **_kwargs):
+            raise AssertionError("An expired preview must not reach confirmation")
+
+    bp = _pull_flow_bp(Menu())
+    preview = pull_operations.prepare_pull(bp)
+    assert isinstance(preview, pull_operations.PullPreview)
+
+    (repository / "local-commit.txt").write_text("changed after preview\n", encoding="utf-8")
+    run_git(repository, "add", "local-commit.txt")
+    run_git(repository, "commit", "-m", "local update")
+
+    assert pull_operations.apply_pull_preview(bp, preview) is False
+    assert not (repository / "remote.txt").exists()
+
+
 def _revert_flow_bp(menu):
     return SimpleNamespace(logger=Logger(), menu=menu)
 

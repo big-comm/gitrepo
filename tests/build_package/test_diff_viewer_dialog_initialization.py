@@ -60,3 +60,23 @@ def test_closing_dialog_disconnects_global_style_handler_once() -> None:
 
     assert DiffViewerDialog._on_close_request(dialog, None) is False
     assert disconnected == [17]
+
+
+def test_review_action_closes_before_callback_and_runs_once() -> None:
+    events: list[object] = []
+    button = SimpleNamespace(set_sensitive=lambda value: events.append(("sensitive", value)))
+    dialog = SimpleNamespace(
+        _action_callback=lambda: events.append("callback"),
+        close=lambda: events.append("close"),
+    )
+
+    DiffViewerDialog._on_action_clicked(dialog, button)
+    DiffViewerDialog._on_action_clicked(dialog, button)
+
+    assert events == [
+        ("sensitive", False),
+        "close",
+        "callback",
+        ("sensitive", False),
+        "close",
+    ]

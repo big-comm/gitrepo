@@ -25,11 +25,21 @@ STATUS_LABELS = {
 class DiffViewerDialog(Adw.Window):
     """List the changed files and show a unified diff for the selected one."""
 
-    def __init__(self, parent, title, changes, diff_loader, initial_path=None):
+    def __init__(
+        self,
+        parent,
+        title,
+        changes,
+        diff_loader,
+        initial_path=None,
+        action_label=None,
+        action_callback=None,
+    ):
         super().__init__(transient_for=parent, modal=True, title=title)
         self.set_default_size(1000, 660)
         self.set_resizable(True)
         self._diff_loader = diff_loader
+        self._action_callback = action_callback
         self._style_manager = Adw.StyleManager.get_default()
 
         toolbar = Adw.ToolbarView()
@@ -46,6 +56,8 @@ class DiffViewerDialog(Adw.Window):
         paned.set_start_child(file_sidebar)
         paned.set_end_child(diff_pane)
         toolbar.set_content(paned)
+        if action_label and action_callback:
+            toolbar.add_bottom_bar(self._create_action_bar(action_label))
 
         self._style_handler = self._style_manager.connect("notify::dark", lambda *_args: self._reload_selected_diff())
         self.connect("close-request", self._on_close_request)
@@ -110,6 +122,30 @@ class DiffViewerDialog(Adw.Window):
         self._set_diff_text(_("No changed files to display."))
         return container
 
+    def _create_action_bar(self, action_label):
+        action_bar = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        action_bar.add_css_class("build-package-action-bar")
+        action_bar.set_halign(Gtk.Align.END)
+
+        cancel_button = Gtk.Button(label=_("Cancel"))
+        cancel_button.connect("clicked", lambda *_args: self.close())
+        action_bar.append(cancel_button)
+
+        self.action_button = Gtk.Button(label=action_label)
+        self.action_button.add_css_class("suggested-action")
+        self.action_button.connect("clicked", self._on_action_clicked)
+        action_bar.append(self.action_button)
+        return action_bar
+
+    def _on_action_clicked(self, button):
+        """Close the review before starting its accepted follow-up action."""
+        button.set_sensitive(False)
+        callback = self._action_callback
+        self._action_callback = None
+        self.close()
+        if callback:
+            callback()
+
     def _on_row_selected(self, _listbox, row):
         if row is None:
             return
@@ -144,13 +180,29 @@ class DiffViewerDialog(Adw.Window):
         return None
 
 
-def present_diff_viewer(parent, title, changes, diff_loader, initial_path=None):
+def present_diff_viewer(
+    parent,
+    title,
+    changes,
+    diff_loader,
+    initial_path=None,
+    action_label=None,
+    action_callback=None,
+):
     """Open the viewer, or report that nothing changed."""
     if not changes:
         if parent is not None and hasattr(parent, "show_toast"):
             parent.show_toast(_("No changed files to display."))
         return None
-    dialog = DiffViewerDialog(parent, title, changes, diff_loader, initial_path)
+    dialog = DiffViewerDialog(
+        parent,
+        title,
+        changes,
+        diff_loader,
+        initial_path,
+        action_label,
+        action_callback,
+    )
     dialog.present()
     return dialog
 
