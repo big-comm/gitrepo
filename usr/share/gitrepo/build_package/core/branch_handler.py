@@ -232,6 +232,7 @@ def switch_branch(bp, target_branch: str, stash_first: bool = False, discard_fir
     """Switch to a validated branch after the user's explicit preservation choice."""
     if not _valid_branch_name(target_branch):
         return _switch_result(False, _("Invalid branch name"), "error")
+    source_branch = GitUtils.get_current_branch()
     try:
         stashed = _stash_working_tree(target_branch) if stash_first else False
         if discard_first:
@@ -242,10 +243,10 @@ def switch_branch(bp, target_branch: str, stash_first: bool = False, discard_fir
                 subprocess.run_git(["git", "clean", "-fd"], check=True, capture_output=True, intent="destructive")
         if not _checkout_branch(target_branch):
             if stashed:
-                _restore_working_tree(bp)
+                _restore_working_tree(bp, source_branch, source_branch)
             return _switch_result(False, _("Could not switch branch"), "error")
         if stashed:
-            _restore_working_tree(bp)
+            _restore_working_tree(bp, source_branch, target_branch)
             return _switch_result(True, _("Switched to {0} with local changes restored.").format(target_branch))
         return _switch_result(True, _("Switched to branch: {0}").format(target_branch))
     except (RuntimeError, subprocess.SubprocessError) as error:

@@ -137,9 +137,10 @@ class BranchWidget(Gtk.Box):
         scrolled.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
 
         self.branches_list = Gtk.ListBox()
-        self.branches_list.set_selection_mode(Gtk.SelectionMode.SINGLE)
+        self.branches_list.set_selection_mode(Gtk.SelectionMode.NONE)
+        self.branches_list.set_activate_on_single_click(True)
         self.branches_list.add_css_class("boxed-list")
-        self.branches_list.connect("row-selected", self.on_branch_selected)
+        self.branches_list.connect("row-activated", self.on_branch_activated)
 
         scrolled.set_child(self.branches_list)
         branches_group.add(scrolled)
@@ -305,9 +306,8 @@ class BranchWidget(Gtk.Box):
             current_index = branches.index(self.current_branch)
             self.source_branch_row.set_selected(current_index)
 
-    def on_branch_selected(self, _list_box, row):
-        """Handle branch selection"""
-        # Ignore if signal is blocked (during refresh) or no row selected
+    def on_branch_activated(self, _list_box, row):
+        """Handle an explicit branch-row activation."""
         if self._block_selection_signal or not row:
             return
         branch_name = row.branch_name
