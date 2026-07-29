@@ -146,6 +146,32 @@ def test_failed_checkout_restores_stashed_work_on_original_branch(tmp_path, monk
     _assert_index_and_worktree_restored(repository, tracked)
 
 
+def test_branch_switch_restores_stashed_work_on_target_branch(tmp_path, monkeypatch):
+    repository, _remote = create_repository_with_remote(tmp_path)
+    run_git(repository, "branch", "dev-target")
+    tracked = _stage_and_modify(repository)
+    monkeypatch.chdir(repository)
+
+    result = branch_handler.switch_branch(_bp(), "dev-target", stash_first=True)
+
+    assert result["success"]
+    assert run_git(repository, "branch", "--show-current").stdout.strip() == "dev-target"
+    _assert_index_and_worktree_restored(repository, tracked)
+
+
+def test_failed_branch_switch_restores_stashed_work_on_source_branch(tmp_path, monkeypatch):
+    repository, _remote = create_repository_with_remote(tmp_path)
+    tracked = _stage_and_modify(repository)
+    monkeypatch.chdir(repository)
+    monkeypatch.setattr(branch_handler, "_checkout_branch", lambda _branch: False)
+
+    result = branch_handler.switch_branch(_bp(), "dev-target", stash_first=True)
+
+    assert not result["success"]
+    assert run_git(repository, "branch", "--show-current").stdout.strip() == "main"
+    _assert_index_and_worktree_restored(repository, tracked)
+
+
 def test_switch_and_commit_treats_stashed_work_as_the_local_version(tmp_path, monkeypatch):
     repository, _remote = create_repository_with_remote(tmp_path)
     run_git(repository, "branch", "dev-source")

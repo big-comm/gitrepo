@@ -90,6 +90,15 @@ def test_a_repeated_row_subtitle_does_not_restate_the_group_description():
     assert "Selecting another branch runs git checkout BRANCH" in source
 
 
+def test_branch_switch_requires_explicit_row_activation():
+    source = _source("widgets/branch_widget.py")
+
+    assert "self.branches_list.set_selection_mode(Gtk.SelectionMode.NONE)" in source
+    assert "self.branches_list.set_activate_on_single_click(True)" in source
+    assert 'self.branches_list.connect("row-activated", self.on_branch_activated)' in source
+    assert 'self.branches_list.connect("row-selected"' not in source
+
+
 def test_pending_work_is_not_presented_as_a_warning():
     source = _source("widgets/commit_widget.py")
 
