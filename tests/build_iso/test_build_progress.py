@@ -14,9 +14,9 @@ from gitrepo.build_iso.core.iso_builder import (
 )
 from gitrepo.build_iso.gui.dialogs.progress_dialog import (
     BuildProgressDialog,
-    _is_at_log_tail,
     build_step_states,
 )
+from gitrepo.build_iso.gui.dialogs import progress_dialog as progress_dialog_module
 
 
 def _builder(tmp_path: Path, callbacks: dict | None = None) -> ISOBuilder:
@@ -215,31 +215,37 @@ def test_progress_dialog_uses_numbered_steps_without_pulsing_bar():
     assert '"on_live_log"' in source
 
 
-def test_progress_log_scrolls_to_a_persistent_end_mark():
+def test_progress_log_scroll_is_coalesced_until_layout(monkeypatch):
+    scheduled = []
     calls = []
     end_mark = object()
     dialog = SimpleNamespace(
+        _log_scroll_source_id=None,
         _log_end_mark=end_mark,
+        log_buffer=SimpleNamespace(
+            get_end_iter=lambda: "end",
+            move_mark=lambda *args: calls.append(("move", args)),
+        ),
         log_view=SimpleNamespace(scroll_to_mark=lambda *args: calls.append(args)),
     )
+    dialog._scroll_log_to_end = lambda: BuildProgressDialog._scroll_log_to_end(dialog)
+    monkeypatch.setattr(
+        progress_dialog_module.GLib,
+        "idle_add",
+        lambda callback: scheduled.append(callback) or 17,
+    )
 
-    BuildProgressDialog._scroll_log_to_end(dialog)
+    BuildProgressDialog._request_log_scroll_to_end(dialog)
+    BuildProgressDialog._request_log_scroll_to_end(dialog)
 
-    assert calls == [(end_mark, 0.0, True, 0.0, 1.0)]
-
-
-@pytest.mark.parametrize(
-    ("value", "upper", "page_size", "expected"),
-    [
-        (0.0, 0.0, 0.0, True),
-        (0.0, 100.0, 100.0, True),
-        (48.0, 150.0, 100.0, True),
-        (47.0, 150.0, 100.0, False),
-        (10.0, 150.0, 100.0, False),
-    ],
-)
-def test_progress_log_only_follows_when_viewport_is_at_the_tail(value, upper, page_size, expected):
-    assert _is_at_log_tail(value, upper, page_size) is expected
+    assert dialog._log_scroll_source_id == 17
+    assert len(scheduled) == 1
+    assert scheduled[0]() is False
+    assert dialog._log_scroll_source_id is None
+    assert calls == [
+        ("move", (end_mark, "end")),
+        (end_mark, 0.0, True, 0.0, 1.0),
+    ]
 
 
 @pytest.mark.parametrize(
