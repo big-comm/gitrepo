@@ -683,7 +683,19 @@ class BuildProgressDialog(Adw.Window):
         self.present()
 
     def _build_worker(self):
-        result = self.builder.execute()
+        try:
+            result = self.builder.execute()
+        except BaseException as error:  # noqa: BLE001 - the dialog must always finish
+            # Nothing else reports completion. Letting this thread die would
+            # leave the elapsed timer running and the window unclosable.
+            result = {
+                "success": False,
+                "status": "failed",
+                "iso_path": "",
+                "error": str(error) or error.__class__.__name__,
+                "duration": 0,
+                "manifest": {},
+            }
         GLib.idle_add(self._on_build_finished, result)
 
     def _update_progress(self, fraction, text):

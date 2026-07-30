@@ -626,7 +626,9 @@ class ISOBuilder:
     def _build_and_publish_iso(self) -> tuple[str, str]:
         error = self._run_step("container_build", self._run_container, _("Container build failed"))
         if error:
-            if self._container_name:
+            # Cancelling removes the container, so pointing the user at a name
+            # `docker logs` cannot resolve is worse than saying nothing.
+            if self._container_name and not self.is_cancelled:
                 self._log(
                     "yellow",
                     _("Stopped container preserved for debugging: {0}").format(self._container_name),
@@ -660,7 +662,14 @@ class ISOBuilder:
                 result["success"] = True
                 result["status"] = "succeeded"
                 self._log("green", _("Build completed successfully: {0}").format(result["iso_path"]))
-        except (OSError, subprocess.SubprocessError, RuntimeError) as error:
+        except Exception as error:
+            # Every exit has to produce a result: the caller runs this on a
+            # worker thread and only reports completion from its return value,
+            # so an escaping exception leaves the dialog running forever with a
+            # container still alive. The pipeline raises more than OSError --
+            # a rejected build mirror raises ValueError, and strict decoding
+            # raises UnicodeDecodeError -- and `finally` already normalizes the
+            # status either way.
             result["error"] = str(error)
             self._log("red", _("Build failed: {0}").format(error))
         finally:
