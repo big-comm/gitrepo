@@ -4,7 +4,6 @@
 #
 
 import os
-import shutil
 
 import gi
 
@@ -16,6 +15,19 @@ from gitrepo.common.desktop_launch import open_path
 from gitrepo.common.translation import _
 from gitrepo.common import child_process as subprocess
 from gitrepo.common.child_process import authorize_destructive_git
+
+
+def _core_resolver(repo_root):
+    """Borrow the core resolver for its safe companion-file writer.
+
+    The dialog owns the interaction; creating the files stays with the one
+    implementation that refuses to overwrite or follow an existing name.
+    """
+    from gitrepo.build_package.core.conflict_resolver import ConflictResolver
+
+    resolver = ConflictResolver(logger=None, menu_system=None)
+    resolver.repo_root = repo_root
+    return resolver
 
 
 class ConflictFileRow(Adw.ActionRow):
@@ -857,30 +869,16 @@ class ConflictDialog(Adw.Window):
                 # File was edited, just return True
                 return True
             elif action == "both":
-                # Keep both versions by creating .ours and .theirs files
-                abs_path = os.path.join(self.repo_root, filepath) if self.repo_root else filepath
-                ours_file = f"{abs_path}.ours"
-                theirs_file = f"{abs_path}.theirs"
-
-                with authorize_destructive_git():
-                    subprocess.run_git(
-                        ["git", "checkout", "--ours", "--", filepath],
-                        check=True,
-                        capture_output=True,
-                        cwd=self.repo_root,
-                        intent="destructive",
-                    )
-                shutil.copy(abs_path, ours_file)
-
-                with authorize_destructive_git():
-                    subprocess.run_git(
-                        ["git", "checkout", "--theirs", "--", filepath],
-                        check=True,
-                        capture_output=True,
-                        cwd=self.repo_root,
-                        intent="destructive",
-                    )
-                shutil.copy(abs_path, theirs_file)
+                # Write both sides straight out of the index, through the core
+                # resolver. Checking each side out and copying it, as this
+                # dialog used to, overwrote an untracked file.ours the user
+                # already owned and followed it when it was a symlink; the core
+                # reserves the companion with O_CREAT|O_EXCL|O_NOFOLLOW and
+                # falls back to a numbered name instead.
+                resolver = _core_resolver(self.repo_root)
+                ours_file = resolver._write_index_stage(filepath, "2", "ours")
+                theirs_file = resolver._write_index_stage(filepath, "3", "theirs")
+                print(_("Saved both versions: {0}, {1}").format(ours_file, theirs_file))
 
                 with authorize_destructive_git():
                     subprocess.run_git(

@@ -529,6 +529,25 @@ def _git_output(command):
     return result.stdout.strip() if result.returncode == 0 else ""
 
 
+def _branch_allows_revert(bp, current_branch: str, revert_method: str) -> bool:
+    """Apply the branch rules the interactive menu has always applied.
+
+    Reverting is limited to main or the user's own dev branch, and shared main
+    only accepts the history-preserving method. execute_revert_by_hash is the
+    GUI's only entry point and reproduced neither rule, so the maintenance page
+    could hard-reset main -- or someone else's branch -- and then offer to
+    force-push it.
+    """
+    own_branch = f"dev-{bp.github_user_name or 'unknown'}"
+    if current_branch not in ("main", own_branch):
+        bp.logger.log("red", _("You can only revert commits on your own branch ({0}) or main.").format(own_branch))
+        return False
+    if current_branch == "main" and revert_method != "revert":
+        bp.logger.log("red", _("Shared main branch: only the history-preserving revert method is available."))
+        return False
+    return True
+
+
 def execute_revert_by_hash(bp, commit_hash: str, revert_method: str, *, confirmed: bool = False) -> bool:
     """Execute revert/reset using a raw commit hash (bridge for GUI signals).
 
@@ -542,6 +561,8 @@ def execute_revert_by_hash(bp, commit_hash: str, revert_method: str, *, confirme
     current_branch = GitUtils.get_current_branch()
     if not current_branch:
         bp.logger.log("red", _("✗ Could not determine current branch"))
+        return False
+    if not _branch_allows_revert(bp, current_branch, revert_method):
         return False
 
     try:
