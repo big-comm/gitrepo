@@ -314,7 +314,9 @@ def test_container_cleanup_removes_exact_confirmed_ids(monkeypatch):
     monkeypatch.setattr("gitrepo.build_iso.core.container_manager.subprocess.run", run)
 
     assert manager.remove_stopped_containers(["0123456789ab"]) is True
-    assert run.call_args.args[0] == ["docker", "rm", "0123456789ab"]
+    # -v as well: each build owns two anonymous volumes holding the work tree,
+    # and removing the container without them strands tens of gigabytes.
+    assert run.call_args.args[0] == ["docker", "rm", "-v", "0123456789ab"]
 
 
 def test_publication_never_overwrites_a_file_created_after_the_name_check(monkeypatch, tmp_path):

@@ -38,8 +38,10 @@ class SettingsMenu:
                 self._change_conflict_strategy()
             elif choice == 1:  # Reset
                 if self.menu.confirm(_("Reset all settings to defaults?")):
-                    self.settings.reset()
-                    self.logger.log("green", _("✓ Settings reset to defaults"))
+                    if self.settings.reset():
+                        self.logger.log("green", _("✓ Settings reset to defaults"))
+                    else:
+                        self.logger.log("red", _("Could not save settings. Check config permissions, then try again."))
 
     def _change_conflict_strategy(self):
         """Change conflict resolution strategy"""
@@ -65,5 +67,7 @@ class SettingsMenu:
             return
 
         selected_strategy = strategies[result[0]][0]
-        self.settings.set("conflict_strategy", selected_strategy)
+        if not self.settings.set("conflict_strategy", selected_strategy):
+            self.logger.log("red", _("Could not save settings. Check config permissions, then try again."))
+            return
         self.logger.log("green", _("✓ Conflict strategy changed to: {0}").format(selected_strategy))

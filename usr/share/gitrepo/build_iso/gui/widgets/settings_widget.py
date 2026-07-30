@@ -248,10 +248,21 @@ class SettingsWidget(Gtk.Box):
         dialog.connect("response", self._on_reset_confirmed)
         dialog.present(self.get_root())
 
+    def _report_settings_failure(self) -> None:
+        """Say a save failed, in the same words the other save paths use."""
+        root = self.get_root()
+        if root and hasattr(root, "show_toast"):
+            root.show_toast(_("Could not save settings. Check config permissions, then try again."))
+
     def _on_reset_confirmed(self, dialog, response):
         if response == "reset":
-            self.settings.reset()
+            if not self.settings.reset():
+                # Reloading regardless redisplayed the old values as if the
+                # reset had been applied.
+                self._report_settings_failure()
+                return
             self._load_settings()
+            self.emit("settings-saved")
 
     def append_environment_section(self, section) -> None:
         """Host the build environment where the reusable defaults live."""

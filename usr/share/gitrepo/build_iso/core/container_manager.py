@@ -154,6 +154,10 @@ class ContainerManager:
                 stderr=subprocess.DEVNULL,
                 text=True,
                 check=False,
+                # A wedged daemon socket accepts and never answers; without a
+                # bound the probe thread never returns and the interface stays
+                # on "Checking..." with no error and no way to refresh.
+                timeout=10,
             )
             return result.stdout.strip() if result.returncode == 0 else ""
         except Exception:
@@ -218,7 +222,9 @@ class ContainerManager:
             return False
         try:
             result = subprocess.run(
-                [self.engine, "rm", *container_ids],
+                # -v: each build creates two anonymous volumes holding the
+                # rootfs/desktopfs/livefs tree; without it they are stranded.
+                [self.engine, "rm", "-v", *container_ids],
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL,
                 check=False,

@@ -620,8 +620,36 @@ class GitUtils:
         return bool(parse_status_records(result.stdout))
 
     @staticmethod
+    def read_package_name() -> str:
+        """Read pkgname out of the PKGBUILD as text, without executing it.
+
+        A PKGBUILD is a shell script, so `makepkg --printsrcinfo` sources it.
+        That is the right trade for the build journey, which is about to run the
+        file anyway, but not for merely displaying a name: the status refresh
+        runs on window construction and after every operation, so opening an
+        untrusted repository would execute its code before the user pressed
+        anything. Parsing the assignment covers every PKGBUILD that declares a
+        literal pkgname, which is what a display name needs.
+        """
+        repo_path = GitUtils.get_repo_root_path()
+        pkgbuild_directory = _pkgbuild_directory(repo_path)
+        if not pkgbuild_directory:
+            return ""
+        try:
+            with open(os.path.join(pkgbuild_directory, "PKGBUILD"), "r", encoding="utf-8") as pkgbuild:
+                content = pkgbuild.read()
+        except (OSError, UnicodeDecodeError):
+            return ""
+        match = re.search(r"^pkgname=[\"']?([a-zA-Z0-9@._+-]+)[\"']?\s*$", content, re.MULTILINE)
+        return match.group(1) if match else ""
+
+    @staticmethod
     def get_package_name() -> str:
-        """Read the first package name from makepkg's authoritative metadata."""
+        """Read the first package name from makepkg's authoritative metadata.
+
+        Executes the PKGBUILD. Only call this from a journey that is about to
+        build the package anyway; use :meth:`read_package_name` to display one.
+        """
         repo_path = GitUtils.get_repo_root_path()
         pkgbuild_directory = _pkgbuild_directory(repo_path)
         if not pkgbuild_directory or shutil.which("makepkg") is None:

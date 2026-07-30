@@ -9,6 +9,10 @@ _REDACTIONS = (
     re.compile(r"(?i)(authorization\s*[:=]\s*(?:token|bearer)\s+)[^\s'\"]+"),
     re.compile(r"(?i)((?:token|password|passwd|secret)\s*[:=]\s*)[^\s'\"]+"),
     re.compile(r"\bgh[pousr]_[A-Za-z0-9_]{8,}\b"),
+    # Fine-grained personal access tokens and App tokens.
+    re.compile(r"\bgithub_pat_[A-Za-z0-9_]{20,}\b"),
+    # Credentials embedded in a remote URL: https://user:secret@host.
+    re.compile(r"(://[^/\s:@]+:)[^/\s@]+(?=@)"),
 )
 
 

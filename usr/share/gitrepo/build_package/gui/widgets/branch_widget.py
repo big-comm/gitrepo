@@ -349,7 +349,10 @@ class BranchWidget(Gtk.Box):
             target_branch = "main"
 
         if source_branch == target_branch:
-            # Show error - cannot merge branch into itself
+            # Returning in silence made the suggested action look broken.
+            root = self.get_root()
+            if hasattr(root, "show_error_toast"):
+                root.show_error_toast(_("Source and target are the same branch. Choose a different target."))
             return
 
         # Get auto-merge setting

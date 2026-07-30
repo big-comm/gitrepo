@@ -29,7 +29,12 @@ def atomic_write_text(path: str | Path, content: str, *, mode: int = 0o600) -> N
     try:
         descriptor, temporary_name = tempfile.mkstemp(prefix=f".{target.name}.", dir=parent)
         temporary_path = Path(temporary_name)
-        os.fchmod(descriptor, mode)
+        try:
+            os.fchmod(descriptor, mode)
+        except BaseException:
+            # fdopen has not taken ownership yet, so nothing else will close it.
+            os.close(descriptor)
+            raise
         with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as stream:
             stream.write(content)
             stream.flush()
@@ -41,15 +46,21 @@ def atomic_write_text(path: str | Path, content: str, *, mode: int = 0o600) -> N
             os.fsync(directory_fd)
         finally:
             os.close(directory_fd)
-    except Exception as error:
+    except BaseException as error:
+        # BaseException, not Exception: Ctrl-C is how both CLI apps normally
+        # exit, and it would otherwise leave .<name>.XXXXXXXX behind on every
+        # interrupted write, with nothing to clean them up.
         if temporary_path is not None:
             try:
                 temporary_path.unlink()
             except FileNotFoundError:
                 pass
-        if isinstance(error, AtomicWriteError):
+        if isinstance(error, AtomicWriteError) or not isinstance(error, Exception):
             raise
-        raise AtomicWriteError(f"could not publish {target}") from error
+        # Callers format this message, so it has to name the cause: "could not
+        # publish /path" on its own tells the user nothing they can act on.
+        detail = getattr(error, "strerror", None) or str(error)
+        raise AtomicWriteError(f"could not publish {target}: {detail}") from error
 
 
 class AtomicJsonStore:

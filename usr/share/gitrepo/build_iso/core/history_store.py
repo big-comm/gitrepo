@@ -14,6 +14,9 @@ class BuildHistoryStore:
         self.last_error = ""
 
     def load(self) -> list[dict]:
+        # Describe this read, not an older one: add() refuses while the flag is
+        # set, so a single corrupt file used to silence history forever.
+        self.last_error = ""
         try:
             entries = self._store.read()
         except FileNotFoundError:

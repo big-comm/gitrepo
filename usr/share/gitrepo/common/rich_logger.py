@@ -55,7 +55,9 @@ class RichLogger:
         self.console.print(
             safe_message,
             style=color_map.get(style, "white"),
-            markup=safe_message == message,
+            # Child output reaches this logger, and '[new branch]' is not
+            # markup; interpreting it silently drops text or raises.
+            markup=False,
         )
         if self.log_file:
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
