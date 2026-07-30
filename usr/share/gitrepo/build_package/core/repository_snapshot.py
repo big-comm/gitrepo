@@ -61,7 +61,7 @@ class RepositorySnapshot:
             local_branches=local_branches,
             remote_branches=remote_branches,
             most_recent_branch=_most_recent_remote_branch(),
-            package_name=GitUtils.get_package_name(),
+            package_name=GitUtils.read_package_name(),
             recent_commits=_recent_commits(),
         )
 

@@ -8,6 +8,7 @@
 from gitrepo.common import child_process as subprocess
 
 from .git_utils import GitUtils
+from .repository_lock import journey
 from gitrepo.common.translation import _
 
 # ---------------------------------------------------------------------------
@@ -213,11 +214,23 @@ def publish_existing_commit(bp, branch: str) -> bool:
     return True
 
 
+@journey("publishing changes", False)
 def execute_commit(bp, commit_message: str, target_branch: str | None = None) -> bool:
-    """Stage, commit, integrate remote work, and push the selected branch."""
+    """Stage, commit, integrate remote work, and push the selected branch.
+
+    Refuses an unresolved merge before staging: `git add -A` would otherwise
+    stage the conflict markers themselves, `git commit` would complete the merge
+    around them, and the push would publish them. The CLI journey has always
+    refused this; the GUI reaches this function directly, so the guard belongs
+    here rather than in one caller.
+    """
     branch = target_branch or GitUtils.get_current_branch()
     if not branch:
         raise RuntimeError(_("Could not determine branch name for push"))
+    resolver = getattr(bp, "conflict_resolver", None)
+    if resolver and resolver.has_conflicts() and not resolver.resolve():
+        _log(bp, "red", _("Resolve all conflicts before committing."))
+        return False
     _stage_changes(bp)
     if not _create_commit(bp, commit_message):
         return True
