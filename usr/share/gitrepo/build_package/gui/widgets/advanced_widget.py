@@ -228,9 +228,13 @@ class AdvancedWidget(Gtk.Box):
             self.recent_commits.append({"hash": commit_hash, "author": author, "date": date, "message": message})
             self.commits_list.append(CommitRow(commit_hash, author, date, message))
         if not snapshot.recent_commits:
-            self.commits_list.append(
-                CommitRow("--------", _("No commits yet"), "", _("Create your first commit to see history"))
-            )
+            # Not activatable: an activatable placeholder could be selected, which
+            # enabled the destructive revert button and offered to reset the
+            # repository to commit "--------".
+            placeholder = CommitRow("--------", _("No commits yet"), "", _("Create your first commit to see history"))
+            placeholder.set_activatable(False)
+            placeholder.set_selectable(False)
+            self.commits_list.append(placeholder)
         branches = set(snapshot.local_branches + snapshot.remote_branches)
         commits = _("unknown") if snapshot.commit_count is None else str(snapshot.commit_count)
         self.history_group.set_description(

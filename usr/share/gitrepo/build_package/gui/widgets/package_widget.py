@@ -518,7 +518,10 @@ class PackageWidget(Gtk.Box):
         self.tmate_row.set_active(False)
 
         # Reset build button
-        self.build_button.set_label(_("Start package workflow"))
+        # set_label replaces the button child, detaching build_button_content;
+        # every later set_label on it would then update an orphan, so the button
+        # kept this text and stopped naming the selected repository.
+        self.build_button_content.set_label(_("Start package workflow"))
         self.update_build_button_state()
 
     def on_build_clicked(self, button):

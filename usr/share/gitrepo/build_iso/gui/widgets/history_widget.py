@@ -206,10 +206,19 @@ class HistoryWidget(Gtk.Box):
         dialog.connect("response", self._on_clear_confirmed)
         dialog.present(self.get_root())
 
+    def _report_storage_failure(self) -> None:
+        """Say the history could not be written rather than leaving it unchanged."""
+        root = self.get_root()
+        if root and hasattr(root, "show_toast"):
+            root.show_toast(_("Could not update the build history. Check config permissions, then try again."))
+
     def _on_clear_confirmed(self, dialog, response):
         if response == "clear":
             if self.history_store.clear():
                 self.refresh()
+            else:
+                # Silence left the list unchanged with no explanation.
+                self._report_storage_failure()
 
     def _on_copy_path(self, button, iso_path):
         display = Gdk.Display.get_default()
