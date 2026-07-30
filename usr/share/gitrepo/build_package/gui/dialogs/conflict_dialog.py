@@ -397,11 +397,14 @@ class ConflictDialog(Adw.Window):
         """
         open_path(self, self._absolute_path(row.filepath))
 
-        toast = Adw.Toast.new(_("Opening {0}. After editing, click 'Mark as Edited' to continue.").format(row.filepath))
-        toast.set_timeout(5)
-        if hasattr(self, "toast_overlay"):
-            self.toast_overlay.add_toast(toast)
-
+        # The row is marked so the choice is visible and Apply becomes usable,
+        # but this is a claim, not a verified resolution: the file has not been
+        # edited yet at this point. apply_resolution() re-reads it and refuses
+        # while conflict markers remain, which is what keeps them out of the
+        # commit. Say so on the row itself -- the toast this used to build was
+        # posted to a self.toast_overlay that is never created, so it was never
+        # shown, and the 'Mark as Edited' control it named does not exist.
+        row.set_subtitle(_("Edited by hand — checked for conflict markers when you apply"))
         self.resolutions[row.filepath] = "manual"
         row.set_action("manual")
         self._update_status()
@@ -750,13 +753,33 @@ class ConflictDialog(Adw.Window):
             self._apply_resolutions()
 
     def _apply_resolutions(self):
-        """Apply the already reviewed conflict choices."""
-        # Apply each resolution
+        """Apply the already reviewed conflict choices.
+
+        A failure stops the loop, and the files handled before it have already
+        been rewritten in the working tree. Closing on a bare "did not
+        complete" left the user with no way to know which those were, so the
+        offending row keeps the reason and the dialog stays open.
+        """
         success = True
+        applied: list[str] = []
         for filepath, action in self.resolutions.items():
-            if not self.apply_resolution(filepath, action):
-                success = False
-                break
+            if self.apply_resolution(filepath, action):
+                applied.append(filepath)
+                continue
+            success = False
+            for row in self._iter_conflict_rows():
+                if getattr(row, "filepath", None) == filepath:
+                    row.set_subtitle(_("Could not apply this choice — see the log"))
+                    break
+            if applied:
+                print(_("Already applied before the failure: {0}").format(", ".join(applied)))
+            print(_("Stopped at {0}; the dialog stays open so you can retry.").format(filepath))
+            break
+
+        if not success:
+            # Keep the window: closing would hide both the reason and the
+            # half-resolved state it left behind.
+            return
 
         if success:
             # Mark all as resolved in git
@@ -855,18 +878,20 @@ class ConflictDialog(Adw.Window):
                             intent="destructive",
                         )
             elif action == "manual":
-                # User edited the file manually
-                # Just verify it doesn't have conflict markers
+                # The file has to be read again: "manual" only records that the
+                # user opened it. Reporting success here staged the markers with
+                # `git add` and published them, which a printed warning on
+                # stdout does nothing to prevent.
+                abs_path = os.path.join(self.repo_root, filepath) if self.repo_root else filepath
                 try:
-                    abs_path = os.path.join(self.repo_root, filepath) if self.repo_root else filepath
-                    with open(abs_path, "r", errors="replace") as f:
-                        content = f.read()
-                        if "<<<<<<<" in content or "=======" in content or ">>>>>>>" in content:
-                            # Still has conflict markers - warn but continue
-                            print(_("Warning: {0} may still have conflict markers").format(filepath))
-                except Exception:
-                    pass
-                # File was edited, just return True
+                    with open(abs_path, "r", errors="replace") as handle:
+                        content = handle.read()
+                except OSError as error:
+                    print(_("Could not read {0}: {1}").format(filepath, error))
+                    return False
+                if any(marker in content for marker in ("<<<<<<<", "=======", ">>>>>>>")):
+                    print(_("{0} still contains conflict markers; edit it and apply again.").format(filepath))
+                    return False
                 return True
             elif action == "both":
                 # Write both sides straight out of the index, through the core

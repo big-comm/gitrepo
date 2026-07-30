@@ -42,6 +42,7 @@ class ProgressDialog(Adw.Window):
         self.result = None
         self.error = None
         self.cancelled = False
+        self._operation_running = False
         self._pulse_timeout_id = None
         self._style_manager = Adw.StyleManager.get_default()
         self._style_handler = 0
@@ -50,11 +51,31 @@ class ProgressDialog(Adw.Window):
         self.connect("close-request", self._on_close_request)
 
     def _on_close_request(self, _window) -> bool:
-        """Release the process-wide style handler that keeps this dialog alive."""
+        """Refuse to close while the operation is still running.
+
+        Returning False let a compositor close (Alt+F4 -- the titlebar buttons
+        are hidden, so it is the only way out) destroy the window while git and
+        GitHub work continued. The log and the result went with it, and because
+        operation-completed never fired, OperationRunner._busy stayed True: every
+        later action was refused with "One operation at a time" until the process
+        was restarted.
+        """
+        if self._operation_running:
+            self._report_still_running()
+            return True
         if self._style_handler:
             self._style_manager.disconnect(self._style_handler)
             self._style_handler = 0
         return False
+
+    def _report_still_running(self) -> None:
+        """Say why the window will not close, and what the user can do."""
+        dialog = Adw.AlertDialog(
+            heading=_("The operation is still running"),
+            body=_("“{0}” has to finish before this window can be closed.").format(self.operation_title),
+        )
+        dialog.add_response("close", _("Keep waiting"))
+        dialog.present(self)
 
     def create_ui(self):
         """Create dialog UI"""
@@ -313,6 +334,7 @@ class ProgressDialog(Adw.Window):
         self.operation_kwargs = kwargs
 
         # Start operation thread
+        self._operation_running = True
         self.operation_thread = threading.Thread(target=self._operation_worker, daemon=True)
         self.operation_thread.start()
 
@@ -356,6 +378,8 @@ class ProgressDialog(Adw.Window):
 
     def _complete_operation(self, success, result):
         """Complete operation on main thread"""
+        # The window may be closed from here on: nothing is running behind it.
+        self._operation_running = False
         # Stop progress animation
         if self._pulse_timeout_id:
             GLib.source_remove(self._pulse_timeout_id)
