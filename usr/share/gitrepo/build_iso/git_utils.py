@@ -4,6 +4,7 @@
 
 import os
 import re
+from gitrepo.common.network_url import is_github_path_segment
 from gitrepo.common import child_process as subprocess
 
 
@@ -49,9 +50,15 @@ class GitUtils:
 
             # Pattern for https or git URLs
             match = re.search(r"[:/]([^/]+/[^.]+)(?:\.git)?$", url)
-            if match:
-                return match.group(1)
-            return ""
+            if not match:
+                return ""
+            # The result becomes a log directory, so it must not escape it: a
+            # remote ending in "x/../foo" would otherwise create the log tree
+            # outside the application's state directory.
+            owner, _separator, repository = match.group(1).partition("/")
+            if not all(is_github_path_segment(segment) for segment in (owner, repository)):
+                return ""
+            return match.group(1)
         except Exception:
             return ""
 

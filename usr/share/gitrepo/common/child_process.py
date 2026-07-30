@@ -59,10 +59,21 @@ def _reject_git_without_intent(popenargs: tuple[Any, ...], kwargs: dict[str, Any
         raise GitIntentRequiredError("Git argv requires run_git() with an explicit intent")
 
 
+def _default_decoding(kwargs: dict[str, Any]) -> None:
+    """Decode child output leniently unless the caller chose otherwise.
+
+    Strict UTF-8 is the Python default, so one latin-1 filename or a stray byte
+    in build output raised UnicodeDecodeError from inside an unrelated command.
+    """
+    if (kwargs.get("text") or kwargs.get("universal_newlines")) and "errors" not in kwargs:
+        kwargs["errors"] = "replace"
+
+
 def run(*popenargs: Any, **kwargs: Any) -> _subprocess.CompletedProcess[Any]:
     """Run a child with an explicit sanitized environment."""
     _reject_git_without_intent(popenargs, kwargs)
     kwargs["env"] = child_process_environment(kwargs.get("env"))
+    _default_decoding(kwargs)
     return _subprocess.run(*popenargs, **kwargs)
 
 
@@ -79,6 +90,7 @@ def run_git(
     if intent == "destructive" and not _destructive_git_authorized.get():
         raise DestructiveGitCommandError("destructive Git command requires an explicit confirmed authorization scope")
     kwargs["env"] = child_process_environment(kwargs.get("env"))
+    _default_decoding(kwargs)
     return _subprocess.run(*popenargs, **kwargs)
 
 
@@ -86,4 +98,5 @@ def Popen(*popenargs: Any, **kwargs: Any) -> _subprocess.Popen[Any]:
     """Start a child with an explicit sanitized environment."""
     _reject_git_without_intent(popenargs, kwargs)
     kwargs["env"] = child_process_environment(kwargs.get("env"))
+    _default_decoding(kwargs)
     return _subprocess.Popen(*popenargs, **kwargs)

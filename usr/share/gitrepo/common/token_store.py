@@ -56,6 +56,19 @@ class GitHubTokenStore:
         return json.dumps({"version": 1, "tokens": tokens}, ensure_ascii=True, sort_keys=True)
 
     @staticmethod
+    def _is_migratable(path: Path) -> bool:
+        """Report whether *path* is a plain file this process may read.
+
+        A FIFO left at either location would block read_text() forever with no
+        timeout, and a symlink would import whatever it points at. Anything that
+        is not a regular file is not a credential file we wrote.
+        """
+        try:
+            return path.is_file() and not path.is_symlink()
+        except OSError:
+            return False
+
+    @staticmethod
     def _read_legacy_file(path: Path) -> list[tuple[str, str]]:
         entries = []
         for raw in path.read_text(encoding="utf-8").splitlines():
@@ -75,15 +88,27 @@ class GitHubTokenStore:
         return self._decode(payload)
 
     def migrate_if_needed(self) -> bool:
-        """Move cleartext credentials only after a verified libsecret write."""
-        sources = [path for path in (self.path, self.legacy_path) if path.exists()]
+        """Move cleartext credentials only after a verified libsecret write.
+
+        An unreadable legacy file is skipped rather than failed on. Failing
+        would make read_all() return nothing, so a root-owned or corrupt
+        ~/.GITHUB_TOKEN hid every token libsecret already held and left no way
+        to enter a new one from the interface.
+        """
+        sources = [path for path in (self.path, self.legacy_path) if self._is_migratable(path)]
         if not sources:
             return True
         try:
-            entries = self._lookup_secret()
+            legacy: list[tuple[str, str]] = []
             for source in sources:
-                entries.extend(self._read_legacy_file(source))
-            normalized = self._normalize(entries)
+                try:
+                    legacy.extend(self._read_legacy_file(source))
+                except (OSError, UnicodeError) as error:
+                    self.last_read_error = str(error)
+                    return True
+            # Keyring entries win: the cleartext file is the older copy, and it
+            # is about to be deleted.
+            normalized = self._normalize(legacy + self._lookup_secret())
             if not self.write_all(normalized) or self._lookup_secret() != normalized:
                 raise OSError("credential migration could not be verified")
             for source in sources:
