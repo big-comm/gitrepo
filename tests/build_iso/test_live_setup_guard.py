@@ -1,10 +1,15 @@
 import subprocess
 from pathlib import Path
 
+import pytest
+
 from gitrepo.build_iso.core.iso_builder import ISOBuilder
 
-# Reproduces the manjaro-tools-iso-git call that aborts make_image_live() when the
-# livefs still ships the stable manjaro-live-base without /usr/bin/manjaro-live-setup.
+# Reproduces the call manjaro-tools-iso-git r3071 makes. manjaro-live-base
+# 20260722 moved live-user creation here from the boot-time manjaro-live.service,
+# so it must keep running -- but on the CI build filesystem `useradd -m` could
+# not copy /etc/skel across the livefs overlayfs ("Bad file descriptor") and the
+# live session came up as a black screen with no plasmashell.
 UNPATCHED_CONFIGURE_LIVE_IMAGE = """configure_live_image(){
     write_live_session_conf "$1"
     msg2 "Call manjaro-live-setup ..."
@@ -20,43 +25,150 @@ def _builder(tmp_path: Path) -> ISOBuilder:
 
 
 def _patch_script(builder: ISOBuilder, target: Path) -> str:
-    script = builder._live_setup_guard_commands()
-    body = script.split("<<'GITREPO_LIVE_SETUP_GUARD'\n", 1)[1].split("\nGITREPO_LIVE_SETUP_GUARD\n", 1)[0]
+    script = builder._live_setup_check_commands()
+    body = script.split("<<'GITREPO_LIVE_SETUP_PATCH'\n", 1)[1].split("\nGITREPO_LIVE_SETUP_PATCH\n", 1)[0]
     return body.replace("/usr/lib/manjaro-tools/util-iso-image.sh", str(target))
 
 
-def test_setup_script_installs_the_guard_before_build_iso_runs(tmp_path):
-    script = _builder(tmp_path)._build_setup_script()
-
-    guard_index = script.index("patch-live-setup.sh")
-    assert guard_index < script.index("bash ./build-iso.sh")
-    assert "/^  patch_manjaro_tools$/a" in script
-    assert "grep -q '^  sudo bash /root/gitrepo-build/patch-live-setup.sh$'" in script
-
-
-def test_guard_skips_the_chroot_call_when_the_livefs_lacks_the_binary(tmp_path):
-    target = tmp_path / "util-iso-image.sh"
-    target.write_text(UNPATCHED_CONFIGURE_LIVE_IMAGE, encoding="utf-8")
-    patch = tmp_path / "patch-live-setup.sh"
-    patch.write_text(_patch_script(_builder(tmp_path), target), encoding="utf-8")
-
-    assert subprocess.run(["bash", str(patch)], check=False).returncode == 0
-
-    patched = target.read_text(encoding="utf-8")
-    assert 'if [[ -x "$1/usr/bin/manjaro-live-setup" ]]; then chroot $1 /usr/bin/manjaro-live-setup;' in patched
-    assert 'if [[ -f "$1/var/log/manjaro-live-setup.log" ]]; then' in patched
-    assert subprocess.run(["bash", "-n", str(target)], check=False).returncode == 0
-
-    livefs = tmp_path / "livefs"
+def _livefs(root: Path, *, with_binary: bool = True, username: str = "biglinux") -> Path:
+    livefs = root / "livefs"
     (livefs / "usr" / "bin").mkdir(parents=True)
-    harness = tmp_path / "harness.sh"
+    (livefs / "etc" / "manjaro-tools").mkdir(parents=True)
+    (livefs / "etc" / "skel" / ".config").mkdir(parents=True)
+    (livefs / "etc" / "manjaro-tools" / "live.conf").write_text(f"username={username}\n", encoding="utf-8")
+    (livefs / "etc" / "skel" / ".bash_logout").write_text("x\n", encoding="utf-8")
+    (livefs / "etc" / "skel" / ".config" / "plasmashellrc").write_text("y\n", encoding="utf-8")
+    if with_binary:
+        binary = livefs / "usr" / "bin" / "manjaro-live-setup"
+        binary.write_text("#!/bin/sh\n", encoding="utf-8")
+        binary.chmod(0o755)
+    return livefs
+
+
+def _run_configure_live_image(root: Path, target: Path, livefs: Path) -> subprocess.CompletedProcess:
+    """Call configure_live_image() the way manjaro-tools' run_safe() does.
+
+    run_safe() sets `set -e`, `set -E` and an ERR trap that exits 2, which is
+    what turns a failure inside configure_live_image into an aborted build.
+    Without errtrace the trap would not reach into the function and the harness
+    would report success on a broken livefs.
+    """
+    harness = root / "harness.sh"
     harness.write_text(
-        'set -eo pipefail\nmsg(){ :; }\nmsg2(){ echo "$*"; }\nchroot(){ echo "CHROOT $*"; }\n'
-        f"write_live_session_conf(){{ :; }}\nsource {target}\nconfigure_live_image {livefs}\n",
+        'msg(){ :; }\nmsg2(){ printf "  -> $1\\n" "${@:2}"; }\n'
+        'error(){ printf "==> ERROR: $1\\n" "${@:2}" >&2; }\n'
+        "chroot(){ :; }\nwrite_live_session_conf(){ :; }\n"
+        f"source {target}\n"
+        "set -e\nset -E\ntrap 'exit 2' ERR\n"
+        f"configure_live_image {livefs}\n",
         encoding="utf-8",
     )
-    result = subprocess.run(["bash", str(harness)], capture_output=True, text=True, check=False)
+    return subprocess.run(["bash", str(harness)], capture_output=True, text=True, check=False)
 
-    assert result.returncode == 0
+
+@pytest.fixture
+def patched(exec_tmp_path):
+    """A patched util-iso-image.sh on a filesystem where test -x works."""
+    target = exec_tmp_path / "util-iso-image.sh"
+    target.write_text(UNPATCHED_CONFIGURE_LIVE_IMAGE, encoding="utf-8")
+    patch = exec_tmp_path / "patch-live-setup.sh"
+    patch.write_text(_patch_script(_builder(exec_tmp_path), target), encoding="utf-8")
+    assert subprocess.run(["bash", str(patch)], check=False).returncode == 0
+    return target, patch
+
+
+def test_setup_script_installs_the_patch_before_build_iso_runs(tmp_path):
+    script = _builder(tmp_path)._build_setup_script()
+
+    assert script.index("patch-live-setup.sh") < script.index("bash ./build-iso.sh")
+    assert "/^  patch_manjaro_tools$/a" in script
+    # build-iso.sh has no `set -e` and no ERR trap, so a bare call would let a
+    # failed patch fall through into buildiso and ship the ISO anyway.
+    assert 'patch-live-setup.sh || die "patch-live-setup.sh failed"' in script
+    assert "grep -q '^  sudo bash /root/gitrepo-build/patch-live-setup.sh || die'" in script
+
+
+def test_the_bare_call_is_replaced_by_the_checked_one(patched):
+    target, _ = patched
+
+    text = target.read_text(encoding="utf-8")
+    assert 'mkiso_live_setup "$1"' in text
+    assert "chroot $1 /usr/bin/manjaro-live-setup" not in text
+    assert subprocess.run(["bash", "-n", str(target)], check=False).returncode == 0
+
+
+def test_patching_twice_appends_one_definition(patched):
+    target, patch = patched
+
+    assert subprocess.run(["bash", str(patch)], check=False).returncode == 0
+    assert target.read_text(encoding="utf-8").count("mkiso_live_setup() {") == 1
+
+
+def test_an_empty_live_home_is_repaired_from_skel(patched, exec_tmp_path):
+    target, _ = patched
+    livefs = _livefs(exec_tmp_path)
+    # What the CI build produced: useradd reported EBADF and left the home empty.
+    (livefs / "home" / "biglinux").mkdir(parents=True)
+
+    result = _run_configure_live_image(exec_tmp_path, target, livefs)
+
+    assert result.returncode == 0, result.stderr
+    assert "Re-syncing /etc/skel" in result.stdout
+    assert (livefs / "home" / "biglinux" / ".bash_logout").is_file()
+    assert (livefs / "home" / "biglinux" / ".config" / "plasmashellrc").is_file()
+
+
+def test_a_missing_live_home_fails_the_build(patched, exec_tmp_path):
+    target, _ = patched
+    livefs = _livefs(exec_tmp_path)
+
+    result = _run_configure_live_image(exec_tmp_path, target, livefs)
+
+    assert result.returncode != 0
+    assert "did not create /home/biglinux" in result.stderr
+
+
+def test_an_unreadable_skel_fails_the_build(patched, exec_tmp_path):
+    target, _ = patched
+    livefs = _livefs(exec_tmp_path)
+    (livefs / "home" / "biglinux").mkdir(parents=True)
+    (livefs / "etc" / "skel" / ".config").chmod(0o000)
+    try:
+        result = _run_configure_live_image(exec_tmp_path, target, livefs)
+    finally:
+        (livefs / "etc" / "skel" / ".config").chmod(0o755)
+
+    assert result.returncode != 0
+    assert "could not copy /etc/skel" in result.stderr
+
+
+def test_a_live_conf_without_username_fails_the_build(patched, exec_tmp_path):
+    target, _ = patched
+    livefs = _livefs(exec_tmp_path)
+    (livefs / "home" / "biglinux").mkdir(parents=True)
+    (livefs / "etc" / "manjaro-tools" / "live.conf").write_text("", encoding="utf-8")
+
+    result = _run_configure_live_image(exec_tmp_path, target, livefs)
+
+    assert result.returncode != 0
+    assert "declares no username" in result.stderr
+
+
+def test_an_older_livefs_without_the_binary_is_skipped(patched, exec_tmp_path):
+    target, _ = patched
+    livefs = _livefs(exec_tmp_path, with_binary=False)
+
+    result = _run_configure_live_image(exec_tmp_path, target, livefs)
+
+    assert result.returncode == 0, result.stderr
     assert "Skipping manjaro-live-setup" in result.stdout
-    assert "CHROOT" not in result.stdout
+
+
+def test_patch_fails_loudly_when_the_call_survives(exec_tmp_path):
+    target = exec_tmp_path / "util-iso-image.sh"
+    # Trailing space defeats the sed's end-of-line anchor, so the grep must reject it.
+    target.write_text("configure_live_image(){\n    chroot $1 /usr/bin/manjaro-live-setup \n}\n", encoding="utf-8")
+    patch = exec_tmp_path / "patch-live-setup.sh"
+    patch.write_text(_patch_script(_builder(exec_tmp_path), target), encoding="utf-8")
+
+    assert subprocess.run(["bash", str(patch)], check=False).returncode != 0
