@@ -715,6 +715,22 @@ msgstr "Nincs megjeleníthető szöveges különbség."
 msgid "Operation Progress"
 msgstr "Művelet előrehaladása"
 # 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 74
+#: NEEDS WORK
+msgid "The operation is still running"
+msgstr "A művelet még mindig fut."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 75
+#: NEEDS WORK
+#, python-brace-format
+msgid "“{0}” has to finish before this window can be closed."
+msgstr "„{0}”-nak be kell fejeződnie, mielőtt ez az ablak bezárható."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 77
+#: NEEDS WORK
+msgid "Keep waiting"
+msgstr "Várj egy kicsit"
+# 
 # File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 68
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:68
 msgid "Running"
@@ -983,11 +999,10 @@ msgstr "Megoldások alkalmazása"
 msgid "Resolved {0} of {1} conflicts"
 msgstr "{0} megoldott a(z) {1} konfliktusból"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 381
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:381
-#, python-brace-format
-msgid "Opening {0}. After editing, click 'Mark as Edited' to continue."
-msgstr "Megnyitás: {0}. Szerkesztés után kattints a 'Megjelölés szerkesztettként' gombra a folytatáshoz."
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 407
+#: NEEDS WORK
+msgid "Edited by hand — checked for conflict markers when you apply"
+msgstr "Kézzel szerkesztve — ellenőrizve a konfliktusjelzőket, amikor alkalmazza"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 426
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:426
@@ -1077,11 +1092,40 @@ msgstr ""
 msgid "Delete and Apply"
 msgstr "Törlés és alkalmazás"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 848
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:848
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 772
+#: NEEDS WORK
+msgid "Could not apply this choice — see the log"
+msgstr "Nem lehetett alkalmazni ezt a választást — lásd a naplót"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 775
+#: NEEDS WORK
 #, python-brace-format
-msgid "Warning: {0} may still have conflict markers"
-msgstr "Figyelem: {0} még tartalmazhat konfliktusjelzőket"
+msgid "Already applied before the failure: {0}"
+msgstr "Már alkalmazva volt a hiba előtt: {0}"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 776
+#: NEEDS WORK
+#, python-brace-format
+msgid "Stopped at {0}; the dialog stays open so you can retry."
+msgstr "Megállt itt: {0}; a párbeszédpanel nyitva marad, így újra megpróbálhatja."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 890
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not read {0}: {1}"
+msgstr "Nem lehetett olvasni a {0}-t: {1}"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 893
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} still contains conflict markers; edit it and apply again."
+msgstr "{0} még mindig tartalmaz konfliktusjelölőket; szerkeszd meg és alkalmazd újra."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 906
+#: NEEDS WORK
+#, python-brace-format
+msgid "Saved both versions: {0}, {1}"
+msgstr "Mindkét verzió mentve: {0}, {1}"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 891
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:891
@@ -1902,6 +1946,11 @@ msgstr "Régi ágak eltávolítása"
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:259
 msgid "Not available"
 msgstr "Nem elérhető"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 355
+#: NEEDS WORK
+msgid "Source and target are the same branch. Choose a different target."
+msgstr "A forrás és a cél ugyanaz az ág. Válassz egy másik célt."
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 43
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:43
@@ -3501,6 +3550,11 @@ msgstr "Meglévő helyi commit közzétéve a következőn: origin/{0}."
 msgid "Could not determine branch name for push"
 msgstr "Nem sikerült meghatározni az ág nevét a push-hoz"
 # 
+# File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 251
+#: usr/share/gitrepo/build_package/core/commit_operations.py:213
+msgid "Resolve all conflicts before committing."
+msgstr "Oldja meg az összes ütközést a véglegesítés előtt."
+# 
 # File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 230
 #: usr/share/gitrepo/build_package/core/commit_handler.py:230
 #, python-brace-format
@@ -4004,11 +4058,6 @@ msgstr "A publikálás újrapróbálása sikertelen: {0}"
 msgid "This option is only available in Git repositories."
 msgstr "Ez a lehetőség csak Git-adattárakban érhető el."
 # 
-# File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 251
-#: usr/share/gitrepo/build_package/core/commit_operations.py:213
-msgid "Resolve all conflicts before committing."
-msgstr "Oldja meg az összes ütközést a véglegesítés előtt."
-# 
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 271
 #: usr/share/gitrepo/build_package/core/commit_operations.py:233
 msgid "Commit cancelled."
@@ -4087,7 +4136,8 @@ msgid ""
 "{2}\n"
 "\n"
 "No: nothing is changed and you can pick another resolution method.\n"
-"Every other change from {1} is merged, and the discarded version stays readable with: git diff HEAD^2 -- FILE"
+"Every other change from {1} is merged, and the discarded version stays readable with: git diff "
+"HEAD^2 -- FILE"
 msgstr ""
 "Megtartja a helyi {0} ágat ott, ahol eltér a távoli {1} ágtól?\n"
 "\n"
@@ -4095,7 +4145,8 @@ msgstr ""
 "{2}\n"
 "\n"
 "Nem: semmi sem változik, és választhat másik feloldási módot.\n"
-"A {1} minden más módosítása beolvad, az elvetett verzió pedig olvasható marad ezzel: git diff HEAD^2 -- FILE"
+"A {1} minden más módosítása beolvad, az elvetett verzió pedig olvasható marad ezzel: git diff "
+"HEAD^2 -- FILE"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -4999,6 +5050,12 @@ msgstr "Minden beállítást visszaállít az alapértelmezettre?"
 #: usr/share/gitrepo/build_package/core/settings_menu.py:42
 msgid "✓ Settings reset to defaults"
 msgstr "✓ Beállítások visszaállítva az alapértelmezettre"
+# 
+# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 213
+# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 238
+#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213 usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
+msgid "Could not save settings. Check config permissions, then try again."
+msgstr "A beállítások mentése nem sikerült. Ellenőrizze a konfigurációs jogosultságokat, majd próbálja újra."
 # 
 # File: usr/share/gitrepo/build_package/core/settings_menu.py, line: 49
 #: usr/share/gitrepo/build_package/core/settings_menu.py:49
@@ -6333,12 +6390,6 @@ msgstr "Beállítások mentése"
 msgid "Reset to Defaults"
 msgstr "Alapértelmezett értékek visszaállítása"
 # 
-# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 213
-# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 238
-#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213 usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
-msgid "Could not save settings. Check config permissions, then try again."
-msgstr "A beállítások mentése nem sikerült. Ellenőrizze a konfigurációs jogosultságokat, majd próbálja újra."
-# 
 # File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 236
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:236
 msgid "Settings saved"
@@ -6582,6 +6633,13 @@ msgstr "Törölje a generált ISO-k listáját?"
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:201
 msgid "This will remove all build history entries. This cannot be undone."
 msgstr "Ez eltávolít minden build előzményt. Ez nem visszavonható."
+# 
+# File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 213
+#: NEEDS WORK
+msgid "Could not update the build history. Check config permissions, then try again."
+msgstr ""
+"Nem sikerült frissíteni a build előzményeit. Ellenőrizze a konfigurációs jogosultságokat, majd "
+"próbálja újra."
 # 
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 221
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:221
