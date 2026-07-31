@@ -75,6 +75,7 @@ def test_the_mirror_is_pinned_before_build_iso_runs(tmp_path):
     assert script.index("build_mirror=") < script.index("bash ./build-iso.sh")
     assert "/root/.config/manjaro-tools/manjaro-tools.conf" in script
     assert 'patch-build-mirrors.sh || die "patch-build-mirrors.sh failed"' in script
+    assert 'sudo env MANJARO_BRANCH="$MANJARO_BRANCH" bash' in script
 
 
 def test_the_default_is_not_the_stale_upstream_mirror(tmp_path):

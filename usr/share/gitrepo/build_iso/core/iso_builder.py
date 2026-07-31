@@ -822,8 +822,8 @@ grep -Fqx "            $new_chroot_run" "$chroot_run"
 """
             + "GITREPO_BUILD_MIRRORS\n"
             + f"chmod +x {_CONTAINER_ROOT}/patch-build-mirrors.sh\n"
-            + f"sed -i '/^  patch_manjaro_tools$/a\\  sudo bash {_CONTAINER_ROOT}/patch-build-mirrors.sh || die \"patch-build-mirrors.sh failed\"' {_CONTAINER_BUILD_REPO}/build-iso.sh\n"
-            + f"grep -q '^  sudo bash {_CONTAINER_ROOT}/patch-build-mirrors.sh || die' {_CONTAINER_BUILD_REPO}/build-iso.sh\n"
+            + f'sed -i \'/^  patch_manjaro_tools$/a\\  sudo env MANJARO_BRANCH="$MANJARO_BRANCH" bash {_CONTAINER_ROOT}/patch-build-mirrors.sh || die "patch-build-mirrors.sh failed"\' {_CONTAINER_BUILD_REPO}/build-iso.sh\n'
+            + f"grep -q '^  sudo env MANJARO_BRANCH=\"$MANJARO_BRANCH\" bash {_CONTAINER_ROOT}/patch-build-mirrors.sh || die' {_CONTAINER_BUILD_REPO}/build-iso.sh\n"
         )
 
     def _live_setup_check_commands(self) -> str:
