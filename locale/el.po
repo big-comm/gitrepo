@@ -4097,21 +4097,21 @@ msgstr "Το {0} απέτυχε: {1}"
 #: usr/share/gitrepo/build_package/core/git_utils.py:255
 #, python-brace-format
 msgid ""
-"Resolve the divergence keeping {0} where the two branches disagree?\n"
+"Keep the local branch {0} where it disagrees with the remote {1}?\n"
 "\n"
-"The conflicting lines from {1} are discarded in:\n"
+"Yes: the conflicting lines coming from {1} are discarded in:\n"
 "{2}\n"
 "\n"
-"Every other change from {1} is merged, and the discarded version stays readable with: git diff "
-"HEAD^2 -- FILE"
+"No: nothing is changed and you can pick another resolution method.\n"
+"Every other change from {1} is merged, and the discarded version stays readable with: git diff HEAD^2 -- FILE"
 msgstr ""
-"Να επιλυθεί η απόκλιση διατηρώντας το {0} όπου οι δύο κλάδοι διαφωνούν;\n"
+"Διατήρηση του τοπικού κλάδου {0} εκεί που διαφέρει από τον απομακρυσμένο {1};\n"
 "\n"
-"Οι γραμμές σύγκρουσης από {1} απορρίπτονται στο:\n"
+"Ναι: οι γραμμές με διένεξη από τον {1} απορρίπτονται σε:\n"
 "{2}\n"
 "\n"
-"Κάθε άλλη αλλαγή από {1} συγχωνεύεται και η απορριφθείσα έκδοση παραμένει αναγνώσιμη με: git diff "
-"HEAD^2 -- FILE"
+"Όχι: δεν αλλάζει τίποτα και μπορείτε να επιλέξετε άλλη μέθοδο επίλυσης.\n"
+"Κάθε άλλη αλλαγή από τον {1} συγχωνεύεται και η έκδοση που απορρίφθηκε παραμένει αναγνώσιμη με: git diff HEAD^2 -- FILE"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -5168,19 +5168,21 @@ msgstr "Όλες οι συγκρούσεις αποθηκευμένης εργα
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
 #, python-brace-format
 msgid ""
-"Keep the {0} version in {1} conflicted file(s)?\n"
+"Keep the local branch {0} in {1} conflicted file(s)?\n"
 "\n"
-"The conflicting lines coming from {2} are discarded in:\n"
+"Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
 "{3}\n"
 "\n"
-"Non-conflicting changes from {2} are still merged."
+"No: decide file by file, where the remote version is still available.\n"
+"Changes from {2} that do not conflict are merged either way."
 msgstr ""
-"Να κρατηθεί η έκδοση {0} από το {1} (σε αρχεία με διένεξη);\n"
+"Διατήρηση του τοπικού κλάδου {0} σε {1} αρχείο(α) με διένεξη;\n"
 "\n"
-"Οι γραμμές διένεξης που προέρχονται από το {2} έχουν απορριφθεί σε:\n"
+"Ναι: οι γραμμές με διένεξη που προέρχονται από τον απομακρυσμένο {2} απορρίπτονται σε:\n"
 "{3}\n"
 "\n"
-"Οι μη-συγκρουσιακές αλλαγές από το {2} ενσωματώνονται κανονικά."
+"Όχι: αποφασίζετε αρχείο προς αρχείο, όπου η απομακρυσμένη έκδοση παραμένει διαθέσιμη.\n"
+"Οι αλλαγές από τον {2} χωρίς διένεξη συγχωνεύονται σε κάθε περίπτωση."
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 222
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:222

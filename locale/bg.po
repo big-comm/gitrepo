@@ -4078,21 +4078,21 @@ msgstr "{0} неуспешно: {1}"
 #: usr/share/gitrepo/build_package/core/git_utils.py:255
 #, python-brace-format
 msgid ""
-"Resolve the divergence keeping {0} where the two branches disagree?\n"
+"Keep the local branch {0} where it disagrees with the remote {1}?\n"
 "\n"
-"The conflicting lines from {1} are discarded in:\n"
+"Yes: the conflicting lines coming from {1} are discarded in:\n"
 "{2}\n"
 "\n"
-"Every other change from {1} is merged, and the discarded version stays readable with: git diff "
-"HEAD^2 -- FILE"
+"No: nothing is changed and you can pick another resolution method.\n"
+"Every other change from {1} is merged, and the discarded version stays readable with: git diff HEAD^2 -- FILE"
 msgstr ""
-"Разрешаване на разклонението, като се запази {0} при несъгласие между двата клона?\n"
+"Да се запази ли локалният клон {0} там, където се различава от отдалечения {1}?\n"
 "\n"
-"Конфликтните редове от {1} се игнорират в:\n"
+"Да: конфликтните редове, идващи от {1}, се отхвърлят в:\n"
 "{2}\n"
 "\n"
-"Всяка друга промяна от {1} е обединена, а игнорираната версия остава четима чрез: git diff HEAD^2 "
-"-- FILE"
+"Не: нищо не се променя и можете да изберете друг метод за разрешаване.\n"
+"Всички останали промени от {1} се сливат, а отхвърлената версия остава четима с: git diff HEAD^2 -- FILE"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -5147,19 +5147,21 @@ msgstr "Всички конфликти с запазената работа б�
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
 #, python-brace-format
 msgid ""
-"Keep the {0} version in {1} conflicted file(s)?\n"
+"Keep the local branch {0} in {1} conflicted file(s)?\n"
 "\n"
-"The conflicting lines coming from {2} are discarded in:\n"
+"Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
 "{3}\n"
 "\n"
-"Non-conflicting changes from {2} are still merged."
+"No: decide file by file, where the remote version is still available.\n"
+"Changes from {2} that do not conflict are merged either way."
 msgstr ""
-"Да се запази ли версията {0} в {1} конфликтни файл(а)?\n"
+"Да се запази ли локалният клон {0} в {1} файл(а) с конфликт?\n"
 "\n"
-"Конфликтните редове от {2} се отхвърлят в:\n"
+"Да: конфликтните редове, идващи от отдалечения {2}, се отхвърлят в:\n"
 "{3}\n"
 "\n"
-"Неконфликтните промени от {2} все още се сливат."
+"Не: решавате файл по файл, като отдалечената версия остава достъпна.\n"
+"Промените от {2} без конфликт се сливат и в двата случая."
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 222
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:222

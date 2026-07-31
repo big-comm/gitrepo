@@ -280,9 +280,10 @@ class ConflictResolver:
 
         paths = "\n".join(f"• {display_path(path)}" for path in conflict_files)
         question = _(
-            "Keep the {0} version in {1} conflicted file(s)?\n\n"
-            "The conflicting lines coming from {2} are discarded in:\n{3}\n\n"
-            "Non-conflicting changes from {2} are still merged."
+            "Keep the local branch {0} in {1} conflicted file(s)?\n\n"
+            "Yes: the conflicting lines coming from the remote {2} are discarded in:\n{3}\n\n"
+            "No: decide file by file, where the remote version is still available.\n"
+            "Changes from {2} that do not conflict are merged either way."
         ).format(current_branch, len(conflict_files), incoming_ref, paths)
         if not self.menu.confirm(question, default_yes=False):
             self.logger.log("yellow", _("Automatic conflict resolution cancelled."))

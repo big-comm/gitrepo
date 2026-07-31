@@ -4013,13 +4013,14 @@ msgstr  ""
 #
 # File: usr/share/gitrepo/build_package/core/git_utils.py, line: 276
 #, python-brace-format
-msgid   "Resolve the divergence keeping {0} where the two branches disagree?\n"
+msgid   ""
+        "Keep the local branch {0} where it disagrees with the remote {1}?\n"
         "\n"
-        "The conflicting lines from {1} are discarded in:\n"
+        "Yes: the conflicting lines coming from {1} are discarded in:\n"
         "{2}\n"
         "\n"
-        "Every other change from {1} is merged, and the discarded version "
-        "stays readable with: git diff HEAD^2 -- FILE"
+        "No: nothing is changed and you can pick another resolution method.\n"
+        "Every other change from {1} is merged, and the discarded version stays readable with: git diff HEAD^2 -- FILE"
 msgstr  ""
 
 #
@@ -5051,12 +5052,14 @@ msgstr  ""
 #
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 283
 #, python-brace-format
-msgid   "Keep the {0} version in {1} conflicted file(s)?\n"
+msgid   ""
+        "Keep the local branch {0} in {1} conflicted file(s)?\n"
         "\n"
-        "The conflicting lines coming from {2} are discarded in:\n"
+        "Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
         "{3}\n"
         "\n"
-        "Non-conflicting changes from {2} are still merged."
+        "No: decide file by file, where the remote version is still available.\n"
+        "Changes from {2} that do not conflict are merged either way."
 msgstr  ""
 
 #
