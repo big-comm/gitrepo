@@ -7741,3 +7741,13 @@ msgstr "Virheellinen tulostuskansio: {0}"
 #, python-brace-format
 msgid "{0} (version {1})"
 msgstr "{0} (versio {1})"
+
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid "Several APP_VERSION constants claim this repository ({0}). Keep APP_VERSION_OWNER on only one of them to bump it automatically."
+msgstr "Useat APP_VERSION-vakiot väittävät kuuluvansa tähän tietovarastoon ({0}). Säilytä APP_VERSION_OWNER vain yhdessä niistä, jotta se kasvatetaan automaattisesti."
+
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid "Found APP_VERSION in more than one file ({0}), so none was bumped. Add APP_VERSION_OWNER next to the one this repository owns."
+msgstr "APP_VERSION löytyi useammasta kuin yhdestä tiedostosta ({0}), joten mitään ei kasvatettu. Lisää APP_VERSION_OWNER sen viereen, joka kuuluu tähän tietovarastoon."

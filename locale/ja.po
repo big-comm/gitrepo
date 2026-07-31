@@ -7690,3 +7690,13 @@ msgstr "無効な出力ディレクトリ: {0}"
 #, python-brace-format
 msgid "{0} (version {1})"
 msgstr "{0} (バージョン {1})"
+
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid "Several APP_VERSION constants claim this repository ({0}). Keep APP_VERSION_OWNER on only one of them to bump it automatically."
+msgstr "複数の APP_VERSION 定数がこのリポジトリのものだと主張しています ({0})。自動的に上げるには、APP_VERSION_OWNER を 1 つだけに残してください。"
+
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid "Found APP_VERSION in more than one file ({0}), so none was bumped. Add APP_VERSION_OWNER next to the one this repository owns."
+msgstr "APP_VERSION が複数のファイルで見つかったため ({0})、どれも上げませんでした。このリポジトリのものに APP_VERSION_OWNER を追加してください。"
