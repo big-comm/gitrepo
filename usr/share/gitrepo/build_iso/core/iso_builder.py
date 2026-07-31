@@ -18,7 +18,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import BinaryIO, Iterator
 
-from gitrepo.build_iso.core.config import BUILD_ISO_REPO, BUILD_MIRROR, CONTAINER_IMAGE
+from gitrepo.build_iso.core.config import BUILD_ISO_REPO, BUILD_MIRRORS, CONTAINER_IMAGE
 from gitrepo.build_iso.core.container_manager import ISO_BUILDER_LABEL
 from gitrepo.common.translation import _
 from gitrepo.common import child_process as subprocess
@@ -358,7 +358,10 @@ class ISOBuilder:
         self.output_dir = os.path.expanduser(config.get("output_dir", "~/ISO"))
         self.container_engine = self._resolve_engine(config.get("container_engine", "docker"))
         self.container_image = config.get("container_image", CONTAINER_IMAGE)
-        self.build_mirror = config.get("build_mirror") or BUILD_MIRROR
+        configured_mirrors = config.get("build_mirrors")
+        legacy_mirror = config.get("build_mirror")
+        self.build_mirrors = tuple(configured_mirrors or ((legacy_mirror,) if legacy_mirror else BUILD_MIRRORS))
+        self.build_mirror = self.build_mirrors[0]
 
         self.release_tag = datetime.now().strftime("%Y-%m-%d_%H-%M")
 
@@ -753,26 +756,74 @@ class ISOBuilder:
         return False
 
     def _build_mirror_commands(self) -> str:
-        """Pin the mirror every Manjaro package is fetched from.
+        """Configure ordered mirrors for every Manjaro package download.
 
         mkchroot rewrites the build pacman.conf, replacing
-        "Include = /etc/pacman.d/mirrorlist" with a single
-        "Server = <build_mirror>/$repo/$arch". One URL therefore decides the
-        whole Manjaro package set, and `pacman-mirrors --fasttrack` cannot
-        influence it. Left unset, manjaro-tools falls back to
-        mirror.easyname.at, which served Plasma 6.6.5 while Manjaro stable was
-        already on 6.7.3 -- the ISO silently shipped a two-month-old desktop.
+        "Include = /etc/pacman.d/mirrorlist" with one Server, while chroot-run
+        also overwrites the chroot mirrorlist. Patch both paths to use the same
+        ordered file, so pacman falls through to the next Server when a package
+        cannot be retrieved.
 
         manjaro-tools sources ~/.config/manjaro-tools/manjaro-tools.conf before
-        applying its own defaults, so writing the value there is enough; no
-        system file needs patching.
+        applying its defaults. Keep its scalar set to the first mirror for its
+        command-line plumbing; the patched consumers use the complete list.
         """
-        if not BUILD_MIRROR_URL.match(self.build_mirror):
-            raise ValueError(f"refusing an unsafe build mirror URL: {self.build_mirror!r}")
+        for mirror in self.build_mirrors:
+            if not isinstance(mirror, str) or not BUILD_MIRROR_URL.match(mirror):
+                raise ValueError(f"refusing an unsafe build mirror URL: {mirror!r}")
+
+        server_lines = "\n".join(
+            f"Server = {mirror.rstrip('/')}/$MANJARO_BRANCH/\\$repo/\\$arch" for mirror in self.build_mirrors
+        )
         return (
             "mkdir -p /root/.config/manjaro-tools\n"
             f"printf 'build_mirror=%s\\n' '{self.build_mirror}' > /root/.config/manjaro-tools/manjaro-tools.conf\n"
             f'grep -qx "build_mirror={self.build_mirror}" /root/.config/manjaro-tools/manjaro-tools.conf\n'
+            f"cat > {_CONTAINER_ROOT}/patch-build-mirrors.sh <<'GITREPO_BUILD_MIRRORS'\n"
+            + r"""#!/bin/bash
+set -eo pipefail
+
+: "${MANJARO_BRANCH:?MANJARO_BRANCH must be set}"
+case "$MANJARO_BRANCH" in
+    stable|testing|unstable) ;;
+    *) echo "unknown Manjaro branch: $MANJARO_BRANCH" >&2; exit 1 ;;
+esac
+
+mirror_file=/etc/pacman.d/gitrepo-build-mirrors
+mkchroot=/usr/bin/mkchroot
+chroot_run=/usr/bin/chroot-run
+
+install -dm755 "${mirror_file%/*}"
+cat > "$mirror_file" <<GITREPO_MIRRORLIST
+"""
+            + server_lines
+            + r"""
+GITREPO_MIRRORLIST
+
+old_mkchroot='sed "s#Include = /etc/pacman.d/mirrorlist#Server = ${url}#g" $pac_conf > $pac_base'
+new_mkchroot='sed "s#Include = /etc/pacman.d/mirrorlist#Include = /etc/pacman.d/gitrepo-build-mirrors#g" "$pac_conf" > "$pac_base"'
+if ! grep -Fqx "    $new_mkchroot" "$mkchroot"; then
+    grep -Fqx "    $old_mkchroot" "$mkchroot"
+    sed -i '\|^[[:space:]]*sed "s#Include = /etc/pacman.d/mirrorlist#Server = \${url}#g" \$pac_conf > \$pac_base$|c\    sed "s#Include = /etc/pacman.d/mirrorlist#Include = /etc/pacman.d/gitrepo-build-mirrors#g" "$pac_conf" > "$pac_base"' "$mkchroot"
+fi
+
+old_chroot_run='echo "Server = ${build_mirror}" > "$1/etc/pacman.d/mirrorlist"'
+new_chroot_run='cp /etc/pacman.d/gitrepo-build-mirrors "$1/etc/pacman.d/mirrorlist"'
+if ! grep -Fqx "            $new_chroot_run" "$chroot_run"; then
+    grep -Fqx "            $old_chroot_run" "$chroot_run"
+    sed -i '\|^[[:space:]]*echo "Server = \${build_mirror}" > "\$1/etc/pacman.d/mirrorlist"$|c\            cp /etc/pacman.d/gitrepo-build-mirrors "$1/etc/pacman.d/mirrorlist"' "$chroot_run"
+fi
+
+test "$(grep -c '^Server = ' "$mirror_file")" -eq """
+            + str(len(self.build_mirrors))
+            + r"""
+grep -Fqx "    $new_mkchroot" "$mkchroot"
+grep -Fqx "            $new_chroot_run" "$chroot_run"
+"""
+            + "GITREPO_BUILD_MIRRORS\n"
+            + f"chmod +x {_CONTAINER_ROOT}/patch-build-mirrors.sh\n"
+            + f"sed -i '/^  patch_manjaro_tools$/a\\  sudo bash {_CONTAINER_ROOT}/patch-build-mirrors.sh || die \"patch-build-mirrors.sh failed\"' {_CONTAINER_BUILD_REPO}/build-iso.sh\n"
+            + f"grep -q '^  sudo bash {_CONTAINER_ROOT}/patch-build-mirrors.sh || die' {_CONTAINER_BUILD_REPO}/build-iso.sh\n"
         )
 
     def _live_setup_check_commands(self) -> str:

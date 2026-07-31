@@ -187,14 +187,19 @@ LOCAL_CONFIG_FILE = os.path.join(LOCAL_CONFIG_DIR, "config.json")
 CONTAINER_IMAGE = "talesam/community-build:latest"
 BUILD_ISO_REPO = "https://github.com/talesam/build-iso.git"
 
-# Mirror every Manjaro package in the ISO is fetched from.
+# Ordered mirrors used to fetch Manjaro packages during the build.
 #
 # manjaro-tools rewrites the build pacman.conf, replacing
-# "Include = /etc/pacman.d/mirrorlist" with a single "Server = <this>/$repo/$arch"
-# (mkchroot: the build_mirror branch). So this one URL decides the whole Manjaro
-# package set, and `pacman-mirrors --fasttrack` cannot influence it.
+# "Include = /etc/pacman.d/mirrorlist" with a single Server. The local builder
+# patches that path back to this ordered list; `pacman-mirrors --fasttrack`
+# cannot influence it.
 #
-# It must be set: manjaro-tools defaults to mirror.easyname.at, which has been
-# serving Plasma 6.6.5 while Manjaro stable was already on 6.7.3. This is the
-# CDN the BigLinux profiles already ship in /etc/pacman.d/mirrorcdn.
-BUILD_MIRROR = "https://mirrors2.manjaro.org"
+# Keep only base URLs here. The selected Manjaro branch is added at build time.
+BUILD_MIRRORS = (
+    "http://mirrors.manjaro.org/repo",
+    "http://mirrors2.manjaro.org",
+    "http://mirrors.cicku.me/manjaro",
+)
+
+# Compatibility for callers that still import the former scalar setting.
+BUILD_MIRROR = BUILD_MIRRORS[0]
