@@ -779,6 +779,22 @@ msgstr "Görüntülenecek metinsel fark yok."
 msgid "Operation Progress"
 msgstr "İşlem İlerlemesi"
 # 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 74
+#: NEEDS WORK
+msgid "The operation is still running"
+msgstr "İşlem hala devam ediyor."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 75
+#: NEEDS WORK
+#, python-brace-format
+msgid "“{0}” has to finish before this window can be closed."
+msgstr "“{0}” bu pencere kapatılmadan önce bitmelidir."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 77
+#: NEEDS WORK
+msgid "Keep waiting"
+msgstr "Beklemeye devam et"
+# 
 # File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 68
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:68
 msgid "Running"
@@ -1075,11 +1091,10 @@ msgstr "Çözümleri Uygula"
 msgid "Resolved {0} of {1} conflicts"
 msgstr "{0} / {1} çakışma çözüldü"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 381
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:381
-#, python-brace-format
-msgid "Opening {0}. After editing, click 'Mark as Edited' to continue."
-msgstr "{0} açılıyor. Düzenleme yaptıktan sonra devam etmek için 'Düzenlendi Olarak İşaretle'ye tıklayın."
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 407
+#: NEEDS WORK
+msgid "Edited by hand — checked for conflict markers when you apply"
+msgstr "Elle ile düzenlendi — uyguladığınızda çelişki işaretleri kontrol edildi"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 426
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:426
@@ -1169,11 +1184,40 @@ msgstr ""
 msgid "Delete and Apply"
 msgstr "Sil ve Uygula"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 848
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:848
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 772
+#: NEEDS WORK
+msgid "Could not apply this choice — see the log"
+msgstr "Bu seçeneği uygulamak mümkün olmadı — günlüğe bakın"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 775
+#: NEEDS WORK
 #, python-brace-format
-msgid "Warning: {0} may still have conflict markers"
-msgstr "Uyarı: {0} hala çatışma işaretleri içerebilir"
+msgid "Already applied before the failure: {0}"
+msgstr "Başarısızlıktan önce zaten uygulandı: {0}"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 776
+#: NEEDS WORK
+#, python-brace-format
+msgid "Stopped at {0}; the dialog stays open so you can retry."
+msgstr "{0} noktasında durdu; diyalog açık kalır, böylece yeniden deneyebilirsiniz."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 890
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not read {0}: {1}"
+msgstr "{0} okunamadı: {1}"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 893
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} still contains conflict markers; edit it and apply again."
+msgstr "{0} hala çelişki işaretleri içeriyor; düzenleyin ve tekrar uygulayın."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 906
+#: NEEDS WORK
+#, python-brace-format
+msgid "Saved both versions: {0}, {1}"
+msgstr "Her iki versiyon kaydedildi: {0}, {1}"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 891
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:891
@@ -2044,6 +2088,11 @@ msgstr "Eski dalları kaldır"
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:259
 msgid "Not available"
 msgstr "Kullanılamıyor"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 355
+#: NEEDS WORK
+msgid "Source and target are the same branch. Choose a different target."
+msgstr "Kaynak ve hedef aynı dal. Farklı bir hedef seçin."
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 43
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:43
@@ -3684,6 +3733,11 @@ msgstr "Var olan yerel commit, origin/{0} adresine yayımlandı."
 msgid "Could not determine branch name for push"
 msgstr "Push için dal adı belirlenemedi"
 # 
+# File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 251
+#: usr/share/gitrepo/build_package/core/commit_operations.py:213
+msgid "Resolve all conflicts before committing."
+msgstr "Taahhüt etmeden önce tüm çakışmaları çözün."
+# 
 # File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 230
 #: usr/share/gitrepo/build_package/core/commit_handler.py:230
 #, python-brace-format
@@ -4198,11 +4252,6 @@ msgstr "Yayınlama yeniden denemesi başarısız: {0}"
 msgid "This option is only available in Git repositories."
 msgstr "Bu seçenek yalnızca Git depolarında kullanılabilir."
 # 
-# File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 251
-#: usr/share/gitrepo/build_package/core/commit_operations.py:213
-msgid "Resolve all conflicts before committing."
-msgstr "Taahhüt etmeden önce tüm çakışmaları çözün."
-# 
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 271
 #: usr/share/gitrepo/build_package/core/commit_operations.py:233
 msgid "Commit cancelled."
@@ -4282,7 +4331,8 @@ msgid ""
 "{2}\n"
 "\n"
 "No: nothing is changed and you can pick another resolution method.\n"
-"Every other change from {1} is merged, and the discarded version stays readable with: git diff HEAD^2 -- FILE"
+"Every other change from {1} is merged, and the discarded version stays readable with: git diff "
+"HEAD^2 -- FILE"
 msgstr ""
 "Yerel {0} dalı, uzak {1} dalından ayrıldığı yerlerde korunsun mu?\n"
 "\n"
@@ -4290,7 +4340,8 @@ msgstr ""
 "{2}\n"
 "\n"
 "Hayır: hiçbir şey değişmez ve başka bir çözüm yöntemi seçebilirsiniz.\n"
-"{1} dalındaki diğer tüm değişiklikler birleştirilir ve atılan sürüm şu komutla okunabilir kalır: git diff HEAD^2 -- FILE"
+"{1} dalındaki diğer tüm değişiklikler birleştirilir ve atılan sürüm şu komutla okunabilir kalır: "
+"git diff HEAD^2 -- FILE"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -5208,6 +5259,13 @@ msgstr "Tüm ayarlar varsayılana sıfırlansın mı?"
 #: usr/share/gitrepo/build_package/core/settings_menu.py:42
 msgid "✓ Settings reset to defaults"
 msgstr "✓ Ayarlar varsayılana sıfırlandı"
+# 
+# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 213
+# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 238
+#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213
+#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
+msgid "Could not save settings. Check config permissions, then try again."
+msgstr "Ayarlar kaydedilemedi. Yapılandırma izinlerini kontrol edip tekrar deneyin."
 # 
 # File: usr/share/gitrepo/build_package/core/settings_menu.py, line: 49
 #: usr/share/gitrepo/build_package/core/settings_menu.py:49
@@ -6569,13 +6627,6 @@ msgstr "Ayarları Kaydet"
 msgid "Reset to Defaults"
 msgstr "Varsayılanlara Sıfırla"
 # 
-# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 213
-# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 238
-#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213
-#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
-msgid "Could not save settings. Check config permissions, then try again."
-msgstr "Ayarlar kaydedilemedi. Yapılandırma izinlerini kontrol edip tekrar deneyin."
-# 
 # File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 236
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:236
 msgid "Settings saved"
@@ -6816,6 +6867,11 @@ msgstr "Oluşturulan ISO'ların listesini temizle?"
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:201
 msgid "This will remove all build history entries. This cannot be undone."
 msgstr "Bu işlem tüm derleme geçmişi kayıtlarını kaldıracaktır. Geri alınamaz."
+# 
+# File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 213
+#: NEEDS WORK
+msgid "Could not update the build history. Check config permissions, then try again."
+msgstr "Yapı geçmişi güncellenemedi. Yapılandırma izinlerini kontrol edin, ardından tekrar deneyin."
 # 
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 221
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:221

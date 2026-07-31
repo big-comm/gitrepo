@@ -711,6 +711,22 @@ msgstr "표시할 텍스트 차이가 없습니다."
 msgid "Operation Progress"
 msgstr "작업 진행 상황"
 # 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 74
+#: NEEDS WORK
+msgid "The operation is still running"
+msgstr "작업이 아직 실행 중입니다."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 75
+#: NEEDS WORK
+#, python-brace-format
+msgid "“{0}” has to finish before this window can be closed."
+msgstr "“{0}”이(가) 이 창을 닫기 전에 완료되어야 합니다."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 77
+#: NEEDS WORK
+msgid "Keep waiting"
+msgstr "계속 기다리세요"
+# 
 # File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 68
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:68
 msgid "Running"
@@ -979,11 +995,10 @@ msgstr "해결 사항 적용"
 msgid "Resolved {0} of {1} conflicts"
 msgstr "{1}개 중 {0}개 충돌 해결됨"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 381
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:381
-#, python-brace-format
-msgid "Opening {0}. After editing, click 'Mark as Edited' to continue."
-msgstr "{0}을(를) 엽니다. 편집을 마친 후 '편집 완료'를 클릭하여 계속 진행하세요."
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 407
+#: NEEDS WORK
+msgid "Edited by hand — checked for conflict markers when you apply"
+msgstr "수동으로 편집됨 — 적용할 때 충돌 마커를 확인했습니다"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 426
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:426
@@ -1073,11 +1088,40 @@ msgstr ""
 msgid "Delete and Apply"
 msgstr "삭제 및 적용"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 848
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:848
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 772
+#: NEEDS WORK
+msgid "Could not apply this choice — see the log"
+msgstr "이 선택을 적용할 수 없습니다 — 로그를 확인하세요"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 775
+#: NEEDS WORK
 #, python-brace-format
-msgid "Warning: {0} may still have conflict markers"
-msgstr "경고: {0}에 여전히 충돌 표시가 있을 수 있습니다"
+msgid "Already applied before the failure: {0}"
+msgstr "실패 전에 이미 적용됨: {0}"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 776
+#: NEEDS WORK
+#, python-brace-format
+msgid "Stopped at {0}; the dialog stays open so you can retry."
+msgstr "{0}에서 중지되었습니다. 대화 상자가 열려 있으므로 다시 시도할 수 있습니다."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 890
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not read {0}: {1}"
+msgstr "{0}을(를) 읽을 수 없습니다: {1}"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 893
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} still contains conflict markers; edit it and apply again."
+msgstr "{0}는 여전히 충돌 마커를 포함하고 있습니다. 수정한 후 다시 적용하세요."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 906
+#: NEEDS WORK
+#, python-brace-format
+msgid "Saved both versions: {0}, {1}"
+msgstr "두 버전을 모두 저장했습니다: {0}, {1}"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 891
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:891
@@ -1877,6 +1921,11 @@ msgstr "오래된 브랜치 제거"
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:259
 msgid "Not available"
 msgstr "사용할 수 없음"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 355
+#: NEEDS WORK
+msgid "Source and target are the same branch. Choose a different target."
+msgstr "소스와 대상이 동일한 브랜치입니다. 다른 대상을 선택하세요."
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 43
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:43
@@ -3466,6 +3515,11 @@ msgstr "기존 로컬 커밋이 origin/{0}에 게시되었습니다."
 msgid "Could not determine branch name for push"
 msgstr "푸시할 브랜치 이름을 확인할 수 없습니다"
 # 
+# File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 251
+#: usr/share/gitrepo/build_package/core/commit_operations.py:213
+msgid "Resolve all conflicts before committing."
+msgstr "커밋하기 전에 모든 충돌을 해결하십시오."
+# 
 # File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 230
 #: usr/share/gitrepo/build_package/core/commit_handler.py:230
 #, python-brace-format
@@ -3965,11 +4019,6 @@ msgstr "출판 재시도 실패: {0}"
 msgid "This option is only available in Git repositories."
 msgstr "이 옵션은 Git 저장소에서만 사용할 수 있습니다."
 # 
-# File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 251
-#: usr/share/gitrepo/build_package/core/commit_operations.py:213
-msgid "Resolve all conflicts before committing."
-msgstr "커밋하기 전에 모든 충돌을 해결하십시오."
-# 
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 271
 #: usr/share/gitrepo/build_package/core/commit_operations.py:233
 msgid "Commit cancelled."
@@ -4048,7 +4097,8 @@ msgid ""
 "{2}\n"
 "\n"
 "No: nothing is changed and you can pick another resolution method.\n"
-"Every other change from {1} is merged, and the discarded version stays readable with: git diff HEAD^2 -- FILE"
+"Every other change from {1} is merged, and the discarded version stays readable with: git diff "
+"HEAD^2 -- FILE"
 msgstr ""
 "원격 {1}과(와) 다른 부분에서 로컬 브랜치 {0}을(를) 유지할까요?\n"
 "\n"
@@ -4959,6 +5009,12 @@ msgstr "모든 설정을 기본값으로 재설정하시겠습니까?"
 #: usr/share/gitrepo/build_package/core/settings_menu.py:42
 msgid "✓ Settings reset to defaults"
 msgstr "✓ 설정이 기본값으로 재설정되었습니다"
+# 
+# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 213
+# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 238
+#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213 usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
+msgid "Could not save settings. Check config permissions, then try again."
+msgstr "설정을 저장할 수 없습니다. 설정 권한을 확인한 후 다시 시도하세요."
 # 
 # File: usr/share/gitrepo/build_package/core/settings_menu.py, line: 49
 #: usr/share/gitrepo/build_package/core/settings_menu.py:49
@@ -6288,12 +6344,6 @@ msgstr "설정 저장"
 msgid "Reset to Defaults"
 msgstr "기본값으로 재설정"
 # 
-# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 213
-# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 238
-#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213 usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
-msgid "Could not save settings. Check config permissions, then try again."
-msgstr "설정을 저장할 수 없습니다. 설정 권한을 확인한 후 다시 시도하세요."
-# 
 # File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 236
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:236
 msgid "Settings saved"
@@ -6529,6 +6579,11 @@ msgstr "생성된 ISO 목록을 지우시겠습니까?"
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:201
 msgid "This will remove all build history entries. This cannot be undone."
 msgstr "이 작업은 모든 빌드 기록 항목을 삭제합니다. 이 작업은 되돌릴 수 없습니다."
+# 
+# File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 213
+#: NEEDS WORK
+msgid "Could not update the build history. Check config permissions, then try again."
+msgstr "빌드 기록을 업데이트할 수 없습니다. 구성 권한을 확인한 후 다시 시도하십시오."
 # 
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 221
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:221

@@ -782,6 +782,22 @@ msgstr "Keine textuellen Unterschiede anzuzeigen."
 msgid "Operation Progress"
 msgstr "Operationsfortschritt"
 # 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 74
+#: NEEDS WORK
+msgid "The operation is still running"
+msgstr "Der Vorgang läuft noch."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 75
+#: NEEDS WORK
+#, python-brace-format
+msgid "“{0}” has to finish before this window can be closed."
+msgstr "„{0}“ muss abgeschlossen sein, bevor dieses Fenster geschlossen werden kann."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 77
+#: NEEDS WORK
+msgid "Keep waiting"
+msgstr "Warten Sie weiter"
+# 
 # File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 68
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:68
 msgid "Running"
@@ -1080,11 +1096,10 @@ msgstr "Lösungen anwenden"
 msgid "Resolved {0} of {1} conflicts"
 msgstr "{0} von {1} Konflikten gelöst"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 381
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:381
-#, python-brace-format
-msgid "Opening {0}. After editing, click 'Mark as Edited' to continue."
-msgstr "{0} wird geöffnet. Nach der Bearbeitung auf „Als bearbeitet markieren“ klicken, um fortzufahren."
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 407
+#: NEEDS WORK
+msgid "Edited by hand — checked for conflict markers when you apply"
+msgstr "Manuell bearbeitet — auf Konfliktmarker überprüft, wenn Sie anwenden"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 426
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:426
@@ -1174,11 +1189,40 @@ msgstr ""
 msgid "Delete and Apply"
 msgstr "Löschen und Anwenden"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 848
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:848
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 772
+#: NEEDS WORK
+msgid "Could not apply this choice — see the log"
+msgstr "Diese Auswahl konnte nicht angewendet werden — siehe das Protokoll"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 775
+#: NEEDS WORK
 #, python-brace-format
-msgid "Warning: {0} may still have conflict markers"
-msgstr "Warnung: {0} könnte noch Konfliktmarker enthalten"
+msgid "Already applied before the failure: {0}"
+msgstr "Bereits vor dem Fehler angewendet: {0}"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 776
+#: NEEDS WORK
+#, python-brace-format
+msgid "Stopped at {0}; the dialog stays open so you can retry."
+msgstr "Angehalten bei {0}; der Dialog bleibt geöffnet, damit Sie es erneut versuchen können."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 890
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not read {0}: {1}"
+msgstr "Konnte {0} nicht lesen: {1}"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 893
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} still contains conflict markers; edit it and apply again."
+msgstr "{0} enthält weiterhin Konfliktmarker; bearbeiten Sie es und wenden Sie es erneut an."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 906
+#: NEEDS WORK
+#, python-brace-format
+msgid "Saved both versions: {0}, {1}"
+msgstr "Gespeicherte beide Versionen: {0}, {1}"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 891
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:891
@@ -2061,6 +2105,11 @@ msgstr "Alte Branches entfernen"
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:259
 msgid "Not available"
 msgstr "Nicht verfügbar"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 355
+#: NEEDS WORK
+msgid "Source and target are the same branch. Choose a different target."
+msgstr "Quelle und Ziel sind derselbe Branch. Wählen Sie ein anderes Ziel."
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 43
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:43
@@ -3702,6 +3751,11 @@ msgstr "Vorhandener lokaler Commit an origin/{0} veröffentlicht."
 msgid "Could not determine branch name for push"
 msgstr "Branch-Name für Push konnte nicht ermittelt werden"
 # 
+# File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 251
+#: usr/share/gitrepo/build_package/core/commit_operations.py:213
+msgid "Resolve all conflicts before committing."
+msgstr "Lösen Sie alle Konflikte, bevor Sie committen."
+# 
 # File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 230
 #: usr/share/gitrepo/build_package/core/commit_handler.py:230
 #, python-brace-format
@@ -4220,11 +4274,6 @@ msgstr "Veröffentlichungswiederholung fehlgeschlagen: {0}"
 msgid "This option is only available in Git repositories."
 msgstr "Diese Option ist nur in Git-Repositorys verfügbar."
 # 
-# File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 251
-#: usr/share/gitrepo/build_package/core/commit_operations.py:213
-msgid "Resolve all conflicts before committing."
-msgstr "Lösen Sie alle Konflikte, bevor Sie committen."
-# 
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 271
 #: usr/share/gitrepo/build_package/core/commit_operations.py:233
 msgid "Commit cancelled."
@@ -4304,7 +4353,8 @@ msgid ""
 "{2}\n"
 "\n"
 "No: nothing is changed and you can pick another resolution method.\n"
-"Every other change from {1} is merged, and the discarded version stays readable with: git diff HEAD^2 -- FILE"
+"Every other change from {1} is merged, and the discarded version stays readable with: git diff "
+"HEAD^2 -- FILE"
 msgstr ""
 "Lokalen Branch {0} dort beibehalten, wo er vom entfernten {1} abweicht?\n"
 "\n"
@@ -4312,7 +4362,8 @@ msgstr ""
 "{2}\n"
 "\n"
 "Nein: Es wird nichts geändert und Sie können eine andere Auflösungsmethode wählen.\n"
-"Alle anderen Änderungen aus {1} werden zusammengeführt, und die verworfene Version bleibt lesbar mit: git diff HEAD^2 -- FILE"
+"Alle anderen Änderungen aus {1} werden zusammengeführt, und die verworfene Version bleibt lesbar "
+"mit: git diff HEAD^2 -- FILE"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -5232,6 +5283,15 @@ msgstr "Alle Einstellungen auf Standard zurücksetzen?"
 #: usr/share/gitrepo/build_package/core/settings_menu.py:42
 msgid "✓ Settings reset to defaults"
 msgstr "✓ Einstellungen auf Standard zurückgesetzt"
+# 
+# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 213
+# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 238
+#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213
+#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
+msgid "Could not save settings. Check config permissions, then try again."
+msgstr ""
+"Einstellungen konnten nicht gespeichert werden. Überprüfen Sie die Konfigurationsberechtigungen und "
+"versuchen Sie es erneut."
 # 
 # File: usr/share/gitrepo/build_package/core/settings_menu.py, line: 49
 #: usr/share/gitrepo/build_package/core/settings_menu.py:49
@@ -6599,15 +6659,6 @@ msgstr "Einstellungen speichern"
 msgid "Reset to Defaults"
 msgstr "Auf Werkseinstellungen zurücksetzen"
 # 
-# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 213
-# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 238
-#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213
-#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
-msgid "Could not save settings. Check config permissions, then try again."
-msgstr ""
-"Einstellungen konnten nicht gespeichert werden. Überprüfen Sie die Konfigurationsberechtigungen und "
-"versuchen Sie es erneut."
-# 
 # File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 236
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:236
 msgid "Settings saved"
@@ -6850,6 +6901,13 @@ msgstr "Die Liste der generierten ISOs löschen?"
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:201
 msgid "This will remove all build history entries. This cannot be undone."
 msgstr "Dadurch werden alle Einträge der Build-Historie gelöscht. Dies kann nicht rückgängig gemacht werden."
+# 
+# File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 213
+#: NEEDS WORK
+msgid "Could not update the build history. Check config permissions, then try again."
+msgstr ""
+"Konnte die Build-Historie nicht aktualisieren. Überprüfen Sie die Konfigurationsberechtigungen und "
+"versuchen Sie es erneut."
 # 
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 221
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:221

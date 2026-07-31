@@ -778,6 +778,22 @@ msgstr "Nema tekstualnih razlika za prikaz."
 msgid "Operation Progress"
 msgstr "Napredak operacije"
 # 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 74
+#: NEEDS WORK
+msgid "The operation is still running"
+msgstr "Operacija se još uvijek izvodi"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 75
+#: NEEDS WORK
+#, python-brace-format
+msgid "“{0}” has to finish before this window can be closed."
+msgstr "“{0}” mora završiti prije nego što se ovaj prozor može zatvoriti."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 77
+#: NEEDS WORK
+msgid "Keep waiting"
+msgstr "Čekajte."
+# 
 # File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 68
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:68
 msgid "Running"
@@ -1074,11 +1090,10 @@ msgstr "Primijeni rješenja"
 msgid "Resolved {0} of {1} conflicts"
 msgstr "Riješeno {0} od {1} sukoba"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 381
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:381
-#, python-brace-format
-msgid "Opening {0}. After editing, click 'Mark as Edited' to continue."
-msgstr "Otvaram {0}. Nakon uređivanja kliknite 'Označi kao uređeno' za nastavak."
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 407
+#: NEEDS WORK
+msgid "Edited by hand — checked for conflict markers when you apply"
+msgstr "Uređeno ručno — provjereno za oznake sukoba kada primijenite"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 426
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:426
@@ -1168,11 +1183,40 @@ msgstr ""
 msgid "Delete and Apply"
 msgstr "Izbriši i primijeni"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 848
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:848
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 772
+#: NEEDS WORK
+msgid "Could not apply this choice — see the log"
+msgstr "Nije moguće primijeniti ovaj izbor — pogledajte zapisnik"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 775
+#: NEEDS WORK
 #, python-brace-format
-msgid "Warning: {0} may still have conflict markers"
-msgstr "Upozorenje: {0} još uvijek može sadržavati oznake sukoba"
+msgid "Already applied before the failure: {0}"
+msgstr "Već primijenjeno prije neuspjeha: {0}"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 776
+#: NEEDS WORK
+#, python-brace-format
+msgid "Stopped at {0}; the dialog stays open so you can retry."
+msgstr "Zaustavljeno na {0}; dijalog ostaje otvoren kako biste mogli ponovo pokušati."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 890
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not read {0}: {1}"
+msgstr "Nije moguće pročitati {0}: {1}"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 893
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} still contains conflict markers; edit it and apply again."
+msgstr "{0} još uvijek sadrži oznake sukoba; uredite ga i primijenite ponovno."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 906
+#: NEEDS WORK
+#, python-brace-format
+msgid "Saved both versions: {0}, {1}"
+msgstr "Spremio obje verzije: {0}, {1}"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 891
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:891
@@ -2047,6 +2091,11 @@ msgstr "Uklonite stare grane"
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:259
 msgid "Not available"
 msgstr "Nije dostupno"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 355
+#: NEEDS WORK
+msgid "Source and target are the same branch. Choose a different target."
+msgstr "Izvor i odredište su ista grana. Odaberite drugo odredište."
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 43
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:43
@@ -3686,6 +3735,11 @@ msgstr "Postojeća lokalna objava objavljena na origin/{0}."
 msgid "Could not determine branch name for push"
 msgstr "Nije moguće odrediti ime grane za slanje"
 # 
+# File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 251
+#: usr/share/gitrepo/build_package/core/commit_operations.py:213
+msgid "Resolve all conflicts before committing."
+msgstr "Riješite sve sukobe prije nego što napravite commit."
+# 
 # File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 230
 #: usr/share/gitrepo/build_package/core/commit_handler.py:230
 #, python-brace-format
@@ -4202,11 +4256,6 @@ msgstr "Ponovno objavljivanje nije uspjelo: {0}"
 msgid "This option is only available in Git repositories."
 msgstr "Ova opcija dostupna je samo u Git repozitorijima."
 # 
-# File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 251
-#: usr/share/gitrepo/build_package/core/commit_operations.py:213
-msgid "Resolve all conflicts before committing."
-msgstr "Riješite sve sukobe prije nego što napravite commit."
-# 
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 271
 #: usr/share/gitrepo/build_package/core/commit_operations.py:233
 msgid "Commit cancelled."
@@ -4286,7 +4335,8 @@ msgid ""
 "{2}\n"
 "\n"
 "No: nothing is changed and you can pick another resolution method.\n"
-"Every other change from {1} is merged, and the discarded version stays readable with: git diff HEAD^2 -- FILE"
+"Every other change from {1} is merged, and the discarded version stays readable with: git diff "
+"HEAD^2 -- FILE"
 msgstr ""
 "Zadržati lokalnu granu {0} ondje gdje se razlikuje od udaljene {1}?\n"
 "\n"
@@ -4294,7 +4344,8 @@ msgstr ""
 "{2}\n"
 "\n"
 "Ne: ništa se ne mijenja i možete odabrati drugi način rješavanja.\n"
-"Sve ostale promjene iz {1} se spajaju, a odbačena verzija ostaje čitljiva pomoću: git diff HEAD^2 -- FILE"
+"Sve ostale promjene iz {1} se spajaju, a odbačena verzija ostaje čitljiva pomoću: git diff HEAD^2 "
+"-- FILE"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -5211,6 +5262,13 @@ msgstr "Želite li resetirati sve postavke na zadane vrijednosti?"
 #: usr/share/gitrepo/build_package/core/settings_menu.py:42
 msgid "✓ Settings reset to defaults"
 msgstr "✓ Postavke su resetirane na zadane vrijednosti"
+# 
+# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 213
+# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 238
+#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213
+#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
+msgid "Could not save settings. Check config permissions, then try again."
+msgstr "Neuspješno spremanje postavki. Provjerite dozvole konfiguracije, pa pokušajte ponovno."
 # 
 # File: usr/share/gitrepo/build_package/core/settings_menu.py, line: 49
 #: usr/share/gitrepo/build_package/core/settings_menu.py:49
@@ -6568,13 +6626,6 @@ msgstr "Spremi postavke"
 msgid "Reset to Defaults"
 msgstr "Vrati na zadane postavke"
 # 
-# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 213
-# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 238
-#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213
-#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
-msgid "Could not save settings. Check config permissions, then try again."
-msgstr "Neuspješno spremanje postavki. Provjerite dozvole konfiguracije, pa pokušajte ponovno."
-# 
 # File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 236
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:236
 msgid "Settings saved"
@@ -6813,6 +6864,11 @@ msgstr "Očistiti popis generiranih ISO-a?"
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:201
 msgid "This will remove all build history entries. This cannot be undone."
 msgstr "Ovo će ukloniti sve unose povijesti izgradnje. Ovo se ne može poništiti."
+# 
+# File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 213
+#: NEEDS WORK
+msgid "Could not update the build history. Check config permissions, then try again."
+msgstr "Nije moguće ažurirati povijest izrade. Provjerite dozvole konfiguracije, a zatim pokušajte ponovo."
 # 
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 221
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:221
