@@ -296,6 +296,26 @@ msgstr "检查中..."
 msgid "Repository is already up to date"
 msgstr "仓库已是最新状态"
 # 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 127
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:127
+msgid "Available Branches"
+msgstr "可用分支"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
+msgid "Most Recent Branch"
+msgstr "最近分支"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
+msgid "Current"
+msgstr "当前"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 68
+#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:68
+msgid "Compare versions side-by-side"
+msgstr "并排比较版本"
+# 
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 231
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:212
 msgid "Changes received from the remote"
@@ -923,11 +943,6 @@ msgstr "保留双方"
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:60
 msgid "Keep both versions"
 msgstr "保留两个版本"
-# 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 68
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:68
-msgid "Compare versions side-by-side"
-msgstr "并排比较版本"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 76
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:76
@@ -1780,11 +1795,6 @@ msgstr "设置无法恢复。请重试。"
 msgid "Checked out right now"
 msgstr "检出现在"
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
-msgid "Current"
-msgstr "当前"
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 52
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:52
 msgid "Only on origin; created locally on first checkout"
@@ -1822,20 +1832,10 @@ msgstr "显示当前活动分支及最近更新的本地分支。"
 msgid "Active Branch"
 msgstr "活跃分支"
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
-msgid "Most Recent Branch"
-msgstr "最近分支"
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 116
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:116
 msgid "Branch with latest commits"
 msgstr "含有最新提交的分支"
-# 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 127
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:127
-msgid "Available Branches"
-msgstr "可用分支"
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 129
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:129
@@ -3525,6 +3525,22 @@ msgstr "更改已通过 git commit 和 git push 发布到 {0}"
 msgid "Skipping the version bump: {0} is not a regular file inside the repository."
 msgstr "跳过版本提升：{0} 不是仓库内的常规文件。"
 # 
+# File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 155
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid ""
+"Several APP_VERSION constants claim this repository ({0}). Keep APP_VERSION_OWNER on only one of "
+"them to bump it automatically."
+msgstr "多个 APP_VERSION 常量都声称属于此仓库 ({0})。请只在其中一个上保留 APP_VERSION_OWNER，以便自动递增。"
+# 
+# File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 160
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid ""
+"Found APP_VERSION in more than one file ({0}), so none was bumped. Add APP_VERSION_OWNER next to "
+"the one this repository owns."
+msgstr "在多个文件中找到了 APP_VERSION ({0})，因此没有递增任何一个。请在属于此仓库的那一个旁边添加 APP_VERSION_OWNER。"
+# 
 # File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 249
 #: usr/share/gitrepo/build_package/core/version_bumper.py:246
 msgid "APP_VERSION constant not found. Skipping automatic version bump."
@@ -4291,12 +4307,6 @@ msgstr "合并 origin/{0} 到 {0}"
 msgid "Merge remains incomplete; resolve the listed files manually."
 msgstr "合并尚未完成；请手动解决列出的文件冲突。"
 # 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 53
-#: usr/share/gitrepo/build_package/core/pull_operations.py:53
-#, python-brace-format
-msgid "Merge origin/{0} after conflict resolution"
-msgstr "解决冲突后合并 origin/{0}"
-# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 60
 #: usr/share/gitrepo/build_package/core/pull_operations.py:60
 #, python-brace-format
@@ -4329,16 +4339,6 @@ msgstr "请先解决现有冲突再拉取。"
 msgid "The current branch has no matching branch on origin."
 msgstr "当前分支在 origin 上没有匹配的分支。"
 # 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
-#: NEEDS WORK
-msgid "Could not compare the local and remote revisions."
-msgstr "无法比较本地和远程修订。"
-# 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
-#: NEEDS WORK
-msgid "Repository is already up to date."
-msgstr "仓库已经是最新的。"
-# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 182
 #: NEEDS WORK
 msgid "Repository state no longer allows this update. Review it again."
@@ -4348,6 +4348,16 @@ msgstr "仓库状态不再允许此更新。请再次审查。"
 #: NEEDS WORK
 msgid "The repository changed after the preview. Review the updates again."
 msgstr "预览后，仓库已更改。请再次查看更新。"
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
+#: NEEDS WORK
+msgid "Could not compare the local and remote revisions."
+msgstr "无法比较本地和远程修订。"
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
+#: NEEDS WORK
+msgid "Repository is already up to date."
+msgstr "仓库已经是最新的。"
 # 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 122
 #: usr/share/gitrepo/build_package/core/pull_operations.py:122
@@ -7460,11 +7470,3 @@ msgstr "无效的输出目录：{0}"
 #, python-brace-format
 msgid "{0} (version {1})"
 msgstr "{0}（版本 {1}）"
-#: usr/share/gitrepo/build_package/core/version_bumper.py
-#, python-brace-format
-msgid "Several APP_VERSION constants claim this repository ({0}). Keep APP_VERSION_OWNER on only one of them to bump it automatically."
-msgstr "多个 APP_VERSION 常量都声称属于此仓库 ({0})。请只在其中一个上保留 APP_VERSION_OWNER，以便自动递增。"
-#: usr/share/gitrepo/build_package/core/version_bumper.py
-#, python-brace-format
-msgid "Found APP_VERSION in more than one file ({0}), so none was bumped. Add APP_VERSION_OWNER next to the one this repository owns."
-msgstr "在多个文件中找到了 APP_VERSION ({0})，因此没有递增任何一个。请在属于此仓库的那一个旁边添加 APP_VERSION_OWNER。"

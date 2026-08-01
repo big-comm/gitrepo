@@ -348,6 +348,26 @@ msgstr "Überprüfung..."
 msgid "Repository is already up to date"
 msgstr "Repository ist bereits auf dem neuesten Stand"
 # 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 127
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:127
+msgid "Available Branches"
+msgstr "Verfügbare Branches"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
+msgid "Most Recent Branch"
+msgstr "Zuletzt verwendeter Branch"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
+msgid "Current"
+msgstr "Aktuell"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 68
+#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:68
+msgid "Compare versions side-by-side"
+msgstr "Versionen nebeneinander vergleichen"
+# 
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 231
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:212
 msgid "Changes received from the remote"
@@ -1019,11 +1039,6 @@ msgstr "Beide behalten"
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:60
 msgid "Keep both versions"
 msgstr "Beide Versionen behalten"
-# 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 68
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:68
-msgid "Compare versions side-by-side"
-msgstr "Versionen nebeneinander vergleichen"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 76
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:76
@@ -1957,11 +1972,6 @@ msgstr "Einstellungen konnten nicht wiederhergestellt werden. Bitte versuchen Si
 msgid "Checked out right now"
 msgstr "Gerade jetzt ausgecheckt"
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
-msgid "Current"
-msgstr "Aktuell"
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 52
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:52
 msgid "Only on origin; created locally on first checkout"
@@ -2001,20 +2011,10 @@ msgstr "Zeigt den aktiven Branch und den zuletzt aktualisierten lokalen Branch a
 msgid "Active Branch"
 msgstr "Aktiver Branch"
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
-msgid "Most Recent Branch"
-msgstr "Zuletzt verwendeter Branch"
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 116
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:116
 msgid "Branch with latest commits"
 msgstr "Branch mit den neuesten Commits"
-# 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 127
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:127
-msgid "Available Branches"
-msgstr "Verfügbare Branches"
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 129
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:129
@@ -3770,6 +3770,26 @@ msgstr "Änderungen an {0} mit git commit und git push veröffentlicht"
 msgid "Skipping the version bump: {0} is not a regular file inside the repository."
 msgstr "Überspringe die Versionserhöhung: {0} ist keine reguläre Datei im Repository."
 # 
+# File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 155
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid ""
+"Several APP_VERSION constants claim this repository ({0}). Keep APP_VERSION_OWNER on only one of "
+"them to bump it automatically."
+msgstr ""
+"Mehrere APP_VERSION-Konstanten beanspruchen dieses Repository ({0}). Behalten Sie APP_VERSION_OWNER "
+"nur bei einer davon, um sie automatisch zu erhöhen."
+# 
+# File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 160
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid ""
+"Found APP_VERSION in more than one file ({0}), so none was bumped. Add APP_VERSION_OWNER next to "
+"the one this repository owns."
+msgstr ""
+"APP_VERSION wurde in mehreren Dateien gefunden ({0}), daher wurde keine erhöht. Fügen Sie "
+"APP_VERSION_OWNER neben derjenigen hinzu, die zu diesem Repository gehört."
+# 
 # File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 249
 #: usr/share/gitrepo/build_package/core/version_bumper.py:246
 msgid "APP_VERSION constant not found. Skipping automatic version bump."
@@ -4566,12 +4586,6 @@ msgstr "Merge origin/{0} into {0}"
 msgid "Merge remains incomplete; resolve the listed files manually."
 msgstr "Merge wurde nicht abgeschlossen; lösen Sie die aufgelisteten Dateien manuell."
 # 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 53
-#: usr/share/gitrepo/build_package/core/pull_operations.py:53
-#, python-brace-format
-msgid "Merge origin/{0} after conflict resolution"
-msgstr "Merge origin/{0} nach Konfliktlösung"
-# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 60
 #: usr/share/gitrepo/build_package/core/pull_operations.py:60
 #, python-brace-format
@@ -4604,16 +4618,6 @@ msgstr "Lösen Sie die bestehenden Konflikte vor dem Pull."
 msgid "The current branch has no matching branch on origin."
 msgstr "Der aktuelle Branch hat keinen passenden Branch auf origin."
 # 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
-#: NEEDS WORK
-msgid "Could not compare the local and remote revisions."
-msgstr "Konnte die lokalen und entfernten Revisionen nicht vergleichen."
-# 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
-#: NEEDS WORK
-msgid "Repository is already up to date."
-msgstr "Das Repository ist bereits auf dem neuesten Stand."
-# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 182
 #: NEEDS WORK
 msgid "Repository state no longer allows this update. Review it again."
@@ -4623,6 +4627,16 @@ msgstr "Der Repository-Zustand erlaubt dieses Update nicht mehr. Überprüfen Si
 #: NEEDS WORK
 msgid "The repository changed after the preview. Review the updates again."
 msgstr "Das Repository hat sich nach der Vorschau geändert. Überprüfen Sie die Updates erneut."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
+#: NEEDS WORK
+msgid "Could not compare the local and remote revisions."
+msgstr "Konnte die lokalen und entfernten Revisionen nicht vergleichen."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
+#: NEEDS WORK
+msgid "Repository is already up to date."
+msgstr "Das Repository ist bereits auf dem neuesten Stand."
 # 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 122
 #: usr/share/gitrepo/build_package/core/pull_operations.py:122
@@ -7841,11 +7855,3 @@ msgstr "Ungültiges Ausgabeverzeichnis: {0}"
 #, python-brace-format
 msgid "{0} (version {1})"
 msgstr "{0} (Version {1})"
-#: usr/share/gitrepo/build_package/core/version_bumper.py
-#, python-brace-format
-msgid "Several APP_VERSION constants claim this repository ({0}). Keep APP_VERSION_OWNER on only one of them to bump it automatically."
-msgstr "Mehrere APP_VERSION-Konstanten beanspruchen dieses Repository ({0}). Behalten Sie APP_VERSION_OWNER nur bei einer davon, um sie automatisch zu erhöhen."
-#: usr/share/gitrepo/build_package/core/version_bumper.py
-#, python-brace-format
-msgid "Found APP_VERSION in more than one file ({0}), so none was bumped. Add APP_VERSION_OWNER next to the one this repository owns."
-msgstr "APP_VERSION wurde in mehreren Dateien gefunden ({0}), daher wurde keine erhöht. Fügen Sie APP_VERSION_OWNER neben derjenigen hinzu, die zu diesem Repository gehört."

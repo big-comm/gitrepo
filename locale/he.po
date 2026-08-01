@@ -296,6 +296,26 @@ msgstr "בודק..."
 msgid "Repository is already up to date"
 msgstr "המאגר כבר מעודכן"
 # 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 127
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:127
+msgid "Available Branches"
+msgstr "סניפים זמינים"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
+msgid "Most Recent Branch"
+msgstr "הסניף האחרון ביותר"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
+msgid "Current"
+msgstr "נוכחי"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 68
+#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:68
+msgid "Compare versions side-by-side"
+msgstr "השווה גרסאות זו לצד זו"
+# 
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 231
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:212
 msgid "Changes received from the remote"
@@ -923,11 +943,6 @@ msgstr "שמור את שניהם"
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:60
 msgid "Keep both versions"
 msgstr "שמור את שתי הגרסאות"
-# 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 68
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:68
-msgid "Compare versions side-by-side"
-msgstr "השווה גרסאות זו לצד זו"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 76
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:76
@@ -1785,11 +1800,6 @@ msgstr "לא ניתן היה לשחזר את ההגדרות. נסה שוב."
 msgid "Checked out right now"
 msgstr "נשלף כעת"
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
-msgid "Current"
-msgstr "נוכחי"
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 52
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:52
 msgid "Only on origin; created locally on first checkout"
@@ -1827,20 +1837,10 @@ msgstr "מציג את הענף הפעיל ואת הענף המקומי שעוד�
 msgid "Active Branch"
 msgstr "סניף פעיל"
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
-msgid "Most Recent Branch"
-msgstr "הסניף האחרון ביותר"
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 116
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:116
 msgid "Branch with latest commits"
 msgstr "סניף עם הקומיטים האחרונים"
-# 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 127
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:127
-msgid "Available Branches"
-msgstr "סניפים זמינים"
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 129
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:129
@@ -3540,6 +3540,26 @@ msgstr "שינויים פורסמו ל-{0} באמצעות git commit ו-git push
 msgid "Skipping the version bump: {0} is not a regular file inside the repository."
 msgstr "דילוג על העלאת גרסה: {0} אינו קובץ רגיל בתוך המאגר."
 # 
+# File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 155
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid ""
+"Several APP_VERSION constants claim this repository ({0}). Keep APP_VERSION_OWNER on only one of "
+"them to bump it automatically."
+msgstr ""
+"כמה קבועי APP_VERSION טוענים לבעלות על מאגר זה ({0}). השאירו את APP_VERSION_OWNER רק באחד מהם כדי "
+"לקדם אותו אוטומטית."
+# 
+# File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 160
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid ""
+"Found APP_VERSION in more than one file ({0}), so none was bumped. Add APP_VERSION_OWNER next to "
+"the one this repository owns."
+msgstr ""
+"APP_VERSION נמצא ביותר מקובץ אחד ({0}), ולכן אף אחד לא קודם. הוסיפו את APP_VERSION_OWNER ליד זה "
+"ששייך למאגר הזה."
+# 
 # File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 249
 #: usr/share/gitrepo/build_package/core/version_bumper.py:246
 msgid "APP_VERSION constant not found. Skipping automatic version bump."
@@ -4308,12 +4328,6 @@ msgstr "מיזוג origin/{0} לתוך {0}"
 msgid "Merge remains incomplete; resolve the listed files manually."
 msgstr "המיזוג נותר לא שלם; פתור את הקבצים הרשומים באופן ידני."
 # 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 53
-#: usr/share/gitrepo/build_package/core/pull_operations.py:53
-#, python-brace-format
-msgid "Merge origin/{0} after conflict resolution"
-msgstr "מיזוג origin/{0} לאחר פתרון הקונפליקטים"
-# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 60
 #: usr/share/gitrepo/build_package/core/pull_operations.py:60
 #, python-brace-format
@@ -4346,16 +4360,6 @@ msgstr "פתור את הקונפליקטים הקיימים לפני משיכה 
 msgid "The current branch has no matching branch on origin."
 msgstr "לסניף הנוכחי אין סניף תואם ב-origin."
 # 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
-#: NEEDS WORK
-msgid "Could not compare the local and remote revisions."
-msgstr "לא ניתן להשוות בין הגרסאות המקומיות והמרוחקות."
-# 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
-#: NEEDS WORK
-msgid "Repository is already up to date."
-msgstr "המאגר מעודכן כבר."
-# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 182
 #: NEEDS WORK
 msgid "Repository state no longer allows this update. Review it again."
@@ -4365,6 +4369,16 @@ msgstr "מצב המאגר אינו מאפשר יותר את העדכון הזה.
 #: NEEDS WORK
 msgid "The repository changed after the preview. Review the updates again."
 msgstr "המאגר השתנה לאחר התצוגה המקדימה. בדוק את העדכונים שוב."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
+#: NEEDS WORK
+msgid "Could not compare the local and remote revisions."
+msgstr "לא ניתן להשוות בין הגרסאות המקומיות והמרוחקות."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
+#: NEEDS WORK
+msgid "Repository is already up to date."
+msgstr "המאגר מעודכן כבר."
 # 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 122
 #: usr/share/gitrepo/build_package/core/pull_operations.py:122
@@ -7487,11 +7501,3 @@ msgstr "תיקיית פלט לא חוקית: {0}"
 #, python-brace-format
 msgid "{0} (version {1})"
 msgstr "{0} (גרסה {1})"
-#: usr/share/gitrepo/build_package/core/version_bumper.py
-#, python-brace-format
-msgid "Several APP_VERSION constants claim this repository ({0}). Keep APP_VERSION_OWNER on only one of them to bump it automatically."
-msgstr "כמה קבועי APP_VERSION טוענים לבעלות על מאגר זה ({0}). השאירו את APP_VERSION_OWNER רק באחד מהם כדי לקדם אותו אוטומטית."
-#: usr/share/gitrepo/build_package/core/version_bumper.py
-#, python-brace-format
-msgid "Found APP_VERSION in more than one file ({0}), so none was bumped. Add APP_VERSION_OWNER next to the one this repository owns."
-msgstr "APP_VERSION נמצא ביותר מקובץ אחד ({0}), ולכן אף אחד לא קודם. הוסיפו את APP_VERSION_OWNER ליד זה ששייך למאגר הזה."

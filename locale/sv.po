@@ -296,6 +296,26 @@ msgstr "Kontrollerar..."
 msgid "Repository is already up to date"
 msgstr "Databasen är redan uppdaterad"
 # 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 127
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:127
+msgid "Available Branches"
+msgstr "Tillgängliga grenar"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
+msgid "Most Recent Branch"
+msgstr "Senaste gren"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
+msgid "Current"
+msgstr "Aktuell"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 68
+#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:68
+msgid "Compare versions side-by-side"
+msgstr "Jämför versioner sida vid sida"
+# 
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 231
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:212
 msgid "Changes received from the remote"
@@ -925,11 +945,6 @@ msgstr "Behåll båda"
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:60
 msgid "Keep both versions"
 msgstr "Behåll båda versionerna"
-# 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 68
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:68
-msgid "Compare versions side-by-side"
-msgstr "Jämför versioner sida vid sida"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 76
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:76
@@ -1794,11 +1809,6 @@ msgstr "Inställningarna kunde inte återställas. Försök igen."
 msgid "Checked out right now"
 msgstr "Utcheckad just nu"
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
-msgid "Current"
-msgstr "Aktuell"
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 52
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:52
 msgid "Only on origin; created locally on first checkout"
@@ -1838,20 +1848,10 @@ msgstr "Visar den aktiva grenen och den senast uppdaterade lokala grenen."
 msgid "Active Branch"
 msgstr "Aktiv gren"
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
-msgid "Most Recent Branch"
-msgstr "Senaste gren"
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 116
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:116
 msgid "Branch with latest commits"
 msgstr "Gren med senaste commits"
-# 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 127
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:127
-msgid "Available Branches"
-msgstr "Tillgängliga grenar"
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 129
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:129
@@ -3558,6 +3558,26 @@ msgstr "Ändringar publicerade till {0} med git commit och git push"
 msgid "Skipping the version bump: {0} is not a regular file inside the repository."
 msgstr "Hoppar över versionshoppet: {0} är ingen vanlig fil i databasen."
 # 
+# File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 155
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid ""
+"Several APP_VERSION constants claim this repository ({0}). Keep APP_VERSION_OWNER on only one of "
+"them to bump it automatically."
+msgstr ""
+"Flera APP_VERSION-konstanter gör anspråk på detta arkiv ({0}). Behåll APP_VERSION_OWNER på endast "
+"en av dem för att höja den automatiskt."
+# 
+# File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 160
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid ""
+"Found APP_VERSION in more than one file ({0}), so none was bumped. Add APP_VERSION_OWNER next to "
+"the one this repository owns."
+msgstr ""
+"APP_VERSION hittades i mer än en fil ({0}), så ingen höjdes. Lägg till APP_VERSION_OWNER bredvid "
+"den som tillhör detta arkiv."
+# 
 # File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 249
 #: usr/share/gitrepo/build_package/core/version_bumper.py:246
 msgid "APP_VERSION constant not found. Skipping automatic version bump."
@@ -4330,12 +4350,6 @@ msgstr "Slå samman origin/{0} till {0}"
 msgid "Merge remains incomplete; resolve the listed files manually."
 msgstr "Sammanslagningen är inte slutförd; lös de listade filerna manuellt."
 # 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 53
-#: usr/share/gitrepo/build_package/core/pull_operations.py:53
-#, python-brace-format
-msgid "Merge origin/{0} after conflict resolution"
-msgstr "Slå samman origin/{0} efter konfliktlösning"
-# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 60
 #: usr/share/gitrepo/build_package/core/pull_operations.py:60
 #, python-brace-format
@@ -4368,16 +4382,6 @@ msgstr "Lös de befintliga konflikterna innan du drar (pull)."
 msgid "The current branch has no matching branch on origin."
 msgstr "Den aktuella grenen har ingen matchande gren på origin."
 # 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
-#: NEEDS WORK
-msgid "Could not compare the local and remote revisions."
-msgstr "Kunde inte jämföra de lokala och fjärrrevisionerna."
-# 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
-#: NEEDS WORK
-msgid "Repository is already up to date."
-msgstr "Förråd är redan uppdaterat."
-# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 182
 #: NEEDS WORK
 msgid "Repository state no longer allows this update. Review it again."
@@ -4387,6 +4391,16 @@ msgstr "Repositorytillståndet tillåter inte längre denna uppdatering. Granska
 #: NEEDS WORK
 msgid "The repository changed after the preview. Review the updates again."
 msgstr "Repositoryt ändrades efter förhandsgranskningen. Granska uppdateringarna igen."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
+#: NEEDS WORK
+msgid "Could not compare the local and remote revisions."
+msgstr "Kunde inte jämföra de lokala och fjärrrevisionerna."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
+#: NEEDS WORK
+msgid "Repository is already up to date."
+msgstr "Förråd är redan uppdaterat."
 # 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 122
 #: usr/share/gitrepo/build_package/core/pull_operations.py:122
@@ -7516,11 +7530,3 @@ msgstr "Ogiltig utmatningskatalog: {0}"
 #, python-brace-format
 msgid "{0} (version {1})"
 msgstr "{0} (version {1})"
-#: usr/share/gitrepo/build_package/core/version_bumper.py
-#, python-brace-format
-msgid "Several APP_VERSION constants claim this repository ({0}). Keep APP_VERSION_OWNER on only one of them to bump it automatically."
-msgstr "Flera APP_VERSION-konstanter gör anspråk på detta arkiv ({0}). Behåll APP_VERSION_OWNER på endast en av dem för att höja den automatiskt."
-#: usr/share/gitrepo/build_package/core/version_bumper.py
-#, python-brace-format
-msgid "Found APP_VERSION in more than one file ({0}), so none was bumped. Add APP_VERSION_OWNER next to the one this repository owns."
-msgstr "APP_VERSION hittades i mer än en fil ({0}), så ingen höjdes. Lägg till APP_VERSION_OWNER bredvid den som tillhör detta arkiv."

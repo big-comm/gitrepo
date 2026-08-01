@@ -296,6 +296,26 @@ msgstr "Controleren..."
 msgid "Repository is already up to date"
 msgstr "Repository is al up-to-date"
 # 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 127
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:127
+msgid "Available Branches"
+msgstr "Beschikbare branches"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
+msgid "Most Recent Branch"
+msgstr "Meest recente branch"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
+msgid "Current"
+msgstr "Huidig"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 68
+#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:68
+msgid "Compare versions side-by-side"
+msgstr "Versies naast elkaar vergelijken"
+# 
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 231
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:212
 msgid "Changes received from the remote"
@@ -927,11 +947,6 @@ msgstr "Beide behouden"
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:60
 msgid "Keep both versions"
 msgstr "Beide versies behouden"
-# 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 68
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:68
-msgid "Compare versions side-by-side"
-msgstr "Versies naast elkaar vergelijken"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 76
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:76
@@ -1799,11 +1814,6 @@ msgstr "Instellingen konden niet worden hersteld. Probeer het opnieuw."
 msgid "Checked out right now"
 msgstr "Nu uitgecheckt"
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
-msgid "Current"
-msgstr "Huidig"
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 52
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:52
 msgid "Only on origin; created locally on first checkout"
@@ -1843,20 +1853,10 @@ msgstr "Toont de actieve branch en de meest recent bijgewerkte lokale branch."
 msgid "Active Branch"
 msgstr "Actieve branch"
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
-msgid "Most Recent Branch"
-msgstr "Meest recente branch"
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 116
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:116
 msgid "Branch with latest commits"
 msgstr "Branch met de nieuwste commits"
-# 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 127
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:127
-msgid "Available Branches"
-msgstr "Beschikbare branches"
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 129
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:129
@@ -3568,6 +3568,26 @@ msgstr "Wijzigingen gepubliceerd naar {0} met git commit en git push"
 msgid "Skipping the version bump: {0} is not a regular file inside the repository."
 msgstr "Versieverhoging overslaan: {0} is geen normaal bestand in de opslagplaats."
 # 
+# File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 155
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid ""
+"Several APP_VERSION constants claim this repository ({0}). Keep APP_VERSION_OWNER on only one of "
+"them to bump it automatically."
+msgstr ""
+"Meerdere APP_VERSION-constanten claimen deze repository ({0}). Houd APP_VERSION_OWNER bij slechts "
+"één ervan om die automatisch te verhogen."
+# 
+# File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 160
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid ""
+"Found APP_VERSION in more than one file ({0}), so none was bumped. Add APP_VERSION_OWNER next to "
+"the one this repository owns."
+msgstr ""
+"APP_VERSION is in meer dan één bestand gevonden ({0}), dus geen enkele is verhoogd. Voeg "
+"APP_VERSION_OWNER toe naast degene die bij deze repository hoort."
+# 
 # File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 249
 #: usr/share/gitrepo/build_package/core/version_bumper.py:246
 msgid "APP_VERSION constant not found. Skipping automatic version bump."
@@ -4340,12 +4360,6 @@ msgstr "Samenvoegen van origin/{0} in {0}"
 msgid "Merge remains incomplete; resolve the listed files manually."
 msgstr "Samenvoegen blijft onvolledig; los de vermelde bestanden handmatig op."
 # 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 53
-#: usr/share/gitrepo/build_package/core/pull_operations.py:53
-#, python-brace-format
-msgid "Merge origin/{0} after conflict resolution"
-msgstr "Samenvoegen van origin/{0} na conflictoplossing"
-# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 60
 #: usr/share/gitrepo/build_package/core/pull_operations.py:60
 #, python-brace-format
@@ -4378,16 +4392,6 @@ msgstr "Los de bestaande conflicten op voordat je pulled."
 msgid "The current branch has no matching branch on origin."
 msgstr "De huidige branch heeft geen overeenkomende branch op origin."
 # 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
-#: NEEDS WORK
-msgid "Could not compare the local and remote revisions."
-msgstr "Kon de lokale en externe revisies niet vergelijken."
-# 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
-#: NEEDS WORK
-msgid "Repository is already up to date."
-msgstr "Repository is al up-to-date."
-# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 182
 #: NEEDS WORK
 msgid "Repository state no longer allows this update. Review it again."
@@ -4397,6 +4401,16 @@ msgstr "De status van de repository staat deze update niet langer toe. Bekijk he
 #: NEEDS WORK
 msgid "The repository changed after the preview. Review the updates again."
 msgstr "De repository is veranderd na de preview. Bekijk de updates opnieuw."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
+#: NEEDS WORK
+msgid "Could not compare the local and remote revisions."
+msgstr "Kon de lokale en externe revisies niet vergelijken."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
+#: NEEDS WORK
+msgid "Repository is already up to date."
+msgstr "Repository is al up-to-date."
 # 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 122
 #: usr/share/gitrepo/build_package/core/pull_operations.py:122
@@ -7533,11 +7547,3 @@ msgstr "Ongeldige uitvoermap: {0}"
 #, python-brace-format
 msgid "{0} (version {1})"
 msgstr "{0} (versie {1})"
-#: usr/share/gitrepo/build_package/core/version_bumper.py
-#, python-brace-format
-msgid "Several APP_VERSION constants claim this repository ({0}). Keep APP_VERSION_OWNER on only one of them to bump it automatically."
-msgstr "Meerdere APP_VERSION-constanten claimen deze repository ({0}). Houd APP_VERSION_OWNER bij slechts één ervan om die automatisch te verhogen."
-#: usr/share/gitrepo/build_package/core/version_bumper.py
-#, python-brace-format
-msgid "Found APP_VERSION in more than one file ({0}), so none was bumped. Add APP_VERSION_OWNER next to the one this repository owns."
-msgstr "APP_VERSION is in meer dan één bestand gevonden ({0}), dus geen enkele is verhoogd. Voeg APP_VERSION_OWNER toe naast degene die bij deze repository hoort."

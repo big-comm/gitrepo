@@ -347,6 +347,26 @@ msgstr "Kontrola..."
 msgid "Repository is already up to date"
 msgstr "Repozitár je už aktuálny"
 # 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 127
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:127
+msgid "Available Branches"
+msgstr "Dostupné vetvy"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
+msgid "Most Recent Branch"
+msgstr "Najnovšia vetva"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
+msgid "Current"
+msgstr "Aktuálne"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 68
+#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:68
+msgid "Compare versions side-by-side"
+msgstr "Porovnať verzie vedľa seba"
+# 
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 231
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:212
 msgid "Changes received from the remote"
@@ -1014,11 +1034,6 @@ msgstr "Zachovať obe"
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:60
 msgid "Keep both versions"
 msgstr "Zachovať obe verzie"
-# 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 68
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:68
-msgid "Compare versions side-by-side"
-msgstr "Porovnať verzie vedľa seba"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 76
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:76
@@ -1938,11 +1953,6 @@ msgstr "Nastavenia sa nepodarilo obnoviť. Skúste to znova."
 msgid "Checked out right now"
 msgstr "Práve skontrolované"
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
-msgid "Current"
-msgstr "Aktuálne"
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 52
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:52
 msgid "Only on origin; created locally on first checkout"
@@ -1982,20 +1992,10 @@ msgstr "Zobrazuje aktívnu vetvu a naposledy aktualizovanú lokálnu vetvu."
 msgid "Active Branch"
 msgstr "Aktívna vetva"
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
-msgid "Most Recent Branch"
-msgstr "Najnovšia vetva"
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 116
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:116
 msgid "Branch with latest commits"
 msgstr "Vetva s najnovšími commitmi"
-# 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 127
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:127
-msgid "Available Branches"
-msgstr "Dostupné vetvy"
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 129
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:129
@@ -3749,6 +3749,26 @@ msgstr "Zmeny publikované do {0} pomocou git commit a git push"
 msgid "Skipping the version bump: {0} is not a regular file inside the repository."
 msgstr "Preskakujem zvyšovanie verzie: {0} nie je bežný súbor v repozitári."
 # 
+# File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 155
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid ""
+"Several APP_VERSION constants claim this repository ({0}). Keep APP_VERSION_OWNER on only one of "
+"them to bump it automatically."
+msgstr ""
+"Viacero konštánt APP_VERSION si nárokuje tento repozitár ({0}). Ponechajte APP_VERSION_OWNER len "
+"pri jednej z nich, aby sa automaticky zvyšovala."
+# 
+# File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 160
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid ""
+"Found APP_VERSION in more than one file ({0}), so none was bumped. Add APP_VERSION_OWNER next to "
+"the one this repository owns."
+msgstr ""
+"APP_VERSION sa našla vo viacerých súboroch ({0}), takže žiadna nebola zvýšená. Pridajte "
+"APP_VERSION_OWNER k tej, ktorá patrí tomuto repozitáru."
+# 
 # File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 249
 #: usr/share/gitrepo/build_package/core/version_bumper.py:246
 msgid "APP_VERSION constant not found. Skipping automatic version bump."
@@ -4539,12 +4559,6 @@ msgstr "Zlúčiť origin/{0} do {0}"
 msgid "Merge remains incomplete; resolve the listed files manually."
 msgstr "Zlúčenie nie je dokončené; manuálne vyriešte uvedené súbory."
 # 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 53
-#: usr/share/gitrepo/build_package/core/pull_operations.py:53
-#, python-brace-format
-msgid "Merge origin/{0} after conflict resolution"
-msgstr "Zlúčiť origin/{0} po vyriešení konfliktov"
-# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 60
 #: usr/share/gitrepo/build_package/core/pull_operations.py:60
 #, python-brace-format
@@ -4577,16 +4591,6 @@ msgstr "Pred stiahnutím vyriešte existujúce konflikty."
 msgid "The current branch has no matching branch on origin."
 msgstr "Aktuálna vetva nemá na origin zodpovedajúcu vetvu."
 # 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
-#: NEEDS WORK
-msgid "Could not compare the local and remote revisions."
-msgstr "Nedalo sa porovnať miestne a vzdialené revízie."
-# 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
-#: NEEDS WORK
-msgid "Repository is already up to date."
-msgstr "Repozitár je už aktuálny."
-# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 182
 #: NEEDS WORK
 msgid "Repository state no longer allows this update. Review it again."
@@ -4596,6 +4600,16 @@ msgstr "Stav repozitára už neumožňuje túto aktualizáciu. Skontrolujte to z
 #: NEEDS WORK
 msgid "The repository changed after the preview. Review the updates again."
 msgstr "Repozitár sa po náhľade zmenil. Znovu si prezrite aktualizácie."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
+#: NEEDS WORK
+msgid "Could not compare the local and remote revisions."
+msgstr "Nedalo sa porovnať miestne a vzdialené revízie."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
+#: NEEDS WORK
+msgid "Repository is already up to date."
+msgstr "Repozitár je už aktuálny."
 # 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 122
 #: usr/share/gitrepo/build_package/core/pull_operations.py:122
@@ -7786,11 +7800,3 @@ msgstr "Neplatný výstupný adresár: {0}"
 #, python-brace-format
 msgid "{0} (version {1})"
 msgstr "{0} (verzia {1})"
-#: usr/share/gitrepo/build_package/core/version_bumper.py
-#, python-brace-format
-msgid "Several APP_VERSION constants claim this repository ({0}). Keep APP_VERSION_OWNER on only one of them to bump it automatically."
-msgstr "Viacero konštánt APP_VERSION si nárokuje tento repozitár ({0}). Ponechajte APP_VERSION_OWNER len pri jednej z nich, aby sa automaticky zvyšovala."
-#: usr/share/gitrepo/build_package/core/version_bumper.py
-#, python-brace-format
-msgid "Found APP_VERSION in more than one file ({0}), so none was bumped. Add APP_VERSION_OWNER next to the one this repository owns."
-msgstr "APP_VERSION sa našla vo viacerých súboroch ({0}), takže žiadna nebola zvýšená. Pridajte APP_VERSION_OWNER k tej, ktorá patrí tomuto repozitáru."
