@@ -47,11 +47,16 @@ def test_a_forged_manifest_line_is_ignored(tmp_path):
     assert builder.manifest == {}
 
 
-def test_the_build_script_asks_the_container_for_both_commits(tmp_path):
+def test_the_build_script_records_every_cloned_commit(tmp_path):
     script = _builder(tmp_path)._build_setup_script()
+    assert "GITREPO-MANIFEST iso-profiles $(git -C /root/gitrepo-build/iso-profiles rev-parse HEAD)" in script
 
-    assert "GITREPO-MANIFEST build-iso $(git -C /root/gitrepo-build/build-iso rev-parse HEAD)" in script
-    assert 'GITREPO-MANIFEST iso-profiles $(git -C "$WORK_PATH_ISO_PROFILES" rev-parse HEAD)' in script
+    community = _builder(tmp_path)
+    community.distroname = "bigcommunity"
+    community.iso_profiles_repo = "https://github.com/big-comm/iso-profiles"
+    script = community._build_setup_script()
+    assert "GITREPO-MANIFEST iso-profiles" in script
+    assert "GITREPO-MANIFEST profiles $(git -C /root/gitrepo-build/profiles rev-parse HEAD)" in script
 
 
 def test_the_image_digest_pins_the_exact_image_that_ran(tmp_path, monkeypatch):

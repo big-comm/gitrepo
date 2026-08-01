@@ -18,7 +18,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import BinaryIO, Iterator
 
-from gitrepo.build_iso.core.config import BUILD_ISO_REPO, BUILD_MIRRORS, CONTAINER_IMAGE
+from gitrepo.build_iso.core.config import BUILD_ENGINE_REPO, CONTAINER_IMAGE
 from gitrepo.build_iso.core.container_manager import ISO_BUILDER_LABEL
 from gitrepo.common.translation import _
 from gitrepo.common import child_process as subprocess
@@ -36,221 +36,14 @@ _ANSI_RE = re.compile(r"\x1b\[[0-9;]*[a-zA-Z]|\x1b\].*?\x07")
 _MKSQUASHFS_PROGRESS_RE = re.compile(r"\b\d+\s*/\s*\d+\s+(\d{1,3}(?:\.\d+)?)%")
 _XORRISO_PROGRESS_RE = re.compile(r"xorriso\s*:\s*UPDATE\s*:\s*(\d{1,3}(?:\.\d+)?)%\s+done", re.IGNORECASE)
 _CONTAINER_ROOT = "/root/gitrepo-build"
-_CONTAINER_WORK = f"{_CONTAINER_ROOT}/work"
 _CONTAINER_OUTPUT = f"{_CONTAINER_ROOT}/output"
-_CONTAINER_BUILD_REPO = f"{_CONTAINER_ROOT}/build-iso"
+# The build engine is iso-profiles/build-iso/build-iso.sh -- the same code the
+# GitLab pipeline and the GitHub workflow run. For BigLinux the engine checkout
+# also provides the profiles; other distributions bring their own profiles
+# checkout (see _CONTAINER_PROFILES and PROFILES_ROOT in the engine).
+_CONTAINER_ENGINE = f"{_CONTAINER_ROOT}/iso-profiles"
+_CONTAINER_PROFILES = f"{_CONTAINER_ROOT}/profiles"
 _CONTAINER_LOCAL_PROFILES = "/root/gitrepo-input/iso-profiles"
-
-# Replaces configure_live_image()'s bare manjaro-live-setup call with a checked
-# one. Kept as a plain string so the shell braces need no escaping; see
-# ISOBuilder._live_setup_check_commands() for why it exists.
-_LIVE_SETUP_PATCH = r"""#!/bin/bash
-set -eo pipefail
-
-image_lib=/usr/lib/manjaro-tools/util-iso-image.sh
-[[ -f "$image_lib" ]] || exit 0
-
-# build-iso.sh may reinstall manjaro-tools and re-run this patch in one build.
-if grep -q '^mkiso_live_setup()' "$image_lib"; then
-    exit 0
-fi
-
-cat >> "$image_lib" <<'MKISO_LIVE_SETUP'
-
-# Added by GitRepo: manjaro-live-setup, with its result checked.
-mkiso_live_setup() {
-    local path=$1 user home entry
-
-    if [[ ! -x "$path/usr/bin/manjaro-live-setup" ]]; then
-        # Older manjaro-live-base creates the live user at boot instead.
-        msg2 "Skipping manjaro-live-setup (absent from livefs)"
-        return 0
-    fi
-
-    chroot "$path" /usr/bin/manjaro-live-setup
-    if [[ -f "$path/var/log/manjaro-live-setup.log" ]]; then
-        chroot "$path" cat /var/log/manjaro-live-setup.log
-    fi
-
-    user=$(sed -n 's|^username=||p' "$path/etc/manjaro-tools/live.conf" | tail -n1)
-    if [[ -z "$user" ]]; then
-        error "live.conf declares no username; cannot verify the live home"
-        return 1
-    fi
-
-    home="$path/home/$user"
-    if [[ ! -d "$home" ]]; then
-        error "manjaro-live-setup did not create /home/%s" "$user"
-        return 1
-    fi
-
-    msg2 "Re-syncing /etc/skel into /home/%s" "$user"
-    if ! cp -a "$path/etc/skel/." "$home/"; then
-        error "could not copy /etc/skel into /home/%s" "$user"
-        return 1
-    fi
-    chroot "$path" chown -R "$user:$user" "/home/$user"
-
-    for entry in "$path/etc/skel"/* "$path/etc/skel"/.[!.]*; do
-        [[ -e "$entry" ]] || continue
-        if [[ ! -e "$home/${entry##*/}" ]]; then
-            error "skel entry %s never reached /home/%s" "${entry##*/}" "$user"
-            return 1
-        fi
-    done
-}
-MKISO_LIVE_SETUP
-
-sed -i \
-    -e 's|^\([[:space:]]*\)chroot \$1 /usr/bin/manjaro-live-setup$|\1mkiso_live_setup "$1"|' \
-    -e 's|^\([[:space:]]*\)chroot \$1 cat /var/log/manjaro-live-setup.log$|\1:|' \
-    "$image_lib"
-
-# The unchecked upstream call must be gone and ours must be in place; otherwise
-# the build could ship another black-screen ISO.
-! grep -q 'chroot \$1 /usr/bin/manjaro-live-setup' "$image_lib"
-grep -q 'mkiso_live_setup "\$1"' "$image_lib"
-"""
-
-
-# Shared payload with build-iso/set-manjaro-branch.sh; see
-# ISOBuilder._manjaro_branch_commands() for why it exists.
-_MANJARO_BRANCH_PATCH = r"""#!/bin/bash
-#
-# set-manjaro-branch.sh - point the shipped CDN mirrors at the branch the ISO
-#                         was actually built from
-#
-# The profile ships /etc/pacman.d/mirrorcdn with the branch hardcoded to
-# "stable", and its pacman.conf includes mirrorcdn BEFORE mirrorlist:
-#
-#   [core]
-#   Include = /etc/pacman.d/mirrorcdn      <- wins
-#   Include = /etc/pacman.d/mirrorlist
-#
-# manjaro-tools writes the right branch into /etc/pacman-mirrors.conf, so
-# mirrorlist is regenerated correctly, but the hardcoded CDN entries take
-# precedence. A testing or unstable ISO would therefore install and then update
-# from stable, mixing two branches on the user's disk.
-#
-# Rewrite the branch segment instead, in the cloned profile, before buildiso
-# runs. With MANJARO_BRANCH=stable this is a no-op.
-#
-set -eo pipefail
-
-: "${MANJARO_BRANCH:?MANJARO_BRANCH must be set}"
-: "${PROFILE_PATH_EDITION:?PROFILE_PATH_EDITION must be set}"
-
-case "$MANJARO_BRANCH" in
-    stable|testing|unstable) ;;
-    *) echo "unknown Manjaro branch: $MANJARO_BRANCH" >&2; exit 1 ;;
-esac
-
-patched=0
-for overlay in root live; do
-    conf="$PROFILE_PATH_EDITION/$overlay-overlay/etc/pacman.d/mirrorcdn"
-    [[ -f "$conf" ]] || continue
-
-    # The branch is the path segment right before /$repo/$arch, which is the one
-    # shape all three CDN entries share. The delimiter must not be '|': sed reads
-    # \| as an escaped delimiter, not as BRE alternation.
-    sed -i "s#/\(stable\|testing\|unstable\)/\$repo/\$arch#/$MANJARO_BRANCH/\$repo/\$arch#g" "$conf"
-
-    if grep -q "/\$repo/\$arch" "$conf" && ! grep -q "/$MANJARO_BRANCH/\$repo/\$arch" "$conf"; then
-        echo "failed to set the branch in $conf" >&2
-        exit 1
-    fi
-    echo "  -> $overlay-overlay mirrorcdn now on $MANJARO_BRANCH"
-    patched=$((patched + 1))
-done
-
-if [[ $patched -eq 0 ]]; then
-    echo "no mirrorcdn found under $PROFILE_PATH_EDITION" >&2
-    exit 1
-fi
-"""
-
-
-# Shared payload with build-iso/set-biglinux-branch.sh; see
-# ISOBuilder._biglinux_branch_commands() for why it exists.
-_BIGLINUX_BRANCH_PATCH = r"""#!/bin/bash
-#
-# set-biglinux-branch.sh - ship the BigLinux testing repository in the ISO when
-#                          the ISO was built from it
-#
-# BigLinux branches are additive, unlike Manjaro's: enabling testing does not
-# replace stable, it is inserted above it so testing wins where it has a package
-# and stable still answers for everything else. build-iso.sh already does that
-# for the build itself:
-#
-#   testing)
-#       add_biglinux_testing | sudo tee -a "$config_file"
-#       add_biglinux_stable  | sudo tee -a "$config_file"
-#
-# The profile's pacman.conf, however, only ever ships [biglinux-stable]. A
-# testing ISO would therefore install and then update from stable alone, so the
-# user never receives the testing packages the ISO was built with.
-#
-# Insert the section in the cloned profile before buildiso runs, keeping stable
-# below it. With BIGLINUX_BRANCH=stable this is a no-op.
-#
-set -eo pipefail
-
-: "${BIGLINUX_BRANCH:?BIGLINUX_BRANCH must be set}"
-: "${PROFILE_PATH_EDITION:?PROFILE_PATH_EDITION must be set}"
-
-case "$BIGLINUX_BRANCH" in
-    stable)
-        echo "  -> BigLinux stable: pacman.conf already ships [biglinux-stable]"
-        exit 0
-        ;;
-    testing) ;;
-    *)
-        # build-iso.sh's add_repositories_to_pacman only knows stable and
-        # testing, so any other value would build with no BigLinux repository at
-        # all. Fail here rather than ship a mismatched ISO.
-        echo "unsupported BigLinux branch: $BIGLINUX_BRANCH" >&2
-        exit 1
-        ;;
-esac
-
-patched=0
-for overlay in root live; do
-    conf="$PROFILE_PATH_EDITION/$overlay-overlay/etc/pacman.conf"
-    [[ -f "$conf" ]] || continue
-
-    if grep -q '^\[biglinux-testing\]' "$conf"; then
-        echo "  -> $overlay-overlay pacman.conf already has [biglinux-testing]"
-        patched=$((patched + 1))
-        continue
-    fi
-
-    if ! grep -q '^\[biglinux-stable\]' "$conf"; then
-        echo "no [biglinux-stable] section to insert above in $conf" >&2
-        exit 1
-    fi
-
-    # Above [biglinux-stable], so testing takes precedence and stable remains.
-    sed -i '/^\[biglinux-stable\]/i\
-[biglinux-testing]\
-SigLevel = PackageRequired\
-Server = https://repo.biglinux.com.br/testing/$arch\
-' "$conf"
-
-    testing_line=$(grep -n '^\[biglinux-testing\]' "$conf" | cut -d: -f1)
-    stable_line=$(grep -n '^\[biglinux-stable\]' "$conf" | cut -d: -f1)
-    if [[ -z "$testing_line" || -z "$stable_line" || "$testing_line" -ge "$stable_line" ]]; then
-        echo "failed to insert [biglinux-testing] above [biglinux-stable] in $conf" >&2
-        exit 1
-    fi
-    echo "  -> $overlay-overlay pacman.conf: [biglinux-testing] above [biglinux-stable]"
-    patched=$((patched + 1))
-done
-
-if [[ $patched -eq 0 ]]; then
-    echo "no pacman.conf found under $PROFILE_PATH_EDITION" >&2
-    exit 1
-fi
-"""
 
 
 def iter_terminal_records(stream: BinaryIO) -> Iterator[tuple[str, bool]]:
@@ -317,7 +110,7 @@ def detect_build_substep(line: str) -> str | None:
         )
     ):
         return "system"
-    if any(marker in normalized for marker in ("starting iso build process", "executing buildiso", "start building [")):
+    if any(marker in normalized for marker in ("buildiso -p", "start building [")):
         return "profile"
     return None
 
@@ -358,10 +151,9 @@ class ISOBuilder:
         self.output_dir = os.path.expanduser(config.get("output_dir", "~/ISO"))
         self.container_engine = self._resolve_engine(config.get("container_engine", "docker"))
         self.container_image = config.get("container_image", CONTAINER_IMAGE)
-        configured_mirrors = config.get("build_mirrors")
-        legacy_mirror = config.get("build_mirror")
-        self.build_mirrors = tuple(configured_mirrors or ((legacy_mirror,) if legacy_mirror else BUILD_MIRRORS))
-        self.build_mirror = self.build_mirrors[0]
+        # The engine owns the default. Keep this only for a caller that
+        # explicitly asks to override it.
+        self.build_mirror = config.get("build_mirror") or None
 
         self.release_tag = datetime.now().strftime("%Y-%m-%d_%H-%M")
 
@@ -755,263 +547,62 @@ class ISOBuilder:
         self._log("red", _("Failed to pull container image"))
         return False
 
-    def _build_mirror_commands(self) -> str:
-        """Configure ordered mirrors for every Manjaro package download.
+    def _uses_local_profiles(self) -> bool:
+        """Whether the profiles come from a directory on this machine."""
+        return self.iso_profiles_source == "local" and bool(self.iso_profiles_local_path)
 
-        mkchroot rewrites the build pacman.conf, replacing
-        "Include = /etc/pacman.d/mirrorlist" with one Server, while chroot-run
-        also overwrites the chroot mirrorlist. Patch both paths to use the same
-        ordered file, so pacman falls through to the next Server when a package
-        cannot be retrieved.
+    def _uses_separate_profiles(self) -> bool:
+        """Whether the profiles come from somewhere other than the engine checkout.
 
-        manjaro-tools sources ~/.config/manjaro-tools/manjaro-tools.conf before
-        applying its defaults. Keep its scalar set to the first mirror for its
-        command-line plumbing; the patched consumers use the complete list.
+        The engine lives inside biglinux/iso-profiles, which for BigLinux is
+        also the profiles repository. A local profiles directory or another
+        distribution's repository (bigcommunity) is built via the engine's
+        PROFILES_ROOT override.
         """
-        for mirror in self.build_mirrors:
-            if not isinstance(mirror, str) or not BUILD_MIRROR_URL.match(mirror):
-                raise ValueError(f"refusing an unsafe build mirror URL: {mirror!r}")
-
-        server_lines = "\n".join(
-            f"Server = {mirror.rstrip('/')}/$MANJARO_BRANCH/\\$repo/\\$arch" for mirror in self.build_mirrors
-        )
-        return (
-            "mkdir -p /root/.config/manjaro-tools\n"
-            f"printf 'build_mirror=%s\\n' '{self.build_mirror}' > /root/.config/manjaro-tools/manjaro-tools.conf\n"
-            f'grep -qx "build_mirror={self.build_mirror}" /root/.config/manjaro-tools/manjaro-tools.conf\n'
-            f"cat > {_CONTAINER_ROOT}/patch-build-mirrors.sh <<'GITREPO_BUILD_MIRRORS'\n"
-            + r"""#!/bin/bash
-set -eo pipefail
-
-: "${MANJARO_BRANCH:?MANJARO_BRANCH must be set}"
-case "$MANJARO_BRANCH" in
-    stable|testing|unstable) ;;
-    *) echo "unknown Manjaro branch: $MANJARO_BRANCH" >&2; exit 1 ;;
-esac
-
-mirror_file=/etc/pacman.d/gitrepo-build-mirrors
-mkchroot=/usr/bin/mkchroot
-chroot_run=/usr/bin/chroot-run
-
-install -dm755 "${mirror_file%/*}"
-cat > "$mirror_file" <<GITREPO_MIRRORLIST
-"""
-            + server_lines
-            + r"""
-GITREPO_MIRRORLIST
-
-old_mkchroot='sed "s#Include = /etc/pacman.d/mirrorlist#Server = ${url}#g" $pac_conf > $pac_base'
-new_mkchroot='sed "s#Include = /etc/pacman.d/mirrorlist#Include = /etc/pacman.d/gitrepo-build-mirrors#g" "$pac_conf" > "$pac_base"'
-if ! grep -Fqx "    $new_mkchroot" "$mkchroot"; then
-    grep -Fqx "    $old_mkchroot" "$mkchroot"
-    sed -i '\|^[[:space:]]*sed "s#Include = /etc/pacman.d/mirrorlist#Server = \${url}#g" \$pac_conf > \$pac_base$|c\    sed "s#Include = /etc/pacman.d/mirrorlist#Include = /etc/pacman.d/gitrepo-build-mirrors#g" "$pac_conf" > "$pac_base"' "$mkchroot"
-fi
-
-old_chroot_run='echo "Server = ${build_mirror}" > "$1/etc/pacman.d/mirrorlist"'
-new_chroot_run='cp /etc/pacman.d/gitrepo-build-mirrors "$1/etc/pacman.d/mirrorlist"'
-if ! grep -Fqx "            $new_chroot_run" "$chroot_run"; then
-    grep -Fqx "            $old_chroot_run" "$chroot_run"
-    sed -i '\|^[[:space:]]*echo "Server = \${build_mirror}" > "\$1/etc/pacman.d/mirrorlist"$|c\            cp /etc/pacman.d/gitrepo-build-mirrors "$1/etc/pacman.d/mirrorlist"' "$chroot_run"
-fi
-
-test "$(grep -c '^Server = ' "$mirror_file")" -eq """
-            + str(len(self.build_mirrors))
-            + r"""
-grep -Fqx "    $new_mkchroot" "$mkchroot"
-grep -Fqx "            $new_chroot_run" "$chroot_run"
-"""
-            + "GITREPO_BUILD_MIRRORS\n"
-            + f"chmod +x {_CONTAINER_ROOT}/patch-build-mirrors.sh\n"
-            + f'sed -i \'/^  patch_manjaro_tools$/a\\  sudo env MANJARO_BRANCH="$MANJARO_BRANCH" bash {_CONTAINER_ROOT}/patch-build-mirrors.sh || die "patch-build-mirrors.sh failed"\' {_CONTAINER_BUILD_REPO}/build-iso.sh\n'
-            + f"grep -q '^  sudo env MANJARO_BRANCH=\"$MANJARO_BRANCH\" bash {_CONTAINER_ROOT}/patch-build-mirrors.sh || die' {_CONTAINER_BUILD_REPO}/build-iso.sh\n"
-        )
-
-    def _live_setup_check_commands(self) -> str:
-        """Verify manjaro-live-setup actually produced a usable live home.
-
-        manjaro-live-base 20260722 moved live-user creation out of the
-        boot-time manjaro-live.service and into manjaro-live-setup, which
-        manjaro-tools-iso-git r3071 runs inside the livefs chroot at build time.
-        /usr/bin/manjaro-live now only handles console font, locale and samba,
-        so skipping the build-time call would leave the ISO with no live user.
-
-        The call is therefore kept, and checked. On the CI build filesystem
-        `useradd -m` could not copy /etc/skel across the livefs overlayfs and
-        said so without failing:
-
-            useradd: /etc/skel/.bash_logout: Bad file descriptor
-            Created user biglinux with password biglinux: 0.062ms
-
-        The live home was left without the big-skel Plasma configuration, and
-        the session booted to a black screen with no plasmashell. Re-sync skel
-        afterwards and fail the build when the home still does not match, so a
-        broken ISO is never published.
-        """
-        return (
-            f"\ncat > {_CONTAINER_ROOT}/patch-live-setup.sh <<'GITREPO_LIVE_SETUP_PATCH'\n"
-            + _LIVE_SETUP_PATCH
-            + "GITREPO_LIVE_SETUP_PATCH\n"
-            + f"chmod +x {_CONTAINER_ROOT}/patch-live-setup.sh\n"
-            + f"""sed -i '/^  patch_manjaro_tools$/a\\  sudo bash {_CONTAINER_ROOT}/patch-live-setup.sh || die "patch-live-setup.sh failed"' """
-            + f"{_CONTAINER_BUILD_REPO}/build-iso.sh\n"
-            + f"grep -q '^  sudo bash {_CONTAINER_ROOT}/patch-live-setup.sh || die'"
-            + f" {_CONTAINER_BUILD_REPO}/build-iso.sh\n"
-        )
-
-    def _manjaro_branch_commands(self) -> str:
-        """Point the shipped CDN mirrors at the branch being built.
-
-        The profile hardcodes stable in /etc/pacman.d/mirrorcdn, and its
-        pacman.conf includes mirrorcdn ahead of mirrorlist. manjaro-tools writes
-        the right branch into /etc/pacman-mirrors.conf, so mirrorlist is correct,
-        but the hardcoded CDN entries win: a testing or unstable ISO would
-        install and then update from stable, mixing branches on the user's disk.
-
-        Rewrites the branch segment in the cloned profile before buildiso runs.
-        With the stable branch it is a no-op.
-        """
-        return rf"""
-cat > {_CONTAINER_ROOT}/set-manjaro-branch.sh <<'GITREPO_MANJARO_BRANCH'
-{_MANJARO_BRANCH_PATCH}GITREPO_MANJARO_BRANCH
-chmod +x {_CONTAINER_ROOT}/set-manjaro-branch.sh
-sed -i '/^  clone_iso_profiles$/a\  bash {_CONTAINER_ROOT}/set-manjaro-branch.sh || die "set-manjaro-branch.sh failed"' {_CONTAINER_BUILD_REPO}/build-iso.sh
-grep -q '^  bash {_CONTAINER_ROOT}/set-manjaro-branch.sh || die' {_CONTAINER_BUILD_REPO}/build-iso.sh
-"""
-
-    def _biglinux_branch_commands(self) -> str:
-        """Ship the BigLinux testing repository when building from it.
-
-        BigLinux branches are additive, unlike Manjaro's: testing is inserted
-        above stable and stable stays, so testing wins where it has a package.
-        build-iso.sh already does that for the build, but the profile's
-        pacman.conf only ever ships [biglinux-stable], so a testing ISO would
-        install and then update from stable alone -- never receiving the testing
-        packages it was built with.
-
-        With the stable branch it is a no-op.
-        """
-        return rf"""
-cat > {_CONTAINER_ROOT}/set-biglinux-branch.sh <<'GITREPO_BIGLINUX_BRANCH'
-{_BIGLINUX_BRANCH_PATCH}GITREPO_BIGLINUX_BRANCH
-chmod +x {_CONTAINER_ROOT}/set-biglinux-branch.sh
-sed -i '/^  clone_iso_profiles$/a\  bash {_CONTAINER_ROOT}/set-biglinux-branch.sh || die "set-biglinux-branch.sh failed"' {_CONTAINER_BUILD_REPO}/build-iso.sh
-grep -q '^  bash {_CONTAINER_ROOT}/set-biglinux-branch.sh || die' {_CONTAINER_BUILD_REPO}/build-iso.sh
-"""
-
-    def _keep_man_pages_commands(self) -> str:
-        """Stop the cleanup from deleting /usr/share/man from every image.
-
-        mkiso_build_iso_cleanups() wipes man pages in rootfs, desktopfs and
-        livefs. BigLinux ships them on purpose, so drop that one removal and
-        leave the rest of the cleanup alone.
-        """
-        return rf"""
-sed -i 's|^  rm -rf "\$cpath/usr/share/man"/\* 2> /dev/null$|  # man pages are kept on purpose|' \
-    {_CONTAINER_BUILD_REPO}/build-iso.sh
-! grep -q 'usr/share/man"/\*' {_CONTAINER_BUILD_REPO}/build-iso.sh
-"""
-
-    def _disable_extra_packages_commands(self) -> str:
-        """Drop buildiso's -f flag so the build resolves extra=false.
-
-        build-iso.sh always passes -f ("Build full ISO"), which makes
-        manjaro-tools set extra=true and therefore install every `>extra` line
-        of the profile's Packages-* files. The published pipeline builds without
-        -f, so the two generators disagreed on the package set. Removing the
-        flag here keeps a locally built ISO equal to the published one.
-        """
-        return rf"""
-sed -i \
-    -e 's|buildiso -d zstd -f |buildiso -d zstd |g' \
-    -e 's|buildiso -f -p |buildiso -p |g' \
-    {_CONTAINER_BUILD_REPO}/build-iso.sh
-! grep -q 'buildiso \(-d zstd \)\?-f ' {_CONTAINER_BUILD_REPO}/build-iso.sh
-"""
+        if self._uses_local_profiles():
+            return True
+        repo = (self.iso_profiles_repo or "").rstrip("/").removesuffix(".git")
+        engine = BUILD_ENGINE_REPO.rstrip("/").removesuffix(".git")
+        return bool(repo) and repo != engine
 
     def _build_setup_script(self) -> str:
-        """Build setup script that runs inside container before build-iso.sh"""
+        """Setup script that runs inside the container.
+
+        The build itself is iso-profiles/build-iso/build-iso.sh -- the same
+        engine the GitLab pipeline and the GitHub workflow run. This script
+        only fetches it, decides which profiles checkout it builds from, and
+        asserts the output.
+        """
+        if self.build_mirror is not None and not BUILD_MIRROR_URL.match(self.build_mirror):
+            raise ValueError(f"refusing an unsafe build mirror URL: {self.build_mirror!r}")
+
         parts = [
-            """
+            f"""
 set -eo pipefail
 umask 022
-mkdir -p /root/gitrepo-build/work /root/gitrepo-build/output
-git clone --depth 1 "$BUILD_ISO_REPO" /root/gitrepo-build/build-iso
-echo "GITREPO-MANIFEST build-iso $(git -C /root/gitrepo-build/build-iso rev-parse HEAD)"
-sed -i 's|git clone --depth 1 "$ISO_PROFILES_REPO" "$WORK_PATH_ISO_PROFILES" &>/dev/null|git clone --depth 1 "$ISO_PROFILES_REPO" "$WORK_PATH_ISO_PROFILES"|' /root/gitrepo-build/build-iso/build-iso.sh
+mkdir -p {_CONTAINER_OUTPUT}
+git clone --depth 1 "$ENGINE_REPO" {_CONTAINER_ENGINE}
+echo "GITREPO-MANIFEST iso-profiles $(git -C {_CONTAINER_ENGINE} rev-parse HEAD)"
 """
         ]
 
-        parts.append(self._build_mirror_commands())
-        parts.append(self._live_setup_check_commands())
-        parts.append(self._manjaro_branch_commands())
-        parts.append(self._biglinux_branch_commands())
-        parts.append(self._keep_man_pages_commands())
-        parts.append(self._disable_extra_packages_commands())
-
-        if self.distroname == "bigcommunity":
-            parts.append("""
-echo "[community-extra]" | sudo tee -a /etc/pacman.conf
-echo "SigLevel = PackageRequired" | sudo tee -a /etc/pacman.conf
-echo "Server = https://repo.communitybig.org/extra/\\$arch" | sudo tee -a /etc/pacman.conf
-echo "" | sudo tee -a /etc/pacman.conf
+        if self._uses_local_profiles():
+            # The engine edits the profiles in place, so it gets a copy of the
+            # read-only mount.
+            parts.append(f"""
+echo "Using local iso-profiles..."
+rm -rf {_CONTAINER_PROFILES}
+cp -a {_CONTAINER_LOCAL_PROFILES} {_CONTAINER_PROFILES}
+""")
+        elif self._uses_separate_profiles():
+            parts.append(f"""
+git clone --depth 1 "$ISO_PROFILES_REPO" {_CONTAINER_PROFILES}
+echo "GITREPO-MANIFEST profiles $(git -C {_CONTAINER_PROFILES} rev-parse HEAD)"
 """)
 
-        parts.append("""
-cd /tmp
-git clone --depth 1 https://github.com/biglinux/biglinux-key.git
-sudo install -dm755 /etc/pacman.d/gnupg/
-sudo install -m0644 biglinux-key/usr/share/pacman/keyrings/* /etc/pacman.d/gnupg/
-rm -rf biglinux-key
-""")
-
-        if self.distroname == "bigcommunity":
-            parts.append("""
-cd /tmp
-git clone --depth 1 https://github.com/big-comm/community-keyring.git
-sudo install -m0644 community-keyring/community.gpg /usr/share/pacman/keyrings/
-sudo install -m0644 community-keyring/community-trusted /usr/share/pacman/keyrings/
-sudo install -m0644 community-keyring/community-revoked /usr/share/pacman/keyrings/
-rm -rf community-keyring
-""")
-
-        # Rank mirrors by speed and initialize pacman keys
-        parts.append("""
-if command -v pacman-mirrors &>/dev/null; then
-    sudo pacman-mirrors --fasttrack 5 2>/dev/null || true
-fi
-sudo pacman-key --init
-sudo pacman-key --populate
-sudo pacman -Sy --quiet --noconfirm
-""")
-
-        parts.append("sudo pacman -S --needed --noconfirm btrfs-progs")
-        parts.append("sudo sed -i -e 's/File/Path/' /usr/share/libalpm/hooks/*hook* 2>/dev/null || true")
-        parts.append("""
-sudo mknod -m 660 /dev/sr0 b 11 0 2>/dev/null || true
-for i in $(seq 0 7); do
-    sudo mknod -m 660 /dev/loop$i b 7 $i 2>/dev/null || true
-done
-sudo mknod -m 660 /dev/loop-control c 10 237 2>/dev/null || true
-""")
-
-        # If using local iso-profiles, copy them before build-iso.sh runs
-        # This prevents build-iso.sh from cloning over them
-        if self.iso_profiles_source == "local" and self.iso_profiles_local_path:
-            parts.append("""
-if [[ "${USE_LOCAL_ISO_PROFILES:-}" == "true" ]] && [[ -d /root/gitrepo-input/iso-profiles ]]; then
-    echo "Using local iso-profiles..."
-    rm -rf /root/gitrepo-build/work/iso-profiles
-    cp -a /root/gitrepo-input/iso-profiles /root/gitrepo-build/work/iso-profiles
-    sed -i '/^clone_iso_profiles() {/,/^}/c\\clone_iso_profiles() { msg "Using local iso-profiles (clone skipped)"; git config --global --add safe.directory "$WORK_PATH_ISO_PROFILES" 2>/dev/null || true; }' /root/gitrepo-build/build-iso/build-iso.sh
-fi
-""")
-
-        parts.append("""
-cd /root/gitrepo-build/build-iso
-bash ./build-iso.sh
-{ [ -d "$WORK_PATH_ISO_PROFILES/.git" ] && echo "GITREPO-MANIFEST iso-profiles $(git -C "$WORK_PATH_ISO_PROFILES" rev-parse HEAD)"; } || true
-find /root/gitrepo-build/work -maxdepth 1 -type f \\( -name '*.iso' -o -name '*.iso.pkgs' \\) -exec mv -t /root/gitrepo-build/output -- {} +
-test "$(find /root/gitrepo-build/output -maxdepth 1 -type f -name '*.iso' | wc -l)" -eq 1
+        parts.append(f"""
+bash {_CONTAINER_ENGINE}/build-iso/build-iso.sh
+test "$(find {_CONTAINER_OUTPUT} -maxdepth 1 -type f -name '*.iso' | wc -l)" -eq 1
 """)
 
         return "\n".join(cmd.strip() for cmd in parts)
@@ -1019,57 +610,40 @@ test "$(find /root/gitrepo-build/output -maxdepth 1 -type f -name '*.iso' | wc -
     def _run_container(self) -> bool:
         volumes = []
 
+        # Environment contract of iso-profiles/build-iso/build-iso.sh; see the
+        # engine's header for every variable and its default.
         env_vars = [
             "-e",
-            "USERNAME=root",
+            f"ENGINE_REPO={BUILD_ENGINE_REPO}",
             "-e",
-            f"BUILD_ISO_REPO={BUILD_ISO_REPO}",
+            f"ISO_PROFILES_REPO={self.iso_profiles_repo}",
             "-e",
             f"DISTRONAME={self.distroname}",
             "-e",
             f"EDITION={self.edition}",
             "-e",
-            f"MANJARO_BRANCH={self.branches.get('manjaro', 'stable')}",
-            "-e",
-            f"BIGLINUX_BRANCH={self.branches.get('biglinux', 'stable')}",
-            "-e",
-            f"BIGCOMMUNITY_BRANCH={self.branches.get('community', '')}",
-            "-e",
             f"KERNEL={self.kernel}",
             "-e",
-            f"ISO_PROFILES_REPO={self.iso_profiles_repo}",
+            f"MANJARO_BRANCH={self.branches.get('manjaro') or 'stable'}",
+            "-e",
+            f"BIGLINUX_BRANCH={self.branches.get('biglinux') or 'stable'}",
+            "-e",
+            f"BIGCOMMUNITY_BRANCH={self.branches.get('community') or 'stable'}",
             "-e",
             f"RELEASE_TAG={self.release_tag}",
             "-e",
-            "LOCAL_BUILD=true",
-            "-e",
-            "HOME_FOLDER=/root",
-            "-e",
-            f"WORK_PATH={_CONTAINER_WORK}",
-            "-e",
-            f"WORK_PATH_ISO_PROFILES={_CONTAINER_WORK}/iso-profiles",
-            "-e",
-            f"DISTRONAME_ISOPROFILES={self.build_dir}",
-            "-e",
-            f"PROFILE_PATH={_CONTAINER_WORK}/iso-profiles/{self.build_dir}",
-            "-e",
-            f"PROFILE_PATH_EDITION={_CONTAINER_WORK}/iso-profiles/{self.build_dir}/{self.edition}",
-            "-e",
-            "PATH_MANJARO_ISO_PROFILES=/usr/share/manjaro-tools/iso-profiles",
-            "-e",
-            "PATH_MANJARO_TOOLS=/usr/share/manjaro-tools",
-            "-e",
-            "VAR_CACHE_MANJARO_TOOLS=/var/cache/manjaro-tools",
-            "-e",
-            "VAR_CACHE_MANJARO_TOOLS_ISO=/var/cache/manjaro-tools/iso",
+            f"WORK_PATH={_CONTAINER_OUTPUT}",
         ]
+        if self.build_mirror is not None:
+            env_vars.extend(["-e", f"BUILD_MIRROR={self.build_mirror}"])
+        if self._uses_separate_profiles():
+            env_vars.extend(["-e", f"PROFILES_ROOT={_CONTAINER_PROFILES}"])
 
         # Mount local iso-profiles if using local source
-        if self.iso_profiles_source == "local" and self.iso_profiles_local_path:
+        if self._uses_local_profiles():
             local_path = str(Path(self.iso_profiles_local_path).expanduser().resolve())
             if os.path.isdir(local_path) and not os.path.islink(local_path):
                 volumes.extend(["-v", f"{local_path}:{_CONTAINER_LOCAL_PROFILES}:ro"])
-                env_vars.extend(["-e", "USE_LOCAL_ISO_PROFILES=true"])
                 self._log("cyan", _("Using local iso-profiles: {0}").format(local_path))
             else:
                 self._log("red", _("Local iso-profiles path not found: {0}").format(local_path))
