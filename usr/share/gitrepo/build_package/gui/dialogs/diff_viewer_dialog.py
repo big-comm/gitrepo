@@ -34,6 +34,7 @@ class DiffViewerDialog(Adw.Window):
         initial_path=None,
         action_label=None,
         action_callback=None,
+        subtitle=None,
     ):
         super().__init__(transient_for=parent, modal=True, title=title)
         self.set_default_size(1000, 660)
@@ -44,7 +45,9 @@ class DiffViewerDialog(Adw.Window):
 
         toolbar = Adw.ToolbarView()
         header = Adw.HeaderBar()
-        header.set_title_widget(Adw.WindowTitle(title=title, subtitle=_("{0} changed file(s)").format(len(changes))))
+        header.set_title_widget(
+            Adw.WindowTitle(title=title, subtitle=subtitle or _("{0} changed file(s)").format(len(changes)))
+        )
         toolbar.add_top_bar(header)
         self.set_content(toolbar)
 
@@ -188,6 +191,7 @@ def present_diff_viewer(
     initial_path=None,
     action_label=None,
     action_callback=None,
+    subtitle=None,
 ):
     """Open the viewer, or report that nothing changed."""
     if not changes:
@@ -202,6 +206,7 @@ def present_diff_viewer(
         initial_path,
         action_label,
         action_callback,
+        subtitle,
     )
     dialog.present()
     return dialog
