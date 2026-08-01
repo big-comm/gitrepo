@@ -8,7 +8,9 @@ from gitrepo.build_iso.gui.widgets import container_widget
 def test_bigbruno_keeps_the_documented_compatibility_profile():
     config = ORG_DEFAULT_CONFIGS["bigbruno"]
 
-    assert config["distroname"] == "bigcommunity"
+    # The distroname names the profile directory inside iso_profiles_repo, so
+    # biglinux profiles mean a biglinux build (the engine validates the pair).
+    assert config["distroname"] == "biglinux"
     assert config["iso_profiles_repo"] == "https://github.com/biglinux/iso-profiles"
     assert config["build_dir"] == "biglinux"
     assert config["branches"] == {

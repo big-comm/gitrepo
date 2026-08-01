@@ -176,7 +176,7 @@ def test_xorriso_progress_parser(line, expected):
 @pytest.mark.parametrize(
     ("line", "expected"),
     [
-        ("BP=>[RUNNING] Starting ISO build process", "profile"),
+        ("==> buildiso -p kde -b stable -k linux612", "profile"),
         ("==> Prepare [Base installation] (rootfs)", "system"),
         ("==> Prepare [Desktop installation] (desktopfs)", "system"),
         ("==> Prepare [/iso/boot]", "boot"),

@@ -6,7 +6,7 @@ from unittest.mock import Mock
 import gitrepo.build_iso.core.iso_builder as iso_builder_module
 import gitrepo.build_iso.local_builder as local_builder_module
 from gitrepo.build_iso.core.container_manager import ContainerManager
-from gitrepo.build_iso.core.iso_builder import BUILD_ISO_REPO, ISOBuilder
+from gitrepo.build_iso.core.iso_builder import BUILD_ENGINE_REPO, ISOBuilder
 
 
 def _builder(tmp_path: Path) -> ISOBuilder:
@@ -112,9 +112,9 @@ def test_container_owns_workspace_and_runs_as_root(monkeypatch, tmp_path):
     assert "type=volume,destination=/var/lib/manjaro-tools/buildiso" in argv
     assert "type=volume,destination=/var/cache/manjaro-tools/iso" in argv
     setup_script = argv[-1]
-    assert f"BUILD_ISO_REPO={BUILD_ISO_REPO}" in argv
-    assert 'git clone --depth 1 "$BUILD_ISO_REPO"' in setup_script
-    assert "/root/gitrepo-build/build-iso" in setup_script
+    assert f"ENGINE_REPO={BUILD_ENGINE_REPO}" in argv
+    assert 'git clone --depth 1 "$ENGINE_REPO"' in setup_script
+    assert "/root/gitrepo-build/iso-profiles/build-iso/build-iso.sh" in setup_script
     assert "/root/gitrepo-build/output" in setup_script
 
 

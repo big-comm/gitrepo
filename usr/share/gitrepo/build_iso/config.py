@@ -132,7 +132,9 @@ ORG_DEFAULT_CONFIGS = {
         "edition": "gnome",
     },
     "bigbruno": {
-        "distroname": "bigcommunity",
+        # The distroname names the profile directory inside iso_profiles_repo,
+        # so biglinux profiles mean a biglinux build.
+        "distroname": "biglinux",
         "iso_profiles_repo": "https://github.com/biglinux/iso-profiles",
         "branches": {"manjaro": "stable", "community": "", "biglinux": "stable"},
         "kernel": "latest",
@@ -185,16 +187,8 @@ LOCAL_CONFIG_FILE = os.path.join(LOCAL_CONFIG_DIR, "config.json")
 
 # Container settings (following edition.yml)
 CONTAINER_IMAGE = "talesam/community-build:latest"
-BUILD_ISO_REPO = "https://github.com/talesam/build-iso.git"
-
-# Mirror every Manjaro package in the ISO is fetched from.
-#
-# manjaro-tools rewrites the build pacman.conf, replacing
-# "Include = /etc/pacman.d/mirrorlist" with a single "Server = <this>/$repo/$arch"
-# (mkchroot: the build_mirror branch). So this one URL decides the whole Manjaro
-# package set, and `pacman-mirrors --fasttrack` cannot influence it.
-#
-# It must be set: manjaro-tools defaults to mirror.easyname.at, which has been
-# serving Plasma 6.6.5 while Manjaro stable was already on 6.7.3. This is the
-# CDN the BigLinux profiles already ship in /etc/pacman.d/mirrorcdn.
-BUILD_MIRROR = "https://mirrors2.manjaro.org"
+# The ISO build engine lives inside BigLinux's iso-profiles (build-iso/), next
+# to the profiles it interprets. It is the same code the GitLab pipeline and
+# the GitHub workflow run. Distributions with their own profiles repository
+# still build through this engine (PROFILES_ROOT override, see its header).
+BUILD_ENGINE_REPO = "https://github.com/biglinux/iso-profiles"
