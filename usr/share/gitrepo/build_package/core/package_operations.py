@@ -245,6 +245,12 @@ def _complete_conflicted_merge(bp, incoming_ref: str, conflicts: list[str]) -> b
         _log_conflict_next_steps(bp, incoming_ref, conflicts)
         return False
 
+    # A conflict made only of message catalogs is answered as one group: the
+    # translation workflow rewrites them on every build, so reviewing them file
+    # by file asks the user to arbitrate generated content.
+    if resolver.resolve_translation_catalogs(incoming_ref):
+        return _commit_resolved_merge(bp, incoming_ref, conflicts)
+
     # One announced decision resolves every file; declining falls back to the
     # per-file review, where each side stays selectable.
     resolved = resolver.resolve_keeping_current(
@@ -254,7 +260,11 @@ def _complete_conflicted_merge(bp, incoming_ref: str, conflicts: list[str]) -> b
         _abort_merge()
         _log_conflict_next_steps(bp, incoming_ref, conflicts)
         return False
+    return _commit_resolved_merge(bp, incoming_ref, conflicts)
 
+
+def _commit_resolved_merge(bp, incoming_ref: str, conflicts: list[str]) -> bool:
+    """Complete a merge whose conflicts the user has just decided."""
     subprocess.run_git(["git", "add", "-A"], check=True, capture_output=True, intent="ordinary")
     commit = subprocess.run_git(
         ["git", "commit", "--no-edit"],

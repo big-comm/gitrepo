@@ -4,6 +4,7 @@
 
 import getpass
 import time
+from datetime import datetime, timedelta, timezone
 from typing import Any
 
 import requests
@@ -12,6 +13,23 @@ from urllib.parse import quote
 from .git_utils import GitUtils
 from .token_store import TokenStore
 from gitrepo.common.translation import _
+
+# How long a dispatch is given to show up as a workflow run before the tool
+# says so. Long enough for a healthy queue, short enough to stay interactive.
+RUN_LOOKUP_TIMEOUT = 30
+RUN_LOOKUP_INTERVAL = 3
+RUN_LOOKUP_TOLERANCE = timedelta(seconds=5)
+GITHUB_STATUS_URL = "https://www.githubstatus.com"
+
+
+def _parse_github_time(value: str | None) -> datetime | None:
+    """Read one ISO timestamp from the API without trusting its shape."""
+    if not value:
+        return None
+    try:
+        return datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
 
 
 class GitHubAPI:
@@ -81,6 +99,7 @@ class GitHubAPI:
             return False
         event_type, data = dispatch
         repo_workflow = f"{self.organization}/build-package"
+        dispatched_at = datetime.now(timezone.utc)
         try:
             response = requests.post(
                 f"https://api.github.com/repos/{repo_workflow}/dispatches",
@@ -97,7 +116,66 @@ class GitHubAPI:
         logger.log("green", _("Build workflow ({0}) triggered successfully.").format(event_type))
         monitor_url = f"https://github.com/{repo_workflow}/actions"
         logger.log("cyan", _("URL to monitor the build: {0}").format(monitor_url))
+        self._report_dispatched_run(repo_workflow, data.get("event_type", ""), dispatched_at, monitor_url, logger)
         return True
+
+    def _report_dispatched_run(self, repo_workflow, action, dispatched_at, monitor_url, logger) -> None:
+        """Say whether the accepted dispatch actually produced a workflow run.
+
+        A dispatch answers 204 as soon as GitHub accepts the event, even when no
+        run is ever created — an outage or a workflow that no longer listens to
+        this event type both look like success from the request alone.
+        """
+        run = self._await_dispatched_run(repo_workflow, action, dispatched_at)
+        if run:
+            logger.log(
+                "green",
+                _("Workflow run #{0} started: {1}").format(
+                    run.get("run_number", "?"), run.get("html_url", monitor_url)
+                ),
+            )
+            return
+        logger.log(
+            "yellow",
+            _("GitHub accepted the request, but no workflow run appeared within {0} seconds.").format(
+                RUN_LOOKUP_TIMEOUT
+            ),
+        )
+        logger.log("yellow", _("The build may still be queued; it was not confirmed as started."))
+        logger.log("cyan", _("Check {0} and {1} before triggering it again.").format(monitor_url, GITHUB_STATUS_URL))
+
+    def _await_dispatched_run(self, repo_workflow, action, dispatched_at) -> dict[str, Any] | None:
+        """Poll briefly for the run this dispatch created, never for its result."""
+        deadline = time.monotonic() + RUN_LOOKUP_TIMEOUT
+        while True:
+            run = self._find_dispatched_run(repo_workflow, action, dispatched_at)
+            if run or time.monotonic() >= deadline:
+                return run
+            time.sleep(RUN_LOOKUP_INTERVAL)
+
+    def _find_dispatched_run(self, repo_workflow, action, dispatched_at) -> dict[str, Any] | None:
+        """Return the newest run created by this dispatch, if GitHub lists one."""
+        try:
+            response = requests.get(
+                f"https://api.github.com/repos/{repo_workflow}/actions/runs",
+                headers=self.headers,
+                params={"event": "repository_dispatch", "per_page": 20},
+                timeout=30,
+            )
+        except requests.RequestException:
+            return None
+        if response.status_code != 200:
+            return None
+        for run in response.json().get("workflow_runs", []):
+            created_at = _parse_github_time(run.get("created_at"))
+            # GitHub timestamps have second granularity, so a run created in the
+            # same second as the dispatch must still count as this one.
+            if not created_at or created_at < dispatched_at - RUN_LOOKUP_TOLERANCE:
+                continue
+            if action and run.get("display_title") not in (action, None):
+                continue
+            return run
+        return None
 
     @staticmethod
     def _aur_workflow_dispatch(package_name: str, tmate_option: bool):
