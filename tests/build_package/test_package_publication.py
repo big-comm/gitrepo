@@ -3,6 +3,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 from gitrepo.build_package.core import package_operations
+from gitrepo.build_package.core.conflict_resolver import ConflictResolver
 from gitrepo.build_package.core.git_utils import GitUtils
 
 
@@ -196,6 +197,59 @@ def test_stable_promotion_retries_an_atomic_remote_race(tmp_path, monkeypatch):
     assert (repository / "race.txt").read_text(encoding="utf-8") == "remote race\n"
     assert run_git(remote, "rev-parse", "refs/heads/main") == run_git(remote, "rev-parse", "refs/heads/dev-tester")
     assert any("retry" in message.lower() for _style, message in bp.logger.messages)
+
+
+def create_conflicting_promotion(tmp_path: Path) -> tuple[Path, Path]:
+    """Leave dev-tester and origin/main editing the same line."""
+    repository, remote = create_repository(tmp_path)
+    run_git(repository, "checkout", "-b", "dev-tester")
+    (repository / "base.txt").write_text("local line\n", encoding="utf-8")
+    run_git(repository, "commit", "-am", "local edit")
+    run_git(repository, "push", "-u", "origin", "dev-tester")
+
+    peer = clone_main(remote, tmp_path / "peer")
+    (peer / "base.txt").write_text("remote line\n", encoding="utf-8")
+    run_git(peer, "commit", "-am", "remote edit")
+    run_git(peer, "push", "origin", "main")
+    return repository, remote
+
+
+def test_stable_conflict_offers_resolution_instead_of_only_reporting_it(tmp_path, monkeypatch):
+    repository, remote = create_conflicting_promotion(tmp_path)
+
+    monkeypatch.setattr(package_operations, "_", lambda message: message)
+    monkeypatch.chdir(repository)
+    bp = build_package()
+    bp.conflict_resolver = ConflictResolver(bp.logger, bp.menu)
+
+    assert package_operations._merge_to_main(bp, "dev-tester")
+
+    questions = "\n".join(bp.menu.questions)
+    assert "base.txt" in questions
+    assert (repository / "base.txt").read_text(encoding="utf-8") == "local line\n"
+    assert run_git(remote, "rev-parse", "refs/heads/main") == run_git(remote, "rev-parse", "refs/heads/dev-tester")
+    assert run_git(repository, "branch", "--show-current") == "dev-tester"
+
+
+def test_stable_conflict_reports_the_files_and_the_manual_commands(tmp_path, monkeypatch):
+    repository, remote = create_conflicting_promotion(tmp_path)
+    head_before = run_git(repository, "rev-parse", "HEAD")
+    remote_main_before = run_git(remote, "rev-parse", "refs/heads/main")
+
+    monkeypatch.setattr(package_operations, "_", lambda message: message)
+    monkeypatch.chdir(repository)
+    bp = build_package()
+
+    assert package_operations._merge_to_main(bp, "dev-tester") is False
+
+    message = "\n".join(message for _style, message in bp.logger.messages)
+    assert "base.txt" in message
+    assert "git checkout --ours -- base.txt" in message
+    assert "git checkout --theirs -- base.txt" in message
+    assert run_git(repository, "rev-parse", "HEAD") == head_before
+    assert run_git(remote, "rev-parse", "refs/heads/main") == remote_main_before
+    assert run_git(repository, "status", "--short") == ""
+    assert run_git(repository, "branch", "--show-current") == "dev-tester"
 
 
 def test_alignment_failure_reports_that_remote_promotion_already_succeeded(monkeypatch):

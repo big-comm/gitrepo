@@ -10,6 +10,7 @@ from datetime import datetime
 from gitrepo.common import child_process as subprocess
 from gitrepo.common.child_process import authorize_destructive_git
 from .confirmation import StructuredConfirmation
+from .git_status import display_path
 from .git_utils import GitUtils
 from gitrepo.common.translation import _
 from .commit_operations import commit_and_push
@@ -193,20 +194,101 @@ def commit_and_generate_package(build_package_instance, branch_type, commit_mess
     return success
 
 
-def _merge_without_conflicts(bp, incoming_ref: str) -> bool:
-    """Merge one ref, leaving no conflict state behind when it fails."""
+def _conflicted_paths() -> list[str]:
+    """Return the paths Git currently reports as unmerged."""
     result = subprocess.run_git(
-        ["git", "merge", incoming_ref, "--no-edit"], capture_output=True, text=True, check=False, intent="ordinary"
+        ["git", "diff", "--name-only", "--diff-filter=U"],
+        capture_output=True,
+        text=True,
+        check=False,
+        intent="ordinary",
     )
-    if result.returncode == 0:
-        return True
-    subprocess.run_git(["git", "merge", "--abort"], capture_output=True, check=False, intent="ordinary")
+    if result.returncode != 0:
+        return []
+    return [path for path in result.stdout.splitlines() if path]
+
+
+def _log_conflict_next_steps(bp, incoming_ref: str, conflicts: list[str]) -> None:
+    """Say what was left untouched and how to finish the merge by hand."""
     bp.logger.log(
         "red",
         _("Merging {0} stopped because it requires conflict resolution. No history was rewritten.").format(
             incoming_ref
         ),
     )
+    bp.logger.log("cyan", _("Finish the merge manually, then start the package build again:"))
+    bp.logger.log("cyan", f"  git merge {incoming_ref} --no-edit")
+    for path in conflicts:
+        bp.logger.log("cyan", f"  git checkout --ours -- {display_path(path)}      # {_('keep the local version')}")
+        bp.logger.log("cyan", f"  git checkout --theirs -- {display_path(path)}    # {_('keep the remote version')}")
+    bp.logger.log("cyan", "  git add -A && git commit --no-edit")
+
+
+def _complete_conflicted_merge(bp, incoming_ref: str, conflicts: list[str]) -> bool:
+    """Offer a resolution for a stopped merge instead of only reporting it.
+
+    The stable flow used to abort on the first conflict and print a single line,
+    leaving the user without the local/remote choice the commit and pull flows
+    already provide. The same reviewed resolver is used here.
+    """
+    current_branch = GitUtils.get_current_branch() or _("the current branch")
+    bp.logger.log(
+        "yellow",
+        _("Merging {0} into {1} conflicts in {2} file(s):").format(incoming_ref, current_branch, len(conflicts)),
+    )
+    for path in conflicts:
+        bp.logger.log("yellow", f"  • {display_path(path)}")
+
+    resolver = getattr(bp, "conflict_resolver", None)
+    if resolver is None:
+        _abort_merge()
+        _log_conflict_next_steps(bp, incoming_ref, conflicts)
+        return False
+
+    # One announced decision resolves every file; declining falls back to the
+    # per-file review, where each side stays selectable.
+    resolved = resolver.resolve_keeping_current(
+        current_branch, incoming_ref, recovery_hint="git diff HEAD^2 -- FILE"
+    ) or resolver.resolve(current_branch, incoming_ref)
+    if not resolved or resolver.has_conflicts():
+        _abort_merge()
+        _log_conflict_next_steps(bp, incoming_ref, conflicts)
+        return False
+
+    subprocess.run_git(["git", "add", "-A"], check=True, capture_output=True, intent="ordinary")
+    commit = subprocess.run_git(
+        ["git", "commit", "--no-edit"],
+        capture_output=True,
+        text=True,
+        check=False,
+        intent="ordinary",
+    )
+    if commit.returncode != 0:
+        _abort_merge()
+        bp.logger.log("red", _("Resolved files could not complete the merge: {0}").format(commit.stderr.strip()))
+        _log_conflict_next_steps(bp, incoming_ref, conflicts)
+        return False
+    bp.logger.log("green", _("✓ Merged {0} after conflict resolution").format(incoming_ref))
+    return True
+
+
+def _merge_without_conflicts(bp, incoming_ref: str) -> bool:
+    """Merge one ref, resolving conflicts with the user or restoring the tree."""
+    result = subprocess.run_git(
+        ["git", "merge", incoming_ref, "--no-edit"], capture_output=True, text=True, check=False, intent="ordinary"
+    )
+    if result.returncode == 0:
+        return True
+
+    conflicts = _conflicted_paths()
+    if conflicts:
+        return _complete_conflicted_merge(bp, incoming_ref, conflicts)
+
+    # No conflicted path means Git refused the merge for another reason, and
+    # that reason is the only useful thing to report.
+    _abort_merge()
+    detail = result.stderr.strip() or result.stdout.strip() or _("Unknown Git error")
+    bp.logger.log("red", _("Merging {0} failed: {1}").format(incoming_ref, detail))
     return False
 
 
