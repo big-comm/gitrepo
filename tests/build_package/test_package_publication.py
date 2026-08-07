@@ -3,6 +3,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 from gitrepo.build_package.core import package_operations
+from gitrepo.build_package.core.conflict_resolver import ConflictResolver
 from gitrepo.build_package.core.git_utils import GitUtils
 
 
@@ -56,14 +57,22 @@ class Logger:
 
 
 class Menu:
-    def __init__(self, answer=True):
+    def __init__(self, answer=True, choice=None):
         self.answer = answer
+        self.choice = choice
         self.questions = []
+        self.menus = []
 
     def confirm(self, question, default_yes=True):
         self.questions.append(question)
         assert default_yes is False
         return self.answer
+
+    def show_menu(self, title, options, default_index=None):
+        self.menus.append((title, options))
+        if self.choice is None:
+            return None
+        return (self.choice, options[self.choice])
 
 
 def build_package(menu=None):
@@ -196,6 +205,137 @@ def test_stable_promotion_retries_an_atomic_remote_race(tmp_path, monkeypatch):
     assert (repository / "race.txt").read_text(encoding="utf-8") == "remote race\n"
     assert run_git(remote, "rev-parse", "refs/heads/main") == run_git(remote, "rev-parse", "refs/heads/dev-tester")
     assert any("retry" in message.lower() for _style, message in bp.logger.messages)
+
+
+def create_conflicting_promotion(tmp_path: Path) -> tuple[Path, Path]:
+    """Leave dev-tester and origin/main editing the same line."""
+    repository, remote = create_repository(tmp_path)
+    run_git(repository, "checkout", "-b", "dev-tester")
+    (repository / "base.txt").write_text("local line\n", encoding="utf-8")
+    run_git(repository, "commit", "-am", "local edit")
+    run_git(repository, "push", "-u", "origin", "dev-tester")
+
+    peer = clone_main(remote, tmp_path / "peer")
+    (peer / "base.txt").write_text("remote line\n", encoding="utf-8")
+    run_git(peer, "commit", "-am", "remote edit")
+    run_git(peer, "push", "origin", "main")
+    return repository, remote
+
+
+def test_stable_conflict_offers_resolution_instead_of_only_reporting_it(tmp_path, monkeypatch):
+    repository, remote = create_conflicting_promotion(tmp_path)
+
+    monkeypatch.setattr(package_operations, "_", lambda message: message)
+    monkeypatch.chdir(repository)
+    bp = build_package()
+    bp.conflict_resolver = ConflictResolver(bp.logger, bp.menu)
+
+    assert package_operations._merge_to_main(bp, "dev-tester")
+
+    questions = "\n".join(bp.menu.questions)
+    assert "base.txt" in questions
+    assert (repository / "base.txt").read_text(encoding="utf-8") == "local line\n"
+    assert run_git(remote, "rev-parse", "refs/heads/main") == run_git(remote, "rev-parse", "refs/heads/dev-tester")
+    assert run_git(repository, "branch", "--show-current") == "dev-tester"
+
+
+def test_stable_conflict_reports_the_files_and_the_manual_commands(tmp_path, monkeypatch):
+    repository, remote = create_conflicting_promotion(tmp_path)
+    head_before = run_git(repository, "rev-parse", "HEAD")
+    remote_main_before = run_git(remote, "rev-parse", "refs/heads/main")
+
+    monkeypatch.setattr(package_operations, "_", lambda message: message)
+    monkeypatch.chdir(repository)
+    bp = build_package()
+
+    assert package_operations._merge_to_main(bp, "dev-tester") is False
+
+    message = "\n".join(message for _style, message in bp.logger.messages)
+    assert "base.txt" in message
+    assert "git checkout --ours -- base.txt" in message
+    assert "git checkout --theirs -- base.txt" in message
+    assert run_git(repository, "rev-parse", "HEAD") == head_before
+    assert run_git(remote, "rev-parse", "refs/heads/main") == remote_main_before
+    assert run_git(repository, "status", "--short") == ""
+    assert run_git(repository, "branch", "--show-current") == "dev-tester"
+
+
+def test_translation_catalog_conflicts_are_decided_once(tmp_path, monkeypatch):
+    repository, remote = create_repository(tmp_path)
+    for name in ("locale/app.pot", "locale/en.po"):
+        path = repository / name
+        path.parent.mkdir(exist_ok=True)
+        path.write_text('msgid "base"\n', encoding="utf-8")
+    run_git(repository, "add", "locale")
+    run_git(repository, "commit", "-m", "catalogs")
+    run_git(repository, "push", "origin", "main")
+
+    run_git(repository, "checkout", "-b", "dev-tester")
+    (repository / "locale/app.pot").write_text('msgid "local"\n', encoding="utf-8")
+    (repository / "locale/en.po").write_text('msgid "local"\n', encoding="utf-8")
+    run_git(repository, "commit", "-am", "local catalogs")
+    run_git(repository, "push", "-u", "origin", "dev-tester")
+
+    peer = clone_main(remote, tmp_path / "peer")
+    (peer / "locale/app.pot").write_text('msgid "translated"\n', encoding="utf-8")
+    (peer / "locale/en.po").write_text('msgid "translated"\n', encoding="utf-8")
+    run_git(peer, "commit", "-am", "translate 26-08-06_15:00")
+    run_git(peer, "push", "origin", "main")
+
+    monkeypatch.setattr(package_operations, "_", lambda message: message)
+    monkeypatch.chdir(repository)
+    # Option 0 keeps the local catalogs for every conflicted file at once.
+    bp = build_package(menu=Menu(choice=0))
+    bp.conflict_resolver = ConflictResolver(bp.logger, bp.menu)
+
+    assert package_operations._merge_to_main(bp, "dev-tester")
+
+    assert len(bp.menu.menus) == 1
+    title, options = bp.menu.menus[0]
+    assert "locale/app.pot" in title and "locale/en.po" in title
+    assert len(options) == 3
+    assert (repository / "locale/en.po").read_text(encoding="utf-8") == 'msgid "local"\n'
+    assert run_git(remote, "rev-parse", "refs/heads/main") == run_git(remote, "rev-parse", "refs/heads/dev-tester")
+
+
+def test_translation_catalog_conflicts_can_take_the_remote_version(tmp_path, monkeypatch):
+    repository, remote = create_repository(tmp_path)
+    (repository / "locale").mkdir()
+    (repository / "locale/en.po").write_text('msgid "base"\n', encoding="utf-8")
+    run_git(repository, "add", "locale")
+    run_git(repository, "commit", "-m", "catalog")
+    run_git(repository, "push", "origin", "main")
+
+    run_git(repository, "checkout", "-b", "dev-tester")
+    (repository / "locale/en.po").write_text('msgid "local"\n', encoding="utf-8")
+    run_git(repository, "commit", "-am", "local catalog")
+    run_git(repository, "push", "-u", "origin", "dev-tester")
+
+    peer = clone_main(remote, tmp_path / "peer")
+    (peer / "locale/en.po").write_text('msgid "translated"\n', encoding="utf-8")
+    run_git(peer, "commit", "-am", "translate 26-08-06_15:00")
+    run_git(peer, "push", "origin", "main")
+
+    monkeypatch.setattr(package_operations, "_", lambda message: message)
+    monkeypatch.chdir(repository)
+    bp = build_package(menu=Menu(choice=1))
+    bp.conflict_resolver = ConflictResolver(bp.logger, bp.menu)
+
+    assert package_operations._merge_to_main(bp, "dev-tester")
+    assert (repository / "locale/en.po").read_text(encoding="utf-8") == 'msgid "translated"\n'
+
+
+def test_source_conflicts_are_never_grouped_as_translations(tmp_path, monkeypatch):
+    repository, _remote = create_conflicting_promotion(tmp_path)
+
+    monkeypatch.setattr(package_operations, "_", lambda message: message)
+    monkeypatch.chdir(repository)
+    bp = build_package(menu=Menu(choice=0))
+    bp.conflict_resolver = ConflictResolver(bp.logger, bp.menu)
+
+    assert package_operations._merge_to_main(bp, "dev-tester")
+
+    assert bp.menu.menus == []
 
 
 def test_alignment_failure_reports_that_remote_promotion_already_succeeded(monkeypatch):

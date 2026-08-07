@@ -296,6 +296,26 @@ msgstr "בודק..."
 msgid "Repository is already up to date"
 msgstr "המאגר כבר מעודכן"
 # 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 127
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:127
+msgid "Available Branches"
+msgstr "סניפים זמינים"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
+msgid "Most Recent Branch"
+msgstr "הסניף האחרון ביותר"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
+msgid "Current"
+msgstr "נוכחי"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 68
+#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:68
+msgid "Compare versions side-by-side"
+msgstr "השווה גרסאות זו לצד זו"
+# 
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 231
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:212
 msgid "Changes received from the remote"
@@ -711,6 +731,22 @@ msgstr "אין הבדלים טקסטואליים להצגה."
 msgid "Operation Progress"
 msgstr "התקדמות הפעולה"
 # 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 74
+#: NEEDS WORK
+msgid "The operation is still running"
+msgstr "הפעולה עדיין רצה"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 75
+#: NEEDS WORK
+#, python-brace-format
+msgid "“{0}” has to finish before this window can be closed."
+msgstr "“{0}” חייב להסתיים לפני שניתן יהיה לסגור חלון זה."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 77
+#: NEEDS WORK
+msgid "Keep waiting"
+msgstr "המשך לחכות"
+# 
 # File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 68
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:68
 msgid "Running"
@@ -908,11 +944,6 @@ msgstr "שמור את שניהם"
 msgid "Keep both versions"
 msgstr "שמור את שתי הגרסאות"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 68
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:68
-msgid "Compare versions side-by-side"
-msgstr "השווה גרסאות זו לצד זו"
-# 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 76
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:76
 msgid "Edit file manually"
@@ -979,11 +1010,10 @@ msgstr "החל פתרונות"
 msgid "Resolved {0} of {1} conflicts"
 msgstr "נפתרו {0} מתוך {1} קונפליקטים"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 381
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:381
-#, python-brace-format
-msgid "Opening {0}. After editing, click 'Mark as Edited' to continue."
-msgstr "נפתח {0}. לאחר העריכה, לחץ על 'סמן כנערך' כדי להמשיך."
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 407
+#: NEEDS WORK
+msgid "Edited by hand — checked for conflict markers when you apply"
+msgstr "נערך ביד — נבדק עבור סימני קונפליקט כאשר אתה מיישם"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 426
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:426
@@ -1073,11 +1103,40 @@ msgstr ""
 msgid "Delete and Apply"
 msgstr "למחוק ולהחיל"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 848
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:848
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 772
+#: NEEDS WORK
+msgid "Could not apply this choice — see the log"
+msgstr "לא ניתן להחיל את הבחירה הזו — ראה את היומן"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 775
+#: NEEDS WORK
 #, python-brace-format
-msgid "Warning: {0} may still have conflict markers"
-msgstr "אזהרה: {0} עשוי עדיין להכיל סימני קונפליקט"
+msgid "Already applied before the failure: {0}"
+msgstr "כבר הוחל לפני הכישלון: {0}"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 776
+#: NEEDS WORK
+#, python-brace-format
+msgid "Stopped at {0}; the dialog stays open so you can retry."
+msgstr "נעצר ב-{0}; הדיאלוג נשאר פתוח כך שתוכל לנסות שוב."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 890
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not read {0}: {1}"
+msgstr "לא ניתן לקרוא {0}: {1}"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 893
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} still contains conflict markers; edit it and apply again."
+msgstr "{0} עדיין מכיל סימני קונפליקט; ערוך אותו והחל שוב."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 906
+#: NEEDS WORK
+#, python-brace-format
+msgid "Saved both versions: {0}, {1}"
+msgstr "שמר את שתי הגרסאות: {0}, {1}"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 891
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:891
@@ -1741,11 +1800,6 @@ msgstr "לא ניתן היה לשחזר את ההגדרות. נסה שוב."
 msgid "Checked out right now"
 msgstr "נשלף כעת"
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
-msgid "Current"
-msgstr "נוכחי"
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 52
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:52
 msgid "Only on origin; created locally on first checkout"
@@ -1783,20 +1837,10 @@ msgstr "מציג את הענף הפעיל ואת הענף המקומי שעוד�
 msgid "Active Branch"
 msgstr "סניף פעיל"
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
-msgid "Most Recent Branch"
-msgstr "הסניף האחרון ביותר"
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 116
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:116
 msgid "Branch with latest commits"
 msgstr "סניף עם הקומיטים האחרונים"
-# 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 127
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:127
-msgid "Available Branches"
-msgstr "סניפים זמינים"
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 129
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:129
@@ -1882,6 +1926,11 @@ msgstr "הסר ענפים ישנים"
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:259
 msgid "Not available"
 msgstr "לא זמין"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 355
+#: NEEDS WORK
+msgid "Source and target are the same branch. Choose a different target."
+msgstr "המקור והיעד הם אותו סניף. בחר יעד שונה."
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 43
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:43
@@ -3473,6 +3522,11 @@ msgstr "ה-commit המקומי הקיים פורסם ל-origin/{0}."
 msgid "Could not determine branch name for push"
 msgstr "לא ניתן לקבוע את שם הסניף לדחיפה"
 # 
+# File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 251
+#: usr/share/gitrepo/build_package/core/commit_operations.py:213
+msgid "Resolve all conflicts before committing."
+msgstr "פתור את כל ההתנגשויות לפני ביצוע הקומיט."
+# 
 # File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 230
 #: usr/share/gitrepo/build_package/core/commit_handler.py:230
 #, python-brace-format
@@ -3485,6 +3539,26 @@ msgstr "שינויים פורסמו ל-{0} באמצעות git commit ו-git push
 #, python-brace-format
 msgid "Skipping the version bump: {0} is not a regular file inside the repository."
 msgstr "דילוג על העלאת גרסה: {0} אינו קובץ רגיל בתוך המאגר."
+# 
+# File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 155
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid ""
+"Several APP_VERSION constants claim this repository ({0}). Keep APP_VERSION_OWNER on only one of "
+"them to bump it automatically."
+msgstr ""
+"כמה קבועי APP_VERSION טוענים לבעלות על מאגר זה ({0}). השאירו את APP_VERSION_OWNER רק באחד מהם כדי "
+"לקדם אותו אוטומטית."
+# 
+# File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 160
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid ""
+"Found APP_VERSION in more than one file ({0}), so none was bumped. Add APP_VERSION_OWNER next to "
+"the one this repository owns."
+msgstr ""
+"APP_VERSION נמצא ביותר מקובץ אחד ({0}), ולכן אף אחד לא קודם. הוסיפו את APP_VERSION_OWNER ליד זה "
+"ששייך למאגר הזה."
 # 
 # File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 249
 #: usr/share/gitrepo/build_package/core/version_bumper.py:246
@@ -3972,11 +4046,6 @@ msgstr "ניסיון הפרסום נכשל: {0}"
 msgid "This option is only available in Git repositories."
 msgstr "אפשרות זו זמינה רק במאגרי Git."
 # 
-# File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 251
-#: usr/share/gitrepo/build_package/core/commit_operations.py:213
-msgid "Resolve all conflicts before committing."
-msgstr "פתור את כל ההתנגשויות לפני ביצוע הקומיט."
-# 
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 271
 #: usr/share/gitrepo/build_package/core/commit_operations.py:233
 msgid "Commit cancelled."
@@ -4049,20 +4118,22 @@ msgstr "{0} נכשל: {1}"
 #: usr/share/gitrepo/build_package/core/git_utils.py:255
 #, python-brace-format
 msgid ""
-"Resolve the divergence keeping {0} where the two branches disagree?\n"
+"Keep the local branch {0} where it disagrees with the remote {1}?\n"
 "\n"
-"The conflicting lines from {1} are discarded in:\n"
+"Yes: the conflicting lines coming from {1} are discarded in:\n"
 "{2}\n"
 "\n"
+"No: nothing is changed and you can pick another resolution method.\n"
 "Every other change from {1} is merged, and the discarded version stays readable with: git diff "
 "HEAD^2 -- FILE"
 msgstr ""
-"לפתור את הסטייה תוך שמירה על {0} כאשר שני הסניפים חלוקים?\n"
+"לשמור את הענף המקומי {0} במקומות שבהם הוא שונה מהענף המרוחק {1}?\n"
 "\n"
-"השורות המתנגשות מ-{1} נמחקות ב:\n"
+"כן: השורות המתנגשות שמגיעות מ-{1} יבוטלו בקבצים:\n"
 "{2}\n"
 "\n"
-"כל שינוי אחר מ-{1} מוזג, והגרסה שנמחקה נשארת קריאה באמצעות: git diff HEAD^2 -- FILE"
+"לא: שום דבר לא ישתנה ואפשר לבחור שיטת פתרון אחרת.\n"
+"כל שאר השינויים מ-{1} ימוזגו, והגרסה שבוטלה תישאר קריאה באמצעות: git diff HEAD^2 -- FILE"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -4257,12 +4328,6 @@ msgstr "מיזוג origin/{0} לתוך {0}"
 msgid "Merge remains incomplete; resolve the listed files manually."
 msgstr "המיזוג נותר לא שלם; פתור את הקבצים הרשומים באופן ידני."
 # 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 53
-#: usr/share/gitrepo/build_package/core/pull_operations.py:53
-#, python-brace-format
-msgid "Merge origin/{0} after conflict resolution"
-msgstr "מיזוג origin/{0} לאחר פתרון הקונפליקטים"
-# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 60
 #: usr/share/gitrepo/build_package/core/pull_operations.py:60
 #, python-brace-format
@@ -4295,16 +4360,6 @@ msgstr "פתור את הקונפליקטים הקיימים לפני משיכה 
 msgid "The current branch has no matching branch on origin."
 msgstr "לסניף הנוכחי אין סניף תואם ב-origin."
 # 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
-#: NEEDS WORK
-msgid "Could not compare the local and remote revisions."
-msgstr "לא ניתן להשוות בין הגרסאות המקומיות והמרוחקות."
-# 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
-#: NEEDS WORK
-msgid "Repository is already up to date."
-msgstr "המאגר מעודכן כבר."
-# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 182
 #: NEEDS WORK
 msgid "Repository state no longer allows this update. Review it again."
@@ -4314,6 +4369,16 @@ msgstr "מצב המאגר אינו מאפשר יותר את העדכון הזה.
 #: NEEDS WORK
 msgid "The repository changed after the preview. Review the updates again."
 msgstr "המאגר השתנה לאחר התצוגה המקדימה. בדוק את העדכונים שוב."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
+#: NEEDS WORK
+msgid "Could not compare the local and remote revisions."
+msgstr "לא ניתן להשוות בין הגרסאות המקומיות והמרוחקות."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
+#: NEEDS WORK
+msgid "Repository is already up to date."
+msgstr "המאגר מעודכן כבר."
 # 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 122
 #: usr/share/gitrepo/build_package/core/pull_operations.py:122
@@ -4639,6 +4704,29 @@ msgstr "תהליך הבנייה ({0}) הופעל בהצלחה."
 #, python-brace-format
 msgid "URL to monitor the build: {0}"
 msgstr "קישור לניטור הבנייה: {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 133
+#: NEEDS WORK
+#, python-brace-format
+msgid "Workflow run #{0} started: {1}"
+msgstr "הרצת זרימת עבודה #{0} החלה: {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 140
+#: NEEDS WORK
+#, python-brace-format
+msgid "GitHub accepted the request, but no workflow run appeared within {0} seconds."
+msgstr "GitHub קיבל את הבקשה, אך לא הופיעה ריצה של זרימת עבודה בתוך {0} שניות."
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 144
+#: NEEDS WORK
+msgid "The build may still be queued; it was not confirmed as started."
+msgstr "הבנייה עשויה עדיין להיות בתור; היא לא אושרה כהחלה."
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 145
+#: NEEDS WORK
+#, python-brace-format
+msgid "Check {0} and {1} before triggering it again."
+msgstr "בדוק {0} ו-{1} לפני שתחליט להפעיל את זה שוב."
 # 
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 127
 #: usr/share/gitrepo/build_package/core/github_api.py:127
@@ -4966,6 +5054,12 @@ msgstr "לאפס את כל ההגדרות לברירות המחדל?"
 msgid "✓ Settings reset to defaults"
 msgstr "✓ ההגדרות אופסו לברירות המחדל"
 # 
+# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 213
+# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 238
+#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213 usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
+msgid "Could not save settings. Check config permissions, then try again."
+msgstr "לא ניתן לשמור את ההגדרות. בדוק הרשאות תצורה, ונסה שוב."
+# 
 # File: usr/share/gitrepo/build_package/core/settings_menu.py, line: 49
 #: usr/share/gitrepo/build_package/core/settings_menu.py:49
 msgid "Interactive"
@@ -5112,23 +5206,63 @@ msgstr "איזו גרסה יש להשתמש עבור {0}?"
 msgid "All saved-work conflicts were resolved."
 msgstr "כל הקונפליקטים בעבודות השמורות נפתרו."
 # 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+#: NEEDS WORK
+#, python-brace-format
+msgid "Keep the local version of all {0} catalogs"
+msgstr "שמור את הגרסה המקומית של כל הקטלוגים {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+#: NEEDS WORK
+#, python-brace-format
+msgid "Use the {0} version of all {1} catalogs"
+msgstr "השתמש בגרסה {0} של כל הקטלוגים {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
+#: NEEDS WORK
+msgid "Decide file by file"
+msgstr "החליט קובץ אחר קובץ"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
+"{1}"
+msgstr ""
+"כל {0} הקונפליקטים הם קטלוגי תרגום, שנבנו מחדש על ידי זרימת העבודה של התרגום:  \n"
+"{1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version"
+msgstr "✓ נפתרו {0} קטלוגי תרגום עם גרסת {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "מקומי"
+# 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
 #, python-brace-format
 msgid ""
-"Keep the {0} version in {1} conflicted file(s)?\n"
+"Keep the local branch {0} in {1} conflicted file(s)?\n"
 "\n"
-"The conflicting lines coming from {2} are discarded in:\n"
+"Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
 "{3}\n"
 "\n"
-"Non-conflicting changes from {2} are still merged."
+"No: decide file by file, where the remote version is still available.\n"
+"Changes from {2} that do not conflict are merged either way."
 msgstr ""
-"לשמור את הגרסה מ-{0} בקובץ/קבצים המושפעים מהתנגשות?\n"
+"לשמור את הענף המקומי {0} ב-{1} קבצים עם התנגשות?\n"
 "\n"
-"השורות המתנגשות שמגיעות מ-{2} נמחקות ב:\n"
+"כן: השורות המתנגשות שמגיעות מהענף המרוחק {2} יבוטלו בקבצים:\n"
 "{3}\n"
 "\n"
-"שינויים שאינם מתנגשים מ-{2} עדיין מתמזגים. {1}"
+"לא: להחליט קובץ אחר קובץ, כאשר הגרסה המרוחקת עדיין זמינה.\n"
+"שינויים מ-{2} שאינם מתנגשים ימוזגו בכל מקרה."
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 222
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
@@ -5141,11 +5275,6 @@ msgstr "גרסת {0} של {1} נזרקה."
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "הגרסה שנמחקה עדיין קריאה באמצעות: {0}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "מקומי"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5217,11 +5346,11 @@ msgstr "✓ קונפליקטים נפתרו (התקבלו שינויים מרו�
 msgid "✓ All conflicts resolved!"
 msgstr "✓ כל הקונפליקטים נפתרו!"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 308
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:308
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 430
+#: NEEDS WORK
 #, python-brace-format
-msgid "Accept the incoming version for all {0} compiled .mo files?"
-msgstr "האם לקבל את הגרסה הנכנסת עבור כל קבצי {0} .mo המהודרים?"
+msgid "Accept the incoming version for all {0} translation catalogs?"
+msgstr "האם לקבל את הגרסה הנכנסת עבור כל קטלוגי התרגום של {0}?"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 319
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 570
@@ -5530,6 +5659,44 @@ msgstr "ה-Workflow נכשל."
 #, python-brace-format
 msgid "Merging {0} stopped because it requires conflict resolution. No history was rewritten."
 msgstr "מיזוג {0} נעצר מכיוון שהוא דורש פתרון של התנגשויות. לא נכתב היסטוריה מחדש."
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 219
+#: NEEDS WORK
+msgid "Finish the merge manually, then start the package build again:"
+msgstr "סיים את המיזוג ידנית, ואז התחל את בניית החבילה שוב:"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 222
+#: NEEDS WORK
+msgid "keep the local version"
+msgstr "שמור את הגרסה המקומית"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 223
+#: NEEDS WORK
+msgid "keep the remote version"
+msgstr "שמור את הגרסה המרוחקת"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
+#: NEEDS WORK
+msgid "the current branch"
+msgstr "הסניף הנוכחי"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} into {1} conflicts in {2} file(s):"
+msgstr "מיזוג {0} לתוך {1} מתנגש בקובץ(ים) {2}:"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 281
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Merged {0} after conflict resolution"
+msgstr "✓ מוזג {0} לאחר פתרון קונפליקטים"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 301
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} failed: {1}"
+msgstr "מיזוג {0} נכשל: {1}"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 255
 #: usr/share/gitrepo/build_package/core/package_operations.py:243
@@ -6294,12 +6461,6 @@ msgstr "שמור הגדרות"
 msgid "Reset to Defaults"
 msgstr "איפוס לברירות מחדל"
 # 
-# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 213
-# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 238
-#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213 usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
-msgid "Could not save settings. Check config permissions, then try again."
-msgstr "לא ניתן לשמור את ההגדרות. בדוק הרשאות תצורה, ונסה שוב."
-# 
 # File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 236
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:236
 msgid "Settings saved"
@@ -6535,6 +6696,11 @@ msgstr "לנקות את רשימת ה-ISO שנוצרו?"
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:201
 msgid "This will remove all build history entries. This cannot be undone."
 msgstr "פעולה זו תסיר את כל רשומות היסטוריית הבנייה. לא ניתן לבטל פעולה זו."
+# 
+# File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 213
+#: NEEDS WORK
+msgid "Could not update the build history. Check config permissions, then try again."
+msgstr "לא ניתן לעדכן את היסטוריית הבנייה. בדוק את הרשאות הקונפיגורציה, ואז נסה שוב."
 # 
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 221
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:221

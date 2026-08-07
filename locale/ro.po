@@ -347,6 +347,26 @@ msgstr "Verificare..."
 msgid "Repository is already up to date"
 msgstr "Repository-ul este deja actualizat"
 # 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 127
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:127
+msgid "Available Branches"
+msgstr "Ramuri disponibile"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
+msgid "Most Recent Branch"
+msgstr "Ramura cea mai recentă"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
+msgid "Current"
+msgstr "Curent"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 68
+#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:68
+msgid "Compare versions side-by-side"
+msgstr "Compară versiunile una lângă alta"
+# 
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 231
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:212
 msgid "Changes received from the remote"
@@ -779,6 +799,22 @@ msgstr "Nu există diferențe textuale de afișat."
 msgid "Operation Progress"
 msgstr "Progresul operațiunii"
 # 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 74
+#: NEEDS WORK
+msgid "The operation is still running"
+msgstr "Operația este încă în desfășurare"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 75
+#: NEEDS WORK
+#, python-brace-format
+msgid "“{0}” has to finish before this window can be closed."
+msgstr "„{0}” trebuie să se finalizeze înainte ca această fereastră să poată fi închisă."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 77
+#: NEEDS WORK
+msgid "Keep waiting"
+msgstr "Așteaptă în continuare"
+# 
 # File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 68
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:68
 msgid "Running"
@@ -999,11 +1035,6 @@ msgstr "Păstrează ambele"
 msgid "Keep both versions"
 msgstr "Păstrează ambele versiuni"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 68
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:68
-msgid "Compare versions side-by-side"
-msgstr "Compară versiunile una lângă alta"
-# 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 76
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:76
 msgid "Edit file manually"
@@ -1075,11 +1106,10 @@ msgstr "Aplică rezolvările"
 msgid "Resolved {0} of {1} conflicts"
 msgstr "Rezolvate {0} din {1} conflicte"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 381
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:381
-#, python-brace-format
-msgid "Opening {0}. After editing, click 'Mark as Edited' to continue."
-msgstr "Se deschide {0}. După editare, faceți clic pe 'Marcare ca Editat' pentru a continua."
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 407
+#: NEEDS WORK
+msgid "Edited by hand — checked for conflict markers when you apply"
+msgstr "Editat manual — verificat pentru marcaje de conflict când aplici"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 426
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:426
@@ -1169,11 +1199,40 @@ msgstr ""
 msgid "Delete and Apply"
 msgstr "Șterge și aplică"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 848
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:848
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 772
+#: NEEDS WORK
+msgid "Could not apply this choice — see the log"
+msgstr "Nu s-a putut aplica această alegere — vezi jurnalul"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 775
+#: NEEDS WORK
 #, python-brace-format
-msgid "Warning: {0} may still have conflict markers"
-msgstr "Atenție: {0} poate încă conține marcatori de conflict"
+msgid "Already applied before the failure: {0}"
+msgstr "Deja aplicat înainte de eșec: {0}"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 776
+#: NEEDS WORK
+#, python-brace-format
+msgid "Stopped at {0}; the dialog stays open so you can retry."
+msgstr "Oprit la {0}; dialogul rămâne deschis pentru a putea încerca din nou."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 890
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not read {0}: {1}"
+msgstr "Nu s-a putut citi {0}: {1}"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 893
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} still contains conflict markers; edit it and apply again."
+msgstr "{0} conține în continuare marcaje de conflict; editează-l și aplică din nou."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 906
+#: NEEDS WORK
+#, python-brace-format
+msgid "Saved both versions: {0}, {1}"
+msgstr "Salvate ambele versiuni: {0}, {1}"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 891
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:891
@@ -1903,11 +1962,6 @@ msgstr "Setările nu au putut fi restaurate. Încercați din nou."
 msgid "Checked out right now"
 msgstr "Verificat chiar acum"
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
-msgid "Current"
-msgstr "Curent"
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 52
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:52
 msgid "Only on origin; created locally on first checkout"
@@ -1947,20 +2001,10 @@ msgstr "Afișează ramura activă și cea mai recent actualizată ramură local�
 msgid "Active Branch"
 msgstr "Ramură activă"
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
-msgid "Most Recent Branch"
-msgstr "Ramura cea mai recentă"
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 116
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:116
 msgid "Branch with latest commits"
 msgstr "Ramură cu ultimele commit-uri"
-# 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 127
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:127
-msgid "Available Branches"
-msgstr "Ramuri disponibile"
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 129
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:129
@@ -2051,6 +2095,11 @@ msgstr "Elimină ramurile vechi"
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:259
 msgid "Not available"
 msgstr "Nu este disponibil"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 355
+#: NEEDS WORK
+msgid "Source and target are the same branch. Choose a different target."
+msgstr "Sursa și destinația sunt aceeași ramură. Alege o destinație diferită."
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 43
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:43
@@ -3692,6 +3741,11 @@ msgstr "Commit-ul local existent a fost publicat pe origin/{0}."
 msgid "Could not determine branch name for push"
 msgstr "Nu s-a putut determina numele ramurii pentru push"
 # 
+# File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 251
+#: usr/share/gitrepo/build_package/core/commit_operations.py:213
+msgid "Resolve all conflicts before committing."
+msgstr "Rezolvă toate conflictele înainte de a confirma."
+# 
 # File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 230
 #: usr/share/gitrepo/build_package/core/commit_handler.py:230
 #, python-brace-format
@@ -3705,6 +3759,26 @@ msgstr "Modificările au fost publicate pe {0} prin git commit și git push"
 #, python-brace-format
 msgid "Skipping the version bump: {0} is not a regular file inside the repository."
 msgstr "Se omite avansarea versiunii: {0} nu este un fișier obișnuit în interiorul depozitului."
+# 
+# File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 155
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid ""
+"Several APP_VERSION constants claim this repository ({0}). Keep APP_VERSION_OWNER on only one of "
+"them to bump it automatically."
+msgstr ""
+"Mai multe constante APP_VERSION revendică acest depozit ({0}). Păstrați APP_VERSION_OWNER doar la "
+"una dintre ele pentru a o incrementa automat."
+# 
+# File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 160
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid ""
+"Found APP_VERSION in more than one file ({0}), so none was bumped. Add APP_VERSION_OWNER next to "
+"the one this repository owns."
+msgstr ""
+"APP_VERSION a fost găsită în mai multe fișiere ({0}), așa că niciuna nu a fost incrementată. "
+"Adăugați APP_VERSION_OWNER lângă cea care aparține acestui depozit."
 # 
 # File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 249
 #: usr/share/gitrepo/build_package/core/version_bumper.py:246
@@ -4210,11 +4284,6 @@ msgstr "Reîncercarea publicării a eșuat: {0}"
 msgid "This option is only available in Git repositories."
 msgstr "Această opțiune este disponibilă doar în depozitele Git."
 # 
-# File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 251
-#: usr/share/gitrepo/build_package/core/commit_operations.py:213
-msgid "Resolve all conflicts before committing."
-msgstr "Rezolvă toate conflictele înainte de a confirma."
-# 
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 271
 #: usr/share/gitrepo/build_package/core/commit_operations.py:233
 msgid "Commit cancelled."
@@ -4288,21 +4357,23 @@ msgstr "{0} a eșuat: {1}"
 #: usr/share/gitrepo/build_package/core/git_utils.py:255
 #, python-brace-format
 msgid ""
-"Resolve the divergence keeping {0} where the two branches disagree?\n"
+"Keep the local branch {0} where it disagrees with the remote {1}?\n"
 "\n"
-"The conflicting lines from {1} are discarded in:\n"
+"Yes: the conflicting lines coming from {1} are discarded in:\n"
 "{2}\n"
 "\n"
+"No: nothing is changed and you can pick another resolution method.\n"
 "Every other change from {1} is merged, and the discarded version stays readable with: git diff "
 "HEAD^2 -- FILE"
 msgstr ""
-"Rezolvați divergența păstrând {0} acolo unde cele două ramuri nu sunt de acord?\n"
+"Păstrați ramura locală {0} acolo unde diferă de ramura la distanță {1}?\n"
 "\n"
-"Liniile conflictuale din {1} sunt eliminate în:\n"
+"Da: liniile în conflict venite de la {1} sunt eliminate în:\n"
 "{2}\n"
 "\n"
-"Orice altă modificare din {1} este îmbinată, iar versiunea eliminată rămâne accesibilă cu: git diff "
-"HEAD^2 -- FILE"
+"Nu: nu se schimbă nimic și puteți alege altă metodă de rezolvare.\n"
+"Toate celelalte modificări din {1} sunt îmbinate, iar versiunea eliminată rămâne lizibilă cu: git "
+"diff HEAD^2 -- FILE"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -4505,12 +4576,6 @@ msgstr "Fuzionează origin/{0} în {0}"
 msgid "Merge remains incomplete; resolve the listed files manually."
 msgstr "Fuzionarea rămâne neterminată; rezolvă fișierele listate manual."
 # 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 53
-#: usr/share/gitrepo/build_package/core/pull_operations.py:53
-#, python-brace-format
-msgid "Merge origin/{0} after conflict resolution"
-msgstr "Fuzionează origin/{0} după rezolvarea conflictelor"
-# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 60
 #: usr/share/gitrepo/build_package/core/pull_operations.py:60
 #, python-brace-format
@@ -4543,16 +4608,6 @@ msgstr "Rezolvă conflictele existente înainte de a trage (pull)."
 msgid "The current branch has no matching branch on origin."
 msgstr "Ramura curentă nu are o ramură corespunzătoare pe origin."
 # 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
-#: NEEDS WORK
-msgid "Could not compare the local and remote revisions."
-msgstr "Nu s-au putut compara reviziile locale și cele de la distanță."
-# 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
-#: NEEDS WORK
-msgid "Repository is already up to date."
-msgstr "Repository-ul este deja actualizat."
-# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 182
 #: NEEDS WORK
 msgid "Repository state no longer allows this update. Review it again."
@@ -4562,6 +4617,16 @@ msgstr "Starea repository-ului nu mai permite această actualizare. Revizuiește
 #: NEEDS WORK
 msgid "The repository changed after the preview. Review the updates again."
 msgstr "Repository-ul s-a schimbat după previzualizare. Revizuiește din nou actualizările."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
+#: NEEDS WORK
+msgid "Could not compare the local and remote revisions."
+msgstr "Nu s-au putut compara reviziile locale și cele de la distanță."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
+#: NEEDS WORK
+msgid "Repository is already up to date."
+msgstr "Repository-ul este deja actualizat."
 # 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 122
 #: usr/share/gitrepo/build_package/core/pull_operations.py:122
@@ -4894,6 +4959,31 @@ msgstr "Workflow-ul de build ({0}) a fost declanșat cu succes."
 msgid "URL to monitor the build: {0}"
 msgstr "URL pentru monitorizarea build-ului: {0}"
 # 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 133
+#: NEEDS WORK
+#, python-brace-format
+msgid "Workflow run #{0} started: {1}"
+msgstr "Execuția fluxului de lucru #{0} a început: {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 140
+#: NEEDS WORK
+#, python-brace-format
+msgid "GitHub accepted the request, but no workflow run appeared within {0} seconds."
+msgstr ""
+"GitHub a acceptat cererea, dar nu a apărut nicio execuție a fluxului de lucru în termen de {0} "
+"secunde."
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 144
+#: NEEDS WORK
+msgid "The build may still be queued; it was not confirmed as started."
+msgstr "Construirea poate fi încă în așteptare; nu a fost confirmată ca începută."
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 145
+#: NEEDS WORK
+#, python-brace-format
+msgid "Check {0} and {1} before triggering it again."
+msgstr "Verifică {0} și {1} înainte de a-l activa din nou."
+# 
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 127
 #: usr/share/gitrepo/build_package/core/github_api.py:127
 msgid "Repository and explicit workflow branch are required."
@@ -5223,6 +5313,13 @@ msgstr "Resetați toate setările la valorile implicite?"
 msgid "✓ Settings reset to defaults"
 msgstr "✓ Setările au fost resetate la valorile implicite"
 # 
+# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 213
+# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 238
+#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213
+#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
+msgid "Could not save settings. Check config permissions, then try again."
+msgstr "Nu s-au putut salva setările. Verifică permisiunile de configurare, apoi încearcă din nou."
+# 
 # File: usr/share/gitrepo/build_package/core/settings_menu.py, line: 49
 #: usr/share/gitrepo/build_package/core/settings_menu.py:49
 msgid "Interactive"
@@ -5369,23 +5466,63 @@ msgstr "Ce versiune ar trebui folosită pentru {0}?"
 msgid "All saved-work conflicts were resolved."
 msgstr "Toate conflictele de lucru salvate au fost rezolvate."
 # 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+#: NEEDS WORK
+#, python-brace-format
+msgid "Keep the local version of all {0} catalogs"
+msgstr "Păstrează versiunea locală a tuturor catalogelor {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+#: NEEDS WORK
+#, python-brace-format
+msgid "Use the {0} version of all {1} catalogs"
+msgstr "Utilizați versiunea {0} a tuturor catalogelor {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
+#: NEEDS WORK
+msgid "Decide file by file"
+msgstr "Decide fișier cu fișier"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
+"{1}"
+msgstr ""
+"Toate conflictele {0} sunt cataloage de traducere, reconstruite de fluxul de lucru de traducere:  \n"
+"{1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version"
+msgstr "✓ S-au rezolvat {0} cataloage de traducere cu versiunea {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "local"
+# 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
 #, python-brace-format
 msgid ""
-"Keep the {0} version in {1} conflicted file(s)?\n"
+"Keep the local branch {0} in {1} conflicted file(s)?\n"
 "\n"
-"The conflicting lines coming from {2} are discarded in:\n"
+"Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
 "{3}\n"
 "\n"
-"Non-conflicting changes from {2} are still merged."
+"No: decide file by file, where the remote version is still available.\n"
+"Changes from {2} that do not conflict are merged either way."
 msgstr ""
-"Păstrezi versiunea {0} în {1} fișier(e) cu conflicte?\n"
+"Păstrați ramura locală {0} în {1} fișier(e) cu conflict?\n"
 "\n"
-"Liniile conflictuale care provin din {2} sunt eliminate în:\n"
+"Da: liniile în conflict venite de la ramura la distanță {2} sunt eliminate în:\n"
 "{3}\n"
 "\n"
-"Modificările neconflictuale din {2} sunt încă îmbinate."
+"Nu: decideți fișier cu fișier, versiunea la distanță rămânând disponibilă.\n"
+"Modificările din {2} care nu intră în conflict sunt îmbinate în ambele cazuri."
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 222
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
@@ -5398,11 +5535,6 @@ msgstr "S-a renunțat la versiunea {0} a: {1}"
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "Versiunea eliminată poate fi citită în continuare cu: {0}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "local"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5476,11 +5608,11 @@ msgstr "✓ Conflictele au fost rezolvate (am acceptat modificările de la dista
 msgid "✓ All conflicts resolved!"
 msgstr "✓ Toate conflictele au fost rezolvate!"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 308
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:308
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 430
+#: NEEDS WORK
 #, python-brace-format
-msgid "Accept the incoming version for all {0} compiled .mo files?"
-msgstr "Acceptați versiunea primită pentru toate fișierele {0} .mo compilate?"
+msgid "Accept the incoming version for all {0} translation catalogs?"
+msgstr "Acceptați versiunea primită pentru toate cataloagele de traducere {0}?"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 319
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 570
@@ -5791,6 +5923,44 @@ msgstr "Fluxul de lucru a eșuat."
 #, python-brace-format
 msgid "Merging {0} stopped because it requires conflict resolution. No history was rewritten."
 msgstr "Îmbinarea {0} s-a oprit deoarece necesită rezolvarea conflictelor. Niciun istoric nu a fost rescris."
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 219
+#: NEEDS WORK
+msgid "Finish the merge manually, then start the package build again:"
+msgstr "Finalizați manual îmbinarea, apoi începeți din nou construirea pachetului:"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 222
+#: NEEDS WORK
+msgid "keep the local version"
+msgstr "păstrează versiunea locală"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 223
+#: NEEDS WORK
+msgid "keep the remote version"
+msgstr "păstrează versiunea la distanță"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
+#: NEEDS WORK
+msgid "the current branch"
+msgstr "ramura curentă"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} into {1} conflicts in {2} file(s):"
+msgstr "Fuzionarea {0} în {1} generează conflicte în {2} fișier(e):"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 281
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Merged {0} after conflict resolution"
+msgstr "✓ Combinat {0} după rezolvarea conflictului"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 301
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} failed: {1}"
+msgstr "Fuzionarea {0} a eșuat: {1}"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 255
 #: usr/share/gitrepo/build_package/core/package_operations.py:243
@@ -6584,13 +6754,6 @@ msgstr "Salvează setările"
 msgid "Reset to Defaults"
 msgstr "Resetare la valorile implicite"
 # 
-# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 213
-# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 238
-#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213
-#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
-msgid "Could not save settings. Check config permissions, then try again."
-msgstr "Nu s-au putut salva setările. Verifică permisiunile de configurare, apoi încearcă din nou."
-# 
 # File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 236
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:236
 msgid "Settings saved"
@@ -6831,6 +6994,13 @@ msgstr "Ștergeți lista ISO-urilor generate?"
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:201
 msgid "This will remove all build history entries. This cannot be undone."
 msgstr "Aceasta va șterge toate intrările din istoricul construirii. Această acțiune nu poate fi anulată."
+# 
+# File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 213
+#: NEEDS WORK
+msgid "Could not update the build history. Check config permissions, then try again."
+msgstr ""
+"Nu s-a putut actualiza istoricul construcției. Verificați permisiunile de configurare, apoi "
+"încercați din nou."
 # 
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 221
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:221

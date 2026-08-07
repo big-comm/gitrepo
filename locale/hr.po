@@ -348,6 +348,26 @@ msgstr "Provjera..."
 msgid "Repository is already up to date"
 msgstr "Repozitorij je već ažuran"
 # 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 127
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:127
+msgid "Available Branches"
+msgstr "Dostupne grane"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
+msgid "Most Recent Branch"
+msgstr "Najnovija grana"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
+msgid "Current"
+msgstr "Trenutno"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 68
+#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:68
+msgid "Compare versions side-by-side"
+msgstr "Usporedi verzije jedna pored druge"
+# 
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 231
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:212
 msgid "Changes received from the remote"
@@ -778,6 +798,22 @@ msgstr "Nema tekstualnih razlika za prikaz."
 msgid "Operation Progress"
 msgstr "Napredak operacije"
 # 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 74
+#: NEEDS WORK
+msgid "The operation is still running"
+msgstr "Operacija se još uvijek izvodi"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 75
+#: NEEDS WORK
+#, python-brace-format
+msgid "“{0}” has to finish before this window can be closed."
+msgstr "“{0}” mora završiti prije nego što se ovaj prozor može zatvoriti."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 77
+#: NEEDS WORK
+msgid "Keep waiting"
+msgstr "Čekajte."
+# 
 # File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 68
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:68
 msgid "Running"
@@ -998,11 +1034,6 @@ msgstr "Zadrži oboje"
 msgid "Keep both versions"
 msgstr "Zadrži obje verzije"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 68
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:68
-msgid "Compare versions side-by-side"
-msgstr "Usporedi verzije jedna pored druge"
-# 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 76
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:76
 msgid "Edit file manually"
@@ -1074,11 +1105,10 @@ msgstr "Primijeni rješenja"
 msgid "Resolved {0} of {1} conflicts"
 msgstr "Riješeno {0} od {1} sukoba"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 381
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:381
-#, python-brace-format
-msgid "Opening {0}. After editing, click 'Mark as Edited' to continue."
-msgstr "Otvaram {0}. Nakon uređivanja kliknite 'Označi kao uređeno' za nastavak."
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 407
+#: NEEDS WORK
+msgid "Edited by hand — checked for conflict markers when you apply"
+msgstr "Uređeno ručno — provjereno za oznake sukoba kada primijenite"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 426
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:426
@@ -1168,11 +1198,40 @@ msgstr ""
 msgid "Delete and Apply"
 msgstr "Izbriši i primijeni"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 848
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:848
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 772
+#: NEEDS WORK
+msgid "Could not apply this choice — see the log"
+msgstr "Nije moguće primijeniti ovaj izbor — pogledajte zapisnik"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 775
+#: NEEDS WORK
 #, python-brace-format
-msgid "Warning: {0} may still have conflict markers"
-msgstr "Upozorenje: {0} još uvijek može sadržavati oznake sukoba"
+msgid "Already applied before the failure: {0}"
+msgstr "Već primijenjeno prije neuspjeha: {0}"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 776
+#: NEEDS WORK
+#, python-brace-format
+msgid "Stopped at {0}; the dialog stays open so you can retry."
+msgstr "Zaustavljeno na {0}; dijalog ostaje otvoren kako biste mogli ponovo pokušati."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 890
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not read {0}: {1}"
+msgstr "Nije moguće pročitati {0}: {1}"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 893
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} still contains conflict markers; edit it and apply again."
+msgstr "{0} još uvijek sadrži oznake sukoba; uredite ga i primijenite ponovno."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 906
+#: NEEDS WORK
+#, python-brace-format
+msgid "Saved both versions: {0}, {1}"
+msgstr "Spremio obje verzije: {0}, {1}"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 891
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:891
@@ -1899,11 +1958,6 @@ msgstr "Postavke nije moguće vratiti. Pokušajte ponovno."
 msgid "Checked out right now"
 msgstr "Upravo provjereno"
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
-msgid "Current"
-msgstr "Trenutno"
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 52
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:52
 msgid "Only on origin; created locally on first checkout"
@@ -1943,20 +1997,10 @@ msgstr "Prikazuje aktivnu granu i najnovije ažuriranu lokalnu granu."
 msgid "Active Branch"
 msgstr "Aktivna grana"
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
-msgid "Most Recent Branch"
-msgstr "Najnovija grana"
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 116
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:116
 msgid "Branch with latest commits"
 msgstr "Grana s najnovijim commitovima"
-# 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 127
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:127
-msgid "Available Branches"
-msgstr "Dostupne grane"
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 129
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:129
@@ -2047,6 +2091,11 @@ msgstr "Uklonite stare grane"
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:259
 msgid "Not available"
 msgstr "Nije dostupno"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 355
+#: NEEDS WORK
+msgid "Source and target are the same branch. Choose a different target."
+msgstr "Izvor i odredište su ista grana. Odaberite drugo odredište."
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 43
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:43
@@ -3686,6 +3735,11 @@ msgstr "Postojeća lokalna objava objavljena na origin/{0}."
 msgid "Could not determine branch name for push"
 msgstr "Nije moguće odrediti ime grane za slanje"
 # 
+# File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 251
+#: usr/share/gitrepo/build_package/core/commit_operations.py:213
+msgid "Resolve all conflicts before committing."
+msgstr "Riješite sve sukobe prije nego što napravite commit."
+# 
 # File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 230
 #: usr/share/gitrepo/build_package/core/commit_handler.py:230
 #, python-brace-format
@@ -3699,6 +3753,26 @@ msgstr "Promjene objavljene na {0} pomoću git commit i git push"
 #, python-brace-format
 msgid "Skipping the version bump: {0} is not a regular file inside the repository."
 msgstr "Preskačem povećanje verzije: {0} nije regularna datoteka unutar repozitorija."
+# 
+# File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 155
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid ""
+"Several APP_VERSION constants claim this repository ({0}). Keep APP_VERSION_OWNER on only one of "
+"them to bump it automatically."
+msgstr ""
+"Više konstanti APP_VERSION polaže pravo na ovo spremište ({0}). Zadržite APP_VERSION_OWNER samo na "
+"jednoj od njih za automatsko povećanje."
+# 
+# File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 160
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid ""
+"Found APP_VERSION in more than one file ({0}), so none was bumped. Add APP_VERSION_OWNER next to "
+"the one this repository owns."
+msgstr ""
+"APP_VERSION je pronađen u više datoteka ({0}), pa nijedna nije povećana. Dodajte APP_VERSION_OWNER "
+"uz onu koja pripada ovom spremištu."
 # 
 # File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 249
 #: usr/share/gitrepo/build_package/core/version_bumper.py:246
@@ -4202,11 +4276,6 @@ msgstr "Ponovno objavljivanje nije uspjelo: {0}"
 msgid "This option is only available in Git repositories."
 msgstr "Ova opcija dostupna je samo u Git repozitorijima."
 # 
-# File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 251
-#: usr/share/gitrepo/build_package/core/commit_operations.py:213
-msgid "Resolve all conflicts before committing."
-msgstr "Riješite sve sukobe prije nego što napravite commit."
-# 
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 271
 #: usr/share/gitrepo/build_package/core/commit_operations.py:233
 msgid "Commit cancelled."
@@ -4280,19 +4349,21 @@ msgstr "{0} nije uspjelo: {1}"
 #: usr/share/gitrepo/build_package/core/git_utils.py:255
 #, python-brace-format
 msgid ""
-"Resolve the divergence keeping {0} where the two branches disagree?\n"
+"Keep the local branch {0} where it disagrees with the remote {1}?\n"
 "\n"
-"The conflicting lines from {1} are discarded in:\n"
+"Yes: the conflicting lines coming from {1} are discarded in:\n"
 "{2}\n"
 "\n"
+"No: nothing is changed and you can pick another resolution method.\n"
 "Every other change from {1} is merged, and the discarded version stays readable with: git diff "
 "HEAD^2 -- FILE"
 msgstr ""
-"Riješi razilaženje zadržavajući {0} gdje se dvije grane ne slažu?\n"
+"Zadržati lokalnu granu {0} ondje gdje se razlikuje od udaljene {1}?\n"
 "\n"
-"Sukobljeni redci iz {1} se odbacuju u:\n"
+"Da: sukobljeni redci koji dolaze iz {1} odbacuju se u:\n"
 "{2}\n"
 "\n"
+"Ne: ništa se ne mijenja i možete odabrati drugi način rješavanja.\n"
 "Sve ostale promjene iz {1} se spajaju, a odbačena verzija ostaje čitljiva pomoću: git diff HEAD^2 "
 "-- FILE"
 # 
@@ -4494,12 +4565,6 @@ msgstr "Spoji origin/{0} u {0}"
 msgid "Merge remains incomplete; resolve the listed files manually."
 msgstr "Spajanje ostaje nedovršeno; ručno riješi navedene datoteke."
 # 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 53
-#: usr/share/gitrepo/build_package/core/pull_operations.py:53
-#, python-brace-format
-msgid "Merge origin/{0} after conflict resolution"
-msgstr "Spoji origin/{0} nakon rješavanja sukoba"
-# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 60
 #: usr/share/gitrepo/build_package/core/pull_operations.py:60
 #, python-brace-format
@@ -4532,16 +4597,6 @@ msgstr "Riješi postojeće sukobe prije povlačenja."
 msgid "The current branch has no matching branch on origin."
 msgstr "Trenutna grana nema odgovarajuću granu na originu."
 # 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
-#: NEEDS WORK
-msgid "Could not compare the local and remote revisions."
-msgstr "Nije moguće usporediti lokalne i udaljene revizije."
-# 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
-#: NEEDS WORK
-msgid "Repository is already up to date."
-msgstr "Repozitorij je već ažuriran."
-# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 182
 #: NEEDS WORK
 msgid "Repository state no longer allows this update. Review it again."
@@ -4551,6 +4606,16 @@ msgstr "Stanje repozitorija više ne dopušta ovu nadogradnju. Ponovno je pregle
 #: NEEDS WORK
 msgid "The repository changed after the preview. Review the updates again."
 msgstr "Skladište se promijenilo nakon pregleda. Ponovno pregledajte ažuriranja."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
+#: NEEDS WORK
+msgid "Could not compare the local and remote revisions."
+msgstr "Nije moguće usporediti lokalne i udaljene revizije."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
+#: NEEDS WORK
+msgid "Repository is already up to date."
+msgstr "Repozitorij je već ažuriran."
 # 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 122
 #: usr/share/gitrepo/build_package/core/pull_operations.py:122
@@ -4883,6 +4948,29 @@ msgstr "Build workflow ({0}) uspješno pokrenut."
 msgid "URL to monitor the build: {0}"
 msgstr "URL za praćenje izgradnje: {0}"
 # 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 133
+#: NEEDS WORK
+#, python-brace-format
+msgid "Workflow run #{0} started: {1}"
+msgstr "Pokretanje tijeka rada #{0} započeto: {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 140
+#: NEEDS WORK
+#, python-brace-format
+msgid "GitHub accepted the request, but no workflow run appeared within {0} seconds."
+msgstr "GitHub je prihvatio zahtjev, ali nijedna izvršna radnja nije se pojavila unutar {0} sekundi."
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 144
+#: NEEDS WORK
+msgid "The build may still be queued; it was not confirmed as started."
+msgstr "Gradnja može biti još uvijek u redu; nije potvrđena kao započeta."
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 145
+#: NEEDS WORK
+#, python-brace-format
+msgid "Check {0} and {1} before triggering it again."
+msgstr "Provjerite {0} i {1} prije nego što ga ponovno aktivirate."
+# 
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 127
 #: usr/share/gitrepo/build_package/core/github_api.py:127
 msgid "Repository and explicit workflow branch are required."
@@ -5212,6 +5300,13 @@ msgstr "Želite li resetirati sve postavke na zadane vrijednosti?"
 msgid "✓ Settings reset to defaults"
 msgstr "✓ Postavke su resetirane na zadane vrijednosti"
 # 
+# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 213
+# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 238
+#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213
+#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
+msgid "Could not save settings. Check config permissions, then try again."
+msgstr "Neuspješno spremanje postavki. Provjerite dozvole konfiguracije, pa pokušajte ponovno."
+# 
 # File: usr/share/gitrepo/build_package/core/settings_menu.py, line: 49
 #: usr/share/gitrepo/build_package/core/settings_menu.py:49
 msgid "Interactive"
@@ -5358,23 +5453,63 @@ msgstr "Koja verzija bi trebala biti korištena za {0}?"
 msgid "All saved-work conflicts were resolved."
 msgstr "Svi sukobi sa spremljenim radom su riješeni."
 # 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+#: NEEDS WORK
+#, python-brace-format
+msgid "Keep the local version of all {0} catalogs"
+msgstr "Zadrži lokalnu verziju svih {0} kataloga"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+#: NEEDS WORK
+#, python-brace-format
+msgid "Use the {0} version of all {1} catalogs"
+msgstr "Koristite {0} verziju svih {1} kataloga"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
+#: NEEDS WORK
+msgid "Decide file by file"
+msgstr "Odlučite datoteku po datoteku"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
+"{1}"
+msgstr ""
+"Svi {0} konflikti su katalozi prijevoda, obnovljeni radnim tokom prijevoda:  \n"
+"{1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version"
+msgstr "✓ Riješeno {0} prevodnih kataloga s {1} verzijom"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "lokalna"
+# 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
 #, python-brace-format
 msgid ""
-"Keep the {0} version in {1} conflicted file(s)?\n"
+"Keep the local branch {0} in {1} conflicted file(s)?\n"
 "\n"
-"The conflicting lines coming from {2} are discarded in:\n"
+"Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
 "{3}\n"
 "\n"
-"Non-conflicting changes from {2} are still merged."
+"No: decide file by file, where the remote version is still available.\n"
+"Changes from {2} that do not conflict are merged either way."
 msgstr ""
-"Zadrži {0} verziju u {1} datoteci(e) sa sukobom?\n"
+"Zadržati lokalnu granu {0} u {1} datoteci sa sukobom?\n"
 "\n"
-"Redovi sa sukobom koji dolaze iz {2} su odbačeni u:\n"
+"Da: sukobljeni redci koji dolaze s udaljene {2} odbacuju se u:\n"
 "{3}\n"
 "\n"
-"Promjene bez sukoba iz {2} su i dalje spojene."
+"Ne: odlučite datoteku po datoteku, gdje udaljena verzija ostaje dostupna.\n"
+"Promjene iz {2} bez sukoba spajaju se u svakom slučaju."
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 222
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
@@ -5387,11 +5522,6 @@ msgstr "Odbijena je {0} verzija: {1}"
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "Odbijena verzija još uvijek je čitljiva s: {0}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "lokalna"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5465,11 +5595,11 @@ msgstr "✓ Konflikti riješeni (prihvaćene udaljene promjene)"
 msgid "✓ All conflicts resolved!"
 msgstr "✓ Svi konflikti su riješeni!"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 308
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:308
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 430
+#: NEEDS WORK
 #, python-brace-format
-msgid "Accept the incoming version for all {0} compiled .mo files?"
-msgstr "Prihvati dolaznu verziju za sve {0} kompajlirane .mo datoteke?"
+msgid "Accept the incoming version for all {0} translation catalogs?"
+msgstr "Prihvatite dolaznu verziju za sve {0} prevoditeljske kataloge?"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 319
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 570
@@ -5780,6 +5910,44 @@ msgstr "Tijek rada nije uspio."
 #, python-brace-format
 msgid "Merging {0} stopped because it requires conflict resolution. No history was rewritten."
 msgstr "Spajanje {0} zaustavljeno jer zahtijeva rješavanje sukoba. Povijest nije prepisana."
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 219
+#: NEEDS WORK
+msgid "Finish the merge manually, then start the package build again:"
+msgstr "Završite spajanje ručno, a zatim ponovno pokrenite izgradnju paketa:"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 222
+#: NEEDS WORK
+msgid "keep the local version"
+msgstr "zadrži lokalnu verziju"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 223
+#: NEEDS WORK
+msgid "keep the remote version"
+msgstr "zadrži udaljenu verziju"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
+#: NEEDS WORK
+msgid "the current branch"
+msgstr "trenutna grana"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} into {1} conflicts in {2} file(s):"
+msgstr "Spajanje {0} u {1} sukobi u {2} datoteci/ama:"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 281
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Merged {0} after conflict resolution"
+msgstr "✓ Spojeno {0} nakon rješavanja sukoba"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 301
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} failed: {1}"
+msgstr "Spajanje {0} nije uspjelo: {1}"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 255
 #: usr/share/gitrepo/build_package/core/package_operations.py:243
@@ -6566,13 +6734,6 @@ msgstr "Spremi postavke"
 msgid "Reset to Defaults"
 msgstr "Vrati na zadane postavke"
 # 
-# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 213
-# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 238
-#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213
-#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
-msgid "Could not save settings. Check config permissions, then try again."
-msgstr "Neuspješno spremanje postavki. Provjerite dozvole konfiguracije, pa pokušajte ponovno."
-# 
 # File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 236
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:236
 msgid "Settings saved"
@@ -6811,6 +6972,11 @@ msgstr "Očistiti popis generiranih ISO-a?"
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:201
 msgid "This will remove all build history entries. This cannot be undone."
 msgstr "Ovo će ukloniti sve unose povijesti izgradnje. Ovo se ne može poništiti."
+# 
+# File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 213
+#: NEEDS WORK
+msgid "Could not update the build history. Check config permissions, then try again."
+msgstr "Nije moguće ažurirati povijest izrade. Provjerite dozvole konfiguracije, a zatim pokušajte ponovo."
 # 
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 221
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:221

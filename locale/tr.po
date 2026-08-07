@@ -347,6 +347,26 @@ msgstr "Kontrol ediliyor..."
 msgid "Repository is already up to date"
 msgstr "Depo zaten güncel"
 # 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 127
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:127
+msgid "Available Branches"
+msgstr "Mevcut Dallar"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
+msgid "Most Recent Branch"
+msgstr "En Son Dal"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
+msgid "Current"
+msgstr "Geçerli"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 68
+#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:68
+msgid "Compare versions side-by-side"
+msgstr "Sürümleri yan yana karşılaştır"
+# 
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 231
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:212
 msgid "Changes received from the remote"
@@ -779,6 +799,22 @@ msgstr "Görüntülenecek metinsel fark yok."
 msgid "Operation Progress"
 msgstr "İşlem İlerlemesi"
 # 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 74
+#: NEEDS WORK
+msgid "The operation is still running"
+msgstr "İşlem hala devam ediyor."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 75
+#: NEEDS WORK
+#, python-brace-format
+msgid "“{0}” has to finish before this window can be closed."
+msgstr "“{0}” bu pencere kapatılmadan önce bitmelidir."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 77
+#: NEEDS WORK
+msgid "Keep waiting"
+msgstr "Beklemeye devam et"
+# 
 # File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 68
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:68
 msgid "Running"
@@ -999,11 +1035,6 @@ msgstr "İkisini de Koru"
 msgid "Keep both versions"
 msgstr "Her iki sürümü de koru"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 68
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:68
-msgid "Compare versions side-by-side"
-msgstr "Sürümleri yan yana karşılaştır"
-# 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 76
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:76
 msgid "Edit file manually"
@@ -1075,11 +1106,10 @@ msgstr "Çözümleri Uygula"
 msgid "Resolved {0} of {1} conflicts"
 msgstr "{0} / {1} çakışma çözüldü"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 381
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:381
-#, python-brace-format
-msgid "Opening {0}. After editing, click 'Mark as Edited' to continue."
-msgstr "{0} açılıyor. Düzenleme yaptıktan sonra devam etmek için 'Düzenlendi Olarak İşaretle'ye tıklayın."
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 407
+#: NEEDS WORK
+msgid "Edited by hand — checked for conflict markers when you apply"
+msgstr "Elle ile düzenlendi — uyguladığınızda çelişki işaretleri kontrol edildi"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 426
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:426
@@ -1169,11 +1199,40 @@ msgstr ""
 msgid "Delete and Apply"
 msgstr "Sil ve Uygula"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 848
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:848
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 772
+#: NEEDS WORK
+msgid "Could not apply this choice — see the log"
+msgstr "Bu seçeneği uygulamak mümkün olmadı — günlüğe bakın"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 775
+#: NEEDS WORK
 #, python-brace-format
-msgid "Warning: {0} may still have conflict markers"
-msgstr "Uyarı: {0} hala çatışma işaretleri içerebilir"
+msgid "Already applied before the failure: {0}"
+msgstr "Başarısızlıktan önce zaten uygulandı: {0}"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 776
+#: NEEDS WORK
+#, python-brace-format
+msgid "Stopped at {0}; the dialog stays open so you can retry."
+msgstr "{0} noktasında durdu; diyalog açık kalır, böylece yeniden deneyebilirsiniz."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 890
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not read {0}: {1}"
+msgstr "{0} okunamadı: {1}"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 893
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} still contains conflict markers; edit it and apply again."
+msgstr "{0} hala çelişki işaretleri içeriyor; düzenleyin ve tekrar uygulayın."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 906
+#: NEEDS WORK
+#, python-brace-format
+msgid "Saved both versions: {0}, {1}"
+msgstr "Her iki versiyon kaydedildi: {0}, {1}"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 891
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:891
@@ -1896,11 +1955,6 @@ msgstr "Ayarlar geri yüklenemedi. Tekrar deneyin."
 msgid "Checked out right now"
 msgstr "Şu anda kontrol edildi"
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
-msgid "Current"
-msgstr "Geçerli"
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 52
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:52
 msgid "Only on origin; created locally on first checkout"
@@ -1940,20 +1994,10 @@ msgstr "Aktif dalı ve en son güncellenen yerel dalı gösterir."
 msgid "Active Branch"
 msgstr "Aktif Dal"
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
-msgid "Most Recent Branch"
-msgstr "En Son Dal"
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 116
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:116
 msgid "Branch with latest commits"
 msgstr "En son commitlere sahip dal"
-# 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 127
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:127
-msgid "Available Branches"
-msgstr "Mevcut Dallar"
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 129
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:129
@@ -2044,6 +2088,11 @@ msgstr "Eski dalları kaldır"
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:259
 msgid "Not available"
 msgstr "Kullanılamıyor"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 355
+#: NEEDS WORK
+msgid "Source and target are the same branch. Choose a different target."
+msgstr "Kaynak ve hedef aynı dal. Farklı bir hedef seçin."
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 43
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:43
@@ -3684,6 +3733,11 @@ msgstr "Var olan yerel commit, origin/{0} adresine yayımlandı."
 msgid "Could not determine branch name for push"
 msgstr "Push için dal adı belirlenemedi"
 # 
+# File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 251
+#: usr/share/gitrepo/build_package/core/commit_operations.py:213
+msgid "Resolve all conflicts before committing."
+msgstr "Taahhüt etmeden önce tüm çakışmaları çözün."
+# 
 # File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 230
 #: usr/share/gitrepo/build_package/core/commit_handler.py:230
 #, python-brace-format
@@ -3697,6 +3751,26 @@ msgstr "Değişiklikler, git commit ve git push ile {0} adresine yayımlandı"
 #, python-brace-format
 msgid "Skipping the version bump: {0} is not a regular file inside the repository."
 msgstr "Sürüm atlaması atlanıyor: {0} depo içinde normal bir dosya değil."
+# 
+# File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 155
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid ""
+"Several APP_VERSION constants claim this repository ({0}). Keep APP_VERSION_OWNER on only one of "
+"them to bump it automatically."
+msgstr ""
+"Birden fazla APP_VERSION sabiti bu depoya ait olduğunu belirtiyor ({0}). Otomatik artırma için "
+"APP_VERSION_OWNER değerini yalnızca birinde bırakın."
+# 
+# File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 160
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid ""
+"Found APP_VERSION in more than one file ({0}), so none was bumped. Add APP_VERSION_OWNER next to "
+"the one this repository owns."
+msgstr ""
+"APP_VERSION birden fazla dosyada bulundu ({0}), bu yüzden hiçbiri artırılmadı. Bu depoya ait olanın "
+"yanına APP_VERSION_OWNER ekleyin."
 # 
 # File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 249
 #: usr/share/gitrepo/build_package/core/version_bumper.py:246
@@ -4198,11 +4272,6 @@ msgstr "Yayınlama yeniden denemesi başarısız: {0}"
 msgid "This option is only available in Git repositories."
 msgstr "Bu seçenek yalnızca Git depolarında kullanılabilir."
 # 
-# File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 251
-#: usr/share/gitrepo/build_package/core/commit_operations.py:213
-msgid "Resolve all conflicts before committing."
-msgstr "Taahhüt etmeden önce tüm çakışmaları çözün."
-# 
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 271
 #: usr/share/gitrepo/build_package/core/commit_operations.py:233
 msgid "Commit cancelled."
@@ -4276,21 +4345,22 @@ msgstr "{0} başarısız oldu: {1}"
 #: usr/share/gitrepo/build_package/core/git_utils.py:255
 #, python-brace-format
 msgid ""
-"Resolve the divergence keeping {0} where the two branches disagree?\n"
+"Keep the local branch {0} where it disagrees with the remote {1}?\n"
 "\n"
-"The conflicting lines from {1} are discarded in:\n"
+"Yes: the conflicting lines coming from {1} are discarded in:\n"
 "{2}\n"
 "\n"
+"No: nothing is changed and you can pick another resolution method.\n"
 "Every other change from {1} is merged, and the discarded version stays readable with: git diff "
 "HEAD^2 -- FILE"
 msgstr ""
-"İki dalın anlaşmazlık gösterdiği yerlerde seçili sürüm olan {0} korunarak çatışma çözümü yapılsın "
-"mı?\n"
+"Yerel {0} dalı, uzak {1} dalından ayrıldığı yerlerde korunsun mu?\n"
 "\n"
-"{1} içindeki çakışan satırlar şurada elenir:\n"
+"Evet: {1} dalından gelen çakışan satırlar şu dosyalarda atılır:\n"
 "{2}\n"
 "\n"
-"{1} içindeki diğer tüm değişiklikler birleştirilir ve atılan sürüm, şu komutla okunabilir kalır: "
+"Hayır: hiçbir şey değişmez ve başka bir çözüm yöntemi seçebilirsiniz.\n"
+"{1} dalındaki diğer tüm değişiklikler birleştirilir ve atılan sürüm şu komutla okunabilir kalır: "
 "git diff HEAD^2 -- FILE"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
@@ -4492,12 +4562,6 @@ msgstr "origin/{0} dalını {0} dalına birleştir"
 msgid "Merge remains incomplete; resolve the listed files manually."
 msgstr "Birleştirme tamamlanamadı; listelenen dosyaları elle çözümleyin."
 # 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 53
-#: usr/share/gitrepo/build_package/core/pull_operations.py:53
-#, python-brace-format
-msgid "Merge origin/{0} after conflict resolution"
-msgstr "Çakışma çözümlemesinin ardından origin/{0} dalını birleştir"
-# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 60
 #: usr/share/gitrepo/build_package/core/pull_operations.py:60
 #, python-brace-format
@@ -4530,16 +4594,6 @@ msgstr "Çekme işleminden önce mevcut çakışmaları çözümleyin."
 msgid "The current branch has no matching branch on origin."
 msgstr "Geçerli dalın origin üzerinde eşleşen bir dalı bulunmuyor."
 # 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
-#: NEEDS WORK
-msgid "Could not compare the local and remote revisions."
-msgstr "Yerel ve uzaktaki revizyonları karşılaştırılamadı."
-# 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
-#: NEEDS WORK
-msgid "Repository is already up to date."
-msgstr "Depo zaten güncel."
-# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 182
 #: NEEDS WORK
 msgid "Repository state no longer allows this update. Review it again."
@@ -4549,6 +4603,16 @@ msgstr "Depo durumu bu güncellemeye artık izin vermiyor. Yeniden gözden geçi
 #: NEEDS WORK
 msgid "The repository changed after the preview. Review the updates again."
 msgstr "Depo önizlemeden sonra değişti. Güncellemeleri tekrar gözden geçirin."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
+#: NEEDS WORK
+msgid "Could not compare the local and remote revisions."
+msgstr "Yerel ve uzaktaki revizyonları karşılaştırılamadı."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
+#: NEEDS WORK
+msgid "Repository is already up to date."
+msgstr "Depo zaten güncel."
 # 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 122
 #: usr/share/gitrepo/build_package/core/pull_operations.py:122
@@ -4881,6 +4945,29 @@ msgstr "Derleme iş akışı ({0}) başarıyla tetiklendi."
 msgid "URL to monitor the build: {0}"
 msgstr "Derlemeyi izleme URL'si: {0}"
 # 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 133
+#: NEEDS WORK
+#, python-brace-format
+msgid "Workflow run #{0} started: {1}"
+msgstr "İş akışı çalışması #{0} başlatıldı: {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 140
+#: NEEDS WORK
+#, python-brace-format
+msgid "GitHub accepted the request, but no workflow run appeared within {0} seconds."
+msgstr "GitHub isteği kabul etti, ancak {0} saniye içinde hiçbir iş akışı çalışması görünmedi."
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 144
+#: NEEDS WORK
+msgid "The build may still be queued; it was not confirmed as started."
+msgstr "Derleme hala sıraya alınmış olabilir; başlatıldığı onaylanmadı."
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 145
+#: NEEDS WORK
+#, python-brace-format
+msgid "Check {0} and {1} before triggering it again."
+msgstr "{0} ve {1}'i tekrar tetiklemeden önce kontrol edin."
+# 
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 127
 #: usr/share/gitrepo/build_package/core/github_api.py:127
 msgid "Repository and explicit workflow branch are required."
@@ -5210,6 +5297,13 @@ msgstr "Tüm ayarlar varsayılana sıfırlansın mı?"
 msgid "✓ Settings reset to defaults"
 msgstr "✓ Ayarlar varsayılana sıfırlandı"
 # 
+# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 213
+# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 238
+#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213
+#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
+msgid "Could not save settings. Check config permissions, then try again."
+msgstr "Ayarlar kaydedilemedi. Yapılandırma izinlerini kontrol edip tekrar deneyin."
+# 
 # File: usr/share/gitrepo/build_package/core/settings_menu.py, line: 49
 #: usr/share/gitrepo/build_package/core/settings_menu.py:49
 msgid "Interactive"
@@ -5356,23 +5450,63 @@ msgstr "{0} için hangi sürüm kullanılmalıdır?"
 msgid "All saved-work conflicts were resolved."
 msgstr "Tüm kaydedilmiş çalışma çatışmaları çözüldü."
 # 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+#: NEEDS WORK
+#, python-brace-format
+msgid "Keep the local version of all {0} catalogs"
+msgstr "Tüm {0} kataloglarının yerel sürümünü saklayın"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+#: NEEDS WORK
+#, python-brace-format
+msgid "Use the {0} version of all {1} catalogs"
+msgstr "Tüm {1} kataloglarının {0} sürümünü kullanın"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
+#: NEEDS WORK
+msgid "Decide file by file"
+msgstr "Dosya dosya karar ver"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
+"{1}"
+msgstr ""
+"Tüm {0} çakışmaları, çeviri iş akışı tarafından yeniden oluşturulan çeviri kataloglarıdır:  \n"
+"{1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version"
+msgstr "✓ {1} sürümü ile {0} çeviri kataloğu çözüldü"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "yerel"
+# 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
 #, python-brace-format
 msgid ""
-"Keep the {0} version in {1} conflicted file(s)?\n"
+"Keep the local branch {0} in {1} conflicted file(s)?\n"
 "\n"
-"The conflicting lines coming from {2} are discarded in:\n"
+"Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
 "{3}\n"
 "\n"
-"Non-conflicting changes from {2} are still merged."
+"No: decide file by file, where the remote version is still available.\n"
+"Changes from {2} that do not conflict are merged either way."
 msgstr ""
-"{0} sürümü, {1} dosyadaki çakışmalı dosyada/dosyalarda tutulsun mu?\n"
+"{1} çakışan dosyada yerel {0} dalı korunsun mu?\n"
 "\n"
-"{2} kaynağından gelen çakışan satırlar şunlarda atılır:\n"
+"Evet: uzak {2} dalından gelen çakışan satırlar şu dosyalarda atılır:\n"
 "{3}\n"
 "\n"
-"{2} kaynağından gelen çakışmasız değişiklikler yine de birleştirilir."
+"Hayır: dosya dosya karar verirsiniz, uzak sürüm yine kullanılabilir kalır.\n"
+"{2} dalının çakışmayan değişiklikleri her durumda birleştirilir."
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 222
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
@@ -5385,11 +5519,6 @@ msgstr "{0} sürümü atıldı: {1}"
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "Atılan sürüm hâlâ şu şekilde okunabilir: {0}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "yerel"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5463,11 +5592,11 @@ msgstr "✓ Çakışmalar çözüldü (uzak değişiklikler kabul edildi)"
 msgid "✓ All conflicts resolved!"
 msgstr "✓ Tüm çakışmalar çözüldü!"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 308
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:308
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 430
+#: NEEDS WORK
 #, python-brace-format
-msgid "Accept the incoming version for all {0} compiled .mo files?"
-msgstr "Gelen sürümdeki tüm {0} derlenmiş .mo dosyalarını kabul et?"
+msgid "Accept the incoming version for all {0} translation catalogs?"
+msgstr "Tüm {0} çeviri katalogları için gelen sürümü kabul et?"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 319
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 570
@@ -5778,6 +5907,44 @@ msgstr "İş akışı başarısız oldu."
 #, python-brace-format
 msgid "Merging {0} stopped because it requires conflict resolution. No history was rewritten."
 msgstr "{0} birleştirme, çakışma çözümü gerektirdiği için durduruldu. Geçmiş yeniden yazılmadı."
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 219
+#: NEEDS WORK
+msgid "Finish the merge manually, then start the package build again:"
+msgstr "Birleştirmeyi manuel olarak tamamlayın, ardından paket derlemesini tekrar başlatın:"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 222
+#: NEEDS WORK
+msgid "keep the local version"
+msgstr "yerel sürümü koru"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 223
+#: NEEDS WORK
+msgid "keep the remote version"
+msgstr "uzaktan sürümü koru"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
+#: NEEDS WORK
+msgid "the current branch"
+msgstr "geçerli dal"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} into {1} conflicts in {2} file(s):"
+msgstr "{0}'ı {1} ile birleştirirken {2} dosyasında çakışmalar:"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 281
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Merged {0} after conflict resolution"
+msgstr "✓ Çatışma çözümünden sonra {0} birleştirildi"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 301
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} failed: {1}"
+msgstr "{0} birleştirme başarısız oldu: {1}"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 255
 #: usr/share/gitrepo/build_package/core/package_operations.py:243
@@ -6568,13 +6735,6 @@ msgstr "Ayarları Kaydet"
 msgid "Reset to Defaults"
 msgstr "Varsayılanlara Sıfırla"
 # 
-# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 213
-# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 238
-#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213
-#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
-msgid "Could not save settings. Check config permissions, then try again."
-msgstr "Ayarlar kaydedilemedi. Yapılandırma izinlerini kontrol edip tekrar deneyin."
-# 
 # File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 236
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:236
 msgid "Settings saved"
@@ -6815,6 +6975,11 @@ msgstr "Oluşturulan ISO'ların listesini temizle?"
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:201
 msgid "This will remove all build history entries. This cannot be undone."
 msgstr "Bu işlem tüm derleme geçmişi kayıtlarını kaldıracaktır. Geri alınamaz."
+# 
+# File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 213
+#: NEEDS WORK
+msgid "Could not update the build history. Check config permissions, then try again."
+msgstr "Yapı geçmişi güncellenemedi. Yapılandırma izinlerini kontrol edin, ardından tekrar deneyin."
 # 
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 221
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:221

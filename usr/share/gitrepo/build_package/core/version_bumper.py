@@ -89,12 +89,18 @@ APP_VERSION_OWNER_PATTERN = re.compile(r"APP_VERSION_OWNER\s*=\s*[\"']([^\"']+)[
 
 
 def _locate_app_version_entry(bp):
-    """Find the one APP_VERSION this repository owns, or nothing when unclear."""
+    """Find the one APP_VERSION this repository owns, or nothing when unclear.
+
+    A single APP_VERSION in the tree is unambiguous and needs no marker. Only
+    when several exist does ownership matter, so a vendored dependency is never
+    bumped in place of the repository's own version.
+    """
     pattern = re.compile(r'(APP_VERSION\s*=\s*)(["\'])(\d+\.\d+\.\d+)(["\'])')
     repo_path = bp.repo_path or GitUtils.get_repo_root_path()
     candidates = list(_version_candidate_paths(repo_path))
     identifiers = _repository_identifiers(repo_path)
 
+    found_entries = []
     matching_entries = []
     for file_path in candidates:
         if not _is_regular_version_candidate(file_path):
@@ -108,6 +114,7 @@ def _locate_app_version_entry(bp):
         if not found:
             continue
         _path, content, _match = found
+        found_entries.append((file_path, found))
         owner = APP_VERSION_OWNER_PATTERN.search(content)
         app_name = APP_NAME_PATTERN.search(content)
         if owner:
@@ -123,12 +130,38 @@ def _locate_app_version_entry(bp):
         if matches_repository:
             matching_entries.append((file_path, found))
 
-    if len(matching_entries) != 1:
+    if len(matching_entries) == 1:
+        file_path, found = matching_entries[0]
+    elif not matching_entries and len(found_entries) == 1:
+        file_path, found = found_entries[0]
+    else:
+        _report_ambiguous_version(bp, repo_path, found_entries, matching_entries)
         return None, None, None
 
-    file_path, found = matching_entries[0]
     bp._app_version_cache = file_path
     return found
+
+
+def _report_ambiguous_version(bp, repo_path, found_entries, matching_entries) -> None:
+    """Say which APP_VERSION was read and why it was left alone."""
+    if not bp.logger or getattr(bp, "_app_version_warning_shown", False):
+        return
+    if not found_entries:
+        return
+
+    paths = ", ".join(sorted(os.path.relpath(path, repo_path) for path, _found in found_entries))
+    if matching_entries:
+        message = _(
+            "Several APP_VERSION constants claim this repository ({0}). "
+            "Keep APP_VERSION_OWNER on only one of them to bump it automatically."
+        ).format(paths)
+    else:
+        message = _(
+            "Found APP_VERSION in more than one file ({0}), so none was bumped. "
+            "Add APP_VERSION_OWNER next to the one this repository owns."
+        ).format(paths)
+    bp.logger.log("yellow", message)
+    bp._app_version_warning_shown = True
 
 
 def _normalize_identifier(value: str) -> str:

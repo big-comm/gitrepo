@@ -206,6 +206,84 @@ class RepositoryActionsMixin:
             lambda: prepare_pull(self.build_package),
             _("Downloading updates"),
             _("Checking..."),
+            completion_callback=self._show_pull_review,
+        )
+
+    def _show_pull_review(self, review):
+        """List every fetched branch and mark the newest commit."""
+        from gitrepo.build_package.core.pull_operations import PullReview
+
+        if not isinstance(review, PullReview) or not review.branches:
+            self.show_toast(_("Repository is already up to date"))
+            return
+
+        dialog = Adw.MessageDialog(transient_for=self, modal=True)
+        dialog.set_heading(_("Available Branches"))
+        dialog.set_body("")
+
+        wrapper = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+        wrapper.set_size_request(620, -1)
+        wrapper.set_margin_top(12)
+        wrapper.set_margin_bottom(12)
+        wrapper.set_margin_start(18)
+        wrapper.set_margin_end(18)
+
+        scrolled = Gtk.ScrolledWindow()
+        scrolled.set_min_content_height(240)
+        scrolled.set_max_content_height(420)
+        scrolled.set_propagate_natural_height(True)
+        scrolled.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+
+        branch_list = Gtk.ListBox()
+        branch_list.set_selection_mode(Gtk.SelectionMode.SINGLE)
+        branch_list.add_css_class("boxed-list")
+        first_row = None
+        for index, candidate in enumerate(review.branches):
+            row = Adw.ActionRow(
+                title=f"origin/{candidate.name}",
+                subtitle=f"{candidate.head[:12]} · {candidate.committed} · {candidate.subject}",
+            )
+            row.branch_name = candidate.name
+            if index == 0:
+                pill = Gtk.Label(label=_("Most Recent Branch"))
+                pill.set_valign(Gtk.Align.CENTER)
+                pill.add_css_class("state-pill")
+                pill.add_css_class("status-ok")
+                row.add_suffix(pill)
+            if candidate.name == review.branch:
+                pill = Gtk.Label(label=_("Current"))
+                pill.set_valign(Gtk.Align.CENTER)
+                pill.add_css_class("state-pill")
+                pill.add_css_class("accent")
+                row.add_suffix(pill)
+            branch_list.append(row)
+            first_row = first_row or row
+        branch_list.select_row(first_row)
+        scrolled.set_child(branch_list)
+        wrapper.append(scrolled)
+        dialog.set_extra_child(wrapper)
+
+        dialog.add_response("cancel", _("Cancel"))
+        dialog.add_response("review", _("Compare versions side-by-side"))
+        dialog.set_response_appearance("review", Adw.ResponseAppearance.SUGGESTED)
+        dialog.set_default_response("review")
+        dialog.set_close_response("cancel")
+        dialog.connect("response", self._on_pull_branch_response, review, branch_list)
+        dialog.present()
+
+    def _on_pull_branch_response(self, _dialog, response, review, branch_list):
+        """Prepare the selected branch for the existing file review."""
+        if response != "review":
+            return
+        row = branch_list.get_selected_row()
+        if row is None:
+            return
+        from gitrepo.build_package.core.pull_operations import prepare_pull_preview
+
+        self.operation_runner.run_with_progress(
+            lambda: prepare_pull_preview(self.build_package, review, row.branch_name),
+            _("Downloading updates"),
+            _("Checking..."),
             completion_callback=self._show_pull_preview,
         )
 
@@ -224,6 +302,7 @@ class RepositoryActionsMixin:
             lambda filepath: GitUtils.get_revision_file_diff(preview.merge_base, preview.remote_head, filepath),
             action_label=_("Download updates"),
             action_callback=lambda: self._apply_pull_preview(preview),
+            subtitle=f"origin/{preview.incoming_branch} → {preview.branch}",
         )
 
     def _apply_pull_preview(self, preview):

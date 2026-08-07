@@ -297,6 +297,26 @@ msgstr "Проверка..."
 msgid "Repository is already up to date"
 msgstr "Хранилището вече е актуализирано"
 # 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 127
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:127
+msgid "Available Branches"
+msgstr "Налични клонове"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
+msgid "Most Recent Branch"
+msgstr "Най-скорошен клон"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
+msgid "Current"
+msgstr "Текущ"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 68
+#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:68
+msgid "Compare versions side-by-side"
+msgstr "Сравни версиите една до друга"
+# 
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 231
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:212
 msgid "Changes received from the remote"
@@ -716,6 +736,22 @@ msgstr "Няма текстови разлики за показване."
 msgid "Operation Progress"
 msgstr "Напредък на операцията"
 # 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 74
+#: NEEDS WORK
+msgid "The operation is still running"
+msgstr "Операцията все още работи"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 75
+#: NEEDS WORK
+#, python-brace-format
+msgid "“{0}” has to finish before this window can be closed."
+msgstr "„{0}“ трябва да завърши, преди този прозорец да може да бъде затворен."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 77
+#: NEEDS WORK
+msgid "Keep waiting"
+msgstr "Продължавайте да чакате"
+# 
 # File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 68
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:68
 msgid "Running"
@@ -913,11 +949,6 @@ msgstr "Запази и двете"
 msgid "Keep both versions"
 msgstr "Запази и двете версии"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 68
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:68
-msgid "Compare versions side-by-side"
-msgstr "Сравни версиите една до друга"
-# 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 76
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:76
 msgid "Edit file manually"
@@ -984,11 +1015,10 @@ msgstr "Приложи разрешенията"
 msgid "Resolved {0} of {1} conflicts"
 msgstr "Разрешени {0} от {1} конфликти"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 381
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:381
-#, python-brace-format
-msgid "Opening {0}. After editing, click 'Mark as Edited' to continue."
-msgstr "Отваряне на {0}. След редактиране натиснете „Маркирай като редактиран“, за да продължите."
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 407
+#: NEEDS WORK
+msgid "Edited by hand — checked for conflict markers when you apply"
+msgstr "Редактирано ръчно — проверено за маркери на конфликти, когато приложите"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 426
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:426
@@ -1078,11 +1108,40 @@ msgstr ""
 msgid "Delete and Apply"
 msgstr "Изтриване и прилагане"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 848
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:848
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 772
+#: NEEDS WORK
+msgid "Could not apply this choice — see the log"
+msgstr "Не можа да приложи този избор — вижте дневника"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 775
+#: NEEDS WORK
 #, python-brace-format
-msgid "Warning: {0} may still have conflict markers"
-msgstr "Внимание: {0} все още може да съдържа маркери за конфликт"
+msgid "Already applied before the failure: {0}"
+msgstr "Вече приложено преди неуспеха: {0}"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 776
+#: NEEDS WORK
+#, python-brace-format
+msgid "Stopped at {0}; the dialog stays open so you can retry."
+msgstr "Спряно на {0}; диалоговият прозорец остава отворен, за да можете да опитате отново."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 890
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not read {0}: {1}"
+msgstr "Не можа да прочете {0}: {1}"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 893
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} still contains conflict markers; edit it and apply again."
+msgstr "{0} все още съдържа маркери за конфликти; редактирайте го и приложете отново."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 906
+#: NEEDS WORK
+#, python-brace-format
+msgid "Saved both versions: {0}, {1}"
+msgstr "Запазени са и двете версии: {0}, {1}"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 891
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:891
@@ -1756,11 +1815,6 @@ msgstr "Настройките не можаха да бъдат възстан�
 msgid "Checked out right now"
 msgstr "Извлечен точно сега"
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
-msgid "Current"
-msgstr "Текущ"
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 52
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:52
 msgid "Only on origin; created locally on first checkout"
@@ -1800,20 +1854,10 @@ msgstr "Показва активния клон и последно актуа�
 msgid "Active Branch"
 msgstr "Активен клон"
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
-msgid "Most Recent Branch"
-msgstr "Най-скорошен клон"
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 116
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:116
 msgid "Branch with latest commits"
 msgstr "Клон с последните комити"
-# 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 127
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:127
-msgid "Available Branches"
-msgstr "Налични клонове"
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 129
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:129
@@ -1902,6 +1946,11 @@ msgstr "Премахване на стари клонове"
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:259
 msgid "Not available"
 msgstr "Не е налично"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 355
+#: NEEDS WORK
+msgid "Source and target are the same branch. Choose a different target."
+msgstr "Източникът и целта са същият клон. Изберете различна цел."
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 43
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:43
@@ -3500,6 +3549,11 @@ msgstr "Съществуващ локален къмит публикуван в
 msgid "Could not determine branch name for push"
 msgstr "Не може да се определи името на клона за изпращане"
 # 
+# File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 251
+#: usr/share/gitrepo/build_package/core/commit_operations.py:213
+msgid "Resolve all conflicts before committing."
+msgstr "Разрешете всички конфликти преди да направите commit."
+# 
 # File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 230
 #: usr/share/gitrepo/build_package/core/commit_handler.py:230
 #, python-brace-format
@@ -3512,6 +3566,26 @@ msgstr "Промените са публикувани в {0} чрез git commi
 #, python-brace-format
 msgid "Skipping the version bump: {0} is not a regular file inside the repository."
 msgstr "Прескачане на увеличението на версията: {0} не е обикновен файл в хранилището."
+# 
+# File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 155
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid ""
+"Several APP_VERSION constants claim this repository ({0}). Keep APP_VERSION_OWNER on only one of "
+"them to bump it automatically."
+msgstr ""
+"Няколко константи APP_VERSION претендират за това хранилище ({0}). Оставете APP_VERSION_OWNER само "
+"при една от тях, за да се увеличава автоматично."
+# 
+# File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 160
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid ""
+"Found APP_VERSION in more than one file ({0}), so none was bumped. Add APP_VERSION_OWNER next to "
+"the one this repository owns."
+msgstr ""
+"APP_VERSION е намерена в повече от един файл ({0}), затова нито една не беше увеличена. Добавете "
+"APP_VERSION_OWNER до тази, която принадлежи на това хранилище."
 # 
 # File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 249
 #: usr/share/gitrepo/build_package/core/version_bumper.py:246
@@ -4001,11 +4075,6 @@ msgstr "Повторният опит за публикуване неуспеш
 msgid "This option is only available in Git repositories."
 msgstr "Тази опция е достъпна само в Git хранилища."
 # 
-# File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 251
-#: usr/share/gitrepo/build_package/core/commit_operations.py:213
-msgid "Resolve all conflicts before committing."
-msgstr "Разрешете всички конфликти преди да направите commit."
-# 
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 271
 #: usr/share/gitrepo/build_package/core/commit_operations.py:233
 msgid "Commit cancelled."
@@ -4078,21 +4147,23 @@ msgstr "{0} неуспешно: {1}"
 #: usr/share/gitrepo/build_package/core/git_utils.py:255
 #, python-brace-format
 msgid ""
-"Resolve the divergence keeping {0} where the two branches disagree?\n"
+"Keep the local branch {0} where it disagrees with the remote {1}?\n"
 "\n"
-"The conflicting lines from {1} are discarded in:\n"
+"Yes: the conflicting lines coming from {1} are discarded in:\n"
 "{2}\n"
 "\n"
+"No: nothing is changed and you can pick another resolution method.\n"
 "Every other change from {1} is merged, and the discarded version stays readable with: git diff "
 "HEAD^2 -- FILE"
 msgstr ""
-"Разрешаване на разклонението, като се запази {0} при несъгласие между двата клона?\n"
+"Да се запази ли локалният клон {0} там, където се различава от отдалечения {1}?\n"
 "\n"
-"Конфликтните редове от {1} се игнорират в:\n"
+"Да: конфликтните редове, идващи от {1}, се отхвърлят в:\n"
 "{2}\n"
 "\n"
-"Всяка друга промяна от {1} е обединена, а игнорираната версия остава четима чрез: git diff HEAD^2 "
-"-- FILE"
+"Не: нищо не се променя и можете да изберете друг метод за разрешаване.\n"
+"Всички останали промени от {1} се сливат, а отхвърлената версия остава четима с: git diff HEAD^2 -- "
+"FILE"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -4288,12 +4359,6 @@ msgstr "Сливане на origin/{0} в {0}"
 msgid "Merge remains incomplete; resolve the listed files manually."
 msgstr "Сливането остава незавършено; разрешете изброените файлове ръчно."
 # 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 53
-#: usr/share/gitrepo/build_package/core/pull_operations.py:53
-#, python-brace-format
-msgid "Merge origin/{0} after conflict resolution"
-msgstr "Сливане на origin/{0} след разрешаване на конфликта"
-# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 60
 #: usr/share/gitrepo/build_package/core/pull_operations.py:60
 #, python-brace-format
@@ -4326,16 +4391,6 @@ msgstr "Разрешете съществуващите конфликти, пр
 msgid "The current branch has no matching branch on origin."
 msgstr "Текущият клон няма съвпадащ клон в origin."
 # 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
-#: NEEDS WORK
-msgid "Could not compare the local and remote revisions."
-msgstr "Не можа да се сравнят локалните и отдалечените ревизии."
-# 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
-#: NEEDS WORK
-msgid "Repository is already up to date."
-msgstr "Репозиториумът вече е актуален."
-# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 182
 #: NEEDS WORK
 msgid "Repository state no longer allows this update. Review it again."
@@ -4345,6 +4400,16 @@ msgstr "Състоянието на хранилището вече не поз�
 #: NEEDS WORK
 msgid "The repository changed after the preview. Review the updates again."
 msgstr "Репозиториът се промени след прегледа. Прегледайте актуализациите отново."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
+#: NEEDS WORK
+msgid "Could not compare the local and remote revisions."
+msgstr "Не можа да се сравнят локалните и отдалечените ревизии."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
+#: NEEDS WORK
+msgid "Repository is already up to date."
+msgstr "Репозиториумът вече е актуален."
 # 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 122
 #: usr/share/gitrepo/build_package/core/pull_operations.py:122
@@ -4670,6 +4735,29 @@ msgstr "Build workflow ({0}) стартиран успешно."
 #, python-brace-format
 msgid "URL to monitor the build: {0}"
 msgstr "URL за наблюдение на компилацията: {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 133
+#: NEEDS WORK
+#, python-brace-format
+msgid "Workflow run #{0} started: {1}"
+msgstr "Стартирано изпълнение на работен поток #{0}: {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 140
+#: NEEDS WORK
+#, python-brace-format
+msgid "GitHub accepted the request, but no workflow run appeared within {0} seconds."
+msgstr "GitHub прие заявката, но в рамките на {0} секунди не се появи изпълнение на работния процес."
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 144
+#: NEEDS WORK
+msgid "The build may still be queued; it was not confirmed as started."
+msgstr "Сборката все още може да бъде в опашка; не беше потвърдена като започнала."
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 145
+#: NEEDS WORK
+#, python-brace-format
+msgid "Check {0} and {1} before triggering it again."
+msgstr "Проверете {0} и {1} преди да го задействате отново."
 # 
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 127
 #: usr/share/gitrepo/build_package/core/github_api.py:127
@@ -4997,6 +5085,12 @@ msgstr "Нулиране на всички настройки до фабрич�
 msgid "✓ Settings reset to defaults"
 msgstr "✓ Настройките бяха нулирани до фабрични стойности"
 # 
+# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 213
+# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 238
+#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213 usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
+msgid "Could not save settings. Check config permissions, then try again."
+msgstr "Неуспешно запазване на настройките. Проверете правата за конфигурацията и опитайте отново."
+# 
 # File: usr/share/gitrepo/build_package/core/settings_menu.py, line: 49
 #: usr/share/gitrepo/build_package/core/settings_menu.py:49
 msgid "Interactive"
@@ -5143,23 +5237,63 @@ msgstr "Коя версия трябва да се използва за {0}?"
 msgid "All saved-work conflicts were resolved."
 msgstr "Всички конфликти с запазената работа бяха разрешени."
 # 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+#: NEEDS WORK
+#, python-brace-format
+msgid "Keep the local version of all {0} catalogs"
+msgstr "Запазете локалната версия на всички {0} каталози"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+#: NEEDS WORK
+#, python-brace-format
+msgid "Use the {0} version of all {1} catalogs"
+msgstr "Използвайте версията {0} на всички каталози {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
+#: NEEDS WORK
+msgid "Decide file by file"
+msgstr "Решете файл по файл"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
+"{1}"
+msgstr ""
+"Всички {0} конфликти са каталози за превод, възстановени от работния процес на превода:  \n"
+"{1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version"
+msgstr "✓ Решени {0} каталога за преводи с версията {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "локална"
+# 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
 #, python-brace-format
 msgid ""
-"Keep the {0} version in {1} conflicted file(s)?\n"
+"Keep the local branch {0} in {1} conflicted file(s)?\n"
 "\n"
-"The conflicting lines coming from {2} are discarded in:\n"
+"Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
 "{3}\n"
 "\n"
-"Non-conflicting changes from {2} are still merged."
+"No: decide file by file, where the remote version is still available.\n"
+"Changes from {2} that do not conflict are merged either way."
 msgstr ""
-"Да се запази ли версията {0} в {1} конфликтни файл(а)?\n"
+"Да се запази ли локалният клон {0} в {1} файл(а) с конфликт?\n"
 "\n"
-"Конфликтните редове от {2} се отхвърлят в:\n"
+"Да: конфликтните редове, идващи от отдалечения {2}, се отхвърлят в:\n"
 "{3}\n"
 "\n"
-"Неконфликтните промени от {2} все още се сливат."
+"Не: решавате файл по файл, като отдалечената версия остава достъпна.\n"
+"Промените от {2} без конфликт се сливат и в двата случая."
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 222
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
@@ -5172,11 +5306,6 @@ msgstr "Отхвърлена е {0} версията на: {1}"
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "Отхвърлената версия все още може да се чете с: {0}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "локална"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5248,11 +5377,11 @@ msgstr "✓ Конфликтите са разрешени (приети отд�
 msgid "✓ All conflicts resolved!"
 msgstr "✓ Всички конфликти са разрешени!"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 308
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:308
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 430
+#: NEEDS WORK
 #, python-brace-format
-msgid "Accept the incoming version for all {0} compiled .mo files?"
-msgstr "Да приемем входящата версия за всички {0} компилирани .mo файлове?"
+msgid "Accept the incoming version for all {0} translation catalogs?"
+msgstr "Приемете ли входящата версия за всички {0} каталози с преводи?"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 319
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 570
@@ -5563,6 +5692,44 @@ msgid "Merging {0} stopped because it requires conflict resolution. No history w
 msgstr ""
 "Обединяването на {0} беше спряно, защото изисква разрешаване на конфликт. Никаква история не беше "
 "пренаписана."
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 219
+#: NEEDS WORK
+msgid "Finish the merge manually, then start the package build again:"
+msgstr "Завършете сливането ръчно, след това стартирайте отново изграждането на пакета:"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 222
+#: NEEDS WORK
+msgid "keep the local version"
+msgstr "запазете локалната версия"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 223
+#: NEEDS WORK
+msgid "keep the remote version"
+msgstr "запазете отдалечената версия"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
+#: NEEDS WORK
+msgid "the current branch"
+msgstr "текущият клон"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} into {1} conflicts in {2} file(s):"
+msgstr "Сливане на {0} в {1} конфликти в {2} файл(а):"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 281
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Merged {0} after conflict resolution"
+msgstr "✓ Слято {0} след разрешаване на конфликта"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 301
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} failed: {1}"
+msgstr "Сливането на {0} не успя: {1}"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 255
 #: usr/share/gitrepo/build_package/core/package_operations.py:243
@@ -6331,12 +6498,6 @@ msgstr "Запази настройките"
 msgid "Reset to Defaults"
 msgstr "Нулиране на настройки по подразбиране"
 # 
-# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 213
-# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 238
-#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213 usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
-msgid "Could not save settings. Check config permissions, then try again."
-msgstr "Неуспешно запазване на настройките. Проверете правата за конфигурацията и опитайте отново."
-# 
 # File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 236
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:236
 msgid "Settings saved"
@@ -6576,6 +6737,13 @@ msgstr "Да се изчисти ли списъкът с генерирани I
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:201
 msgid "This will remove all build history entries. This cannot be undone."
 msgstr "Това ще изтрие всички записи от историята на компилациите. Това не може да бъде отменено."
+# 
+# File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 213
+#: NEEDS WORK
+msgid "Could not update the build history. Check config permissions, then try again."
+msgstr ""
+"Не можа да се актуализира историята на изграждането. Проверете разрешенията за конфигурация и "
+"опитайте отново."
 # 
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 221
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:221

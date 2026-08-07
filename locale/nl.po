@@ -296,6 +296,26 @@ msgstr "Controleren..."
 msgid "Repository is already up to date"
 msgstr "Repository is al up-to-date"
 # 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 127
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:127
+msgid "Available Branches"
+msgstr "Beschikbare branches"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
+msgid "Most Recent Branch"
+msgstr "Meest recente branch"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
+msgid "Current"
+msgstr "Huidig"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 68
+#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:68
+msgid "Compare versions side-by-side"
+msgstr "Versies naast elkaar vergelijken"
+# 
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 231
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:212
 msgid "Changes received from the remote"
@@ -713,6 +733,22 @@ msgstr "Geen tekstuele verschillen om weer te geven."
 msgid "Operation Progress"
 msgstr "Voortgang bewerking"
 # 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 74
+#: NEEDS WORK
+msgid "The operation is still running"
+msgstr "De bewerking is nog steeds aan de gang"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 75
+#: NEEDS WORK
+#, python-brace-format
+msgid "“{0}” has to finish before this window can be closed."
+msgstr "“{0}” moet voltooid zijn voordat dit venster kan worden gesloten."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 77
+#: NEEDS WORK
+msgid "Keep waiting"
+msgstr "Blijf wachten"
+# 
 # File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 68
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:68
 msgid "Running"
@@ -912,11 +948,6 @@ msgstr "Beide behouden"
 msgid "Keep both versions"
 msgstr "Beide versies behouden"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 68
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:68
-msgid "Compare versions side-by-side"
-msgstr "Versies naast elkaar vergelijken"
-# 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 76
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:76
 msgid "Edit file manually"
@@ -983,11 +1014,10 @@ msgstr "Oplossingen toepassen"
 msgid "Resolved {0} of {1} conflicts"
 msgstr "{0} van {1} conflicten opgelost"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 381
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:381
-#, python-brace-format
-msgid "Opening {0}. After editing, click 'Mark as Edited' to continue."
-msgstr "{0} wordt geopend. Klik na bewerking op 'Markeren als bewerkt' om door te gaan."
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 407
+#: NEEDS WORK
+msgid "Edited by hand — checked for conflict markers when you apply"
+msgstr "Met de hand bewerkt - gecontroleerd op conflictemarkers wanneer je toepast"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 426
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:426
@@ -1077,11 +1107,40 @@ msgstr ""
 msgid "Delete and Apply"
 msgstr "Verwijderen en toepassen"
 # 
-# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 848
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:848
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 772
+#: NEEDS WORK
+msgid "Could not apply this choice — see the log"
+msgstr "Kon deze keuze niet toepassen — zie het logboek"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 775
+#: NEEDS WORK
 #, python-brace-format
-msgid "Warning: {0} may still have conflict markers"
-msgstr "Waarschuwing: {0} kan nog conflicteringsmarkeringen bevatten"
+msgid "Already applied before the failure: {0}"
+msgstr "Al eerder toegepast vóór de fout: {0}"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 776
+#: NEEDS WORK
+#, python-brace-format
+msgid "Stopped at {0}; the dialog stays open so you can retry."
+msgstr "Gestopt bij {0}; het dialoogvenster blijft open zodat je het opnieuw kunt proberen."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 890
+#: NEEDS WORK
+#, python-brace-format
+msgid "Could not read {0}: {1}"
+msgstr "Kon niet lezen {0}: {1}"
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 893
+#: NEEDS WORK
+#, python-brace-format
+msgid "{0} still contains conflict markers; edit it and apply again."
+msgstr "{0} bevat nog steeds conflictemarkers; bewerk het en pas het opnieuw toe."
+# 
+# File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 906
+#: NEEDS WORK
+#, python-brace-format
+msgid "Saved both versions: {0}, {1}"
+msgstr "Beide versies opgeslagen: {0}, {1}"
 # 
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line: 891
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:891
@@ -1755,11 +1814,6 @@ msgstr "Instellingen konden niet worden hersteld. Probeer het opnieuw."
 msgid "Checked out right now"
 msgstr "Nu uitgecheckt"
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
-msgid "Current"
-msgstr "Huidig"
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 52
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:52
 msgid "Only on origin; created locally on first checkout"
@@ -1799,20 +1853,10 @@ msgstr "Toont de actieve branch en de meest recent bijgewerkte lokale branch."
 msgid "Active Branch"
 msgstr "Actieve branch"
 # 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
-msgid "Most Recent Branch"
-msgstr "Meest recente branch"
-# 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 116
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:116
 msgid "Branch with latest commits"
 msgstr "Branch met de nieuwste commits"
-# 
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 127
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:127
-msgid "Available Branches"
-msgstr "Beschikbare branches"
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 129
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:129
@@ -1901,6 +1945,11 @@ msgstr "Oude branches verwijderen"
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:259
 msgid "Not available"
 msgstr "Niet beschikbaar"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 355
+#: NEEDS WORK
+msgid "Source and target are the same branch. Choose a different target."
+msgstr "De bron en doel zijn dezelfde tak. Kies een andere doel."
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 43
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:43
@@ -3501,6 +3550,11 @@ msgstr "Bestaande lokale commit gepubliceerd naar origin/{0}."
 msgid "Could not determine branch name for push"
 msgstr "Kan branchnaam voor push niet bepalen"
 # 
+# File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 251
+#: usr/share/gitrepo/build_package/core/commit_operations.py:213
+msgid "Resolve all conflicts before committing."
+msgstr "Los alle conflicten op voordat je doorvoert."
+# 
 # File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 230
 #: usr/share/gitrepo/build_package/core/commit_handler.py:230
 #, python-brace-format
@@ -3513,6 +3567,26 @@ msgstr "Wijzigingen gepubliceerd naar {0} met git commit en git push"
 #, python-brace-format
 msgid "Skipping the version bump: {0} is not a regular file inside the repository."
 msgstr "Versieverhoging overslaan: {0} is geen normaal bestand in de opslagplaats."
+# 
+# File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 155
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid ""
+"Several APP_VERSION constants claim this repository ({0}). Keep APP_VERSION_OWNER on only one of "
+"them to bump it automatically."
+msgstr ""
+"Meerdere APP_VERSION-constanten claimen deze repository ({0}). Houd APP_VERSION_OWNER bij slechts "
+"één ervan om die automatisch te verhogen."
+# 
+# File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 160
+#: usr/share/gitrepo/build_package/core/version_bumper.py
+#, python-brace-format
+msgid ""
+"Found APP_VERSION in more than one file ({0}), so none was bumped. Add APP_VERSION_OWNER next to "
+"the one this repository owns."
+msgstr ""
+"APP_VERSION is in meer dan één bestand gevonden ({0}), dus geen enkele is verhoogd. Voeg "
+"APP_VERSION_OWNER toe naast degene die bij deze repository hoort."
 # 
 # File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 249
 #: usr/share/gitrepo/build_package/core/version_bumper.py:246
@@ -4002,11 +4076,6 @@ msgstr "Publicatiepoging mislukt: {0}"
 msgid "This option is only available in Git repositories."
 msgstr "Deze optie is alleen beschikbaar in Git-opslagplaatsen."
 # 
-# File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 251
-#: usr/share/gitrepo/build_package/core/commit_operations.py:213
-msgid "Resolve all conflicts before committing."
-msgstr "Los alle conflicten op voordat je doorvoert."
-# 
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 271
 #: usr/share/gitrepo/build_package/core/commit_operations.py:233
 msgid "Commit cancelled."
@@ -4079,21 +4148,23 @@ msgstr "{0} mislukt: {1}"
 #: usr/share/gitrepo/build_package/core/git_utils.py:255
 #, python-brace-format
 msgid ""
-"Resolve the divergence keeping {0} where the two branches disagree?\n"
+"Keep the local branch {0} where it disagrees with the remote {1}?\n"
 "\n"
-"The conflicting lines from {1} are discarded in:\n"
+"Yes: the conflicting lines coming from {1} are discarded in:\n"
 "{2}\n"
 "\n"
+"No: nothing is changed and you can pick another resolution method.\n"
 "Every other change from {1} is merged, and the discarded version stays readable with: git diff "
 "HEAD^2 -- FILE"
 msgstr ""
-"Los de divergentie op en behoud {0} waar de twee branches niet overeenkomen?\n"
+"De lokale branch {0} behouden waar deze afwijkt van de remote {1}?\n"
 "\n"
-"De conflicterende regels uit {1} worden verworpen in:\n"
+"Ja: de conflicterende regels uit {1} worden verworpen in:\n"
 "{2}\n"
 "\n"
-"Elke andere wijziging uit {1} wordt samengevoegd, en de verworpen versie blijft leesbaar met: git "
-"diff HEAD^2 -- FILE"
+"Nee: er verandert niets en je kunt een andere oplosmethode kiezen.\n"
+"Alle andere wijzigingen uit {1} worden samengevoegd, en de verworpen versie blijft leesbaar met: "
+"git diff HEAD^2 -- FILE"
 # 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -4289,12 +4360,6 @@ msgstr "Samenvoegen van origin/{0} in {0}"
 msgid "Merge remains incomplete; resolve the listed files manually."
 msgstr "Samenvoegen blijft onvolledig; los de vermelde bestanden handmatig op."
 # 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 53
-#: usr/share/gitrepo/build_package/core/pull_operations.py:53
-#, python-brace-format
-msgid "Merge origin/{0} after conflict resolution"
-msgstr "Samenvoegen van origin/{0} na conflictoplossing"
-# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 60
 #: usr/share/gitrepo/build_package/core/pull_operations.py:60
 #, python-brace-format
@@ -4327,16 +4392,6 @@ msgstr "Los de bestaande conflicten op voordat je pulled."
 msgid "The current branch has no matching branch on origin."
 msgstr "De huidige branch heeft geen overeenkomende branch op origin."
 # 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
-#: NEEDS WORK
-msgid "Could not compare the local and remote revisions."
-msgstr "Kon de lokale en externe revisies niet vergelijken."
-# 
-# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
-#: NEEDS WORK
-msgid "Repository is already up to date."
-msgstr "Repository is al up-to-date."
-# 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 182
 #: NEEDS WORK
 msgid "Repository state no longer allows this update. Review it again."
@@ -4346,6 +4401,16 @@ msgstr "De status van de repository staat deze update niet langer toe. Bekijk he
 #: NEEDS WORK
 msgid "The repository changed after the preview. Review the updates again."
 msgstr "De repository is veranderd na de preview. Bekijk de updates opnieuw."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 168
+#: NEEDS WORK
+msgid "Could not compare the local and remote revisions."
+msgstr "Kon de lokale en externe revisies niet vergelijken."
+# 
+# File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 173
+#: NEEDS WORK
+msgid "Repository is already up to date."
+msgstr "Repository is al up-to-date."
 # 
 # File: usr/share/gitrepo/build_package/core/pull_operations.py, line: 122
 #: usr/share/gitrepo/build_package/core/pull_operations.py:122
@@ -4671,6 +4736,31 @@ msgstr "Build workflow ({0}) succesvol geactiveerd."
 #, python-brace-format
 msgid "URL to monitor the build: {0}"
 msgstr "URL om de build te volgen: {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 133
+#: NEEDS WORK
+#, python-brace-format
+msgid "Workflow run #{0} started: {1}"
+msgstr "Workflow-uitvoering #{0} gestart: {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 140
+#: NEEDS WORK
+#, python-brace-format
+msgid "GitHub accepted the request, but no workflow run appeared within {0} seconds."
+msgstr ""
+"GitHub heeft het verzoek geaccepteerd, maar er verscheen geen workflow-uitvoering binnen {0} "
+"seconden."
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 144
+#: NEEDS WORK
+msgid "The build may still be queued; it was not confirmed as started."
+msgstr "De build kan nog in de wachtrij staan; het is niet bevestigd als gestart."
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 145
+#: NEEDS WORK
+#, python-brace-format
+msgid "Check {0} and {1} before triggering it again."
+msgstr "Controleer {0} en {1} voordat je het opnieuw activeert."
 # 
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 127
 #: usr/share/gitrepo/build_package/core/github_api.py:127
@@ -4998,6 +5088,14 @@ msgstr "Alle instellingen terugzetten naar standaardwaarden?"
 msgid "✓ Settings reset to defaults"
 msgstr "✓ Instellingen teruggezet naar standaardwaarden"
 # 
+# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 213
+# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 238
+#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213 usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
+msgid "Could not save settings. Check config permissions, then try again."
+msgstr ""
+"Instellingen kunnen niet worden opgeslagen. Controleer de machtigingen van de configuratie en "
+"probeer het opnieuw."
+# 
 # File: usr/share/gitrepo/build_package/core/settings_menu.py, line: 49
 #: usr/share/gitrepo/build_package/core/settings_menu.py:49
 msgid "Interactive"
@@ -5144,23 +5242,63 @@ msgstr "Welke versie moet worden gebruikt voor {0}?"
 msgid "All saved-work conflicts were resolved."
 msgstr "Alle conflicten met opgeslagen werk zijn opgelost."
 # 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+#: NEEDS WORK
+#, python-brace-format
+msgid "Keep the local version of all {0} catalogs"
+msgstr "Houd de lokale versie van alle {0} catalogi."
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+#: NEEDS WORK
+#, python-brace-format
+msgid "Use the {0} version of all {1} catalogs"
+msgstr "Gebruik de {0} versie van alle {1} catalogi"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
+#: NEEDS WORK
+msgid "Decide file by file"
+msgstr "Beslis per bestand"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
+"{1}"
+msgstr ""
+"Alle {0} conflicten zijn vertaalcatalogi, opnieuw opgebouwd door de vertaalworkflow:  \n"
+"{1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version"
+msgstr "✓ {0} vertaalcatalogi opgelost met de {1} versie"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "lokaal"
+# 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
 #, python-brace-format
 msgid ""
-"Keep the {0} version in {1} conflicted file(s)?\n"
+"Keep the local branch {0} in {1} conflicted file(s)?\n"
 "\n"
-"The conflicting lines coming from {2} are discarded in:\n"
+"Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
 "{3}\n"
 "\n"
-"Non-conflicting changes from {2} are still merged."
+"No: decide file by file, where the remote version is still available.\n"
+"Changes from {2} that do not conflict are merged either way."
 msgstr ""
-"De {0}-versie behouden in {1} bestand(en) met conflicten?\n"
+"De lokale branch {0} behouden in {1} bestand(en) met conflict?\n"
 "\n"
-"De conflicterende regels afkomstig van {2} worden verwijderd in:\n"
+"Ja: de conflicterende regels uit de remote {2} worden verworpen in:\n"
 "{3}\n"
 "\n"
-"Niet-conflicterende wijzigingen van {2} worden nog steeds samengevoegd."
+"Nee: beslis per bestand, waarbij de remote versie beschikbaar blijft.\n"
+"Wijzigingen uit {2} zonder conflict worden hoe dan ook samengevoegd."
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 222
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
@@ -5173,11 +5311,6 @@ msgstr "De {0}-versie van: {1} verwijderd"
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "De verwijderde versie is nog steeds leesbaar met: {0}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "lokaal"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5249,11 +5382,11 @@ msgstr "✓ Conflicten opgelost (externe wijzigingen geaccepteerd)"
 msgid "✓ All conflicts resolved!"
 msgstr "✓ Alle conflicten opgelost!"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 308
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:308
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 430
+#: NEEDS WORK
 #, python-brace-format
-msgid "Accept the incoming version for all {0} compiled .mo files?"
-msgstr "De inkomende versie accepteren voor alle {0} gecompileerde .mo-bestanden?"
+msgid "Accept the incoming version for all {0} translation catalogs?"
+msgstr "Accepteer de binnenkomende versie voor alle {0} vertaalcatalogi?"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 319
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 570
@@ -5564,6 +5697,44 @@ msgid "Merging {0} stopped because it requires conflict resolution. No history w
 msgstr ""
 "Samenvoegen van {0} gestopt omdat het conflictoplossing vereist. Er is geen geschiedenis "
 "herschreven."
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 219
+#: NEEDS WORK
+msgid "Finish the merge manually, then start the package build again:"
+msgstr "Voltooi de samenvoeging handmatig en start vervolgens het pakket opnieuw met bouwen:"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 222
+#: NEEDS WORK
+msgid "keep the local version"
+msgstr "houd de lokale versie"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 223
+#: NEEDS WORK
+msgid "keep the remote version"
+msgstr "houd de externe versie behouden"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
+#: NEEDS WORK
+msgid "the current branch"
+msgstr "de huidige tak"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} into {1} conflicts in {2} file(s):"
+msgstr "Samenvoegen van {0} in {1} conflicten in {2} bestand(en):"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 281
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Merged {0} after conflict resolution"
+msgstr "✓ Samengevoegd {0} na conflictoplossing"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 301
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} failed: {1}"
+msgstr "Samenvoegen van {0} mislukt: {1}"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 255
 #: usr/share/gitrepo/build_package/core/package_operations.py:243
@@ -6329,14 +6500,6 @@ msgstr "Instellingen opslaan"
 msgid "Reset to Defaults"
 msgstr "Standaardinstellingen herstellen"
 # 
-# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 213
-# File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 238
-#: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:213 usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:238
-msgid "Could not save settings. Check config permissions, then try again."
-msgstr ""
-"Instellingen kunnen niet worden opgeslagen. Controleer de machtigingen van de configuratie en "
-"probeer het opnieuw."
-# 
 # File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 236
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:236
 msgid "Settings saved"
@@ -6574,6 +6737,13 @@ msgstr "De lijst met gegenereerde ISO's wissen?"
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:201
 msgid "This will remove all build history entries. This cannot be undone."
 msgstr "Dit zal alle buildgeschiedenis verwijderen. Dit kan niet ongedaan worden gemaakt."
+# 
+# File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 213
+#: NEEDS WORK
+msgid "Could not update the build history. Check config permissions, then try again."
+msgstr ""
+"Kon de buildgeschiedenis niet bijwerken. Controleer de configuratiepermissies en probeer het "
+"opnieuw."
 # 
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 221
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:221

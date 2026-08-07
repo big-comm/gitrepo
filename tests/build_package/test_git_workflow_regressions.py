@@ -514,10 +514,29 @@ def test_version_discovery_does_not_follow_symlink_candidates(tmp_path, monkeypa
     assert version_bumper.plan_version_bump(_version_context(repository), "fix: safety") is None
 
 
-def test_version_discovery_rejects_one_unmatched_application(tmp_path):
+def test_version_discovery_accepts_the_only_application_version(tmp_path):
+    """One constant cannot be confused with another, whatever the app is called."""
     (tmp_path / "PKGBUILD").write_text("pkgname=widgets\n", encoding="utf-8")
     (tmp_path / "other.py").write_text(
         'APP_VERSION = "1.2.3"\nAPP_NAME = _("Other Application")\n',
+        encoding="utf-8",
+    )
+
+    file_path, _content, match = version_bumper._locate_app_version_entry(_version_context(tmp_path))
+
+    assert file_path == str(tmp_path / "other.py")
+    assert match.group(3) == "1.2.3"
+
+
+def test_version_discovery_rejects_two_unmatched_applications(tmp_path):
+    """With nothing to tell them apart, neither version is touched."""
+    (tmp_path / "PKGBUILD").write_text("pkgname=widgets\n", encoding="utf-8")
+    (tmp_path / "other.py").write_text(
+        'APP_VERSION = "1.2.3"\nAPP_NAME = _("Other Application")\n',
+        encoding="utf-8",
+    )
+    (tmp_path / "third.py").write_text(
+        'APP_VERSION = "4.5.6"\nAPP_NAME = _("Third Application")\n',
         encoding="utf-8",
     )
 

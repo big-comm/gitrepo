@@ -273,8 +273,9 @@ def _confirm_keeping_current(branch: str, incoming: str, conflicts: list[str], l
     """Name the files that lose their incoming version before anything is written."""
     paths = "\n".join(f"• {display_path(path)}" for path in conflicts)
     question = _(
-        "Resolve the divergence keeping {0} where the two branches disagree?\n\n"
-        "The conflicting lines from {1} are discarded in:\n{2}\n\n"
+        "Keep the local branch {0} where it disagrees with the remote {1}?\n\n"
+        "Yes: the conflicting lines coming from {1} are discarded in:\n{2}\n\n"
+        "No: nothing is changed and you can pick another resolution method.\n"
         "Every other change from {1} is merged, and the discarded version stays "
         "readable with: git diff HEAD^2 -- FILE"
     ).format(branch, incoming, paths)
