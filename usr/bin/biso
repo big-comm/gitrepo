@@ -1,3 +1,6 @@
-#!/bin/sh
+#!/usr/bin/bash
 
-exec python3 /usr/share/build-iso/main.py "$@"
+# shellcheck disable=SC1091
+source "$(cd -- "$(/usr/bin/dirname -- "${BASH_SOURCE[0]}")" && pwd -P)/../lib/gitrepo/launcher.bash"
+
+gitrepo_exec_python_module gitrepo.build_iso.cli "$@"

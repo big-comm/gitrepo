@@ -1,51 +1,28 @@
-#!/bin/bash
-# Wrapper to run GitRepo GUI
+#!/usr/bin/bash
 
-# Detect installation directory
-# FIRST check for local/development directory (relative to script location)
-SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
-LOCAL_DIR="$SCRIPT_DIR/../share/build-package"
+# shellcheck disable=SC1091
+source "$(cd -- "$(/usr/bin/dirname -- "${BASH_SOURCE[0]}")" && pwd -P)/../lib/gitrepo/launcher.bash"
 
-if [[ -f "$LOCAL_DIR/gui/main_gui.py" ]]; then
-    # Development mode - use local directory
-    GITREPO_DIR="$LOCAL_DIR"
-elif [[ -f "/usr/share/build-package/gui/main_gui.py" ]]; then
-    GITREPO_DIR="/usr/share/build-package"
+if (($# > 1)); then
+	printf '%s\n' "GitRepo accepts at most one directory." >&2
+	exit 2
 fi
 
-if [[ -z "$GITREPO_DIR" ]]; then
-    echo "Error: GitRepo not found." >&2
-    exit 1
+if (($# == 1)); then
+	if [[ ! -d $1 ]]; then
+		printf 'Not a directory: %s\n' "$1" >&2
+		exit 2
+	fi
+	if ! git_root="$(/usr/bin/git -C "$1" rev-parse --show-toplevel 2>/dev/null)"; then
+		message="The selected folder is not inside a Git repository: $1"
+		printf '%s\n' "$message" >&2
+		if [[ -x /usr/bin/notify-send ]]; then
+			/usr/bin/notify-send --app-name=GitRepo --icon=dialog-warning "Not a Git Repository" "$message" || true
+		fi
+		exit 1
+	fi
+	readonly git_root
+	cd -- "$git_root" || exit
 fi
 
-# Check if target directory is inside a Git repository (when called from context menu)
-if [[ -n "$1" && -d "$1" ]]; then
-    TARGET_DIR="$1"
-    
-    # Find git root by searching up the directory tree
-    GIT_ROOT=""
-    CHECK_DIR="$TARGET_DIR"
-    while [[ "$CHECK_DIR" != "/" ]]; do
-        if [[ -d "$CHECK_DIR/.git" ]]; then
-            GIT_ROOT="$CHECK_DIR"
-            break
-        fi
-        CHECK_DIR="$(dirname "$CHECK_DIR")"
-    done
-    
-    if [[ -z "$GIT_ROOT" ]]; then
-        # Not inside a Git repository - show notification and exit
-        if command -v notify-send &> /dev/null; then
-            notify-send --app-name="GitRepo" --icon="dialog-warning" \
-                "Not a Git Repository" \
-                "The selected folder is not inside a Git repository: $TARGET_DIR"
-        fi
-        exit 1
-    fi
-    
-    # Change to git root directory
-    cd "$GIT_ROOT" || exit 1
-fi
-
-# Run main_gui.py (don't pass args - cd already changed to target directory)
-exec python3 "$GITREPO_DIR/gui/main_gui.py"
+gitrepo_exec_python_module gitrepo.build_package.gui.main_gui

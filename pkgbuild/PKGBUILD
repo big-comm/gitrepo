@@ -1,87 +1,37 @@
 # Maintainer: Tales A. Mendonça <talesam@gmail.com>
+# shellcheck shell=bash
 
 pkgname=gitrepo
-pkgdesc="A comprehensive tool for building and managing packages in BigCommunity repositories and AUR, with Git workflow automation and CI/CD integration"
-# Uncomment and edit the following lines as needed
-depends=(
-    'curl'
-    'git'
-    'libadwaita'
-    'python'
-    'python-cairo'
-    'python-gobject'
-    'python-requests'
-    'python-rich'
-    'xdg-utils'
-)
-checkdepends=('python-pytest' 'ruff')
+pkgdesc="Git workflow, package automation, and ISO build tools for BigCommunity"
+depends=('bash' 'git' 'gtk4' 'libadwaita' 'libsecret' 'python' 'python-gobject' 'python-requests' 'python-rich' 'xdg-utils')
+makedepends=('gettext' 'python-pytest')
 optdepends=(
-    'docker: build ISO images with Docker'
-    'libnotify: show desktop notifications'
-    'podman: build ISO images with Podman'
+    'docker: local ISO builds with Docker'
+    'libnotify: desktop notification for invalid context-menu selections'
+    'nautilus-python: Nautilus context menu integration'
+    'podman: local ISO builds with Podman'
 )
-#conflicts=('')
-#provides=('')
-#replaces=('')
 pkgver=$(date +%y.%m.%d)
 pkgrel=$(date +%H%M)
 arch=('any')
 license=('MIT')
 url="https://github.com/big-comm/${pkgname}"
-source=("git+${url}.git")
-md5sums=('SKIP')
-
-# Automatically detect and use the correct install file
-if [ -e "${pkgname}.install" ]; then
-    install=${pkgname}.install
-elif [ -e "pkgbuild.install" ]; then
-    install=pkgbuild.install
-fi
-
-prepare() {
-    cd "${srcdir}/${pkgname}"
-    # Add any preparation steps here, if needed
-    # For example: patch -p1 < "${srcdir}/patch-file.patch"
-}
-
-build() {
-    cd "${srcdir}/${pkgname}"
-    # Add build steps here, if needed
-    # For example: make
-}
+source=("${pkgname}::git+${url}.git#branch=main")
+b2sums=('SKIP')
 
 check() {
-    cd "${srcdir}/${pkgname}"
-    PYTHONDONTWRITEBYTECODE=1 pytest -q -p no:cacheprovider
-    RUFF_CACHE_DIR="${srcdir}/ruff-cache" ruff check usr/share/build-package usr/share/build-iso tests
-    PYTHONPYCACHEPREFIX="${srcdir}/pycache" python -m compileall -q usr/share/build-package usr/share/build-iso
+    cd "${pkgname}" || return
+    PYTHONPATH="$PWD/usr/share" python -m pytest -q
 }
 
 package() {
-    cd "${srcdir}/${pkgname}"
+    cd "${pkgname}" || return
+    cp -a usr "${pkgdir}/"
 
-    # Determine the correct source directory
-    if [ -d "${pkgname}" ]; then
-        srcdir="${srcdir}/${pkgname}/${pkgname}"
-    else
-        srcdir="${srcdir}/${pkgname}"
-    fi
+    find "${pkgdir}" -type f \( -name '*.pyc' -o -name '*.pyo' \) -delete
+    find "${pkgdir}" -depth -type d -name '__pycache__' -empty -delete
+    find "${pkgdir}" -depth -type d -empty -delete
 
-    # Install files
-    local dirs=("usr" "etc" "opt")
-    for dir in "${dirs[@]}"; do
-        if [ -d "${srcdir}/${dir}" ]; then
-            cp -a "${srcdir}/${dir}" "${pkgdir}/"
-        fi
-    done
-
-    # Install license file if present
-    if [ -f "LICENSE" ]; then
-        install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
-    fi
-
-    # Install documentation if present
-    if [ -f "README.md" ]; then
-        install -Dm644 README.md "${pkgdir}/usr/share/doc/${pkgname}/README.md"
-    fi
+    install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+    install -Dm644 README.md "${pkgdir}/usr/share/doc/${pkgname}/README.md"
 }
