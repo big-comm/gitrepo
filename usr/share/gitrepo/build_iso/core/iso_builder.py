@@ -119,7 +119,7 @@ class ISOBuilder:
     """ISO build orchestration with callback-based progress reporting"""
 
     BUILD_STEPS = (
-        ("prepare", frozenset({"check_engine", "check_storage", "check_space"})),
+        ("prepare", frozenset({"check_engine", "check_storage", "check_loop", "check_space"})),
         ("image", frozenset({"pull_image"})),
         ("build", frozenset({"container_build"})),
         ("publish", frozenset({"move_files"})),
@@ -379,6 +379,21 @@ class ISOBuilder:
         self._phase(phase)
         return "" if action() else error_message
 
+    def _check_loop_support(self) -> bool:
+        """Refuse a build the host kernel cannot finish.
+
+        The container gets a device-cgroup rule for major 7 and the engine
+        mknods its own /dev/loop* nodes, but neither conjures the driver: a
+        container cannot load a host kernel module. Without it mksquashfs fails
+        hours in, so the absent /dev/loop-control the loop driver would have
+        created is worth one stat up front.
+        """
+        if Path("/dev/loop-control").exists():
+            return True
+        self._log("red", _("The host kernel provides no loop devices (/dev/loop-control is missing)."))
+        self._log("yellow", _("Load the driver with 'sudo modprobe loop' and start the build again."))
+        return False
+
     def _check_output_space(self) -> bool:
         os.makedirs(self.output_dir, exist_ok=True)
         probe = None
@@ -409,6 +424,7 @@ class ISOBuilder:
             )
         steps.extend(
             [
+                ("check_loop", self._check_loop_support, _("The host kernel provides no loop devices.")),
                 ("check_space", self._check_output_space, _("Could not inspect output disk space")),
                 ("pull_image", self._pull_image, _("Failed to pull container image")),
             ]

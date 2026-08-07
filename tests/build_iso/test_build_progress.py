@@ -259,3 +259,24 @@ def test_progress_log_scroll_is_coalesced_until_layout(monkeypatch):
 )
 def test_build_step_states_do_not_complete_unreached_steps(active_index, outcome, expected):
     assert build_step_states(active_index, 5, outcome) == expected
+
+
+def test_the_loop_check_shares_the_first_step(monkeypatch):
+    # Every preflight belongs to step 0: a new one must not shift the progress
+    # bar, which the container build owns most of.
+    assert ISOBuilder.step_index_for_phase("check_loop") == 0
+    assert ISOBuilder.total_progress_for_phase("check_loop") == pytest.approx(0.0)
+
+
+def test_a_host_without_loop_devices_is_refused(tmp_path, monkeypatch):
+    # A container cannot load a host kernel module, so mksquashfs would fail
+    # hours in. One stat up front reports it in a second instead.
+    builder = _builder(tmp_path)
+    monkeypatch.setattr(iso_builder_module.Path, "exists", lambda self: False)
+    assert builder._check_loop_support() is False
+
+
+def test_a_host_with_loop_devices_passes(tmp_path, monkeypatch):
+    builder = _builder(tmp_path)
+    monkeypatch.setattr(iso_builder_module.Path, "exists", lambda self: True)
+    assert builder._check_loop_support() is True
