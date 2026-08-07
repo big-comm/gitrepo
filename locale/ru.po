@@ -4954,6 +4954,29 @@ msgstr "Workflow сборки ({0}) успешно запущен."
 msgid "URL to monitor the build: {0}"
 msgstr "URL для мониторинга сборки: {0}"
 # 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 133
+#: NEEDS WORK
+#, python-brace-format
+msgid "Workflow run #{0} started: {1}"
+msgstr "Запуск рабочего процесса #{0} начат: {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 140
+#: NEEDS WORK
+#, python-brace-format
+msgid "GitHub accepted the request, but no workflow run appeared within {0} seconds."
+msgstr "GitHub принял запрос, но в течение {0} секунд не появился ни один запуск рабочего процесса."
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 144
+#: NEEDS WORK
+msgid "The build may still be queued; it was not confirmed as started."
+msgstr "Сборка может все еще находиться в очереди; она не была подтверждена как начатая."
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 145
+#: NEEDS WORK
+#, python-brace-format
+msgid "Check {0} and {1} before triggering it again."
+msgstr "Проверьте {0} и {1} перед повторным запуском."
+# 
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 127
 #: usr/share/gitrepo/build_package/core/github_api.py:127
 msgid "Repository and explicit workflow branch are required."
@@ -5436,6 +5459,44 @@ msgstr "Какая версия должна быть использована �
 msgid "All saved-work conflicts were resolved."
 msgstr "Все конфликты сохраненной работы были разрешены."
 # 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+#: NEEDS WORK
+#, python-brace-format
+msgid "Keep the local version of all {0} catalogs"
+msgstr "Сохраните локальную версию всех {0} каталогов"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+#: NEEDS WORK
+#, python-brace-format
+msgid "Use the {0} version of all {1} catalogs"
+msgstr "Используйте версию {0} всех каталогов {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
+#: NEEDS WORK
+msgid "Decide file by file"
+msgstr "Решать по файлам"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
+"{1}"
+msgstr ""
+"Все {0} конфликты — это каталоги переводов, восстановленные с помощью рабочего процесса перевода:  \n"
+"{1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version"
+msgstr "✓ Разрешено {0} каталогов переводов с версией {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "локальная"
+# 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
 #, python-brace-format
@@ -5467,11 +5528,6 @@ msgstr "Отброшена версия {0} для: {1}"
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "Отброшенную версию по-прежнему можно прочитать с помощью: {0}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "локальная"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5545,11 +5601,11 @@ msgstr "✓ Конфликты разрешены (приняты удалённ
 msgid "✓ All conflicts resolved!"
 msgstr "✓ Все конфликты разрешены!"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 308
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:308
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 430
+#: NEEDS WORK
 #, python-brace-format
-msgid "Accept the incoming version for all {0} compiled .mo files?"
-msgstr "Принять входящую версию для всех {0} скомпилированных .mo-файлов?"
+msgid "Accept the incoming version for all {0} translation catalogs?"
+msgstr "Принять входящую версию для всех {0} каталогов переводов?"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 319
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 570
@@ -5860,6 +5916,44 @@ msgstr "Рабочий процесс завершился с ошибкой."
 #, python-brace-format
 msgid "Merging {0} stopped because it requires conflict resolution. No history was rewritten."
 msgstr "Слияние {0} остановлено, так как требуется разрешение конфликтов. История не была переписана."
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 219
+#: NEEDS WORK
+msgid "Finish the merge manually, then start the package build again:"
+msgstr "Завершите слияние вручную, затем снова начните сборку пакета:"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 222
+#: NEEDS WORK
+msgid "keep the local version"
+msgstr "сохранить локальную версию"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 223
+#: NEEDS WORK
+msgid "keep the remote version"
+msgstr "сохранить удалённую версию"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
+#: NEEDS WORK
+msgid "the current branch"
+msgstr "текущая ветка"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} into {1} conflicts in {2} file(s):"
+msgstr "Слияние {0} в {1} вызывает конфликты в {2} файлах:"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 281
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Merged {0} after conflict resolution"
+msgstr "✓ Объединено {0} после разрешения конфликта"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 301
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} failed: {1}"
+msgstr "Слияние {0} не удалось: {1}"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 255
 #: usr/share/gitrepo/build_package/core/package_operations.py:243

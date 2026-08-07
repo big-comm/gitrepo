@@ -4948,6 +4948,31 @@ msgstr "Workflow de build ({0}) acionado com sucesso."
 msgid "URL to monitor the build: {0}"
 msgstr "URL para monitorar o build: {0}"
 # 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 133
+#: NEEDS WORK
+#, python-brace-format
+msgid "Workflow run #{0} started: {1}"
+msgstr "Execução do fluxo de trabalho #{0} iniciada: {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 140
+#: NEEDS WORK
+#, python-brace-format
+msgid "GitHub accepted the request, but no workflow run appeared within {0} seconds."
+msgstr ""
+"O GitHub aceitou a solicitação, mas nenhuma execução de fluxo de trabalho apareceu dentro de {0} "
+"segundos."
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 144
+#: NEEDS WORK
+msgid "The build may still be queued; it was not confirmed as started."
+msgstr "A compilação pode ainda estar na fila; não foi confirmada como iniciada."
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 145
+#: NEEDS WORK
+#, python-brace-format
+msgid "Check {0} and {1} before triggering it again."
+msgstr "Verifique {0} e {1} antes de acioná-lo novamente."
+# 
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 127
 #: usr/share/gitrepo/build_package/core/github_api.py:127
 msgid "Repository and explicit workflow branch are required."
@@ -5430,6 +5455,45 @@ msgstr "Qual versão deve ser usada para {0}?"
 msgid "All saved-work conflicts were resolved."
 msgstr "Todos os conflitos de trabalho salvo foram resolvidos."
 # 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+#: NEEDS WORK
+#, python-brace-format
+msgid "Keep the local version of all {0} catalogs"
+msgstr "Mantenha a versão local de todos os catálogos {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+#: NEEDS WORK
+#, python-brace-format
+msgid "Use the {0} version of all {1} catalogs"
+msgstr "Use a versão {0} de todos os catálogos {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
+#: NEEDS WORK
+msgid "Decide file by file"
+msgstr "Decidir arquivo por arquivo"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
+"{1}"
+msgstr ""
+"Todos os conflitos {0} são catálogos de tradução, reconstruídos pelo fluxo de trabalho de tradução: "
+" \n"
+"{1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version"
+msgstr "✓ Resolvido {0} catálogos de tradução com a versão {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "local"
+# 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
 #, python-brace-format
@@ -5461,11 +5525,6 @@ msgstr "Descartada a versão {0} de: {1}"
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "A versão descartada ainda pode ser lida com: {0}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "local"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5539,11 +5598,11 @@ msgstr "✓ Conflitos resolvidos (aceitas alterações remotas)"
 msgid "✓ All conflicts resolved!"
 msgstr "✓ Todos os conflitos resolvidos!"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 308
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:308
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 430
+#: NEEDS WORK
 #, python-brace-format
-msgid "Accept the incoming version for all {0} compiled .mo files?"
-msgstr "Aceitar a versão recebida para todos os arquivos {0} .mo compilados?"
+msgid "Accept the incoming version for all {0} translation catalogs?"
+msgstr "Aceitar a versão recebida para todos os catálogos de tradução {0}?"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 319
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 570
@@ -5856,6 +5915,44 @@ msgid "Merging {0} stopped because it requires conflict resolution. No history w
 msgstr ""
 "A mesclagem de {0} foi interrompida porque requer resolução de conflitos. Nenhum histórico foi "
 "reescrito."
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 219
+#: NEEDS WORK
+msgid "Finish the merge manually, then start the package build again:"
+msgstr "Finalize a mesclagem manualmente, depois inicie a construção do pacote novamente:"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 222
+#: NEEDS WORK
+msgid "keep the local version"
+msgstr "mantenha a versão local"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 223
+#: NEEDS WORK
+msgid "keep the remote version"
+msgstr "mantenha a versão remota"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
+#: NEEDS WORK
+msgid "the current branch"
+msgstr "a ramificação atual"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} into {1} conflicts in {2} file(s):"
+msgstr "Mesclando {0} em {1} conflitos em {2} arquivo(s):"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 281
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Merged {0} after conflict resolution"
+msgstr "✓ Mesclado {0} após resolução de conflitos"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 301
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} failed: {1}"
+msgstr "Mesclagem de {0} falhou: {1}"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 255
 #: usr/share/gitrepo/build_package/core/package_operations.py:243

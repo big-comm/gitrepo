@@ -4909,6 +4909,29 @@ msgstr "ビルドワークフロー（{0}）が正常にトリガーされまし
 msgid "URL to monitor the build: {0}"
 msgstr "ビルドの監視用URL: {0}"
 # 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 133
+#: NEEDS WORK
+#, python-brace-format
+msgid "Workflow run #{0} started: {1}"
+msgstr "ワークフロー実行 #{0} が開始されました: {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 140
+#: NEEDS WORK
+#, python-brace-format
+msgid "GitHub accepted the request, but no workflow run appeared within {0} seconds."
+msgstr "GitHubはリクエストを受け入れましたが、{0}秒以内にワークフローの実行が表示されませんでした。"
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 144
+#: NEEDS WORK
+msgid "The build may still be queued; it was not confirmed as started."
+msgstr "ビルドはまだキューにある可能性があります; 開始されたことは確認されていません。"
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 145
+#: NEEDS WORK
+#, python-brace-format
+msgid "Check {0} and {1} before triggering it again."
+msgstr "再度トリガーする前に、{0}と{1}を確認してください。"
+# 
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 127
 #: usr/share/gitrepo/build_package/core/github_api.py:127
 msgid "Repository and explicit workflow branch are required."
@@ -5391,6 +5414,44 @@ msgstr "{0}にはどのバージョンを使用すべきですか？"
 msgid "All saved-work conflicts were resolved."
 msgstr "すべての保存された作業の競合が解決されました。"
 # 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+#: NEEDS WORK
+#, python-brace-format
+msgid "Keep the local version of all {0} catalogs"
+msgstr "すべての {0} カタログのローカルバージョンを保持する"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+#: NEEDS WORK
+#, python-brace-format
+msgid "Use the {0} version of all {1} catalogs"
+msgstr "すべての {1} カタログの {0} バージョンを使用してください"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
+#: NEEDS WORK
+msgid "Decide file by file"
+msgstr "ファイルごとに決定"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
+"{1}"
+msgstr ""
+"すべての {0} コンフリクトは翻訳カタログであり、翻訳ワークフローによって再構築されます:  \n"
+"{1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version"
+msgstr "✓ {1} バージョンで {0} の翻訳カタログを解決しました"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "ローカル"
+# 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
 #, python-brace-format
@@ -5422,11 +5483,6 @@ msgstr "{0}バージョンの破棄先: {1}"
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "破棄されたバージョンは、{0} で引き続き読み取ることができます。"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "ローカル"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5500,11 +5556,11 @@ msgstr "✓ 競合解決済み（リモートを受け入れ）"
 msgid "✓ All conflicts resolved!"
 msgstr "✓ すべての競合が解決されました！"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 308
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:308
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 430
+#: NEEDS WORK
 #, python-brace-format
-msgid "Accept the incoming version for all {0} compiled .mo files?"
-msgstr "すべての {0} コンパイル済み .mo ファイルに対し、取り込みバージョンを受け入れますか？"
+msgid "Accept the incoming version for all {0} translation catalogs?"
+msgstr "すべての {0} 翻訳カタログの受信バージョンを受け入れますか？"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 319
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 570
@@ -5815,6 +5871,44 @@ msgstr "ワークフローが失敗しました。"
 #, python-brace-format
 msgid "Merging {0} stopped because it requires conflict resolution. No history was rewritten."
 msgstr "{0}のマージは競合解決が必要なため停止しました。履歴は書き換えられていません。"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 219
+#: NEEDS WORK
+msgid "Finish the merge manually, then start the package build again:"
+msgstr "マージを手動で完了し、その後パッケージビルドを再度開始してください:"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 222
+#: NEEDS WORK
+msgid "keep the local version"
+msgstr "ローカルバージョンを保持する"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 223
+#: NEEDS WORK
+msgid "keep the remote version"
+msgstr "リモートバージョンを保持する"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
+#: NEEDS WORK
+msgid "the current branch"
+msgstr "現在のブランチ"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} into {1} conflicts in {2} file(s):"
+msgstr "{1} に {0} をマージする際に {2} ファイルで競合が発生しました:"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 281
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Merged {0} after conflict resolution"
+msgstr "✓ {0} をマージしました（コンフリクト解決後）"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 301
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} failed: {1}"
+msgstr "{0}のマージに失敗しました: {1}"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 255
 #: usr/share/gitrepo/build_package/core/package_operations.py:243

@@ -4705,6 +4705,29 @@ msgstr "תהליך הבנייה ({0}) הופעל בהצלחה."
 msgid "URL to monitor the build: {0}"
 msgstr "קישור לניטור הבנייה: {0}"
 # 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 133
+#: NEEDS WORK
+#, python-brace-format
+msgid "Workflow run #{0} started: {1}"
+msgstr "הרצת זרימת עבודה #{0} החלה: {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 140
+#: NEEDS WORK
+#, python-brace-format
+msgid "GitHub accepted the request, but no workflow run appeared within {0} seconds."
+msgstr "גיטהאב קיבל את הבקשה, אך לא הופיעה ריצה של זרימת עבודה בתוך {0} שניות."
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 144
+#: NEEDS WORK
+msgid "The build may still be queued; it was not confirmed as started."
+msgstr "הבנייה עשויה עדיין להיות בתור; היא לא אושרה כהחלה."
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 145
+#: NEEDS WORK
+#, python-brace-format
+msgid "Check {0} and {1} before triggering it again."
+msgstr "בדוק {0} ו-{1} לפני שתחליט להפעיל את זה שוב."
+# 
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 127
 #: usr/share/gitrepo/build_package/core/github_api.py:127
 msgid "Repository and explicit workflow branch are required."
@@ -5183,6 +5206,44 @@ msgstr "איזו גרסה יש להשתמש עבור {0}?"
 msgid "All saved-work conflicts were resolved."
 msgstr "כל הקונפליקטים בעבודות השמורות נפתרו."
 # 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+#: NEEDS WORK
+#, python-brace-format
+msgid "Keep the local version of all {0} catalogs"
+msgstr "שמור את הגרסה המקומית של כל הקטלוגים {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+#: NEEDS WORK
+#, python-brace-format
+msgid "Use the {0} version of all {1} catalogs"
+msgstr "השתמש בגרסה {0} של כל הקטלוגים {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
+#: NEEDS WORK
+msgid "Decide file by file"
+msgstr "החליט קובץ אחר קובץ"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
+"{1}"
+msgstr ""
+"כל {0} הקונפליקטים הם קטלוגי תרגום, שנבנו מחדש על ידי זרימת העבודה של התרגום:  \n"
+"{1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version"
+msgstr "✓ נפתרו {0} קטלוגי תרגום עם גרסת {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "מקומי"
+# 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
 #, python-brace-format
@@ -5214,11 +5275,6 @@ msgstr "גרסת {0} של {1} נזרקה."
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "הגרסה שנמחקה עדיין קריאה באמצעות: {0}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "מקומי"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5290,11 +5346,11 @@ msgstr "✓ קונפליקטים נפתרו (התקבלו שינויים מרו�
 msgid "✓ All conflicts resolved!"
 msgstr "✓ כל הקונפליקטים נפתרו!"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 308
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:308
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 430
+#: NEEDS WORK
 #, python-brace-format
-msgid "Accept the incoming version for all {0} compiled .mo files?"
-msgstr "האם לקבל את הגרסה הנכנסת עבור כל קבצי {0} .mo המהודרים?"
+msgid "Accept the incoming version for all {0} translation catalogs?"
+msgstr "האם לקבל את הגרסה הנכנסת עבור כל קטלוגי התרגום של {0}?"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 319
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 570
@@ -5603,6 +5659,44 @@ msgstr "ה-Workflow נכשל."
 #, python-brace-format
 msgid "Merging {0} stopped because it requires conflict resolution. No history was rewritten."
 msgstr "מיזוג {0} נעצר מכיוון שהוא דורש פתרון של התנגשויות. לא נכתב היסטוריה מחדש."
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 219
+#: NEEDS WORK
+msgid "Finish the merge manually, then start the package build again:"
+msgstr "סיים את המיזוג ידנית, ואז התחל את בניית החבילה שוב:"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 222
+#: NEEDS WORK
+msgid "keep the local version"
+msgstr "שמור את הגרסה המקומית"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 223
+#: NEEDS WORK
+msgid "keep the remote version"
+msgstr "שמור את הגרסה המרוחקת"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
+#: NEEDS WORK
+msgid "the current branch"
+msgstr "הסניף הנוכחי"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} into {1} conflicts in {2} file(s):"
+msgstr "מיזוג {0} לתוך {1} מתנגש בקובץ(ים) {2}:"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 281
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Merged {0} after conflict resolution"
+msgstr "✓ מוזג {0} לאחר פתרון קונפליקטים"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 301
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} failed: {1}"
+msgstr "מיזוג {0} נכשל: {1}"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 255
 #: usr/share/gitrepo/build_package/core/package_operations.py:243

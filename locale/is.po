@@ -4944,6 +4944,29 @@ msgstr "Byggingarvinnuflæði ({0}) kveikt á með góðum árangri."
 msgid "URL to monitor the build: {0}"
 msgstr "Vefslóð til að fylgjast með smíðinni: {0}"
 # 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 133
+#: NEEDS WORK
+#, python-brace-format
+msgid "Workflow run #{0} started: {1}"
+msgstr "Vinnsla keyrsla #{0} hafin: {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 140
+#: NEEDS WORK
+#, python-brace-format
+msgid "GitHub accepted the request, but no workflow run appeared within {0} seconds."
+msgstr "GitHub samþykkti beiðnina, en engin vinnuflæði keyrslan birtist innan {0} sekúndna."
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 144
+#: NEEDS WORK
+msgid "The build may still be queued; it was not confirmed as started."
+msgstr "Byggingin gæti enn verið í bið; hún var ekki staðfest sem hafin."
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 145
+#: NEEDS WORK
+#, python-brace-format
+msgid "Check {0} and {1} before triggering it again."
+msgstr "Athugaðu {0} og {1} áður en þú kveikir á því aftur."
+# 
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 127
 #: usr/share/gitrepo/build_package/core/github_api.py:127
 msgid "Repository and explicit workflow branch are required."
@@ -5426,6 +5449,44 @@ msgstr "Hvaða útgáfu á að nota fyrir {0}?"
 msgid "All saved-work conflicts were resolved."
 msgstr "Öll vistaðar vinnuátök voru leyst."
 # 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+#: NEEDS WORK
+#, python-brace-format
+msgid "Keep the local version of all {0} catalogs"
+msgstr "Haldaðu staðbundna útgáfu af öllum {0} skráningum"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+#: NEEDS WORK
+#, python-brace-format
+msgid "Use the {0} version of all {1} catalogs"
+msgstr "Notaðu {0} útgáfuna af öllum {1} skráum"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
+#: NEEDS WORK
+msgid "Decide file by file"
+msgstr "Ákveða skrá fyrir skrá"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
+"{1}"
+msgstr ""
+"Öll {0} árekstrar eru þýðingarskrá, endurbyggðar af þýðingarferlinu:  \n"
+"{1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version"
+msgstr "✓ Leyst {0} þýðingaskrár með {1} útgáfu"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "staðbundið"
+# 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
 #, python-brace-format
@@ -5457,11 +5518,6 @@ msgstr "Fleygði {0}-útgáfunni af: {1}"
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "Hægt er að lesa fjarlægðu útgáfuna með: {0}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "staðbundið"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5535,11 +5591,11 @@ msgstr "✓ Árekstrar leystir (samþykkt fjarlægt)"
 msgid "✓ All conflicts resolved!"
 msgstr "✓ Allir árekstrar leystir!"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 308
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:308
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 430
+#: NEEDS WORK
 #, python-brace-format
-msgid "Accept the incoming version for all {0} compiled .mo files?"
-msgstr "Samþykkja komandi útgáfu fyrir allar {0} þýddar .mo skrár?"
+msgid "Accept the incoming version for all {0} translation catalogs?"
+msgstr "Þú samþykkir innkomandi útgáfu fyrir öll {0} þýðingarskrá?"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 319
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 570
@@ -5850,6 +5906,44 @@ msgstr "Verkfallsferli mistókst."
 #, python-brace-format
 msgid "Merging {0} stopped because it requires conflict resolution. No history was rewritten."
 msgstr "Samruni {0} stöðvaður vegna þess að hann krefst ágreiningslausnar. Engin saga var endurskrifuð."
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 219
+#: NEEDS WORK
+msgid "Finish the merge manually, then start the package build again:"
+msgstr "Lokaðu sameininguna handvirkt, og byrjaðu pakkabygginguna aftur:"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 222
+#: NEEDS WORK
+msgid "keep the local version"
+msgstr "haldaðu staðbundna útgáfu"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 223
+#: NEEDS WORK
+msgid "keep the remote version"
+msgstr "haldaðu fjarveituna"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
+#: NEEDS WORK
+msgid "the current branch"
+msgstr "núverandi grein"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} into {1} conflicts in {2} file(s):"
+msgstr "Saman {0} í {1} veldur árekstrum í {2} skrá(um):"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 281
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Merged {0} after conflict resolution"
+msgstr "✓ Sameinað {0} eftir ágreiningslausn"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 301
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} failed: {1}"
+msgstr "Samsöng {0} mistókst: {1}"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 255
 #: usr/share/gitrepo/build_package/core/package_operations.py:243

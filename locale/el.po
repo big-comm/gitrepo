@@ -4757,6 +4757,29 @@ msgstr "Η ροή εργασίας κατασκευής ({0}) εκκινήθηκ
 msgid "URL to monitor the build: {0}"
 msgstr "URL για παρακολούθηση του build: {0}"
 # 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 133
+#: NEEDS WORK
+#, python-brace-format
+msgid "Workflow run #{0} started: {1}"
+msgstr "Η εκτέλεση ροής εργασίας #{0} ξεκίνησε: {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 140
+#: NEEDS WORK
+#, python-brace-format
+msgid "GitHub accepted the request, but no workflow run appeared within {0} seconds."
+msgstr "Το GitHub αποδέχτηκε το αίτημα, αλλά δεν εμφανίστηκε καμία εκτέλεση ροής εντός {0} δευτερολέπτων."
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 144
+#: NEEDS WORK
+msgid "The build may still be queued; it was not confirmed as started."
+msgstr "Η κατασκευή μπορεί να είναι ακόμα σε αναμονή; δεν έχει επιβεβαιωθεί ότι ξεκίνησε."
+# 
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 145
+#: NEEDS WORK
+#, python-brace-format
+msgid "Check {0} and {1} before triggering it again."
+msgstr "Ελέγξτε {0} και {1} πριν το ενεργοποιήσετε ξανά."
+# 
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 127
 #: usr/share/gitrepo/build_package/core/github_api.py:127
 msgid "Repository and explicit workflow branch are required."
@@ -5235,6 +5258,45 @@ msgstr "Ποια έκδοση θα πρέπει να χρησιμοποιηθε�
 msgid "All saved-work conflicts were resolved."
 msgstr "Όλες οι συγκρούσεις αποθηκευμένης εργασίας επιλύθηκαν."
 # 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+#: NEEDS WORK
+#, python-brace-format
+msgid "Keep the local version of all {0} catalogs"
+msgstr "Διατηρήστε την τοπική έκδοση όλων των {0} καταλόγων"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+#: NEEDS WORK
+#, python-brace-format
+msgid "Use the {0} version of all {1} catalogs"
+msgstr "Χρησιμοποιήστε την έκδοση {0} όλων των καταλόγων {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
+#: NEEDS WORK
+msgid "Decide file by file"
+msgstr "Αποφασίστε αρχείο προς αρχείο"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
+"{1}"
+msgstr ""
+"Όλες οι {0} συγκρούσεις είναι καταλόγοι μετάφρασης, που ανακατασκευάστηκαν από τη ροή εργασίας "
+"μετάφρασης:  \n"
+"{1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version"
+msgstr "✓ Επίλυση {0} καταλόγων μετάφρασης με την έκδοση {1}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "τοπική"
+# 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
 #, python-brace-format
@@ -5266,11 +5328,6 @@ msgstr "Η έκδοση {0} του: {1} απορρίφθηκε"
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "Η απορριφθείσα έκδοση είναι ακόμα αναγνώσιμη με: {0}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "τοπική"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5342,11 +5399,11 @@ msgstr "✓ Συγκρούσεις επιλυμένες (αποδεχτήκαν 
 msgid "✓ All conflicts resolved!"
 msgstr "✓ Όλες οι συγκρούσεις επιλύθηκαν!"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 308
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:308
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 430
+#: NEEDS WORK
 #, python-brace-format
-msgid "Accept the incoming version for all {0} compiled .mo files?"
-msgstr "Αποδοχή της εισερχόμενης έκδοσης για όλα τα {0} μεταγλωττισμένα αρχεία .mo;"
+msgid "Accept the incoming version for all {0} translation catalogs?"
+msgstr "Αποδεχθείτε την εισερχόμενη έκδοση για όλα τα {0} καταλόγους μετάφρασης;"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 319
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 570
@@ -5655,6 +5712,46 @@ msgstr "Η ροή εργασίας απέτυχε."
 #, python-brace-format
 msgid "Merging {0} stopped because it requires conflict resolution. No history was rewritten."
 msgstr "Η συγχώνευση του {0} σταμάτησε διότι απαιτεί επίλυση σύγκρουσης. Κανένα ιστορικό δεν ξαναγράφτηκε."
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 219
+#: NEEDS WORK
+msgid "Finish the merge manually, then start the package build again:"
+msgstr ""
+"Ολοκληρώστε τη συγχώνευση χειροκίνητα, στη συνέχεια ξεκινήστε ξανά τη διαδικασία δημιουργίας "
+"πακέτου:"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 222
+#: NEEDS WORK
+msgid "keep the local version"
+msgstr "διατήρησε την τοπική έκδοση"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 223
+#: NEEDS WORK
+msgid "keep the remote version"
+msgstr "διατήρησε την απομακρυσμένη έκδοση"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
+#: NEEDS WORK
+msgid "the current branch"
+msgstr "το τρέχον κλάδος"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} into {1} conflicts in {2} file(s):"
+msgstr "Συγχώνευση {0} στο {1} συγκρούσεις σε {2} αρχείο(α):"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 281
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Merged {0} after conflict resolution"
+msgstr "✓ Συγχωνεύτηκε {0} μετά την επίλυση συγκρούσεων"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 301
+#: NEEDS WORK
+#, python-brace-format
+msgid "Merging {0} failed: {1}"
+msgstr "Η συγχώνευση {0} απέτυχε: {1}"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 255
 #: usr/share/gitrepo/build_package/core/package_operations.py:243
