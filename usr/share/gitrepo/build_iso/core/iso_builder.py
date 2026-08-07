@@ -153,7 +153,12 @@ class ISOBuilder:
         self.container_image = config.get("container_image", CONTAINER_IMAGE)
         # The engine owns the default. Keep this only for a caller that
         # explicitly asks to override it.
-        self.build_mirror = config.get("build_mirror") or None
+        #
+        # Stripped of trailing slashes because manjaro-tools appends
+        # `/$branch/$repo/$arch`: one slash too many yields `repo//stable/...`,
+        # an empty path segment that a CDN caches as a URL of its own and then
+        # answers with a database weeks out of step with the package files.
+        self.build_mirror = (config.get("build_mirror") or "").rstrip("/") or None
 
         self.release_tag = datetime.now().strftime("%Y-%m-%d_%H-%M")
 

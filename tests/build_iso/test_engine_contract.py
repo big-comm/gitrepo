@@ -133,6 +133,16 @@ def test_a_configured_mirror_overrides_the_default(tmp_path):
     assert _env(builder)["BUILD_MIRROR"] == "https://linorg.usp.br/manjaro"
 
 
+def test_a_trailing_slash_never_reaches_the_engine(tmp_path):
+    # manjaro-tools appends `/$branch/$repo/$arch` to this value, so a slash the
+    # user typed becomes `manjaro//stable/core/...`. Behind a CDN that empty path
+    # segment is cached as a URL of its own, serving a package database weeks
+    # older than the packages it names -- a 404 an hour into the build.
+    builder = _builder(tmp_path, build_mirror="https://linorg.usp.br/manjaro/")
+
+    assert _env(builder)["BUILD_MIRROR"] == "https://linorg.usp.br/manjaro"
+
+
 @pytest.mark.parametrize(
     "mirror",
     [
