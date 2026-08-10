@@ -46,6 +46,45 @@ def test_planning_a_bump_changes_nothing_on_disk(tmp_path):
     assert source.read_bytes() == before
 
 
+def test_a_typed_declaration_is_bumped_in_place(tmp_path):
+    """Statically typed languages put a type between the name and the `=`."""
+    (tmp_path / "PKGBUILD").write_text("pkgname=widgets\n", encoding="utf-8")
+    source = tmp_path / "config.rs"
+    source.write_text(
+        'pub const APP_NAME: &str = "Widgets";\npub const APP_VERSION: &str = "1.2.3";\n',
+        encoding="utf-8",
+    )
+    context = _bumper(tmp_path)
+
+    plan = version_bumper.plan_version_bump(context, "fix: repair a thing")
+
+    assert plan.new_version == "1.2.4"
+    assert version_bumper.publish_version_bump(context, plan) is True
+    # The declaration keeps its own spelling; only the literal moves.
+    assert 'pub const APP_VERSION: &str = "1.2.4";' in source.read_text(encoding="utf-8")
+
+
+@pytest.mark.parametrize(
+    "declaration",
+    [
+        'APP_VERSION = "1.2.3"',
+        'pub const APP_VERSION: &str = "1.2.3";',
+        'var APP_VERSION string = "1.2.3"',
+        'const APP_VERSION: string = "1.2.3";',
+        "APP_VERSION='1.2.3'",
+    ],
+)
+def test_every_supported_spelling_is_recognised(declaration):
+    match = version_bumper._app_version_pattern().search(declaration)
+    assert match is not None, declaration
+    assert match.group(3) == "1.2.3"
+
+
+def test_the_owner_marker_is_not_mistaken_for_the_version():
+    """`APP_VERSION_OWNER` holds a name, and must never be rewritten."""
+    assert version_bumper._app_version_pattern().search('APP_VERSION_OWNER = "1.2.3"') is None
+
+
 def test_publishing_the_plan_keeps_the_original_permissions(tmp_path):
     source = _repository(tmp_path)
     os.chmod(source, 0o644)

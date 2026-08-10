@@ -88,6 +88,26 @@ APP_NAME_PATTERN = re.compile(r"APP_NAME\s*=\s*(?:_\(\s*)?[\"']([^\"']+)[\"']")
 APP_VERSION_OWNER_PATTERN = re.compile(r"APP_VERSION_OWNER\s*=\s*[\"']([^\"']+)[\"']")
 
 
+def _app_version_pattern():
+    r"""Match an `APP_VERSION` assignment to a quoted semantic version.
+
+    A declaration may carry a type between the name and the `=`, which is how
+    every statically typed language writes one:
+
+        APP_VERSION = "3.0.0"                       # Python, shell, JS
+        pub const APP_VERSION: &str = "3.0.0";      # Rust
+        var APP_VERSION string = "3.0.0"            # Go
+        const APP_VERSION: string = "3.0.0";        # TypeScript
+
+    The middle group cannot cross a newline, an `=` or a `;`, so it stays
+    inside one declaration. Group 1 is reproduced verbatim when the bump is
+    written, so whatever spelling the repository uses survives untouched.
+
+    `\b` after the name keeps `APP_VERSION_OWNER` from matching.
+    """
+    return re.compile(r'(APP_VERSION\b[^=;\n]*=\s*)(["\'])(\d+\.\d+\.\d+)(["\'])')
+
+
 def _locate_app_version_entry(bp):
     """Find the one APP_VERSION this repository owns, or nothing when unclear.
 
@@ -95,7 +115,7 @@ def _locate_app_version_entry(bp):
     when several exist does ownership matter, so a vendored dependency is never
     bumped in place of the repository's own version.
     """
-    pattern = re.compile(r'(APP_VERSION\s*=\s*)(["\'])(\d+\.\d+\.\d+)(["\'])')
+    pattern = _app_version_pattern()
     repo_path = bp.repo_path or GitUtils.get_repo_root_path()
     candidates = list(_version_candidate_paths(repo_path))
     identifiers = _repository_identifiers(repo_path)
