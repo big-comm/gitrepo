@@ -1641,11 +1641,6 @@ msgstr "Nein"
 msgid "Yes"
 msgstr "Ja"
 # 
-# File: usr/share/gitrepo/build_package/gui/gtk_adapters.py, line: 130
-#: usr/share/gitrepo/build_package/gui/gtk_adapters.py:125
-msgid "Select an option."
-msgstr "Wählen Sie eine Option."
-# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/gitrepo/build_package/gui/gtk_logger.py, line: 89
@@ -5478,76 +5473,90 @@ msgstr "Welche Version sollte für {0} verwendet werden?"
 msgid "All saved-work conflicts were resolved."
 msgstr "Alle Konflikte der gespeicherten Arbeiten wurden gelöst."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
 #: NEEDS WORK
-#, python-brace-format
-msgid "Keep the local version of all {0} catalogs"
-msgstr "Behalte die lokale Version aller {0} Kataloge"
+msgid "the current branch"
+msgstr "der aktuelle Branch"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 312
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 477
 #: NEEDS WORK
 #, python-brace-format
-msgid "Use the {0} version of all {1} catalogs"
-msgstr "Verwenden Sie die {0} Version aller {1} Kataloge"
+msgid "Keep {0}"
+msgstr "Behalte {0}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
 #: NEEDS WORK
 msgid "Decide file by file"
 msgstr "Datei für Datei entscheiden"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 318
 #: NEEDS WORK
 #, python-brace-format
 msgid ""
-"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
-"{1}"
-msgstr ""
-"Alle {0} Konflikte sind Übersetzungskataloge, die durch den Übersetzungsworkflow neu erstellt "
-"wurden:  \n"
-"{1}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
-#: NEEDS WORK
-#, python-brace-format
-msgid "✓ Resolved {0} translation catalogs with the {1} version"
-msgstr "✓ {0} Übersetzungskataloge mit der {1} Version gelöst"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "lokal"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
-#, python-brace-format
-msgid ""
-"Keep the local branch {0} in {1} conflicted file(s)?\n"
+"Conflict in {0} translation catalogs\n"
 "\n"
-"Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
+"These files are rebuilt by the translation workflow. You are merging {1} into {2}, and the two "
+"versions disagree in:\n"
 "{3}\n"
 "\n"
-"No: decide file by file, where the remote version is still available.\n"
+"Keeping {2} discards the {1} version of these files; it stays readable with git diff HEAD^2 -- FILE."
+msgstr ""
+"Konflikt in {0} Übersetzungskatalogen\n"
+"\n"
+"Diese Dateien werden durch den Übersetzungsworkflow neu erstellt. Sie fügen {1} in {2} ein, und die "
+"beiden Versionen stimmen nicht überein in:\n"
+"{3}\n"
+"\n"
+"Das Beibehalten von {2} verwirft die {1} Version dieser Dateien; sie bleibt mit git diff HEAD^2 -- "
+"DATEI lesbar."
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 336
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version; {2} was discarded there"
+msgstr "✓ {0} Übersetzungskataloge mit der {1} Version gelöst; {2} wurde dort verworfen"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 357
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Keep the branch you are on, {0}, in {1} conflicted file(s)?\n"
+"\n"
+"You are merging {2} into {0}.\n"
+"\n"
+"Yes: the conflicting lines coming from {2} are discarded in:\n"
+"{3}\n"
+"\n"
+"No: decide file by file, where the {2} version is still available.\n"
 "Changes from {2} that do not conflict are merged either way."
 msgstr ""
-"Lokalen Branch {0} in {1} Datei(en) mit Konflikt beibehalten?\n"
+"Behalte den Branch, auf dem du dich befindest, {0}, in {1} Konfliktdatei(en)?\n"
 "\n"
-"Ja: Die Konfliktzeilen aus dem entfernten {2} werden verworfen in:\n"
-"{3}\n"
+"Du fügst {2} in {0} ein.\n"
 "\n"
-"Nein: Datei für Datei entscheiden, wobei die entfernte Version verfügbar bleibt.\n"
-"Änderungen aus {2} ohne Konflikt werden in beiden Fällen zusammengeführt."
+"Ja: die konfliktierenden Zeilen, die von {2} stammen, werden in:\n"
+"{3} verworfen.\n"
+"\n"
+"Nein: entscheide Datei für Datei, wo die {2} Version noch verfügbar ist.\n"
+"Änderungen von {2}, die nicht in Konflikt stehen, werden in jedem Fall zusammengeführt."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 222
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 372
+#: NEEDS WORK
 #, python-brace-format
-msgid "Discarded the {0} version of: {1}"
-msgstr "Die {0}-Version verworfen von: {1}"
+msgid "Kept {0} and discarded the {1} version of: {2}"
+msgstr "Behalten {0} und die {1} Version von: {2} verworfen."
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 225
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:225
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "Die verworfene Version kann weiterhin mit {0} gelesen werden."
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "lokal"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5953,11 +5962,6 @@ msgstr "lokale Version beibehalten"
 #: NEEDS WORK
 msgid "keep the remote version"
 msgstr "remote Version beibehalten"
-# 
-# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
-#: NEEDS WORK
-msgid "the current branch"
-msgstr "der aktuelle Branch"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
 #: NEEDS WORK

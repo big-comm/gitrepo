@@ -1500,11 +1500,6 @@ msgstr "Όχι"
 msgid "Yes"
 msgstr "Ναι"
 # 
-# File: usr/share/gitrepo/build_package/gui/gtk_adapters.py, line: 130
-#: usr/share/gitrepo/build_package/gui/gtk_adapters.py:125
-msgid "Select an option."
-msgstr "Επιλέξτε μια επιλογή."
-# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/gitrepo/build_package/gui/gtk_logger.py, line: 89
@@ -5258,76 +5253,90 @@ msgstr "Ποια έκδοση θα πρέπει να χρησιμοποιηθε�
 msgid "All saved-work conflicts were resolved."
 msgstr "Όλες οι συγκρούσεις αποθηκευμένης εργασίας επιλύθηκαν."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
 #: NEEDS WORK
-#, python-brace-format
-msgid "Keep the local version of all {0} catalogs"
-msgstr "Διατηρήστε την τοπική έκδοση όλων των {0} καταλόγων"
+msgid "the current branch"
+msgstr "το τρέχον κλάδος"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 312
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 477
 #: NEEDS WORK
 #, python-brace-format
-msgid "Use the {0} version of all {1} catalogs"
-msgstr "Χρησιμοποιήστε την έκδοση {0} όλων των καταλόγων {1}"
+msgid "Keep {0}"
+msgstr "Διατήρησε {0}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
 #: NEEDS WORK
 msgid "Decide file by file"
 msgstr "Αποφασίστε αρχείο προς αρχείο"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 318
 #: NEEDS WORK
 #, python-brace-format
 msgid ""
-"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
-"{1}"
-msgstr ""
-"Όλες οι {0} συγκρούσεις είναι καταλόγοι μετάφρασης, που ανακατασκευάστηκαν από τη ροή εργασίας "
-"μετάφρασης:  \n"
-"{1}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
-#: NEEDS WORK
-#, python-brace-format
-msgid "✓ Resolved {0} translation catalogs with the {1} version"
-msgstr "✓ Επίλυση {0} καταλόγων μετάφρασης με την έκδοση {1}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "τοπική"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
-#, python-brace-format
-msgid ""
-"Keep the local branch {0} in {1} conflicted file(s)?\n"
+"Conflict in {0} translation catalogs\n"
 "\n"
-"Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
+"These files are rebuilt by the translation workflow. You are merging {1} into {2}, and the two "
+"versions disagree in:\n"
 "{3}\n"
 "\n"
-"No: decide file by file, where the remote version is still available.\n"
+"Keeping {2} discards the {1} version of these files; it stays readable with git diff HEAD^2 -- FILE."
+msgstr ""
+"Σύγκρουση στους καταλόγους μετάφρασης {0}\n"
+"\n"
+"Αυτά τα αρχεία ανακατασκευάζονται από τη ροή εργασίας μετάφρασης. Συγχωνεύετε το {1} στο {2}, και "
+"οι δύο εκδόσεις διαφωνούν σε:\n"
+"{3}\n"
+"\n"
+"Η διατήρηση του {2} απορρίπτει την έκδοση {1} αυτών των αρχείων; παραμένει αναγνώσιμη με την εντολή "
+"git diff HEAD^2 -- FILE."
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 336
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version; {2} was discarded there"
+msgstr "✓ Επίλυση {0} καταλόγων μετάφρασης με την έκδοση {1}; {2} απορρίφθηκε εκεί"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 357
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Keep the branch you are on, {0}, in {1} conflicted file(s)?\n"
+"\n"
+"You are merging {2} into {0}.\n"
+"\n"
+"Yes: the conflicting lines coming from {2} are discarded in:\n"
+"{3}\n"
+"\n"
+"No: decide file by file, where the {2} version is still available.\n"
 "Changes from {2} that do not conflict are merged either way."
 msgstr ""
-"Διατήρηση του τοπικού κλάδου {0} σε {1} αρχείο(α) με διένεξη;\n"
+"Διατηρήστε το κλάδο που βρίσκεστε, {0}, σε {1} συγκρουόμενα αρχεία;\n"
 "\n"
-"Ναι: οι γραμμές με διένεξη που προέρχονται από τον απομακρυσμένο {2} απορρίπτονται σε:\n"
+"Συγχωνεύετε το {2} στο {0}.\n"
+"\n"
+"Ναι: οι συγκρουόμενες γραμμές που προέρχονται από το {2} απορρίπτονται στο:\n"
 "{3}\n"
 "\n"
-"Όχι: αποφασίζετε αρχείο προς αρχείο, όπου η απομακρυσμένη έκδοση παραμένει διαθέσιμη.\n"
-"Οι αλλαγές από τον {2} χωρίς διένεξη συγχωνεύονται σε κάθε περίπτωση."
+"Όχι: αποφασίστε αρχείο προς αρχείο, όπου η έκδοση {2} είναι ακόμα διαθέσιμη.\n"
+"Οι αλλαγές από το {2} που δεν συγκρούονται συγχωνεύονται ούτως ή άλλως."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 222
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 372
+#: NEEDS WORK
 #, python-brace-format
-msgid "Discarded the {0} version of: {1}"
-msgstr "Η έκδοση {0} του: {1} απορρίφθηκε"
+msgid "Kept {0} and discarded the {1} version of: {2}"
+msgstr "Διατηρήθηκε {0} και απορρίφθηκε η έκδοση {1} του: {2}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 225
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:225
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "Η απορριφθείσα έκδοση είναι ακόμα αναγνώσιμη με: {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "τοπική"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5729,11 +5738,6 @@ msgstr "διατήρησε την τοπική έκδοση"
 #: NEEDS WORK
 msgid "keep the remote version"
 msgstr "διατήρησε την απομακρυσμένη έκδοση"
-# 
-# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
-#: NEEDS WORK
-msgid "the current branch"
-msgstr "το τρέχον κλάδος"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
 #: NEEDS WORK

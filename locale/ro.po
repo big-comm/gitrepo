@@ -1634,11 +1634,6 @@ msgstr "Nu"
 msgid "Yes"
 msgstr "Da"
 # 
-# File: usr/share/gitrepo/build_package/gui/gtk_adapters.py, line: 130
-#: usr/share/gitrepo/build_package/gui/gtk_adapters.py:125
-msgid "Select an option."
-msgstr "Selectați o opțiune."
-# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/gitrepo/build_package/gui/gtk_logger.py, line: 89
@@ -5466,75 +5461,89 @@ msgstr "Ce versiune ar trebui folosită pentru {0}?"
 msgid "All saved-work conflicts were resolved."
 msgstr "Toate conflictele de lucru salvate au fost rezolvate."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
 #: NEEDS WORK
-#, python-brace-format
-msgid "Keep the local version of all {0} catalogs"
-msgstr "Păstrează versiunea locală a tuturor catalogelor {0}"
+msgid "the current branch"
+msgstr "ramura curentă"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 312
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 477
 #: NEEDS WORK
 #, python-brace-format
-msgid "Use the {0} version of all {1} catalogs"
-msgstr "Utilizați versiunea {0} a tuturor catalogelor {1}"
+msgid "Keep {0}"
+msgstr "Păstrează {0}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
 #: NEEDS WORK
 msgid "Decide file by file"
 msgstr "Decide fișier cu fișier"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 318
 #: NEEDS WORK
 #, python-brace-format
 msgid ""
-"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
-"{1}"
-msgstr ""
-"Toate conflictele {0} sunt cataloage de traducere, reconstruite de fluxul de lucru de traducere:  \n"
-"{1}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
-#: NEEDS WORK
-#, python-brace-format
-msgid "✓ Resolved {0} translation catalogs with the {1} version"
-msgstr "✓ S-au rezolvat {0} cataloage de traducere cu versiunea {1}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "local"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
-#, python-brace-format
-msgid ""
-"Keep the local branch {0} in {1} conflicted file(s)?\n"
+"Conflict in {0} translation catalogs\n"
 "\n"
-"Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
+"These files are rebuilt by the translation workflow. You are merging {1} into {2}, and the two "
+"versions disagree in:\n"
 "{3}\n"
 "\n"
-"No: decide file by file, where the remote version is still available.\n"
+"Keeping {2} discards the {1} version of these files; it stays readable with git diff HEAD^2 -- FILE."
+msgstr ""
+"Conflict în cataloagele de traducere {0}\n"
+"\n"
+"Aceste fișiere sunt reconstruite de fluxul de lucru pentru traducere. Fuzionați {1} în {2}, iar "
+"cele două versiuni nu sunt de acord în:\n"
+"{3}\n"
+"\n"
+"Păstrarea {2} elimină versiunea {1} a acestor fișiere; rămâne lizibil cu git diff HEAD^2 -- FILE."
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 336
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version; {2} was discarded there"
+msgstr "✓ S-au rezolvat {0} cataloage de traducere cu versiunea {1}; {2} a fost eliminat acolo"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 357
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Keep the branch you are on, {0}, in {1} conflicted file(s)?\n"
+"\n"
+"You are merging {2} into {0}.\n"
+"\n"
+"Yes: the conflicting lines coming from {2} are discarded in:\n"
+"{3}\n"
+"\n"
+"No: decide file by file, where the {2} version is still available.\n"
 "Changes from {2} that do not conflict are merged either way."
 msgstr ""
-"Păstrați ramura locală {0} în {1} fișier(e) cu conflict?\n"
+"Păstrează ramura pe care te afli, {0}, în fișier(e) conflictuale {1}?\n"
 "\n"
-"Da: liniile în conflict venite de la ramura la distanță {2} sunt eliminate în:\n"
+"Fuzezi {2} în {0}.\n"
+"\n"
+"Da: liniile conflictuale provenite din {2} sunt eliminate în:\n"
 "{3}\n"
 "\n"
-"Nu: decideți fișier cu fișier, versiunea la distanță rămânând disponibilă.\n"
-"Modificările din {2} care nu intră în conflict sunt îmbinate în ambele cazuri."
+"Nu: decide fișier cu fișier, unde versiunea {2} este încă disponibilă.\n"
+"Modificările din {2} care nu sunt conflictuale sunt fuzionate oricum."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 222
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 372
+#: NEEDS WORK
 #, python-brace-format
-msgid "Discarded the {0} version of: {1}"
-msgstr "S-a renunțat la versiunea {0} a: {1}"
+msgid "Kept {0} and discarded the {1} version of: {2}"
+msgstr "Păstrat {0} și eliminat versiunea {1} a: {2}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 225
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:225
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "Versiunea eliminată poate fi citită în continuare cu: {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "local"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5938,11 +5947,6 @@ msgstr "păstrează versiunea locală"
 #: NEEDS WORK
 msgid "keep the remote version"
 msgstr "păstrează versiunea la distanță"
-# 
-# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
-#: NEEDS WORK
-msgid "the current branch"
-msgstr "ramura curentă"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
 #: NEEDS WORK

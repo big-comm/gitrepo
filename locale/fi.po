@@ -1634,11 +1634,6 @@ msgstr "Ei"
 msgid "Yes"
 msgstr "Kyllä"
 # 
-# File: usr/share/gitrepo/build_package/gui/gtk_adapters.py, line: 130
-#: usr/share/gitrepo/build_package/gui/gtk_adapters.py:125
-msgid "Select an option."
-msgstr "Valitse vaihtoehto."
-# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/gitrepo/build_package/gui/gtk_logger.py, line: 89
@@ -5450,75 +5445,90 @@ msgstr "Mikä versio tulisi käyttää {0}?"
 msgid "All saved-work conflicts were resolved."
 msgstr "Kaikki tallennetun työn konfliktit on ratkaistu."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
 #: NEEDS WORK
-#, python-brace-format
-msgid "Keep the local version of all {0} catalogs"
-msgstr "Pidä paikallinen versio kaikista {0} luetteloista"
+msgid "the current branch"
+msgstr "nykyinen haara"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 312
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 477
 #: NEEDS WORK
 #, python-brace-format
-msgid "Use the {0} version of all {1} catalogs"
-msgstr "Käytä kaikkien {1} luetteloiden {0} versiota"
+msgid "Keep {0}"
+msgstr "Pidä {0}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
 #: NEEDS WORK
 msgid "Decide file by file"
 msgstr "Päätä tiedosto kerrallaan"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 318
 #: NEEDS WORK
 #, python-brace-format
 msgid ""
-"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
-"{1}"
-msgstr ""
-"Kaikki {0} konfliktit ovat käännöskatalogeja, jotka on rakennettu käännöstyönkulun avulla:  \n"
-"{1}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
-#: NEEDS WORK
-#, python-brace-format
-msgid "✓ Resolved {0} translation catalogs with the {1} version"
-msgstr "✓ Ratkaistu {0} käännöskatalogia {1} versiolla"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "paikallinen"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
-#, python-brace-format
-msgid ""
-"Keep the local branch {0} in {1} conflicted file(s)?\n"
+"Conflict in {0} translation catalogs\n"
 "\n"
-"Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
+"These files are rebuilt by the translation workflow. You are merging {1} into {2}, and the two "
+"versions disagree in:\n"
 "{3}\n"
 "\n"
-"No: decide file by file, where the remote version is still available.\n"
+"Keeping {2} discards the {1} version of these files; it stays readable with git diff HEAD^2 -- FILE."
+msgstr ""
+"Konflikti {0} käännöskatalogeissa\n"
+"\n"
+"Nämä tiedostot rakennetaan uudelleen käännöstyönkulun avulla. Yhdistät {1} {2}:een, ja kahdessa "
+"versiossa on eroja:\n"
+"{3}\n"
+"\n"
+"{2} säilyttäminen hylkää {1} version näistä tiedostoista; se pysyy luettavana komennolla git diff "
+"HEAD^2 -- TIEDOSTO."
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 336
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version; {2} was discarded there"
+msgstr "✓ Ratkaistu {0} käännöskatalogia {1} versiolla; {2} hylättiin siellä"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 357
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Keep the branch you are on, {0}, in {1} conflicted file(s)?\n"
+"\n"
+"You are merging {2} into {0}.\n"
+"\n"
+"Yes: the conflicting lines coming from {2} are discarded in:\n"
+"{3}\n"
+"\n"
+"No: decide file by file, where the {2} version is still available.\n"
 "Changes from {2} that do not conflict are merged either way."
 msgstr ""
-"Säilytetäänkö paikallinen haara {0} {1} ristiriitaisessa tiedostossa?\n"
+"Pidä haara, jossa olet, {0}, {1} ristiriitaisessa tiedostossa?\n"
 "\n"
-"Kyllä: etähaarasta {2} tulevat ristiriitaiset rivit hylätään näissä:\n"
+"Yhdistät {2} {0}:aan.\n"
+"\n"
+"Kyllä: {2}:sta tulevat ristiriitaiset rivit hylätään tiedostossa:\n"
 "{3}\n"
 "\n"
-"Ei: päätä tiedosto kerrallaan, jolloin etäversio on yhä käytettävissä.\n"
-"Haaran {2} muutokset ilman ristiriitaa yhdistetään joka tapauksessa."
+"Ei: päätä tiedosto kerrallaan, missä {2} versio on edelleen saatavilla.\n"
+"{2}:sta tulevat muutokset, jotka eivät ole ristiriidassa, yhdistetään joka tapauksessa."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 222
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 372
+#: NEEDS WORK
 #, python-brace-format
-msgid "Discarded the {0} version of: {1}"
-msgstr "Hylättiin {0} versio: {1}"
+msgid "Kept {0} and discarded the {1} version of: {2}"
+msgstr "Säilytetty {0} ja hylätty {1} versio: {2}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 225
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:225
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "Hylätty versio on edelleen luettavissa komennolla: {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "paikallinen"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5924,11 +5934,6 @@ msgstr "pidä paikallinen versio"
 #: NEEDS WORK
 msgid "keep the remote version"
 msgstr "pidä etäversio"
-# 
-# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
-#: NEEDS WORK
-msgid "the current branch"
-msgstr "nykyinen haara"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
 #: NEEDS WORK

@@ -1632,11 +1632,6 @@ msgstr "Nei"
 msgid "Yes"
 msgstr "Ja"
 # 
-# File: usr/share/gitrepo/build_package/gui/gtk_adapters.py, line: 130
-#: usr/share/gitrepo/build_package/gui/gtk_adapters.py:125
-msgid "Select an option."
-msgstr "Velg et alternativ."
-# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/gitrepo/build_package/gui/gtk_logger.py, line: 89
@@ -5445,75 +5440,90 @@ msgstr "Hvilken versjon skal brukes for {0}?"
 msgid "All saved-work conflicts were resolved."
 msgstr "Alle konflikter med lagret arbeid ble løst."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
 #: NEEDS WORK
-#, python-brace-format
-msgid "Keep the local version of all {0} catalogs"
-msgstr "Behold den lokale versjonen av alle {0} kataloger"
+msgid "the current branch"
+msgstr "den nåværende grenen"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 312
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 477
 #: NEEDS WORK
 #, python-brace-format
-msgid "Use the {0} version of all {1} catalogs"
-msgstr "Bruk {0}-versjonen av alle {1}-kataloger"
+msgid "Keep {0}"
+msgstr "Behold {0}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
 #: NEEDS WORK
 msgid "Decide file by file"
 msgstr "Bestem fil for fil"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 318
 #: NEEDS WORK
 #, python-brace-format
 msgid ""
-"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
-"{1}"
-msgstr ""
-"Alle {0} konflikter er oversettelseskataloger, gjenoppbygd av oversettelsesarbeidsflyten:  \n"
-"{1}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
-#: NEEDS WORK
-#, python-brace-format
-msgid "✓ Resolved {0} translation catalogs with the {1} version"
-msgstr "✓ Løst {0} oversettelseskataloger med {1} versjonen"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "lokal"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
-#, python-brace-format
-msgid ""
-"Keep the local branch {0} in {1} conflicted file(s)?\n"
+"Conflict in {0} translation catalogs\n"
 "\n"
-"Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
+"These files are rebuilt by the translation workflow. You are merging {1} into {2}, and the two "
+"versions disagree in:\n"
 "{3}\n"
 "\n"
-"No: decide file by file, where the remote version is still available.\n"
+"Keeping {2} discards the {1} version of these files; it stays readable with git diff HEAD^2 -- FILE."
+msgstr ""
+"Konflikt i {0} oversettelseskataloger\n"
+"\n"
+"Disse filene blir gjenoppbygd av oversettelsesarbeidsflyten. Du slår sammen {1} inn i {2}, og de to "
+"versjonene er uenige i:\n"
+"{3}\n"
+"\n"
+"Å beholde {2} forkaster {1} versjonen av disse filene; den forblir lesbar med git diff HEAD^2 -- "
+"FIL."
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 336
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version; {2} was discarded there"
+msgstr "✓ Løst {0} oversettelseskataloger med {1} versjonen; {2} ble forkastet der"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 357
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Keep the branch you are on, {0}, in {1} conflicted file(s)?\n"
+"\n"
+"You are merging {2} into {0}.\n"
+"\n"
+"Yes: the conflicting lines coming from {2} are discarded in:\n"
+"{3}\n"
+"\n"
+"No: decide file by file, where the {2} version is still available.\n"
 "Changes from {2} that do not conflict are merged either way."
 msgstr ""
-"Behold den lokale grenen {0} i {1} fil(er) med konflikt?\n"
+"Behold grenen du er på, {0}, i {1} konfliktfiler?\n"
 "\n"
-"Ja: de konfliktende linjene fra fjerngrenen {2} forkastes i:\n"
+"Du slår sammen {2} inn i {0}.\n"
+"\n"
+"Ja: de konfliktlinjene som kommer fra {2} blir forkastet i:\n"
 "{3}\n"
 "\n"
-"Nei: bestem fil for fil, der fjernversjonen fortsatt er tilgjengelig.\n"
-"Endringer fra {2} uten konflikt flettes uansett."
+"Nei: bestem fil for fil, hvor {2} versjonen fortsatt er tilgjengelig.\n"
+"Endringer fra {2} som ikke er i konflikt blir slått sammen uansett."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 222
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 372
+#: NEEDS WORK
 #, python-brace-format
-msgid "Discarded the {0} version of: {1}"
-msgstr "Forkastet {0}-versjonen av: {1}"
+msgid "Kept {0} and discarded the {1} version of: {2}"
+msgstr "Beholdt {0} og forkastet {1} versjonen av: {2}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 225
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:225
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "Den forkastede versjonen er fortsatt lesbar med: {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "lokal"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5917,11 +5927,6 @@ msgstr "behold den lokale versjonen"
 #: NEEDS WORK
 msgid "keep the remote version"
 msgstr "behold den eksterne versjonen"
-# 
-# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
-#: NEEDS WORK
-msgid "the current branch"
-msgstr "den nåværende grenen"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
 #: NEEDS WORK

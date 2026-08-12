@@ -1492,11 +1492,6 @@ msgstr "Nej"
 msgid "Yes"
 msgstr "Ja"
 # 
-# File: usr/share/gitrepo/build_package/gui/gtk_adapters.py, line: 130
-#: usr/share/gitrepo/build_package/gui/gtk_adapters.py:125
-msgid "Select an option."
-msgstr "Vælg en mulighed."
-# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/gitrepo/build_package/gui/gtk_logger.py, line: 89
@@ -5228,75 +5223,90 @@ msgstr "Hvilken version skal bruges til {0}?"
 msgid "All saved-work conflicts were resolved."
 msgstr "Alle konflikter med gemt arbejde blev løst."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
 #: NEEDS WORK
-#, python-brace-format
-msgid "Keep the local version of all {0} catalogs"
-msgstr "Behold den lokale version af alle {0} kataloger"
+msgid "the current branch"
+msgstr "den nuværende gren"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 312
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 477
 #: NEEDS WORK
 #, python-brace-format
-msgid "Use the {0} version of all {1} catalogs"
-msgstr "Brug {0} versionen af alle {1} kataloger"
+msgid "Keep {0}"
+msgstr "Behold {0}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
 #: NEEDS WORK
 msgid "Decide file by file"
 msgstr "Beslut fil for fil"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 318
 #: NEEDS WORK
 #, python-brace-format
 msgid ""
-"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
-"{1}"
-msgstr ""
-"Alle {0} konflikter er oversættelseskataloger, der er genopbygget af oversættelsesarbejdsgangen:  \n"
-"{1}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
-#: NEEDS WORK
-#, python-brace-format
-msgid "✓ Resolved {0} translation catalogs with the {1} version"
-msgstr "✓ Løst {0} oversættelseskataloger med {1} versionen"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "lokal"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
-#, python-brace-format
-msgid ""
-"Keep the local branch {0} in {1} conflicted file(s)?\n"
+"Conflict in {0} translation catalogs\n"
 "\n"
-"Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
+"These files are rebuilt by the translation workflow. You are merging {1} into {2}, and the two "
+"versions disagree in:\n"
 "{3}\n"
 "\n"
-"No: decide file by file, where the remote version is still available.\n"
+"Keeping {2} discards the {1} version of these files; it stays readable with git diff HEAD^2 -- FILE."
+msgstr ""
+"Konflikt i {0} oversættelseskataloger\n"
+"\n"
+"Disse filer genopbygges af oversættelsesarbejdsgangen. Du fletter {1} ind i {2}, og de to versioner "
+"er uenige i:\n"
+"{3}\n"
+"\n"
+"At bevare {2} forkaster {1} versionen af disse filer; den forbliver læsbar med git diff HEAD^2 -- "
+"FIL."
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 336
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version; {2} was discarded there"
+msgstr "✓ Løst {0} oversættelseskataloger med {1} versionen; {2} blev kasseret der"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 357
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Keep the branch you are on, {0}, in {1} conflicted file(s)?\n"
+"\n"
+"You are merging {2} into {0}.\n"
+"\n"
+"Yes: the conflicting lines coming from {2} are discarded in:\n"
+"{3}\n"
+"\n"
+"No: decide file by file, where the {2} version is still available.\n"
 "Changes from {2} that do not conflict are merged either way."
 msgstr ""
-"Behold den lokale gren {0} i {1} fil(er) med konflikt?\n"
+"Behold den gren, du er på, {0}, i {1} konfliktfyldte fil(er)?\n"
 "\n"
-"Ja: de konfliktende linjer fra fjerngrenen {2} kasseres i:\n"
+"Du fusionerer {2} ind i {0}.\n"
+"\n"
+"Ja: de konfliktfyldte linjer fra {2} bliver forkastet i:\n"
 "{3}\n"
 "\n"
-"Nej: beslut fil for fil, hvor fjernversionen stadig er tilgængelig.\n"
-"Ændringer fra {2} uden konflikt flettes under alle omstændigheder."
+"Nej: beslut fil for fil, hvor {2} versionen stadig er tilgængelig.\n"
+"Ændringer fra {2}, der ikke konflikter, bliver fusioneret uanset hvad."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 222
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 372
+#: NEEDS WORK
 #, python-brace-format
-msgid "Discarded the {0} version of: {1}"
-msgstr "Forkastede {0}-versionen af: {1}"
+msgid "Kept {0} and discarded the {1} version of: {2}"
+msgstr "Beholdt {0} og forkastede {1} versionen af: {2}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 225
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:225
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "Den kasserede version kan stadig læses med: {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "lokal"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5696,11 +5706,6 @@ msgstr "behold den lokale version"
 #: NEEDS WORK
 msgid "keep the remote version"
 msgstr "behold den fjerntliggende version"
-# 
-# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
-#: NEEDS WORK
-msgid "the current branch"
-msgstr "den nuværende gren"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
 #: NEEDS WORK

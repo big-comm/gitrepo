@@ -1496,11 +1496,6 @@ msgstr "Nem"
 msgid "Yes"
 msgstr "Igen"
 # 
-# File: usr/share/gitrepo/build_package/gui/gtk_adapters.py, line: 130
-#: usr/share/gitrepo/build_package/gui/gtk_adapters.py:125
-msgid "Select an option."
-msgstr "Válasszon egy lehetőséget."
-# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/gitrepo/build_package/gui/gtk_logger.py, line: 89
@@ -5240,75 +5235,90 @@ msgstr "Melyik verziót kell használni a {0} számára?"
 msgid "All saved-work conflicts were resolved."
 msgstr "Minden mentett munka konfliktusát megoldották."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
 #: NEEDS WORK
-#, python-brace-format
-msgid "Keep the local version of all {0} catalogs"
-msgstr "Tartsd meg a helyi verzióját az összes {0} katalógusnak"
+msgid "the current branch"
+msgstr "a jelenlegi ág"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 312
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 477
 #: NEEDS WORK
 #, python-brace-format
-msgid "Use the {0} version of all {1} catalogs"
-msgstr "Használja a {0} verziót az összes {1} katalógushoz"
+msgid "Keep {0}"
+msgstr "Tartsd meg {0}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
 #: NEEDS WORK
 msgid "Decide file by file"
 msgstr "Döntsön fájlonként"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 318
 #: NEEDS WORK
 #, python-brace-format
 msgid ""
-"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
-"{1}"
-msgstr ""
-"Minden {0} konfliktus fordítási katalógus, amelyet a fordítási munkafolyamat épített újjá:  \n"
-"{1}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
-#: NEEDS WORK
-#, python-brace-format
-msgid "✓ Resolved {0} translation catalogs with the {1} version"
-msgstr "✓ {0} fordítási katalógust oldottunk meg a {1} verzióval"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "helyi"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
-#, python-brace-format
-msgid ""
-"Keep the local branch {0} in {1} conflicted file(s)?\n"
+"Conflict in {0} translation catalogs\n"
 "\n"
-"Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
+"These files are rebuilt by the translation workflow. You are merging {1} into {2}, and the two "
+"versions disagree in:\n"
 "{3}\n"
 "\n"
-"No: decide file by file, where the remote version is still available.\n"
+"Keeping {2} discards the {1} version of these files; it stays readable with git diff HEAD^2 -- FILE."
+msgstr ""
+"Ütközés a {0} fordítási katalógusokban\n"
+"\n"
+"Ezeket a fájlokat a fordítási munkafolyamat építi újra. A {1} fájlt a {2} fájlba olvasztja, és a "
+"két verzió eltér a következőben:\n"
+"{3}\n"
+"\n"
+"A {2} megtartása elveti a {1} verziót ezekből a fájlokból; a git diff HEAD^2 -- FILE paranccsal "
+"olvasható marad."
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 336
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version; {2} was discarded there"
+msgstr "✓ {0} fordítási katalógus megoldva a {1} verzióval; a {2} ott el lett vetve"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 357
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Keep the branch you are on, {0}, in {1} conflicted file(s)?\n"
+"\n"
+"You are merging {2} into {0}.\n"
+"\n"
+"Yes: the conflicting lines coming from {2} are discarded in:\n"
+"{3}\n"
+"\n"
+"No: decide file by file, where the {2} version is still available.\n"
 "Changes from {2} that do not conflict are merged either way."
 msgstr ""
-"Megtartja a helyi {0} ágat {1} ütköző fájlban?\n"
+"Tartsd meg a jelenlegi ágat, {0}, a {1} konfliktusos fájl(ok)ban?\n"
 "\n"
-"Igen: a távoli {2} ágról érkező ütköző sorok elvetésre kerülnek ezekben:\n"
+"A {2} ágat egyesíted a {0}-val.\n"
+"\n"
+"Igen: a {2}-ből származó konfliktusos sorok el lesznek dobva a következőben:\n"
 "{3}\n"
 "\n"
-"Nem: fájlonként dönthet, ahol a távoli verzió továbbra is elérhető marad.\n"
-"A {2} ág nem ütköző módosításai mindkét esetben beolvadnak."
+"Nem: dönts fájlról fájlra, ahol a {2} verzió még elérhető.\n"
+"A {2} változtatásai, amelyek nem ütköznek, bármelyik irányba egyesítve lesznek."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 222
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 372
+#: NEEDS WORK
 #, python-brace-format
-msgid "Discarded the {0} version of: {1}"
-msgstr "A(z) {0} verzió elvetve innen: {1}"
+msgid "Kept {0} and discarded the {1} version of: {2}"
+msgstr "Megőrizte a {0} verziót, és elvetette a {1} verziót: {2}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 225
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:225
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "Az elvetett verzió továbbra is megtekinthető ezzel: {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "helyi"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5708,11 +5718,6 @@ msgstr "tartsa meg a helyi verziót"
 #: NEEDS WORK
 msgid "keep the remote version"
 msgstr "tartsd meg a távoli verziót"
-# 
-# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
-#: NEEDS WORK
-msgid "the current branch"
-msgstr "a jelenlegi ág"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
 #: NEEDS WORK

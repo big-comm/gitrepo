@@ -1494,11 +1494,6 @@ msgstr "Nej"
 msgid "Yes"
 msgstr "Ja"
 # 
-# File: usr/share/gitrepo/build_package/gui/gtk_adapters.py, line: 130
-#: usr/share/gitrepo/build_package/gui/gtk_adapters.py:125
-msgid "Select an option."
-msgstr "Välj ett alternativ."
-# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/gitrepo/build_package/gui/gtk_logger.py, line: 89
@@ -5228,75 +5223,90 @@ msgstr "Vilken version ska användas för {0}?"
 msgid "All saved-work conflicts were resolved."
 msgstr "Alla konflikter med sparat arbete har lösts."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
 #: NEEDS WORK
-#, python-brace-format
-msgid "Keep the local version of all {0} catalogs"
-msgstr "Behåll den lokala versionen av alla {0} kataloger"
+msgid "the current branch"
+msgstr "den aktuella grenen"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 312
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 477
 #: NEEDS WORK
 #, python-brace-format
-msgid "Use the {0} version of all {1} catalogs"
-msgstr "Använd {0} versionen av alla {1} kataloger"
+msgid "Keep {0}"
+msgstr "Behåll {0}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
 #: NEEDS WORK
 msgid "Decide file by file"
 msgstr "Bestäm fil för fil"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 318
 #: NEEDS WORK
 #, python-brace-format
 msgid ""
-"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
-"{1}"
-msgstr ""
-"Alla {0} konflikter är översättningskataloger, ombyggda av översättningsarbetsflödet:  \n"
-"{1}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
-#: NEEDS WORK
-#, python-brace-format
-msgid "✓ Resolved {0} translation catalogs with the {1} version"
-msgstr "✓ Löste {0} översättningskataloger med {1} versionen"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "lokal"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
-#, python-brace-format
-msgid ""
-"Keep the local branch {0} in {1} conflicted file(s)?\n"
+"Conflict in {0} translation catalogs\n"
 "\n"
-"Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
+"These files are rebuilt by the translation workflow. You are merging {1} into {2}, and the two "
+"versions disagree in:\n"
 "{3}\n"
 "\n"
-"No: decide file by file, where the remote version is still available.\n"
+"Keeping {2} discards the {1} version of these files; it stays readable with git diff HEAD^2 -- FILE."
+msgstr ""
+"Konflikt i {0} översättningskataloger\n"
+"\n"
+"Dessa filer byggs om av översättningsarbetsflödet. Du slår samman {1} i {2}, och de två versionerna "
+"är oense i:\n"
+"{3}\n"
+"\n"
+"Att behålla {2} förkastar {1} versionen av dessa filer; den förblir läsbar med git diff HEAD^2 -- "
+"FIL."
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 336
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version; {2} was discarded there"
+msgstr "✓ Löste {0} översättningskataloger med {1} versionen; {2} avvisades där"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 357
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Keep the branch you are on, {0}, in {1} conflicted file(s)?\n"
+"\n"
+"You are merging {2} into {0}.\n"
+"\n"
+"Yes: the conflicting lines coming from {2} are discarded in:\n"
+"{3}\n"
+"\n"
+"No: decide file by file, where the {2} version is still available.\n"
 "Changes from {2} that do not conflict are merged either way."
 msgstr ""
-"Behåll den lokala grenen {0} i {1} fil(er) med konflikt?\n"
+"Behåll den gren du är på, {0}, i {1} konfliktfiler?\n"
 "\n"
-"Ja: de konfliktande raderna från fjärrgrenen {2} förkastas i:\n"
+"Du slår samman {2} i {0}.\n"
+"\n"
+"Ja: de konfliktlinjer som kommer från {2} kasseras i:\n"
 "{3}\n"
 "\n"
-"Nej: bestäm fil för fil, där fjärrversionen fortfarande är tillgänglig.\n"
-"Ändringar från {2} utan konflikt sammanfogas oavsett."
+"Nej: bestäm fil för fil, där {2} versionen fortfarande är tillgänglig.\n"
+"Ändringar från {2} som inte konfliktar slås samman oavsett."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 222
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 372
+#: NEEDS WORK
 #, python-brace-format
-msgid "Discarded the {0} version of: {1}"
-msgstr "Versionen från {0} av: {1} kasserades"
+msgid "Kept {0} and discarded the {1} version of: {2}"
+msgstr "Behöll {0} och kasserade {1} versionen av: {2}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 225
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:225
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "Den kasserade versionen går fortfarande att läsa med: {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "lokal"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5696,11 +5706,6 @@ msgstr "behåll den lokala versionen"
 #: NEEDS WORK
 msgid "keep the remote version"
 msgstr "behåll den fjärrversionen"
-# 
-# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
-#: NEEDS WORK
-msgid "the current branch"
-msgstr "den aktuella grenen"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
 #: NEEDS WORK

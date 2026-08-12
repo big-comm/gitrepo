@@ -1634,11 +1634,6 @@ msgstr "Ei"
 msgid "Yes"
 msgstr "Jah"
 # 
-# File: usr/share/gitrepo/build_package/gui/gtk_adapters.py, line: 130
-#: usr/share/gitrepo/build_package/gui/gtk_adapters.py:125
-msgid "Select an option."
-msgstr "Valige suvand."
-# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/gitrepo/build_package/gui/gtk_logger.py, line: 89
@@ -5445,75 +5440,89 @@ msgstr "Millist versiooni tuleks kasutada {0} jaoks?"
 msgid "All saved-work conflicts were resolved."
 msgstr "Kõik salvestatud töö konfliktid on lahendatud."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
 #: NEEDS WORK
-#, python-brace-format
-msgid "Keep the local version of all {0} catalogs"
-msgstr "Hoia kohaliku versiooni kõigist {0} kataloogidest"
+msgid "the current branch"
+msgstr "praegune haru"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 312
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 477
 #: NEEDS WORK
 #, python-brace-format
-msgid "Use the {0} version of all {1} catalogs"
-msgstr "Kasutage kõiki {1} katalooge {0} versiooni."
+msgid "Keep {0}"
+msgstr "Hoia {0}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
 #: NEEDS WORK
 msgid "Decide file by file"
 msgstr "Otsusta failiti kaupa"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 318
 #: NEEDS WORK
 #, python-brace-format
 msgid ""
-"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
-"{1}"
-msgstr ""
-"Kõik {0} konfliktid on tõlke kataloogid, mis on taastatud tõlke töövoo kaudu:  \n"
-"{1}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
-#: NEEDS WORK
-#, python-brace-format
-msgid "✓ Resolved {0} translation catalogs with the {1} version"
-msgstr "✓ Lahendatud {0} tõlke katalooge {1} versiooniga"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "kohalik"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
-#, python-brace-format
-msgid ""
-"Keep the local branch {0} in {1} conflicted file(s)?\n"
+"Conflict in {0} translation catalogs\n"
 "\n"
-"Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
+"These files are rebuilt by the translation workflow. You are merging {1} into {2}, and the two "
+"versions disagree in:\n"
 "{3}\n"
 "\n"
-"No: decide file by file, where the remote version is still available.\n"
+"Keeping {2} discards the {1} version of these files; it stays readable with git diff HEAD^2 -- FILE."
+msgstr ""
+"Konflikt {0} tõlke kataloogides\n"
+"\n"
+"Need failid ehitatakse ümber tõlke töövoo kaudu. Te liidate {1} {2}-ga, ja need kaks versiooni ei "
+"ole üheselt mõistetavad:\n"
+"{3}\n"
+"\n"
+"{2} hoidmine loob {1} versiooni nendest failidest; see jääb loetavaks git diff HEAD^2 -- FAIL."
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 336
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version; {2} was discarded there"
+msgstr "✓ Lahendatud {0} tõlke katalooge {1} versiooniga; {2} jäeti seal kõrvale"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 357
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Keep the branch you are on, {0}, in {1} conflicted file(s)?\n"
+"\n"
+"You are merging {2} into {0}.\n"
+"\n"
+"Yes: the conflicting lines coming from {2} are discarded in:\n"
+"{3}\n"
+"\n"
+"No: decide file by file, where the {2} version is still available.\n"
 "Changes from {2} that do not conflict are merged either way."
 msgstr ""
-"Kas säilitada kohalik haru {0} {1} konfliktses failis?\n"
+"Hoia haru, millega sa oled, {0}, {1} konfliktsetes failides?\n"
 "\n"
-"Jah: kaugharust {2} tulevad konfliktsed read jäetakse kõrvale failides:\n"
+"Sa liidad {2} {0}-sse.\n"
+"\n"
+"Jah: konfliktsete read, mis tulevad {2}-st, jäetakse kõrvale:\n"
 "{3}\n"
 "\n"
-"Ei: otsusta fail haaval, kusjuures kaugversioon jääb kättesaadavaks.\n"
-"Konfliktita muudatused harust {2} liidetakse mõlemal juhul."
+"Ei: otsusta failide kaupa, kus {2} versioon on endiselt saadaval.\n"
+"{2} muudatused, mis ei ole konfliktis, liidetakse igal juhul."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 222
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 372
+#: NEEDS WORK
 #, python-brace-format
-msgid "Discarded the {0} version of: {1}"
-msgstr "Loobuti versioonist {0} faili puhul: {1}"
+msgid "Kept {0} and discarded the {1} version of: {2}"
+msgstr "Hoidsime {0} ja kõrvaldasime {1} versiooni: {2}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 225
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:225
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "Kõrvaldatud versiooni on siiski loetav käsuga: {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "kohalik"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5917,11 +5926,6 @@ msgstr "hoia kohaliku versiooni"
 #: NEEDS WORK
 msgid "keep the remote version"
 msgstr "hoia kaugversioon"
-# 
-# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
-#: NEEDS WORK
-msgid "the current branch"
-msgstr "praegune haru"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
 #: NEEDS WORK

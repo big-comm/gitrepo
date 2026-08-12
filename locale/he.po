@@ -1492,11 +1492,6 @@ msgstr "לא"
 msgid "Yes"
 msgstr "כן"
 # 
-# File: usr/share/gitrepo/build_package/gui/gtk_adapters.py, line: 130
-#: usr/share/gitrepo/build_package/gui/gtk_adapters.py:125
-msgid "Select an option."
-msgstr "בחר אפשרות."
-# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/gitrepo/build_package/gui/gtk_logger.py, line: 89
@@ -5206,75 +5201,89 @@ msgstr "איזו גרסה יש להשתמש עבור {0}?"
 msgid "All saved-work conflicts were resolved."
 msgstr "כל הקונפליקטים בעבודות השמורות נפתרו."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
 #: NEEDS WORK
-#, python-brace-format
-msgid "Keep the local version of all {0} catalogs"
-msgstr "שמור את הגרסה המקומית של כל הקטלוגים {0}"
+msgid "the current branch"
+msgstr "הסניף הנוכחי"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 312
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 477
 #: NEEDS WORK
 #, python-brace-format
-msgid "Use the {0} version of all {1} catalogs"
-msgstr "השתמש בגרסה {0} של כל הקטלוגים {1}"
+msgid "Keep {0}"
+msgstr "שמור {0}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
 #: NEEDS WORK
 msgid "Decide file by file"
 msgstr "החליט קובץ אחר קובץ"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 318
 #: NEEDS WORK
 #, python-brace-format
 msgid ""
-"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
-"{1}"
-msgstr ""
-"כל {0} הקונפליקטים הם קטלוגי תרגום, שנבנו מחדש על ידי זרימת העבודה של התרגום:  \n"
-"{1}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
-#: NEEDS WORK
-#, python-brace-format
-msgid "✓ Resolved {0} translation catalogs with the {1} version"
-msgstr "✓ נפתרו {0} קטלוגי תרגום עם גרסת {1}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "מקומי"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
-#, python-brace-format
-msgid ""
-"Keep the local branch {0} in {1} conflicted file(s)?\n"
+"Conflict in {0} translation catalogs\n"
 "\n"
-"Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
+"These files are rebuilt by the translation workflow. You are merging {1} into {2}, and the two "
+"versions disagree in:\n"
 "{3}\n"
 "\n"
-"No: decide file by file, where the remote version is still available.\n"
+"Keeping {2} discards the {1} version of these files; it stays readable with git diff HEAD^2 -- FILE."
+msgstr ""
+"קונפליקט בקטלוגי התרגום של {0}\n"
+"\n"
+"קבצים אלה נבנים מחדש על ידי זרימת העבודה של התרגום. אתה ממזג {1} לתוך {2}, ושתי הגרסאות לא מסכימות "
+"ב:\n"
+"{3}\n"
+"\n"
+"שימור {2} זורק את גרסת {1} של קבצים אלה; היא נשארת קריאה עם git diff HEAD^2 -- FILE."
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 336
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version; {2} was discarded there"
+msgstr "✓ נפתרו {0} קטלוגי תרגום עם גרסת {1}; {2} נזרק שם"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 357
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Keep the branch you are on, {0}, in {1} conflicted file(s)?\n"
+"\n"
+"You are merging {2} into {0}.\n"
+"\n"
+"Yes: the conflicting lines coming from {2} are discarded in:\n"
+"{3}\n"
+"\n"
+"No: decide file by file, where the {2} version is still available.\n"
 "Changes from {2} that do not conflict are merged either way."
 msgstr ""
-"לשמור את הענף המקומי {0} ב-{1} קבצים עם התנגשות?\n"
+"שמור את הסניף שבו אתה נמצא, {0}, בקובץ(ים) המנוגדים {1}?\n"
 "\n"
-"כן: השורות המתנגשות שמגיעות מהענף המרוחק {2} יבוטלו בקבצים:\n"
+"אתה ממזג את {2} לתוך {0}.\n"
+"\n"
+"כן: השורות המנוגדות שמקורן ב-{2} נדחות ב:\n"
 "{3}\n"
 "\n"
-"לא: להחליט קובץ אחר קובץ, כאשר הגרסה המרוחקת עדיין זמינה.\n"
-"שינויים מ-{2} שאינם מתנגשים ימוזגו בכל מקרה."
+"לא: החליט קובץ לפי קובץ, היכן שגרסת {2} עדיין זמינה.\n"
+"שינויים מ-{2} שאינם מנוגדים ממוזגים בכל מקרה."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 222
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 372
+#: NEEDS WORK
 #, python-brace-format
-msgid "Discarded the {0} version of: {1}"
-msgstr "גרסת {0} של {1} נזרקה."
+msgid "Kept {0} and discarded the {1} version of: {2}"
+msgstr "שמר את {0} וזרק את הגרסה {1} של: {2}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 225
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:225
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "הגרסה שנמחקה עדיין קריאה באמצעות: {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "מקומי"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5674,11 +5683,6 @@ msgstr "שמור את הגרסה המקומית"
 #: NEEDS WORK
 msgid "keep the remote version"
 msgstr "שמור את הגרסה המרוחקת"
-# 
-# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
-#: NEEDS WORK
-msgid "the current branch"
-msgstr "הסניף הנוכחי"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
 #: NEEDS WORK

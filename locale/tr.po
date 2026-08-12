@@ -1634,11 +1634,6 @@ msgstr "Hayır"
 msgid "Yes"
 msgstr "Evet"
 # 
-# File: usr/share/gitrepo/build_package/gui/gtk_adapters.py, line: 130
-#: usr/share/gitrepo/build_package/gui/gtk_adapters.py:125
-msgid "Select an option."
-msgstr "Bir seçenek belirleyin."
-# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/gitrepo/build_package/gui/gtk_logger.py, line: 89
@@ -5450,75 +5445,90 @@ msgstr "{0} için hangi sürüm kullanılmalıdır?"
 msgid "All saved-work conflicts were resolved."
 msgstr "Tüm kaydedilmiş çalışma çatışmaları çözüldü."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
 #: NEEDS WORK
-#, python-brace-format
-msgid "Keep the local version of all {0} catalogs"
-msgstr "Tüm {0} kataloglarının yerel sürümünü saklayın"
+msgid "the current branch"
+msgstr "geçerli dal"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 312
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 477
 #: NEEDS WORK
 #, python-brace-format
-msgid "Use the {0} version of all {1} catalogs"
-msgstr "Tüm {1} kataloglarının {0} sürümünü kullanın"
+msgid "Keep {0}"
+msgstr "{0}'yı koru"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
 #: NEEDS WORK
 msgid "Decide file by file"
 msgstr "Dosya dosya karar ver"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 318
 #: NEEDS WORK
 #, python-brace-format
 msgid ""
-"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
-"{1}"
-msgstr ""
-"Tüm {0} çakışmaları, çeviri iş akışı tarafından yeniden oluşturulan çeviri kataloglarıdır:  \n"
-"{1}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
-#: NEEDS WORK
-#, python-brace-format
-msgid "✓ Resolved {0} translation catalogs with the {1} version"
-msgstr "✓ {1} sürümü ile {0} çeviri kataloğu çözüldü"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "yerel"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
-#, python-brace-format
-msgid ""
-"Keep the local branch {0} in {1} conflicted file(s)?\n"
+"Conflict in {0} translation catalogs\n"
 "\n"
-"Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
+"These files are rebuilt by the translation workflow. You are merging {1} into {2}, and the two "
+"versions disagree in:\n"
 "{3}\n"
 "\n"
-"No: decide file by file, where the remote version is still available.\n"
+"Keeping {2} discards the {1} version of these files; it stays readable with git diff HEAD^2 -- FILE."
+msgstr ""
+"{0} çeviri kataloglarında çakışma\n"
+"\n"
+"Bu dosyalar çeviri iş akışı tarafından yeniden oluşturulmaktadır. {1} dosyasını {2} ile "
+"birleştiriyorsunuz ve iki versiyon arasında şu konularda anlaşmazlık var:\n"
+"{3}\n"
+"\n"
+"{2} dosyasını korumak, bu dosyaların {1} versiyonunu atar; git diff HEAD^2 -- FILE ile okunabilir "
+"durumda kalır."
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 336
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version; {2} was discarded there"
+msgstr "✓ {0} çeviri kataloğu {1} sürümü ile çözüldü; {2} burada atıldı"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 357
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Keep the branch you are on, {0}, in {1} conflicted file(s)?\n"
+"\n"
+"You are merging {2} into {0}.\n"
+"\n"
+"Yes: the conflicting lines coming from {2} are discarded in:\n"
+"{3}\n"
+"\n"
+"No: decide file by file, where the {2} version is still available.\n"
 "Changes from {2} that do not conflict are merged either way."
 msgstr ""
-"{1} çakışan dosyada yerel {0} dalı korunsun mu?\n"
+"Bulunduğunuz dalı, {0}, {1} çelişkili dosya(lar)da tutmak ister misiniz?\n"
 "\n"
-"Evet: uzak {2} dalından gelen çakışan satırlar şu dosyalarda atılır:\n"
+"{2}'yi {0} içine birleştiriyorsunuz.\n"
+"\n"
+"Evet: {2}'den gelen çelişkili satırlar şunlarda atılacaktır:\n"
 "{3}\n"
 "\n"
-"Hayır: dosya dosya karar verirsiniz, uzak sürüm yine kullanılabilir kalır.\n"
-"{2} dalının çakışmayan değişiklikleri her durumda birleştirilir."
+"Hayır: {2} sürümünün hala mevcut olduğu dosya dosya karar verin.\n"
+"Çelişmeyen {2} değişiklikleri her iki şekilde birleştirilir."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 222
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 372
+#: NEEDS WORK
 #, python-brace-format
-msgid "Discarded the {0} version of: {1}"
-msgstr "{0} sürümü atıldı: {1}"
+msgid "Kept {0} and discarded the {1} version of: {2}"
+msgstr "{0} korundu ve {1} sürümünü attım: {2}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 225
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:225
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "Atılan sürüm hâlâ şu şekilde okunabilir: {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "yerel"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5922,11 +5932,6 @@ msgstr "yerel sürümü koru"
 #: NEEDS WORK
 msgid "keep the remote version"
 msgstr "uzaktan sürümü koru"
-# 
-# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
-#: NEEDS WORK
-msgid "the current branch"
-msgstr "geçerli dal"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
 #: NEEDS WORK

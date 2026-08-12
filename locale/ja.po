@@ -1632,11 +1632,6 @@ msgstr "いいえ"
 msgid "Yes"
 msgstr "はい"
 # 
-# File: usr/share/gitrepo/build_package/gui/gtk_adapters.py, line: 130
-#: usr/share/gitrepo/build_package/gui/gtk_adapters.py:125
-msgid "Select an option."
-msgstr "オプションを選択してください。"
-# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/gitrepo/build_package/gui/gtk_logger.py, line: 89
@@ -5414,75 +5409,88 @@ msgstr "{0}にはどのバージョンを使用すべきですか？"
 msgid "All saved-work conflicts were resolved."
 msgstr "すべての保存された作業の競合が解決されました。"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
 #: NEEDS WORK
-#, python-brace-format
-msgid "Keep the local version of all {0} catalogs"
-msgstr "すべての {0} カタログのローカルバージョンを保持する"
+msgid "the current branch"
+msgstr "現在のブランチ"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 312
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 477
 #: NEEDS WORK
 #, python-brace-format
-msgid "Use the {0} version of all {1} catalogs"
-msgstr "すべての {1} カタログの {0} バージョンを使用してください"
+msgid "Keep {0}"
+msgstr "{0}を保持"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
 #: NEEDS WORK
 msgid "Decide file by file"
 msgstr "ファイルごとに決定"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 318
 #: NEEDS WORK
 #, python-brace-format
 msgid ""
-"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
-"{1}"
-msgstr ""
-"すべての {0} コンフリクトは翻訳カタログであり、翻訳ワークフローによって再構築されます:  \n"
-"{1}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
-#: NEEDS WORK
-#, python-brace-format
-msgid "✓ Resolved {0} translation catalogs with the {1} version"
-msgstr "✓ {1} バージョンで {0} の翻訳カタログを解決しました"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "ローカル"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
-#, python-brace-format
-msgid ""
-"Keep the local branch {0} in {1} conflicted file(s)?\n"
+"Conflict in {0} translation catalogs\n"
 "\n"
-"Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
+"These files are rebuilt by the translation workflow. You are merging {1} into {2}, and the two "
+"versions disagree in:\n"
 "{3}\n"
 "\n"
-"No: decide file by file, where the remote version is still available.\n"
+"Keeping {2} discards the {1} version of these files; it stays readable with git diff HEAD^2 -- FILE."
+msgstr ""
+"{0} 翻訳カタログの競合\n"
+"\n"
+"これらのファイルは翻訳ワークフローによって再構築されます。{1} を {2} にマージしていますが、2 つのバージョンが次の点で不一致です：\n"
+"{3}\n"
+"\n"
+"{2} を保持すると、これらのファイルの {1} バージョンが破棄されます。git diff HEAD^2 -- FILE で読み取り可能なままです。"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 336
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version; {2} was discarded there"
+msgstr "✓ {0} の翻訳カタログが {1} バージョンで解決されました; {2} はそこで破棄されました"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 357
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Keep the branch you are on, {0}, in {1} conflicted file(s)?\n"
+"\n"
+"You are merging {2} into {0}.\n"
+"\n"
+"Yes: the conflicting lines coming from {2} are discarded in:\n"
+"{3}\n"
+"\n"
+"No: decide file by file, where the {2} version is still available.\n"
 "Changes from {2} that do not conflict are merged either way."
 msgstr ""
-"競合している {1} 個のファイルでローカルブランチ {0} を維持しますか？\n"
+"現在のブランチ {0} を {1} の競合ファイルに保持しますか？\n"
 "\n"
-"はい: リモート {2} から来る競合行は次のファイルで破棄されます:\n"
+"{2} を {0} にマージしています。\n"
+"\n"
+"はい: {2} からの競合行は次のファイルで破棄されます:\n"
 "{3}\n"
 "\n"
-"いいえ: ファイルごとに選択でき、リモート版も引き続き選べます。\n"
-"競合しない {2} の変更はどちらの場合もマージされます。"
+"いいえ: {2} バージョンがまだ利用可能なファイルごとに決定します。\n"
+"競合しない {2} からの変更はどちらにしてもマージされます。"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 222
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 372
+#: NEEDS WORK
 #, python-brace-format
-msgid "Discarded the {0} version of: {1}"
-msgstr "{0}バージョンの破棄先: {1}"
+msgid "Kept {0} and discarded the {1} version of: {2}"
+msgstr "{0}を保持し、{1}バージョンの{2}を破棄しました。"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 225
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:225
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "破棄されたバージョンは、{0} で引き続き読み取ることができます。"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "ローカル"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5886,11 +5894,6 @@ msgstr "ローカルバージョンを保持する"
 #: NEEDS WORK
 msgid "keep the remote version"
 msgstr "リモートバージョンを保持する"
-# 
-# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
-#: NEEDS WORK
-msgid "the current branch"
-msgstr "現在のブランチ"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
 #: NEEDS WORK

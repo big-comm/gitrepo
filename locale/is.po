@@ -1634,11 +1634,6 @@ msgstr "Nei"
 msgid "Yes"
 msgstr "Já"
 # 
-# File: usr/share/gitrepo/build_package/gui/gtk_adapters.py, line: 130
-#: usr/share/gitrepo/build_package/gui/gtk_adapters.py:125
-msgid "Select an option."
-msgstr "Veldu valkost."
-# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/gitrepo/build_package/gui/gtk_logger.py, line: 89
@@ -5449,75 +5444,90 @@ msgstr "Hvaða útgáfu á að nota fyrir {0}?"
 msgid "All saved-work conflicts were resolved."
 msgstr "Öll vistaðar vinnuátök voru leyst."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
 #: NEEDS WORK
-#, python-brace-format
-msgid "Keep the local version of all {0} catalogs"
-msgstr "Haldaðu staðbundna útgáfu af öllum {0} skráningum"
+msgid "the current branch"
+msgstr "núverandi grein"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 312
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 477
 #: NEEDS WORK
 #, python-brace-format
-msgid "Use the {0} version of all {1} catalogs"
-msgstr "Notaðu {0} útgáfuna af öllum {1} skráum"
+msgid "Keep {0}"
+msgstr "Haldaðu {0}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
 #: NEEDS WORK
 msgid "Decide file by file"
 msgstr "Ákveða skrá fyrir skrá"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 318
 #: NEEDS WORK
 #, python-brace-format
 msgid ""
-"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
-"{1}"
-msgstr ""
-"Öll {0} árekstrar eru þýðingarskrá, endurbyggðar af þýðingarferlinu:  \n"
-"{1}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
-#: NEEDS WORK
-#, python-brace-format
-msgid "✓ Resolved {0} translation catalogs with the {1} version"
-msgstr "✓ Leyst {0} þýðingaskrár með {1} útgáfu"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "staðbundið"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
-#, python-brace-format
-msgid ""
-"Keep the local branch {0} in {1} conflicted file(s)?\n"
+"Conflict in {0} translation catalogs\n"
 "\n"
-"Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
+"These files are rebuilt by the translation workflow. You are merging {1} into {2}, and the two "
+"versions disagree in:\n"
 "{3}\n"
 "\n"
-"No: decide file by file, where the remote version is still available.\n"
+"Keeping {2} discards the {1} version of these files; it stays readable with git diff HEAD^2 -- FILE."
+msgstr ""
+"Ágreining í {0} þýðingarskrám\n"
+"\n"
+"Þessar skrár eru endurbyggðar af þýðingarvinnuflæði. Þú ert að sameina {1} í {2}, og tvær "
+"útgáfurnar eru ósammála um:\n"
+"{3}\n"
+"\n"
+"Að halda {2} fella niður {1} útgáfuna af þessum skrám; hún er áfram læsileg með git diff HEAD^2 -- "
+"FILE."
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 336
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version; {2} was discarded there"
+msgstr "✓ Leyst {0} þýðingaskrár með {1} útgáfu; {2} var hafnað þar"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 357
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Keep the branch you are on, {0}, in {1} conflicted file(s)?\n"
+"\n"
+"You are merging {2} into {0}.\n"
+"\n"
+"Yes: the conflicting lines coming from {2} are discarded in:\n"
+"{3}\n"
+"\n"
+"No: decide file by file, where the {2} version is still available.\n"
 "Changes from {2} that do not conflict are merged either way."
 msgstr ""
-"Halda staðbundnu greininni {0} í {1} skrá(m) með árekstri?\n"
+"Haldaðu greinina sem þú ert á, {0}, í {1} deiluskjalum?\n"
 "\n"
-"Já: línurnar í árekstri sem koma frá fjargreininni {2} eru felldar niður í:\n"
+"Þú ert að sameina {2} inn í {0}.\n"
+"\n"
+"Já: deiluskil línurnar sem koma frá {2} eru hafnaðar í:\n"
 "{3}\n"
 "\n"
-"Nei: ákveða skrá fyrir skrá, þar sem fjarútgáfan er áfram í boði.\n"
-"Breytingar frá {2} án áreksturs eru sameinaðar hvort sem er."
+"Nei: ákveðið skjal fyrir skjal, þar sem {2} útgáfan er enn tiltæk.\n"
+"Breytingar frá {2} sem ekki deila eru sameinaðar hvort sem er."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 222
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 372
+#: NEEDS WORK
 #, python-brace-format
-msgid "Discarded the {0} version of: {1}"
-msgstr "Fleygði {0}-útgáfunni af: {1}"
+msgid "Kept {0} and discarded the {1} version of: {2}"
+msgstr "Geymd {0} og hafnaði {1} útgáfunni af: {2}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 225
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:225
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "Hægt er að lesa fjarlægðu útgáfuna með: {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "staðbundið"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5921,11 +5931,6 @@ msgstr "haldaðu staðbundna útgáfu"
 #: NEEDS WORK
 msgid "keep the remote version"
 msgstr "haldaðu fjarveituna"
-# 
-# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
-#: NEEDS WORK
-msgid "the current branch"
-msgstr "núverandi grein"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
 #: NEEDS WORK

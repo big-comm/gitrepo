@@ -1633,11 +1633,6 @@ msgstr "Ne"
 msgid "Yes"
 msgstr "Da"
 # 
-# File: usr/share/gitrepo/build_package/gui/gtk_adapters.py, line: 130
-#: usr/share/gitrepo/build_package/gui/gtk_adapters.py:125
-msgid "Select an option."
-msgstr "Odaberite opciju."
-# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/gitrepo/build_package/gui/gtk_logger.py, line: 89
@@ -5453,75 +5448,89 @@ msgstr "Koja verzija bi trebala biti korištena za {0}?"
 msgid "All saved-work conflicts were resolved."
 msgstr "Svi sukobi sa spremljenim radom su riješeni."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
 #: NEEDS WORK
-#, python-brace-format
-msgid "Keep the local version of all {0} catalogs"
-msgstr "Zadrži lokalnu verziju svih {0} kataloga"
+msgid "the current branch"
+msgstr "trenutna grana"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 312
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 477
 #: NEEDS WORK
 #, python-brace-format
-msgid "Use the {0} version of all {1} catalogs"
-msgstr "Koristite {0} verziju svih {1} kataloga"
+msgid "Keep {0}"
+msgstr "Zadrži {0}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
 #: NEEDS WORK
 msgid "Decide file by file"
 msgstr "Odlučite datoteku po datoteku"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 318
 #: NEEDS WORK
 #, python-brace-format
 msgid ""
-"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
-"{1}"
-msgstr ""
-"Svi {0} konflikti su katalozi prijevoda, obnovljeni radnim tokom prijevoda:  \n"
-"{1}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
-#: NEEDS WORK
-#, python-brace-format
-msgid "✓ Resolved {0} translation catalogs with the {1} version"
-msgstr "✓ Riješeno {0} prevodnih kataloga s {1} verzijom"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "lokalna"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
-#, python-brace-format
-msgid ""
-"Keep the local branch {0} in {1} conflicted file(s)?\n"
+"Conflict in {0} translation catalogs\n"
 "\n"
-"Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
+"These files are rebuilt by the translation workflow. You are merging {1} into {2}, and the two "
+"versions disagree in:\n"
 "{3}\n"
 "\n"
-"No: decide file by file, where the remote version is still available.\n"
+"Keeping {2} discards the {1} version of these files; it stays readable with git diff HEAD^2 -- FILE."
+msgstr ""
+"Sukob u {0} prevodnim katalogima\n"
+"\n"
+"Ove datoteke se ponovno izgrađuju putem radnog toka prevođenja. Spajate {1} u {2}, a dvije verzije "
+"se ne slažu u:\n"
+"{3}\n"
+"\n"
+"Zadržavanje {2} odbacuje verziju {1} ovih datoteka; ostaje čitljivo s git diff HEAD^2 -- DATOTEKA."
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 336
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version; {2} was discarded there"
+msgstr "✓ Riješeno {0} prevodnih kataloga s {1} verzijom; {2} je tamo odbačen"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 357
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Keep the branch you are on, {0}, in {1} conflicted file(s)?\n"
+"\n"
+"You are merging {2} into {0}.\n"
+"\n"
+"Yes: the conflicting lines coming from {2} are discarded in:\n"
+"{3}\n"
+"\n"
+"No: decide file by file, where the {2} version is still available.\n"
 "Changes from {2} that do not conflict are merged either way."
 msgstr ""
-"Zadržati lokalnu granu {0} u {1} datoteci sa sukobom?\n"
+"Zadrži granu na kojoj se nalaziš, {0}, u {1} sukobljenim datotekama?\n"
 "\n"
-"Da: sukobljeni redci koji dolaze s udaljene {2} odbacuju se u:\n"
+"Spajaš {2} u {0}.\n"
+"\n"
+"Da: sukobljene linije koje dolaze iz {2} se odbacuju u:\n"
 "{3}\n"
 "\n"
-"Ne: odlučite datoteku po datoteku, gdje udaljena verzija ostaje dostupna.\n"
-"Promjene iz {2} bez sukoba spajaju se u svakom slučaju."
+"Ne: odluči datoteku po datoteku, gdje je verzija {2} još dostupna.\n"
+"Promjene iz {2} koje se ne sukobljavaju se spajaju u svakom slučaju."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 222
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 372
+#: NEEDS WORK
 #, python-brace-format
-msgid "Discarded the {0} version of: {1}"
-msgstr "Odbijena je {0} verzija: {1}"
+msgid "Kept {0} and discarded the {1} version of: {2}"
+msgstr "Zadržao {0} i odbacio verziju {1} od: {2}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 225
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:225
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "Odbijena verzija još uvijek je čitljiva s: {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "lokalna"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5925,11 +5934,6 @@ msgstr "zadrži lokalnu verziju"
 #: NEEDS WORK
 msgid "keep the remote version"
 msgstr "zadrži udaljenu verziju"
-# 
-# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
-#: NEEDS WORK
-msgid "the current branch"
-msgstr "trenutna grana"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
 #: NEEDS WORK

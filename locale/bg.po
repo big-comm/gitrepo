@@ -1497,11 +1497,6 @@ msgstr "Не"
 msgid "Yes"
 msgstr "Да"
 # 
-# File: usr/share/gitrepo/build_package/gui/gtk_adapters.py, line: 130
-#: usr/share/gitrepo/build_package/gui/gtk_adapters.py:125
-msgid "Select an option."
-msgstr "Изберете опция."
-# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/gitrepo/build_package/gui/gtk_logger.py, line: 89
@@ -5237,75 +5232,90 @@ msgstr "Коя версия трябва да се използва за {0}?"
 msgid "All saved-work conflicts were resolved."
 msgstr "Всички конфликти с запазената работа бяха разрешени."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
 #: NEEDS WORK
-#, python-brace-format
-msgid "Keep the local version of all {0} catalogs"
-msgstr "Запазете локалната версия на всички {0} каталози"
+msgid "the current branch"
+msgstr "текущият клон"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 312
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 477
 #: NEEDS WORK
 #, python-brace-format
-msgid "Use the {0} version of all {1} catalogs"
-msgstr "Използвайте версията {0} на всички каталози {1}"
+msgid "Keep {0}"
+msgstr "Запази {0}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
 #: NEEDS WORK
 msgid "Decide file by file"
 msgstr "Решете файл по файл"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 318
 #: NEEDS WORK
 #, python-brace-format
 msgid ""
-"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
-"{1}"
-msgstr ""
-"Всички {0} конфликти са каталози за превод, възстановени от работния процес на превода:  \n"
-"{1}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
-#: NEEDS WORK
-#, python-brace-format
-msgid "✓ Resolved {0} translation catalogs with the {1} version"
-msgstr "✓ Решени {0} каталога за преводи с версията {1}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "локална"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
-#, python-brace-format
-msgid ""
-"Keep the local branch {0} in {1} conflicted file(s)?\n"
+"Conflict in {0} translation catalogs\n"
 "\n"
-"Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
+"These files are rebuilt by the translation workflow. You are merging {1} into {2}, and the two "
+"versions disagree in:\n"
 "{3}\n"
 "\n"
-"No: decide file by file, where the remote version is still available.\n"
+"Keeping {2} discards the {1} version of these files; it stays readable with git diff HEAD^2 -- FILE."
+msgstr ""
+"Конфликт в каталозите за превод на {0}\n"
+"\n"
+"Тези файлове се изграждат от работния процес на превода. Обединявате {1} в {2}, а двете версии не "
+"съвпадат в:\n"
+"{3}\n"
+"\n"
+"Запазването на {2} отхвърля версията {1} на тези файлове; тя остава четима с git diff HEAD^2 -- "
+"FILE."
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 336
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version; {2} was discarded there"
+msgstr "✓ Разрешени {0} каталога за превод с версия {1}; {2} беше отхвърлен там"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 357
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Keep the branch you are on, {0}, in {1} conflicted file(s)?\n"
+"\n"
+"You are merging {2} into {0}.\n"
+"\n"
+"Yes: the conflicting lines coming from {2} are discarded in:\n"
+"{3}\n"
+"\n"
+"No: decide file by file, where the {2} version is still available.\n"
 "Changes from {2} that do not conflict are merged either way."
 msgstr ""
-"Да се запази ли локалният клон {0} в {1} файл(а) с конфликт?\n"
+"Запазете клона, на който се намирате, {0}, в {1} конфликтни файл(а)?\n"
 "\n"
-"Да: конфликтните редове, идващи от отдалечения {2}, се отхвърлят в:\n"
+"Сливате {2} в {0}.\n"
+"\n"
+"Да: конфликтните редове, идващи от {2}, се отхвърлят в:\n"
 "{3}\n"
 "\n"
-"Не: решавате файл по файл, като отдалечената версия остава достъпна.\n"
-"Промените от {2} без конфликт се сливат и в двата случая."
+"Не: решавайте файл по файл, където версията на {2} все още е налична.\n"
+"Промените от {2}, които не конфликтуват, се сливат по всякакъв начин."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 222
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 372
+#: NEEDS WORK
 #, python-brace-format
-msgid "Discarded the {0} version of: {1}"
-msgstr "Отхвърлена е {0} версията на: {1}"
+msgid "Kept {0} and discarded the {1} version of: {2}"
+msgstr "Запазено {0} и отхвърлено {1} версия на: {2}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 225
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:225
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "Отхвърлената версия все още може да се чете с: {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "локална"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5707,11 +5717,6 @@ msgstr "запазете локалната версия"
 #: NEEDS WORK
 msgid "keep the remote version"
 msgstr "запазете отдалечената версия"
-# 
-# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
-#: NEEDS WORK
-msgid "the current branch"
-msgstr "текущият клон"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
 #: NEEDS WORK

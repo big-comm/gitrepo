@@ -1492,11 +1492,6 @@ msgstr "否"
 msgid "Yes"
 msgstr "是"
 # 
-# File: usr/share/gitrepo/build_package/gui/gtk_adapters.py, line: 130
-#: usr/share/gitrepo/build_package/gui/gtk_adapters.py:125
-msgid "Select an option."
-msgstr "选择一个选项。"
-# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/gitrepo/build_package/gui/gtk_logger.py, line: 89
@@ -5185,75 +5180,88 @@ msgstr "应该使用哪个版本来 {0}？"
 msgid "All saved-work conflicts were resolved."
 msgstr "所有保存的工作冲突已解决。"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
 #: NEEDS WORK
-#, python-brace-format
-msgid "Keep the local version of all {0} catalogs"
-msgstr "保留所有 {0} 目录的本地版本"
+msgid "the current branch"
+msgstr "当前分支"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 312
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 477
 #: NEEDS WORK
 #, python-brace-format
-msgid "Use the {0} version of all {1} catalogs"
-msgstr "使用所有 {1} 目录的 {0} 版本"
+msgid "Keep {0}"
+msgstr "保持 {0}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
 #: NEEDS WORK
 msgid "Decide file by file"
 msgstr "逐个文件决定"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 318
 #: NEEDS WORK
 #, python-brace-format
 msgid ""
-"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
-"{1}"
-msgstr ""
-"所有 {0} 冲突都是翻译目录，由翻译工作流重建：  \n"
-"{1}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
-#: NEEDS WORK
-#, python-brace-format
-msgid "✓ Resolved {0} translation catalogs with the {1} version"
-msgstr "✓ 已解决 {0} 个翻译目录，使用 {1} 版本"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "本地"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
-#, python-brace-format
-msgid ""
-"Keep the local branch {0} in {1} conflicted file(s)?\n"
+"Conflict in {0} translation catalogs\n"
 "\n"
-"Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
+"These files are rebuilt by the translation workflow. You are merging {1} into {2}, and the two "
+"versions disagree in:\n"
 "{3}\n"
 "\n"
-"No: decide file by file, where the remote version is still available.\n"
+"Keeping {2} discards the {1} version of these files; it stays readable with git diff HEAD^2 -- FILE."
+msgstr ""
+"{0} 翻译目录中的冲突\n"
+"\n"
+"这些文件由翻译工作流重建。您正在将 {1} 合并到 {2}，而这两个版本在以下内容上存在不一致：\n"
+"{3}\n"
+"\n"
+"保留 {2} 将丢弃这些文件的 {1} 版本；它可以通过 git diff HEAD^2 -- FILE 进行查看。"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 336
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version; {2} was discarded there"
+msgstr "✓ 已解决 {0} 个翻译目录，使用 {1} 版本；{2} 在那里被丢弃"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 357
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Keep the branch you are on, {0}, in {1} conflicted file(s)?\n"
+"\n"
+"You are merging {2} into {0}.\n"
+"\n"
+"Yes: the conflicting lines coming from {2} are discarded in:\n"
+"{3}\n"
+"\n"
+"No: decide file by file, where the {2} version is still available.\n"
 "Changes from {2} that do not conflict are merged either way."
 msgstr ""
-"在 {1} 个冲突文件中保留本地分支 {0}？\n"
+"保持您所在的分支 {0}，在 {1} 冲突文件中？\n"
 "\n"
-"是: 来自远程 {2} 的冲突行将在以下文件中被丢弃:\n"
+"您正在将 {2} 合并到 {0}。\n"
+"\n"
+"是：来自 {2} 的冲突行在以下文件中被丢弃：\n"
 "{3}\n"
 "\n"
-"否: 逐个文件决定，此时仍可选择远程版本。\n"
-"{2} 中不冲突的更改在两种情况下都会被合并。"
+"否：逐个文件决定，{2} 版本仍然可用的地方。\n"
+"来自 {2} 的不冲突更改无论如何都会合并。"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 222
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 372
+#: NEEDS WORK
 #, python-brace-format
-msgid "Discarded the {0} version of: {1}"
-msgstr "已丢弃 {0} 的版本：{1}"
+msgid "Kept {0} and discarded the {1} version of: {2}"
+msgstr "保留了 {0} 并丢弃了 {1} 版本的: {2}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 225
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:225
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "丢弃的版本仍可通过以下命令查看：{0}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "本地"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5653,11 +5661,6 @@ msgstr "保留本地版本"
 #: NEEDS WORK
 msgid "keep the remote version"
 msgstr "保持远程版本"
-# 
-# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
-#: NEEDS WORK
-msgid "the current branch"
-msgstr "当前分支"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
 #: NEEDS WORK

@@ -1634,11 +1634,6 @@ msgstr "Nie"
 msgid "Yes"
 msgstr "Áno"
 # 
-# File: usr/share/gitrepo/build_package/gui/gtk_adapters.py, line: 130
-#: usr/share/gitrepo/build_package/gui/gtk_adapters.py:125
-msgid "Select an option."
-msgstr "Vyberte možnosť."
-# 
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/gitrepo/build_package/gui/gtk_logger.py, line: 89
@@ -5447,76 +5442,89 @@ msgstr "Ktorú verziu by ste mali použiť pre {0}?"
 msgid "All saved-work conflicts were resolved."
 msgstr "Všetky konflikty uložených prác boli vyriešené."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 291
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
 #: NEEDS WORK
-#, python-brace-format
-msgid "Keep the local version of all {0} catalogs"
-msgstr "Udržujte miestnu verziu všetkých {0} katalógov"
+msgid "the current branch"
+msgstr "aktuálna vetva"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 292
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 312
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 477
 #: NEEDS WORK
 #, python-brace-format
-msgid "Use the {0} version of all {1} catalogs"
-msgstr "Použite verziu {0} všetkých katalógov {1}"
+msgid "Keep {0}"
+msgstr "Udržujte {0}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 293
 #: NEEDS WORK
 msgid "Decide file by file"
 msgstr "Rozhodnite sa súbor po súbore"
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 296
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 318
 #: NEEDS WORK
 #, python-brace-format
 msgid ""
-"All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n"
-"{1}"
-msgstr ""
-"Všetky {0} konflikty sú prekladové katalógy, ktoré boli obnovené pomocou prekladového pracovného "
-"postupu:  \n"
-"{1}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 311
-#: NEEDS WORK
-#, python-brace-format
-msgid "✓ Resolved {0} translation catalogs with the {1} version"
-msgstr "✓ Riešené {0} prekladové katalógy s verziou {1}"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
-msgid "local"
-msgstr "lokálna"
-# 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 209
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:209
-#, python-brace-format
-msgid ""
-"Keep the local branch {0} in {1} conflicted file(s)?\n"
+"Conflict in {0} translation catalogs\n"
 "\n"
-"Yes: the conflicting lines coming from the remote {2} are discarded in:\n"
+"These files are rebuilt by the translation workflow. You are merging {1} into {2}, and the two "
+"versions disagree in:\n"
 "{3}\n"
 "\n"
-"No: decide file by file, where the remote version is still available.\n"
+"Keeping {2} discards the {1} version of these files; it stays readable with git diff HEAD^2 -- FILE."
+msgstr ""
+"Konflikt v prekladových katalógoch {0}\n"
+"\n"
+"Tieto súbory sú obnovené pracovným tokom prekladu. Spojujete {1} do {2} a dve verzie sa nezhodujú "
+"v:\n"
+"{3}\n"
+"\n"
+"Zachovanie {2} zruší verziu {1} týchto súborov; zostáva čitateľná pomocou git diff HEAD^2 -- FILE."
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 336
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Resolved {0} translation catalogs with the {1} version; {2} was discarded there"
+msgstr "✓ Riešené {0} prekladové katalógy s verziou {1}; {2} bol tam zamietnutý"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 357
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Keep the branch you are on, {0}, in {1} conflicted file(s)?\n"
+"\n"
+"You are merging {2} into {0}.\n"
+"\n"
+"Yes: the conflicting lines coming from {2} are discarded in:\n"
+"{3}\n"
+"\n"
+"No: decide file by file, where the {2} version is still available.\n"
 "Changes from {2} that do not conflict are merged either way."
 msgstr ""
-"Zachovať lokálnu vetvu {0} v {1} súbore(och) s konfliktom?\n"
+"Udržujte vetvu, na ktorej sa nachádzate, {0}, v {1} konfliktnej súbore?\n"
 "\n"
-"Áno: konfliktné riadky prichádzajúce zo vzdialenej {2} budú zahodené v:\n"
+"Spojujete {2} do {0}.\n"
+"\n"
+"Áno: konfliktne riadky pochádzajúce z {2} sú zrušené v:\n"
 "{3}\n"
 "\n"
-"Nie: rozhodnúť súbor po súbore, kde vzdialená verzia zostáva dostupná.\n"
-"Zmeny z {2} bez konfliktu sa zlúčia tak či tak."
+"Nie: rozhodnite súbor po súbore, kde je verzia {2} stále dostupná.\n"
+"Zmeny z {2}, ktoré nie sú v konflikte, sú zlúčené tak či onak."
 # 
-# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 222
-#: usr/share/gitrepo/build_package/core/conflict_resolver.py:222
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 372
+#: NEEDS WORK
 #, python-brace-format
-msgid "Discarded the {0} version of: {1}"
-msgstr "Vyradená verzia {0} z: {1}"
+msgid "Kept {0} and discarded the {1} version of: {2}"
+msgstr "Zachoval {0} a zahodil verziu {1}: {2}"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 225
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:225
 #, python-brace-format
 msgid "The discarded version is still readable with: {0}"
 msgstr "Zahodenú verziu je stále možné čítať pomocou: {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
+#: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
+msgid "local"
+msgstr "lokálna"
 # 
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 229
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:229
@@ -5920,11 +5928,6 @@ msgstr "uchovajte miestnu verziu"
 #: NEEDS WORK
 msgid "keep the remote version"
 msgstr "uchovajte vzdialenú verziu"
-# 
-# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 234
-#: NEEDS WORK
-msgid "the current branch"
-msgstr "aktuálna vetva"
 # 
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 237
 #: NEEDS WORK
