@@ -24,6 +24,19 @@ def is_translation_catalog(path: str) -> bool:
     return path.lower().endswith(TRANSLATION_CATALOG_SUFFIXES)
 
 
+def short_ref(ref: str) -> str:
+    """Name a ref the way the user reads it: origin/main, not refs/remotes/…
+
+    A button that discards work has to say *which* work. "local" and "remote"
+    do not identify a branch, and the reader cannot recover the answer from
+    the dialog.
+    """
+    for prefix in ("refs/remotes/", "refs/heads/", "refs/"):
+        if ref.startswith(prefix):
+            return ref[len(prefix) :]
+    return ref
+
+
 class ConflictResolver:
     """
     Intelligent conflict resolution with multiple strategies
@@ -36,6 +49,9 @@ class ConflictResolver:
         self.strategy = strategy
         self.auto_accept_newer = auto_accept_newer
         self.repo_root = GitUtils.get_repo_root_path()
+        # Set by whoever knows which ref is being merged, so every prompt can
+        # name it instead of saying "remote".
+        self.incoming_ref = ""
 
     def _get_absolute_path(self, file_path):
         """Get absolute path for a file relative to git repo root"""
@@ -286,16 +302,24 @@ class ConflictResolver:
         if not conflict_files or not all(is_translation_catalog(path) for path in conflict_files):
             return False
 
+        self.incoming_ref = incoming_ref
+        current = GitUtils.get_current_branch() or _("the current branch")
+        incoming = short_ref(incoming_ref)
         paths = "\n".join(f"• {display_path(path)}" for path in conflict_files)
+        # Each label names the branch it keeps: the user is choosing between two
+        # branches, not between two directions.
         options = [
-            _("Keep the local version of all {0} catalogs").format(len(conflict_files)),
-            _("Use the {0} version of all {1} catalogs").format(incoming_ref, len(conflict_files)),
+            _("Keep {0}").format(current),
+            _("Use {0}").format(incoming),
             _("Decide file by file"),
         ]
         choice = self.menu.show_menu(
-            _("All {0} conflicts are translation catalogs, rebuilt by the translation workflow:\n{1}").format(
-                len(conflict_files), paths
-            ),
+            _(
+                "Conflict in {0} translation catalogs\n\nThese files are rebuilt by the translation workflow. "
+                "You are merging {1} into {2}, and the two versions disagree in:\n{3}\n\n"
+                "Keeping {2} discards the {1} version of these files; it stays readable with "
+                "git diff HEAD^2 -- FILE."
+            ).format(len(conflict_files), incoming, current, paths),
             options,
             default_index=0,
         )
@@ -306,10 +330,11 @@ class ConflictResolver:
         for path in conflict_files:
             if not self._resolve_index_side(path, side):
                 return False
+        kept, dropped = (current, incoming) if side == "ours" else (incoming, current)
         self.logger.log(
             "green",
-            _("✓ Resolved {0} translation catalogs with the {1} version").format(
-                len(conflict_files), _("local") if side == "ours" else incoming_ref
+            _("✓ Resolved {0} translation catalogs with the {1} version; {2} was discarded there").format(
+                len(conflict_files), kept, dropped
             ),
         )
         return True
@@ -325,13 +350,16 @@ class ConflictResolver:
         if not conflict_files:
             return True
 
+        self.incoming_ref = incoming_ref
+        incoming = short_ref(incoming_ref)
         paths = "\n".join(f"• {display_path(path)}" for path in conflict_files)
         question = _(
-            "Keep the local branch {0} in {1} conflicted file(s)?\n\n"
-            "Yes: the conflicting lines coming from the remote {2} are discarded in:\n{3}\n\n"
-            "No: decide file by file, where the remote version is still available.\n"
+            "Keep the branch you are on, {0}, in {1} conflicted file(s)?\n\n"
+            "You are merging {2} into {0}.\n\n"
+            "Yes: the conflicting lines coming from {2} are discarded in:\n{3}\n\n"
+            "No: decide file by file, where the {2} version is still available.\n"
             "Changes from {2} that do not conflict are merged either way."
-        ).format(current_branch, len(conflict_files), incoming_ref, paths)
+        ).format(current_branch, len(conflict_files), incoming, paths)
         if not self.menu.confirm(question, default_yes=False):
             self.logger.log("yellow", _("Automatic conflict resolution cancelled."))
             return False
@@ -341,14 +369,19 @@ class ConflictResolver:
 
         self.logger.log(
             "yellow",
-            _("Discarded the {0} version of: {1}").format(incoming_ref, ", ".join(conflict_files)),
+            _("Kept {0} and discarded the {1} version of: {2}").format(
+                current_branch, incoming, ", ".join(conflict_files)
+            ),
         )
         if recovery_hint:
             self.logger.log("cyan", _("The discarded version is still readable with: {0}").format(recovery_hint))
         return True
 
     def _confirm_auto_resolution(self, conflict_files, side):
-        version = _("local") if side == "ours" else _("incoming")
+        # No Git command may run before this confirmation, so the branch name is
+        # used only when a caller has already provided the incoming ref.
+        incoming = short_ref(getattr(self, "incoming_ref", "") or "")
+        version = _("local") if side == "ours" else (incoming or _("incoming"))
         paths = "\n".join(f"• {display_path(path)}" for path in conflict_files)
         question = _("Replace every conflicted file with the {0} version?\n{1}").format(version, paths)
         confirmed = self.menu.confirm(question, default_yes=False)
@@ -436,10 +469,20 @@ class ConflictResolver:
                 unresolved.append(path)
         return unresolved + [path for path in conflict_files if path not in catalogs]
 
+    def _side_labels(self):
+        """Name both sides of the conflict, falling back only when unknown."""
+        current = GitUtils.get_current_branch()
+        incoming = short_ref(self.incoming_ref) if getattr(self, "incoming_ref", "") else ""
+        return (
+            _("Keep {0}").format(current) if current else _("Keep our version"),
+            _("Use {0}").format(incoming) if incoming else _("Accept remote version"),
+        )
+
     def _resolve_one_interactive(self, file_path):
+        keep_current, take_incoming = self._side_labels()
         options = [
-            _("Keep our version"),
-            _("Accept remote version"),
+            keep_current,
+            take_incoming,
             _("Save both versions beside the file, then choose"),
             _("Edit manually"),
             _("Show diff"),

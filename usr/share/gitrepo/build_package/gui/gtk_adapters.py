@@ -151,11 +151,16 @@ class GTKMenuSystem:
     ):
         """Show a semantic option dialog and return the selected option."""
         selected_default = default_index if default_index is not None else default
+        # Adw renders the heading centred and bold, which turns a multi-line
+        # question into an unreadable block. Only the first line is a heading;
+        # everything else is body text, left aligned like the prose it is.
+        heading, _separator, remainder = str(title).partition("\n")
+        body = "\n\n".join(part for part in (remainder.strip(), additional_content) if part)
 
         def setup():
-            dialog = Adw.MessageDialog.new(self.parent_window, title, _("Select an option."))
-            if additional_content:
-                details = Gtk.Label(label=additional_content, wrap=True, selectable=True, xalign=0)
+            dialog = Adw.MessageDialog.new(self.parent_window, heading, None)
+            if body:
+                details = Gtk.Label(label=body, wrap=True, selectable=True, xalign=0)
                 details.set_margin_top(12)
                 details.set_margin_bottom(12)
                 details.set_margin_start(12)
