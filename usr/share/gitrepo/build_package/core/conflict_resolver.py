@@ -18,6 +18,11 @@ from gitrepo.common.translation import _
 # on almost every promotion and are answered as one group instead of file by file.
 TRANSLATION_CATALOG_SUFFIXES = (".po", ".pot", ".mo")
 
+# Git commands stay out of translatable prose. Inside a sentence, translators
+# render the FILE placeholder in their own language and the command stops
+# working; substituted as an argument, no catalog can reach it.
+RECOVERY_COMMAND = "git diff HEAD^2 -- FILE"
+
 
 def is_translation_catalog(path: str) -> bool:
     """Report whether a path is a gettext catalog rather than reviewed source."""
@@ -313,13 +318,14 @@ class ConflictResolver:
             _("Use {0}").format(incoming),
             _("Decide file by file"),
         ]
+        # The recovery command is substituted, never translated: a catalog that
+        # translates its FILE placeholder ships a command that does not run.
         choice = self.menu.show_menu(
             _(
                 "Conflict in {0} translation catalogs\n\nThese files are rebuilt by the translation workflow. "
                 "You are merging {1} into {2}, and the two versions disagree in:\n{3}\n\n"
-                "Keeping {2} discards the {1} version of these files; it stays readable with "
-                "git diff HEAD^2 -- FILE."
-            ).format(len(conflict_files), incoming, current, paths),
+                "Keeping {2} discards the {1} version of these files; it stays readable with: {4}"
+            ).format(len(conflict_files), incoming, current, paths, RECOVERY_COMMAND),
             options,
             default_index=0,
         )
