@@ -112,6 +112,29 @@ class GTKConflictResolver(ConflictResolver):
         progress_dialog.set_visible(False)
 
 
+# A menu body is prose the caller wrote, and some of it is a list as long as
+# the conflict is: a merge of the translation workflow's output names all 39
+# catalogs. The dialog sizes itself to its child, so an unscrolled label of
+# that length grows a window taller than the screen -- with the responses,
+# the only way to answer it, off the bottom edge. Same treatment the
+# confirmation dialog already gives its details.
+_DETAILS_MAX_HEIGHT = 360
+# Without it the wrapped label settles on a column narrow enough to make a
+# path list unreadable, which is what makes a long body long in the first place.
+_DETAILS_MIN_WIDTH = 520
+
+
+def _scrollable_details(details):
+    scrolled = Gtk.ScrolledWindow()
+    scrolled.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+    scrolled.set_max_content_height(_DETAILS_MAX_HEIGHT)
+    # Short bodies keep their own height: the scroller is a ceiling, not a size.
+    scrolled.set_propagate_natural_height(True)
+    scrolled.set_size_request(_DETAILS_MIN_WIDTH, -1)
+    scrolled.set_child(details)
+    return scrolled
+
+
 class GTKMenuSystem:
     """GTK-based menu system using dialogs"""
 
@@ -165,7 +188,7 @@ class GTKMenuSystem:
                 details.set_margin_bottom(12)
                 details.set_margin_start(12)
                 details.set_margin_end(12)
-                dialog.set_extra_child(details)
+                dialog.set_extra_child(_scrollable_details(details))
             for index, option in enumerate(options):
                 response_id = f"option_{index}"
                 dialog.add_response(response_id, option)
