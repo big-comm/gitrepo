@@ -541,3 +541,76 @@ def test_version_discovery_rejects_two_unmatched_applications(tmp_path):
     )
 
     assert version_bumper._locate_app_version_entry(_version_context(tmp_path)) == (None, None, None)
+
+
+def _publish_from_second_clone(tmp_path, remote, filename, content):
+    """Advance origin/main from another clone, leaving the first one stale."""
+    other = tmp_path / "other"
+    # The bare fixture leaves HEAD on a nonexistent ref, so name the branch.
+    subprocess.run(["git", "clone", "-b", "main", str(remote), str(other)], check=True, capture_output=True)
+    run_git(other, "config", "user.name", "Other Test")
+    run_git(other, "config", "user.email", "other@example.invalid")
+    (other / filename).write_text(content, encoding="utf-8")
+    run_git(other, "add", filename)
+    run_git(other, "commit", "-m", f"add {filename}")
+    run_git(other, "push", "origin", "main")
+    return run_git(other, "rev-parse", "HEAD").stdout.strip()
+
+
+def test_checkout_fast_forwards_a_stale_local_branch(tmp_path, monkeypatch):
+    repository, remote = create_repository_with_remote(tmp_path)
+    published = _publish_from_second_clone(tmp_path, remote, "published.txt", "from remote\n")
+    run_git(repository, "checkout", "-b", "dev-source")
+    monkeypatch.chdir(repository)
+
+    assert branch_handler._checkout_branch("main")
+
+    assert run_git(repository, "branch", "--show-current").stdout.strip() == "main"
+    assert run_git(repository, "rev-parse", "HEAD").stdout.strip() == published
+    assert (repository / "published.txt").exists()
+
+
+def test_checkout_keeps_unpublished_local_commits(tmp_path, monkeypatch):
+    repository, remote = create_repository_with_remote(tmp_path)
+    _publish_from_second_clone(tmp_path, remote, "published.txt", "from remote\n")
+    (repository / "local-only.txt").write_text("local\n", encoding="utf-8")
+    run_git(repository, "add", "local-only.txt")
+    run_git(repository, "commit", "-m", "local only")
+    local_tip = run_git(repository, "rev-parse", "HEAD").stdout.strip()
+    run_git(repository, "checkout", "-b", "dev-source")
+    monkeypatch.chdir(repository)
+
+    assert branch_handler._checkout_branch("main")
+
+    # --ff-only refuses to move a diverged branch, so nothing is lost.
+    assert run_git(repository, "rev-parse", "HEAD").stdout.strip() == local_tip
+    assert (repository / "local-only.txt").exists()
+
+
+def test_checkout_succeeds_without_a_reachable_remote(tmp_path, monkeypatch):
+    repository, _remote = create_repository_with_remote(tmp_path)
+    run_git(repository, "branch", "dev-target")
+    run_git(repository, "remote", "set-url", "origin", str(tmp_path / "missing.git"))
+    monkeypatch.chdir(repository)
+
+    assert branch_handler._checkout_branch("dev-target")
+    assert run_git(repository, "branch", "--show-current").stdout.strip() == "dev-target"
+
+
+def test_switch_and_commit_lands_stashed_work_on_the_published_tip(tmp_path, monkeypatch):
+    repository, remote = create_repository_with_remote(tmp_path)
+    published = _publish_from_second_clone(tmp_path, remote, "published.txt", "from remote\n")
+    run_git(repository, "checkout", "-b", "dev-source")
+    (repository / "work.txt").write_text("pending work\n", encoding="utf-8")
+    monkeypatch.chdir(repository)
+
+    def inspect_commit(_bp, _message, target_branch):
+        assert target_branch == "main"
+        assert run_git(repository, "rev-parse", "HEAD").stdout.strip() == published
+        assert (repository / "work.txt").read_text(encoding="utf-8") == "pending work\n"
+        assert run_git(repository, "stash", "list").stdout.strip() == ""
+        return True
+
+    monkeypatch.setattr(commit_handler, "execute_commit", inspect_commit)
+
+    assert branch_handler.switch_and_commit(_bp(), "main", "feat: work on fresh main")

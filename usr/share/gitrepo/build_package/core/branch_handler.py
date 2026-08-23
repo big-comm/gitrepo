@@ -17,7 +17,40 @@ def _valid_branch_name(branch: str) -> bool:
     return GitUtils.is_valid_branch_name(branch)
 
 
+def _fetch_remote_branch(branch: str) -> bool:
+    """Refresh ``origin/<branch>`` so the checkout sees the published tip."""
+    return (
+        subprocess.run_git(
+            ["git", "fetch", "origin", f"+refs/heads/{branch}:refs/remotes/origin/{branch}"],
+            capture_output=True,
+            text=True,
+            check=False,
+            intent="ordinary",
+        ).returncode
+        == 0
+    )
+
+
+def _fast_forward_to_remote(branch: str) -> None:
+    """Advance the checked-out branch to its remote when that loses nothing.
+
+    A stale local branch is the whole problem this guards against: stashed work
+    restored onto it lands on files the published branch may have moved or
+    deleted, which surfaces as conflicts the user cannot resolve sensibly.
+    ``--ff-only`` keeps unpublished local commits untouched — the merge simply
+    refuses and the branch stays where it was.
+    """
+    subprocess.run_git(
+        ["git", "merge", "--ff-only", f"origin/{branch}"],
+        capture_output=True,
+        text=True,
+        check=False,
+        intent="ordinary",
+    )
+
+
 def _checkout_branch(branch: str) -> bool:
+    fetched = _fetch_remote_branch(branch)
     local = subprocess.run_git(["git", "show-ref", "--verify", f"refs/heads/{branch}"], check=False, intent="ordinary")
     if local.returncode == 0:
         command = ["git", "checkout", branch]
@@ -30,7 +63,11 @@ def _checkout_branch(branch: str) -> bool:
             if remote.returncode == 0
             else ["git", "checkout", "-b", branch]
         )
-    return subprocess.run_git(command, capture_output=True, text=True, check=False, intent="ordinary").returncode == 0
+    if subprocess.run_git(command, capture_output=True, text=True, check=False, intent="ordinary").returncode != 0:
+        return False
+    if fetched:
+        _fast_forward_to_remote(branch)
+    return True
 
 
 def _stash_working_tree(branch: str) -> bool:
