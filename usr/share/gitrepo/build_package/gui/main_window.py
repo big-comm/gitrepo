@@ -296,6 +296,7 @@ class MainWindow(RepositoryActionsMixin, BranchActionsMixin, Adw.ApplicationWind
 
         # Commit widget signals
         self.commit_widget.connect("commit-requested", self.on_commit_requested)
+        self.commit_widget.connect("publish-pending-requested", self.on_publish_pending_requested)
         self.commit_widget.connect("pull-requested", self.on_pull_requested)
         self.commit_widget.connect("undo-commit-requested", self.on_undo_commit_requested)
 

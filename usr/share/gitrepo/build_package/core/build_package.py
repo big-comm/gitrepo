@@ -246,7 +246,13 @@ class BuildPackage:
     def _main_menu_entries(self):
         entries = []
         if self.is_git_repo:
-            entries.extend([(_("Download updates"), "pull"), (_("Publish changes"), "commit")])
+            entries.extend(
+                [
+                    (_("Download updates"), "pull"),
+                    (_("Publish changes"), "commit"),
+                    (_("Commit locally (no push)"), "commit_only"),
+                ]
+            )
             if self.settings.get("package_features_enabled", False):
                 entries.append((_("Build package"), "package"))
         if self.settings.get("aur_features_enabled", False):
@@ -267,6 +273,13 @@ class BuildPackage:
         from .commit_operations import commit_and_push
 
         commit_and_push(self)
+        return True
+
+    def _menu_commit_only(self):
+        """Record the work locally and leave publishing for a later run."""
+        from .commit_operations import commit_and_push
+
+        commit_and_push(self, push=False)
         return True
 
     def _menu_package(self):
@@ -313,6 +326,7 @@ class BuildPackage:
         handlers = {
             "pull": self._menu_pull,
             "commit": self._menu_commit,
+            "commit_only": self._menu_commit_only,
             "package": self._menu_package,
             "aur": self._menu_aur,
             "settings": self._menu_settings,
@@ -455,10 +469,11 @@ class BuildPackage:
     def run(self):
         """Executes main program flow"""
         # Check command line arguments
-        if self.args.commit and not self.args.build:
+        commit_only = getattr(self.args, "no_push", False)
+        if (self.args.commit or commit_only) and not self.args.build:
             from .commit_operations import commit_and_push
 
-            commit_and_push(self)
+            commit_and_push(self, push=not commit_only)
 
         elif self.args.build:
             from .package_operations import commit_and_generate_package
@@ -495,6 +510,14 @@ def parse_arguments(argv: list[str] | None = None) -> argparse.Namespace:
 
     parser.add_argument("-c", "--commit", help=_("Just commit/push with the specified message"))
 
+    parser.add_argument(
+        "--no-push",
+        "--commit-only",
+        dest="no_push",
+        action="store_true",
+        help=_("Commit locally without pushing; publish it later"),
+    )
+
     parser.add_argument("-F", "--commit-file", help=_("Read commit message from file (multi-line support)"))
 
     parser.add_argument("-a", "--aur", help=_("Build AUR package"))
@@ -507,7 +530,12 @@ def parse_arguments(argv: list[str] | None = None) -> argparse.Namespace:
 
     parser.add_argument("--dry-run", action="store_true", help=_("Simulate operations without executing"))
 
-    return parser.parse_args(argv)
+    args = parser.parse_args(argv)
+    # A package build resolves its source from origin by branch name, so a
+    # commit that never reaches the remote would build the previous state.
+    if args.no_push and args.build:
+        parser.error(_("--no-push cannot be combined with --build: the package build needs the pushed branch."))
+    return args
 
 
 def print_version() -> None:

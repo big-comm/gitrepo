@@ -23,10 +23,11 @@ _COMMIT_COMMANDS = (
 )
 
 
-def _commit_command_block() -> ConfirmationBlock:
+def _commit_command_block(push: bool = True) -> ConfirmationBlock:
+    commands = _COMMIT_COMMANDS if push else _COMMIT_COMMANDS[:-1]
     return ConfirmationBlock(
         "command",
-        " → ".join(_COMMIT_COMMANDS),
+        " → ".join(commands),
         git_command_description("").strip(),
     )
 
@@ -47,7 +48,7 @@ class RepositoryActionsMixin:
         """Handle overview refresh request"""
         self.refresh_all_widgets()
 
-    def on_commit_requested(self, widget, commit_message):
+    def on_commit_requested(self, widget, commit_message, commit_only=False):
         """Handle commit request from commit widget - show branch confirmation first"""
         current_branch = GitUtils.get_current_branch()
         dev_branch = GitUtils.get_personal_branch(
@@ -57,6 +58,7 @@ class RepositoryActionsMixin:
 
         # Store commit message for later use
         self._pending_commit_message = commit_message
+        self._pending_commit_only = bool(commit_only)
 
         # Check if on a protected branch
         is_protected = current_branch in ["main", "master"]
@@ -66,6 +68,7 @@ class RepositoryActionsMixin:
 
     def _show_commit_branch_dialog(self, current_branch, dev_branch, is_protected):
         """Show dialog to confirm target branch for commit"""
+        push = not getattr(self, "_pending_commit_only", False)
         dialog = Adw.MessageDialog(transient_for=self, modal=True)
         if is_protected:
             dialog.set_heading(_("⚠️ Commit to Protected Branch?"))
@@ -80,21 +83,24 @@ class RepositoryActionsMixin:
                 )
                 .strip()
             )
-        else:
+        elif push:
             dialog.set_heading(_("Confirm Commit Branch"))
             dialog.set_body(_("Choose where to publish your changes. {0}").format("").strip())
-        dialog.set_extra_child(self._build_commit_branch_content(current_branch, dev_branch, is_protected))
+        else:
+            dialog.set_heading(_("Confirm Commit Branch"))
+            dialog.set_body(_("Choose where to record the commit. Nothing will be pushed to origin."))
+        dialog.set_extra_child(self._build_commit_branch_content(current_branch, dev_branch, is_protected, push))
         self._add_commit_branch_responses(dialog, current_branch, dev_branch, is_protected)
         dialog.connect("response", self._on_commit_branch_response, current_branch, dev_branch)
         dialog.present()
 
     @staticmethod
-    def _build_commit_branch_content(current_branch, dev_branch, is_protected):
+    def _build_commit_branch_content(current_branch, dev_branch, is_protected, push=True):
         """Build theme-safe branch context for the confirmation dialog."""
         wrapper = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         wrapper.set_size_request(520, -1)
 
-        commands = confirmation_details((_commit_command_block(),))
+        commands = confirmation_details((_commit_command_block(push),))
         commands.set_margin_top(12)
         commands.set_margin_start(24)
         commands.set_margin_end(24)
@@ -162,41 +168,94 @@ class RepositoryActionsMixin:
         else:
             target_branch = current_branch
 
+        commit_only = getattr(self, "_pending_commit_only", False)
+
         # If we need to switch branches first
         if target_branch != current_branch:
-            self._switch_then_commit(target_branch, self._pending_commit_message)
+            self._switch_then_commit(target_branch, self._pending_commit_message, commit_only)
         else:
-            self._do_commit(self._pending_commit_message, target_branch)
+            self._do_commit(self._pending_commit_message, target_branch, commit_only)
 
         self._pending_commit_message = None
+        self._pending_commit_only = False
 
-    def _switch_then_commit(self, target_branch, commit_message):
+    def _switch_then_commit(self, target_branch, commit_message, commit_only=False):
         """Switch branch, sync remote, restore stash, commit — delegates to core/branch_handler.py."""
         from gitrepo.build_package.core.branch_handler import switch_and_commit
 
+        title = _("Preparing the commit") if commit_only else _("Preparing and publishing changes")
+        body = (
+            _("Switching to {0}, then committing without pushing...")
+            if commit_only
+            else _("Switching to {0}, then running the publish command sequence...")
+        )
         self.operation_runner.run_with_progress(
-            lambda: switch_and_commit(self.build_package, target_branch, commit_message),
-            _("Preparing and publishing changes"),
-            _("Switching to {0}, then running the publish command sequence...").format(target_branch),
+            lambda: switch_and_commit(self.build_package, target_branch, commit_message, push=not commit_only),
+            title,
+            body.format(target_branch),
         )
 
-    def _do_commit(self, commit_message, target_branch):
+    def _do_commit(self, commit_message, target_branch, commit_only=False):
         """Execute commit on current branch"""
 
         def commit_operation():
-            return self._execute_commit(commit_message, target_branch)
+            return self._execute_commit(commit_message, target_branch, commit_only)
 
-        self.operation_runner.run_with_progress(
-            commit_operation,
-            _("Publishing changes"),
-            _("Running git add, git commit, and git push for {0}...").format(target_branch),
+        title = _("Committing locally") if commit_only else _("Publishing changes")
+        body = (
+            _("Running git add and git commit for {0}; origin is untouched...")
+            if commit_only
+            else _("Running git add, git commit, and git push for {0}...")
         )
+        self.operation_runner.run_with_progress(commit_operation, title, body.format(target_branch))
 
-    def _execute_commit(self, commit_message, target_branch=None):
-        """Stage, commit, and push — delegates to core/commit_handler.py."""
+    def _execute_commit(self, commit_message, target_branch=None, commit_only=False):
+        """Stage, commit, and optionally push — delegates to core/commit_handler.py."""
         from gitrepo.build_package.core.commit_handler import execute_commit as _execute
 
-        return _execute(self.build_package, commit_message, target_branch)
+        return _execute(self.build_package, commit_message, target_branch, push=not commit_only)
+
+    def on_publish_pending_requested(self, widget):
+        """Push a commit that was recorded locally, creating no new commit."""
+        from gitrepo.build_package.core.commit_handler import publish_existing_commit
+
+        branch = GitUtils.get_current_branch()
+        if not branch:
+            self.show_toast(_("Could not determine the current branch"))
+            return
+
+        dialog = Adw.MessageDialog(transient_for=self, modal=True)
+        dialog.set_heading(_("Publish the existing local commit?"))
+        dialog.set_body(_("No new commit will be created. The branch {0} will be pushed to origin.").format(branch))
+        dialog.set_extra_child(
+            confirmation_details(
+                (
+                    ConfirmationBlock(
+                        "command",
+                        f"git push -u origin {branch}",
+                        git_command_description("").strip(),
+                    ),
+                )
+            )
+        )
+        dialog.add_response("cancel", _("Cancel"))
+        dialog.add_response("publish", _("Publish now"))
+        dialog.set_response_appearance("publish", Adw.ResponseAppearance.SUGGESTED)
+        dialog.set_default_response("publish")
+        dialog.set_close_response("cancel")
+
+        def on_response(_dialog, response):
+            _dialog.close()
+            if response != "publish":
+                return
+            self.operation_runner.run_with_progress(
+                lambda: publish_existing_commit(self.build_package, branch),
+                _("Publishing the local commit"),
+                _("Running git push for {0}...").format(branch),
+            )
+
+        dialog.connect("response", on_response)
+        dialog.present()
 
     def on_pull_requested(self, widget):
         """Fetch remote updates and let the user review them before merging."""

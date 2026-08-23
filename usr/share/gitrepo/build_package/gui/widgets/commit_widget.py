@@ -104,7 +104,8 @@ class CommitWidget(Gtk.Box):
     """Widget for commit and push operations"""
 
     __gsignals__ = {
-        "commit-requested": (GObject.SignalFlags.RUN_FIRST, None, (str,)),
+        "commit-requested": (GObject.SignalFlags.RUN_FIRST, None, (str, bool)),
+        "publish-pending-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
         "pull-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
         "undo-commit-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
         "quick-action": (GObject.SignalFlags.RUN_FIRST, None, (str,)),
@@ -120,6 +121,7 @@ class CommitWidget(Gtk.Box):
         self.selected_emoji = None
         self._has_changes = False
         self._changed_file_rows = []
+        self._pending_commit = None
 
         self.create_ui()
 
@@ -152,9 +154,15 @@ class CommitWidget(Gtk.Box):
         status_group.set_header_suffix(
             help_button(
                 _("What publishing runs"),
-                _("Download updates: {0}\n\nPublish changes: {1}").format(
+                _(
+                    "Download updates: {0}\n\nPublish changes: {1}\n\nCommit only: {2}\n"
+                    "The commit stays on this machine until you publish it. "
+                    "A package build always reads the branch from origin, so it will not "
+                    "see an unpublished commit."
+                ).format(
                     git_command_description("git fetch origin BRANCH", "git merge --no-edit origin/BRANCH"),
                     git_command_description("git add -A", 'git commit -m "MESSAGE"', "git push -u origin BRANCH"),
+                    git_command_description("git add -A", 'git commit -m "MESSAGE"'),
                 ),
             )
         )
@@ -179,6 +187,30 @@ class CommitWidget(Gtk.Box):
         self.last_commit_row.add_suffix(self.undo_button)
 
         status_group.add(self.last_commit_row)
+
+        # A commit kept local is invisible to everyone else, including CI, so
+        # the page says so and offers the one action that resolves it.
+        self.pending_publish_row = Adw.ActionRow()
+        self.pending_publish_row.set_title(_("Not published yet"))
+        self.pending_publish_row.set_subtitle(_("This branch has local commits that are not on origin."))
+        pending_icon = Gtk.Image.new_from_icon_name("gitrepo-status-warning-symbolic")
+        pending_icon.set_pixel_size(24)
+        pending_icon.add_css_class("status-warning")
+        pending_icon.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
+        self.pending_publish_row.add_prefix(pending_icon)
+
+        self.publish_pending_button = Gtk.Button(
+            child=Adw.ButtonContent(label=_("Publish now"), icon_name="build-package-commit")
+        )
+        self.publish_pending_button.set_valign(Gtk.Align.CENTER)
+        self.publish_pending_button.add_css_class("suggested-action")
+        self.publish_pending_button.set_tooltip_text(
+            git_command_description("git push -u origin BRANCH") + "\n" + _("No new commit is created.")
+        )
+        self.publish_pending_button.connect("clicked", lambda _b: self.emit("publish-pending-requested"))
+        self.pending_publish_row.add_suffix(self.publish_pending_button)
+        self.pending_publish_row.set_visible(False)
+        status_group.add(self.pending_publish_row)
 
         # Changed files expander
         self.changed_files_expander = Adw.ExpanderRow()
@@ -271,6 +303,18 @@ class CommitWidget(Gtk.Box):
         message_row.set_activatable(False)
         message_row.set_child(message_box)
         commit_type_group.add(message_row)
+
+        # Committing without publishing is a deliberate choice, so it is stated
+        # as a row of the form rather than hidden next to the action. It starts
+        # off on every run: leaving it on by accident would quietly keep work
+        # on one machine.
+        self.commit_only_row = Adw.SwitchRow()
+        self.commit_only_row.set_title(_("Commit only (no push)"))
+        self.commit_only_row.set_subtitle(_("Record the commit locally and publish it later"))
+        self.commit_only_row.set_active(False)
+        self.commit_only_row.connect("notify::active", self._on_commit_only_changed)
+        commit_type_group.add(self.commit_only_row)
+
         page_content.append(commit_type_group)
 
         # ── Footer: what will be published, plus the primary action ──
@@ -336,7 +380,25 @@ class CommitWidget(Gtk.Box):
         else:
             self.last_commit_row.set_subtitle(_("No commits yet (this will be your first!)"))
         self.undo_button.set_visible(snapshot.can_undo_last_commit)
+        self._apply_pending_publication(snapshot)
         self.update_commit_button_state()
+
+    def _apply_pending_publication(self, snapshot) -> None:
+        """Offer the push whenever this branch holds commits origin lacks."""
+        unpushed = getattr(snapshot, "unpushed_commits", 0)
+        if snapshot.is_detached or not unpushed:
+            self._pending_commit = None
+            self.pending_publish_row.set_visible(False)
+            return
+        branch = snapshot.branch or _("Unknown")
+        self._pending_commit = branch
+        self.pending_publish_row.set_title(_("{0} commit(s) not published").format(unpushed))
+        self.pending_publish_row.set_subtitle(
+            _("The branch origin/{0} does not exist yet.").format(branch)
+            if not getattr(snapshot, "remote_branch_exists", False)
+            else _("origin/{0} is behind your local branch.").format(branch)
+        )
+        self.pending_publish_row.set_visible(True)
 
     def _select_commit_type_row(self, row):
         """Select a commit type row and update visuals"""
@@ -376,6 +438,30 @@ class CommitWidget(Gtk.Box):
 
     def on_message_changed(self, entry):
         """Handle message entry changes"""
+        self.update_commit_button_state()
+
+    def _commit_only(self) -> bool:
+        """Whether the primary action should stop before the remote."""
+        row = getattr(self, "commit_only_row", None)
+        return bool(row and row.get_active())
+
+    def _on_commit_only_changed(self, _row, _param):
+        """Rename the primary action so its label matches what it will run."""
+        commit_only = self._commit_only()
+        content = self.commit_button.get_child()
+        content.set_label(_("Commit locally") if commit_only else _("Publish changes"))
+        if commit_only:
+            self.commit_button.remove_css_class("suggested-action")
+            self.commit_button.set_tooltip_text(
+                git_command_description("git add -A", 'git commit -m "MESSAGE"')
+                + "\n"
+                + _("origin stays unchanged; no package build is triggered.")
+            )
+        else:
+            self.commit_button.add_css_class("suggested-action")
+            self.commit_button.set_tooltip_text(
+                git_command_description("git add -A", 'git commit -m "MESSAGE"', "git push -u origin BRANCH")
+            )
         self.update_commit_button_state()
 
     def update_commit_button_state(self):
@@ -473,11 +559,12 @@ class CommitWidget(Gtk.Box):
             missing.append(_("commit type"))
         if not has_message:
             missing.append(_("description"))
-        self.summary_detail.set_text(
-            _("Still missing: {0}").format(", ".join(missing))
-            if missing
-            else _("git add -A → git commit → git push origin {0}").format(branch)
-        )
+        if missing:
+            self.summary_detail.set_text(_("Still missing: {0}").format(", ".join(missing)))
+        elif self._commit_only():
+            self.summary_detail.set_text(_("git add -A → git commit (not pushed)"))
+        else:
+            self.summary_detail.set_text(_("git add -A → git commit → git push origin {0}").format(branch))
 
     def on_pull_clicked(self, button):
         """Handle pull button click"""
@@ -503,7 +590,7 @@ class CommitWidget(Gtk.Box):
             else:
                 formatted_message = f"{self.selected_emoji} {self.selected_commit_type}: {message}"
 
-        self.emit("commit-requested", formatted_message)
+        self.emit("commit-requested", formatted_message, self._commit_only())
 
         # Clear form after commit
         buffer.set_text("")

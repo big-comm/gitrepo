@@ -124,7 +124,7 @@ def test_switch_and_commit_restores_index_before_committing(tmp_path, monkeypatc
     tracked = _stage_and_modify(repository)
     monkeypatch.chdir(repository)
 
-    def inspect_commit(_bp, _message, target_branch):
+    def inspect_commit(_bp, _message, target_branch, *, push=True):
         assert target_branch == "dev-target"
         assert run_git(repository, "branch", "--show-current").stdout.strip() == target_branch
         _assert_index_and_worktree_restored(repository, tracked)
@@ -186,7 +186,7 @@ def test_switch_and_commit_treats_stashed_work_as_the_local_version(tmp_path, mo
     resolver = ConflictResolver(logger, menu, "auto-ours")
     bp = SimpleNamespace(logger=logger, menu=menu, conflict_resolver=resolver)
 
-    def inspect_commit(_bp, _message, target_branch):
+    def inspect_commit(_bp, _message, target_branch, *, push=True):
         assert target_branch == "main"
         assert run_git(repository, "branch", "--show-current").stdout.strip() == "main"
         assert (repository / "tracked.txt").read_text(encoding="utf-8") == "saved local work\n"
@@ -241,7 +241,7 @@ def test_commit_uses_the_configured_personal_branch(tmp_path, monkeypatch):
         last_commit_type=None,
     )
 
-    def inspect_commit(_bp, _message, target_branch):
+    def inspect_commit(_bp, _message, target_branch, *, push=True):
         assert target_branch == "dev-personal"
         assert run_git(repository, "branch", "--show-current").stdout.strip() == target_branch
         _assert_index_and_worktree_restored(repository, tracked)
@@ -356,6 +356,7 @@ def test_failed_commit_push_records_exact_recovery_details(tmp_path, monkeypatch
         "current_branch": "main",
         "remote_unchanged": True,
         "retry_command": "git push -u origin refs/heads/main:refs/heads/main",
+        "commit_only": False,
     }
     assert run_git(remote, "rev-parse", "refs/heads/main").stdout.strip() == remote_before
     assert any("git push -u origin refs/heads/main:refs/heads/main" in message for _, message in bp.logger.messages)
@@ -386,6 +387,7 @@ def test_sync_failure_keeps_and_records_the_created_commit(tmp_path, monkeypatch
         "current_branch": "main",
         "remote_unchanged": True,
         "retry_command": "git push -u origin refs/heads/main:refs/heads/main",
+        "commit_only": False,
     }
     assert run_git(remote, "rev-parse", "refs/heads/main").stdout.strip() == remote_before
 
@@ -604,7 +606,7 @@ def test_switch_and_commit_lands_stashed_work_on_the_published_tip(tmp_path, mon
     (repository / "work.txt").write_text("pending work\n", encoding="utf-8")
     monkeypatch.chdir(repository)
 
-    def inspect_commit(_bp, _message, target_branch):
+    def inspect_commit(_bp, _message, target_branch, *, push=True):
         assert target_branch == "main"
         assert run_git(repository, "rev-parse", "HEAD").stdout.strip() == published
         assert (repository / "work.txt").read_text(encoding="utf-8") == "pending work\n"

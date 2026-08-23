@@ -26,6 +26,8 @@ class RepositorySnapshot:
     most_recent_branch: str = ""
     package_name: str = ""
     recent_commits: tuple[tuple[str, str, str, str], ...] = ()
+    unpushed_commits: int = 0
+    remote_branch_exists: bool = False
 
     @property
     def has_changes(self) -> bool | None:
@@ -46,6 +48,12 @@ class RepositorySnapshot:
             if branch_name != "HEAD"
         )
         commit_count_text = _output(["git", "rev-list", "--count", "HEAD"])
+        commit_count = int(commit_count_text) if commit_count_text.isdigit() else 0
+        remote_branch_exists = (
+            not is_detached
+            and bool(branch)
+            and _succeeds(["git", "rev-parse", "--verify", "--quiet", f"refs/remotes/origin/{branch}"])
+        )
         return cls(
             is_repository=True,
             repository_name=GitUtils.get_repo_name(),
@@ -55,9 +63,11 @@ class RepositorySnapshot:
             status_error=(status.stderr.decode(errors="replace").strip() or "git status failed")
             if status.returncode != 0
             else "",
-            commit_count=int(commit_count_text) if commit_count_text.isdigit() else 0,
+            commit_count=commit_count,
             last_commit=_output(["git", "log", "-1", "--pretty=format:%h|%s"]),
             can_undo_last_commit=_can_undo(branch, is_detached),
+            unpushed_commits=_unpushed_commits(branch, is_detached, remote_branch_exists, commit_count),
+            remote_branch_exists=remote_branch_exists,
             local_branches=local_branches,
             remote_branches=remote_branches,
             most_recent_branch=_most_recent_remote_branch(),
@@ -93,6 +103,21 @@ def _can_undo(branch: str, is_detached: bool) -> bool:
         return False
     count = _output(["git", "rev-list", "--count", f"origin/{branch}..HEAD"])
     return count.isdigit() and int(count) > 0
+
+
+def _unpushed_commits(branch: str, is_detached: bool, remote_branch_exists: bool, commit_count: int) -> int:
+    """Count commits this branch holds that origin has never seen.
+
+    A branch with no counterpart on origin has published nothing, so every
+    commit on it is unpushed — ``origin/BRANCH..HEAD`` cannot say that because
+    the left side does not resolve.
+    """
+    if not branch or is_detached:
+        return 0
+    if not remote_branch_exists:
+        return commit_count
+    count = _output(["git", "rev-list", "--count", f"origin/{branch}..HEAD"])
+    return int(count) if count.isdigit() else 0
 
 
 def _most_recent_remote_branch() -> str:

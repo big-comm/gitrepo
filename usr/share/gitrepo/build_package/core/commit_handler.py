@@ -166,8 +166,14 @@ def _sync_branch(bp, branch: str) -> None:
     raise RuntimeError(_("Remote changes conflict with the local branch; resolve them manually."))
 
 
-def _record_unpublished_commit(bp, branch: str) -> None:
-    """Record the local branch tip that survived an incomplete publication."""
+def _record_unpublished_commit(bp, branch: str, *, deliberate: bool = False) -> None:
+    """Record the local branch tip that has not reached the remote yet.
+
+    The same state is reached two ways: a push that failed, and a commit the
+    user asked to keep local. Both leave work only this machine knows about, so
+    both are recorded identically and are resumable by the same retry path —
+    only the wording changes, because one is a setback and the other a choice.
+    """
     refspec = f"refs/heads/{branch}:refs/heads/{branch}"
     retry_command = f"git push -u origin {refspec}"
     commit_sha = GitUtils.get_head_sha()
@@ -177,7 +183,12 @@ def _record_unpublished_commit(bp, branch: str) -> None:
         "current_branch": current_branch,
         "remote_unchanged": True,
         "retry_command": retry_command,
+        "commit_only": deliberate,
     }
+    if deliberate:
+        _log(bp, "yellow", _("The commit {0} is local only; origin/{1} is unchanged.").format(commit_sha[:12], branch))
+        _log(bp, "cyan", _("Publish it later with: {0}").format(retry_command))
+        return
     _log(bp, "yellow", _("The commit {0} was created locally and was kept.").format(commit_sha[:12]))
     _log(bp, "cyan", _("Retry publishing it with: {0}").format(retry_command))
 
@@ -215,14 +226,19 @@ def publish_existing_commit(bp, branch: str) -> bool:
 
 
 @journey("publishing changes", False)
-def execute_commit(bp, commit_message: str, target_branch: str | None = None) -> bool:
-    """Stage, commit, integrate remote work, and push the selected branch.
+def execute_commit(bp, commit_message: str, target_branch: str | None = None, *, push: bool = True) -> bool:
+    """Stage, commit, and — unless *push* is false — publish the selected branch.
 
     Refuses an unresolved merge before staging: `git add -A` would otherwise
     stage the conflict markers themselves, `git commit` would complete the merge
     around them, and the push would publish them. The CLI journey has always
     refused this; the GUI reaches this function directly, so the guard belongs
     here rather than in one caller.
+
+    With ``push=False`` the function stops after the commit and skips the remote
+    entirely — no fetch, no merge, no push. Nothing is left half-done, so the
+    branch stays exactly where the commit put it and remains publishable later
+    through :func:`publish_existing_commit`.
     """
     branch = target_branch or GitUtils.get_current_branch()
     if not branch:
@@ -233,6 +249,13 @@ def execute_commit(bp, commit_message: str, target_branch: str | None = None) ->
         return False
     _stage_changes(bp)
     if not _create_commit(bp, commit_message):
+        return True
+    if not push:
+        # Syncing with the remote is part of publishing, not of committing:
+        # a rebase or merge here would rewrite or extend history the user
+        # asked to keep untouched until they decide to publish.
+        _record_unpublished_commit(bp, branch, deliberate=True)
+        _log(bp, "green", _("Committed locally on {0}; nothing was pushed").format(branch))
         return True
     try:
         _sync_branch(bp, branch)

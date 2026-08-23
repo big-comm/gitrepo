@@ -111,8 +111,8 @@ def _restore_working_tree(bp, source_branch: str, target_branch: str) -> None:
 
 
 @journey("preparing a commit", False)
-def switch_and_commit(bp, target_branch: str, commit_message: str) -> bool:
-    """Move pending work to an explicit branch, then commit and push it."""
+def switch_and_commit(bp, target_branch: str, commit_message: str, *, push: bool = True) -> bool:
+    """Move pending work to an explicit branch, then commit and optionally push it."""
     if not _valid_branch_name(target_branch):
         bp.logger.log("red", _("Invalid target branch: {0}").format(target_branch))
         return False
@@ -134,7 +134,7 @@ def switch_and_commit(bp, target_branch: str, commit_message: str) -> bool:
             stashed = False
         from .commit_handler import execute_commit
 
-        return execute_commit(bp, commit_message, target_branch)
+        return execute_commit(bp, commit_message, target_branch, push=push)
     except (RuntimeError, subprocess.SubprocessError) as error:
         bp.logger.log("red", _("Commit preparation failed: {0}").format(error))
         return False

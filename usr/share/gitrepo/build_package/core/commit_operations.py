@@ -75,14 +75,26 @@ def _commit_confirmation_prompt(
     message: str,
     version_line: str,
     file_preview: str,
+    push: bool = True,
 ) -> StructuredConfirmation:
     """Keep the CLI preview clear and the graphical message truly multiline."""
     message_marker = "\0gitrepo-commit-message\0"
     display_message = "\n".join(message.splitlines()) or message
-    template = _(
-        "Publish these changes?\n"
-        'Commands: git add -A → git commit -m "MESSAGE" → git push -u origin BRANCH\n'
-        "Branch: {0}\nMessage: {1}\n{2}Files:\n{3}"
+    # The preview names the commands it is about to run, so a commit that stops
+    # short of the remote must not promise a push.
+    template = (
+        _(
+            "Publish these changes?\n"
+            'Commands: git add -A → git commit -m "MESSAGE" → git push -u origin BRANCH\n'
+            "Branch: {0}\nMessage: {1}\n{2}Files:\n{3}"
+        )
+        if push
+        else _(
+            "Commit these changes locally?\n"
+            'Commands: git add -A → git commit -m "MESSAGE"\n'
+            "Nothing is pushed; origin/BRANCH stays unchanged.\n"
+            "Branch: {0}\nMessage: {1}\n{2}Files:\n{3}"
+        )
     )
     semantic_question = template.format(branch, message_marker, version_line, file_preview)
     content = parse_confirmation_content(semantic_question)
@@ -97,7 +109,7 @@ def _commit_confirmation_prompt(
     return StructuredConfirmation.from_content(question, content)
 
 
-def _confirm_commit(bp, branch: str, message: str, bump=None) -> bool:
+def _confirm_commit(bp, branch: str, message: str, bump=None, push: bool = True) -> bool:
     """Show the exact branch, message, paths, and version change before mutation."""
     # get_changed_files() yields (status, path); the preview wants the paths.
     files = [path for _status, path in GitUtils.get_changed_files()]
@@ -122,6 +134,7 @@ def _confirm_commit(bp, branch: str, message: str, bump=None) -> bool:
         message,
         version_line,
         file_preview or _("No changed paths detected"),
+        push,
     )
     return bp.menu.confirm(question, default_yes=False)
 
@@ -241,8 +254,14 @@ def _retry_pending_publication(bp) -> bool | None:
 
 
 @journey("publishing changes", False)
-def commit_and_push(build_package_instance) -> bool:
-    """Validate, preview, commit, synchronize safely, and push once."""
+def commit_and_push(build_package_instance, push: bool = True) -> bool:
+    """Validate, preview, commit, and — unless *push* is false — publish once.
+
+    With ``push=False`` the journey stops at the commit. A clean tree is then
+    left alone rather than offered for publication: the caller asked not to
+    touch the remote, so pushing an earlier pending commit would be exactly the
+    thing they declined.
+    """
     bp = build_package_instance
     if not bp.is_git_repo:
         bp.logger.log("red", _("This option is only available in Git repositories."))
@@ -251,6 +270,9 @@ def commit_and_push(build_package_instance) -> bool:
         bp.logger.log("red", _("Resolve all conflicts before committing."))
         return False
     if not GitUtils.has_changes():
+        if not push:
+            bp.logger.log("yellow", _("No changes to commit"))
+            return True
         retry_result = _retry_pending_publication(bp)
         if retry_result is not None:
             return retry_result
@@ -267,7 +289,7 @@ def commit_and_push(build_package_instance) -> bool:
         if bp.settings.get("auto_version_bump", True)
         else None
     )
-    if not _confirm_commit(bp, branch, message, bump):
+    if not _confirm_commit(bp, branch, message, bump, push):
         bp.logger.log("yellow", _("Commit cancelled."))
         return False
     if getattr(bp, "dry_run_mode", False):
@@ -283,7 +305,7 @@ def commit_and_push(build_package_instance) -> bool:
     if GitUtils.has_commits() and GitUtils.get_current_branch() != branch:
         from .branch_handler import switch_and_commit
 
-        return switch_and_commit(bp, branch, message)
+        return switch_and_commit(bp, branch, message, push=push)
 
     branch = _ensure_initial_branch(bp, branch)
     if not branch:
@@ -291,7 +313,7 @@ def commit_and_push(build_package_instance) -> bool:
         return False
 
     try:
-        return execute_commit(bp, message, branch)
+        return execute_commit(bp, message, branch, push=push)
     except (RuntimeError, subprocess.SubprocessError) as error:
         bp.logger.log("red", _("Commit failed: {0}").format(error))
         return False
