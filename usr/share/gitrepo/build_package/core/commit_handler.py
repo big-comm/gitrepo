@@ -218,11 +218,57 @@ def _push_branch(bp, branch: str) -> None:
     raise RuntimeError(diagnosis["diagnosis"])
 
 
-def publish_existing_commit(bp, branch: str) -> bool:
-    """Push the current branch tip without creating another commit."""
-    _push_branch(bp, branch)
+def publish_existing_commit(bp, branch: str, *, sync: bool = False) -> bool:
+    """Push the current branch tip without creating another commit.
+
+    Set *sync* when nothing has integrated the remote yet, as for a commit the
+    user deliberately kept local: the push would be rejected as soon as origin
+    moved on. Callers that already synchronized — the retry after a failed push
+    — leave it off so the branch is not touched a second time.
+
+    Work in progress is set aside for the duration of that integration. Having
+    edits on top of an unpublished commit is the normal state here, and Git
+    refuses `pull --rebase` outright while the tree is dirty; a plain merge only
+    survives it while the incoming files happen not to overlap.
+    """
+    if not sync:
+        _push_branch(bp, branch)
+        _log(bp, "green", _("Existing local commit published to origin/{0}.").format(branch))
+        return True
+
+    from .branch_handler import _stash_working_tree
+
+    stashed = _stash_working_tree(branch)
+    if stashed:
+        _log(bp, "cyan", _("Uncommitted changes were set aside while the remote is integrated."))
+    try:
+        _sync_branch(bp, branch)
+        _push_branch(bp, branch)
+    finally:
+        # Restoring runs even when publishing failed: work left in a stash
+        # entry nobody mentioned is work the user cannot find.
+        if stashed:
+            _restore_stashed_work(bp, branch)
     _log(bp, "green", _("Existing local commit published to origin/{0}.").format(branch))
     return True
+
+
+def _restore_stashed_work(bp, branch: str) -> None:
+    """Return the set-aside work, naming where it is if it cannot be applied.
+
+    A failure here must not replace the error that publishing raised, nor turn
+    a completed push into one: the commit did reach origin, and the pending
+    edits are still recoverable by name.
+    """
+    from .branch_handler import _restore_working_tree
+
+    try:
+        _restore_working_tree(bp, branch, branch)
+    except (RuntimeError, subprocess.SubprocessError) as error:
+        _log(bp, "yellow", _("Your uncommitted changes are kept in git stash: {0}").format(error))
+        _log(bp, "cyan", _("Recover them with: {0}").format("git stash pop"))
+        return
+    _log(bp, "green", _("✓ Uncommitted changes restored"))
 
 
 @journey("publishing changes", False)

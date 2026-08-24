@@ -216,7 +216,7 @@ class RepositoryActionsMixin:
         return _execute(self.build_package, commit_message, target_branch, push=not commit_only)
 
     def on_publish_pending_requested(self, widget):
-        """Push a commit that was recorded locally, creating no new commit."""
+        """Publish a commit that was recorded locally, integrating origin first."""
         from gitrepo.build_package.core.commit_handler import publish_existing_commit
 
         branch = GitUtils.get_current_branch()
@@ -226,13 +226,20 @@ class RepositoryActionsMixin:
 
         dialog = Adw.MessageDialog(transient_for=self, modal=True)
         dialog.set_heading(_("Publish the existing local commit?"))
-        dialog.set_body(_("No new commit will be created. The branch {0} will be pushed to origin.").format(branch))
+        # Nothing has integrated origin yet, so publishing may have to merge
+        # first. Promising that no commit will be created would be untrue.
+        dialog.set_body(
+            _(
+                "Your local commit is pushed as it is. If origin/{0} has moved on, "
+                "those updates are integrated first, which can add a merge commit."
+            ).format(branch)
+        )
         dialog.set_extra_child(
             confirmation_details(
                 (
                     ConfirmationBlock(
                         "command",
-                        f"git push -u origin {branch}",
+                        f"git fetch origin {branch} → git merge --no-edit → git push -u origin {branch}",
                         git_command_description("").strip(),
                     ),
                 )
@@ -249,9 +256,9 @@ class RepositoryActionsMixin:
             if response != "publish":
                 return
             self.operation_runner.run_with_progress(
-                lambda: publish_existing_commit(self.build_package, branch),
+                lambda: publish_existing_commit(self.build_package, branch, sync=True),
                 _("Publishing the local commit"),
-                _("Running git push for {0}...").format(branch),
+                _("Integrating origin/{0} if needed, then running git push...").format(branch),
             )
 
         dialog.connect("response", on_response)
