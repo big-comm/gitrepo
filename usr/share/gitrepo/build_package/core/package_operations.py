@@ -74,6 +74,10 @@ def _testing_branch_for_current(bp, expected_branch: str = "") -> str:
         )
         return ""
     if current != branch:
+        # A personal branch that exists is a branch to switch to; one that has
+        # never been created is not an error the user can act on by switching.
+        if not _personal_branch_exists(branch) and _create_personal_branch(bp, current, branch):
+            return branch
         bp.logger.log(
             "red",
             _(
@@ -85,6 +89,43 @@ def _testing_branch_for_current(bp, expected_branch: str = "") -> str:
         )
         return ""
     return branch
+
+
+def _personal_branch_exists(branch: str) -> bool:
+    """Report whether *branch* exists locally or on origin."""
+    return GitUtils.ref_exists(f"refs/heads/{branch}") or GitUtils.ref_exists(f"refs/remotes/origin/{branch}")
+
+
+def _create_personal_branch(bp, source_branch: str, branch: str) -> bool:
+    """Offer to create the missing personal branch, and switch to it.
+
+    Returns True only when the branch was created, pushed, and is now checked
+    out: the testing dispatch resolves the build from origin by branch name, so
+    a branch that failed to reach the remote must not continue as if it had.
+    """
+    if not source_branch:
+        return False
+    question = _(
+        "Create the branch {0}?\n"
+        "Testing packages publish your personal branch, which does not exist in this repository yet.\n"
+        "Commands: git checkout -b {0} {1} → git push -u origin {0}"
+    ).format(branch, source_branch)
+    if not bp.menu.confirm(StructuredConfirmation(question), default_yes=False):
+        bp.logger.log("yellow", _("Branch creation cancelled."))
+        return False
+    if getattr(bp, "dry_run_mode", False):
+        bp.logger.log("green", _("Dry run completed; the branch was not created."))
+        return False
+
+    from .branch_handler import create_branch_and_push
+
+    if not create_branch_and_push(bp, source_branch, branch):
+        return False
+    if GitUtils.get_current_branch() != branch:
+        bp.logger.log("red", _("The branch {0} was not checked out after creation.").format(branch))
+        return False
+    bp.logger.log("green", _("✓ Now working on {0}").format(branch))
+    return True
 
 
 def _publish_testing_branch(bp, branch: str) -> bool:

@@ -569,6 +569,7 @@ def test_testing_revalidates_the_selected_branch_after_commit_step(tmp_path, mon
 
 
 def test_testing_refuses_to_dispatch_a_missing_personal_branch(tmp_path, monkeypatch):
+    """Declining to create the branch must leave the dispatch unsent."""
     repository, _remote = create_repository(tmp_path)
     run_git(repository, "config", "--local", "gitrepo.personalBranch", "dev-missing")
 
@@ -583,6 +584,71 @@ def test_testing_refuses_to_dispatch_a_missing_personal_branch(tmp_path, monkeyp
 
     monkeypatch.chdir(repository)
     monkeypatch.setattr(GitUtils, "get_package_name", staticmethod(lambda: "demo"))
+    bp = build_package(Menu(answer=False))
+    bp.is_git_repo = True
+    bp.github_api = GitHubAPI()
+    bp.organization = "example"
+    bp.args = SimpleNamespace(commit=None)
+
+    assert package_operations.commit_and_generate_package(bp, "testing") is False
+    # The offer is made, and refusing it changes nothing in the repository.
+    assert any("dev-missing" in str(question) for question in bp.menu.questions)
+    assert GitUtils.get_current_branch() == "main"
+    assert not GitUtils.ref_exists("refs/heads/dev-missing")
+    assert any("dev-missing" in message for _style, message in bp.logger.messages)
+
+
+def test_testing_offers_to_create_the_missing_personal_branch(tmp_path, monkeypatch):
+    """A branch that was never created is not something switching can fix."""
+    repository, remote = create_repository(tmp_path)
+    run_git(repository, "config", "--local", "gitrepo.personalBranch", "dev-fresh")
+    dispatched = []
+
+    class GitHubAPI:
+        @staticmethod
+        def ensure_github_token(_logger):
+            return True
+
+        @staticmethod
+        def trigger_workflow(*args):
+            dispatched.append(args)
+            return True
+
+    monkeypatch.chdir(repository)
+    monkeypatch.setattr(GitUtils, "get_package_name", staticmethod(lambda: "demo"))
+    bp = build_package()
+    bp.is_git_repo = True
+    bp.github_api = GitHubAPI()
+    bp.organization = "example"
+    bp.args = SimpleNamespace(commit=None)
+
+    assert package_operations.commit_and_generate_package(bp, "testing") is True
+
+    # Created, checked out, and published: the workflow resolves the build from
+    # origin by branch name, so an unpushed branch would build nothing.
+    assert GitUtils.get_current_branch() == "dev-fresh"
+    assert GitUtils.ref_exists("refs/heads/dev-fresh")
+    assert run_git(remote, "rev-parse", "refs/heads/dev-fresh").strip()
+    assert dispatched
+
+
+def test_testing_does_not_offer_to_create_an_existing_branch(tmp_path, monkeypatch):
+    """An existing branch is a branch to switch to, not one to create."""
+    repository, _remote = create_repository(tmp_path)
+    run_git(repository, "branch", "dev-existing")
+    run_git(repository, "config", "--local", "gitrepo.personalBranch", "dev-existing")
+
+    class GitHubAPI:
+        @staticmethod
+        def ensure_github_token(_logger):
+            return True
+
+        @staticmethod
+        def trigger_workflow(*_args):
+            raise AssertionError("the inactive branch must not be dispatched")
+
+    monkeypatch.chdir(repository)
+    monkeypatch.setattr(GitUtils, "get_package_name", staticmethod(lambda: "demo"))
     bp = build_package()
     bp.is_git_repo = True
     bp.github_api = GitHubAPI()
@@ -591,4 +657,4 @@ def test_testing_refuses_to_dispatch_a_missing_personal_branch(tmp_path, monkeyp
 
     assert package_operations.commit_and_generate_package(bp, "testing") is False
     assert not bp.menu.questions
-    assert any("dev-missing" in message for _style, message in bp.logger.messages)
+    assert GitUtils.get_current_branch() == "main"

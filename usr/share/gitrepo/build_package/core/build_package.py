@@ -79,13 +79,29 @@ class BuildPackage:
         self.github_api = GitHubAPI(None, self.organization)
 
         # Additional settings
-        self.github_user_name = GitUtils.get_github_username()
+        self._github_user_name = ""
         self.repo_name = GitUtils.get_repo_name()
         self.repo_path = GitUtils.get_repo_root_path()
         self.tmate_option = self.args.tmate
 
         # Check dependencies
         self.check_dependencies()
+
+    @property
+    def github_user_name(self) -> str:
+        """Resolve the GitHub account on first use, never during startup.
+
+        Resolution can reach the credential store and the network, and the GUI
+        keeps both off the GTK main loop at startup (see the token comment in
+        __init__). Every reader asks for this from a journey, not from boot.
+        """
+        if not self._github_user_name:
+            self._github_user_name = GitUtils.get_github_username(self.organization)
+        return self._github_user_name
+
+    @github_user_name.setter
+    def github_user_name(self, value: str) -> None:
+        self._github_user_name = value or ""
 
     def check_dependencies(self):
         """Checks if all dependencies are installed"""

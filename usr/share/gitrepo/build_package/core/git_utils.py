@@ -481,8 +481,15 @@ class GitUtils:
             return os.getcwd()
 
     @staticmethod
-    def get_github_username() -> str:
-        """Resolve a GitHub username from local Git configuration only."""
+    def get_github_username(organization: str | None = None) -> str:
+        """Resolve a GitHub username, asking the token when Git cannot say.
+
+        Only a `github.user` setting or a noreply address names the account
+        locally, and an ordinary address like name@example.com matches neither.
+        The configured token already belongs to the account, so it answers what
+        the repository cannot — and the answer is cached in Git configuration,
+        because this runs at startup and the account does not change.
+        """
         configured = subprocess.run_git(
             ["git", "config", "github.user"], capture_output=True, text=True, check=False, intent="ordinary"
         )
@@ -493,7 +500,60 @@ class GitUtils:
         )
         email = email_result.stdout.strip() if email_result.returncode == 0 else ""
         match = re.fullmatch(r"(?:\d+\+)?([^@]+)@users\.noreply\.github\.com", email)
-        return match.group(1) if match else "unknown"
+        if match:
+            return match.group(1)
+        resolved = GitUtils._github_username_from_token(organization)
+        if resolved:
+            GitUtils._remember_github_username(resolved)
+            return resolved
+        return "unknown"
+
+    @staticmethod
+    def _github_username_from_token(organization: str | None = None) -> str:
+        """Ask GitHub who the stored token belongs to, or return an empty name.
+
+        Never raises and never blocks the caller for long: this sits on the
+        startup path, so an offline machine or an expired token has to cost a
+        short timeout and nothing else.
+        """
+        try:
+            import requests
+
+            from .token_store import TokenStore
+
+            tokens = []
+            if organization:
+                tokens.append(TokenStore.get_token(organization))
+            tokens.extend(token for _name, token in TokenStore.read_all())
+            for token in tokens:
+                if not token:
+                    continue
+                response = requests.get(
+                    "https://api.github.com/user",
+                    headers={"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json"},
+                    timeout=5,
+                )
+                if response.status_code != 200:
+                    continue
+                login = str(response.json().get("login", "")).strip()
+                if login and GitUtils.is_valid_branch_name(f"dev-{login}"):
+                    return login
+        except Exception:
+            # Resolving a name is a convenience; failing it must never stop the
+            # tool from starting. The caller falls back to "unknown".
+            return ""
+        return ""
+
+    @staticmethod
+    def _remember_github_username(username: str) -> None:
+        """Cache the resolved account so later runs skip the network."""
+        subprocess.run_git(
+            ["git", "config", "--global", "github.user", username],
+            capture_output=True,
+            text=True,
+            check=False,
+            intent="ordinary",
+        )
 
     @staticmethod
     def is_valid_branch_name(branch: str) -> bool:
