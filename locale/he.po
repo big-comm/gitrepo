@@ -2,7 +2,7 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the gitrepo package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: LangForge\n"
+"X-Generator: attranslate\n"
 # File: usr/share/gitrepo/common/help_popover.py, line: 41
 #: usr/share/gitrepo/common/help_popover.py:41
 msgid "What does this mean?"
@@ -65,7 +65,8 @@ msgstr "זוהי תוכנה חופשית: אתם חופשיים לשנות ול�
 #: usr/share/gitrepo/common/version_display.py:32
 #, python-brace-format
 msgid ""
-"{0} is provided to you under the MIT License and includes open source software under a variety of other licenses.\n"
+"{0} is provided to you under the MIT License and includes open source software under a variety of "
+"other licenses.\n"
 "You can read instructions about how to download and build for yourself\n"
 "the specific source code used to create this copy."
 msgstr ""
@@ -238,8 +239,7 @@ msgstr "נכשל בביטול הקומיט {0}."
 # File: usr/share/gitrepo/build_package/core/revert_operations.py, line: 67
 #: usr/share/gitrepo/build_package/core/revert_operations.py:67
 #: usr/share/gitrepo/build_package/core/revert_operations.py:546
-msgid ""
-"Shared main branch: only the history-preserving revert method is available."
+msgid "Shared main branch: only the history-preserving revert method is available."
 msgstr "סניף main משותף: רק שיטת הביטול (revert) השומרת על ההיסטוריה זמינה."
 # File: usr/share/gitrepo/build_package/core/revert_operations.py, line: 70
 #: usr/share/gitrepo/build_package/core/revert_operations.py:70
@@ -287,7 +287,6 @@ msgstr "איפוס (הסרה מההיסטוריה)"
 # File: usr/share/gitrepo/build_iso/build_iso.py, line: 333
 # File: usr/share/gitrepo/build_iso/build_iso.py, line: 344
 # File: usr/share/gitrepo/build_iso/build_iso.py, line: 375
-#. Add a Back option
 #: usr/share/gitrepo/build_iso/build_iso.py:183
 #: usr/share/gitrepo/build_iso/build_iso.py:212
 #: usr/share/gitrepo/build_iso/build_iso.py:285
@@ -309,6 +308,7 @@ msgstr "איפוס (הסרה מההיסטוריה)"
 #: usr/share/gitrepo/build_package/core/settings_menu.py:27
 #: usr/share/gitrepo/build_package/core/settings_menu.py:62
 #: usr/share/gitrepo/build_package/gui/gtk_adapters.py:199
+#. Add a Back option
 msgid "Back"
 msgstr "חזרה"
 # File: usr/share/gitrepo/build_package/core/revert_operations.py, line: 81
@@ -840,6 +840,18 @@ msgstr "✓ שינויים מרוחקים שולבו תוך שמירה על {0}"
 #: usr/share/gitrepo/build_package/core/commit_handler.py:166
 msgid "Remote changes conflict with the local branch; resolve them manually."
 msgstr "שינויים מרוחקים מתנגשים עם הסניף המקומי; פתור את ההתנגשויות ידנית."
+# 
+# File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 189
+#: usr/share/gitrepo/build_package/core/commit_handler.py:189
+#, python-brace-format
+msgid "The commit {0} is local only; origin/{1} is unchanged."
+msgstr "ה-commit {0} הוא מקומי בלבד; origin/{1} לא השתנה."
+# 
+# File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 190
+#: usr/share/gitrepo/build_package/core/commit_handler.py:190
+#, python-brace-format
+msgid "Publish it later with: {0}"
+msgstr "פרסם אותו מאוחר יותר עם: {0}"
 # File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 180
 #: usr/share/gitrepo/build_package/core/commit_handler.py:192
 #, python-brace-format
@@ -861,6 +873,28 @@ msgstr "✓ נדחף ל-origin/{0}"
 #, python-brace-format
 msgid "Existing local commit published to origin/{0}."
 msgstr "ה-commit המקומי הקיים פורסם ל-origin/{0}."
+# 
+# File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 243
+#: usr/share/gitrepo/build_package/core/commit_handler.py:243
+msgid "Uncommitted changes were set aside while the remote is integrated."
+msgstr "שינויים שלא בוצעו בהם commit הונחו בצד בזמן שילוב ה-remote."
+# 
+# File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 268
+#: usr/share/gitrepo/build_package/core/commit_handler.py:268
+#, python-brace-format
+msgid "Your uncommitted changes are kept in git stash: {0}"
+msgstr "השינויים הלא-מחויבים שלך נשמרים ב-git stash: {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 269
+#: usr/share/gitrepo/build_package/core/commit_handler.py:269
+#, python-brace-format
+msgid "Recover them with: {0}"
+msgstr "שחזר אותם עם: {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 271
+#: usr/share/gitrepo/build_package/core/commit_handler.py:271
+msgid "✓ Uncommitted changes restored"
+msgstr "✓ שינויים לא-מחויבים שוחזרו"
 # File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 220
 #: usr/share/gitrepo/build_package/core/commit_handler.py:291
 msgid "Could not determine branch name for push"
@@ -870,6 +904,12 @@ msgstr "לא ניתן לקבוע את שם הסניף לדחיפה"
 #: usr/share/gitrepo/build_package/core/commit_operations.py:270
 msgid "Resolve all conflicts before committing."
 msgstr "פתור את כל ההתנגשויות לפני ביצוע הקומיט."
+# 
+# File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 304
+#: usr/share/gitrepo/build_package/core/commit_handler.py:304
+#, python-brace-format
+msgid "Committed locally on {0}; nothing was pushed"
+msgstr "בוצע commit מקומית על {0}; שום דבר לא נדחף"
 # File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 230
 #: usr/share/gitrepo/build_package/core/commit_handler.py:312
 #, python-brace-format
@@ -905,6 +945,26 @@ msgstr ""
 "הודעה: {1}\n"
 "{2}קבצים:\n"
 "{3}"
+# 
+# File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 93
+#: usr/share/gitrepo/build_package/core/commit_operations.py:93
+#, python-brace-format
+msgid ""
+"Commit these changes locally?\n"
+"Commands: git add -A → git commit -m \"MESSAGE\"\n"
+"Nothing is pushed; origin/BRANCH stays unchanged.\n"
+"Branch: {0}\n"
+"Message: {1}\n"
+"{2}Files:\n"
+"{3}"
+msgstr ""
+"לבצע commit לשינויים אלה מקומית?\n"
+"פקודות: git add -A → git commit -m \"MESSAGE\"\n"
+"שום דבר לא נדחף; origin/BRANCH נשאר ללא שינוי.\n"
+"סניף: {0}\n"
+"הודעה: {1}\n"
+"{2}קבצים:\n"
+"{3}"
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 111
 #: usr/share/gitrepo/build_package/core/commit_operations.py:123
 #, python-brace-format
@@ -917,17 +977,13 @@ msgstr "לא זוהו נתיבים שהשתנו"
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 144
 #: usr/share/gitrepo/build_package/core/commit_operations.py:157
 #, python-brace-format
-msgid ""
-"Commit {0} is still waiting on {1}; switch to that branch before retrying."
+msgid "Commit {0} is still waiting on {1}; switch to that branch before retrying."
 msgstr "Commit {0} עדיין ממתין ל-{1}; עבור לסניף זה לפני שתנסה שנית."
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 152
 #: usr/share/gitrepo/build_package/core/commit_operations.py:165
 #, python-brace-format
-msgid ""
-"The branch tip changed after commit {0} failed to publish; review it before "
-"retrying."
-msgstr ""
-"קצה הסניף השתנה לאחר ש-commit {0} נכשל בפרסום; סקור אותו לפני שתנסה שנית."
+msgid "The branch tip changed after commit {0} failed to publish; review it before retrying."
+msgstr "קצה הסניף השתנה לאחר ש-commit {0} נכשל בפרסום; סקור אותו לפני שתנסה שנית."
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 160
 #: usr/share/gitrepo/build_package/core/commit_operations.py:173
 msgid "The local commit cannot be published because origin is not configured."
@@ -944,9 +1000,7 @@ msgstr "ה-commit שנוצר קודם לכן כבר פורסם ב-origin/{0}."
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 186
 #: usr/share/gitrepo/build_package/core/commit_operations.py:199
 #, python-brace-format
-msgid ""
-"origin/{0} changed; download and review those updates before retrying the "
-"push."
+msgid "origin/{0} changed; download and review those updates before retrying the push."
 msgstr "origin/{0} השתנה; הורד וסקור את העדכונים האלו לפני שתנסה שוב לדחוף."
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 215
 #: usr/share/gitrepo/build_package/core/commit_operations.py:228
@@ -1003,8 +1057,7 @@ msgid "Dry run completed; no files or refs were changed."
 msgstr "הבדיקה הושלמה ללא שינוי קבצים או הפניות."
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 280
 #: usr/share/gitrepo/build_package/core/commit_operations.py:302
-msgid ""
-"Publication stopped because the reviewed version bump could not be written."
+msgid "Publication stopped because the reviewed version bump could not be written."
 msgstr "הפרסום הופסק מכיוון שלא ניתן היה לכתוב את הגרסה שנבדקה."
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 290
 #: usr/share/gitrepo/build_package/core/commit_operations.py:312
@@ -1112,8 +1165,8 @@ msgstr "איפוס לברירות מחדל"
 msgid "Settings"
 msgstr "הגדרות"
 # File: usr/share/gitrepo/build_package/core/settings_menu.py, line: 40
-#. Reset
 #: usr/share/gitrepo/build_package/core/settings_menu.py:40
+#. Reset
 msgid "Reset all settings to defaults?"
 msgstr "לאפס את כל ההגדרות לברירות המחדל?"
 # File: usr/share/gitrepo/build_package/core/settings_menu.py, line: 42
@@ -1181,12 +1234,11 @@ msgstr "בניית חבילה"
 # File: usr/share/gitrepo/build_package/core/config.py, line: 35
 #: usr/share/gitrepo/build_package/core/config.py:35
 msgid ""
-"A comprehensive tool for package building, testing, and deployment. "
-"Streamlines Git operations, automates builds and manages package workflows "
-"for BigCommunity repositories and AUR packages."
+"A comprehensive tool for package building, testing, and deployment. Streamlines Git operations, "
+"automates builds and manages package workflows for BigCommunity repositories and AUR packages."
 msgstr ""
-"כלי מקיף לבניית חבילות, בדיקות ופריסה. מפשט פעולות Git, מאוטומט בניות ומנהל "
-"זרימות עבודה של חבילות עבור מאגרי BigCommunity וחבילות AUR."
+"כלי מקיף לבניית חבילות, בדיקות ופריסה. מפשט פעולות Git, מאוטומט בניות ומנהל זרימות עבודה של חבילות "
+"עבור מאגרי BigCommunity וחבילות AUR."
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/gitrepo/build_package/core/branch_handler.py, line: 78
@@ -1239,6 +1291,40 @@ msgstr ""
 "סניף נבחר: {0}\n"
 "סניף נוכחי: {1}\n"
 "עבור ל-{0} לפני ביצוע קומיט או התחלת זרימת העבודה."
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 109
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Create the branch {0}?\n"
+"Testing packages publish your personal branch, which does not exist in this repository yet.\n"
+"Commands: git checkout -b {0} {1} → git push -u origin {0}"
+msgstr ""
+"האם ליצור את הסניף {0}?\n"
+"חבילות הבדיקה מפרסמות את הסניף האישי שלך, שאינו קיים במאגר זה עדיין.\n"
+"פקודות: git checkout -b {0} {1} → git push -u origin {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 114
+#: NEEDS WORK
+msgid "Branch creation cancelled."
+msgstr "יצירת סניף בוטלה."
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 117
+#: NEEDS WORK
+msgid "Dry run completed; the branch was not created."
+msgstr "הרצה יבשה הושלמה; הסניף לא נוצר."
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 125
+#: NEEDS WORK
+#, python-brace-format
+msgid "The branch {0} was not checked out after creation."
+msgstr "הסניף {0} לא נבדק לאחר יצירה."
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 127
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Now working on {0}"
+msgstr "✓ עכשיו עובד על {0}"
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 95
 #: usr/share/gitrepo/build_package/core/package_operations.py:96
 #, python-brace-format
@@ -1269,10 +1355,10 @@ msgstr "בניית החבילה בוטלה."
 # 
 # File: usr/share/gitrepo/build_package/core/branch_handler.py, line: 200
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 117
-#. The branch exists locally and may already hold work. Saying only
-#. "failed" invites the user to delete it and lose that work.
 #: usr/share/gitrepo/build_package/core/branch_handler.py:239
 #: usr/share/gitrepo/build_package/core/package_operations.py:118
+#. The branch exists locally and may already hold work. Saying only
+#. "failed" invites the user to delete it and lose that work.
 #, python-brace-format
 msgid "Push failed: {0}"
 msgstr "דחיפה נכשלה: {0}"
@@ -1356,11 +1442,8 @@ msgstr "ה-Workflow נכשל."
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 206
 #: usr/share/gitrepo/build_package/core/package_operations.py:215
 #, python-brace-format
-msgid ""
-"Merging {0} stopped because it requires conflict resolution. No history was "
-"rewritten."
-msgstr ""
-"מיזוג {0} נעצר מכיוון שהוא דורש פתרון של התנגשויות. לא נכתב היסטוריה מחדש."
+msgid "Merging {0} stopped because it requires conflict resolution. No history was rewritten."
+msgstr "מיזוג {0} נעצר מכיוון שהוא דורש פתרון של התנגשויות. לא נכתב היסטוריה מחדש."
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 219
 #: usr/share/gitrepo/build_package/core/package_operations.py:219
 msgid "Finish the merge manually, then start the package build again:"
@@ -1413,8 +1496,7 @@ msgstr "ענף origin/main נדרש עבור חבילות stable ו-extra."
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 353
 #: usr/share/gitrepo/build_package/core/package_operations.py:414
 #: usr/share/gitrepo/build_package/core/package_operations.py:445
-msgid ""
-"Remote refs changed during publication; retrying with their latest commits."
+msgid "Remote refs changed during publication; retrying with their latest commits."
 msgstr "refs מרחוק השתנו במהלך הפרסום; מנסה שוב עם ה-commits האחרונים שלהם."
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 363
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 415
@@ -1463,12 +1545,8 @@ msgstr ""
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 450
 #: usr/share/gitrepo/build_package/core/package_operations.py:542
 #, python-brace-format
-msgid ""
-"Remote branches {0} and main were published, but local main could not be "
-"aligned: {1}"
-msgstr ""
-"הענפים המרוחקים {0} ו-main פורסמו, אך לא ניתן היה ליישר את ה-main המקומי: "
-"{1}"
+msgid "Remote branches {0} and main were published, but local main could not be aligned: {1}"
+msgstr "הענפים המרוחקים {0} ו-main פורסמו, אך לא ניתן היה ליישר את ה-main המקומי: {1}"
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 473
 #: usr/share/gitrepo/build_package/core/package_operations.py:565
 #, python-brace-format
@@ -1611,8 +1689,8 @@ msgstr "שינויים אחרים שאינם משנים קבצי src או test"
 msgid "Custom commit message (free text)"
 msgstr "הודעת commit מותאמת אישית (טקסט חופשי)"
 # File: usr/share/gitrepo/build_package/core/build_package.py, line: 129
-#. Show menu
 #: usr/share/gitrepo/build_package/core/build_package.py:129
+#. Show menu
 msgid "Select commit type"
 msgstr "בחר סוג קומיט"
 # File: usr/share/gitrepo/build_package/core/build_package.py, line: 152
@@ -1694,6 +1772,11 @@ msgstr "הורדת עדכונים"
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:452
 msgid "Publish changes"
 msgstr "פרסום שינויים"
+# 
+# File: usr/share/gitrepo/build_package/core/build_package.py, line: 269
+#: usr/share/gitrepo/build_package/core/build_package.py:253
+msgid "Commit locally (no push)"
+msgstr "בצע commit מקומית (ללא דחיפה)"
 # File: usr/share/gitrepo/build_package/core/build_package.py, line: 251
 #: usr/share/gitrepo/build_package/core/build_package.py:257
 msgid "Build package"
@@ -1819,13 +1902,13 @@ msgstr "תפריט מתקדם"
 msgid "No dev branches found to merge."
 msgstr "לא נמצאו סניפי פיתוח למיזוג."
 # File: usr/share/gitrepo/build_package/core/build_package.py, line: 410
-#. Show branch selection menu
 #: usr/share/gitrepo/build_package/core/build_package.py:424
+#. Show branch selection menu
 msgid "Select branch to merge to main"
 msgstr "בחר סניף למיזוג ל-main"
 # File: usr/share/gitrepo/build_package/core/build_package.py, line: 417
-#. Ask if should auto-merge
 #: usr/share/gitrepo/build_package/core/build_package.py:431
+#. Ask if should auto-merge
 msgid "Create PR (manual approval)"
 msgstr "צור PR (אישור ידני)"
 # File: usr/share/gitrepo/build_package/core/build_package.py, line: 417
@@ -1880,8 +1963,8 @@ msgstr "מיזוג אוטומטי"
 msgid "Merge Summary"
 msgstr "סיכום מיזוג"
 # File: usr/share/gitrepo/build_package/core/build_package.py, line: 434
-#. Confirm action
 #: usr/share/gitrepo/build_package/core/build_package.py:448
+#. Confirm action
 msgid "Do you want to proceed with creating the pull request?"
 msgstr "האם ברצונך להמשיך ביצירת בקשת המשיכה?"
 # File: usr/share/gitrepo/build_package/core/build_package.py, line: 444
@@ -1905,6 +1988,11 @@ msgstr "בצע commit/push ויצר חבילה"
 #: usr/share/gitrepo/build_package/core/build_package.py:511
 msgid "Just commit/push with the specified message"
 msgstr "בצע רק commit/push עם ההודעה שצוינה"
+# 
+# File: usr/share/gitrepo/build_package/core/build_package.py, line: 534
+#: usr/share/gitrepo/build_package/core/build_package.py:518
+msgid "Commit locally without pushing; publish it later"
+msgstr "בצע commit מקומית ללא דחיפה; פרסם אותו מאוחר יותר"
 # File: usr/share/gitrepo/build_package/core/build_package.py, line: 498
 #: usr/share/gitrepo/build_package/core/build_package.py:521
 msgid "Read commit message from file (multi-line support)"
@@ -1941,6 +2029,11 @@ msgstr "הפעלת tmate לניפוי שגיאות"
 #: usr/share/gitrepo/build_package/core/build_package.py:531
 msgid "Simulate operations without executing"
 msgstr "הדמה של פעולות ללא ביצוע"
+# 
+# File: usr/share/gitrepo/build_package/core/build_package.py, line: 553
+#: usr/share/gitrepo/build_package/core/build_package.py:537
+msgid "--no-push cannot be combined with --build: the package build needs the pushed branch."
+msgstr "לא ניתן לשלב את --no-push עם --build: בניית החבילה דורשת את הסניף שנדחף."
 # File: usr/share/gitrepo/build_package/core/settings.py, line: 53
 #: usr/share/gitrepo/build_package/core/settings.py:53
 #, python-brace-format
@@ -1957,9 +2050,7 @@ msgid "Could not preserve local changes"
 msgstr "לא ניתן לשמור שינויים מקומיים"
 # File: usr/share/gitrepo/build_package/core/branch_handler.py, line: 70
 #: usr/share/gitrepo/build_package/core/branch_handler.py:107
-msgid ""
-"A backup of the transferred work remains in Git stash because conflicts "
-"occurred."
+msgid "A backup of the transferred work remains in Git stash because conflicts occurred."
 msgstr "גיבוי של העבודה שהועברה נשאר ב-Git stash מכיוון שהתרחשו קונפליקטים."
 # File: usr/share/gitrepo/build_package/core/branch_handler.py, line: 71
 #: usr/share/gitrepo/build_package/core/branch_handler.py:110
@@ -2012,8 +2103,8 @@ msgstr "ניתן לשנות קבצים ולבצע קומיט שוב"
 msgid "Switching to source branch: {0}"
 msgstr "עובר לסניף המקור: {0}"
 # File: usr/share/gitrepo/build_package/core/branch_handler.py, line: 171
-#. Step 2: Create the new branch from source
 #: usr/share/gitrepo/build_package/core/branch_handler.py:210
+#. Step 2: Create the new branch from source
 #, python-brace-format
 msgid "Creating branch: {0}"
 msgstr "יוצר סניף: {0}"
@@ -2079,27 +2170,26 @@ msgstr "שגיאה במעבר לסניף: {0}"
 #: usr/share/gitrepo/build_package/core/version_bumper.py:130
 #: usr/share/gitrepo/build_package/core/version_bumper.py:320
 #, python-brace-format
-msgid ""
-"Skipping the version bump: {0} is not a regular file inside the repository."
+msgid "Skipping the version bump: {0} is not a regular file inside the repository."
 msgstr "דילוג על העלאת גרסה: {0} אינו קובץ רגיל בתוך המאגר."
 # File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 155
 #: usr/share/gitrepo/build_package/core/version_bumper.py:175
 #, python-brace-format
 msgid ""
-"Several APP_VERSION constants claim this repository ({0}). Keep "
-"APP_VERSION_OWNER on only one of them to bump it automatically."
+"Several APP_VERSION constants claim this repository ({0}). Keep APP_VERSION_OWNER on only one of "
+"them to bump it automatically."
 msgstr ""
-"כמה קבועי APP_VERSION טוענים לבעלות על מאגר זה ({0}). השאירו את "
-"APP_VERSION_OWNER רק באחד מהם כדי לקדם אותו אוטומטית."
+"כמה קבועי APP_VERSION טוענים לבעלות על מאגר זה ({0}). השאירו את APP_VERSION_OWNER רק באחד מהם כדי "
+"לקדם אותו אוטומטית."
 # File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 160
 #: usr/share/gitrepo/build_package/core/version_bumper.py:180
 #, python-brace-format
 msgid ""
-"Found APP_VERSION in more than one file ({0}), so none was bumped. Add "
-"APP_VERSION_OWNER next to the one this repository owns."
+"Found APP_VERSION in more than one file ({0}), so none was bumped. Add APP_VERSION_OWNER next to "
+"the one this repository owns."
 msgstr ""
-"APP_VERSION נמצא ביותר מקובץ אחד ({0}), ולכן אף אחד לא קודם. הוסיפו את "
-"APP_VERSION_OWNER ליד זה ששייך למאגר הזה."
+"APP_VERSION נמצא ביותר מקובץ אחד ({0}), ולכן אף אחד לא קודם. הוסיפו את APP_VERSION_OWNER ליד זה "
+"ששייך למאגר הזה."
 # File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 249
 #: usr/share/gitrepo/build_package/core/version_bumper.py:310
 msgid "APP_VERSION constant not found. Skipping automatic version bump."
@@ -2144,7 +2234,8 @@ msgid ""
 "{2}\n"
 "\n"
 "No: nothing is changed and you can pick another resolution method.\n"
-"Every other change from {1} is merged, and the discarded version stays readable with: git diff HEAD^2 -- FILE"
+"Every other change from {1} is merged, and the discarded version stays readable with: git diff "
+"HEAD^2 -- FILE"
 msgstr ""
 "לשמור את הענף המקומי {0} במקומות שבהם הוא שונה מהענף המרוחק {1}?\n"
 "\n"
@@ -2339,11 +2430,8 @@ msgstr "הרצת זרימת עבודה #{0} החלה: {1}"
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 140
 #: usr/share/gitrepo/build_package/core/github_api.py:140
 #, python-brace-format
-msgid ""
-"GitHub accepted the request, but no workflow run appeared within {0} "
-"seconds."
-msgstr ""
-"GitHub קיבל את הבקשה, אך לא הופיעה ריצה של זרימת עבודה בתוך {0} שניות."
+msgid "GitHub accepted the request, but no workflow run appeared within {0} seconds."
+msgstr "GitHub קיבל את הבקשה, אך לא הופיעה ריצה של זרימת עבודה בתוך {0} שניות."
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 144
 #: usr/share/gitrepo/build_package/core/github_api.py:144
 msgid "The build may still be queued; it was not confirmed as started."
@@ -2369,8 +2457,7 @@ msgid "Workflow branch: {0}"
 msgstr "סניף workflow: {0}"
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 146
 #: usr/share/gitrepo/build_package/core/github_api.py:224
-msgid ""
-"GitHub token not configured. Package operations will require token setup."
+msgid "GitHub token not configured. Package operations will require token setup."
 msgstr "טוקן GitHub לא מוגדר. פעולות חבילה ידרשו הגדרת טוקן."
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 176
 #: usr/share/gitrepo/build_package/core/github_api.py:254
@@ -2410,8 +2497,8 @@ msgstr "  4. בחר תחומי גישה: 'repo' ו-'workflow'"
 msgid "  5. Click 'Generate token' and copy it"
 msgstr "  5. לחץ על 'Generate token' והעתק אותו"
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 190
-#. Prompt for username and token
 #: usr/share/gitrepo/build_package/core/github_api.py:268
+#. Prompt for username and token
 msgid "GitHub username (or press Enter to cancel): "
 msgstr "שם משתמש ב-GitHub (או לחץ Enter לביטול): "
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 192
@@ -2434,8 +2521,7 @@ msgstr "אסימון GitHub (או לחץ Enter כדי לבטל): "
 #: usr/share/gitrepo/build_package/core/github_api.py:281
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:165
 msgid "The token could not be saved. Unlock the system keyring and try again."
-msgstr ""
-"לא ניתן לשמור את האסימון. בטל את נעילת מערך המפתחות של המערכת ונסה שוב."
+msgstr "לא ניתן לשמור את האסימון. בטל את נעילת מערך המפתחות של המערכת ונסה שוב."
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 207
 #: usr/share/gitrepo/build_package/core/github_api.py:285
 msgid "✓ Token saved securely in the system keyring"
@@ -2740,23 +2826,23 @@ msgstr "החליט קובץ אחר קובץ"
 msgid ""
 "Conflict in {0} translation catalogs\n"
 "\n"
-"These files are rebuilt by the translation workflow. You are merging {1} into {2}, and the two versions disagree in:\n"
+"These files are rebuilt by the translation workflow. You are merging {1} into {2}, and the two "
+"versions disagree in:\n"
 "{3}\n"
 "\n"
 "Keeping {2} discards the {1} version of these files; it stays readable with: {4}"
 msgstr ""
 "קונפליקט בקטלוגי התרגום של {0}\n"
 "\n"
-"קבצים אלה נבנים מחדש על ידי זרימת העבודה של התרגום. אתה ממזג את {1} לתוך {2}, ושתי הגרסאות לא מסכימות ב:\n"
+"קבצים אלה נבנים מחדש על ידי זרימת העבודה של התרגום. אתה ממזג את {1} לתוך {2}, ושתי הגרסאות לא "
+"מסכימות ב:\n"
 "{3}\n"
 "\n"
 "שימור {2} זורק את גרסת {1} של קבצים אלה; היא נשארת קריאה עם: {4}"
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 336
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:342
 #, python-brace-format
-msgid ""
-"✓ Resolved {0} translation catalogs with the {1} version; {2} was discarded "
-"there"
+msgid "✓ Resolved {0} translation catalogs with the {1} version; {2} was discarded there"
 msgstr "✓ נפתרו {0} קטלוגי תרגום עם גרסת {1}; {2} נזרק שם"
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 357
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:363
@@ -2813,8 +2899,8 @@ msgstr ""
 msgid "Resolving conflicts: keeping our changes..."
 msgstr "פותר קונפליקטים: שומר את השינויים שלנו..."
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 247
-#. Our side deleted the file - remove it
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:408
+#. Our side deleted the file - remove it
 #, python-brace-format
 msgid "  Removing {0} (deleted in our version)"
 msgstr "  מוחק את {0} (נמחק בגרסה שלנו)"
@@ -2838,8 +2924,8 @@ msgstr "נכשל בפתרון אוטומטי: {0}"
 msgid "Resolving conflicts: accepting remote changes..."
 msgstr "פותר קונפליקטים: מקבל שינויים מרוחקים..."
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 276
-#. Remote side deleted the file - remove it
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:437
+#. Remote side deleted the file - remove it
 #, python-brace-format
 msgid "  Removing {0} (deleted in remote version)"
 msgstr "  מוחק {0} (נמחק בגרסה המרוחקת)"
@@ -3194,7 +3280,6 @@ msgstr "אין קבצים שעברו שינוי להצגה."
 # File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 245
 # File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 215
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 203
-#. Responses
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:215
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:203
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:245
@@ -3214,6 +3299,7 @@ msgstr "אין קבצים שעברו שינוי להצגה."
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:315
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:666
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:313
+#. Responses
 msgid "Cancel"
 msgstr "ביטול"
 # File: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py,
@@ -3309,9 +3395,6 @@ msgstr "העתקת יומן"
 # 143
 # File: usr/share/gitrepo/build_package/gui/main_window.py, line: 420
 # File: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py, line: 805
-#. Change cancel to close
-#. A non-cancellable step has no decision to offer yet, so the button
-#. stays out of the way instead of posing as a disabled action.
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:830
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:243
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:615
@@ -3319,14 +3402,15 @@ msgstr "העתקת יומן"
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:206
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:490
 #: usr/share/gitrepo/build_package/gui/main_window.py:421
+#. Change cancel to close
+#. A non-cancellable step has no decision to offer yet, so the button
+#. stays out of the way instead of posing as a disabled action.
 msgid "Close"
 msgstr "סגור"
 # File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line:
 # 342
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:365
-msgid ""
-"The operation did not complete. The log below states the cause and what to "
-"do next."
+msgid "The operation did not complete. The log below states the cause and what to do next."
 msgstr "הפעולה לא הושלמה. היומן שלהלן מציין את הסיבה ואת הצעדים הבאים."
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -3441,8 +3525,8 @@ msgid "Operation cancelled"
 msgstr "הפעולה בוטלה"
 # File: usr/share/gitrepo/build_package/gui/dialogs/preview_dialog.py, line:
 # 28
-#. Set title with number
 #: usr/share/gitrepo/build_package/gui/dialogs/preview_dialog.py:28
+#. Set title with number
 #, python-brace-format
 msgid "[{0}/{1}] {2}"
 msgstr "[{0}/{1}] {2}"
@@ -3523,9 +3607,9 @@ msgstr "ערוך את הקובץ ידנית"
 # 161
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line:
 # 217
-#. Title
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:180
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:236
+#. Title
 msgid "Resolve Conflicts"
 msgstr "פתר קונפליקטים"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
@@ -3592,6 +3676,7 @@ msgid "Resolved {0} of {1} conflicts"
 msgstr "נפתרו {0} מתוך {1} קונפליקטים"
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line:
 # 407
+#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:407
 #. The row is marked so the choice is visible and Apply becomes usable,
 #. but this is a claim, not a verified resolution: the file has not been
 #. edited yet at this point. apply_resolution() re-reads it and refuses
@@ -3599,7 +3684,6 @@ msgstr "נפתרו {0} מתוך {1} קונפליקטים"
 #. commit. Say so on the row itself -- the toast this used to build was
 #. posted to a self.toast_overlay that is never created, so it was never
 #. shown, and the 'Mark as Edited' control it named does not exist.
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:407
 msgid "Edited by hand — checked for conflict markers when you apply"
 msgstr "נערך ביד — נבדק עבור סימני קונפליקט כאשר אתה מיישם"
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line:
@@ -3616,8 +3700,8 @@ msgid "Error reading remote version: {0}"
 msgstr "שגיאה בקריאת הגרסה המרוחקת: {0}"
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line:
 # 430
-#. Create diff dialog - larger and maximizable
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:451
+#. Create diff dialog - larger and maximizable
 #, python-brace-format
 msgid "Compare: {0}"
 msgstr "השווה: {0}"
@@ -3757,9 +3841,7 @@ msgid "Build and publish packages"
 msgstr "בנייה ופרסום חבילות"
 # File: usr/share/gitrepo/build_package/gui/main_window.py, line: 216
 #: usr/share/gitrepo/build_package/gui/main_window.py:216
-msgid ""
-"Start a build on GitHub Actions from this repository or from a community "
-"source."
+msgid "Start a build on GitHub Actions from this repository or from a community source."
 msgstr "התחל build ב‑GitHub Actions מהמאגר הזה או ממקור קהילתי."
 # File: usr/share/gitrepo/build_package/gui/main_window.py, line: 218
 #: usr/share/gitrepo/build_package/gui/main_window.py:218
@@ -3775,9 +3857,7 @@ msgid "Settings and repository maintenance"
 msgstr "הגדרות ותחזוקת מאגר"
 # File: usr/share/gitrepo/build_package/gui/main_window.py, line: 227
 #: usr/share/gitrepo/build_package/gui/main_window.py:227
-msgid ""
-"Local Git behavior, GitHub access, and the destructive operations that need "
-"confirmation."
+msgid "Local Git behavior, GitHub access, and the destructive operations that need confirmation."
 msgstr "התנהגות Git מקומית, גישה ל-GitHub, והפעולות ההרסניות שדורשות אישור."
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -3899,11 +3979,11 @@ msgstr "לא ידוע"
 # 
 # File: usr/share/gitrepo/build_package/gui/main_window.py, line: 387
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 117
+#: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:117
+#: usr/share/gitrepo/build_package/gui/main_window.py:388
 #. Every build of the same edition shares its configuration, so leading
 #. with it makes the list unreadable: the date and the outcome are what
 #. tell one entry from another.
-#: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:117
-#: usr/share/gitrepo/build_package/gui/main_window.py:388
 #, python-brace-format
 msgid "{0} • {1}"
 msgstr "{0} • {1}"
@@ -3945,14 +4025,14 @@ msgstr "קומיט (סטטוס לא זמין)"
 msgid "Commit"
 msgstr "קומיט"
 # File: usr/share/gitrepo/build_package/gui/gtk_logger.py, line: 125
-#. Show notification only when no dialog is active
 #: usr/share/gitrepo/build_package/gui/gtk_logger.py:125
+#. Show notification only when no dialog is active
 #, python-brace-format
 msgid "Summary: {0}"
 msgstr "סיכום: {0}"
 # File: usr/share/gitrepo/build_package/gui/gtk_logger.py, line: 142
-#. Create error dialog
 #: usr/share/gitrepo/build_package/gui/gtk_logger.py:142
+#. Create error dialog
 msgid "Fatal Error"
 msgstr "שגיאה קריטית"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
@@ -3968,8 +4048,8 @@ msgstr "שגיאה קריטית"
 msgid "OK"
 msgstr "אישור"
 # File: usr/share/gitrepo/build_package/gui/gtk_logger.py, line: 158
-#. Fallback to console exit if dialog fails
 #: usr/share/gitrepo/build_package/gui/gtk_logger.py:158
+#. Fallback to console exit if dialog fails
 #, python-brace-format
 msgid "Dialog error: {0}"
 msgstr "שגיאת דו-שיח: {0}"
@@ -4007,6 +4087,11 @@ msgstr "אשר Commit לסניף"
 #, python-brace-format
 msgid "Choose where to publish your changes. {0}"
 msgstr "בחר היכן לפרסם את השינויים שלך. {0}"
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 91
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:91
+msgid "Choose where to record the commit. Nothing will be pushed to origin."
+msgstr "בחר היכן לרשום את ה-commit. שום דבר לא יידחף ל-origin."
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 116
@@ -4035,24 +4120,86 @@ msgstr "בצע Commit ל-{0} בכל זאת"
 #, python-brace-format
 msgid "Commit to {0}"
 msgstr "בצע Commit ל-{0}"
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 186
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:186
+msgid "Preparing the commit"
+msgstr "מכין את ה-commit"
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 179
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:186
 msgid "Preparing and publishing changes"
 msgstr "הכנה ופרסום שינויים"
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 188
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:188
+#, python-brace-format
+msgid "Switching to {0}, then committing without pushing..."
+msgstr "מתחלף ל-{0}, ואז מבצע commit ללא דחיפה..."
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 180
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:190
 #, python-brace-format
 msgid "Switching to {0}, then running the publish command sequence..."
 msgstr "עובר ל-{0}, ואז מריץ את רצף פקודות הפרסום..."
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 204
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:204
+msgid "Committing locally"
+msgstr "מבצע commit מקומית"
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 191
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:204
 msgid "Publishing changes"
 msgstr "מפרסם שינויים"
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 206
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:206
+#, python-brace-format
+msgid "Running git add and git commit for {0}; origin is untouched..."
+msgstr "מריץ git add ו-git commit עבור {0}; origin לא נגעו..."
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 192
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:208
 #, python-brace-format
 msgid "Running git add, git commit, and git push for {0}..."
 msgstr "מריץ git add, git commit, ו-git push עבור {0}..."
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 224
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:224
+msgid "Could not determine the current branch"
+msgstr "לא ניתן לקבוע את הסניף הנוכחי"
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 228
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:228
+msgid "Publish the existing local commit?"
+msgstr "לפרסם את הקומיט המקומי הקיים?"
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 233
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:233
+#, python-brace-format
+msgid ""
+"Your local commit is pushed as it is. If origin/{0} has moved on, those updates are integrated "
+"first, which can add a merge commit."
+msgstr ""
+"הקומיט המקומי שלך נדחף כפי שהוא. אם origin/{0} התקדם, העדכונים האלה משולבים תחילה, מה שיכול להוסיף "
+"קומיט מיזוג."
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 249
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 203
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:249
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:203
+msgid "Publish now"
+msgstr "פרסם עכשיו"
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 260
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:260
+msgid "Publishing the local commit"
+msgstr "מפרסם את הקומיט המקומי"
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 261
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:261
+#, python-brace-format
+msgid "Integrating origin/{0} if needed, then running git push..."
+msgstr "משלב את origin/{0} אם נדרש, ואז מריץ git push..."
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 216
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:273
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:351
@@ -4085,9 +4232,9 @@ msgstr "סניפים זמינים"
 msgid "Most Recent Branch"
 msgstr "הסניף האחרון ביותר"
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
-#. A pill states the fact; colouring the whole row only implied it.
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:320
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
+#. A pill states the fact; colouring the whole row only implied it.
 msgid "Current"
 msgstr "נוכחי"
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 231
@@ -4122,8 +4269,7 @@ msgstr "פרסום שינויים והתחלת זרימת עבודת החביל�
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 287
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:435
 #, python-brace-format
-msgid ""
-"Running the Git publish sequence, then asking GitHub Actions to build {0}..."
+msgid "Running the Git publish sequence, then asking GitHub Actions to build {0}..."
 msgstr "הרצת רצף הפרסום של Git, ולאחר מכן בקשת GitHub Actions לבנות את {0}..."
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 301
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:449
@@ -4139,8 +4285,8 @@ msgstr "לשכפל ולבנות את חבילת AUR {0}"
 msgid "GitHub Token Setup"
 msgstr "הגדרת טוקן GitHub"
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 351
-#. Username field
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:499
+#. Username field
 msgid "GitHub Username:"
 msgstr "שם משתמש ב-GitHub:"
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 353
@@ -4148,8 +4294,8 @@ msgstr "שם משתמש ב-GitHub:"
 msgid "your-username"
 msgstr "your-username"
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 358
-#. Token field
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:506
+#. Token field
 msgid "GitHub Token:"
 msgstr "אסימון GitHub:"
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 368
@@ -4167,11 +4313,9 @@ msgstr "שם משתמש ואסימון נדרשים"
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 403
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:551
 msgid ""
-"The token could not be saved in the system keyring. Check that the keyring "
-"is unlocked and try again."
-msgstr ""
-"לא ניתן היה לשמור את האסימון במחזיק המפתחות של המערכת. בדוק שמחזיק המפתחות "
-"לא נעול ונסה שוב."
+"The token could not be saved in the system keyring. Check that the keyring is unlocked and try "
+"again."
+msgstr "לא ניתן היה לשמור את האסימון במחזיק המפתחות של המערכת. בדוק שמחזיק המפתחות לא נעול ונסה שוב."
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 414
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:562
 msgid "✓ Token saved successfully"
@@ -4216,10 +4360,10 @@ msgstr "שינויים ממתינים"
 # 129
 # File: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py, line:
 # 201
-#. Refresh button
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:201
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:216
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:131
+#. Refresh button
 msgid "Refresh"
 msgstr "רענן"
 # File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line:
@@ -4252,6 +4396,26 @@ msgstr "סקור מה יירשם לפני כתיבת ה-commit."
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:156
 msgid "What publishing runs"
 msgstr "מה הרצות הפרסום מבצעות"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 158
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:158
+#, python-brace-format
+msgid ""
+"Download updates: {0}\n"
+"\n"
+"Publish changes: {1}\n"
+"\n"
+"Commit only: {2}\n"
+"The commit stays on this machine until you publish it. A package build always reads the branch from "
+"origin, so it will not see an unpublished commit."
+msgstr ""
+"הורד עדכונים: {0}\n"
+"\n"
+"פרסם שינויים: {1}\n"
+"\n"
+"קומיט בלבד: {2}\n"
+"הקומיט נשאר על המחשב הזה עד שתפרסם אותו. בניית חבילה תמיד קוראת את הסניף מ-origin, כך שהיא לא תראה "
+"קומיט שלא פורסם."
 # File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line:
 # 164
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:172
@@ -4267,6 +4431,21 @@ msgstr "אין מידע על הקומיט"
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:182
 msgid "Undo the last commit and keep its files changed — git reset HEAD~1"
 msgstr "בטל את ה-commit האחרון ושמור על הקבצים ששונו — git reset HEAD~1"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 194
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:194
+msgid "Not published yet"
+msgstr "עדיין לא פורסם"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 195
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:195
+msgid "This branch has local commits that are not on origin."
+msgstr "לסניף זה יש קומיטים מקומיים שלא נמצאים ב-origin."
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 208
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:208
+msgid "No new commit is created."
+msgstr "לא נוצר קומיט חדש."
 # File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line:
 # 185
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:217
@@ -4299,9 +4478,9 @@ msgid "Commit Type"
 msgstr "סוג הקומיט"
 # File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line:
 # 205
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:237
 #. Amber text on the whole row lost contrast and read as an error. The
 #. requirement is stated in words here and in the footer summary.
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:237
 msgid "Required — select the type of change"
 msgstr "חובה — בחר את סוג השינוי"
 # File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line:
@@ -4309,11 +4488,33 @@ msgstr "חובה — בחר את סוג השינוי"
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:264
 msgid "Description (supports multiple lines)"
 msgstr "תיאור (תומך בשורות מרובות)"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 312
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:312
+msgid "Commit only (no push)"
+msgstr "קומיט בלבד (ללא push)"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 313
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:313
+msgid "Record the commit locally and publish it later"
+msgstr "רשום את הקומיט מקומית ופרסם אותו מאוחר יותר"
 # File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line:
 # 337
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:381
 msgid "No commits yet (this will be your first!)"
 msgstr "עדיין אין התחייבויות (זו תהיה ההתחייבות הראשונה שלך!)"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 395
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:395
+#, python-brace-format
+msgid "{0} commit(s) not published"
+msgstr "{0} קומיטים לא פורסמו"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 399
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:399
+#, python-brace-format
+msgid "origin/{0} is behind your local branch."
+msgstr "origin/{0} מאחורי הסניף המקומי שלך."
 # File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line:
 # 367
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:429
@@ -4325,6 +4526,16 @@ msgstr "הודעה מותאמת אישית (תומכת במספר שורות)"
 #, python-brace-format
 msgid "Description for {0} (supports multiple lines)"
 msgstr "תיאור עבור {0} (תומך במספר שורות)"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 452
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:452
+msgid "Commit locally"
+msgstr "בצע commit מקומית"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 458
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:458
+msgid "origin stays unchanged; no package build is triggered."
+msgstr "ה-origin נשאר ללא שינוי; לא מופעל build של חבילה."
 # File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line:
 # 407
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:493
@@ -4436,6 +4647,11 @@ msgstr "תיאור"
 #, python-brace-format
 msgid "Still missing: {0}"
 msgstr "עדיין חסר: {0}"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 565
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:565
+msgid "git add -A → git commit (not pushed)"
+msgstr "git add -A → git commit (לא נדחף)"
 # File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line:
 # 479
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:567
@@ -4480,11 +4696,11 @@ msgstr "בנה חבילה מ-AUR"
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 45
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:45
 msgid ""
-"Choose a community-maintained package. GitHub Actions downloads its AUR "
-"repository and builds it; no local Git command is run."
+"Choose a community-maintained package. GitHub Actions downloads its AUR repository and builds it; "
+"no local Git command is run."
 msgstr ""
-"בחר חבילה המתוחזקת על ידי הקהילה. GitHub Actions מוריד את מאגר AUR שלה ובונה"
-" אותה; לא מתבצעת פקודת Git מקומית."
+"בחר חבילה המתוחזקת על ידי הקהילה. GitHub Actions מוריד את מאגר AUR שלה ובונה אותה; לא מתבצעת פקודת "
+"Git מקומית."
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 54
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:54
 msgid "GitHub AUR workflow"
@@ -4492,11 +4708,9 @@ msgstr "workflow AUR של GitHub"
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 56
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:56
 msgid ""
-"This optional feature asks GitHub Actions to download a community package "
-"recipe and build it remotely."
-msgstr ""
-"תכונה אופציונלית זו מבקשת מ-GitHub Actions להוריד מתכון (recipe) של חבילה "
-"קהילתית ולבנות אותה מרחוק."
+"This optional feature asks GitHub Actions to download a community package recipe and build it "
+"remotely."
+msgstr "תכונה אופציונלית זו מבקשת מ-GitHub Actions להוריד מתכון (recipe) של חבילה קהילתית ולבנות אותה מרחוק."
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 59
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:59
 msgid "Enable AUR package builds"
@@ -4504,11 +4718,9 @@ msgstr "הפעל בניות חבילות AUR"
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 62
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:62
 msgid ""
-"Show the AUR package form below. Running it requires a GitHub access token; "
-"no local Git branch is created."
-msgstr ""
-"הצג את טופס חבילת AUR להלן. הפעלתו דורשת אסימון גישת GitHub; לא נוצרת ענף "
-"Git מקומי."
+"Show the AUR package form below. Running it requires a GitHub access token; no local Git branch is "
+"created."
+msgstr "הצג את טופס חבילת AUR להלן. הפעלתו דורשת אסימון גישת GitHub; לא נוצרת ענף Git מקומי."
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 74
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:74
 msgid "AUR packages are built from community-maintained sources"
@@ -4528,17 +4740,15 @@ msgstr "מה בניית AUR עושה"
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 87
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:87
 msgid ""
-"The workflow clones the package recipe from the Arch User Repository and "
-"builds it on GitHub. Nothing is compiled on this computer, and the recipe is"
-" maintained by the community, not by BigCommunity."
+"The workflow clones the package recipe from the Arch User Repository and builds it on GitHub. "
+"Nothing is compiled on this computer, and the recipe is maintained by the community, not by "
+"BigCommunity."
 msgstr ""
-"תהליך העבודה משכפל את מתכון החבילה ממאגר Arch User Repository ובונה אותו "
-"ב-GitHub. שום דבר לא מורכב במחשב זה, והמתכון מתוחזק על ידי הקהילה, לא על ידי"
-" BigCommunity."
+"תהליך העבודה משכפל את מתכון החבילה ממאגר Arch User Repository ובונה אותו ב-GitHub. שום דבר לא מורכב "
+"במחשב זה, והמתכון מתוחזק על ידי הקהילה, לא על ידי BigCommunity."
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 93
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:93
-msgid ""
-"The package name determines the community source URL used by the build."
+msgid "The package name determines the community source URL used by the build."
 msgstr "שם החבילה קובע את כתובת ה-URL של מקור הקהילה המשמשת לבנייה."
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 96
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:96
@@ -4580,8 +4790,7 @@ msgid "Build Summary"
 msgstr "סיכום בנייה"
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 131
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:131
-msgid ""
-"clone the selected AUR source and build it in BigCommunity infrastructure"
+msgid "clone the selected AUR source and build it in BigCommunity infrastructure"
 msgstr "שכפל את מקור AUR שנבחר ובנה אותו בתשתית BigCommunity"
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 144
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:144
@@ -4598,15 +4807,15 @@ msgstr "תהליך עבודה של GitHub Actions — לא נוצרת ענף מ�
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 160
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 82
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 204
-#. Clear button
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:82
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:204
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:160
+#. Clear button
 msgid "Clear"
 msgstr "נקה"
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 166
-#. Build button
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:166
+#. Build button
 msgid "Start AUR workflow"
 msgstr "התחל תהליך עבודה של AUR"
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 220
@@ -4614,8 +4823,8 @@ msgstr "התחל תהליך עבודה של AUR"
 msgid "Enter package name above"
 msgstr "הזן שם חבילה למעלה"
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 271
-#. Create confirmation dialog with better formatting
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:271
+#. Create confirmation dialog with better formatting
 msgid "Confirm AUR Build"
 msgstr "אשר בניית AUR"
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 283
@@ -4649,11 +4858,11 @@ msgstr "התחבר ל-GitHub בצורה מאובטחת"
 # 37
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:37
 msgid ""
-"Local Git commands do not need a token. A token is used only when this app "
-"asks GitHub to run package workflows or manage remote automation."
+"Local Git commands do not need a token. A token is used only when this app asks GitHub to run "
+"package workflows or manage remote automation."
 msgstr ""
-"פקודות Git מקומיות אינן זקוקות לטוקן. טוקן משמש רק כאשר אפליקציה זו מבקשת "
-"מ-GitHub להריץ תהליכי עבודה של חבילות או לנהל אוטומציה מרחוק."
+"פקודות Git מקומיות אינן זקוקות לטוקן. טוקן משמש רק כאשר אפליקציה זו מבקשת מ-GitHub להריץ תהליכי "
+"עבודה של חבילות או לנהל אוטומציה מרחוק."
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 46
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:46
@@ -4662,12 +4871,8 @@ msgstr "טוקנים שנשמרו במחשב זה"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 48
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:48
-msgid ""
-"Values are protected by the system keyring and are never displayed by this "
-"app."
-msgstr ""
-"הערכים מוגנים על ידי מחזיק המפתחות של המערכת ומעולם לא מוצגים על ידי "
-"אפליקציה זו."
+msgid "Values are protected by the system keyring and are never displayed by this app."
+msgstr "הערכים מוגנים על ידי מחזיק המפתחות של המערכת ומעולם לא מוצגים על ידי אפליקציה זו."
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 56
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:56
@@ -4677,15 +4882,13 @@ msgstr "אודות טוקני גישה ל-GitHub"
 # 58
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:58
 msgid ""
-"The token identifies your account so the app can start GitHub workflows that"
-" Git alone cannot. It authorizes one organization or user, and saving it "
-"does not verify its permissions. Package workflows need: repo, workflow, "
-"write:packages, delete:packages, read:org."
+"The token identifies your account so the app can start GitHub workflows that Git alone cannot. It "
+"authorizes one organization or user, and saving it does not verify its permissions. Package "
+"workflows need: repo, workflow, write:packages, delete:packages, read:org."
 msgstr ""
-"הטוקן מזהה את החשבון שלך כך שהאפליקציה תוכל להפעיל תהליכי עבודה ב-GitHub "
-"ש-Git לבד אינה יכולה. הוא מאשר ארגון אחד או משתמש אחד, ושמירתו אינה מאמתת את"
-" ההרשאות שלו. תהליכי עבודה של חבילות צריכים: repo, workflow, write:packages,"
-" delete:packages, read:org."
+"הטוקן מזהה את החשבון שלך כך שהאפליקציה תוכל להפעיל תהליכי עבודה ב-GitHub ש-Git לבד אינה יכולה. הוא "
+"מאשר ארגון אחד או משתמש אחד, ושמירתו אינה מאמתת את ההרשאות שלו. תהליכי עבודה של חבילות צריכים: "
+"repo, workflow, write:packages, delete:packages, read:org."
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 67
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:67
@@ -4699,11 +4902,8 @@ msgstr "שמור או החלף טוקן גישה"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 83
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:83
-msgid ""
-"Use the GitHub organization or username that owns the repositories where "
-"workflows will run."
-msgstr ""
-"השתמש בארגון GitHub או בשם המשתמש שבבעלותם המאגרים שבהם יפעלו תהליכי העבודה."
+msgid "Use the GitHub organization or username that owns the repositories where workflows will run."
+msgstr "השתמש בארגון GitHub או בשם המשתמש שבבעלותם המאגרים שבהם יפעלו תהליכי העבודה."
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 87
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:87
@@ -4773,8 +4973,7 @@ msgstr "אסימון הגישה הוסר"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 194
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:194
-msgid ""
-"The token could not be removed. Unlock the system keyring and try again."
+msgid "The token could not be removed. Unlock the system keyring and try again."
 msgstr "לא ניתן להסיר את האסימון. פתח את מחסן המפתחות של המערכת ונסה שוב."
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 218
@@ -4785,11 +4984,9 @@ msgstr "בחר כיצד פעולות Git מקומיות יתנהגו"
 # 220
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:220
 msgid ""
-"These settings affect work in the current repository. They do not connect to"
-" GitHub and do not require an access token."
-msgstr ""
-"הגדרות אלו משפיעות על העבודה במאגר הנוכחי. הן אינן מתחברות ל-GitHub ואינן "
-"דורשות אסימון גישה."
+"These settings affect work in the current repository. They do not connect to GitHub and do not "
+"require an access token."
+msgstr "הגדרות אלו משפיעות על העבודה במאגר הנוכחי. הן אינן מתחברות ל-GitHub ואינן דורשות אסימון גישה."
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 232
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:232
@@ -4804,21 +5001,16 @@ msgstr "הגנה מפני אובדן נתונים"
 # 237
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:237
 msgid ""
-"Safety confirmations are part of the app and cannot be disabled: it always "
-"asks before a force push, a hard reset, branch cleanup, tag deletion, or "
-"workflow deletion."
+"Safety confirmations are part of the app and cannot be disabled: it always asks before a force "
+"push, a hard reset, branch cleanup, tag deletion, or workflow deletion."
 msgstr ""
-"אישורי הבטיחות הם חלק מהאפליקציה ולא ניתן להשביתם: היא תמיד מבקשת אישור לפני"
-" דחיפה מאולצת, איפוס קשיח, ניקוי ענפים, מחיקת תגיות או מחיקת זרימות עבודה."
+"אישורי הבטיחות הם חלק מהאפליקציה ולא ניתן להשביתם: היא תמיד מבקשת אישור לפני דחיפה מאולצת, איפוס "
+"קשיח, ניקוי ענפים, מחיקת תגיות או מחיקת זרימות עבודה."
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 243
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:243
-msgid ""
-"Choose whether the app asks you what to keep or stops so you can resolve the"
-" conflict manually."
-msgstr ""
-"בחרו האם האפליקציה תשאל אתכם מה לשמור או תעצור כדי שתוכלו לפתור את ההתנגשות "
-"באופן ידני."
+msgid "Choose whether the app asks you what to keep or stops so you can resolve the conflict manually."
+msgstr "בחרו האם האפליקציה תשאל אתכם מה לשמור או תעצור כדי שתוכלו לפתור את ההתנגשות באופן ידני."
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 246
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:246
@@ -4857,9 +5049,7 @@ msgstr "לעדכן את גרסת החבילה באופן אוטומטי"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 263
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:263
-msgid ""
-"When publishing a typed commit, calculate the next version from the selected"
-" change type."
+msgid "When publishing a typed commit, calculate the next version from the selected change type."
 msgstr "בעת פרסום התחייבות מוקלדת, לחשב את הגרסה הבאה מתוך סוג השינוי שנבחר."
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 269
@@ -4869,12 +5059,8 @@ msgstr "לאפס את כל הגדרות חבילת הבנייה"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 270
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:270
-msgid ""
-"Disable optional GitHub workflows and restore the recommended local Git "
-"behavior."
-msgstr ""
-"להשבית זרימות עבודה אופציונליות ב-GitHub ולהחזיר את התנהגות ה-Git המקומית "
-"המומלצת."
+msgid "Disable optional GitHub workflows and restore the recommended local Git behavior."
+msgstr "להשבית זרימות עבודה אופציונליות ב-GitHub ולהחזיר את התנהגות ה-Git המקומית המומלצת."
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 271
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
@@ -4901,12 +5087,8 @@ msgstr "לאפס את כל ההגדרות?"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 311
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:311
-msgid ""
-"Optional GitHub workflows will be disabled and local Git behavior will "
-"return to its defaults."
-msgstr ""
-"זרימות עבודה אופציונליות ב-GitHub יושבתו והתנהגות ה-Git המקומית תחזור "
-"לברירות המחדל."
+msgid "Optional GitHub workflows will be disabled and local Git behavior will return to its defaults."
+msgstr "זרימות עבודה אופציונליות ב-GitHub יושבתו והתנהגות ה-Git המקומית תחזור לברירות המחדל."
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 326
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:326
@@ -4922,9 +5104,9 @@ msgstr "לא ניתן היה לשחזר את ההגדרות. נסה שוב."
 msgid "Checked out right now"
 msgstr "נשלף כעת"
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 52
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:52
 #. What is worth saying per row is what differs between rows. The
 #. group already states that selecting one runs git checkout.
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:52
 msgid "Only on origin; created locally on first checkout"
 msgstr "רק ב-origin; נוצר מקומית בעת ה-checkout הראשון"
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 56
@@ -4938,11 +5120,9 @@ msgstr "ארגון קווי עבודה"
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 93
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:93
 msgid ""
-"Switch branches with git checkout, publish new branches with git push, or "
-"propose integration on GitHub."
-msgstr ""
-"החלף ענפים באמצעות git checkout, פרסם ענפים חדשים באמצעות git push, או הצע "
-"אינטגרציה ב-GitHub."
+"Switch branches with git checkout, publish new branches with git push, or propose integration on "
+"GitHub."
+msgstr "החלף ענפים באמצעות git checkout, פרסם ענפים חדשים באמצעות git push, או הצע אינטגרציה ב-GitHub."
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line:
 # 103
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:103
@@ -4966,12 +5146,8 @@ msgstr "סניף עם הקומיטים האחרונים"
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line:
 # 129
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:129
-msgid ""
-"Selecting another branch runs git checkout BRANCH; remote-only branches are "
-"created locally first."
-msgstr ""
-"בחירת ענף אחר מריצה את הפקודה git checkout BRANCH; ענפים שהם remote בלבד "
-"נוצרים מקומית תחילה."
+msgid "Selecting another branch runs git checkout BRANCH; remote-only branches are created locally first."
+msgstr "בחירת ענף אחר מריצה את הפקודה git checkout BRANCH; ענפים שהם remote בלבד נוצרים מקומית תחילה."
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line:
 # 152
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:153
@@ -5001,13 +5177,11 @@ msgstr "כיצד פועלת אינטגרציה"
 # 179
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:180
 msgid ""
-"The source branch is the one carrying your work; the target is where it "
-"should land. GitRepo opens a pull request on GitHub instead of merging "
-"locally, so the review and the checks still run."
+"The source branch is the one carrying your work; the target is where it should land. GitRepo opens "
+"a pull request on GitHub instead of merging locally, so the review and the checks still run."
 msgstr ""
-"ענף המקור הוא הענף שנושא את העבודה שלך; היעד הוא המקום אליו היא אמורה להגיע."
-" GitRepo פותחת בקשת משיכה (Pull Request) ב-GitHub במקום למזג מקומית, כך "
-"שהבדיקה והסקירות עדיין פועלות."
+"ענף המקור הוא הענף שנושא את העבודה שלך; היעד הוא המקום אליו היא אמורה להגיע. GitRepo פותחת בקשת "
+"משיכה (Pull Request) ב-GitHub במקום למזג מקומית, כך שהבדיקה והסקירות עדיין פועלות."
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line:
 # 186
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:187
@@ -5035,8 +5209,8 @@ msgid "Refresh branch list"
 msgstr "רענן את רשימת הסניפים"
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line:
 # 222
-#. Cleanup button
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:223
+#. Cleanup button
 msgid "Remove old branches"
 msgstr "הסר ענפים ישנים"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
@@ -5044,9 +5218,9 @@ msgstr "הסר ענפים ישנים"
 # File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 323
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line:
 # 234
-#. Merge button
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:323
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:235
+#. Merge button
 msgid "Open Pull Request"
 msgstr "פתח בקשת משיכה"
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line:
@@ -5068,11 +5242,9 @@ msgstr "תחזוק ושחזור המאגר"
 # 94
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:94
 msgid ""
-"Remove obsolete references or return files and history to an earlier point. "
-"Every destructive command requires confirmation."
-msgstr ""
-"הסר הפניות מיושנות או החזר קבצים והיסטוריה לנקודה מוקדמת יותר. כל פקודה "
-"הרסנית דורשת אישור."
+"Remove obsolete references or return files and history to an earlier point. Every destructive "
+"command requires confirmation."
+msgstr "הסר הפניות מיושנות או החזר קבצים והיסטוריה לנקודה מוקדמת יותר. כל פקודה הרסנית דורשת אישור."
 # File: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py, line:
 # 104
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:104
@@ -5135,8 +5307,8 @@ msgid "How to return to the selected commit"
 msgstr "כיצד לחזור ל-commit שנבחר"
 # File: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py, line:
 # 179
-#. Shorter text that fits in popup - tooltip can explain more
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:179
+#. Shorter text that fits in popup - tooltip can explain more
 msgid "Restore files with a new commit"
 msgstr "שחזר קבצים עם commit חדש"
 # File: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py, line:
@@ -5146,16 +5318,16 @@ msgid "Move history back and delete newer commits"
 msgstr "הזז את ההיסטוריה לאחור ומחק commits חדשים יותר"
 # File: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py, line:
 # 207
-#. Revert button
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:207
+#. Revert button
 msgid "Return to selected commit"
 msgstr "חזור ל-commit שנבחר"
 # File: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py, line:
 # 232
+#: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:234
 #. Not activatable: an activatable placeholder could be selected, which
 #. enabled the destructive revert button and offered to reset the
 #. repository to commit "--------".
-#: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:234
 msgid "No commits yet"
 msgstr "עדיין אין קומיטים"
 # File: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py, line:
@@ -5250,12 +5422,11 @@ msgstr "יצירת חבילה כבויה"
 # 98
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:98
 msgid ""
-"Turn it on to publish this repository to the testing, stable, or extra "
-"repository. The build runs on GitHub Actions and needs an access token; "
-"nothing is compiled here."
+"Turn it on to publish this repository to the testing, stable, or extra repository. The build runs "
+"on GitHub Actions and needs an access token; nothing is compiled here."
 msgstr ""
-"הפעל אפשרות זו כדי לפרסם מאגר זה למאגר הבדיקות, היציב או הנוסף. הבנייה רצה "
-"על GitHub Actions ודורשת אסימון גישה; שום דבר לא מורכב כאן."
+"הפעל אפשרות זו כדי לפרסם מאגר זה למאגר הבדיקות, היציב או הנוסף. הבנייה רצה על GitHub Actions ודורשת "
+"אסימון גישה; שום דבר לא מורכב כאן."
 # File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line:
 # 110
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:110
@@ -5285,13 +5456,12 @@ msgstr "לאיזה מאגר לפרסם"
 # 146
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:146
 msgid ""
-"Testing receives packages for validation and is built from your development "
-"branch. Stable is what users install, and it is always built from main. "
-"Extra holds complementary packages that follow the same stable rules."
+"Testing receives packages for validation and is built from your development branch. Stable is what "
+"users install, and it is always built from main. Extra holds complementary packages that follow the "
+"same stable rules."
 msgstr ""
-"מאגר הבדיקות מקבל חבילות לאימות ונבנה מסניף הפיתוח שלך. המאגר היציב הוא מה "
-"שמשתמשים מתקינים, והוא תמיד נבנה מהסניף הראשי. המאגר הנוסף מכיל חבילות "
-"משלימות הפועלות לפי אותם כללים כמו המאגר היציב."
+"מאגר הבדיקות מקבל חבילות לאימות ונבנה מסניף הפיתוח שלך. המאגר היציב הוא מה שמשתמשים מתקינים, והוא "
+"תמיד נבנה מהסניף הראשי. המאגר הנוסף מכיל חבילות משלימות הפועלות לפי אותם כללים כמו המאגר היציב."
 # File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line:
 # 153
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:153
@@ -5352,21 +5522,21 @@ msgstr "השאר מנוטרל לבניית חבילות רגילות"
 # File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line:
 # 313
 # File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 246
-#. Cancel/Reset button
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:246
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:313
+#. Cancel/Reset button
 msgid "Reset"
 msgstr "איפוס"
 # File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line:
 # 320
 # File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line:
 # 521
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:320
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:524
 #. Reset build button
 #. set_label replaces the button child, detaching build_button_content;
 #. every later set_label on it would then update an orphan, so the button
 #. kept this text and stopped naming the selected repository.
-#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:320
-#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:524
 msgid "Start package workflow"
 msgstr "התחל תהליך עבודה של חבילות"
 # File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line:
@@ -5481,12 +5651,8 @@ msgstr "זוהו שינויים לא מקומיטים"
 # File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 69
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:69
 #, python-brace-format
-msgid ""
-"You have uncommitted changes. Preserve them with {0}, or discard them with "
-"{1}."
-msgstr ""
-"יש לך שינויים שלא נשלחו (uncommitted). שמור אותם באמצעות {0}, או מחק אותם "
-"באמצעות {1}."
+msgid "You have uncommitted changes. Preserve them with {0}, or discard them with {1}."
+msgstr "יש לך שינויים שלא נשלחו (uncommitted). שמור אותם באמצעות {0}, או מחק אותם באמצעות {1}."
 # File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 106
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:106
 #, python-brace-format
@@ -5554,8 +5720,7 @@ msgid "Propose branch integration?"
 msgstr "להציע שילוב סניף?"
 # File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 277
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:277
-msgid ""
-"open a Pull Request on GitHub; this does not run git merge on your computer"
+msgid "open a Pull Request on GitHub; this does not run git merge on your computer"
 msgstr "פתיחת בקשת משיכה ב-GitHub; פעולה אינה מבצעת git merge במחשב שלך"
 # File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 345
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:345
@@ -5645,8 +5810,7 @@ msgid "Tested packages. Recommended for images you will hand to other people."
 msgstr "חבילות שנבדקו. מומלץ לתמונות שתמסרו לאנשים אחרים."
 # File: usr/share/gitrepo/build_iso/config.py, line: 40
 #: usr/share/gitrepo/build_iso/config.py:40
-msgid ""
-"Packages waiting for validation. Useful to preview the next stable set."
+msgid "Packages waiting for validation. Useful to preview the next stable set."
 msgstr "חבילות הממתינות לאימות. שימושי לתצוגה מקדימה של הסט היציב הבא."
 # File: usr/share/gitrepo/build_iso/config.py, line: 41
 #: usr/share/gitrepo/build_iso/config.py:41
@@ -5683,11 +5847,11 @@ msgstr "יצירת ISO"
 # File: usr/share/gitrepo/build_iso/config.py, line: 164
 #: usr/share/gitrepo/build_iso/config.py:166
 msgid ""
-"Wrapper for ISO building using GitHub Actions. Streamlines the process of "
-"creating custom Linux distribution ISO images through automation."
+"Wrapper for ISO building using GitHub Actions. Streamlines the process of creating custom Linux "
+"distribution ISO images through automation."
 msgstr ""
-"עטיפה לבניית ISO באמצעות GitHub Actions. מפשטת את תהליך יצירת תמונות ISO של "
-"הפצות לינוקס מותאמות אישית באמצעות אוטומציה."
+"עטיפה לבניית ISO באמצעות GitHub Actions. מפשטת את תהליך יצירת תמונות ISO של הפצות לינוקס מותאמות "
+"אישית באמצעות אוטומציה."
 # File: usr/share/gitrepo/build_iso/build_iso.py, line: 109
 #: usr/share/gitrepo/build_iso/build_iso.py:109
 #, python-brace-format
@@ -5762,8 +5926,7 @@ msgstr "לא ניתן לטעון תיקיות בנייה מרוחקות: {0}"
 # File: usr/share/gitrepo/build_iso/build_iso.py, line: 265
 #: usr/share/gitrepo/build_iso/build_iso.py:240
 #: usr/share/gitrepo/build_iso/build_iso.py:265
-msgid ""
-"Using the built-in fallback. Retry this step to query the source again."
+msgid "Using the built-in fallback. Retry this step to query the source again."
 msgstr "שימוש בברירת המחדל המובנית. חזרו על שלב זה כדי לשאול שוב את המקור."
 # File: usr/share/gitrepo/build_iso/build_iso.py, line: 242
 #: usr/share/gitrepo/build_iso/build_iso.py:242
@@ -5924,13 +6087,13 @@ msgstr "האם ברצונך להמשיך עם הבנייה המקומית?"
 msgid "Local build cancelled."
 msgstr "הבנייה המקומית בוטלה."
 # File: usr/share/gitrepo/build_iso/build_iso.py, line: 477
-#. Display summary
 #: usr/share/gitrepo/build_iso/build_iso.py:477
+#. Display summary
 msgid "ISO Build Summary"
 msgstr "סיכום בניית ISO"
 # File: usr/share/gitrepo/build_iso/build_iso.py, line: 480
-#. Confirm build
 #: usr/share/gitrepo/build_iso/build_iso.py:480
+#. Confirm build
 msgid "Do you want to proceed with building the ISO?"
 msgstr "האם ברצונך להמשיך עם בניית ה-ISO?"
 # File: usr/share/gitrepo/build_iso/build_iso.py, line: 481
@@ -5979,8 +6142,7 @@ msgid "Build cancelled"
 msgstr "הבנייה בוטלה"
 # File: usr/share/gitrepo/build_iso/core/iso_builder.py, line: 393
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:393
-msgid ""
-"The host kernel provides no loop devices (/dev/loop-control is missing)."
+msgid "The host kernel provides no loop devices (/dev/loop-control is missing)."
 msgstr "הקרנל של המארח אינו מספק מכשירי לולאה (/dev/loop-control חסר)."
 # File: usr/share/gitrepo/build_iso/core/iso_builder.py, line: 394
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:394
@@ -6143,8 +6305,7 @@ msgid "The container engine did not respond."
 msgstr "מנוע המיכל לא הגיב."
 # File: usr/share/gitrepo/build_iso/core/container_manager.py, line: 105
 #: usr/share/gitrepo/build_iso/core/container_manager.py:105
-msgid ""
-"The storage driver probe failed. Check the engine service, then refresh."
+msgid "The storage driver probe failed. Check the engine service, then refresh."
 msgstr "בדיקת מנהל האחסון נכשלה. בדוק את שירות המנוע, ואז רענן."
 # File: usr/share/gitrepo/build_iso/core/container_manager.py, line: 133
 #: usr/share/gitrepo/build_iso/core/container_manager.py:133
@@ -6530,11 +6691,8 @@ msgid "Docker storage is managed by the system"
 msgstr "אחסון Docker מנוהל על ידי המערכת"
 # File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 105
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:105
-msgid ""
-"GitRepo reports the active driver but never changes it or removes Docker "
-"data."
-msgstr ""
-"GitRepo מדווח על הדרייבר הפעיל אך לעולם לא משנה אותו או מסיר נתוני Docker."
+msgid "GitRepo reports the active driver but never changes it or removes Docker data."
+msgstr "GitRepo מדווח על הדרייבר הפעיל אך לעולם לא משנה אותו או מסיר נתוני Docker."
 # File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 115
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:115
 msgid "Pull Progress"
@@ -6582,9 +6740,7 @@ msgstr "להסיר {0} מיכלי בנייה שהופסקו?"
 # File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 212
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:212
 #, python-brace-format
-msgid ""
-"Only stopped containers created from {0} will be removed. Images and Docker "
-"storage are kept."
+msgid "Only stopped containers created from {0} will be removed. Images and Docker storage are kept."
 msgstr "רק מיכלים שהופסקו שנוצרו מ-{0} יוסרו. תמונות ואחסון Docker נשמרים."
 # File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 216
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:216
@@ -6607,22 +6763,16 @@ msgid "{0:.0f} MB"
 msgstr "{0:.0f} MB"
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 53
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:53
-msgid ""
-"Review outcomes and durations, then open the ISO folder or the terminal log "
-"of a build."
-msgstr ""
-"סקור תוצאות ומשכי זמן, ואז פתח את תיקיית ה-ISO או את יומן הטרמינל של בנייה."
+msgid "Review outcomes and durations, then open the ISO folder or the terminal log of a build."
+msgstr "סקור תוצאות ומשכי זמן, ואז פתח את תיקיית ה-ISO או את יומן הטרמינל של בנייה."
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 63
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:63
 msgid "No builds yet"
 msgstr "עדיין אין בניות"
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 65
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:65
-msgid ""
-"Finished and failed builds are listed here with their ISO, duration, and "
-"terminal log."
-msgstr ""
-"בניות שהושלמו ונכשלו מפורטות כאן עם ה-ISO שלהן, משך הזמן והלוג הטרמינל."
+msgid "Finished and failed builds are listed here with their ISO, duration, and terminal log."
+msgstr "בניות שהושלמו ונכשלו מפורטות כאן עם ה-ISO שלהן, משך הזמן והלוג הטרמינל."
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 79
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:79
 msgid "Clear History"
@@ -6671,11 +6821,8 @@ msgid "This will remove all build history entries. This cannot be undone."
 msgstr "פעולה זו תסיר את כל רשומות היסטוריית הבנייה. לא ניתן לבטל פעולה זו."
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 213
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:213
-msgid ""
-"Could not update the build history. Check config permissions, then try "
-"again."
-msgstr ""
-"לא ניתן לעדכן את היסטוריית הבנייה. בדוק את הרשאות הקונפיגורציה, ואז נסה שוב."
+msgid "Could not update the build history. Check config permissions, then try again."
+msgstr "לא ניתן לעדכן את היסטוריית הבנייה. בדוק את הרשאות הקונפיגורציה, ואז נסה שוב."
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 221
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:230
 msgid "ISO path copied to the clipboard"
@@ -6686,11 +6833,8 @@ msgid "Configure build defaults"
 msgstr "קבע תצורת ברירות מחדל לבנייה"
 # File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 44
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:44
-msgid ""
-"Set reusable defaults for storage, package channels, alerts, and the build "
-"environment."
-msgstr ""
-"הגדר ברירות מחדל לשימוש חוזר לאחסון, ערוצי חבילות, התראות וסביבת הבנייה."
+msgid "Set reusable defaults for storage, package channels, alerts, and the build environment."
+msgstr "הגדר ברירות מחדל לשימוש חוזר לאחסון, ערוצי חבילות, התראות וסביבת הבנייה."
 # File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 54
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:54
 msgid "Storage"
@@ -6796,12 +6940,11 @@ msgstr "צור ISO הניתן להתקנה"
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 84
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:84
 msgid ""
-"Choose what the image contains and where it is saved. The build runs in an "
-"isolated container, so its tools and files stay separate from your installed"
-" system."
+"Choose what the image contains and where it is saved. The build runs in an isolated container, so "
+"its tools and files stay separate from your installed system."
 msgstr ""
-"בחר מה התמונה מכילה והיכן היא נשמרת. ההרצה מתבצעת במכולה מבודדת, כך שהכלים "
-"והקבצים שלה נשארים נפרדים מהמערכת המותקנת שלך."
+"בחר מה התמונה מכילה והיכן היא נשמרת. ההרצה מתבצעת במכולה מבודדת, כך שהכלים והקבצים שלה נשארים "
+"נפרדים מהמערכת המותקנת שלך."
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 96
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:96
 msgid "Open settings"
@@ -6825,12 +6968,11 @@ msgstr "הפצה וגרסת שולחן עבודה"
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 121
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:121
 msgid ""
-"The distribution sets which package repositories the image is built from. "
-"The edition is the desktop it starts with — the same system with a different"
-" workspace, applications, and defaults."
+"The distribution sets which package repositories the image is built from. The edition is the "
+"desktop it starts with — the same system with a different workspace, applications, and defaults."
 msgstr ""
-"ההפצה קובעת מאילו מאגרי חבילות התמונה נבנית. המהדורה היא שולחן העבודה שאיתו "
-"היא מתחילה — אותה מערכת עם סביבת עבודה, יישומים ברירות מחדל שונים."
+"ההפצה קובעת מאילו מאגרי חבילות התמונה נבנית. המהדורה היא שולחן העבודה שאיתו היא מתחילה — אותה מערכת "
+"עם סביבת עבודה, יישומים ברירות מחדל שונים."
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 130
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:130
 msgid "Sets the package base and compatible profiles"
@@ -6892,13 +7034,11 @@ msgstr "באיזה ליבה לבחור"
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 224
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:224
 msgid ""
-"LTS receives long-term fixes and is the safest default. Latest supports very"
-" recent hardware but changes faster. Old LTS helps on older machines, and "
-"XanMod targets desktop responsiveness."
+"LTS receives long-term fixes and is the safest default. Latest supports very recent hardware but "
+"changes faster. Old LTS helps on older machines, and XanMod targets desktop responsiveness."
 msgstr ""
-"LTS מקבל תיקונים ארוכי טווח והוא הבחירה הבטוחה ביותר. Latest תומך בחומרה "
-"עדכנית מאוד אך משתנה מהר יותר. Old LTS מסייע במחשבים ישנים יותר, ו-XanMod "
-"מיועדת לתגובתיות שולחנית."
+"LTS מקבל תיקונים ארוכי טווח והוא הבחירה הבטוחה ביותר. Latest תומך בחומרה עדכנית מאוד אך משתנה מהר "
+"יותר. Old LTS מסייע במחשבים ישנים יותר, ו-XanMod מיועדת לתגובתיות שולחנית."
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 239
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:239
 msgid "Manjaro Packages"
@@ -6956,13 +7096,11 @@ msgstr "הגדרות פרופיל"
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 283
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:283
 msgid ""
-"A profile is the recipe of the image: package lists, enabled services, and "
-"files copied into the system. Keep the official source unless you maintain "
-"your own iso-profiles repository or folder."
+"A profile is the recipe of the image: package lists, enabled services, and files copied into the "
+"system. Keep the official source unless you maintain your own iso-profiles repository or folder."
 msgstr ""
-"פרופיל הוא המתכון של התמונה: רשימות חבילות, שירותים מופעלים וקבצים המועתקים "
-"למערכת. השאר את המקור הרשמי אלא אם כן אתה מתחזק מאגר או תיקיית iso-profiles "
-"משלך."
+"פרופיל הוא המתכון של התמונה: רשימות חבילות, שירותים מופעלים וקבצים המועתקים למערכת. השאר את המקור "
+"הרשמי אלא אם כן אתה מתחזק מאגר או תיקיית iso-profiles משלך."
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 292
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:292
 msgid "Repository URL"
@@ -7030,20 +7168,13 @@ msgstr "בחר תיקיית iso-profiles"
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 583
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:583
 #, python-brace-format
-msgid ""
-"GitHub API quota reached — using built-in suggestions. Automatic retry at "
-"{0}."
-msgstr ""
-"מכסת ה-API של GitHub מוצתה — נעשה שימוש בהצעות מובנות. ניסיון אוטומטי חוזר "
-"ב־{0}."
+msgid "GitHub API quota reached — using built-in suggestions. Automatic retry at {0}."
+msgstr "מכסת ה-API של GitHub מוצתה — נעשה שימוש בהצעות מובנות. ניסיון אוטומטי חוזר ב־{0}."
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 592
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:592
 #, python-brace-format
-msgid ""
-"GitHub API quota reached — using cached profiles. Automatic refresh at {0}."
-msgstr ""
-"מכסת ה-API של GitHub מוצתה — נעשה שימוש בפרופילים שמורים במטמון. רענון "
-"אוטומטי ב־{0}."
+msgid "GitHub API quota reached — using cached profiles. Automatic refresh at {0}."
+msgstr "מכסת ה-API של GitHub מוצתה — נעשה שימוש בפרופילים שמורים במטמון. רענון אוטומטי ב־{0}."
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 600
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:600
 #, python-brace-format
@@ -7089,8 +7220,7 @@ msgid "Only {0:.1f} GB free here; a build needs about 20 GB."
 msgstr "בלבד {0:.1f} GB פנוי כאן; בנייה דורשת כ-20 GB."
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 827
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:827
-msgid ""
-"Could not save build settings. Check config permissions, then try again."
+msgid "Could not save build settings. Check config permissions, then try again."
 msgstr "לא ניתן לשמור הגדרות בנייה. בדוק הרשאות תצורה, ואז נסה שוב."
 # File: usr/share/gitrepo/build_iso/gui/main_gui.py, line: 296
 #: usr/share/gitrepo/build_iso/gui/main_gui.py:296
@@ -7128,9 +7258,9 @@ msgid "Monitor the build at: {0}"
 msgstr "עקוב אחר הבנייה בכתובת: {0}"
 # File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 74
 # File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 102
-#. It's inside a Git repository - show the menu
 #: usr/share/nautilus-python/extensions/gitrepo_extension.py:74
 #: usr/share/nautilus-python/extensions/gitrepo_extension.py:102
+#. It's inside a Git repository - show the menu
 msgid "Open in GitRepo"
 msgstr "פתיחה ב-GitRepo"
 # File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 76
@@ -7155,149 +7285,3 @@ msgstr "לא ניתן למצוא את GitRepo. האם הוא מותקן?"
 #: usr/share/nautilus-python/extensions/gitrepo_extension.py:155
 msgid "Launch Error"
 msgstr "שגיאת הפעלה"
-#: usr/share/gitrepo/build_package/core/build_package.py:253
-msgid "Commit locally (no push)"
-msgstr "בצע commit מקומית (ללא דחיפה)"
-#: usr/share/gitrepo/build_package/core/build_package.py:518
-msgid "Commit locally without pushing; publish it later"
-msgstr "בצע commit מקומית ללא דחיפה; פרסם אותו מאוחר יותר"
-#: usr/share/gitrepo/build_package/core/build_package.py:537
-msgid ""
-"--no-push cannot be combined with --build: the package build needs the "
-"pushed branch."
-msgstr ""
-"לא ניתן לשלב את --no-push עם --build: בניית החבילה דורשת את הסניף שנדחף."
-#: usr/share/gitrepo/build_package/core/commit_handler.py:189
-#, python-brace-format
-msgid "The commit {0} is local only; origin/{1} is unchanged."
-msgstr "ה-commit {0} הוא מקומי בלבד; origin/{1} לא השתנה."
-#: usr/share/gitrepo/build_package/core/commit_handler.py:190
-#, python-brace-format
-msgid "Publish it later with: {0}"
-msgstr "פרסם אותו מאוחר יותר עם: {0}"
-#: usr/share/gitrepo/build_package/core/commit_handler.py:243
-msgid "Uncommitted changes were set aside while the remote is integrated."
-msgstr "שינויים שלא בוצעו בהם commit הונחו בצד בזמן שילוב ה-remote."
-#: usr/share/gitrepo/build_package/core/commit_handler.py:268
-#, python-brace-format
-msgid "Your uncommitted changes are kept in git stash: {0}"
-msgstr "השינויים הלא-מחויבים שלך נשמרים ב-git stash: {0}"
-#: usr/share/gitrepo/build_package/core/commit_handler.py:269
-#, python-brace-format
-msgid "Recover them with: {0}"
-msgstr "שחזר אותם עם: {0}"
-#: usr/share/gitrepo/build_package/core/commit_handler.py:271
-msgid "✓ Uncommitted changes restored"
-msgstr "✓ שינויים לא-מחויבים שוחזרו"
-#: usr/share/gitrepo/build_package/core/commit_handler.py:304
-#, python-brace-format
-msgid "Committed locally on {0}; nothing was pushed"
-msgstr "בוצע commit מקומית על {0}; שום דבר לא נדחף"
-#: usr/share/gitrepo/build_package/core/commit_operations.py:93
-#, python-brace-format
-msgid ""
-"Commit these changes locally?\n"
-"Commands: git add -A → git commit -m \"MESSAGE\"\n"
-"Nothing is pushed; origin/BRANCH stays unchanged.\n"
-"Branch: {0}\n"
-"Message: {1}\n"
-"{2}Files:\n"
-"{3}"
-msgstr ""
-"לבצע commit לשינויים אלה מקומית?\n"
-"פקודות: git add -A → git commit -m \"MESSAGE\"\n"
-"שום דבר לא נדחף; origin/BRANCH נשאר ללא שינוי.\n"
-"סניף: {0}\n"
-"הודעה: {1}\n"
-"{2}קבצים:\n"
-"{3}"
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:91
-msgid "Choose where to record the commit. Nothing will be pushed to origin."
-msgstr "בחר היכן לרשום את ה-commit. שום דבר לא יידחף ל-origin."
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:186
-msgid "Preparing the commit"
-msgstr "מכין את ה-commit"
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:188
-#, python-brace-format
-msgid "Switching to {0}, then committing without pushing..."
-msgstr "מתחלף ל-{0}, ואז מבצע commit ללא דחיפה..."
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:204
-msgid "Committing locally"
-msgstr "מבצע commit מקומית"
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:206
-#, python-brace-format
-msgid "Running git add and git commit for {0}; origin is untouched..."
-msgstr "מריץ git add ו-git commit עבור {0}; origin לא נגעו..."
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:224
-msgid "Could not determine the current branch"
-msgstr "לא ניתן לקבוע את הסניף הנוכחי"
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:228
-msgid "Publish the existing local commit?"
-msgstr "לפרסם את הקומיט המקומי הקיים?"
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:233
-#, python-brace-format
-msgid ""
-"Your local commit is pushed as it is. If origin/{0} has moved on, those "
-"updates are integrated first, which can add a merge commit."
-msgstr ""
-"הקומיט המקומי שלך נדחף כפי שהוא. אם origin/{0} התקדם, העדכונים האלה משולבים "
-"תחילה, מה שיכול להוסיף קומיט מיזוג."
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:249
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:203
-msgid "Publish now"
-msgstr "פרסם עכשיו"
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:260
-msgid "Publishing the local commit"
-msgstr "מפרסם את הקומיט המקומי"
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:261
-#, python-brace-format
-msgid "Integrating origin/{0} if needed, then running git push..."
-msgstr "משלב את origin/{0} אם נדרש, ואז מריץ git push..."
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:158
-#, python-brace-format
-msgid ""
-"Download updates: {0}\n"
-"\n"
-"Publish changes: {1}\n"
-"\n"
-"Commit only: {2}\n"
-"The commit stays on this machine until you publish it. A package build always reads the branch from origin, so it will not see an unpublished commit."
-msgstr ""
-"הורד עדכונים: {0}\n"
-"\n"
-"פרסם שינויים: {1}\n"
-"\n"
-"קומיט בלבד: {2}\n"
-"הקומיט נשאר על המחשב הזה עד שתפרסם אותו. בניית חבילה תמיד קוראת את הסניף מ-origin, כך שהיא לא תראה קומיט שלא פורסם."
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:194
-msgid "Not published yet"
-msgstr "עדיין לא פורסם"
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:195
-msgid "This branch has local commits that are not on origin."
-msgstr "לסניף זה יש קומיטים מקומיים שלא נמצאים ב-origin."
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:208
-msgid "No new commit is created."
-msgstr "לא נוצר קומיט חדש."
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:312
-msgid "Commit only (no push)"
-msgstr "קומיט בלבד (ללא push)"
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:313
-msgid "Record the commit locally and publish it later"
-msgstr "רשום את הקומיט מקומית ופרסם אותו מאוחר יותר"
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:395
-#, python-brace-format
-msgid "{0} commit(s) not published"
-msgstr "{0} קומיטים לא פורסמו"
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:399
-#, python-brace-format
-msgid "origin/{0} is behind your local branch."
-msgstr "origin/{0} מאחורי הסניף המקומי שלך."
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:452
-msgid "Commit locally"
-msgstr "בצע commit מקומית"
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:458
-msgid "origin stays unchanged; no package build is triggered."
-msgstr "ה-origin נשאר ללא שינוי; לא מופעל build של חבילה."
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:565
-msgid "git add -A → git commit (not pushed)"
-msgstr "git add -A → git commit (לא נדחף)"

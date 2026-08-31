@@ -2,7 +2,7 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the gitrepo package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: LangForge\n"
+"X-Generator: attranslate\n"
 # File: usr/share/gitrepo/common/help_popover.py, line: 41
 #: usr/share/gitrepo/common/help_popover.py:41
 msgid "What does this mean?"
@@ -65,7 +65,8 @@ msgstr "これはフリーソフトウェアです。自由に変更および再
 #: usr/share/gitrepo/common/version_display.py:32
 #, python-brace-format
 msgid ""
-"{0} is provided to you under the MIT License and includes open source software under a variety of other licenses.\n"
+"{0} is provided to you under the MIT License and includes open source software under a variety of "
+"other licenses.\n"
 "You can read instructions about how to download and build for yourself\n"
 "the specific source code used to create this copy."
 msgstr ""
@@ -238,8 +239,7 @@ msgstr "コミットの {0} に失敗しました。"
 # File: usr/share/gitrepo/build_package/core/revert_operations.py, line: 67
 #: usr/share/gitrepo/build_package/core/revert_operations.py:67
 #: usr/share/gitrepo/build_package/core/revert_operations.py:546
-msgid ""
-"Shared main branch: only the history-preserving revert method is available."
+msgid "Shared main branch: only the history-preserving revert method is available."
 msgstr "共有メインブランチ: 履歴を保持するリバート方法のみ使用可能です。"
 # File: usr/share/gitrepo/build_package/core/revert_operations.py, line: 70
 #: usr/share/gitrepo/build_package/core/revert_operations.py:70
@@ -287,7 +287,6 @@ msgstr "リセット（履歴から削除）"
 # File: usr/share/gitrepo/build_iso/build_iso.py, line: 333
 # File: usr/share/gitrepo/build_iso/build_iso.py, line: 344
 # File: usr/share/gitrepo/build_iso/build_iso.py, line: 375
-#. Add a Back option
 #: usr/share/gitrepo/build_iso/build_iso.py:183
 #: usr/share/gitrepo/build_iso/build_iso.py:212
 #: usr/share/gitrepo/build_iso/build_iso.py:285
@@ -309,6 +308,7 @@ msgstr "リセット（履歴から削除）"
 #: usr/share/gitrepo/build_package/core/settings_menu.py:27
 #: usr/share/gitrepo/build_package/core/settings_menu.py:62
 #: usr/share/gitrepo/build_package/gui/gtk_adapters.py:199
+#. Add a Back option
 msgid "Back"
 msgstr "戻る"
 # File: usr/share/gitrepo/build_package/core/revert_operations.py, line: 81
@@ -840,6 +840,18 @@ msgstr "✓ {0}を保持してリモートの変更を統合しました"
 #: usr/share/gitrepo/build_package/core/commit_handler.py:166
 msgid "Remote changes conflict with the local branch; resolve them manually."
 msgstr "リモートの変更がローカルブランチと競合しています。手動で解決してください。"
+# 
+# File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 189
+#: usr/share/gitrepo/build_package/core/commit_handler.py:189
+#, python-brace-format
+msgid "The commit {0} is local only; origin/{1} is unchanged."
+msgstr "コミット {0} はローカルのみです。origin/{1} は変更されていません。"
+# 
+# File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 190
+#: usr/share/gitrepo/build_package/core/commit_handler.py:190
+#, python-brace-format
+msgid "Publish it later with: {0}"
+msgstr "後で次のコマンドで公開してください: {0}"
 # File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 180
 #: usr/share/gitrepo/build_package/core/commit_handler.py:192
 #, python-brace-format
@@ -861,6 +873,28 @@ msgstr "✓ origin/{0} にプッシュしました"
 #, python-brace-format
 msgid "Existing local commit published to origin/{0}."
 msgstr "既存のローカルコミットがorigin/{0}に公開されました。"
+# 
+# File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 243
+#: usr/share/gitrepo/build_package/core/commit_handler.py:243
+msgid "Uncommitted changes were set aside while the remote is integrated."
+msgstr "リモートを統合している間、未コミットの変更は一時的に退避されました。"
+# 
+# File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 268
+#: usr/share/gitrepo/build_package/core/commit_handler.py:268
+#, python-brace-format
+msgid "Your uncommitted changes are kept in git stash: {0}"
+msgstr "未コミットの変更は git stash に保存されています: {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 269
+#: usr/share/gitrepo/build_package/core/commit_handler.py:269
+#, python-brace-format
+msgid "Recover them with: {0}"
+msgstr "次のコマンドで復元できます: {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 271
+#: usr/share/gitrepo/build_package/core/commit_handler.py:271
+msgid "✓ Uncommitted changes restored"
+msgstr "✓ 未コミットの変更が復元されました"
 # File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 220
 #: usr/share/gitrepo/build_package/core/commit_handler.py:291
 msgid "Could not determine branch name for push"
@@ -870,6 +904,12 @@ msgstr "プッシュするブランチ名を特定できませんでした"
 #: usr/share/gitrepo/build_package/core/commit_operations.py:270
 msgid "Resolve all conflicts before committing."
 msgstr "コミットする前にすべての競合を解決してください。"
+# 
+# File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 304
+#: usr/share/gitrepo/build_package/core/commit_handler.py:304
+#, python-brace-format
+msgid "Committed locally on {0}; nothing was pushed"
+msgstr "{0} にローカルでコミットしました。プッシュは行われていません"
 # File: usr/share/gitrepo/build_package/core/commit_handler.py, line: 230
 #: usr/share/gitrepo/build_package/core/commit_handler.py:312
 #, python-brace-format
@@ -905,6 +945,26 @@ msgstr ""
 "メッセージ：{1}\n"
 "{2}ファイル：\n"
 "{3}"
+# 
+# File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 93
+#: usr/share/gitrepo/build_package/core/commit_operations.py:93
+#, python-brace-format
+msgid ""
+"Commit these changes locally?\n"
+"Commands: git add -A → git commit -m \"MESSAGE\"\n"
+"Nothing is pushed; origin/BRANCH stays unchanged.\n"
+"Branch: {0}\n"
+"Message: {1}\n"
+"{2}Files:\n"
+"{3}"
+msgstr ""
+"これらの変更をローカルでコミットしますか？\n"
+"コマンド: git add -A → git commit -m \"MESSAGE\"\n"
+"何もプッシュされません。origin/BRANCH は変更されません。\n"
+"ブランチ: {0}\n"
+"メッセージ: {1}\n"
+"{2}ファイル:\n"
+"{3}"
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 111
 #: usr/share/gitrepo/build_package/core/commit_operations.py:123
 #, python-brace-format
@@ -917,15 +977,12 @@ msgstr "変更されたパスは検出されませんでした"
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 144
 #: usr/share/gitrepo/build_package/core/commit_operations.py:157
 #, python-brace-format
-msgid ""
-"Commit {0} is still waiting on {1}; switch to that branch before retrying."
+msgid "Commit {0} is still waiting on {1}; switch to that branch before retrying."
 msgstr "コミット{0}はまだ{1}を待機しています。再試行する前にそのブランチに切り替えてください。"
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 152
 #: usr/share/gitrepo/build_package/core/commit_operations.py:165
 #, python-brace-format
-msgid ""
-"The branch tip changed after commit {0} failed to publish; review it before "
-"retrying."
+msgid "The branch tip changed after commit {0} failed to publish; review it before retrying."
 msgstr "コミット{0}の公開に失敗した後、ブランチの先端が変更されました。再試行する前に内容を確認してください。"
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 160
 #: usr/share/gitrepo/build_package/core/commit_operations.py:173
@@ -943,9 +1000,7 @@ msgstr "以前に作成されたコミットは既にorigin/{0}に公開され�
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 186
 #: usr/share/gitrepo/build_package/core/commit_operations.py:199
 #, python-brace-format
-msgid ""
-"origin/{0} changed; download and review those updates before retrying the "
-"push."
+msgid "origin/{0} changed; download and review those updates before retrying the push."
 msgstr "origin/{0}が変更されました。プッシュを再試行する前に、それらの更新をダウンロードして確認してください。"
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 215
 #: usr/share/gitrepo/build_package/core/commit_operations.py:228
@@ -1002,8 +1057,7 @@ msgid "Dry run completed; no files or refs were changed."
 msgstr "ドライランが完了しました。ファイルや ref は変更されていません。"
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 280
 #: usr/share/gitrepo/build_package/core/commit_operations.py:302
-msgid ""
-"Publication stopped because the reviewed version bump could not be written."
+msgid "Publication stopped because the reviewed version bump could not be written."
 msgstr "対象のバージョンバンプを書き込めなかったため、公開は停止されました。"
 # File: usr/share/gitrepo/build_package/core/commit_operations.py, line: 290
 #: usr/share/gitrepo/build_package/core/commit_operations.py:312
@@ -1111,8 +1165,8 @@ msgstr "デフォルトにリセット"
 msgid "Settings"
 msgstr "設定"
 # File: usr/share/gitrepo/build_package/core/settings_menu.py, line: 40
-#. Reset
 #: usr/share/gitrepo/build_package/core/settings_menu.py:40
+#. Reset
 msgid "Reset all settings to defaults?"
 msgstr "すべての設定をデフォルトにリセットしますか？"
 # File: usr/share/gitrepo/build_package/core/settings_menu.py, line: 42
@@ -1180,12 +1234,9 @@ msgstr "パッケージのビルド"
 # File: usr/share/gitrepo/build_package/core/config.py, line: 35
 #: usr/share/gitrepo/build_package/core/config.py:35
 msgid ""
-"A comprehensive tool for package building, testing, and deployment. "
-"Streamlines Git operations, automates builds and manages package workflows "
-"for BigCommunity repositories and AUR packages."
-msgstr ""
-"パッケージのビルド、テスト、デプロイを包括的に行うツールです。Git 操作を効率化し、ビルドを自動化し、BigCommunity リポジトリおよび "
-"AUR パッケージのワークフローを管理します。"
+"A comprehensive tool for package building, testing, and deployment. Streamlines Git operations, "
+"automates builds and manages package workflows for BigCommunity repositories and AUR packages."
+msgstr "パッケージのビルド、テスト、デプロイを包括的に行うツールです。Git 操作を効率化し、ビルドを自動化し、BigCommunity リポジトリおよび AUR パッケージのワークフローを管理します。"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/gitrepo/build_package/core/branch_handler.py, line: 78
@@ -1238,6 +1289,40 @@ msgstr ""
 "選択されたブランチ: {0}\n"
 "現在のブランチ: {1}\n"
 "コミットするかワークフローを開始する前に {0} に切り替えてください。"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 109
+#: NEEDS WORK
+#, python-brace-format
+msgid ""
+"Create the branch {0}?\n"
+"Testing packages publish your personal branch, which does not exist in this repository yet.\n"
+"Commands: git checkout -b {0} {1} → git push -u origin {0}"
+msgstr ""
+"ブランチ {0} を作成しますか？\n"
+"テストパッケージは、まだこのリポジトリに存在しないあなたの個人ブランチを公開します。\n"
+"コマンド: git checkout -b {0} {1} → git push -u origin {0}"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 114
+#: NEEDS WORK
+msgid "Branch creation cancelled."
+msgstr "ブランチの作成がキャンセルされました。"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 117
+#: NEEDS WORK
+msgid "Dry run completed; the branch was not created."
+msgstr "ドライランが完了しました; ブランチは作成されませんでした。"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 125
+#: NEEDS WORK
+#, python-brace-format
+msgid "The branch {0} was not checked out after creation."
+msgstr "ブランチ {0} は作成後にチェックアウトされませんでした。"
+# 
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 127
+#: NEEDS WORK
+#, python-brace-format
+msgid "✓ Now working on {0}"
+msgstr "✓ 現在 {0} に取り組んでいます"
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 95
 #: usr/share/gitrepo/build_package/core/package_operations.py:96
 #, python-brace-format
@@ -1268,10 +1353,10 @@ msgstr "パッケージのビルドがキャンセルされました。"
 # 
 # File: usr/share/gitrepo/build_package/core/branch_handler.py, line: 200
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 117
-#. The branch exists locally and may already hold work. Saying only
-#. "failed" invites the user to delete it and lose that work.
 #: usr/share/gitrepo/build_package/core/branch_handler.py:239
 #: usr/share/gitrepo/build_package/core/package_operations.py:118
+#. The branch exists locally and may already hold work. Saying only
+#. "failed" invites the user to delete it and lose that work.
 #, python-brace-format
 msgid "Push failed: {0}"
 msgstr "プッシュに失敗しました: {0}"
@@ -1355,9 +1440,7 @@ msgstr "ワークフローが失敗しました。"
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 206
 #: usr/share/gitrepo/build_package/core/package_operations.py:215
 #, python-brace-format
-msgid ""
-"Merging {0} stopped because it requires conflict resolution. No history was "
-"rewritten."
+msgid "Merging {0} stopped because it requires conflict resolution. No history was rewritten."
 msgstr "{0}のマージは競合解決が必要なため停止しました。履歴は書き換えられていません。"
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 219
 #: usr/share/gitrepo/build_package/core/package_operations.py:219
@@ -1411,8 +1494,7 @@ msgstr "origin/mainブランチは、安定版パッケージおよび追加パ�
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 353
 #: usr/share/gitrepo/build_package/core/package_operations.py:414
 #: usr/share/gitrepo/build_package/core/package_operations.py:445
-msgid ""
-"Remote refs changed during publication; retrying with their latest commits."
+msgid "Remote refs changed during publication; retrying with their latest commits."
 msgstr "公開中にリモート参照が変更されたため、最新のコミットで再試行しています。"
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 363
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 415
@@ -1461,9 +1543,7 @@ msgstr ""
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 450
 #: usr/share/gitrepo/build_package/core/package_operations.py:542
 #, python-brace-format
-msgid ""
-"Remote branches {0} and main were published, but local main could not be "
-"aligned: {1}"
+msgid "Remote branches {0} and main were published, but local main could not be aligned: {1}"
 msgstr "リモートブランチ{0}とmainが公開されましたが、ローカルのmainは同期できませんでした: {1}"
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 473
 #: usr/share/gitrepo/build_package/core/package_operations.py:565
@@ -1607,8 +1687,8 @@ msgstr "srcやtestファイルを変更しないその他の変更"
 msgid "Custom commit message (free text)"
 msgstr "カスタムコミットメッセージ (自由入力)"
 # File: usr/share/gitrepo/build_package/core/build_package.py, line: 129
-#. Show menu
 #: usr/share/gitrepo/build_package/core/build_package.py:129
+#. Show menu
 msgid "Select commit type"
 msgstr "コミットタイプを選択"
 # File: usr/share/gitrepo/build_package/core/build_package.py, line: 152
@@ -1690,6 +1770,11 @@ msgstr "アップデートをダウンロード"
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:452
 msgid "Publish changes"
 msgstr "変更を公開"
+# 
+# File: usr/share/gitrepo/build_package/core/build_package.py, line: 269
+#: usr/share/gitrepo/build_package/core/build_package.py:253
+msgid "Commit locally (no push)"
+msgstr "ローカルでコミット（プッシュなし）"
 # File: usr/share/gitrepo/build_package/core/build_package.py, line: 251
 #: usr/share/gitrepo/build_package/core/build_package.py:257
 msgid "Build package"
@@ -1815,13 +1900,13 @@ msgstr "詳細メニュー"
 msgid "No dev branches found to merge."
 msgstr "マージする開発ブランチが見つかりません。"
 # File: usr/share/gitrepo/build_package/core/build_package.py, line: 410
-#. Show branch selection menu
 #: usr/share/gitrepo/build_package/core/build_package.py:424
+#. Show branch selection menu
 msgid "Select branch to merge to main"
 msgstr "mainにマージするブランチを選択してください"
 # File: usr/share/gitrepo/build_package/core/build_package.py, line: 417
-#. Ask if should auto-merge
 #: usr/share/gitrepo/build_package/core/build_package.py:431
+#. Ask if should auto-merge
 msgid "Create PR (manual approval)"
 msgstr "PRを作成（手動承認）"
 # File: usr/share/gitrepo/build_package/core/build_package.py, line: 417
@@ -1876,8 +1961,8 @@ msgstr "自動マージ"
 msgid "Merge Summary"
 msgstr "マージ概要"
 # File: usr/share/gitrepo/build_package/core/build_package.py, line: 434
-#. Confirm action
 #: usr/share/gitrepo/build_package/core/build_package.py:448
+#. Confirm action
 msgid "Do you want to proceed with creating the pull request?"
 msgstr "プルリクエストを作成してもよろしいですか？"
 # File: usr/share/gitrepo/build_package/core/build_package.py, line: 444
@@ -1901,6 +1986,11 @@ msgstr "コミット/プッシュしてパッケージを生成"
 #: usr/share/gitrepo/build_package/core/build_package.py:511
 msgid "Just commit/push with the specified message"
 msgstr "指定したメッセージでコミット/プッシュのみ"
+# 
+# File: usr/share/gitrepo/build_package/core/build_package.py, line: 534
+#: usr/share/gitrepo/build_package/core/build_package.py:518
+msgid "Commit locally without pushing; publish it later"
+msgstr "プッシュせずにローカルでコミットし、後で公開する"
 # File: usr/share/gitrepo/build_package/core/build_package.py, line: 498
 #: usr/share/gitrepo/build_package/core/build_package.py:521
 msgid "Read commit message from file (multi-line support)"
@@ -1937,6 +2027,11 @@ msgstr "デバッグ用に tmate を有効にする"
 #: usr/share/gitrepo/build_package/core/build_package.py:531
 msgid "Simulate operations without executing"
 msgstr "実行せずに操作をシミュレート"
+# 
+# File: usr/share/gitrepo/build_package/core/build_package.py, line: 553
+#: usr/share/gitrepo/build_package/core/build_package.py:537
+msgid "--no-push cannot be combined with --build: the package build needs the pushed branch."
+msgstr "--no-push は --build と組み合わせることはできません。パッケージのビルドにはプッシュされたブランチが必要です。"
 # File: usr/share/gitrepo/build_package/core/settings.py, line: 53
 #: usr/share/gitrepo/build_package/core/settings.py:53
 #, python-brace-format
@@ -1953,9 +2048,7 @@ msgid "Could not preserve local changes"
 msgstr "ローカルの変更を保持できませんでした"
 # File: usr/share/gitrepo/build_package/core/branch_handler.py, line: 70
 #: usr/share/gitrepo/build_package/core/branch_handler.py:107
-msgid ""
-"A backup of the transferred work remains in Git stash because conflicts "
-"occurred."
+msgid "A backup of the transferred work remains in Git stash because conflicts occurred."
 msgstr "転送された作業のバックアップは、競合が発生したためGitスタッシュに残ります。"
 # File: usr/share/gitrepo/build_package/core/branch_handler.py, line: 71
 #: usr/share/gitrepo/build_package/core/branch_handler.py:110
@@ -2008,8 +2101,8 @@ msgstr "ファイルを修正して再度コミットできます"
 msgid "Switching to source branch: {0}"
 msgstr "ソースブランチに切り替えています: {0}"
 # File: usr/share/gitrepo/build_package/core/branch_handler.py, line: 171
-#. Step 2: Create the new branch from source
 #: usr/share/gitrepo/build_package/core/branch_handler.py:210
+#. Step 2: Create the new branch from source
 #, python-brace-format
 msgid "Creating branch: {0}"
 msgstr "ブランチを作成しています: {0}"
@@ -2075,27 +2168,22 @@ msgstr "ブランチ切り替えエラー: {0}"
 #: usr/share/gitrepo/build_package/core/version_bumper.py:130
 #: usr/share/gitrepo/build_package/core/version_bumper.py:320
 #, python-brace-format
-msgid ""
-"Skipping the version bump: {0} is not a regular file inside the repository."
+msgid "Skipping the version bump: {0} is not a regular file inside the repository."
 msgstr "バージョンバンプをスキップ: {0} はリポジトリ内の通常ファイルではありません。"
 # File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 155
 #: usr/share/gitrepo/build_package/core/version_bumper.py:175
 #, python-brace-format
 msgid ""
-"Several APP_VERSION constants claim this repository ({0}). Keep "
-"APP_VERSION_OWNER on only one of them to bump it automatically."
-msgstr ""
-"複数の APP_VERSION 定数がこのリポジトリのものだと主張しています ({0})。自動的に上げるには、APP_VERSION_OWNER を 1"
-" つだけに残してください。"
+"Several APP_VERSION constants claim this repository ({0}). Keep APP_VERSION_OWNER on only one of "
+"them to bump it automatically."
+msgstr "複数の APP_VERSION 定数がこのリポジトリのものだと主張しています ({0})。自動的に上げるには、APP_VERSION_OWNER を 1 つだけに残してください。"
 # File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 160
 #: usr/share/gitrepo/build_package/core/version_bumper.py:180
 #, python-brace-format
 msgid ""
-"Found APP_VERSION in more than one file ({0}), so none was bumped. Add "
-"APP_VERSION_OWNER next to the one this repository owns."
-msgstr ""
-"APP_VERSION が複数のファイルで見つかったため ({0})、どれも上げませんでした。このリポジトリのものに APP_VERSION_OWNER"
-" を追加してください。"
+"Found APP_VERSION in more than one file ({0}), so none was bumped. Add APP_VERSION_OWNER next to "
+"the one this repository owns."
+msgstr "APP_VERSION が複数のファイルで見つかったため ({0})、どれも上げませんでした。このリポジトリのものに APP_VERSION_OWNER を追加してください。"
 # File: usr/share/gitrepo/build_package/core/version_bumper.py, line: 249
 #: usr/share/gitrepo/build_package/core/version_bumper.py:310
 msgid "APP_VERSION constant not found. Skipping automatic version bump."
@@ -2140,7 +2228,8 @@ msgid ""
 "{2}\n"
 "\n"
 "No: nothing is changed and you can pick another resolution method.\n"
-"Every other change from {1} is merged, and the discarded version stays readable with: git diff HEAD^2 -- FILE"
+"Every other change from {1} is merged, and the discarded version stays readable with: git diff "
+"HEAD^2 -- FILE"
 msgstr ""
 "リモート {1} と食い違う箇所でローカルブランチ {0} を維持しますか？\n"
 "\n"
@@ -2335,9 +2424,7 @@ msgstr "ワークフロー実行 #{0} が開始されました: {1}"
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 140
 #: usr/share/gitrepo/build_package/core/github_api.py:140
 #, python-brace-format
-msgid ""
-"GitHub accepted the request, but no workflow run appeared within {0} "
-"seconds."
+msgid "GitHub accepted the request, but no workflow run appeared within {0} seconds."
 msgstr "GitHubはリクエストを受け入れましたが、{0}秒以内にワークフローの実行が表示されませんでした。"
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 144
 #: usr/share/gitrepo/build_package/core/github_api.py:144
@@ -2364,8 +2451,7 @@ msgid "Workflow branch: {0}"
 msgstr "ワークフローブランチ: {0}"
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 146
 #: usr/share/gitrepo/build_package/core/github_api.py:224
-msgid ""
-"GitHub token not configured. Package operations will require token setup."
+msgid "GitHub token not configured. Package operations will require token setup."
 msgstr "GitHubトークンが設定されていません。パッケージ操作にはトークンの設定が必要です。"
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 176
 #: usr/share/gitrepo/build_package/core/github_api.py:254
@@ -2405,8 +2491,8 @@ msgstr "  4. スコープを選択: 'repo' と 'workflow'"
 msgid "  5. Click 'Generate token' and copy it"
 msgstr "  5. 'Generate token' をクリックしてコピーしてください"
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 190
-#. Prompt for username and token
 #: usr/share/gitrepo/build_package/core/github_api.py:268
+#. Prompt for username and token
 msgid "GitHub username (or press Enter to cancel): "
 msgstr "GitHubユーザー名（キャンセルするにはEnterキーを押してください）: "
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 192
@@ -2734,7 +2820,8 @@ msgstr "ファイルごとに決定"
 msgid ""
 "Conflict in {0} translation catalogs\n"
 "\n"
-"These files are rebuilt by the translation workflow. You are merging {1} into {2}, and the two versions disagree in:\n"
+"These files are rebuilt by the translation workflow. You are merging {1} into {2}, and the two "
+"versions disagree in:\n"
 "{3}\n"
 "\n"
 "Keeping {2} discards the {1} version of these files; it stays readable with: {4}"
@@ -2748,9 +2835,7 @@ msgstr ""
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 336
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:342
 #, python-brace-format
-msgid ""
-"✓ Resolved {0} translation catalogs with the {1} version; {2} was discarded "
-"there"
+msgid "✓ Resolved {0} translation catalogs with the {1} version; {2} was discarded there"
 msgstr "✓ {0} の翻訳カタログが {1} バージョンで解決されました; {2} はそこで破棄されました"
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 357
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:363
@@ -2807,8 +2892,8 @@ msgstr ""
 msgid "Resolving conflicts: keeping our changes..."
 msgstr "競合を解決中：自分の変更を保持しています..."
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 247
-#. Our side deleted the file - remove it
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:408
+#. Our side deleted the file - remove it
 #, python-brace-format
 msgid "  Removing {0} (deleted in our version)"
 msgstr "  {0}を削除中（私たちのバージョンでは削除されました）"
@@ -2832,8 +2917,8 @@ msgstr "自動解決に失敗しました：{0}"
 msgid "Resolving conflicts: accepting remote changes..."
 msgstr "競合を解決中：リモートの変更を受け入れています..."
 # File: usr/share/gitrepo/build_package/core/conflict_resolver.py, line: 276
-#. Remote side deleted the file - remove it
 #: usr/share/gitrepo/build_package/core/conflict_resolver.py:437
+#. Remote side deleted the file - remove it
 #, python-brace-format
 msgid "  Removing {0} (deleted in remote version)"
 msgstr "  {0}を削除中（リモートバージョンで削除されました）"
@@ -3188,7 +3273,6 @@ msgstr "表示する変更ファイルがありません。"
 # File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 245
 # File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 215
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 203
-#. Responses
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:215
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:203
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:245
@@ -3208,6 +3292,7 @@ msgstr "表示する変更ファイルがありません。"
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:315
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:666
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:313
+#. Responses
 msgid "Cancel"
 msgstr "キャンセル"
 # File: usr/share/gitrepo/build_package/gui/dialogs/diff_viewer_dialog.py,
@@ -3303,9 +3388,6 @@ msgstr "ログをコピー"
 # 143
 # File: usr/share/gitrepo/build_package/gui/main_window.py, line: 420
 # File: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py, line: 805
-#. Change cancel to close
-#. A non-cancellable step has no decision to offer yet, so the button
-#. stays out of the way instead of posing as a disabled action.
 #: usr/share/gitrepo/build_iso/gui/dialogs/progress_dialog.py:830
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:243
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:615
@@ -3313,14 +3395,15 @@ msgstr "ログをコピー"
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:206
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:490
 #: usr/share/gitrepo/build_package/gui/main_window.py:421
+#. Change cancel to close
+#. A non-cancellable step has no decision to offer yet, so the button
+#. stays out of the way instead of posing as a disabled action.
 msgid "Close"
 msgstr "閉じる"
 # File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line:
 # 342
 #: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:365
-msgid ""
-"The operation did not complete. The log below states the cause and what to "
-"do next."
+msgid "The operation did not complete. The log below states the cause and what to do next."
 msgstr "操作は完了しませんでした。以下のログに原因と次に行うべきことが記載されています。"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -3435,8 +3518,8 @@ msgid "Operation cancelled"
 msgstr "操作がキャンセルされました"
 # File: usr/share/gitrepo/build_package/gui/dialogs/preview_dialog.py, line:
 # 28
-#. Set title with number
 #: usr/share/gitrepo/build_package/gui/dialogs/preview_dialog.py:28
+#. Set title with number
 #, python-brace-format
 msgid "[{0}/{1}] {2}"
 msgstr "[{0}/{1}] {2}"
@@ -3517,9 +3600,9 @@ msgstr "ファイルを手動で編集"
 # 161
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line:
 # 217
-#. Title
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:180
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:236
+#. Title
 msgid "Resolve Conflicts"
 msgstr "コンフリクトを解決"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
@@ -3586,6 +3669,7 @@ msgid "Resolved {0} of {1} conflicts"
 msgstr "{0} / {1} のコンフリクトを解決済み"
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line:
 # 407
+#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:407
 #. The row is marked so the choice is visible and Apply becomes usable,
 #. but this is a claim, not a verified resolution: the file has not been
 #. edited yet at this point. apply_resolution() re-reads it and refuses
@@ -3593,7 +3677,6 @@ msgstr "{0} / {1} のコンフリクトを解決済み"
 #. commit. Say so on the row itself -- the toast this used to build was
 #. posted to a self.toast_overlay that is never created, so it was never
 #. shown, and the 'Mark as Edited' control it named does not exist.
-#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:407
 msgid "Edited by hand — checked for conflict markers when you apply"
 msgstr "手動で編集 — 適用時に競合マーカーを確認しました"
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line:
@@ -3610,8 +3693,8 @@ msgid "Error reading remote version: {0}"
 msgstr "リモートバージョンの読み取りエラー: {0}"
 # File: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py, line:
 # 430
-#. Create diff dialog - larger and maximizable
 #: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:451
+#. Create diff dialog - larger and maximizable
 #, python-brace-format
 msgid "Compare: {0}"
 msgstr "比較: {0}"
@@ -3751,9 +3834,7 @@ msgid "Build and publish packages"
 msgstr "パッケージのビルドと公開"
 # File: usr/share/gitrepo/build_package/gui/main_window.py, line: 216
 #: usr/share/gitrepo/build_package/gui/main_window.py:216
-msgid ""
-"Start a build on GitHub Actions from this repository or from a community "
-"source."
+msgid "Start a build on GitHub Actions from this repository or from a community source."
 msgstr "このリポジトリまたはコミュニティソースから、GitHub Actionsでビルドを開始します。"
 # File: usr/share/gitrepo/build_package/gui/main_window.py, line: 218
 #: usr/share/gitrepo/build_package/gui/main_window.py:218
@@ -3769,9 +3850,7 @@ msgid "Settings and repository maintenance"
 msgstr "設定とリポジトリメンテナンス"
 # File: usr/share/gitrepo/build_package/gui/main_window.py, line: 227
 #: usr/share/gitrepo/build_package/gui/main_window.py:227
-msgid ""
-"Local Git behavior, GitHub access, and the destructive operations that need "
-"confirmation."
+msgid "Local Git behavior, GitHub access, and the destructive operations that need confirmation."
 msgstr "ローカルGitの動作、GitHubアクセス、及び確認が必要な破壊的操作に関する設定"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
@@ -3893,11 +3972,11 @@ msgstr "不明"
 # 
 # File: usr/share/gitrepo/build_package/gui/main_window.py, line: 387
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 117
+#: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:117
+#: usr/share/gitrepo/build_package/gui/main_window.py:388
 #. Every build of the same edition shares its configuration, so leading
 #. with it makes the list unreadable: the date and the outcome are what
 #. tell one entry from another.
-#: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:117
-#: usr/share/gitrepo/build_package/gui/main_window.py:388
 #, python-brace-format
 msgid "{0} • {1}"
 msgstr "{0} • {1}"
@@ -3939,14 +4018,14 @@ msgstr "コミット（ステータス未取得）"
 msgid "Commit"
 msgstr "コミット"
 # File: usr/share/gitrepo/build_package/gui/gtk_logger.py, line: 125
-#. Show notification only when no dialog is active
 #: usr/share/gitrepo/build_package/gui/gtk_logger.py:125
+#. Show notification only when no dialog is active
 #, python-brace-format
 msgid "Summary: {0}"
 msgstr "サマリー: {0}"
 # File: usr/share/gitrepo/build_package/gui/gtk_logger.py, line: 142
-#. Create error dialog
 #: usr/share/gitrepo/build_package/gui/gtk_logger.py:142
+#. Create error dialog
 msgid "Fatal Error"
 msgstr "致命的なエラー"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
@@ -3962,8 +4041,8 @@ msgstr "致命的なエラー"
 msgid "OK"
 msgstr "OK"
 # File: usr/share/gitrepo/build_package/gui/gtk_logger.py, line: 158
-#. Fallback to console exit if dialog fails
 #: usr/share/gitrepo/build_package/gui/gtk_logger.py:158
+#. Fallback to console exit if dialog fails
 #, python-brace-format
 msgid "Dialog error: {0}"
 msgstr "ダイアログエラー: {0}"
@@ -4001,6 +4080,11 @@ msgstr "コミット先ブランチの確認"
 #, python-brace-format
 msgid "Choose where to publish your changes. {0}"
 msgstr "変更を公開する場所を選択してください。{0}"
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 91
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:91
+msgid "Choose where to record the commit. Nothing will be pushed to origin."
+msgstr "コミットを記録する場所を選択してください。origin にプッシュされることはありません。"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 116
@@ -4029,24 +4113,84 @@ msgstr "とにかく {0} にコミット"
 #, python-brace-format
 msgid "Commit to {0}"
 msgstr "{0} にコミット"
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 186
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:186
+msgid "Preparing the commit"
+msgstr "コミットを準備中"
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 179
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:186
 msgid "Preparing and publishing changes"
 msgstr "変更の準備と公開"
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 188
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:188
+#, python-brace-format
+msgid "Switching to {0}, then committing without pushing..."
+msgstr "{0} に切り替えて、プッシュせずにコミットしています..."
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 180
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:190
 #, python-brace-format
 msgid "Switching to {0}, then running the publish command sequence..."
 msgstr "{0} に切り替え、公開コマンドシーケンスを実行中..."
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 204
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:204
+msgid "Committing locally"
+msgstr "ローカルでコミット中"
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 191
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:204
 msgid "Publishing changes"
 msgstr "変更を公開中"
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 206
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:206
+#, python-brace-format
+msgid "Running git add and git commit for {0}; origin is untouched..."
+msgstr "{0} に対して git add と git commit を実行しています。origin は変更されません。"
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 192
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:208
 #, python-brace-format
 msgid "Running git add, git commit, and git push for {0}..."
 msgstr "{0} に対して git add、git commit、git push を実行中..."
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 224
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:224
+msgid "Could not determine the current branch"
+msgstr "現在のブランチを特定できませんでした"
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 228
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:228
+msgid "Publish the existing local commit?"
+msgstr "既存のローカルコミットを公開しますか？"
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 233
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:233
+#, python-brace-format
+msgid ""
+"Your local commit is pushed as it is. If origin/{0} has moved on, those updates are integrated "
+"first, which can add a merge commit."
+msgstr "ローカルコミットはそのままプッシュされます。origin/{0} が更新されている場合は、それらの変更が最初に統合され、マージコミットが追加される可能性があります。"
+# 
+# #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 249
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 203
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:249
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:203
+msgid "Publish now"
+msgstr "今すぐ公開"
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 260
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:260
+msgid "Publishing the local commit"
+msgstr "ローカルコミットを公開中"
+# 
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 261
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:261
+#, python-brace-format
+msgid "Integrating origin/{0} if needed, then running git push..."
+msgstr "必要に応じて origin/{0} を統合し、その後 git push を実行します..."
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 216
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:273
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:351
@@ -4079,9 +4223,9 @@ msgstr "利用可能なブランチ"
 msgid "Most Recent Branch"
 msgstr "最新のブランチ"
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 44
-#. A pill states the fact; colouring the whole row only implied it.
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:320
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:44
+#. A pill states the fact; colouring the whole row only implied it.
 msgid "Current"
 msgstr "現在"
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 231
@@ -4116,8 +4260,7 @@ msgstr "変更を公開し、パッケージワークフローを開始中"
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 287
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:435
 #, python-brace-format
-msgid ""
-"Running the Git publish sequence, then asking GitHub Actions to build {0}..."
+msgid "Running the Git publish sequence, then asking GitHub Actions to build {0}..."
 msgstr "Git公開シーケンスを実行し、GitHub Actionsに {0} のビルドを依頼中..."
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 301
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:449
@@ -4133,8 +4276,8 @@ msgstr "AURパッケージ {0} をクローンしてビルドする"
 msgid "GitHub Token Setup"
 msgstr "GitHubトークン設定"
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 351
-#. Username field
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:499
+#. Username field
 msgid "GitHub Username:"
 msgstr "GitHubユーザー名："
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 353
@@ -4142,8 +4285,8 @@ msgstr "GitHubユーザー名："
 msgid "your-username"
 msgstr "your-username"
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 358
-#. Token field
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:506
+#. Token field
 msgid "GitHub Token:"
 msgstr "GitHubトークン："
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 368
@@ -4161,8 +4304,8 @@ msgstr "ユーザー名とトークンは必須です"
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 403
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:551
 msgid ""
-"The token could not be saved in the system keyring. Check that the keyring "
-"is unlocked and try again."
+"The token could not be saved in the system keyring. Check that the keyring is unlocked and try "
+"again."
 msgstr "トークンをシステムキーリングに保存できませんでした。キーリングがロック解除されていることを確認し、再試行してください。"
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 414
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:562
@@ -4208,10 +4351,10 @@ msgstr "保留中の変更"
 # 129
 # File: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py, line:
 # 201
-#. Refresh button
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:201
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:216
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:131
+#. Refresh button
 msgid "Refresh"
 msgstr "更新"
 # File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line:
@@ -4244,6 +4387,25 @@ msgstr "コミットを書き込む前に、記録される内容を確認しま
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:156
 msgid "What publishing runs"
 msgstr "公開時に実行される処理"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 158
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:158
+#, python-brace-format
+msgid ""
+"Download updates: {0}\n"
+"\n"
+"Publish changes: {1}\n"
+"\n"
+"Commit only: {2}\n"
+"The commit stays on this machine until you publish it. A package build always reads the branch from "
+"origin, so it will not see an unpublished commit."
+msgstr ""
+"更新をダウンロード: {0}\n"
+"\n"
+"変更を公開: {1}\n"
+"\n"
+"コミットのみ: {2}\n"
+"コミットは公開するまでこのマシンに残ります。パッケージのビルドは常に origin のブランチを読み取るため、未公開のコミットは認識されません。"
 # File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line:
 # 164
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:172
@@ -4259,6 +4421,21 @@ msgstr "コミット情報なし"
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:182
 msgid "Undo the last commit and keep its files changed — git reset HEAD~1"
 msgstr "最後のコミットを元に戻し、そのファイルの変更を保持 — git reset HEAD~1"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 194
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:194
+msgid "Not published yet"
+msgstr "未公開"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 195
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:195
+msgid "This branch has local commits that are not on origin."
+msgstr "このブランチには origin にないローカルコミットがあります。"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 208
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:208
+msgid "No new commit is created."
+msgstr "新しいコミットは作成されません。"
 # File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line:
 # 185
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:217
@@ -4291,9 +4468,9 @@ msgid "Commit Type"
 msgstr "コミットタイプ"
 # File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line:
 # 205
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:237
 #. Amber text on the whole row lost contrast and read as an error. The
 #. requirement is stated in words here and in the footer summary.
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:237
 msgid "Required — select the type of change"
 msgstr "必須 — 変更の種類を選択"
 # File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line:
@@ -4301,11 +4478,33 @@ msgstr "必須 — 変更の種類を選択"
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:264
 msgid "Description (supports multiple lines)"
 msgstr "説明（複数行対応）"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 312
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:312
+msgid "Commit only (no push)"
+msgstr "コミットのみ（プッシュなし）"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 313
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:313
+msgid "Record the commit locally and publish it later"
+msgstr "コミットをローカルに記録し、後で公開する"
 # File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line:
 # 337
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:381
 msgid "No commits yet (this will be your first!)"
 msgstr "まだコミットがありません（これが最初のコミットになります！）"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 395
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:395
+#, python-brace-format
+msgid "{0} commit(s) not published"
+msgstr "{0} 個のコミットが未公開"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 399
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:399
+#, python-brace-format
+msgid "origin/{0} is behind your local branch."
+msgstr "origin/{0} はローカルブランチより遅れています。"
 # File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line:
 # 367
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:429
@@ -4317,6 +4516,16 @@ msgstr "カスタムメッセージ（複数行対応）"
 #, python-brace-format
 msgid "Description for {0} (supports multiple lines)"
 msgstr "{0} の説明（複数行対応）"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 452
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:452
+msgid "Commit locally"
+msgstr "ローカルでコミット"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 458
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:458
+msgid "origin stays unchanged; no package build is triggered."
+msgstr "originは変更されないため、パッケージのビルドはトリガーされません。"
 # File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line:
 # 407
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:493
@@ -4428,6 +4637,11 @@ msgstr "説明"
 #, python-brace-format
 msgid "Still missing: {0}"
 msgstr "まだ不足しています: {0}"
+# 
+# File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line: 565
+#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:565
+msgid "git add -A → git commit (not pushed)"
+msgstr "git add -A → git commit（プッシュなし）"
 # File: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py, line:
 # 479
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:567
@@ -4472,11 +4686,9 @@ msgstr "AURからパッケージをビルドする"
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 45
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:45
 msgid ""
-"Choose a community-maintained package. GitHub Actions downloads its AUR "
-"repository and builds it; no local Git command is run."
-msgstr ""
-"コミュニティがメンテナンスするパッケージを選択します。GitHub "
-"ActionsがそのAURリポジトリをダウンロードしてビルドします。ローカルのGitコマンドは実行されません。"
+"Choose a community-maintained package. GitHub Actions downloads its AUR repository and builds it; "
+"no local Git command is run."
+msgstr "コミュニティがメンテナンスするパッケージを選択します。GitHub ActionsがそのAURリポジトリをダウンロードしてビルドします。ローカルのGitコマンドは実行されません。"
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 54
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:54
 msgid "GitHub AUR workflow"
@@ -4484,8 +4696,8 @@ msgstr "GitHub AUR ワークフロー"
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 56
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:56
 msgid ""
-"This optional feature asks GitHub Actions to download a community package "
-"recipe and build it remotely."
+"This optional feature asks GitHub Actions to download a community package recipe and build it "
+"remotely."
 msgstr "このオプション機能は、GitHub Actionsにコミュニティパッケージのレシピをダウンロードさせ、リモートでビルドさせるものです。"
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 59
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:59
@@ -4494,8 +4706,8 @@ msgstr "AURパッケージビルドを有効にする"
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 62
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:62
 msgid ""
-"Show the AUR package form below. Running it requires a GitHub access token; "
-"no local Git branch is created."
+"Show the AUR package form below. Running it requires a GitHub access token; no local Git branch is "
+"created."
 msgstr "以下にAURパッケージフォームを表示します。実行にはGitHubアクセストークンが必要です。ローカルGitブランチは作成されません。"
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 74
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:74
@@ -4516,16 +4728,16 @@ msgstr "AURビルドの動作について"
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 87
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:87
 msgid ""
-"The workflow clones the package recipe from the Arch User Repository and "
-"builds it on GitHub. Nothing is compiled on this computer, and the recipe is"
-" maintained by the community, not by BigCommunity."
+"The workflow clones the package recipe from the Arch User Repository and builds it on GitHub. "
+"Nothing is compiled on this computer, and the recipe is maintained by the community, not by "
+"BigCommunity."
 msgstr ""
 "ワークフローは、Arch User "
-"Repositoryからパッケージレシピをクローンし、GitHub上でビルドします。このコンピューター上でコンパイルは行われず、レシピはコミュニティによって保守されており、BigCommunityが管理しているものではありません。"
+"Repositoryからパッケージレシピをクローンし、GitHub上でビルドします。このコンピューター上でコンパイルは行われず、レシピはコミュニティによって保守されており、BigCommunityが管"
+"理しているものではありません。"
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 93
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:93
-msgid ""
-"The package name determines the community source URL used by the build."
+msgid "The package name determines the community source URL used by the build."
 msgstr "パッケージ名は、ビルドで使用するコミュニティソースのURLを決定します。"
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 96
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:96
@@ -4567,8 +4779,7 @@ msgid "Build Summary"
 msgstr "ビルド概要"
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 131
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:131
-msgid ""
-"clone the selected AUR source and build it in BigCommunity infrastructure"
+msgid "clone the selected AUR source and build it in BigCommunity infrastructure"
 msgstr "選択したAURソースをクローンし、BigCommunityインフラストラクチャ上でビルドします"
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 144
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:144
@@ -4585,15 +4796,15 @@ msgstr "GitHub Actionsワークフロー — ローカルブランチは作成�
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 160
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 82
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 204
-#. Clear button
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:82
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:204
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:160
+#. Clear button
 msgid "Clear"
 msgstr "クリア"
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 166
-#. Build button
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:166
+#. Build button
 msgid "Start AUR workflow"
 msgstr "AURワークフローを開始"
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 220
@@ -4601,8 +4812,8 @@ msgstr "AURワークフローを開始"
 msgid "Enter package name above"
 msgstr "上にパッケージ名を入力してください"
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 271
-#. Create confirmation dialog with better formatting
 #: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py:271
+#. Create confirmation dialog with better formatting
 msgid "Confirm AUR Build"
 msgstr "AURビルドを確認"
 # File: usr/share/gitrepo/build_package/gui/widgets/aur_widget.py, line: 283
@@ -4636,10 +4847,9 @@ msgstr "GitHubに安全に接続する"
 # 37
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:37
 msgid ""
-"Local Git commands do not need a token. A token is used only when this app "
-"asks GitHub to run package workflows or manage remote automation."
-msgstr ""
-"ローカルのGitコマンドにはトークンは不要です。トークンは、このアプリがGitHubにパッケージワークフローの実行やリモート自動化管理を依頼する場合にのみ使用されます。"
+"Local Git commands do not need a token. A token is used only when this app asks GitHub to run "
+"package workflows or manage remote automation."
+msgstr "ローカルのGitコマンドにはトークンは不要です。トークンは、このアプリがGitHubにパッケージワークフローの実行やリモート自動化管理を依頼する場合にのみ使用されます。"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 46
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:46
@@ -4648,9 +4858,7 @@ msgstr "このコンピュータに保存されたトークン"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 48
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:48
-msgid ""
-"Values are protected by the system keyring and are never displayed by this "
-"app."
+msgid "Values are protected by the system keyring and are never displayed by this app."
 msgstr "値はシステムのキーリングによって保護され、このアプリで表示されることはありません。"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 56
@@ -4661,13 +4869,13 @@ msgstr "GitHubアクセストークンについて"
 # 58
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:58
 msgid ""
-"The token identifies your account so the app can start GitHub workflows that"
-" Git alone cannot. It authorizes one organization or user, and saving it "
-"does not verify its permissions. Package workflows need: repo, workflow, "
-"write:packages, delete:packages, read:org."
+"The token identifies your account so the app can start GitHub workflows that Git alone cannot. It "
+"authorizes one organization or user, and saving it does not verify its permissions. Package "
+"workflows need: repo, workflow, write:packages, delete:packages, read:org."
 msgstr ""
-"トークンはあなたのアカウントを識別し、Git単体ではできないGitHubワークフローをアプリが開始できるようにします。1つの組織またはユーザーを承認し、保存してもその権限が検証されるわけではありません。パッケージワークフローには、repo、workflow、write:packages、delete:packages、read:org"
-" が必要です。"
+"トークンはあなたのアカウントを識別し、Git単体ではできないGitHubワークフローをアプリが開始できるようにします。1"
+"つの組織またはユーザーを承認し、保存してもその権限が検証されるわけではありません。パッケージワークフローには、repo、workflow、write:packages、delete:packages、"
+"read:org が必要です。"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 67
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:67
@@ -4681,9 +4889,7 @@ msgstr "アクセストークンを保存または置き換える"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 83
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:83
-msgid ""
-"Use the GitHub organization or username that owns the repositories where "
-"workflows will run."
+msgid "Use the GitHub organization or username that owns the repositories where workflows will run."
 msgstr "ワークフローを実行するリポジトリを所有するGitHub組織またはユーザー名を使用してください。"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 87
@@ -4754,8 +4960,7 @@ msgstr "アクセストークンが削除されました"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 194
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:194
-msgid ""
-"The token could not be removed. Unlock the system keyring and try again."
+msgid "The token could not be removed. Unlock the system keyring and try again."
 msgstr "トークンを削除できませんでした。システムキーリングのロックを解除してもう一度やり直してください。"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 218
@@ -4766,8 +4971,8 @@ msgstr "ローカルの Git 操作の動作を選択してください"
 # 220
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:220
 msgid ""
-"These settings affect work in the current repository. They do not connect to"
-" GitHub and do not require an access token."
+"These settings affect work in the current repository. They do not connect to GitHub and do not "
+"require an access token."
 msgstr "これらの設定はカレントリポジトリでの作業に影響します。GitHubには接続せず、アクセストークンも必要ありません。"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 232
@@ -4783,17 +4988,13 @@ msgstr "データ損失に対する保護"
 # 237
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:237
 msgid ""
-"Safety confirmations are part of the app and cannot be disabled: it always "
-"asks before a force push, a hard reset, branch cleanup, tag deletion, or "
-"workflow deletion."
-msgstr ""
-"安全性の確認はアプリの一部であり、無効にすることはできません。強制プッシュ、ハードリセット、ブランチのクリーンアップ、タグ削除、ワークフロー削除の前に常に確認が行われます。"
+"Safety confirmations are part of the app and cannot be disabled: it always asks before a force "
+"push, a hard reset, branch cleanup, tag deletion, or workflow deletion."
+msgstr "安全性の確認はアプリの一部であり、無効にすることはできません。強制プッシュ、ハードリセット、ブランチのクリーンアップ、タグ削除、ワークフロー削除の前に常に確認が行われます。"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 243
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:243
-msgid ""
-"Choose whether the app asks you what to keep or stops so you can resolve the"
-" conflict manually."
+msgid "Choose whether the app asks you what to keep or stops so you can resolve the conflict manually."
 msgstr "アプリで保持する内容を尋ねるか、手動で競合を解決できるように停止するかを選択してください。"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 246
@@ -4833,9 +5034,7 @@ msgstr "パッケージバージョンを自動的に更新する"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 263
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:263
-msgid ""
-"When publishing a typed commit, calculate the next version from the selected"
-" change type."
+msgid "When publishing a typed commit, calculate the next version from the selected change type."
 msgstr "型付きコミットを公開する際、選択した変更タイプから次のバージョンを自動計算します。"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 269
@@ -4845,9 +5044,7 @@ msgstr "すべてのビルドパッケージ設定をリセットする"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 270
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:270
-msgid ""
-"Disable optional GitHub workflows and restore the recommended local Git "
-"behavior."
+msgid "Disable optional GitHub workflows and restore the recommended local Git behavior."
 msgstr "オプションのGitHubワークフローを無効にし、推奨されるローカルGit動作を復元します。"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 271
@@ -4875,9 +5072,7 @@ msgstr "すべての設定をリセットしますか？"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 311
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:311
-msgid ""
-"Optional GitHub workflows will be disabled and local Git behavior will "
-"return to its defaults."
+msgid "Optional GitHub workflows will be disabled and local Git behavior will return to its defaults."
 msgstr "オプションのGitHubワークフローは無効になり、ローカルGitの動作はデフォルトに戻ります。"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 326
@@ -4894,9 +5089,9 @@ msgstr "設定を復元できませんでした。もう一度お試しくださ
 msgid "Checked out right now"
 msgstr "現在チェックアウト中です"
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 52
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:52
 #. What is worth saying per row is what differs between rows. The
 #. group already states that selecting one runs git checkout.
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:52
 msgid "Only on origin; created locally on first checkout"
 msgstr "origin のみ; 最初のチェックアウト時にローカルで作成されます"
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 56
@@ -4910,8 +5105,8 @@ msgstr "作業ラインを整理する"
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 93
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:93
 msgid ""
-"Switch branches with git checkout, publish new branches with git push, or "
-"propose integration on GitHub."
+"Switch branches with git checkout, publish new branches with git push, or propose integration on "
+"GitHub."
 msgstr "git checkoutでブランチを切り替え、git pushで新しいブランチを公開し、GitHub上で統合を提案します。"
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line:
 # 103
@@ -4936,9 +5131,7 @@ msgstr "最新のコミットがあるブランチ"
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line:
 # 129
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:129
-msgid ""
-"Selecting another branch runs git checkout BRANCH; remote-only branches are "
-"created locally first."
+msgid "Selecting another branch runs git checkout BRANCH; remote-only branches are created locally first."
 msgstr "別のブランチを選択すると、git checkout BRANCHが実行されます。リモート専用ブランチは最初にローカルに作成されます。"
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line:
 # 152
@@ -4969,11 +5162,11 @@ msgstr "統合の仕組み"
 # 179
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:180
 msgid ""
-"The source branch is the one carrying your work; the target is where it "
-"should land. GitRepo opens a pull request on GitHub instead of merging "
-"locally, so the review and the checks still run."
+"The source branch is the one carrying your work; the target is where it should land. GitRepo opens "
+"a pull request on GitHub instead of merging locally, so the review and the checks still run."
 msgstr ""
-"ソースブランチはあなたの作業を載せているブランチであり、ターゲットはその作業が統合される先です。GitRepoはローカルでマージする代わりに、GitHub上でプルリクエストを開くため、レビューとチェックは引き続き実行されます。"
+"ソースブランチはあなたの作業を載せているブランチであり、ターゲットはその作業が統合される先です。GitRepoはローカルでマージする代わりに、GitHub上でプルリクエストを開くため、レビューとチェッ"
+"クは引き続き実行されます。"
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line:
 # 186
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:187
@@ -5001,8 +5194,8 @@ msgid "Refresh branch list"
 msgstr "ブランチリストを更新"
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line:
 # 222
-#. Cleanup button
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:223
+#. Cleanup button
 msgid "Remove old branches"
 msgstr "古いブランチを削除する"
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
@@ -5010,9 +5203,9 @@ msgstr "古いブランチを削除する"
 # File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 323
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line:
 # 234
-#. Merge button
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:323
 #: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:235
+#. Merge button
 msgid "Open Pull Request"
 msgstr "プルリクエストを開く"
 # File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line:
@@ -5034,8 +5227,8 @@ msgstr "リポジトリを維持および復元する"
 # 94
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:94
 msgid ""
-"Remove obsolete references or return files and history to an earlier point. "
-"Every destructive command requires confirmation."
+"Remove obsolete references or return files and history to an earlier point. Every destructive "
+"command requires confirmation."
 msgstr "廃止された参照を削除するか、ファイルと履歴を以前の状態に戻します。すべての破壊的なコマンドには確認が必要です。"
 # File: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py, line:
 # 104
@@ -5099,8 +5292,8 @@ msgid "How to return to the selected commit"
 msgstr "選択したコミットに戻す方法"
 # File: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py, line:
 # 179
-#. Shorter text that fits in popup - tooltip can explain more
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:179
+#. Shorter text that fits in popup - tooltip can explain more
 msgid "Restore files with a new commit"
 msgstr "新しいコミットでファイルを復元する"
 # File: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py, line:
@@ -5110,16 +5303,16 @@ msgid "Move history back and delete newer commits"
 msgstr "履歴を戻し、新しいコミットを削除する"
 # File: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py, line:
 # 207
-#. Revert button
 #: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:207
+#. Revert button
 msgid "Return to selected commit"
 msgstr "選択したコミットに戻る"
 # File: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py, line:
 # 232
+#: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:234
 #. Not activatable: an activatable placeholder could be selected, which
 #. enabled the destructive revert button and offered to reset the
 #. repository to commit "--------".
-#: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py:234
 msgid "No commits yet"
 msgstr "まだコミットがありません"
 # File: usr/share/gitrepo/build_package/gui/widgets/advanced_widget.py, line:
@@ -5214,9 +5407,8 @@ msgstr "パッケージ生成がオフです"
 # 98
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:98
 msgid ""
-"Turn it on to publish this repository to the testing, stable, or extra "
-"repository. The build runs on GitHub Actions and needs an access token; "
-"nothing is compiled here."
+"Turn it on to publish this repository to the testing, stable, or extra repository. The build runs "
+"on GitHub Actions and needs an access token; nothing is compiled here."
 msgstr ""
 "これをオンにすると、このリポジトリをtesting、stable、またはextraリポジトリに公開できます。ビルドはGitHub "
 "Actionsで実行され、アクセストークンが必要です。ここではコンパイルは行われません。"
@@ -5249,11 +5441,12 @@ msgstr "公開先のリポジトリ"
 # 146
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:146
 msgid ""
-"Testing receives packages for validation and is built from your development "
-"branch. Stable is what users install, and it is always built from main. "
-"Extra holds complementary packages that follow the same stable rules."
+"Testing receives packages for validation and is built from your development branch. Stable is what "
+"users install, and it is always built from main. Extra holds complementary packages that follow the "
+"same stable rules."
 msgstr ""
-"Testingでは、開発ブランチからビルドされたパッケージを受け取り、検証が行われます。Stableはユーザーがインストールするもので、常にmainからビルドされます。Extraは補助的なパッケージを保持し、Stableと同じルールに従います。"
+"Testingでは、開発ブランチからビルドされたパッケージを受け取り、検証が行われます。Stableはユーザーがインストールするもので、常にmainからビルドされます。Extraは補助的なパッケージを"
+"保持し、Stableと同じルールに従います。"
 # File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line:
 # 153
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:153
@@ -5314,21 +5507,21 @@ msgstr "通常のパッケージビルドでは無効のままにします"
 # File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line:
 # 313
 # File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 246
-#. Cancel/Reset button
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:246
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:313
+#. Cancel/Reset button
 msgid "Reset"
 msgstr "リセット"
 # File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line:
 # 320
 # File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line:
 # 521
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:320
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:524
 #. Reset build button
 #. set_label replaces the button child, detaching build_button_content;
 #. every later set_label on it would then update an orphan, so the button
 #. kept this text and stopped naming the selected repository.
-#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:320
-#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:524
 msgid "Start package workflow"
 msgstr "パッケージワークフローを開始する"
 # File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line:
@@ -5443,9 +5636,7 @@ msgstr "未コミットの変更が検出されました"
 # File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 69
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:69
 #, python-brace-format
-msgid ""
-"You have uncommitted changes. Preserve them with {0}, or discard them with "
-"{1}."
+msgid "You have uncommitted changes. Preserve them with {0}, or discard them with {1}."
 msgstr "未コミットの変更があります。{0} で保持するか、{1} で破棄してください。"
 # File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 106
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:106
@@ -5514,8 +5705,7 @@ msgid "Propose branch integration?"
 msgstr "ブランチ統合を提案しますか？"
 # File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 277
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:277
-msgid ""
-"open a Pull Request on GitHub; this does not run git merge on your computer"
+msgid "open a Pull Request on GitHub; this does not run git merge on your computer"
 msgstr "GitHub でプルリクエストを開きます。お使いのコンピューター上でgit mergeは実行されません"
 # File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 345
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:345
@@ -5605,8 +5795,7 @@ msgid "Tested packages. Recommended for images you will hand to other people."
 msgstr "テスト済みパッケージです。他の人に渡すイメージに推奨されます。"
 # File: usr/share/gitrepo/build_iso/config.py, line: 40
 #: usr/share/gitrepo/build_iso/config.py:40
-msgid ""
-"Packages waiting for validation. Useful to preview the next stable set."
+msgid "Packages waiting for validation. Useful to preview the next stable set."
 msgstr "検証待ちのパッケージです。次の安定版セットをプレビューするのに便利です。"
 # File: usr/share/gitrepo/build_iso/config.py, line: 41
 #: usr/share/gitrepo/build_iso/config.py:41
@@ -5643,11 +5832,9 @@ msgstr "Build ISO"
 # File: usr/share/gitrepo/build_iso/config.py, line: 164
 #: usr/share/gitrepo/build_iso/config.py:166
 msgid ""
-"Wrapper for ISO building using GitHub Actions. Streamlines the process of "
-"creating custom Linux distribution ISO images through automation."
-msgstr ""
-"GitHub "
-"Actionsを使用したISOビルドのラッパー。カスタムLinuxディストリビューションのISOイメージ作成プロセスを自動化で効率化します。"
+"Wrapper for ISO building using GitHub Actions. Streamlines the process of creating custom Linux "
+"distribution ISO images through automation."
+msgstr "GitHub Actionsを使用したISOビルドのラッパー。カスタムLinuxディストリビューションのISOイメージ作成プロセスを自動化で効率化します。"
 # File: usr/share/gitrepo/build_iso/build_iso.py, line: 109
 #: usr/share/gitrepo/build_iso/build_iso.py:109
 #, python-brace-format
@@ -5722,8 +5909,7 @@ msgstr "リモートビルドディレクトリを読み込めませんでした
 # File: usr/share/gitrepo/build_iso/build_iso.py, line: 265
 #: usr/share/gitrepo/build_iso/build_iso.py:240
 #: usr/share/gitrepo/build_iso/build_iso.py:265
-msgid ""
-"Using the built-in fallback. Retry this step to query the source again."
+msgid "Using the built-in fallback. Retry this step to query the source again."
 msgstr "組み込みフォールバックを使用しています。このステップを再試行して、ソースを再度照会してください。"
 # File: usr/share/gitrepo/build_iso/build_iso.py, line: 242
 #: usr/share/gitrepo/build_iso/build_iso.py:242
@@ -5884,13 +6070,13 @@ msgstr "ローカルビルドを続行しますか？"
 msgid "Local build cancelled."
 msgstr "ローカルビルドがキャンセルされました。"
 # File: usr/share/gitrepo/build_iso/build_iso.py, line: 477
-#. Display summary
 #: usr/share/gitrepo/build_iso/build_iso.py:477
+#. Display summary
 msgid "ISO Build Summary"
 msgstr "ISOビルド概要"
 # File: usr/share/gitrepo/build_iso/build_iso.py, line: 480
-#. Confirm build
 #: usr/share/gitrepo/build_iso/build_iso.py:480
+#. Confirm build
 msgid "Do you want to proceed with building the ISO?"
 msgstr "ISOのビルドを続行しますか？"
 # File: usr/share/gitrepo/build_iso/build_iso.py, line: 481
@@ -5939,8 +6125,7 @@ msgid "Build cancelled"
 msgstr "ビルドがキャンセルされました"
 # File: usr/share/gitrepo/build_iso/core/iso_builder.py, line: 393
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:393
-msgid ""
-"The host kernel provides no loop devices (/dev/loop-control is missing)."
+msgid "The host kernel provides no loop devices (/dev/loop-control is missing)."
 msgstr "ホストカーネルはループデバイスを提供していません（/dev/loop-controlが見つかりません）。"
 # File: usr/share/gitrepo/build_iso/core/iso_builder.py, line: 394
 #: usr/share/gitrepo/build_iso/core/iso_builder.py:394
@@ -6103,8 +6288,7 @@ msgid "The container engine did not respond."
 msgstr "コンテナエンジンが応答しませんでした。"
 # File: usr/share/gitrepo/build_iso/core/container_manager.py, line: 105
 #: usr/share/gitrepo/build_iso/core/container_manager.py:105
-msgid ""
-"The storage driver probe failed. Check the engine service, then refresh."
+msgid "The storage driver probe failed. Check the engine service, then refresh."
 msgstr "ストレージドライバのプローブに失敗しました。エンジンサービスを確認してから更新してください。"
 # File: usr/share/gitrepo/build_iso/core/container_manager.py, line: 133
 #: usr/share/gitrepo/build_iso/core/container_manager.py:133
@@ -6490,9 +6674,7 @@ msgid "Docker storage is managed by the system"
 msgstr "Dockerストレージはシステムによって管理されています"
 # File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 105
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:105
-msgid ""
-"GitRepo reports the active driver but never changes it or removes Docker "
-"data."
+msgid "GitRepo reports the active driver but never changes it or removes Docker data."
 msgstr "GitRepoはアクティブドライバーを報告しますが、それを変更したりDockerデータを削除したりすることはありません。"
 # File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 115
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:115
@@ -6541,9 +6723,7 @@ msgstr "{0}の停止済みビルドコンテナを削除しますか？"
 # File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 212
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:212
 #, python-brace-format
-msgid ""
-"Only stopped containers created from {0} will be removed. Images and Docker "
-"storage are kept."
+msgid "Only stopped containers created from {0} will be removed. Images and Docker storage are kept."
 msgstr "{0}から作成された停止済みコンテナのみが削除されます。イメージとDockerストレージは保持されます。"
 # File: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py, line: 216
 #: usr/share/gitrepo/build_iso/gui/widgets/container_widget.py:216
@@ -6566,9 +6746,7 @@ msgid "{0:.0f} MB"
 msgstr "{0:.0f} MB"
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 53
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:53
-msgid ""
-"Review outcomes and durations, then open the ISO folder or the terminal log "
-"of a build."
+msgid "Review outcomes and durations, then open the ISO folder or the terminal log of a build."
 msgstr "結果と所要時間を確認し、ISOフォルダまたはビルドのターミナルログを開きます。"
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 63
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:63
@@ -6576,9 +6754,7 @@ msgid "No builds yet"
 msgstr "ビルドはまだありません"
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 65
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:65
-msgid ""
-"Finished and failed builds are listed here with their ISO, duration, and "
-"terminal log."
+msgid "Finished and failed builds are listed here with their ISO, duration, and terminal log."
 msgstr "完了および失敗したビルドが、ISO、所要時間、ターミナルログとともにここに表示されます。"
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 79
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:79
@@ -6628,9 +6804,7 @@ msgid "This will remove all build history entries. This cannot be undone."
 msgstr "これによりすべてのビルド履歴エントリが削除されます。元に戻すことはできません。"
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 213
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:213
-msgid ""
-"Could not update the build history. Check config permissions, then try "
-"again."
+msgid "Could not update the build history. Check config permissions, then try again."
 msgstr "ビルド履歴を更新できませんでした。設定の権限を確認し、再試行してください。"
 # File: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py, line: 221
 #: usr/share/gitrepo/build_iso/gui/widgets/history_widget.py:230
@@ -6642,9 +6816,7 @@ msgid "Configure build defaults"
 msgstr "ビルドのデフォルト設定"
 # File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 44
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:44
-msgid ""
-"Set reusable defaults for storage, package channels, alerts, and the build "
-"environment."
+msgid "Set reusable defaults for storage, package channels, alerts, and the build environment."
 msgstr "ストレージ、パッケージチャンネル、アラート、ビルド環境の再利用可能なデフォルトを設定します。"
 # File: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py, line: 54
 #: usr/share/gitrepo/build_iso/gui/widgets/settings_widget.py:54
@@ -6751,11 +6923,9 @@ msgstr "インストール可能なISOを作成する"
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 84
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:84
 msgid ""
-"Choose what the image contains and where it is saved. The build runs in an "
-"isolated container, so its tools and files stay separate from your installed"
-" system."
-msgstr ""
-"イメージの内容と保存場所を選択してください。ビルドは隔離されたコンテナ内で実行されるため、ツールやファイルはインストール済みのシステムから分離された状態になります。"
+"Choose what the image contains and where it is saved. The build runs in an isolated container, so "
+"its tools and files stay separate from your installed system."
+msgstr "イメージの内容と保存場所を選択してください。ビルドは隔離されたコンテナ内で実行されるため、ツールやファイルはインストール済みのシステムから分離された状態になります。"
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 96
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:96
 msgid "Open settings"
@@ -6779,11 +6949,11 @@ msgstr "ディストリビューションとエディション"
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 121
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:121
 msgid ""
-"The distribution sets which package repositories the image is built from. "
-"The edition is the desktop it starts with — the same system with a different"
-" workspace, applications, and defaults."
+"The distribution sets which package repositories the image is built from. The edition is the "
+"desktop it starts with — the same system with a different workspace, applications, and defaults."
 msgstr ""
-"ディストリビューションは、イメージのビルド元となるパッケージリポジトリを設定します。エディションは起動時のデスクトップ環境であり、同じシステムでも異なるワークスペース、アプリケーション、デフォルト設定が適用されます。"
+"ディストリビューションは、イメージのビルド元となるパッケージリポジトリを設定します。エディションは起動時のデスクトップ環境であり、同じシステムでも異なるワークスペース、アプリケーション、デフォルト設定"
+"が適用されます。"
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 130
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:130
 msgid "Sets the package base and compatible profiles"
@@ -6845,11 +7015,11 @@ msgstr "選択するカーネル"
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 224
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:224
 msgid ""
-"LTS receives long-term fixes and is the safest default. Latest supports very"
-" recent hardware but changes faster. Old LTS helps on older machines, and "
-"XanMod targets desktop responsiveness."
+"LTS receives long-term fixes and is the safest default. Latest supports very recent hardware but "
+"changes faster. Old LTS helps on older machines, and XanMod targets desktop responsiveness."
 msgstr ""
-"LTSは長期修正を受けられ、最も安全なデフォルトです。最新版は非常に新しいハードウェアをサポートしますが、変更が頻繁です。旧LTS版は古いマシンでの動作に役立ち、XanModはデスクトップの応答性を重視しています。"
+"LTSは長期修正を受けられ、最も安全なデフォルトです。最新版は非常に新しいハードウェアをサポートしますが、変更が頻繁です。旧LTS版は古いマシンでの動作に役立ち、XanModはデスクトップの応答性を重"
+"視しています。"
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 239
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:239
 msgid "Manjaro Packages"
@@ -6907,9 +7077,8 @@ msgstr "プロファイル定義"
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 283
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:283
 msgid ""
-"A profile is the recipe of the image: package lists, enabled services, and "
-"files copied into the system. Keep the official source unless you maintain "
-"your own iso-profiles repository or folder."
+"A profile is the recipe of the image: package lists, enabled services, and files copied into the "
+"system. Keep the official source unless you maintain your own iso-profiles repository or folder."
 msgstr ""
 "プロファイルはイメージのレシピです：パッケージリスト、有効化されたサービス、システムにコピーされるファイル。独自のiso-"
 "profilesリポジトリまたはフォルダを管理していない限り、公式ソースを保持してください。"
@@ -6980,15 +7149,12 @@ msgstr "iso-profilesフォルダーを選択"
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 583
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:583
 #, python-brace-format
-msgid ""
-"GitHub API quota reached — using built-in suggestions. Automatic retry at "
-"{0}."
+msgid "GitHub API quota reached — using built-in suggestions. Automatic retry at {0}."
 msgstr "GitHub APIの割り当てに達しました — 組み込みの提案を使用します。{0}に自動再試行します。"
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 592
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:592
 #, python-brace-format
-msgid ""
-"GitHub API quota reached — using cached profiles. Automatic refresh at {0}."
+msgid "GitHub API quota reached — using cached profiles. Automatic refresh at {0}."
 msgstr "GitHub APIの割り当てに達しました — キャッシュされたプロファイルを使用します。{0}に自動更新します。"
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 600
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:600
@@ -7035,8 +7201,7 @@ msgid "Only {0:.1f} GB free here; a build needs about 20 GB."
 msgstr "ここは{0:.1f} GBしか空き領域がありません。ビルドには約20 GB必要です。"
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 827
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:827
-msgid ""
-"Could not save build settings. Check config permissions, then try again."
+msgid "Could not save build settings. Check config permissions, then try again."
 msgstr "ビルド設定を保存できませんでした。設定のパーミッションを確認して、再試行してください。"
 # File: usr/share/gitrepo/build_iso/gui/main_gui.py, line: 296
 #: usr/share/gitrepo/build_iso/gui/main_gui.py:296
@@ -7074,9 +7239,9 @@ msgid "Monitor the build at: {0}"
 msgstr "次のURLでビルドを監視してください: {0}"
 # File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 74
 # File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 102
-#. It's inside a Git repository - show the menu
 #: usr/share/nautilus-python/extensions/gitrepo_extension.py:74
 #: usr/share/nautilus-python/extensions/gitrepo_extension.py:102
+#. It's inside a Git repository - show the menu
 msgid "Open in GitRepo"
 msgstr "GitRepo で開く"
 # File: usr/share/nautilus-python/extensions/gitrepo_extension.py, line: 76
@@ -7101,148 +7266,3 @@ msgstr "GitRepoが見つかりません。インストールされています�
 #: usr/share/nautilus-python/extensions/gitrepo_extension.py:155
 msgid "Launch Error"
 msgstr "起動エラー"
-#: usr/share/gitrepo/build_package/core/build_package.py:253
-msgid "Commit locally (no push)"
-msgstr "ローカルでコミット（プッシュなし）"
-#: usr/share/gitrepo/build_package/core/build_package.py:518
-msgid "Commit locally without pushing; publish it later"
-msgstr "プッシュせずにローカルでコミットし、後で公開する"
-#: usr/share/gitrepo/build_package/core/build_package.py:537
-msgid ""
-"--no-push cannot be combined with --build: the package build needs the "
-"pushed branch."
-msgstr "--no-push は --build と組み合わせることはできません。パッケージのビルドにはプッシュされたブランチが必要です。"
-#: usr/share/gitrepo/build_package/core/commit_handler.py:189
-#, python-brace-format
-msgid "The commit {0} is local only; origin/{1} is unchanged."
-msgstr "コミット {0} はローカルのみです。origin/{1} は変更されていません。"
-#: usr/share/gitrepo/build_package/core/commit_handler.py:190
-#, python-brace-format
-msgid "Publish it later with: {0}"
-msgstr "後で次のコマンドで公開してください: {0}"
-#: usr/share/gitrepo/build_package/core/commit_handler.py:243
-msgid "Uncommitted changes were set aside while the remote is integrated."
-msgstr "リモートを統合している間、未コミットの変更は一時的に退避されました。"
-#: usr/share/gitrepo/build_package/core/commit_handler.py:268
-#, python-brace-format
-msgid "Your uncommitted changes are kept in git stash: {0}"
-msgstr "未コミットの変更は git stash に保存されています: {0}"
-#: usr/share/gitrepo/build_package/core/commit_handler.py:269
-#, python-brace-format
-msgid "Recover them with: {0}"
-msgstr "次のコマンドで復元できます: {0}"
-#: usr/share/gitrepo/build_package/core/commit_handler.py:271
-msgid "✓ Uncommitted changes restored"
-msgstr "✓ 未コミットの変更が復元されました"
-#: usr/share/gitrepo/build_package/core/commit_handler.py:304
-#, python-brace-format
-msgid "Committed locally on {0}; nothing was pushed"
-msgstr "{0} にローカルでコミットしました。プッシュは行われていません"
-#: usr/share/gitrepo/build_package/core/commit_operations.py:93
-#, python-brace-format
-msgid ""
-"Commit these changes locally?\n"
-"Commands: git add -A → git commit -m \"MESSAGE\"\n"
-"Nothing is pushed; origin/BRANCH stays unchanged.\n"
-"Branch: {0}\n"
-"Message: {1}\n"
-"{2}Files:\n"
-"{3}"
-msgstr ""
-"これらの変更をローカルでコミットしますか？\n"
-"コマンド: git add -A → git commit -m \"MESSAGE\"\n"
-"何もプッシュされません。origin/BRANCH は変更されません。\n"
-"ブランチ: {0}\n"
-"メッセージ: {1}\n"
-"{2}ファイル:\n"
-"{3}"
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:91
-msgid "Choose where to record the commit. Nothing will be pushed to origin."
-msgstr "コミットを記録する場所を選択してください。origin にプッシュされることはありません。"
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:186
-msgid "Preparing the commit"
-msgstr "コミットを準備中"
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:188
-#, python-brace-format
-msgid "Switching to {0}, then committing without pushing..."
-msgstr "{0} に切り替えて、プッシュせずにコミットしています..."
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:204
-msgid "Committing locally"
-msgstr "ローカルでコミット中"
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:206
-#, python-brace-format
-msgid "Running git add and git commit for {0}; origin is untouched..."
-msgstr "{0} に対して git add と git commit を実行しています。origin は変更されません。"
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:224
-msgid "Could not determine the current branch"
-msgstr "現在のブランチを特定できませんでした"
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:228
-msgid "Publish the existing local commit?"
-msgstr "既存のローカルコミットを公開しますか？"
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:233
-#, python-brace-format
-msgid ""
-"Your local commit is pushed as it is. If origin/{0} has moved on, those "
-"updates are integrated first, which can add a merge commit."
-msgstr ""
-"ローカルコミットはそのままプッシュされます。origin/{0} "
-"が更新されている場合は、それらの変更が最初に統合され、マージコミットが追加される可能性があります。"
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:249
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:203
-msgid "Publish now"
-msgstr "今すぐ公開"
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:260
-msgid "Publishing the local commit"
-msgstr "ローカルコミットを公開中"
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:261
-#, python-brace-format
-msgid "Integrating origin/{0} if needed, then running git push..."
-msgstr "必要に応じて origin/{0} を統合し、その後 git push を実行します..."
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:158
-#, python-brace-format
-msgid ""
-"Download updates: {0}\n"
-"\n"
-"Publish changes: {1}\n"
-"\n"
-"Commit only: {2}\n"
-"The commit stays on this machine until you publish it. A package build always reads the branch from origin, so it will not see an unpublished commit."
-msgstr ""
-"更新をダウンロード: {0}\n"
-"\n"
-"変更を公開: {1}\n"
-"\n"
-"コミットのみ: {2}\n"
-"コミットは公開するまでこのマシンに残ります。パッケージのビルドは常に origin のブランチを読み取るため、未公開のコミットは認識されません。"
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:194
-msgid "Not published yet"
-msgstr "未公開"
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:195
-msgid "This branch has local commits that are not on origin."
-msgstr "このブランチには origin にないローカルコミットがあります。"
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:208
-msgid "No new commit is created."
-msgstr "新しいコミットは作成されません。"
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:312
-msgid "Commit only (no push)"
-msgstr "コミットのみ（プッシュなし）"
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:313
-msgid "Record the commit locally and publish it later"
-msgstr "コミットをローカルに記録し、後で公開する"
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:395
-#, python-brace-format
-msgid "{0} commit(s) not published"
-msgstr "{0} 個のコミットが未公開"
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:399
-#, python-brace-format
-msgid "origin/{0} is behind your local branch."
-msgstr "origin/{0} はローカルブランチより遅れています。"
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:452
-msgid "Commit locally"
-msgstr "ローカルでコミット"
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:458
-msgid "origin stays unchanged; no package build is triggered."
-msgstr "originは変更されないため、パッケージのビルドはトリガーされません。"
-#: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:565
-msgid "git add -A → git commit (not pushed)"
-msgstr "git add -A → git commit（プッシュなし）"
