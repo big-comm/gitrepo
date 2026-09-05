@@ -6547,3 +6547,75 @@ msgstr "origin permanece inalterado; nenhuma compilação de pacote é acionada.
 #: usr/share/gitrepo/build_package/gui/widgets/commit_widget.py:565
 msgid "git add -A → git commit (not pushed)"
 msgstr "git add -A → git commit (não enviado)"
+
+#: usr/share/gitrepo/build_package/core/branch_handler.py:133
+#, python-brace-format
+msgid ""
+"Integrate {0} into {1} before committing?\n"
+"\n"
+"{1} is {2} commit(s) behind {0}, and your work was written on top of {0}.\n"
+"Committing without integrating makes those files conflict, and keeping your version can discard what {0} gained meanwhile.\n"
+"\n"
+"Commands: git merge {0} → apply your work → git commit"
+msgstr ""
+"Integrar {0} em {1} antes de fazer o commit?\n"
+"\n"
+"{1} está {2} commit(s) atrás de {0}, e seu trabalho foi escrito sobre {0}.\n"
+"Fazer o commit sem integrar faz esses arquivos entrarem em conflito, e manter sua versão pode descartar o que {0} ganhou nesse meio-tempo.\n"
+"\n"
+"Comandos: git merge {0} → aplique seu trabalho → git commit"
+
+#: usr/share/gitrepo/build_package/core/branch_handler.py:141
+#, python-brace-format
+msgid "Integrate {0}, then commit"
+msgstr "Integrar {0}, depois fazer o commit"
+
+#: usr/share/gitrepo/build_package/core/branch_handler.py:142
+msgid "Commit without integrating"
+msgstr "Fazer o commit sem integrar"
+
+#: usr/share/gitrepo/build_package/core/branch_handler.py:214
+#, python-brace-format
+msgid "Committing without integrating; {0} stays {1} commit(s) behind {2}."
+msgstr ""
+"Fazendo o commit sem integrar; {0} permanece {1} commit(s) atrás de {2}."
+
+#: usr/share/gitrepo/build_package/core/branch_handler.py:157
+#, python-brace-format
+msgid "Integrating {0} into {1}..."
+msgstr "Integrando {0} em {1}..."
+
+#: usr/share/gitrepo/build_package/core/branch_handler.py:167
+#, python-brace-format
+msgid "✓ {0} integrated into {1}"
+msgstr "✓ {0} integrado em {1}"
+
+#: usr/share/gitrepo/build_package/core/branch_handler.py:176
+#, python-brace-format
+msgid "Could not integrate {0}: {1}"
+msgstr "Não foi possível integrar {0}: {1}"
+
+#: usr/share/gitrepo/build_package/core/branch_handler.py:232
+#, python-brace-format
+msgid "Could not integrate {0} into {1}"
+msgstr "Não foi possível integrar {0} em {1}"
+
+#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:196
+#, python-brace-format
+msgid "Use your work from {0}"
+msgstr "Usar seu trabalho de {0}"
+
+#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:197
+#, python-brace-format
+msgid "Keep {0} version"
+msgstr "Manter versão de {0}"
+
+#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:199
+#, python-brace-format
+msgid "Use all from {0}"
+msgstr "Usar tudo de {0}"
+
+#: usr/share/gitrepo/build_package/gui/dialogs/conflict_dialog.py:200
+#, python-brace-format
+msgid "Keep all from {0}"
+msgstr "Manter tudo de {0}"

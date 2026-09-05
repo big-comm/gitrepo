@@ -110,6 +110,78 @@ def _restore_working_tree(bp, source_branch: str, target_branch: str) -> None:
     raise RuntimeError(_("Local changes remain in the stash and need manual resolution."))
 
 
+def _commits_behind(target_branch: str, source_branch: str) -> int:
+    """Count commits *source_branch* has that *target_branch* does not."""
+    if not target_branch or not source_branch or target_branch == source_branch:
+        return 0
+    if not GitUtils.ref_exists(f"refs/heads/{target_branch}"):
+        # A branch that does not exist yet is created from here, so it is current.
+        return 0
+    result = subprocess.run_git(
+        ["git", "rev-list", "--count", f"{target_branch}..{source_branch}"],
+        capture_output=True,
+        text=True,
+        check=False,
+        intent="ordinary",
+    )
+    count = result.stdout.strip() if result.returncode == 0 else ""
+    return int(count) if count.isdigit() else 0
+
+
+def _offer_to_integrate(bp, target_branch: str, source_branch: str, behind: int) -> str:
+    """Ask what to do about a target branch that trails the work's own base.
+
+    Returns "integrate", "skip" or "cancel". Work written on top of one branch
+    and replayed onto an older one conflicts for a reason that has nothing to do
+    with the change itself, and resolving those conflicts by keeping the stashed
+    side silently reverts whatever the target had gained meanwhile.
+    """
+    question = _(
+        "Integrate {0} into {1} before committing?\n\n"
+        "{1} is {2} commit(s) behind {0}, and your work was written on top of {0}.\n"
+        "Committing without integrating makes those files conflict, and keeping "
+        "your version can discard what {0} gained meanwhile.\n\n"
+        "Commands: git merge {0} → apply your work → git commit"
+    ).format(source_branch, target_branch, behind)
+    options = [
+        _("Integrate {0}, then commit").format(source_branch),
+        _("Commit without integrating"),
+        _("Cancel"),
+    ]
+    menu = getattr(bp, "menu", None)
+    if menu is None:
+        return "integrate"
+    if not hasattr(menu, "show_menu"):
+        return "integrate" if menu.confirm(question, default_yes=False) else "cancel"
+    result = menu.show_menu(question, options, default_index=0)
+    if result is None or result[0] == 2:
+        return "cancel"
+    return "integrate" if result[0] == 0 else "skip"
+
+
+def _integrate_source_branch(bp, source_branch: str, target_branch: str) -> bool:
+    """Merge *source_branch* into the checked-out *target_branch*."""
+    bp.logger.log("cyan", _("Integrating {0} into {1}...").format(source_branch, target_branch))
+    result = subprocess.run_git(
+        ["git", "merge", "--no-edit", source_branch],
+        capture_output=True,
+        text=True,
+        check=False,
+        intent="ordinary",
+    )
+    if result.returncode == 0:
+        bp.logger.log("green", _("✓ {0} integrated into {1}").format(source_branch, target_branch))
+        return True
+    resolver = getattr(bp, "conflict_resolver", None)
+    if resolver and resolver.has_conflicts() and resolver.resolve():
+        bp.logger.log("green", _("✓ {0} integrated into {1}").format(source_branch, target_branch))
+        return True
+    subprocess.run_git(["git", "merge", "--abort"], capture_output=True, check=False, intent="ordinary")
+    detail = (result.stderr or result.stdout).strip()
+    bp.logger.log("red", _("Could not integrate {0}: {1}").format(source_branch, detail))
+    return False
+
+
 @journey("preparing a commit", False)
 def switch_and_commit(bp, target_branch: str, commit_message: str, *, push: bool = True) -> bool:
     """Move pending work to an explicit branch, then commit and optionally push it."""
@@ -117,6 +189,25 @@ def switch_and_commit(bp, target_branch: str, commit_message: str, *, push: bool
         bp.logger.log("red", _("Invalid target branch: {0}").format(target_branch))
         return False
     original_branch = GitUtils.get_current_branch()
+
+    # Decided before anything is stashed or checked out, so cancelling here
+    # leaves the working tree exactly as the user left it.
+    integrate = False
+    behind = _commits_behind(target_branch, original_branch)
+    if behind:
+        choice = _offer_to_integrate(bp, target_branch, original_branch, behind)
+        if choice == "cancel":
+            bp.logger.log("yellow", _("Commit cancelled."))
+            return False
+        integrate = choice == "integrate"
+        if not integrate:
+            bp.logger.log(
+                "yellow",
+                _("Committing without integrating; {0} stays {1} commit(s) behind {2}.").format(
+                    target_branch, behind, original_branch
+                ),
+            )
+
     stashed = False
     try:
         stashed = original_branch != target_branch and _stash_working_tree(target_branch)
@@ -129,6 +220,13 @@ def switch_and_commit(bp, target_branch: str, commit_message: str, *, push: bool
                 except RuntimeError as restore_error:
                     raise RuntimeError(_("{0}. {1}").format(switch_error, restore_error)) from restore_error
             raise RuntimeError(switch_error)
+
+        # Before the work is replayed, not after: the merge needs a clean tree,
+        # and applying the stash onto the integrated branch is what keeps the
+        # conflicts down to the ones the change itself causes.
+        if integrate and not _integrate_source_branch(bp, original_branch, target_branch):
+            raise RuntimeError(_("Could not integrate {0} into {1}").format(original_branch, target_branch))
+
         if stashed:
             _restore_working_tree(bp, original_branch, target_branch)
             stashed = False
