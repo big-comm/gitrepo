@@ -282,22 +282,58 @@ class MainWindow(Adw.ApplicationWindow):
         self._notify_build_completed(success, iso_path, error_msg)
         self.refresh_environment()
 
+    @staticmethod
+    def _call_with_target(notification, names, *args):
+        """Call whichever of *names* this GLib exposes, or do nothing.
+
+        The GVariant-taking methods lost their `_value` suffix in the bindings
+        (GLib 2.88 exposes set_default_action_and_target, older ones only
+        set_default_action_and_target_value), so the name is looked up rather
+        than assumed. Both take the same arguments.
+        """
+        for name in names:
+            method = getattr(notification, name, None)
+            if method is not None:
+                method(*args)
+                return True
+        return False
+
     def _notify_build_completed(self, success, iso_path, error_msg):
-        """Reach the user with a desktop notification after a long build."""
-        if success:
-            notification = Gio.Notification.new(_("ISO build finished"))
-            notification.set_body(
-                _("{0} is ready in {1}").format(os.path.basename(iso_path), os.path.dirname(iso_path))
-            )
-            if iso_path:
-                target = GLib.Variant.new_string(os.path.dirname(iso_path))
-                notification.set_default_action_and_target_value("app.open-build-folder", target)
-                notification.add_button_with_target_value(_("Open Folder"), "app.open-build-folder", target)
-        else:
-            notification = Gio.Notification.new(_("ISO build failed"))
-            notification.set_body(error_msg or _("Open Build ISO to review the terminal log."))
-            notification.set_priority(Gio.NotificationPriority.HIGH)
-        self.application.send_notification("build-iso-result", notification)
+        """Reach the user with a desktop notification after a long build.
+
+        Never lets a notification failure reach the caller: this runs at the
+        end of a build that already succeeded, and an exception here used to
+        take the completion handler down with it -- the ISO was written, the
+        window just never finished reporting it.
+        """
+        try:
+            if success:
+                notification = Gio.Notification.new(_("ISO build finished"))
+                notification.set_body(
+                    _("{0} is ready in {1}").format(os.path.basename(iso_path), os.path.dirname(iso_path))
+                )
+                if iso_path:
+                    target = GLib.Variant.new_string(os.path.dirname(iso_path))
+                    self._call_with_target(
+                        notification,
+                        ("set_default_action_and_target", "set_default_action_and_target_value"),
+                        "app.open-build-folder",
+                        target,
+                    )
+                    self._call_with_target(
+                        notification,
+                        ("add_button_with_target", "add_button_with_target_value"),
+                        _("Open Folder"),
+                        "app.open-build-folder",
+                        target,
+                    )
+            else:
+                notification = Gio.Notification.new(_("ISO build failed"))
+                notification.set_body(error_msg or _("Open Build ISO to review the terminal log."))
+                notification.set_priority(Gio.NotificationPriority.HIGH)
+            self.application.send_notification("build-iso-result", notification)
+        except Exception as error:  # noqa: BLE001 - a notification must not fail a finished build
+            print(f"build-iso: could not send the completion notification: {error}")
 
     # ── Utilities ──
 
