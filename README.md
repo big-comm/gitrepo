@@ -100,6 +100,23 @@ makepkg -si
 
 The package installs the applications, command-line launchers, icons, desktop entries, AppStream metadata, translations, and optional actions for Dolphin, Nautilus, Nemo, and Thunar under `/usr`.
 
+### Repository emblems
+
+Nautilus (`nautilus-python`) and Nemo (`nemo-python`) display circular GitRepo emblems on repository-root folders:
+
+| Emblem | State |
+| --- | --- |
+| Gray branch | Clean working tree; no known pending publication |
+| Orange pencil | Modified, staged, deleted, or untracked files |
+| Blue arrow | Local commits pending publication |
+| Red exclamation mark | Unresolved conflicts |
+
+Priority: conflicts, local changes, pending publication, clean. Ordinary folders and non-root subfolders receive no emblem. Linked worktrees and submodule roots are supported.
+
+Status refreshes in the background every five seconds while folder objects remain in the file manager. Queries use local Git data, never fetch, and do not refresh the index. Ignored files do not mark a repository as modified. Failed queries clear the emblem instead of reporting a clean repository. Remote state reflects the last fetch or push; a clean emblem does not guarantee that the server has no newer commits.
+
+Install the matching Python extension package and restart the file manager after upgrading GitRepo. The host file manager controls emblem placement. Dolphin and Thunar retain their context-menu integration; these Python emblem providers target Nautilus and Nemo.
+
 ### Requirements
 
 - Python 3.10 or newer;
