@@ -3,14 +3,15 @@
 from __future__ import annotations
 
 from collections import OrderedDict
-from concurrent.futures import Future, ThreadPoolExecutor
+from concurrent.futures import Future
 from dataclasses import dataclass, field
 from time import monotonic
 from typing import Any
 
 from gi.repository import Gio, GLib
 
-from .status import EMBLEMS, State, repository_state
+from .scanner import ScanJob
+from .status import EMBLEMS, State
 
 
 @dataclass
@@ -26,10 +27,14 @@ class EmblemProvider:
 
     MAX_ENTRIES = 256
     REFRESH_SECONDS = 5
+    CACHE_SECONDS = 300
 
-    def __init__(self):
+    def __init__(self, on_changed=None):
         self._entries: OrderedDict[str, _Entry] = OrderedDict()
-        self._workers = ThreadPoolExecutor(max_workers=2, thread_name_prefix="gitrepo-emblems")
+        self._queued = {}
+        self._dispatch_source = 0
+        self._scan = None
+        self._on_changed = on_changed
         self._timer = 0
         self._closed = False
         application = Gio.Application.get_default()
@@ -41,8 +46,14 @@ class EmblemProvider:
         if self._timer:
             GLib.source_remove(self._timer)
             self._timer = 0
+        if self._dispatch_source:
+            GLib.source_remove(self._dispatch_source)
+            self._dispatch_source = 0
+        if self._scan:
+            self._scan.cancel()
+            self._scan = None
+        self._queued.clear()
         self._entries.clear()
-        self._workers.shutdown(wait=False, cancel_futures=True)
 
     def update(self, file_info):
         if self._closed or file_info.is_gone() or not file_info.is_directory():
@@ -65,6 +76,8 @@ class EmblemProvider:
         entry.files[hash(file_info)] = file_info.weak_ref()
         if entry.state:
             file_info.add_emblem(EMBLEMS[entry.state])
+            if self._on_changed:
+                self._on_changed()
         if monotonic() - entry.checked >= self.REFRESH_SECONDS:
             self._schedule(path, entry)
         if not self._timer:
@@ -73,8 +86,38 @@ class EmblemProvider:
     def _schedule(self, path, entry):
         if entry.future is not None:
             return
-        entry.future = self._workers.submit(repository_state, path)
-        entry.future.add_done_callback(lambda future: GLib.idle_add(self._complete, path, entry, future))
+        entry.future = Future()
+        self._queued[path] = (entry, entry.future)
+        if not self._dispatch_source and self._scan is None:
+            self._dispatch_source = GLib.idle_add(self._dispatch)
+
+    def _dispatch(self):
+        self._dispatch_source = 0
+        if self._closed or self._scan is not None:
+            return GLib.SOURCE_REMOVE
+        batch = {
+            path: (entry, future)
+            for path, (entry, future) in self._queued.items()
+            if self._entries.get(path) is entry and not future.cancelled()
+        }
+        self._queued.clear()
+        if batch:
+            self._scan = ScanJob(list(batch), lambda states: self._scan_finished(batch, states))
+        return GLib.SOURCE_REMOVE
+
+    def _scan_finished(self, batch, states):
+        self._scan = None
+        if self._closed:
+            return
+        for path, (entry, future) in batch.items():
+            if not future.cancelled():
+                state = states.get(path)
+                future.set_result(state if isinstance(state, str) and state in EMBLEMS else None)
+                self._complete(path, entry, future)
+        if self._queued:
+            self._dispatch()
+        if self._on_changed:
+            self._on_changed()
 
     def _complete(self, path, entry, future):
         if self._entries.get(path) is not entry or future.cancelled():
@@ -102,14 +145,16 @@ class EmblemProvider:
             if not entry.files:
                 if entry.future:
                     entry.future.cancel()
-                del self._entries[path]
+                    entry.future = None
+                if not entry.checked or monotonic() - entry.checked > self.CACHE_SECONDS:
+                    del self._entries[path]
 
     def _refresh(self):
         self._prune()
-        if not self._entries:
+        if not any(entry.files for entry in self._entries.values()):
             self._timer = 0
             return GLib.SOURCE_REMOVE
         for path, entry in self._entries.items():
-            if monotonic() - entry.checked >= self.REFRESH_SECONDS:
+            if entry.files and monotonic() - entry.checked >= self.REFRESH_SECONDS:
                 self._schedule(path, entry)
         return GLib.SOURCE_CONTINUE

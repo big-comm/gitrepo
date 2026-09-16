@@ -1,6 +1,9 @@
 """Repository emblems follow real Git state without modifying it."""
 
+import json
 import subprocess
+import sys
+from pathlib import Path
 
 import pytest
 
@@ -161,3 +164,38 @@ def test_upstream_on_another_remote(repository):
     (repository / "tracked").write_text("new\n")
     git(repository, "commit", "-am", "local")
     assert repository_state(repository) == "unpushed"
+
+
+def test_batch_helper_preserves_paths_and_reads_multiple_states(repository, tmp_path):
+    other = tmp_path / "repository with\na newline"
+    other.mkdir()
+    git(other, "init", "-b", "main")
+    (other / "new").touch()
+    script = Path(__file__).parents[1] / "usr/share/gitrepo/file_manager/scan.py"
+    paths = [str(repository), str(other), str(tmp_path)]
+    result = subprocess.run(
+        [sys.executable, str(script)], input=json.dumps(paths), capture_output=True, text=True, check=True, timeout=5
+    )
+    assert json.loads(result.stdout) == {paths[0]: "clean", paths[1]: "modified", paths[2]: None}
+
+
+def test_native_scanner_delivers_results_through_glib(repository, tmp_path):
+    from gi.repository import GLib
+    from gitrepo.file_manager.scanner import ScanJob
+
+    loop = GLib.MainLoop()
+    results = []
+
+    def complete(states):
+        results.append(states)
+        loop.quit()
+
+    job = ScanJob([str(repository), str(tmp_path)], complete)
+    assert not results
+    watchdog = GLib.timeout_add_seconds(5, lambda: loop.quit() or False)
+    loop.run()
+    if not results:
+        job.cancel()
+        pytest.fail("Native scanner did not deliver results")
+    GLib.source_remove(watchdog)
+    assert results == [{str(repository): "clean", str(tmp_path): None}]

@@ -21,7 +21,10 @@ def repository_state(path: str | Path) -> State | None:
     Remote-tracking refs are local snapshots; this never fetches from a remote.
     """
     path = Path(path)
-    if not (path / ".git").exists():
+    try:
+        if not (path / ".git").exists():
+            return None
+    except OSError:
         return None
 
     # The file manager may inherit Git's process-local repository overrides.

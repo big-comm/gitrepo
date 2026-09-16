@@ -1,6 +1,5 @@
 """Emblem refreshes stay asynchronous and release retired file objects."""
 
-import threading
 import weakref
 from concurrent.futures import Future
 from pathlib import Path
@@ -45,9 +44,22 @@ def provider(monkeypatch):
     callbacks = []
     monkeypatch.setattr(emblems.GLib, "idle_add", lambda callback, *args: callbacks.append((callback, args)))
     monkeypatch.setattr(emblems.GLib, "timeout_add_seconds", lambda *args: 1)
+    jobs = []
+
+    class Job:
+        def __init__(self, paths, complete):
+            self.paths = paths
+            self.complete = complete
+            self.cancelled = False
+            jobs.append(self)
+
+        def cancel(self):
+            self.cancelled = True
+
+    monkeypatch.setattr(emblems, "ScanJob", Job)
     instance = emblems.EmblemProvider()
+    instance.jobs = jobs
     yield instance, callbacks
-    instance._workers.shutdown(wait=True, cancel_futures=True)
 
 
 def drain(callbacks):
@@ -56,30 +68,21 @@ def drain(callbacks):
         callback(*args)
 
 
-def test_slow_git_never_blocks_the_provider(provider, monkeypatch):
+def test_directory_requests_are_batched_without_blocking(provider):
     instance, callbacks = provider
-    started = threading.Event()
-    release = threading.Event()
-
-    def probe(path):
-        started.set()
-        assert release.wait(2)
-        return "modified"
-
-    monkeypatch.setattr(emblems, "repository_state", probe)
-    info = FileInfo("/repo")
-    try:
+    files = [FileInfo(f"/repo-{index}") for index in range(60)]
+    for info in files:
         instance.update(info)
-        assert started.wait(2)
-        assert info.emblems == []
-    finally:
-        release.set()
-    instance._workers.shutdown(wait=True)
-    assert info.invalidations == 0  # Workers cannot call file-manager APIs.
+    assert instance.jobs == []
+    assert all(info.emblems == [] for info in files)
     drain(callbacks)
-    assert info.invalidations == 1
-    instance.update(info)
-    assert info.emblems == ["gitrepo-modified"]
+    assert len(instance.jobs) == 1
+    assert instance.jobs[0].paths == [info.path for info in files]
+    instance.jobs[0].complete({info.path: "modified" for info in files})
+    for info in files:
+        assert info.invalidations == 1
+        instance.update(info)
+        assert info.emblems == ["gitrepo-modified"]
 
 
 def test_refresh_replaces_emblem_and_failure_clears_it(provider):
@@ -99,25 +102,20 @@ def test_refresh_replaces_emblem_and_failure_clears_it(provider):
 
 def test_regular_files_and_remote_locations_are_not_scanned(provider, monkeypatch):
     instance, _ = provider
-    monkeypatch.setattr(instance._workers, "submit", lambda *args: pytest.fail("unexpected scan"))
+    monkeypatch.setattr(emblems, "ScanJob", lambda *args: pytest.fail("unexpected scan"))
     instance.update(FileInfo("/file", directory=False))
     instance.update(FileInfo(None))
     assert not instance._entries
 
 
-def test_multiple_file_objects_share_one_pending_scan(provider, monkeypatch):
-    instance, _ = provider
-    scans = []
-
-    def submit(*args):
-        scans.append(args)
-        return Future()
-
-    monkeypatch.setattr(instance._workers, "submit", submit)
+def test_multiple_file_objects_share_one_pending_scan(provider):
+    instance, callbacks = provider
     first, second = FileInfo("/repo"), FileInfo("/repo")
     instance.update(first)
     instance.update(second)
-    assert len(scans) == 1
+    drain(callbacks)
+    assert len(instance.jobs) == 1
+    assert instance.jobs[0].paths == ["/repo"]
     assert len(instance._entries["/repo"].files) == 2
 
 
@@ -145,7 +143,6 @@ def test_evicted_result_cannot_overwrite_a_new_entry(provider):
 def test_cache_bounds_cancel_obsolete_pending_scans(provider, monkeypatch):
     instance, _ = provider
     monkeypatch.setattr(instance, "MAX_ENTRIES", 2)
-    monkeypatch.setattr(instance._workers, "submit", lambda *args: Future())
     files = [FileInfo(f"/repo-{index}") for index in range(3)]
     instance.update(files[0])
     obsolete = instance._entries[files[0].path].future
@@ -178,3 +175,55 @@ def test_extension_entrypoints_resolve_shared_runtime():
     for manager in ("nautilus", "nemo"):
         extension = share / f"{manager}-python/extensions/gitrepo_emblems.py"
         assert extension.resolve().parents[2] == share.resolve()
+
+
+def test_revisiting_folder_uses_cached_state_without_a_new_scan(provider):
+    instance, callbacks = provider
+    info = FileInfo("/repo")
+    instance.update(info)
+    drain(callbacks)
+    instance.jobs[0].complete({"/repo": "modified"})
+    del info
+    assert instance._refresh() == emblems.GLib.SOURCE_REMOVE
+    assert "/repo" in instance._entries
+    reopened = FileInfo("/repo")
+    instance.update(reopened)
+    assert reopened.emblems == ["gitrepo-modified"]
+    drain(callbacks)
+    assert len(instance.jobs) == 1
+
+
+def test_new_requests_wait_for_the_current_batch(provider):
+    instance, callbacks = provider
+    first, second = FileInfo("/first"), FileInfo("/second")
+    instance.update(first)
+    drain(callbacks)
+    instance.update(second)
+    drain(callbacks)
+    assert len(instance.jobs) == 1
+    instance.jobs[0].complete({"/first": "clean"})
+    assert len(instance.jobs) == 2
+    assert instance.jobs[1].paths == ["/second"]
+
+
+def test_stale_cached_state_is_shown_while_refresh_runs(provider):
+    instance, callbacks = provider
+    info = FileInfo("/repo")
+    entry = emblems._Entry(state="clean", checked=emblems.monotonic() - 20)
+    instance._entries[info.path] = entry
+    instance.update(info)
+    assert info.emblems == ["gitrepo-clean"]
+    drain(callbacks)
+    assert instance.jobs[0].paths == ["/repo"]
+    instance.jobs[0].complete({"/repo": "modified"})
+    assert info.invalidations == 1
+
+
+def test_shutdown_cancels_the_native_subprocess(provider, monkeypatch):
+    instance, callbacks = provider
+    monkeypatch.setattr(emblems.GLib, "source_remove", lambda *_args: None)
+    info = FileInfo("/repo")
+    instance.update(info)
+    drain(callbacks)
+    instance.close()
+    assert instance.jobs[0].cancelled
