@@ -8,7 +8,7 @@
 from gitrepo.common import child_process as subprocess
 from gitrepo.common.child_process import authorize_destructive_git
 
-from .git_utils import GitUtils
+from .git_utils import PROTECTED_BRANCHES, GitUtils, merge_base_reference
 from .repository_lock import journey
 from gitrepo.common.translation import _
 
@@ -361,6 +361,251 @@ def create_branch_and_push(bp, source_branch: str, target_branch: str) -> bool:
 
 def _switch_result(success: bool, message: str, message_type: str = "toast") -> dict:
     return {"success": success, "message": message, "message_type": message_type}
+
+
+# ---------------------------------------------------------------------------
+# Explicit branch management: create, rename, delete
+# ---------------------------------------------------------------------------
+
+
+def _count_revisions(revision_range: str) -> int:
+    result = subprocess.run_git(
+        ["git", "rev-list", "--count", revision_range],
+        capture_output=True,
+        text=True,
+        check=False,
+        intent="ordinary",
+    )
+    count = result.stdout.strip() if result.returncode == 0 else ""
+    return int(count) if count.isdigit() else 0
+
+
+def describe_branch(branch: str) -> dict:
+    """Return the facts a user needs before touching *branch*.
+
+    ``unmerged_commits`` counts the commits the branch holds that the merge
+    base (main or master) does not. Deleting a branch with a non-zero count
+    loses those commits, so callers must ask before forcing it.
+    """
+    local = GitUtils.ref_exists(f"refs/heads/{branch}")
+    remote = GitUtils.ref_exists(f"refs/remotes/origin/{branch}")
+    base = merge_base_reference()
+    unmerged = 0
+    if base and (local or remote):
+        tip = f"refs/heads/{branch}" if local else f"refs/remotes/origin/{branch}"
+        unmerged = _count_revisions(f"{base}..{tip}")
+    return {
+        "branch": branch,
+        "local": local,
+        "remote": remote,
+        "current": bool(branch) and GitUtils.get_current_branch() == branch,
+        "protected": branch in PROTECTED_BRANCHES,
+        "base": base,
+        # The same ref as users name it: origin/main rather than refs/remotes/origin/main.
+        "base_label": base.removeprefix("refs/remotes/").removeprefix("refs/heads/"),
+        "unmerged_commits": unmerged,
+    }
+
+
+def _branch_exists_anywhere(branch: str) -> bool:
+    return GitUtils.ref_exists(f"refs/heads/{branch}") or GitUtils.ref_exists(f"refs/remotes/origin/{branch}")
+
+
+def _publish_branch(bp, branch: str) -> bool:
+    """Push *branch* to origin and set it as upstream; report a kept local branch on failure."""
+    refspec = f"refs/heads/{branch}:refs/heads/{branch}"
+    bp.logger.log("cyan", _("Publishing '{0}' to origin...").format(branch))
+    bp.logger.log("dim", f"    git push -u origin {refspec}")
+    result = subprocess.run_git(
+        ["git", "push", "-u", "origin", refspec],
+        capture_output=True,
+        text=True,
+        check=False,
+        intent="ordinary",
+    )
+    if result.returncode != 0:
+        bp.logger.log("red", _("Push failed: {0}").format(result.stderr.strip()))
+        bp.logger.log("yellow", _("The branch '{0}' exists locally and was kept.").format(branch))
+        bp.logger.log("cyan", _("Retry publishing it with: git push -u origin {0}").format(refspec))
+        return False
+    bp.logger.log("green", _("✓ '{0}' published to origin").format(branch))
+    return True
+
+
+def _delete_remote_branch(bp, branch: str) -> bool:
+    """Delete ``origin/<branch>``; the caller has already confirmed the loss."""
+    bp.logger.log("cyan", _("Deleting origin/{0}...").format(branch))
+    bp.logger.log("dim", f"    git push origin --delete refs/heads/{branch}")
+    with authorize_destructive_git():
+        result = subprocess.run_git(
+            ["git", "push", "origin", "--delete", f"refs/heads/{branch}"],
+            capture_output=True,
+            text=True,
+            check=False,
+            intent="destructive",
+        )
+    if result.returncode != 0:
+        bp.logger.log("red", _("Could not delete origin/{0}: {1}").format(branch, result.stderr.strip()))
+        return False
+    bp.logger.log("green", _("✓ origin/{0} deleted").format(branch))
+    return True
+
+
+@journey("creating a branch", False)
+def create_branch(
+    bp, new_branch: str, source_branch: str = "", *, checkout: bool = True, publish: bool = False
+) -> bool:
+    """Create *new_branch* from *source_branch* (or HEAD), then optionally check it out and publish it.
+
+    Local changes are never stashed or discarded here: ``git branch`` leaves
+    the working tree alone, and ``git checkout`` of a branch that points at
+    the same commit carries them over unchanged.
+    """
+    if not _valid_branch_name(new_branch):
+        bp.logger.log("red", _("Invalid branch name: {0}").format(new_branch))
+        return False
+    if _branch_exists_anywhere(new_branch):
+        bp.logger.log("red", _("A branch named '{0}' already exists.").format(new_branch))
+        return False
+
+    start_point = "HEAD"
+    if source_branch:
+        if GitUtils.ref_exists(f"refs/heads/{source_branch}"):
+            start_point = source_branch
+        elif GitUtils.ref_exists(f"refs/remotes/origin/{source_branch}"):
+            start_point = f"origin/{source_branch}"
+        else:
+            bp.logger.log("red", _("Source branch not found: {0}").format(source_branch))
+            return False
+
+    bp.logger.log("cyan", _("Creating branch '{0}' from {1}...").format(new_branch, start_point))
+    bp.logger.log("dim", f"    git branch {new_branch} {start_point}")
+    result = subprocess.run_git(
+        ["git", "branch", new_branch, start_point], capture_output=True, text=True, check=False, intent="ordinary"
+    )
+    if result.returncode != 0:
+        bp.logger.log("red", _("Failed to create branch: {0}").format(result.stderr.strip()))
+        return False
+    bp.logger.log("green", _("✓ Branch '{0}' created").format(new_branch))
+
+    if checkout:
+        bp.logger.log("dim", f"    git checkout {new_branch}")
+        switched = subprocess.run_git(
+            ["git", "checkout", new_branch], capture_output=True, text=True, check=False, intent="ordinary"
+        )
+        if switched.returncode != 0:
+            bp.logger.log("red", _("Could not switch to '{0}': {1}").format(new_branch, switched.stderr.strip()))
+            bp.logger.log("yellow", _("The branch was created and kept; your local changes were not touched."))
+            return False
+        bp.logger.log("green", _("✓ Switched to '{0}'").format(new_branch))
+
+    if publish and not _publish_branch(bp, new_branch):
+        return False
+    return True
+
+
+@journey("renaming a branch", False)
+def rename_branch(bp, old_name: str, new_name: str, *, rename_remote: bool = False) -> bool:
+    """Rename a local branch and, when asked, move its published copy on origin.
+
+    Renaming on origin is a push of the new name followed by a delete of the
+    old one; collaborators tracking the old name lose it, so the caller must
+    have asked before setting *rename_remote*.
+    """
+    if old_name in PROTECTED_BRANCHES:
+        bp.logger.log("red", _("'{0}' is a shared branch and cannot be renamed here.").format(old_name))
+        return False
+    if not GitUtils.ref_exists(f"refs/heads/{old_name}"):
+        bp.logger.log("red", _("Local branch not found: {0}").format(old_name))
+        return False
+    if not _valid_branch_name(new_name):
+        bp.logger.log("red", _("Invalid branch name: {0}").format(new_name))
+        return False
+    if _branch_exists_anywhere(new_name):
+        bp.logger.log("red", _("A branch named '{0}' already exists.").format(new_name))
+        return False
+
+    bp.logger.log("cyan", _("Renaming '{0}' to '{1}'...").format(old_name, new_name))
+    bp.logger.log("dim", f"    git branch -m {old_name} {new_name}")
+    result = subprocess.run_git(
+        ["git", "branch", "-m", old_name, new_name], capture_output=True, text=True, check=False, intent="ordinary"
+    )
+    if result.returncode != 0:
+        bp.logger.log("red", _("Failed to rename branch: {0}").format(result.stderr.strip()))
+        return False
+    bp.logger.log("green", _("✓ Branch renamed to '{0}'").format(new_name))
+
+    remote_exists = GitUtils.ref_exists(f"refs/remotes/origin/{old_name}")
+    if not remote_exists:
+        return True
+    if not rename_remote:
+        bp.logger.log(
+            "yellow",
+            _("origin/{0} was kept; the local branch still tracks it. Publish '{1}' when you are ready.").format(
+                old_name, new_name
+            ),
+        )
+        return True
+    if not _publish_branch(bp, new_name):
+        bp.logger.log("yellow", _("origin/{0} was kept because the new name could not be published.").format(old_name))
+        return False
+    return _delete_remote_branch(bp, old_name)
+
+
+@journey("deleting a branch", False)
+def delete_branch(bp, branch: str, *, delete_remote: bool = False, force: bool = False) -> bool:
+    """Delete *branch* locally and, when asked, on origin.
+
+    Without *force* the branch must be proven merged into main or master;
+    a branch holding commits found nowhere else is refused with the count, so
+    the interface can ask again with the loss spelled out.
+    """
+    facts = describe_branch(branch)
+    if facts["protected"]:
+        bp.logger.log("red", _("'{0}' is a shared branch and cannot be deleted here.").format(branch))
+        return False
+    if facts["current"]:
+        bp.logger.log("red", _("'{0}' is checked out. Switch to another branch before deleting it.").format(branch))
+        return False
+    if not facts["local"] and not facts["remote"]:
+        bp.logger.log("red", _("Branch not found: {0}").format(branch))
+        return False
+    if not force:
+        if not facts["base"]:
+            bp.logger.log("red", _("No main or master branch to compare against."))
+            bp.logger.log(
+                "cyan", _("Without a base, '{0}' cannot be proven merged; confirm a forced delete.").format(branch)
+            )
+            return False
+        if facts["unmerged_commits"]:
+            bp.logger.log(
+                "red",
+                _("'{0}' holds {1} commit(s) that are not in {2}. Deleting it loses them.").format(
+                    branch, facts["unmerged_commits"], facts["base_label"]
+                ),
+            )
+            return False
+
+    if facts["local"]:
+        # ``-d`` checks against HEAD or the upstream, not against main, so a
+        # branch already merged into main would still be refused from another
+        # checkout. The merge check above is the safety; ``-D`` just applies it.
+        bp.logger.log("cyan", _("Deleting local branch '{0}'...").format(branch))
+        bp.logger.log("dim", f"    git branch -D {branch}")
+        with authorize_destructive_git():
+            result = subprocess.run_git(
+                ["git", "branch", "-D", branch], capture_output=True, text=True, check=False, intent="destructive"
+            )
+        if result.returncode != 0:
+            bp.logger.log("red", _("Could not delete local branch {0}: {1}").format(branch, result.stderr.strip()))
+            return False
+        bp.logger.log("green", _("✓ Local branch '{0}' deleted").format(branch))
+
+    if delete_remote and facts["remote"]:
+        return _delete_remote_branch(bp, branch)
+    if facts["remote"] and not delete_remote:
+        bp.logger.log("cyan", _("origin/{0} was kept.").format(branch))
+    return True
 
 
 def switch_branch(bp, target_branch: str, stash_first: bool = False, discard_first: bool = False) -> dict:

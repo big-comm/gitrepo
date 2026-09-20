@@ -735,6 +735,22 @@ class GitUtils:
         return ""
 
     @staticmethod
+    def list_local_branches() -> list[str]:
+        """Return the local branch names, or an empty list outside a repository."""
+        try:
+            return _branch_names("branch", "--format=%(refname:short)")
+        except subprocess.SubprocessError:
+            return []
+
+    @staticmethod
+    def list_remote_branches() -> list[str]:
+        """Return the branch names known on origin, without the ``origin/`` prefix."""
+        try:
+            return [branch for branch in _branch_names("branch", "-r", "--format=%(refname:short)") if branch != "HEAD"]
+        except subprocess.SubprocessError:
+            return []
+
+    @staticmethod
     def cleanup_old_branches(logger, menu) -> bool:
         """Inventory, preview, and delete only confirmed obsolete branches."""
         if not GitUtils.is_git_repo():

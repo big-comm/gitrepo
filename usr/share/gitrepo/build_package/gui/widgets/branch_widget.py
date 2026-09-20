@@ -70,6 +70,9 @@ class BranchWidget(Gtk.Box):
         "branch-selected": (GObject.SignalFlags.RUN_FIRST, None, (str,)),
         "merge-requested": (GObject.SignalFlags.RUN_FIRST, None, (str, str, bool)),  # source, target, auto_merge
         "cleanup-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "create-branch-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "rename-branch-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "delete-branch-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
     def __init__(self, build_package):
@@ -90,7 +93,7 @@ class BranchWidget(Gtk.Box):
                 "build-package-branches",
                 _("Organize lines of work"),
                 _(
-                    "Switch branches with git checkout, publish new branches with git push, or propose integration on GitHub."
+                    "Switch, create, rename or delete branches with explicit Git commands, or propose integration on GitHub."
                 ),
             )
         )
@@ -170,6 +173,47 @@ class BranchWidget(Gtk.Box):
         quick_actions_group.add(self.switch_main_row)
         page_content.append(quick_actions_group)
 
+        # Explicit branch management: create, rename, delete
+        manage_group = Adw.PreferencesGroup()
+        manage_group.set_title(_("Manage branches"))
+        manage_group.set_description(
+            _("Each action shows its Git commands and asks before anything is published or deleted.")
+        )
+
+        self.create_branch_row = self._manage_row(
+            _("Create branch"),
+            git_command_description("git branch NEW SOURCE", "git checkout NEW", "git push -u origin NEW (optional)"),
+            _("Create…"),
+            "list-add-symbolic",
+            "suggested-action",
+            self.on_create_branch_clicked,
+        )
+        manage_group.add(self.create_branch_row)
+
+        self.rename_branch_row = self._manage_row(
+            _("Rename branch"),
+            git_command_description(
+                "git branch -m OLD NEW", "git push -u origin NEW (optional)", "git push origin --delete OLD (optional)"
+            ),
+            _("Rename…"),
+            "document-edit-symbolic",
+            "",
+            self.on_rename_branch_clicked,
+        )
+        manage_group.add(self.rename_branch_row)
+
+        self.delete_branch_row = self._manage_row(
+            _("Delete branch"),
+            git_command_description("git branch -D BRANCH", "git push origin --delete BRANCH (optional)"),
+            _("Delete…"),
+            "user-trash-symbolic",
+            "destructive-action",
+            self.on_delete_branch_clicked,
+        )
+        manage_group.add(self.delete_branch_row)
+
+        page_content.append(manage_group)
+
         # Merge operations
         merge_group = Adw.PreferencesGroup()
         merge_group.set_title(_("Propose branch integration"))
@@ -244,6 +288,21 @@ class BranchWidget(Gtk.Box):
         # Connect combo box changes
         self.source_branch_row.connect("notify::selected", self.on_merge_selection_changed)
         self.target_branch_row.connect("notify::selected", self.on_merge_selection_changed)
+
+    @staticmethod
+    def _manage_row(title, subtitle, button_label, icon_name, css_class, handler):
+        """Build one row whose suffix button opens a reviewed branch dialog."""
+        row = Adw.ActionRow()
+        row.set_title(title)
+        row.set_subtitle(subtitle)
+        button = Gtk.Button(child=Adw.ButtonContent(label=button_label, icon_name=icon_name))
+        button.set_valign(Gtk.Align.CENTER)
+        if css_class:
+            button.add_css_class(css_class)
+        button.connect("clicked", handler)
+        row.add_suffix(button)
+        row.set_activatable_widget(button)
+        return row
 
     def refresh_branches(self):
         """Ask the owning window to refresh the shared snapshot."""
@@ -359,6 +418,15 @@ class BranchWidget(Gtk.Box):
         auto_merge = self.auto_merge_row.get_active()
 
         self.emit("merge-requested", source_branch, target_branch, auto_merge)
+
+    def on_create_branch_clicked(self, button):
+        self.emit("create-branch-requested")
+
+    def on_rename_branch_clicked(self, button):
+        self.emit("rename-branch-requested")
+
+    def on_delete_branch_clicked(self, button):
+        self.emit("delete-branch-requested")
 
     def on_switch_main_clicked(self, button):
         """Route switching to main through the window's reviewed branch flow."""

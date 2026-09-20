@@ -5,7 +5,7 @@ import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
-from gitrepo.build_package.core.git_utils import GitUtils
+from gitrepo.build_package.core.git_utils import PROTECTED_BRANCHES, GitUtils
 from gitrepo.common.translation import _
 from gi.repository import Adw, Gtk, Pango
 
@@ -30,6 +30,37 @@ def _branch_endpoint(caption: str, branch: str, css_class: str) -> Gtk.Widget:
     branch_label.update_property([Gtk.AccessibleProperty.LABEL], [f"{caption}: {branch}"])
     box.append(branch_label)
     return box
+
+
+def _dialog_form(width: int = 460) -> tuple[Gtk.Box, Adw.PreferencesGroup]:
+    """Return a sized wrapper and the preferences group that holds the form rows."""
+    wrapper = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+    wrapper.set_size_request(width, -1)
+    group = Adw.PreferencesGroup()
+    group.set_margin_top(12)
+    group.set_margin_bottom(6)
+    wrapper.append(group)
+    return wrapper, group
+
+
+def _combo_row(title: str, choices: list[str], default: str = "") -> Adw.ComboRow:
+    row = Adw.ComboRow()
+    row.set_title(title)
+    model = Gtk.StringList()
+    for choice in choices:
+        model.append(choice)
+    row.set_model(model)
+    if default in choices:
+        row.set_selected(choices.index(default))
+    return row
+
+
+def _combo_value(row: Adw.ComboRow) -> str:
+    index = row.get_selected()
+    model = row.get_model()
+    if index == Gtk.INVALID_LIST_POSITION or model is None:
+        return ""
+    return model.get_string(index)
 
 
 def _merge_status_presentation(auto_merge: bool) -> tuple[str, str, str]:
@@ -248,6 +279,294 @@ class BranchActionsMixin:
             _("Creating Branch"),
             _("Creating '{0}' from '{1}' and pushing...").format(target_branch, source_branch),
         )
+
+    # ------------------------------------------------------------------
+    # Explicit branch management: create, rename, delete
+    # ------------------------------------------------------------------
+
+    def _branch_inventory(self):
+        """Return (local, remote, current) from the shared snapshot, or None when it is stale."""
+        snapshot = getattr(self, "_repository_snapshot", None)
+        if not snapshot or snapshot.has_changes is None:
+            self.show_error_toast(_("Repository status is unavailable. Refresh before managing branches."))
+            return None
+        return list(snapshot.local_branches), list(snapshot.remote_branches), snapshot.branch
+
+    def _validate_new_branch_name(self, name: str, existing: set[str]) -> bool:
+        if not name:
+            self.show_error_toast(_("Type a name for the branch."))
+            return False
+        if name in existing:
+            self.show_error_toast(_("A branch named '{0}' already exists.").format(name))
+            return False
+        if not GitUtils.is_valid_branch_name(name):
+            self.show_error_toast(_("Invalid branch name: {0}").format(name))
+            return False
+        return True
+
+    def on_create_branch_requested(self, widget):
+        """Ask for a name, a source and the follow-up steps, then create the branch."""
+        inventory = self._branch_inventory()
+        if inventory is None:
+            return
+        local, remote, current = inventory
+        choices = sorted(set(local + remote))
+        if not choices:
+            self.show_error_toast(_("No branch to create from. Make a first commit before branching."))
+            return
+
+        dialog = Adw.MessageDialog(transient_for=self, modal=True)
+        dialog.set_heading(_("Create a branch"))
+        dialog.set_body(
+            git_command_description("git branch NEW SOURCE", "git checkout NEW", "git push -u origin NEW (optional)")
+        )
+        wrapper, group = _dialog_form()
+
+        name_row = Adw.EntryRow()
+        name_row.set_title(_("New branch name"))
+        group.add(name_row)
+
+        source_row = _combo_row(_("Create from"), choices, current)
+        source_row.set_subtitle(_("The new branch starts at this branch's current commit"))
+        group.add(source_row)
+
+        checkout_row = Adw.SwitchRow()
+        checkout_row.set_title(_("Switch to it after creating"))
+        checkout_row.set_subtitle(_("Uncommitted changes are carried over; nothing is stashed or discarded"))
+        checkout_row.set_active(True)
+        group.add(checkout_row)
+
+        publish_row = Adw.SwitchRow()
+        publish_row.set_title(_("Publish to origin now"))
+        publish_row.set_subtitle("git push -u origin NEW")
+        publish_row.set_active(False)
+        group.add(publish_row)
+
+        dialog.set_extra_child(wrapper)
+        dialog.add_response("cancel", _("Cancel"))
+        dialog.add_response("create", _("Create branch"))
+        dialog.set_response_appearance("create", Adw.ResponseAppearance.SUGGESTED)
+        dialog.set_response_enabled("create", False)
+        dialog.set_default_response("create")
+        dialog.set_close_response("cancel")
+        name_row.connect("changed", lambda row: dialog.set_response_enabled("create", bool(row.get_text().strip())))
+
+        def on_response(_dialog, response):
+            if response != "create":
+                return
+            new_name = name_row.get_text().strip()
+            if not self._validate_new_branch_name(new_name, set(choices)):
+                return
+            self._run_branch_operation(
+                "create",
+                new_name,
+                source=_combo_value(source_row),
+                checkout=checkout_row.get_active(),
+                publish=publish_row.get_active(),
+            )
+
+        dialog.connect("response", on_response)
+        dialog.present()
+
+    def on_rename_branch_requested(self, widget):
+        """Pick a local branch, type its new name and decide whether origin follows."""
+        inventory = self._branch_inventory()
+        if inventory is None:
+            return
+        local, remote, current = inventory
+        choices = [branch for branch in local if branch not in PROTECTED_BRANCHES]
+        if not choices:
+            self.show_error_toast(_("No local branch can be renamed; main, master and dev are shared."))
+            return
+
+        dialog = Adw.MessageDialog(transient_for=self, modal=True)
+        dialog.set_heading(_("Rename a branch"))
+        dialog.set_body(
+            git_command_description(
+                "git branch -m OLD NEW", "git push -u origin NEW (optional)", "git push origin --delete OLD (optional)"
+            )
+        )
+        wrapper, group = _dialog_form()
+
+        branch_row = _combo_row(_("Branch to rename"), choices, current)
+        group.add(branch_row)
+
+        name_row = Adw.EntryRow()
+        name_row.set_title(_("New name"))
+        group.add(name_row)
+
+        remote_row = Adw.SwitchRow()
+        remote_row.set_title(_("Also rename on origin"))
+        remote_row.set_active(False)
+        group.add(remote_row)
+
+        def sync_remote_row(*_args):
+            selected = _combo_value(branch_row)
+            on_origin = selected in remote
+            remote_row.set_sensitive(on_origin)
+            if on_origin:
+                remote_row.set_subtitle(
+                    _("Publishes the new name and deletes origin/{0}; anyone tracking it loses it").format(selected)
+                )
+            else:
+                remote_row.set_active(False)
+                remote_row.set_subtitle(_("'{0}' is not on origin").format(selected))
+
+        branch_row.connect("notify::selected", sync_remote_row)
+        sync_remote_row()
+
+        dialog.set_extra_child(wrapper)
+        dialog.add_response("cancel", _("Cancel"))
+        dialog.add_response("rename", _("Rename branch"))
+        dialog.set_response_appearance("rename", Adw.ResponseAppearance.SUGGESTED)
+        dialog.set_response_enabled("rename", False)
+        dialog.set_default_response("rename")
+        dialog.set_close_response("cancel")
+        name_row.connect("changed", lambda row: dialog.set_response_enabled("rename", bool(row.get_text().strip())))
+
+        def on_response(_dialog, response):
+            if response != "rename":
+                return
+            old_name = _combo_value(branch_row)
+            new_name = name_row.get_text().strip()
+            if not self._validate_new_branch_name(new_name, set(local + remote)):
+                return
+            self._run_branch_operation("rename", old_name, new_name=new_name, rename_remote=remote_row.get_active())
+
+        dialog.connect("response", on_response)
+        dialog.present()
+
+    def on_delete_branch_requested(self, widget):
+        """Pick a branch, show what deleting it loses, and ask before removing it."""
+        from gitrepo.build_package.core.branch_handler import describe_branch
+
+        inventory = self._branch_inventory()
+        if inventory is None:
+            return
+        local, remote, current = inventory
+        choices = sorted((set(local) | set(remote)) - set(PROTECTED_BRANCHES) - {current})
+        if not choices:
+            self.show_error_toast(_("No branch can be deleted: the checked-out branch and shared branches stay."))
+            return
+
+        dialog = Adw.MessageDialog(transient_for=self, modal=True)
+        dialog.set_heading(_("Delete a branch"))
+        dialog.set_body(git_command_description("git branch -D BRANCH", "git push origin --delete BRANCH (optional)"))
+        wrapper, group = _dialog_form()
+
+        branch_row = _combo_row(_("Branch to delete"), choices)
+        group.add(branch_row)
+
+        remote_row = Adw.SwitchRow()
+        remote_row.set_title(_("Also delete on origin"))
+        remote_row.set_active(False)
+        group.add(remote_row)
+
+        status_label = Gtk.Label(xalign=0)
+        status_label.set_wrap(True)
+        status_label.set_margin_top(10)
+        status_label.set_margin_start(6)
+        status_label.set_margin_end(6)
+        wrapper.append(status_label)
+
+        facts = {}
+
+        def sync_facts(*_args):
+            selected = _combo_value(branch_row)
+            facts.clear()
+            facts.update(describe_branch(selected))
+            remote_row.set_sensitive(facts["remote"])
+            if facts["remote"]:
+                remote_row.set_subtitle(_("origin/{0} is deleted as well").format(selected))
+            else:
+                remote_row.set_active(False)
+                remote_row.set_subtitle(_("'{0}' is not on origin").format(selected))
+            if not facts["local"]:
+                # Only the remote copy exists, so the switch is the whole operation.
+                remote_row.set_active(True)
+            for css in ("error", "warning", "success"):
+                status_label.remove_css_class(css)
+            if facts["unmerged_commits"]:
+                status_label.set_text(
+                    _("'{0}' holds {1} commit(s) that are not in {2}. Deleting it loses them.").format(
+                        selected, facts["unmerged_commits"], facts["base_label"]
+                    )
+                )
+                status_label.add_css_class("error")
+                dialog.set_response_label("delete", _("Delete anyway"))
+            elif not facts["base"]:
+                status_label.set_text(
+                    _("No main or master branch to compare against; the branch cannot be proven merged.")
+                )
+                status_label.add_css_class("warning")
+                dialog.set_response_label("delete", _("Delete anyway"))
+            else:
+                status_label.set_text(
+                    _("Every commit of '{0}' is already in {1}.").format(selected, facts["base_label"])
+                )
+                status_label.add_css_class("success")
+                dialog.set_response_label("delete", _("Delete branch"))
+
+        dialog.set_extra_child(wrapper)
+        dialog.add_response("cancel", _("Cancel"))
+        dialog.add_response("delete", _("Delete branch"))
+        dialog.set_response_appearance("delete", Adw.ResponseAppearance.DESTRUCTIVE)
+        dialog.set_default_response("cancel")
+        dialog.set_close_response("cancel")
+        branch_row.connect("notify::selected", sync_facts)
+        sync_facts()
+
+        def on_response(_dialog, response):
+            if response != "delete":
+                return
+            self._run_branch_operation(
+                "delete",
+                _combo_value(branch_row),
+                delete_remote=remote_row.get_active(),
+                force=bool(facts.get("unmerged_commits")) or not facts.get("base"),
+            )
+
+        dialog.connect("response", on_response)
+        dialog.present()
+
+    def _run_branch_operation(self, kind, branch, **options):
+        """Run one reviewed branch operation from core/branch_handler.py with progress."""
+        from functools import partial
+
+        from gitrepo.build_package.core import branch_handler
+
+        if kind == "create":
+            operation = partial(
+                branch_handler.create_branch,
+                self.build_package,
+                branch,
+                options["source"],
+                checkout=options["checkout"],
+                publish=options["publish"],
+            )
+            title = _("Creating Branch")
+            description = _("Running git branch {0} {1}...").format(branch, options["source"])
+        elif kind == "rename":
+            operation = partial(
+                branch_handler.rename_branch,
+                self.build_package,
+                branch,
+                options["new_name"],
+                rename_remote=options["rename_remote"],
+            )
+            title = _("Renaming Branch")
+            description = _("Running git branch -m {0} {1}...").format(branch, options["new_name"])
+        else:
+            operation = partial(
+                branch_handler.delete_branch,
+                self.build_package,
+                branch,
+                delete_remote=options["delete_remote"],
+                force=options["force"],
+            )
+            title = _("Deleting Branch")
+            description = _("Running git branch -D {0}...").format(branch)
+        self.operation_runner.run_with_progress(operation, title, description)
 
     def _show_merge_confirmation(self, source_branch, target_branch, auto_merge):
         """Show merge confirmation dialog"""

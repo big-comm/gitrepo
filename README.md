@@ -27,7 +27,7 @@ With it, you can:
 - review modified files and the current repository state;
 - download and combine remote changes while preserving local work;
 - prepare a commit, see the Git commands involved, and publish it;
-- create, switch, merge, and clean up branches through guided flows;
+- create, switch, rename, delete, merge, and clean up branches through guided flows;
 - start package workflows for testing, stable, extra, and development channels;
 - import a package from the AUR and start its GitHub Actions workflow;
 - maintain workflow runs and tags without losing the safety confirmations around destructive operations;
