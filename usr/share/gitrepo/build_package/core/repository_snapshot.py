@@ -71,9 +71,19 @@ class RepositorySnapshot:
             local_branches=local_branches,
             remote_branches=remote_branches,
             most_recent_branch=_most_recent_remote_branch(),
-            package_name=GitUtils.read_package_name(),
+            package_name=_package_display_name(),
             recent_commits=_recent_commits(),
         )
+
+
+def _package_display_name() -> str:
+    """Name the package, or each package of a repository that keeps several."""
+    name = GitUtils.read_package_name()
+    if name:
+        return name
+    return ", ".join(
+        GitUtils.read_package_name(directory) or directory for directory in GitUtils.list_package_directories()
+    )
 
 
 def _run(command: list[str]):

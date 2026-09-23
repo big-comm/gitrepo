@@ -21,24 +21,56 @@ GITHUB_HOSTS = frozenset({"github.com", "www.github.com"})
 _SCP_REMOTE = re.compile(r"^(?:(?P<user>[^@/]+)@)?(?P<host>[^:/]+):(?P<path>.+)$")
 
 
-def _pkgbuild_directory(repo_path: str) -> str:
-    """Return the owned PKGBUILD directory, preferring the repository root."""
+def _owned_pkgbuild(repo_path: str, relative_directory: str) -> str:
+    """Return the directory when it holds a regular PKGBUILD inside the repository."""
+    root = os.path.realpath(repo_path)
+    directory = os.path.join(repo_path, relative_directory)
+    if relative_directory and os.path.islink(directory):
+        return ""
+    candidate = os.path.join(directory, "PKGBUILD")
+    try:
+        info = os.lstat(candidate)
+        inside_repository = os.path.commonpath([root, os.path.realpath(candidate)]) == root
+    except (OSError, ValueError):
+        return ""
+    return os.path.normpath(directory) if stat.S_ISREG(info.st_mode) and inside_repository else ""
+
+
+def _package_directories(repo_path: str) -> list[str]:
+    """Return the subdirectories that each hold a package, for multi-package repositories.
+
+    A repository normally carries one PKGBUILD, at its root or in pkgbuild/,
+    and then this is empty: that layout keeps its meaning unchanged. Only a
+    repository with neither is searched one level down -- a kernel and its LTS
+    kept side by side, sharing patches and CI.
+    """
+    if not repo_path or any(_owned_pkgbuild(repo_path, relative) for relative in ("", "pkgbuild")):
+        return []
+    try:
+        entries = sorted(os.listdir(repo_path))
+    except OSError:
+        return []
+    return [entry for entry in entries if not entry.startswith(".") and _owned_pkgbuild(repo_path, entry)]
+
+
+def _pkgbuild_directory(repo_path: str, package_directory: str = "") -> str:
+    """Return the owned PKGBUILD directory, preferring the repository root.
+
+    *package_directory* picks one package of a multi-package repository; it
+    must be one of :func:`_package_directories`, so it can never point
+    outside the repository. Without it such a repository resolves only when
+    it holds a single package.
+    """
     if not repo_path:
         return ""
-    root = os.path.realpath(repo_path)
     for relative_directory in ("", "pkgbuild"):
-        directory = os.path.join(repo_path, relative_directory)
-        if relative_directory and os.path.islink(directory):
-            continue
-        candidate = os.path.join(directory, "PKGBUILD")
-        try:
-            info = os.lstat(candidate)
-            inside_repository = os.path.commonpath([root, os.path.realpath(candidate)]) == root
-        except (OSError, ValueError):
-            continue
-        if stat.S_ISREG(info.st_mode) and inside_repository:
-            return os.path.normpath(directory)
-    return ""
+        directory = _owned_pkgbuild(repo_path, relative_directory)
+        if directory:
+            return directory
+    packages = _package_directories(repo_path)
+    if package_directory:
+        return os.path.normpath(os.path.join(repo_path, package_directory)) if package_directory in packages else ""
+    return os.path.normpath(os.path.join(repo_path, packages[0])) if len(packages) == 1 else ""
 
 
 def _github_path_segments(path: str) -> tuple[str, str]:
@@ -681,7 +713,15 @@ class GitUtils:
         return bool(parse_status_records(result.stdout))
 
     @staticmethod
-    def read_package_name() -> str:
+    def list_package_directories() -> list[str]:
+        """Return the package subdirectories of a multi-package repository.
+
+        Empty for the usual layout of one PKGBUILD at the root or in pkgbuild/.
+        """
+        return _package_directories(GitUtils.get_repo_root_path())
+
+    @staticmethod
+    def read_package_name(package_directory: str = "") -> str:
         """Read pkgname out of the PKGBUILD as text, without executing it.
 
         A PKGBUILD is a shell script, so `makepkg --printsrcinfo` sources it.
@@ -690,10 +730,12 @@ class GitUtils:
         runs on window construction and after every operation, so opening an
         untrusted repository would execute its code before the user pressed
         anything. Parsing the assignment covers every PKGBUILD that declares a
-        literal pkgname, which is what a display name needs.
+        literal pkgname, which is what a display name needs. A split package
+        (a kernel and its headers) declares pkgname as an array, so its literal
+        pkgbase names it instead.
         """
         repo_path = GitUtils.get_repo_root_path()
-        pkgbuild_directory = _pkgbuild_directory(repo_path)
+        pkgbuild_directory = _pkgbuild_directory(repo_path, package_directory)
         if not pkgbuild_directory:
             return ""
         try:
@@ -701,18 +743,22 @@ class GitUtils:
                 content = pkgbuild.read()
         except (OSError, UnicodeDecodeError):
             return ""
-        match = re.search(r"^pkgname=[\"']?([a-zA-Z0-9@._+-]+)[\"']?\s*$", content, re.MULTILINE)
-        return match.group(1) if match else ""
+        for key in ("pkgname", "pkgbase"):
+            match = re.search(rf"^{key}=[\"']?([a-zA-Z0-9@._+-]+)[\"']?\s*$", content, re.MULTILINE)
+            if match:
+                return match.group(1)
+        return ""
 
     @staticmethod
-    def get_package_name() -> str:
+    def get_package_name(package_directory: str = "") -> str:
         """Read the first package name from makepkg's authoritative metadata.
 
         Executes the PKGBUILD. Only call this from a journey that is about to
         build the package anyway; use :meth:`read_package_name` to display one.
+        *package_directory* selects one package of a multi-package repository.
         """
         repo_path = GitUtils.get_repo_root_path()
-        pkgbuild_directory = _pkgbuild_directory(repo_path)
+        pkgbuild_directory = _pkgbuild_directory(repo_path, package_directory)
         if not pkgbuild_directory or shutil.which("makepkg") is None:
             return ""
         try:

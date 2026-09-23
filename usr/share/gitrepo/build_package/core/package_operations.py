@@ -162,24 +162,41 @@ def _publish_testing_branch(bp, branch: str) -> bool:
     return True
 
 
-def _package_name(bp) -> str:
-    package_name = GitUtils.get_package_name()
+def _package_name(bp, package_directory="") -> str:
+    package_name = GitUtils.get_package_name(package_directory) if package_directory else GitUtils.get_package_name()
     if not package_name:
         bp.logger.log("red", _("Could not read a package name with makepkg --printsrcinfo."))
         return ""
     return package_name
 
 
-def _trigger_package_workflow(bp, package_name, branch_type, working_branch, tmate_option):
+def _choose_package_directory(bp):
+    """Return which package to build: "" for the usual one-PKGBUILD layout.
+
+    A repository that keeps several packages side by side (a kernel and its
+    LTS) is asked which one, since building "the package" has no single
+    answer there. None means the choice was cancelled.
+    """
+    packages = GitUtils.list_package_directories()
+    if len(packages) <= 1:
+        return ""
+    options = []
+    for directory in packages:
+        name = GitUtils.read_package_name(directory)
+        options.append(f"{name} ({directory}/)" if name and name != directory else f"{directory}/")
+    result = bp.menu.show_menu(_("This repository holds several packages. Which one should be built?"), options)
+    if not result:
+        bp.logger.log("yellow", _("Package build cancelled."))
+        return None
+    return packages[result[0]]
+
+
+def _trigger_package_workflow(bp, package_name, branch_type, working_branch, tmate_option, package_directory=""):
     new_branch = working_branch if working_branch != "main" else ""
-    return bp.github_api.trigger_workflow(
-        package_name,
-        branch_type,
-        new_branch,
-        False,
-        tmate_option,
-        bp.logger,
-    )
+    arguments = (package_name, branch_type, new_branch, False, tmate_option, bp.logger)
+    if package_directory:
+        return bp.github_api.trigger_workflow(*arguments, package_directory=package_directory)
+    return bp.github_api.trigger_workflow(*arguments)
 
 
 def _branch_type_label(branch_type: str) -> str:
@@ -209,15 +226,18 @@ def commit_and_generate_package(build_package_instance, branch_type, commit_mess
     if not _commit_pending_changes(bp, commit_message):
         return False
 
-    if not _package_name(bp):
+    package_directory = _choose_package_directory(bp)
+    if package_directory is None:
+        return False
+    if not _package_name(bp, package_directory):
         return False
     working_branch = _prepare_working_branch(bp, branch_type, testing_branch)
     if not working_branch:
         return False
-    package_name = _package_name(bp)
+    package_name = _package_name(bp, package_directory)
     if not package_name:
         return False
-    _show_package_summary(bp, package_name, branch_type, working_branch, tmate_option)
+    _show_package_summary(bp, package_name, branch_type, working_branch, tmate_option, package_directory)
     if getattr(bp, "dry_run_mode", False):
         bp.logger.log("green", _("Dry run completed; no workflow was triggered."))
         return True
@@ -227,10 +247,12 @@ def commit_and_generate_package(build_package_instance, branch_type, commit_mess
         _branch_type_label(branch_type),
         working_branch,
     )
+    if package_directory:
+        question += "\n" + _("Directory: {0}").format(f"{package_directory}/")
     if not bp.menu.confirm(StructuredConfirmation(question), default_yes=False):
         bp.logger.log("yellow", _("Package build cancelled."))
         return False
-    success = _trigger_package_workflow(bp, package_name, branch_type, working_branch, tmate_option)
+    success = _trigger_package_workflow(bp, package_name, branch_type, working_branch, tmate_option, package_directory)
     bp.logger.log("green" if success else "red", _("Package workflow started.") if success else _("Workflow failed."))
     return success
 
@@ -608,7 +630,7 @@ def _restore_branch(bp, branch: str) -> bool:
     return True
 
 
-def _show_package_summary(bp, package_name, branch_type, working_branch, tmate_option):
+def _show_package_summary(bp, package_name, branch_type, working_branch, tmate_option, package_directory=""):
     """Helper: Show package build summary"""
     repo_name = GitUtils.get_repo_name()
 
@@ -620,6 +642,8 @@ def _show_package_summary(bp, package_name, branch_type, working_branch, tmate_o
         (_("Working Branch"), working_branch),
     ]
 
+    if package_directory:
+        data.append((_("Package Directory"), f"{package_directory}/"))
     if repo_name:
         data.append((_("Repository"), repo_name))
 
