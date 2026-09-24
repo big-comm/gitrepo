@@ -28,7 +28,7 @@ class ProgressDialog(Adw.Window):
         super().__init__(transient_for=parent, modal=True)
 
         self.set_title(_("Operation Progress"))
-        self.set_default_size(680, 520)
+        self.set_default_size(760, 660)
         self.set_resizable(True)
 
         self.operation_title = title
