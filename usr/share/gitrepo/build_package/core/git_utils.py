@@ -750,6 +750,30 @@ class GitUtils:
         return ""
 
     @staticmethod
+    def read_package_description(package_directory: str = "") -> str:
+        """Read pkgdesc out of the PKGBUILD as text, without executing it.
+
+        Same trade as :meth:`read_package_name`: this only labels a choice.
+        A split package sets pkgdesc inside each package_*() function rather
+        than at the top level, so the first indented one -- the package the
+        PKGBUILD is named after -- stands in when no top-level one exists.
+        """
+        repo_path = GitUtils.get_repo_root_path()
+        pkgbuild_directory = _pkgbuild_directory(repo_path, package_directory)
+        if not pkgbuild_directory:
+            return ""
+        try:
+            with open(os.path.join(pkgbuild_directory, "PKGBUILD"), "r", encoding="utf-8") as pkgbuild:
+                content = pkgbuild.read()
+        except (OSError, UnicodeDecodeError):
+            return ""
+        for indentation in ("", r"[ \t]+"):
+            match = re.search(rf"^{indentation}pkgdesc=([\"'])(.*?)\1\s*$", content, re.MULTILINE)
+            if match:
+                return match.group(2).strip()
+        return ""
+
+    @staticmethod
     def get_package_name(package_directory: str = "") -> str:
         """Read the first package name from makepkg's authoritative metadata.
 

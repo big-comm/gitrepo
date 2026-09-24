@@ -12,6 +12,7 @@ from gitrepo.common.translation import _
 from gitrepo.build_package.core.conflict_resolver import ConflictResolver
 from .confirmation_dialog import ConfirmationDialog
 from .dialogs.conflict_dialog import ConflictDialog
+from .dialogs.package_selection_dialog import PackageSelectionDialog
 from .dialogs.preview_dialog import PreviewDialog
 import threading
 
@@ -218,6 +219,23 @@ class GTKMenuSystem:
         else:
             self._result = None
         self._result_event.set()
+
+    def choose_packages(self, selection):
+        """Let the user mark several packages; return their directories, or None if cancelled."""
+
+        def setup():
+            def on_done(directories):
+                self._result = directories
+                self._result_event.set()
+
+            progress_dialog = getattr(
+                getattr(self.parent_window, "operation_runner", None),
+                "current_dialog",
+                None,
+            )
+            PackageSelectionDialog(selection, on_done).present(progress_dialog or self.parent_window)
+
+        return self._wait_for_dialog(setup)
 
     def ask_yes_no(self, question, default_yes=True):
         """Ask yes/no question"""

@@ -116,35 +116,34 @@ def test_the_chosen_package_directory_is_sent(monkeypatch):
 class Menu:
     def __init__(self, answer):
         self.answer = answer
-        self.titles = []
-        self.options = []
+        self.selections = []
 
-    def show_menu(self, title, options, **_kwargs):
-        self.titles.append(title)
-        self.options.append(options)
-        return self.answer(options)
+    def choose_packages(self, selection):
+        self.selections.append(selection)
+        return self.answer(selection)
 
 
-def test_the_journey_asks_which_package_to_build(repository):
+def test_the_journey_asks_which_packages_to_build(repository):
     _package(repository, "linux-big", KERNEL)
     _package(repository, "linux-big-lts", KERNEL_LTS)
-    menu = Menu(lambda options: (1, options[1]))
+    menu = Menu(lambda _selection: ["linux-big-lts"])
     bp = mock.Mock(menu=menu, logger=Logger())
 
-    assert package_operations._choose_package_directory(bp) == "linux-big-lts"
-    assert menu.options == [["linux-big/", "linux-big-lts/"]]
+    assert package_operations._choose_package_directories(bp) == ["linux-big-lts"]
+    assert [choice.directory for choice in menu.selections[0].choices] == ["linux-big", "linux-big-lts"]
+    assert menu.selections[0].main == "linux-big"
 
 
 def test_cancelling_the_choice_stops_the_journey(repository):
     _package(repository, "linux-big", KERNEL)
     _package(repository, "linux-big-lts", KERNEL_LTS)
-    bp = mock.Mock(menu=Menu(lambda _options: None), logger=Logger())
+    bp = mock.Mock(menu=Menu(lambda _selection: None), logger=Logger())
 
-    assert package_operations._choose_package_directory(bp) is None
+    assert package_operations._choose_package_directories(bp) is None
 
 
 def test_the_usual_layout_is_never_asked(repository):
     _package(repository, "", "pkgname=demo\n")
-    menu = Menu(lambda _options: pytest.fail("a single-package repository must not be asked"))
+    menu = Menu(lambda _selection: pytest.fail("a single-package repository must not be asked"))
 
-    assert package_operations._choose_package_directory(mock.Mock(menu=menu, logger=Logger())) == ""
+    assert package_operations._choose_package_directories(mock.Mock(menu=menu, logger=Logger())) == [""]

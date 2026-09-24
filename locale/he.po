@@ -5264,11 +5264,6 @@ msgstr ""
 #: usr/share/gitrepo/build_package/core/package_operations.py:168
 msgid "Could not read a package name with makepkg --printsrcinfo."
 msgstr "לא ניתן לקרוא שם חבילה עם makepkg --printsrcinfo."
-# 
-# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 187
-#: NEEDS WORK
-msgid "This repository holds several packages. Which one should be built?"
-msgstr "מאגר זה מכיל מספר חבילות. איזו אחת צריכה להיבנות?"
 # File: usr/share/gitrepo/build_package/core/package_operations.py, line: 165
 #: usr/share/gitrepo/build_package/core/package_operations.py:207
 msgid "Configure a GitHub token before generating a package."
@@ -7465,3 +7460,102 @@ msgstr "לא ניתן למצוא את GitRepo. האם הוא מותקן?"
 #: usr/share/nautilus-python/extensions/gitrepo_extension.py:155
 msgid "Launch Error"
 msgstr "שגיאת הפעלה"
+# File: usr/share/gitrepo/build_package/cli/cli_menu.py, line: 104
+#: usr/share/gitrepo/build_package/cli/cli_menu.py:104
+#, python-brace-format
+msgid "  … {0} packages in total"
+msgstr "  … {0} חבילות בסך הכול"
+# File: usr/share/gitrepo/build_package/cli/cli_menu.py, line: 116
+#: usr/share/gitrepo/build_package/cli/cli_menu.py:116
+msgid "Arrows move, Space marks, A marks all, N unmarks all, Enter builds the marked ones, Escape cancels."
+msgstr "החצים מזיזים, רווח מסמן, A מסמן הכול, N מבטל סימון הכול, Enter בונה את המסומנים, Escape מבטל."
+# File: usr/share/gitrepo/build_package/cli/cli_menu.py, line: 124
+#: usr/share/gitrepo/build_package/cli/cli_menu.py:124
+msgid "Build all anyway"
+msgstr "לבנות הכול בכל זאת"
+# File: usr/share/gitrepo/build_package/cli/cli_menu.py, line: 126
+#: usr/share/gitrepo/build_package/cli/cli_menu.py:126
+msgid "Build order"
+msgstr "סדר בנייה"
+# File: usr/share/gitrepo/build_package/cli/cli_menu.py, line: 133
+#: usr/share/gitrepo/build_package/cli/cli_menu.py:133
+msgid "This repository holds several packages. Which ones should be built?"
+msgstr "מאגר זה מכיל מספר חבילות. אילו מהן יש לבנות?"
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 275
+#: usr/share/gitrepo/build_package/core/package_operations.py:275
+#, python-brace-format
+msgid ""
+"Trigger {0} GitHub Actions package builds?\n"
+"Type: {1}\n"
+"Branch: {2}"
+msgstr ""
+"להפעיל {0} בניות חבילות ב-GitHub Actions?\n"
+"סוג: {1}\n"
+"ענף: {2}"
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 280
+#: usr/share/gitrepo/build_package/core/package_operations.py:280
+msgid "Packages:"
+msgstr "חבילות:"
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 287
+#: usr/share/gitrepo/build_package/core/package_operations.py:287
+#, python-brace-format
+msgid "[{0}/{1}] Triggering the build of {2}/"
+msgstr "[{0}/{1}] מפעיל את הבנייה של {2}/"
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 291
+#: usr/share/gitrepo/build_package/core/package_operations.py:291
+#, python-brace-format
+msgid "Workflow failed for {0}/; continuing with the next package."
+msgstr "זרימת העבודה נכשלה עבור {0}/; ממשיך עם החבילה הבאה."
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 293
+#: usr/share/gitrepo/build_package/core/package_operations.py:293
+#, python-brace-format
+msgid "Package workflows started: {0}"
+msgstr "זרימות עבודה של חבילות שהופעלו: {0}"
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 295
+#: usr/share/gitrepo/build_package/core/package_operations.py:295
+#, python-brace-format
+msgid "Package workflows that failed: {0}"
+msgstr "זרימות עבודה של חבילות שנכשלו: {0}"
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 686
+#: usr/share/gitrepo/build_package/core/package_operations.py:686
+msgid "Package Directories"
+msgstr "תיקיות חבילות"
+# File: usr/share/gitrepo/build_package/core/package_selection.py, line: 95
+#: usr/share/gitrepo/build_package/core/package_selection.py:95
+#, python-brace-format
+msgid "{0} of {1} selected"
+msgstr "{0} מתוך {1} נבחרו"
+# File: usr/share/gitrepo/build_package/core/package_selection.py, line: 104
+#: usr/share/gitrepo/build_package/core/package_selection.py:104
+#, python-brace-format
+msgid "The other packages build against the {0} headers that are already published. Built together, they compile against the previous version: build {0} first, and the others once it is published."
+msgstr "שאר החבילות נבנות מול כותרות {0} שכבר פורסמו. אם נבנות יחד, הן מתקמפלות מול הגרסה הקודמת: יש לבנות תחילה את {0} ואת השאר לאחר פרסומו."
+# File: usr/share/gitrepo/build_package/core/package_selection.py, line: 110
+#: usr/share/gitrepo/build_package/core/package_selection.py:110
+#, python-brace-format
+msgid "Build only {0}"
+msgstr "לבנות רק את {0}"
+# File: usr/share/gitrepo/build_package/gui/dialogs/package_selection_dialog.py, line: 32
+#: usr/share/gitrepo/build_package/gui/dialogs/package_selection_dialog.py:32
+msgid "No description in the PKGBUILD"
+msgstr "אין תיאור בקובץ PKGBUILD"
+# File: usr/share/gitrepo/build_package/gui/dialogs/package_selection_dialog.py, line: 50
+#: usr/share/gitrepo/build_package/gui/dialogs/package_selection_dialog.py:50
+msgid "Build packages"
+msgstr "בניית חבילות"
+# File: usr/share/gitrepo/build_package/gui/dialogs/package_selection_dialog.py, line: 79
+#: usr/share/gitrepo/build_package/gui/dialogs/package_selection_dialog.py:79
+msgid "This repository holds several packages. Mark the ones that should be built."
+msgstr "מאגר זה מכיל מספר חבילות. סמנו את אלו שיש לבנות."
+# File: usr/share/gitrepo/build_package/gui/dialogs/package_selection_dialog.py, line: 86
+#: usr/share/gitrepo/build_package/gui/dialogs/package_selection_dialog.py:86
+msgid "Select all"
+msgstr "בחר הכול"
+# File: usr/share/gitrepo/build_package/gui/dialogs/package_selection_dialog.py, line: 86
+#: usr/share/gitrepo/build_package/gui/dialogs/package_selection_dialog.py:86
+msgid "Select none"
+msgstr "בטל בחירה"
+# File: usr/share/gitrepo/build_package/gui/dialogs/package_selection_dialog.py, line: 160
+#: usr/share/gitrepo/build_package/gui/dialogs/package_selection_dialog.py:160
+msgid "Build selected packages"
+msgstr "בניית החבילות שנבחרו"
