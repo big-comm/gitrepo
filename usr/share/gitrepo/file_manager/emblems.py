@@ -25,6 +25,8 @@ class _Entry:
 class EmblemProvider:
     """Keep Git and filesystem probes off the file manager's main thread."""
 
+    # Bounds the folders remembered after they leave the screen, not the ones
+    # displayed: those are all tracked, or their emblems would freeze.
     MAX_ENTRIES = 256
     REFRESH_SECONDS = 5
     CACHE_SECONDS = 300
@@ -65,11 +67,7 @@ class EmblemProvider:
 
         entry = self._entries.get(path)
         if entry is None:
-            self._prune()
-            if len(self._entries) >= self.MAX_ENTRIES:
-                _, oldest = self._entries.popitem(last=False)
-                if oldest.future:
-                    oldest.future.cancel()
+            self._make_room()
             entry = self._entries[path] = _Entry()
         self._entries.move_to_end(path)
         # GObject weak refs survive replacement of the Python wrapper.
@@ -135,6 +133,23 @@ class EmblemProvider:
                 if file_info is not None and not file_info.is_gone():
                     file_info.invalidate_extension_info()
         return GLib.SOURCE_REMOVE
+
+    def _make_room(self):
+        """Forget folders nobody displays anymore; never one still on screen.
+
+        Nautilus asks for a folder's emblems when it loads it and again only
+        when this provider invalidates it. A folder dropped while displayed
+        would therefore keep its last emblem until the user pressed F5, so the
+        bound only applies to folders whose file objects are all gone.
+        """
+        self._prune()
+        while len(self._entries) >= self.MAX_ENTRIES:
+            retired = next((path for path, entry in self._entries.items() if not entry.files), None)
+            if retired is None:
+                return
+            entry = self._entries.pop(retired)
+            if entry.future:
+                entry.future.cancel()
 
     def _prune(self):
         for path, entry in tuple(self._entries.items()):

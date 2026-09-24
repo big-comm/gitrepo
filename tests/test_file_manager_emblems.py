@@ -146,10 +146,57 @@ def test_cache_bounds_cancel_obsolete_pending_scans(provider, monkeypatch):
     files = [FileInfo(f"/repo-{index}") for index in range(3)]
     instance.update(files[0])
     obsolete = instance._entries[files[0].path].future
+    files[0].gone = True  # Its folder is no longer displayed anywhere.
     instance.update(files[1])
     instance.update(files[2])
     assert len(instance._entries) == 2
+    assert files[0].path not in instance._entries
     assert obsolete.cancelled()
+
+
+def test_folders_still_displayed_are_never_evicted(provider, monkeypatch):
+    # Tabs showing more folders than the cache bound (BigCommunity alone
+    # lists 69) used to push the first ones out while they were still on
+    # screen: their emblems then froze until F5 asked for them again.
+    instance, callbacks = provider
+    monkeypatch.setattr(instance, "MAX_ENTRIES", 4)
+    files = [FileInfo(f"/repo-{index}") for index in range(10)]
+    for info in files:
+        instance.update(info)
+    drain(callbacks)
+    instance.jobs[-1].complete({info.path: "unpushed" for info in files})
+
+    assert all(info.path in instance._entries for info in files)
+
+    # The first repository is pushed; the next refresh must reach it.
+    instance.jobs.clear()
+    for entry in instance._entries.values():
+        entry.checked = 0
+    instance._refresh()
+    drain(callbacks)
+    assert files[0].path in instance.jobs[0].paths
+    invalidations = files[0].invalidations
+    instance.jobs[0].complete({files[0].path: "clean"})
+    assert files[0].invalidations == invalidations + 1
+    files[0].emblems.clear()
+    instance.update(files[0])
+    assert files[0].emblems == ["gitrepo-clean"]
+
+
+def test_folders_no_longer_displayed_make_room_first(provider, monkeypatch):
+    instance, _ = provider
+    monkeypatch.setattr(instance, "MAX_ENTRIES", 3)
+    shown = [FileInfo(f"/shown-{index}") for index in range(2)]
+    left = FileInfo("/left-behind")
+    instance.update(left)
+    for info in shown:
+        instance.update(info)
+    left.gone = True
+
+    instance.update(FileInfo("/new"))
+
+    assert "/left-behind" not in instance._entries
+    assert all(info.path in instance._entries for info in shown)
 
 
 def test_shutdown_stops_refresh_and_ignores_late_results(provider, monkeypatch):
