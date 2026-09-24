@@ -6578,15 +6578,6 @@ msgstr "Pitkäaikainen vakaus tai uudempi laitteistotuki"
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:222
 msgid "Which kernel to choose"
 msgstr "Mikä ydin valita"
-# File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 224
-#: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:224
-msgid ""
-"LTS receives long-term fixes and is the safest default. Latest supports very recent hardware but "
-"changes faster. Old LTS helps on older machines, and XanMod targets desktop responsiveness."
-msgstr ""
-"LTS saa pitkäaikaisia korjauksia ja on turvallisin oletus. Viimeisin tukee erittäin uutta "
-"laitteistoa, mutta muuttuu nopeammin. Vanha LTS auttaa vanhemmissa koneissa, ja XanMod keskittyy "
-"työpöydän vasteaikaan."
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 239
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:239
 msgid "Manjaro Packages"
@@ -7600,3 +7591,21 @@ msgstr "Poista kaikki valinnat"
 #: usr/share/gitrepo/build_package/gui/dialogs/package_selection_dialog.py:160
 msgid "Build selected packages"
 msgstr "Rakenna valitut paketit"
+# File: usr/share/gitrepo/build_iso/config.py, line: 72
+#: usr/share/gitrepo/build_iso/config.py:72
+msgid "BigCommunity"
+msgstr "BigCommunity"
+# File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 225
+#: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:225
+msgid "LTS receives long-term fixes and is the safest default. Latest supports very recent hardware but changes faster. Old LTS helps on older machines, and XanMod targets desktop responsiveness. linux-big is the BigCommunity kernel, for BigCommunity images only; it must be published in the chosen Community channel."
+msgstr "LTS saa pitkäaikaisia korjauksia ja on turvallisin oletus. Viimeisin tukee erittäin uutta laitteistoa, mutta muuttuu nopeammin. Vanha LTS auttaa vanhemmissa koneissa, ja XanMod keskittyy työpöydän vasteaikaan. linux-big on BigCommunity-ydin, tarkoitettu vain BigCommunity-levykuville; sen on oltava julkaistu valitulla Yhteisö-kanavalla."
+# File: usr/share/gitrepo/build_iso/core/community_packages.py, line: 103
+#: usr/share/gitrepo/build_iso/core/community_packages.py:103
+#, python-brace-format
+msgid "The {0} kernel is only available for BigCommunity images."
+msgstr "Ydin {0} on saatavilla vain BigCommunity-levykuville."
+# File: usr/share/gitrepo/build_iso/core/community_packages.py, line: 108
+#: usr/share/gitrepo/build_iso/core/community_packages.py:108
+#, python-brace-format
+msgid "The {0} kernel is not published in Community {1} yet, so this ISO would fail to build. Choose Community Testing, or wait until it is published."
+msgstr "Ydin {0} ei ole vielä julkaistu kanavalla Yhteisö {1}, joten tämän ISO:n koostaminen epäonnistuisi. Valitse Yhteisö Testaus, tai odota, kunnes se julkaistaan."

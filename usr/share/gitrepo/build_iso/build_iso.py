@@ -18,6 +18,7 @@ from gitrepo.build_iso.config import (
     APP_VERSION,
     BUILD_MODE_LOCAL,
     BUILD_MODE_REMOTE,
+    COMMUNITY_KERNEL_PACKAGES,
     DEFAULT_ISO_PROFILES,
     DEFAULT_ORGANIZATION,
     DISTRO_DISPLAY_NAMES,
@@ -29,6 +30,7 @@ from gitrepo.build_iso.config import (
     VALID_KERNELS,
     VALID_ORGANIZATIONS,
 )
+from gitrepo.build_iso.core.community_packages import available_kernels, kernel_notice
 from gitrepo.build_iso.git_utils import GitUtils
 from gitrepo.build_iso.github_api import GitHubAPI
 from gitrepo.build_iso.menu_system import MenuSystem
@@ -329,14 +331,29 @@ class BuildISO:
 
     def get_kernel(self) -> bool:
         """Select the kernel version"""
-        result = self.menu.show_menu(
-            _("Choose the {0} version:").format("[yellow]KERNEL[/]"), VALID_KERNELS + [_("Back")]
-        )
+        kernels = available_kernels(VALID_KERNELS, self.distroname)
+        result = self.menu.show_menu(_("Choose the {0} version:").format("[yellow]KERNEL[/]"), kernels + [_("Back")])
 
-        if result is None or result[0] == len(VALID_KERNELS):
+        if result is None or result[0] == len(kernels):
             return False
 
-        self.kernel = VALID_KERNELS[result[0]]
+        self.kernel = kernels[result[0]]
+        return True
+
+    def _kernel_is_buildable(self) -> bool:
+        """Warn when the kernel is not published in the chosen community channel.
+
+        Only informs: the channel may be about to receive it. A kernel the
+        distribution cannot install at all stops here instead of an hour into
+        the build.
+        """
+        notice = kernel_notice(self.kernel, self.distroname, self.branches.get("community") or "stable")
+        if not notice:
+            return True
+        if self.kernel in COMMUNITY_KERNEL_PACKAGES and self.distroname != "bigcommunity":
+            self.logger.log("red", notice)
+            return False
+        self.logger.log("yellow", notice)
         return True
 
     def get_debug(self) -> bool:
@@ -397,6 +414,9 @@ class BuildISO:
         """Display summary and execute local build"""
         from datetime import datetime
 
+        if not self._kernel_is_buildable():
+            return False
+
         from gitrepo.build_iso.local_builder import LocalBuilder
 
         tag = datetime.now().strftime("%Y-%m-%d_%H-%M")
@@ -451,6 +471,8 @@ class BuildISO:
 
     def resume_and_build(self) -> bool:
         """Display build summary and trigger workflow if confirmed"""
+        if not self._kernel_is_buildable():
+            return False
         # Generate tag for this build
         tag = datetime.now().strftime("%Y-%m-%d_%H-%M")
 

@@ -6596,15 +6596,6 @@ msgstr "Hosszú távú stabilitás vagy újabb hardvertámogatás"
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:222
 msgid "Which kernel to choose"
 msgstr "Melyik kernelt válasszam"
-# File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 224
-#: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:224
-msgid ""
-"LTS receives long-term fixes and is the safest default. Latest supports very recent hardware but "
-"changes faster. Old LTS helps on older machines, and XanMod targets desktop responsiveness."
-msgstr ""
-"Az LTS hosszú távú javításokat kap, és a legbiztonságosabb alapértelmezés. A Latest támogatja a "
-"legújabb hardvert, de gyorsabban változik. A régi LTS segít régebbi gépeken, a XanMod pedig az "
-"asztali gép gyors reagálását célozza."
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 239
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:239
 msgid "Manjaro Packages"
@@ -7616,3 +7607,21 @@ msgstr "Kijelölés törlése"
 #: usr/share/gitrepo/build_package/gui/dialogs/package_selection_dialog.py:160
 msgid "Build selected packages"
 msgstr "Kijelölt csomagok felépítése"
+# File: usr/share/gitrepo/build_iso/config.py, line: 72
+#: usr/share/gitrepo/build_iso/config.py:72
+msgid "BigCommunity"
+msgstr "BigCommunity"
+# File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 225
+#: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:225
+msgid "LTS receives long-term fixes and is the safest default. Latest supports very recent hardware but changes faster. Old LTS helps on older machines, and XanMod targets desktop responsiveness. linux-big is the BigCommunity kernel, for BigCommunity images only; it must be published in the chosen Community channel."
+msgstr "Az LTS hosszú távú javításokat kap, és a legbiztonságosabb alapértelmezés. A Latest támogatja a legújabb hardvert, de gyorsabban változik. A régi LTS segít régebbi gépeken, a XanMod pedig az asztali gép gyors reagálását célozza. A linux-big a BigCommunity kernele, kizárólag BigCommunity image-ekhez; a kiválasztott Közösségi csatornában közzé kell tenni."
+# File: usr/share/gitrepo/build_iso/core/community_packages.py, line: 103
+#: usr/share/gitrepo/build_iso/core/community_packages.py:103
+#, python-brace-format
+msgid "The {0} kernel is only available for BigCommunity images."
+msgstr "A(z) {0} kernel csak BigCommunity image-ekhez érhető el."
+# File: usr/share/gitrepo/build_iso/core/community_packages.py, line: 108
+#: usr/share/gitrepo/build_iso/core/community_packages.py:108
+#, python-brace-format
+msgid "The {0} kernel is not published in Community {1} yet, so this ISO would fail to build. Choose Community Testing, or wait until it is published."
+msgstr "A(z) {0} kernel még nincs közzétéve itt: Közösségi {1}, ezért ez az ISO nem épülne meg sikeresen. Válassza a Közösségi Tesztelés lehetőséget, vagy várjon, amíg közzé nem teszik."

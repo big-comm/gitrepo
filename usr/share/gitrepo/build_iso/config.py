@@ -63,13 +63,19 @@ def edition_display_name(edition: str) -> str:
 
 
 # Kernel options
-VALID_KERNELS = ["latest", "lts", "oldlts", "xanmod"]
+VALID_KERNELS = ["latest", "lts", "oldlts", "xanmod", "big"]
 KERNEL_DISPLAY_NAMES = {
     "lts": _("LTS (Recommended)"),
     "latest": _("Latest"),
     "oldlts": _("Old LTS"),
     "xanmod": _("XanMod"),
+    "big": _("BigCommunity"),
 }
+# Kernels packaged only in the community repositories, by the package the
+# ISO installs. Only a BigCommunity build has those repositories.
+COMMUNITY_KERNEL_PACKAGES = {"big": "linux-big"}
+# Same default as the build engine's COMMUNITY_REPO_HOST.
+COMMUNITY_REPO_HOST = "repo.communitybig.org"
 
 # Log directory
 LOG_DIR_BASE = os.path.join(
@@ -152,7 +158,7 @@ ORG_DEFAULT_CONFIGS = {
     #         "community": "stable",   # stable, testing, unstable (leave "" if not used)
     #         "biglinux": "stable"     # stable, testing, unstable (leave "" if not used)
     #     },
-    #     "kernel": "latest",          # latest, lts, oldlts, xanmod
+    #     "kernel": "latest",          # latest, lts, oldlts, xanmod, big
     #     "build_dir": "bigcommunity", # directory name in iso-profiles (will be validated via API)
     #     "edition": "xfce"            # xfce, kde, gnome, etc. (will be validated via API)
     # }

@@ -6529,14 +6529,6 @@ msgstr "長期安定版または新しいハードウェア対応"
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:222
 msgid "Which kernel to choose"
 msgstr "選択するカーネル"
-# File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 224
-#: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:224
-msgid ""
-"LTS receives long-term fixes and is the safest default. Latest supports very recent hardware but "
-"changes faster. Old LTS helps on older machines, and XanMod targets desktop responsiveness."
-msgstr ""
-"LTSは長期修正を受けられ、最も安全なデフォルトです。最新版は非常に新しいハードウェアをサポートしますが、変更が頻繁です。旧LTS版は古いマシンでの動作に役立ち、XanModはデスクトップの応答性を重"
-"視しています。"
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 239
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:239
 msgid "Manjaro Packages"
@@ -7539,3 +7531,21 @@ msgstr "選択を解除"
 #: usr/share/gitrepo/build_package/gui/dialogs/package_selection_dialog.py:160
 msgid "Build selected packages"
 msgstr "選択したパッケージをビルド"
+# File: usr/share/gitrepo/build_iso/config.py, line: 72
+#: usr/share/gitrepo/build_iso/config.py:72
+msgid "BigCommunity"
+msgstr "BigCommunity"
+# File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 225
+#: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:225
+msgid "LTS receives long-term fixes and is the safest default. Latest supports very recent hardware but changes faster. Old LTS helps on older machines, and XanMod targets desktop responsiveness. linux-big is the BigCommunity kernel, for BigCommunity images only; it must be published in the chosen Community channel."
+msgstr "LTSは長期修正を受けられ、最も安全なデフォルトです。最新版は非常に新しいハードウェアをサポートしますが、変更が頻繁です。旧LTS版は古いマシンでの動作に役立ち、XanModはデスクトップの応答性を重視しています。 linux-bigはBigCommunityのカーネルで、BigCommunityのイメージ専用です。選択したコミュニティ チャンネルで公開されている必要があります。"
+# File: usr/share/gitrepo/build_iso/core/community_packages.py, line: 103
+#: usr/share/gitrepo/build_iso/core/community_packages.py:103
+#, python-brace-format
+msgid "The {0} kernel is only available for BigCommunity images."
+msgstr "カーネル {0} はBigCommunityのイメージでのみ利用できます。"
+# File: usr/share/gitrepo/build_iso/core/community_packages.py, line: 108
+#: usr/share/gitrepo/build_iso/core/community_packages.py:108
+#, python-brace-format
+msgid "The {0} kernel is not published in Community {1} yet, so this ISO would fail to build. Choose Community Testing, or wait until it is published."
+msgstr "カーネル {0} はまだコミュニティ {1} で公開されていないため、このISOはビルドに失敗します。コミュニティ テストを選択するか、公開されるまでお待ちください。"

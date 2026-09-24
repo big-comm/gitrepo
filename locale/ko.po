@@ -6527,14 +6527,6 @@ msgstr "장기 안정성 또는 최신 하드웨어 지원"
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:222
 msgid "Which kernel to choose"
 msgstr "선택할 커널 유형"
-# File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 224
-#: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:224
-msgid ""
-"LTS receives long-term fixes and is the safest default. Latest supports very recent hardware but "
-"changes faster. Old LTS helps on older machines, and XanMod targets desktop responsiveness."
-msgstr ""
-"LTS는 장기적인 수정을 제공하며 가장 안전한 기본값입니다. Latest는 최신 하드웨어를 지원하지만 변경이 자주 발생합니다. Old LTS는 구형 기기에서 도움이 되며, "
-"XanMod는 데스크톱 응답성을 목표로 합니다."
 # File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 239
 #: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:239
 msgid "Manjaro Packages"
@@ -7537,3 +7529,21 @@ msgstr "선택 해제"
 #: usr/share/gitrepo/build_package/gui/dialogs/package_selection_dialog.py:160
 msgid "Build selected packages"
 msgstr "선택한 패키지 빌드"
+# File: usr/share/gitrepo/build_iso/config.py, line: 72
+#: usr/share/gitrepo/build_iso/config.py:72
+msgid "BigCommunity"
+msgstr "BigCommunity"
+# File: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py, line: 225
+#: usr/share/gitrepo/build_iso/gui/widgets/build_widget.py:225
+msgid "LTS receives long-term fixes and is the safest default. Latest supports very recent hardware but changes faster. Old LTS helps on older machines, and XanMod targets desktop responsiveness. linux-big is the BigCommunity kernel, for BigCommunity images only; it must be published in the chosen Community channel."
+msgstr "LTS는 장기적인 수정을 제공하며 가장 안전한 기본값입니다. Latest는 최신 하드웨어를 지원하지만 변경이 자주 발생합니다. Old LTS는 구형 기기에서 도움이 되며, XanMod는 데스크톱 응답성을 목표로 합니다. linux-big은 BigCommunity 커널로, BigCommunity 이미지 전용입니다. 선택한 커뮤니티 채널에 게시되어 있어야 합니다."
+# File: usr/share/gitrepo/build_iso/core/community_packages.py, line: 103
+#: usr/share/gitrepo/build_iso/core/community_packages.py:103
+#, python-brace-format
+msgid "The {0} kernel is only available for BigCommunity images."
+msgstr "{0} 커널은 BigCommunity 이미지에서만 사용할 수 있습니다."
+# File: usr/share/gitrepo/build_iso/core/community_packages.py, line: 108
+#: usr/share/gitrepo/build_iso/core/community_packages.py:108
+#, python-brace-format
+msgid "The {0} kernel is not published in Community {1} yet, so this ISO would fail to build. Choose Community Testing, or wait until it is published."
+msgstr "{0} 커널이 아직 커뮤니티 {1}에 게시되지 않아 이 ISO는 빌드에 실패합니다. 커뮤니티 테스트를 선택하거나 게시될 때까지 기다리세요."
