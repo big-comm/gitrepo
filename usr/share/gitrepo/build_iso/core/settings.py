@@ -27,6 +27,8 @@ class Settings:
                 "biglinux": "stable",
                 "community": "stable",
             },
+            # BigLinux only: [community-testing] above the BigLinux repositories.
+            "community_testing": False,
             "output_dir": DEFAULT_OUTPUT_DIR,
         },
         "container": {
@@ -266,6 +268,10 @@ class Settings:
             dict[str, str],
             self.get("general", "branches", default={"manjaro": "stable", "biglinux": "stable", "community": "stable"}),
         )
+
+    @property
+    def community_testing(self) -> bool:
+        return cast(bool, self.get("general", "community_testing", default=False))
 
     @property
     def output_dir(self) -> str:

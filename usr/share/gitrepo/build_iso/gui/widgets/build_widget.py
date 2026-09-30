@@ -311,6 +311,23 @@ class BuildWidget(Gtk.Box):
         self.biglinux_branch_row.set_model(self._branch_model())
         expander.add_row(self.biglinux_branch_row)
 
+        # BigLinux images only: a bigcommunity image chooses its community
+        # channel in the row below instead.
+        self.community_testing_row = Adw.SwitchRow()
+        self.community_testing_row.set_title(_("Community Testing"))
+        self.community_testing_row.set_subtitle(_("Adds community-testing above the BigLinux repositories"))
+        self.community_testing_row.add_suffix(
+            help_button(
+                _("Community Testing"),
+                _(
+                    "Builds the image with the BigCommunity testing repository, and only that one, placed "
+                    "above the BigLinux repositories. The installed system keeps it, together with "
+                    "community-keyring, so it receives the same testing packages."
+                ),
+            )
+        )
+        expander.add_row(self.community_testing_row)
+
         self.community_branch_row = Adw.ComboRow()
         self.community_branch_row.set_title(_("Community Packages"))
         self.community_branch_row.set_subtitle(_("Packages maintained by BigCommunity"))
@@ -403,6 +420,7 @@ class BuildWidget(Gtk.Box):
             self.community_branch_row,
         ):
             row.connect("notify::selected", lambda *_args: self._update_summary())
+        self.community_testing_row.connect("notify::active", lambda *_args: self._update_summary())
         self.output_row.connect("changed", lambda *_args: self._update_summary())
         self._update_summary()
         # The footer is owned by the window's bottom bar, not by the page body.
@@ -451,6 +469,8 @@ class BuildWidget(Gtk.Box):
             branches.append(
                 _("Community {0}").format(BRANCH_DISPLAY_NAMES[self._get_selected_branch(self.community_branch_row)])
             )
+        elif self.community_testing_row.get_active():
+            branches.append(_("Community Testing"))
         self.summary_label.set_text(
             _("{0} • {1} • kernel {2}").format(
                 VALID_DISTROS.get(distro, distro),
@@ -486,6 +506,8 @@ class BuildWidget(Gtk.Box):
 
         # Output dir
         self.output_row.set_text(self.settings.output_dir)
+
+        self.community_testing_row.set_active(self.settings.community_testing)
 
         # Community branch visibility
         self._update_community_branch_visibility()
@@ -573,6 +595,7 @@ class BuildWidget(Gtk.Box):
         distro = self._get_selected_distro()
         # BigLinux does not have a community repository
         self.community_branch_row.set_visible(distro != "biglinux")
+        self.community_testing_row.set_visible(distro == "biglinux")
 
     def ensure_catalog_loaded(self) -> None:
         """Load the selected catalog only when the Build page is first shown."""
@@ -859,6 +882,7 @@ class BuildWidget(Gtk.Box):
                 "biglinux": self._get_selected_branch(self.biglinux_branch_row),
                 "community": self._get_selected_branch(self.community_branch_row) if distro != "biglinux" else "",
             },
+            "community_testing": distro == "biglinux" and self.community_testing_row.get_active(),
             "iso_profiles_repo": iso_profiles_repo,
             "iso_profiles_source": source_type,
             "iso_profiles_local_path": source_value if source_type == "local" else "",
@@ -874,6 +898,7 @@ class BuildWidget(Gtk.Box):
                 ("general", "edition"): config["edition"],
                 ("general", "kernel"): config["kernel"],
                 ("general", "branches"): config["branches"],
+                ("general", "community_testing"): self.community_testing_row.get_active(),
                 ("general", "output_dir"): config["output_dir"],
                 ("build", "iso_profiles_source"): source_type,
                 ("build", "iso_profiles_custom_url"): source_value if source_type == "custom_url" else "",

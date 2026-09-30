@@ -58,6 +58,8 @@ class BuildISO:
         self.build_dir = ""
         self.branches = {"manjaro": "stable", "community": "stable", "biglinux": "stable"}
         self.tmate = self.args.tmate
+        # BigLinux local builds only; the remote workflows do not take it.
+        self.community_testing = self.args.community_testing
 
         # Local build attributes
         self.build_mode = None  # 'local' or 'remote'
@@ -139,6 +141,12 @@ class BuildISO:
         parser.add_argument("-l", "--local", action="store_true", help=_("Use local build mode"))
 
         parser.add_argument("--output-dir", help=_("Output directory for local builds"))
+
+        parser.add_argument(
+            "--community-testing",
+            action="store_true",
+            help=_("Add community-testing above the BigLinux repositories (BigLinux local builds)"),
+        )
 
         args = parser.parse_args()
 
@@ -329,6 +337,19 @@ class BuildISO:
         self.branches["community"] = VALID_BRANCHES[result[0]]
         return True
 
+    def get_community_testing(self) -> bool:
+        """Ask whether a BigLinux image also gets the community testing repository"""
+        result = self.menu.show_menu(
+            _("Add {0} above the BigLinux repositories?").format("[yellow]community-testing[/]"),
+            [_("No"), _("Yes"), _("Back")],
+        )
+
+        if result is None or result[0] == 2:
+            return False
+
+        self.community_testing = result[0] == 1
+        return True
+
     def get_kernel(self) -> bool:
         """Select the kernel version"""
         kernels = available_kernels(VALID_KERNELS, self.distroname)
@@ -431,6 +452,7 @@ class BuildISO:
             (_("Manjaro Branch"), self.branches.get("manjaro", "")),
             (_("Community Branch"), self.branches.get("community", "")),
             (_("BigLinux Branch"), self.branches.get("biglinux", "")),
+            (_("Community Testing"), _("Yes") if self._uses_community_testing() else _("No")),
             (_("Kernel"), self.kernel),
             (_("Output Directory"), self.output_dir),
             (_("Release Tag"), tag),
@@ -460,6 +482,7 @@ class BuildISO:
             "distroname": self.distroname,
             "edition": self.edition,
             "branches": self.branches,
+            "community_testing": self._uses_community_testing(),
             "kernel": self.kernel,
             "iso_profiles_repo": self.iso_profiles_repo,
             "build_dir": self.build_dir,
@@ -469,9 +492,15 @@ class BuildISO:
         builder = LocalBuilder(self.logger, builder_config)
         return builder.execute_build()
 
+    def _uses_community_testing(self) -> bool:
+        return bool(self.community_testing) and self.distroname == "biglinux"
+
     def resume_and_build(self) -> bool:
         """Display build summary and trigger workflow if confirmed"""
         if not self._kernel_is_buildable():
+            return False
+        if self._uses_community_testing():
+            self.logger.log("red", _("Community testing is only available for local builds."))
             return False
         # Generate tag for this build
         tag = datetime.now().strftime("%Y-%m-%d_%H-%M")
@@ -593,7 +622,12 @@ class BuildISO:
     def _select_distribution_branches(self) -> bool:
         if self.distroname == "biglinux":
             self.branches["community"] = ""
-            return self.get_biglinux_branch()
+            if not self.get_biglinux_branch():
+                return False
+            if self.build_mode != BUILD_MODE_LOCAL:
+                self.community_testing = False
+                return True
+            return self.get_community_testing()
         if self.distroname == "bigcommunity":
             return self.get_biglinux_branch() and self.get_bigcomm_branch()
         self.branches["biglinux"] = ""
