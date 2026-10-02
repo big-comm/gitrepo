@@ -7,7 +7,7 @@ gi.require_version("Adw", "1")
 
 from gitrepo.build_package.core.git_utils import PROTECTED_BRANCHES, GitUtils
 from gitrepo.common.translation import _
-from gi.repository import Adw, Gtk, Pango
+from gi.repository import Adw, GLib, Gtk, Pango
 
 from gitrepo.common.page_hero import git_command_description, github_action_description
 
@@ -182,6 +182,29 @@ class BranchActionsMixin:
             _("Opening another branch"),
             _("Running git checkout for '{0}'...").format(target_branch),
         )
+
+    def on_fetch_requested(self, widget):
+        """Refresh origin/* in the background, then redraw every branch comparison."""
+        import threading
+
+        from gitrepo.build_package.core.branch_overview import fetch_origin
+
+        widget.set_fetching(True)
+
+        def finish(success, error):
+            widget.set_fetching(False)
+            if success:
+                self.show_toast(_("origin updated (git fetch --prune origin)"))
+            else:
+                self.show_error_dialog(_("git fetch failed: {0}").format(error or _("unknown error")))
+            self.refresh_all_widgets()
+            return False
+
+        def fetch():
+            success, error = fetch_origin()
+            GLib.idle_add(finish, success, error)
+
+        threading.Thread(target=fetch, daemon=True).start()
 
     def on_merge_requested(self, widget, source_branch, target_branch, auto_merge):
         """Handle merge request - create PR or create branch if target doesn't exist"""

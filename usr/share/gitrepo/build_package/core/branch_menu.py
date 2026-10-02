@@ -5,10 +5,14 @@
 # Copyright (c) 2025, BigCommunity Team
 # All rights reserved.
 
+from rich.console import Group
 from rich.prompt import Prompt
+from rich.table import Table
+from rich.text import Text
 
 from gitrepo.common.translation import _
 
+from . import branch_overview as overview_core
 from .branch_handler import create_branch, delete_branch, describe_branch, rename_branch, switch_branch
 from .git_utils import PROTECTED_BRANCHES, GitUtils
 
@@ -43,6 +47,7 @@ def branch_menu(bp) -> None:
         bp.logger.log("red", _("This operation is only available in Git repositories."))
         return
     actions = (
+        (_("Compare branches (local × origin × main)"), _compare_branches_flow),
         (_("Switch branch"), _switch_branch_flow),
         (_("Create branch"), _create_branch_flow),
         (_("Rename branch"), _rename_branch_flow),
@@ -59,6 +64,76 @@ def branch_menu(bp) -> None:
         if result is None or actions[result[0]][1] is None:
             return
         actions[result[0]][1](bp)
+
+
+# Rich styles for the semantic tones of core/branch_overview.py.
+_TONE_STYLES = {
+    overview_core.TONE_OK: "bold green",
+    overview_core.TONE_AHEAD: "bold cyan",
+    overview_core.TONE_BEHIND: "bold yellow",
+    overview_core.TONE_DIVERGED: "bold red",
+    overview_core.TONE_NEUTRAL: "dim",
+}
+
+
+def _tip_cell(tip) -> Text:
+    if tip is None:
+        return Text("—", style="dim")
+    return Text(tip.short_sha, style="magenta")
+
+
+def _overview_renderable(overview) -> Group:
+    """Lay the overview out as one table plus the freshness of origin and a legend."""
+    table = Table(box=None, pad_edge=False, header_style="bold", expand=False)
+    table.add_column("", width=1)
+    table.add_column(_("Branch"), no_wrap=True)
+    table.add_column(_("Local"), no_wrap=True)
+    table.add_column("origin", no_wrap=True)
+    table.add_column(_("Local × origin"), no_wrap=True)
+    table.add_column(_("× {0}").format(overview.base_ref or "main"), no_wrap=True)
+    for branch in overview.branches:
+        remote_tone, remote_text = overview_core.describe_vs_remote(branch)
+        base_tone, base_text = overview_core.describe_vs_base(branch, overview)
+        # Text, not markup: a branch name is shown exactly as it is named.
+        name = Text(branch.name, style="bold bright_white" if branch.is_current else "white")
+        table.add_row(
+            Text("●", style="bold green") if branch.is_current else Text(""),
+            name,
+            _tip_cell(branch.local),
+            _tip_cell(branch.remote),
+            Text(remote_text, style=_TONE_STYLES[remote_tone]),
+            Text(base_text, style=_TONE_STYLES[base_tone]),
+        )
+    freshness_tone, freshness_text = overview_core.describe_freshness(overview)
+    fetched = Text(freshness_text, style=_TONE_STYLES[freshness_tone])
+    legend = Text()
+    for tone, meaning in overview_core.legend():
+        legend.append("■ ", style=_TONE_STYLES[tone])
+        legend.append(f"{meaning}   ", style="dim")
+    return Group(table, Text(""), fetched, legend)
+
+
+def _compare_branches_flow(bp) -> None:
+    """Show where each branch points; fetch only when the user asks for it."""
+    options = [_("Update from origin (git fetch --prune origin)"), _("Back")]
+    while True:
+        overview = overview_core.capture_branch_overview()
+        if overview.error:
+            bp.logger.log("red", _("Could not read the branches of this repository."))
+            return
+        result = bp.menu.show_menu(
+            _("Where each branch is"),
+            options,
+            default_index=1,
+            additional_content=_overview_renderable(overview),
+        )
+        if result is None or result[0] == 1:
+            return
+        bp.logger.log("cyan", _("Running git fetch --prune origin..."))
+        success, error = overview_core.fetch_origin()
+        if not success:
+            bp.logger.log("red", _("git fetch failed: {0}").format(error or _("unknown error")))
+            Prompt.ask(_("Press Enter to continue"), default="", show_default=False)
 
 
 def _switch_branch_flow(bp) -> None:

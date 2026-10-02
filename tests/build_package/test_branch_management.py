@@ -243,7 +243,7 @@ def test_cli_create_flow_runs_the_announced_commands(tmp_path, monkeypatch):
     monkeypatch.chdir(repository)
     monkeypatch.setattr(branch_menu.Prompt, "ask", staticmethod(lambda *_a, **_k: "feature-cli"))
     # picks: action, source; confirms: switch?, publish?, run?
-    menu = ScriptedMenu([1, "main", 4], [True, True, True])
+    menu = ScriptedMenu([2, "main", 5], [True, True, True])
 
     branch_menu.branch_menu(_bp(menu))
 
@@ -258,7 +258,7 @@ def test_cli_delete_flow_asks_before_losing_commits_and_honours_no(tmp_path, mon
     repository, _remote = create_repository_with_remote(tmp_path)
     _unmerged_branch(repository)
     monkeypatch.chdir(repository)
-    menu = ScriptedMenu([3, "feature-unmerged", 4], [False])
+    menu = ScriptedMenu([4, "feature-unmerged", 5], [False])
 
     branch_menu.branch_menu(_bp(menu))
 
@@ -273,7 +273,7 @@ def test_cli_rename_flow_offers_origin_only_when_published(tmp_path, monkeypatch
     monkeypatch.chdir(repository)
     monkeypatch.setattr(branch_menu.Prompt, "ask", staticmethod(lambda *_a, **_k: "dev-new"))
     # confirms: rename on origin?, run?
-    menu = ScriptedMenu([2, "dev-old", 4], [True, True])
+    menu = ScriptedMenu([3, "dev-old", 5], [True, True])
 
     branch_menu.branch_menu(_bp(menu))
 

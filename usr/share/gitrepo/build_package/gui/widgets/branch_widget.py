@@ -7,9 +7,10 @@ import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
-from gi.repository import Gtk, Adw, GObject
+from gi.repository import Gtk, Adw, GLib, GObject
 from gitrepo.common.translation import _
 
+from gitrepo.build_package.core import branch_overview as overview_core
 from gitrepo.common.help_popover import help_button
 from gitrepo.common.page_layout import page_body
 from gitrepo.common.page_hero import (
@@ -60,6 +61,59 @@ class BranchRow(Adw.ActionRow):
             self.add_suffix(Gtk.Image.new_from_icon_name("go-next-symbolic"))
 
 
+# CSS classes for the semantic tones of core/branch_overview.py.
+_TONE_CLASSES = {
+    overview_core.TONE_OK: "status-ok",
+    overview_core.TONE_AHEAD: "status-accent",
+    overview_core.TONE_BEHIND: "status-warning",
+    overview_core.TONE_DIVERGED: "status-error",
+    overview_core.TONE_NEUTRAL: "dim-label",
+}
+
+
+# Height of one BranchComparisonRow: title, subtitle and padding.
+_COMPARE_ROW_HEIGHT = 64
+
+
+def _tone_pill(tone, text, tooltip):
+    pill = Gtk.Label(label=text)
+    pill.add_css_class("state-pill")
+    pill.add_css_class(_TONE_CLASSES[tone])
+    pill.set_valign(Gtk.Align.CENTER)
+    pill.set_tooltip_text(tooltip)
+    return pill
+
+
+class BranchComparisonRow(Adw.ActionRow):
+    """One branch with its commit, compared with origin and with the base branch."""
+
+    __gtype_name__ = "BranchComparisonRow"
+
+    def __init__(self, branch, overview):
+        super().__init__()
+        self.branch_name = branch.name
+        self.set_title(GLib.markup_escape_text(branch.name))
+        local = branch.local.short_sha if branch.local else "—"
+        remote = branch.remote.short_sha if branch.remote else "—"
+        tip = branch.local or branch.remote
+        self.set_subtitle(
+            _("local {0} · origin {1} · last commit {2}").format(
+                local, remote, overview_core.describe_age(tip.committed_at if tip else None)
+            )
+        )
+        if tip:
+            self.set_tooltip_text(tip.subject)
+        if branch.is_current:
+            current_icon = Gtk.Image.new_from_icon_name("gitrepo-status-ready-symbolic")
+            current_icon.add_css_class("status-ok")
+            current_icon.set_tooltip_text(_("Checked out right now"))
+            self.add_prefix(current_icon)
+        remote_tone, remote_text = overview_core.describe_vs_remote(branch)
+        self.add_suffix(_tone_pill(remote_tone, remote_text, _("Local branch × origin/{0}").format(branch.name)))
+        base_tone, base_text = overview_core.describe_vs_base(branch, overview)
+        self.add_suffix(_tone_pill(base_tone, base_text, _("This branch × {0}").format(overview.base_ref or "main")))
+
+
 class BranchWidget(Gtk.Box):
     """Widget for branch management operations"""
 
@@ -73,6 +127,7 @@ class BranchWidget(Gtk.Box):
         "create-branch-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
         "rename-branch-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
         "delete-branch-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "fetch-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
     def __init__(self, build_package):
@@ -124,6 +179,43 @@ class BranchWidget(Gtk.Box):
         status_group.add(self.most_recent_row)
 
         page_content.append(status_group)
+
+        # Where each branch points, against origin and against main
+        self.compare_group = Adw.PreferencesGroup()
+        self.compare_group.set_title(_("Where each branch is"))
+        compare_suffix = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+        compare_suffix.append(
+            help_button(
+                _("Reading the colours"),
+                _(
+                    "Green: the same commit on both sides. Blue ↑: this side has commits the other "
+                    "lacks (push or merge them). Yellow ↓: this side lacks commits the other has "
+                    "(pull them). Red: both, so the branches diverged and need a merge or rebase. "
+                    "origin is only as fresh as the last git fetch."
+                ),
+            )
+        )
+        self.fetch_button = Gtk.Button(
+            child=Adw.ButtonContent(label=_("Update from origin"), icon_name="view-refresh-symbolic")
+        )
+        self.fetch_button.set_valign(Gtk.Align.CENTER)
+        self.fetch_button.set_tooltip_text(git_command_description("git fetch --prune origin"))
+        self.fetch_button.connect("clicked", self.on_fetch_clicked)
+        compare_suffix.append(self.fetch_button)
+        self.compare_group.set_header_suffix(compare_suffix)
+
+        self.compare_scrolled = compare_scrolled = Gtk.ScrolledWindow()
+        compare_scrolled.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        self.compare_list = Gtk.ListBox()
+        self.compare_list.set_selection_mode(Gtk.SelectionMode.NONE)
+        self.compare_list.add_css_class("boxed-list")
+        compare_scrolled.set_child(self.compare_list)
+        self.compare_group.add(compare_scrolled)
+        self.freshness_label = Gtk.Label(xalign=0, wrap=True)
+        self.freshness_label.add_css_class("caption")
+        self.freshness_label.set_margin_top(6)
+        self.compare_group.add(self.freshness_label)
+        page_content.append(self.compare_group)
 
         # Branch list
         branches_group = Adw.PreferencesGroup()
@@ -329,7 +421,28 @@ class BranchWidget(Gtk.Box):
                 )
             )
         self.update_combo_boxes(all_branches)
+        self._apply_overview(snapshot.branch_overview)
         self._block_selection_signal = False
+
+    def _apply_overview(self, overview):
+        while (row := self.compare_list.get_row_at_index(0)) is not None:
+            self.compare_list.remove(row)
+        self.compare_group.set_description(
+            _("Each branch against its copy on origin and against {0}.").format(overview.base_ref or "main")
+        )
+        freshness_tone, freshness_text = overview_core.describe_freshness(overview)
+        self.freshness_label.set_label(freshness_text)
+        for css_class in _TONE_CLASSES.values():
+            self.freshness_label.remove_css_class(css_class)
+        self.freshness_label.add_css_class(_TONE_CLASSES[freshness_tone])
+        for branch in overview.branches:
+            self.compare_list.append(BranchComparisonRow(branch, overview))
+        # Natural height does not propagate through the group, so size the
+        # list by its rows: all of them up to six, then scroll.
+        self.compare_scrolled.set_min_content_height(_COMPARE_ROW_HEIGHT * max(1, min(len(overview.branches), 6)))
+
+    def set_fetching(self, is_fetching):
+        self.fetch_button.set_sensitive(not is_fetching)
 
     def update_combo_boxes(self, branches):
         """Update merge combo boxes with branch list"""
@@ -382,6 +495,9 @@ class BranchWidget(Gtk.Box):
     def on_refresh_clicked(self, button):
         """Handle refresh button click"""
         self.refresh_branches()
+
+    def on_fetch_clicked(self, button):
+        self.emit("fetch-requested")
 
     def on_cleanup_clicked(self, button):
         """Handle cleanup button click"""

@@ -6,6 +6,7 @@ from dataclasses import dataclass
 
 from gitrepo.common import child_process as subprocess
 
+from .branch_overview import BranchOverview, capture_branch_overview
 from .git_status import STATUS_COMMAND, parse_status_records
 from .git_utils import GitUtils
 
@@ -28,6 +29,7 @@ class RepositorySnapshot:
     recent_commits: tuple[tuple[str, str, str, str], ...] = ()
     unpushed_commits: int = 0
     remote_branch_exists: bool = False
+    branch_overview: BranchOverview = BranchOverview()
 
     @property
     def has_changes(self) -> bool | None:
@@ -73,6 +75,7 @@ class RepositorySnapshot:
             most_recent_branch=_most_recent_remote_branch(),
             package_name=_package_display_name(),
             recent_commits=_recent_commits(),
+            branch_overview=capture_branch_overview(),
         )
 
 
