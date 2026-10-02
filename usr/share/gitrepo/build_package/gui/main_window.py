@@ -308,6 +308,11 @@ class MainWindow(RepositoryActionsMixin, BranchActionsMixin, Adw.ApplicationWind
         self.branch_widget.connect("branch-selected", self.on_branch_selected)
         self.branch_widget.connect("merge-requested", self.on_merge_requested)
         self.branch_widget.connect("cleanup-requested", self.on_branch_cleanup_requested)
+        self.branch_widget.connect("create-branch-requested", self.on_create_branch_requested)
+        self.branch_widget.connect("rename-branch-requested", self.on_rename_branch_requested)
+        self.branch_widget.connect("delete-branch-requested", self.on_delete_branch_requested)
+        self.branch_widget.connect("fetch-requested", self.on_fetch_requested)
+        self.branch_widget.connect("sync-requested", self.on_sync_requested)
 
         # Advanced widget signals
         self.advanced_widget.connect("cleanup-branches-requested", self.on_cleanup_branches_requested)

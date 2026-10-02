@@ -224,7 +224,9 @@ class RepositoryActionsMixin:
             self.show_toast(_("Could not determine the current branch"))
             return
 
-        dialog = Adw.MessageDialog(transient_for=self, modal=True)
+        dialog = Adw.AlertDialog()
+        dialog.set_follows_content_size(False)
+        dialog.set_content_width(450)
         dialog.set_heading(_("Publish the existing local commit?"))
         # Nothing has integrated origin yet, so publishing may have to merge
         # first. Promising that no commit will be created would be untrue.
@@ -262,7 +264,7 @@ class RepositoryActionsMixin:
             )
 
         dialog.connect("response", on_response)
-        dialog.present()
+        dialog.present(self)
 
     def on_pull_requested(self, widget):
         """Fetch remote updates and let the user review them before merging."""

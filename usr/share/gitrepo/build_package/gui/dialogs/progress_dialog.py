@@ -28,7 +28,7 @@ class ProgressDialog(Adw.Window):
         super().__init__(transient_for=parent, modal=True)
 
         self.set_title(_("Operation Progress"))
-        self.set_default_size(680, 520)
+        self.set_default_size(760, 660)
         self.set_resizable(True)
 
         self.operation_title = title
@@ -605,6 +605,9 @@ class OperationRunner:
     def _on_operation_error(self, error):
         """Notify about a failure already acknowledged in the progress dialog."""
         if self.parent:
+            # A journey that stopped halfway may still have moved refs.
+            if hasattr(self.parent, "refresh_all_widgets"):
+                self.parent.refresh_all_widgets()
             # Send system notification if window is not focused
             if not self.parent.is_active():
                 if hasattr(self.parent, "send_system_notification"):

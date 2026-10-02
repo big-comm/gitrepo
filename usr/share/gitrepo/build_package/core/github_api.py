@@ -87,13 +87,26 @@ class GitHubAPI:
         return None
 
     def trigger_workflow(
-        self, package_name: str, branch_type: str, new_branch: str, is_aur: bool, tmate_option: bool, logger
+        self,
+        package_name: str,
+        branch_type: str,
+        new_branch: str,
+        is_aur: bool,
+        tmate_option: bool,
+        logger,
+        package_directory: str = "",
     ) -> bool:
-        """Trigger exactly one reviewed package workflow without mutating Git."""
+        """Trigger exactly one reviewed package workflow without mutating Git.
+
+        *package_directory* names the package of a multi-package repository;
+        the build workflow receives it as pkgbuild_dir.
+        """
         dispatch = (
             self._aur_workflow_dispatch(package_name, tmate_option)
             if is_aur
-            else self._package_workflow_dispatch(package_name, branch_type, new_branch, tmate_option, logger)
+            else self._package_workflow_dispatch(
+                package_name, branch_type, new_branch, tmate_option, logger, package_directory
+            )
         )
         if not dispatch:
             return False
@@ -192,7 +205,7 @@ class GitHubAPI:
         return "aur-build", {"event_type": f"aur-{cleaned_name}", "client_payload": payload}
 
     @staticmethod
-    def _package_workflow_dispatch(package_name, branch_type, new_branch, tmate_option, logger):
+    def _package_workflow_dispatch(package_name, branch_type, new_branch, tmate_option, logger, package_directory=""):
         repo_name = GitUtils.get_repo_name()
         # Stable and extra packages are published only from main: the package
         # operation merges and pushes main before triggering the workflow and
@@ -213,6 +226,10 @@ class GitHubAPI:
         }
         if branch_type == "testing":
             payload["new_branch"] = workflow_branch
+        # Only a multi-package repository sends it, so every other payload
+        # stays exactly as the workflow has always received it.
+        if package_directory:
+            payload["pkgbuild_dir"] = package_directory
         logger.log("white", _("Detected repository: {0}").format(repo_name))
         logger.log("cyan", _("Workflow branch: {0}").format(workflow_branch))
         return "package-build", {"event_type": package_name, "client_payload": payload}

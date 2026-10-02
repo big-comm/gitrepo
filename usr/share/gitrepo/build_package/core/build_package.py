@@ -267,6 +267,7 @@ class BuildPackage:
                     (_("Download updates"), "pull"),
                     (_("Publish changes"), "commit"),
                     (_("Commit locally (no push)"), "commit_only"),
+                    (_("Manage branches"), "branches"),
                 ]
             )
             if self.settings.get("package_features_enabled", False):
@@ -324,6 +325,12 @@ class BuildPackage:
         self.build_aur_package()
         return True
 
+    def _menu_branches(self):
+        from .branch_menu import branch_menu
+
+        branch_menu(self)
+        return False
+
     def _menu_settings(self):
         if self.settings_menu:
             self.settings_menu.show()
@@ -345,6 +352,7 @@ class BuildPackage:
             "commit_only": self._menu_commit_only,
             "package": self._menu_package,
             "aur": self._menu_aur,
+            "branches": self._menu_branches,
             "settings": self._menu_settings,
             "advanced": self._menu_advanced,
             "exit": self._menu_exit,
@@ -472,6 +480,11 @@ class BuildPackage:
 
             if pr_info:
                 self.logger.log("green", _("Pull request operation completed."))
+                if pr_info.get("auto_merged"):
+                    from .main_sync import sync_with_main
+
+                    # The merge happened on GitHub; bring this computer's copies along.
+                    sync_with_main(self)
 
         except (subprocess.SubprocessError, ValueError) as error:
             self.logger.log("red", _("Could not prepare the merge request: {0}").format(error))

@@ -144,6 +144,9 @@ class ISOBuilder:
         self.edition = config.get("edition", "gnome")
         self.branches = config.get("branches", {})
         self.kernel = config.get("kernel", "lts")
+        # [community-testing] above the BigLinux repositories; the engine only
+        # accepts it for biglinux, so it is never sent for anything else.
+        self.community_testing = bool(config.get("community_testing")) and self.distroname == "biglinux"
         self.iso_profiles_repo = config.get("iso_profiles_repo", "")
         self.iso_profiles_source = config.get("iso_profiles_source", "remote")
         self.iso_profiles_local_path = config.get("iso_profiles_local_path", "")
@@ -607,6 +610,13 @@ echo "GITREPO-MANIFEST iso-profiles $(git -C {_CONTAINER_ENGINE} rev-parse HEAD)
 """
         ]
 
+        if self.community_testing:
+            # An engine older than the option ignores the variable and builds
+            # without the repository; stop now instead of an hour later.
+            parts.append(f"""
+grep -q COMMUNITY_TESTING {_CONTAINER_ENGINE}/build-iso/build-iso.sh || {{ echo "The build engine in $ENGINE_REPO does not support community-testing yet." >&2; exit 1; }}
+""")
+
         if self._uses_local_profiles():
             # The engine edits the profiles in place, so it gets a copy of the
             # read-only mount.
@@ -650,6 +660,8 @@ test "$(find {_CONTAINER_OUTPUT} -maxdepth 1 -type f -name '*.iso' | wc -l)" -eq
             f"BIGLINUX_BRANCH={self.branches.get('biglinux') or 'stable'}",
             "-e",
             f"BIGCOMMUNITY_BRANCH={self.branches.get('community') or 'stable'}",
+            "-e",
+            f"COMMUNITY_TESTING={'true' if self.community_testing else 'false'}",
             "-e",
             f"RELEASE_TAG={self.release_tag}",
             "-e",

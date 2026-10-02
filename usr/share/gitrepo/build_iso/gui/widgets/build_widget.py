@@ -15,6 +15,7 @@ gi.require_version("Adw", "1")
 from gitrepo.build_iso.core.config import (
     BRANCH_DESCRIPTIONS,
     BRANCH_DISPLAY_NAMES,
+    COMMUNITY_KERNEL_PACKAGES,
     DEFAULT_EDITION_BY_DISTRO,
     ISO_PROFILES_REPOS,
     VALID_BRANCHES,
@@ -22,6 +23,7 @@ from gitrepo.build_iso.core.config import (
     VALID_KERNELS,
     edition_display_name,
 )
+from gitrepo.build_iso.core.community_packages import available_kernels, kernel_notice
 from gitrepo.build_iso.core.profile_catalog import ProfileCatalogResult, load_profile_catalog
 from gitrepo.common.translation import _
 from gitrepo.common.network_url import UnsafeNetworkUrl, validate_github_repository_url
@@ -68,6 +70,8 @@ class BuildWidget(Gtk.Box):
         self._catalog_has_loaded = False
         self._catalog_retry_timeout_id = 0
         self._is_initializing = True
+        self._kernel_notice_request = 0
+        self._kernel_notice = ""
 
         self._create_ui()
         self._load_from_settings()
@@ -211,19 +215,17 @@ class BuildWidget(Gtk.Box):
 
         self.kernel_row = Adw.ComboRow()
         self.kernel_row.set_title(_("Kernel Variant"))
-        self.kernel_row.set_subtitle(_("Long-term stability or newer hardware support"))
-        kernel_model = Gtk.StringList()
-        self._kernel_keys = list(VALID_KERNELS.keys())
-        for key in self._kernel_keys:
-            kernel_model.append(VALID_KERNELS[key])
-        self.kernel_row.set_model(kernel_model)
+        self.kernel_row.set_subtitle(self._kernel_subtitle())
+        self._kernel_keys = []
+        self._set_kernel_choices(self._get_selected_distro())
         self.kernel_row.add_suffix(
             help_button(
                 _("Which kernel to choose"),
                 _(
                     "LTS receives long-term fixes and is the safest default. Latest supports very recent "
                     "hardware but changes faster. Old LTS helps on older machines, and XanMod targets "
-                    "desktop responsiveness."
+                    "desktop responsiveness. linux-big is the BigCommunity kernel, for BigCommunity images "
+                    "only; it must be published in the chosen Community channel."
                 ),
             )
         )
@@ -231,7 +233,61 @@ class BuildWidget(Gtk.Box):
 
         self._add_channel_rows(expander)
         self._add_profile_source_rows(expander)
+        for row in (self.kernel_row, self.community_branch_row):
+            row.connect("notify::selected", lambda *_args: self._refresh_kernel_notice())
         return group
+
+    @staticmethod
+    def _kernel_subtitle() -> str:
+        return _("Long-term stability or newer hardware support")
+
+    def _set_kernel_choices(self, distro: str) -> None:
+        """Offer only the kernels this distribution can build, keeping the current choice."""
+        keys = available_kernels(list(VALID_KERNELS), distro)
+        if keys == self._kernel_keys:
+            return
+        current = self._get_selected_kernel() if self._kernel_keys else ""
+        self._kernel_keys = keys
+        model = Gtk.StringList()
+        for key in keys:
+            model.append(VALID_KERNELS[key])
+        self.kernel_row.set_model(model)
+        selected = current if current in keys else "lts"
+        self.kernel_row.set_selected(keys.index(selected) if selected in keys else 0)
+
+    def _refresh_kernel_notice(self) -> None:
+        """Check, off the main loop, that the chosen kernel can be installed from the chosen channel."""
+        self._kernel_notice_request += 1
+        request = self._kernel_notice_request
+        # A choice restored at startup is shown on the row, not announced.
+        announce = not self._is_initializing
+        kernel = self._get_selected_kernel()
+        if kernel not in COMMUNITY_KERNEL_PACKAGES:
+            self._show_kernel_notice(request, "", announce)
+            return
+        distro = self._get_selected_distro()
+        branch = self._get_selected_branch(self.community_branch_row)
+
+        def check() -> None:
+            GLib.idle_add(self._show_kernel_notice, request, kernel_notice(kernel, distro, branch), announce)
+
+        threading.Thread(target=check, daemon=True).start()
+
+    def _show_kernel_notice(self, request: int, notice: str, announce: bool) -> bool:
+        """Show the result of the latest check only; it informs and never blocks the build."""
+        if request != self._kernel_notice_request:
+            return False
+        self.kernel_row.set_subtitle(notice or self._kernel_subtitle())
+        if notice:
+            self.kernel_row.add_css_class("warning")
+        else:
+            self.kernel_row.remove_css_class("warning")
+        if notice and notice != self._kernel_notice and announce:
+            root = self.get_root()
+            if root and hasattr(root, "show_toast"):
+                root.show_toast(notice)
+        self._kernel_notice = notice
+        return False
 
     def _add_channel_rows(self, expander: Adw.ExpanderRow) -> None:
         """Package channels share one explanation and one model."""
@@ -254,6 +310,23 @@ class BuildWidget(Gtk.Box):
         self.biglinux_branch_row.set_subtitle(_("BigLinux system components"))
         self.biglinux_branch_row.set_model(self._branch_model())
         expander.add_row(self.biglinux_branch_row)
+
+        # BigLinux images only: a bigcommunity image chooses its community
+        # channel in the row below instead.
+        self.community_testing_row = Adw.SwitchRow()
+        self.community_testing_row.set_title(_("Community Testing"))
+        self.community_testing_row.set_subtitle(_("Adds community-testing above the BigLinux repositories"))
+        self.community_testing_row.add_suffix(
+            help_button(
+                _("Community Testing"),
+                _(
+                    "Builds the image with the BigCommunity testing repository, and only that one, placed "
+                    "above the BigLinux repositories. The installed system keeps it, together with "
+                    "community-keyring, so it receives the same testing packages."
+                ),
+            )
+        )
+        expander.add_row(self.community_testing_row)
 
         self.community_branch_row = Adw.ComboRow()
         self.community_branch_row.set_title(_("Community Packages"))
@@ -347,6 +420,7 @@ class BuildWidget(Gtk.Box):
             self.community_branch_row,
         ):
             row.connect("notify::selected", lambda *_args: self._update_summary())
+        self.community_testing_row.connect("notify::active", lambda *_args: self._update_summary())
         self.output_row.connect("changed", lambda *_args: self._update_summary())
         self._update_summary()
         # The footer is owned by the window's bottom bar, not by the page body.
@@ -395,6 +469,8 @@ class BuildWidget(Gtk.Box):
             branches.append(
                 _("Community {0}").format(BRANCH_DISPLAY_NAMES[self._get_selected_branch(self.community_branch_row)])
             )
+        elif self.community_testing_row.get_active():
+            branches.append(_("Community Testing"))
         self.summary_label.set_text(
             _("{0} • {1} • kernel {2}").format(
                 VALID_DISTROS.get(distro, distro),
@@ -430,6 +506,8 @@ class BuildWidget(Gtk.Box):
 
         # Output dir
         self.output_row.set_text(self.settings.output_dir)
+
+        self.community_testing_row.set_active(self.settings.community_testing)
 
         # Community branch visibility
         self._update_community_branch_visibility()
@@ -504,6 +582,8 @@ class BuildWidget(Gtk.Box):
     def _on_distro_changed(self, row, _pspec):
         """Handle distribution change - refresh editions and toggle community branch"""
         self._update_community_branch_visibility()
+        self._set_kernel_choices(self._get_selected_distro())
+        self._refresh_kernel_notice()
         if self._is_initializing:
             return
         self._editions_cache.clear()
@@ -515,6 +595,7 @@ class BuildWidget(Gtk.Box):
         distro = self._get_selected_distro()
         # BigLinux does not have a community repository
         self.community_branch_row.set_visible(distro != "biglinux")
+        self.community_testing_row.set_visible(distro == "biglinux")
 
     def ensure_catalog_loaded(self) -> None:
         """Load the selected catalog only when the Build page is first shown."""
@@ -801,6 +882,7 @@ class BuildWidget(Gtk.Box):
                 "biglinux": self._get_selected_branch(self.biglinux_branch_row),
                 "community": self._get_selected_branch(self.community_branch_row) if distro != "biglinux" else "",
             },
+            "community_testing": distro == "biglinux" and self.community_testing_row.get_active(),
             "iso_profiles_repo": iso_profiles_repo,
             "iso_profiles_source": source_type,
             "iso_profiles_local_path": source_value if source_type == "local" else "",
@@ -816,6 +898,7 @@ class BuildWidget(Gtk.Box):
                 ("general", "edition"): config["edition"],
                 ("general", "kernel"): config["kernel"],
                 ("general", "branches"): config["branches"],
+                ("general", "community_testing"): self.community_testing_row.get_active(),
                 ("general", "output_dir"): config["output_dir"],
                 ("build", "iso_profiles_source"): source_type,
                 ("build", "iso_profiles_custom_url"): source_value if source_type == "custom_url" else "",

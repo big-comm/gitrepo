@@ -7,9 +7,11 @@ import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
-from gi.repository import Gtk, Adw, GObject
+from gi.repository import Gtk, Adw, GLib, GObject
 from gitrepo.common.translation import _
 
+from gitrepo.build_package.core import branch_overview as overview_core
+from gitrepo.build_package.core import main_sync
 from gitrepo.common.help_popover import help_button
 from gitrepo.common.page_layout import page_body
 from gitrepo.common.page_hero import (
@@ -60,6 +62,96 @@ class BranchRow(Adw.ActionRow):
             self.add_suffix(Gtk.Image.new_from_icon_name("go-next-symbolic"))
 
 
+# CSS classes for the semantic tones of core/branch_overview.py.
+_TONE_CLASSES = {
+    overview_core.TONE_OK: "status-ok",
+    overview_core.TONE_AHEAD: "status-accent",
+    overview_core.TONE_BEHIND: "status-warning",
+    overview_core.TONE_DIVERGED: "status-error",
+    overview_core.TONE_NEUTRAL: "dim-label",
+}
+
+
+def _tone_pill(tone, text, tooltip=""):
+    """A coloured label led by a symbolic icon, so the state reads without colour too."""
+    pill = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=5)
+    pill.add_css_class("state-pill")
+    pill.add_css_class(_TONE_CLASSES[tone])
+    pill.set_valign(Gtk.Align.CENTER)
+    icon_name = overview_core.TONE_ICONS[tone]
+    if icon_name:
+        icon = Gtk.Image.new_from_icon_name(icon_name)
+        icon.set_pixel_size(12)
+        icon.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
+        pill.append(icon)
+    pill.append(Gtk.Label(label=text))
+    if tooltip:
+        pill.set_tooltip_text(tooltip)
+    return pill
+
+
+# Icon and colour of the verdict that heads the sync group.
+_VERDICT_ICONS = {
+    main_sync.SYNCED: "gitrepo-status-ready-symbolic",
+    main_sync.CATCH_UP: "gitrepo-status-warning-symbolic",
+    main_sync.WORK_PENDING: "go-up-symbolic",
+    main_sync.UNAVAILABLE: "gitrepo-status-checking-symbolic",
+}
+
+
+class SyncRefRow(Adw.ActionRow):
+    """One copy of the work (here or on origin) and where it stands against origin/main."""
+
+    __gtype_name__ = "SyncRefRow"
+
+    def __init__(self, ref):
+        super().__init__()
+        self.set_title(GLib.markup_escape_text(ref.label))
+        on_origin = ref.label.startswith("origin/")
+        place = Gtk.Image.new_from_icon_name("network-server-symbolic" if on_origin else "computer-symbolic")
+        place.set_tooltip_text(_("Copy on origin (GitHub)") if on_origin else _("Copy on this computer"))
+        self.add_prefix(place)
+        if ref.tip:
+            subtitle = _("commit {0} · {1} · {2}").format(
+                ref.tip.short_sha, ref.tip.subject, overview_core.describe_age(ref.tip.committed_at)
+            )
+        else:
+            subtitle = _("This copy does not exist.")
+        self.set_subtitle(GLib.markup_escape_text(subtitle))
+        self.set_subtitle_lines(1)
+        self.add_suffix(_tone_pill(*main_sync.describe_ref(ref)))
+
+
+class BranchComparisonRow(Adw.ActionRow):
+    """One branch with its commit, compared with origin and with the base branch."""
+
+    __gtype_name__ = "BranchComparisonRow"
+
+    def __init__(self, branch, overview):
+        super().__init__()
+        self.branch_name = branch.name
+        self.set_title(GLib.markup_escape_text(branch.name))
+        local = branch.local.short_sha if branch.local else "—"
+        remote = branch.remote.short_sha if branch.remote else "—"
+        tip = branch.local or branch.remote
+        self.set_subtitle(
+            _("local {0} · origin {1} · last commit {2}").format(
+                local, remote, overview_core.describe_age(tip.committed_at if tip else None)
+            )
+        )
+        if tip:
+            self.set_tooltip_text(tip.subject)
+        if branch.is_current:
+            current_icon = Gtk.Image.new_from_icon_name("gitrepo-status-ready-symbolic")
+            current_icon.add_css_class("status-ok")
+            current_icon.set_tooltip_text(_("Checked out right now"))
+            self.add_prefix(current_icon)
+        remote_tone, remote_text = overview_core.describe_vs_remote(branch)
+        self.add_suffix(_tone_pill(remote_tone, remote_text, _("Local branch × origin/{0}").format(branch.name)))
+        base_tone, base_text = overview_core.describe_vs_base(branch, overview)
+        self.add_suffix(_tone_pill(base_tone, base_text, _("This branch × {0}").format(overview.base_ref or "main")))
+
+
 class BranchWidget(Gtk.Box):
     """Widget for branch management operations"""
 
@@ -70,6 +162,11 @@ class BranchWidget(Gtk.Box):
         "branch-selected": (GObject.SignalFlags.RUN_FIRST, None, (str,)),
         "merge-requested": (GObject.SignalFlags.RUN_FIRST, None, (str, str, bool)),  # source, target, auto_merge
         "cleanup-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "create-branch-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "rename-branch-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "delete-branch-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "fetch-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "sync-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
     def __init__(self, build_package):
@@ -90,7 +187,7 @@ class BranchWidget(Gtk.Box):
                 "build-package-branches",
                 _("Organize lines of work"),
                 _(
-                    "Switch branches with git checkout, publish new branches with git push, or propose integration on GitHub."
+                    "Switch, create, rename or delete branches with explicit Git commands, or propose integration on GitHub."
                 ),
             )
         )
@@ -121,6 +218,83 @@ class BranchWidget(Gtk.Box):
         status_group.add(self.most_recent_row)
 
         page_content.append(status_group)
+
+        # Is my work in main? The four copies that answer it, and one button to align them.
+        self.sync_group = Adw.PreferencesGroup()
+        self.sync_group.set_title(_("Sync with main"))
+        self.sync_group.set_description(
+            _(
+                "Shows whether your work is already in origin/main, where pull requests land and stable packages are built from."
+            )
+        )
+        sync_suffix = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+        sync_suffix.append(
+            help_button(
+                _("How synchronizing works"),
+                _(
+                    "Synchronize runs git fetch and then only moves copies forward: your branch and the local "
+                    "main advance to origin/main, and your branch is published when it already matches main. "
+                    "Commits that exist only in the local main are kept in a backup branch first. Nothing is "
+                    "merged and no work is discarded."
+                ),
+            )
+        )
+        self.fetch_button = Gtk.Button(
+            child=Adw.ButtonContent(label=_("Check origin"), icon_name="network-server-symbolic")
+        )
+        self.fetch_button.set_valign(Gtk.Align.CENTER)
+        self.fetch_button.set_tooltip_text(
+            _("Read the latest state of origin without changing any branch.")
+            + "\n"
+            + git_command_description("git fetch --prune origin")
+        )
+        self.fetch_button.connect("clicked", self.on_fetch_clicked)
+        sync_suffix.append(self.fetch_button)
+        self.sync_group.set_header_suffix(sync_suffix)
+
+        self.verdict_row = Adw.ActionRow()
+        self.verdict_row.set_title_lines(0)
+        self.verdict_row.set_subtitle_lines(0)
+        self.verdict_icon = Gtk.Image()
+        self.verdict_icon.set_pixel_size(32)
+        self.verdict_icon.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
+        self.verdict_row.add_prefix(self.verdict_icon)
+        self.sync_button = Gtk.Button(
+            child=Adw.ButtonContent(label=_("Synchronize"), icon_name="view-refresh-symbolic")
+        )
+        self.sync_button.set_valign(Gtk.Align.CENTER)
+        self.sync_button.set_tooltip_text(
+            git_command_description(
+                "git fetch --prune origin",
+                "git merge --ff-only origin/main",
+                "git push origin BRANCH (when it already matches main)",
+            )
+        )
+        self.sync_button.connect("clicked", self.on_sync_clicked)
+        self.verdict_row.add_suffix(self.sync_button)
+        self.sync_group.add(self.verdict_row)
+
+        self.refs_list = Gtk.ListBox()
+        self.refs_list.set_selection_mode(Gtk.SelectionMode.NONE)
+        self.refs_list.add_css_class("boxed-list")
+        self.refs_list.set_margin_top(12)
+        self.sync_group.add(self.refs_list)
+
+        self.freshness_label = Gtk.Label(xalign=0, wrap=True)
+        self.freshness_label.add_css_class("caption")
+        self.freshness_label.set_margin_top(6)
+        self.sync_group.add(self.freshness_label)
+
+        all_list = Gtk.ListBox()
+        all_list.set_selection_mode(Gtk.SelectionMode.NONE)
+        all_list.add_css_class("boxed-list")
+        all_list.set_margin_top(12)
+        self.all_branches_row = Adw.ExpanderRow()
+        self.all_branches_row.set_title(_("All branches"))
+        all_list.append(self.all_branches_row)
+        self.sync_group.add(all_list)
+        self._all_branch_rows = []
+        page_content.append(self.sync_group)
 
         # Branch list
         branches_group = Adw.PreferencesGroup()
@@ -169,6 +343,47 @@ class BranchWidget(Gtk.Box):
 
         quick_actions_group.add(self.switch_main_row)
         page_content.append(quick_actions_group)
+
+        # Explicit branch management: create, rename, delete
+        manage_group = Adw.PreferencesGroup()
+        manage_group.set_title(_("Manage branches"))
+        manage_group.set_description(
+            _("Each action shows its Git commands and asks before anything is published or deleted.")
+        )
+
+        self.create_branch_row = self._manage_row(
+            _("Create branch"),
+            git_command_description("git branch NEW SOURCE", "git checkout NEW", "git push -u origin NEW (optional)"),
+            _("Create…"),
+            "list-add-symbolic",
+            "suggested-action",
+            self.on_create_branch_clicked,
+        )
+        manage_group.add(self.create_branch_row)
+
+        self.rename_branch_row = self._manage_row(
+            _("Rename branch"),
+            git_command_description(
+                "git branch -m OLD NEW", "git push -u origin NEW (optional)", "git push origin --delete OLD (optional)"
+            ),
+            _("Rename…"),
+            "document-edit-symbolic",
+            "",
+            self.on_rename_branch_clicked,
+        )
+        manage_group.add(self.rename_branch_row)
+
+        self.delete_branch_row = self._manage_row(
+            _("Delete branch"),
+            git_command_description("git branch -D BRANCH", "git push origin --delete BRANCH (optional)"),
+            _("Delete…"),
+            "user-trash-symbolic",
+            "destructive-action",
+            self.on_delete_branch_clicked,
+        )
+        manage_group.add(self.delete_branch_row)
+
+        page_content.append(manage_group)
 
         # Merge operations
         merge_group = Adw.PreferencesGroup()
@@ -245,6 +460,21 @@ class BranchWidget(Gtk.Box):
         self.source_branch_row.connect("notify::selected", self.on_merge_selection_changed)
         self.target_branch_row.connect("notify::selected", self.on_merge_selection_changed)
 
+    @staticmethod
+    def _manage_row(title, subtitle, button_label, icon_name, css_class, handler):
+        """Build one row whose suffix button opens a reviewed branch dialog."""
+        row = Adw.ActionRow()
+        row.set_title(title)
+        row.set_subtitle(subtitle)
+        button = Gtk.Button(child=Adw.ButtonContent(label=button_label, icon_name=icon_name))
+        button.set_valign(Gtk.Align.CENTER)
+        if css_class:
+            button.add_css_class(css_class)
+        button.connect("clicked", handler)
+        row.add_suffix(button)
+        row.set_activatable_widget(button)
+        return row
+
     def refresh_branches(self):
         """Ask the owning window to refresh the shared snapshot."""
         window = self.get_root()
@@ -270,7 +500,49 @@ class BranchWidget(Gtk.Box):
                 )
             )
         self.update_combo_boxes(all_branches)
+        self._apply_sync(snapshot.sync_status)
+        self._apply_overview(snapshot.branch_overview)
         self._block_selection_signal = False
+
+    def _apply_sync(self, status):
+        tone, title, description = main_sync.verdict(status)
+        self.verdict_row.set_title(GLib.markup_escape_text(title))
+        self.verdict_row.set_subtitle(GLib.markup_escape_text(description))
+        self.verdict_icon.set_from_icon_name(_VERDICT_ICONS[status.state])
+        for css_class in _TONE_CLASSES.values():
+            self.verdict_icon.remove_css_class(css_class)
+        self.verdict_icon.add_css_class(_TONE_CLASSES[tone])
+        self.sync_button.set_visible(status.state != main_sync.UNAVAILABLE)
+        if status.state == main_sync.CATCH_UP:
+            self.sync_button.add_css_class("suggested-action")
+        else:
+            self.sync_button.remove_css_class("suggested-action")
+        while (row := self.refs_list.get_row_at_index(0)) is not None:
+            self.refs_list.remove(row)
+        for ref in status.refs:
+            self.refs_list.append(SyncRefRow(ref))
+        self.refs_list.set_visible(bool(status.refs))
+        freshness_tone, freshness_text = overview_core.describe_freshness(status)
+        self.freshness_label.set_label(freshness_text)
+        for css_class in _TONE_CLASSES.values():
+            self.freshness_label.remove_css_class(css_class)
+        self.freshness_label.add_css_class(_TONE_CLASSES[freshness_tone])
+
+    def _apply_overview(self, overview):
+        for row in self._all_branch_rows:
+            self.all_branches_row.remove(row)
+        self._all_branch_rows = [BranchComparisonRow(branch, overview) for branch in overview.branches]
+        for row in self._all_branch_rows:
+            self.all_branches_row.add_row(row)
+        self.all_branches_row.set_subtitle(
+            _("{0} branches, each against its copy on origin and against {1}").format(
+                len(overview.branches), overview.base_ref or "main"
+            )
+        )
+
+    def set_fetching(self, is_fetching):
+        self.fetch_button.set_sensitive(not is_fetching)
+        self.sync_button.set_sensitive(not is_fetching)
 
     def update_combo_boxes(self, branches):
         """Update merge combo boxes with branch list"""
@@ -324,6 +596,12 @@ class BranchWidget(Gtk.Box):
         """Handle refresh button click"""
         self.refresh_branches()
 
+    def on_fetch_clicked(self, button):
+        self.emit("fetch-requested")
+
+    def on_sync_clicked(self, button):
+        self.emit("sync-requested")
+
     def on_cleanup_clicked(self, button):
         """Handle cleanup button click"""
         self.emit("cleanup-requested")
@@ -359,6 +637,15 @@ class BranchWidget(Gtk.Box):
         auto_merge = self.auto_merge_row.get_active()
 
         self.emit("merge-requested", source_branch, target_branch, auto_merge)
+
+    def on_create_branch_clicked(self, button):
+        self.emit("create-branch-requested")
+
+    def on_rename_branch_clicked(self, button):
+        self.emit("rename-branch-requested")
+
+    def on_delete_branch_clicked(self, button):
+        self.emit("delete-branch-requested")
 
     def on_switch_main_clicked(self, button):
         """Route switching to main through the window's reviewed branch flow."""

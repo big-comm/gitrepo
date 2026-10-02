@@ -14,6 +14,7 @@ from gitrepo.build_iso.core.iso_builder import (
 )
 from gitrepo.build_iso.gui.dialogs.progress_dialog import (
     BuildProgressDialog,
+    phase_labels,
     build_step_states,
 )
 from gitrepo.build_iso.gui.dialogs import progress_dialog as progress_dialog_module
@@ -280,3 +281,10 @@ def test_a_host_with_loop_devices_passes(tmp_path, monkeypatch):
     builder = _builder(tmp_path)
     monkeypatch.setattr(iso_builder_module.Path, "exists", lambda self: True)
     assert builder._check_loop_support() is True
+
+
+def test_every_build_phase_has_a_status_label():
+    # A phase without one raised KeyError in the dialog the moment the build
+    # reached it -- check_loop did, from the day it was added.
+    phases = {phase for _step, step_phases in ISOBuilder.BUILD_STEPS for phase in step_phases}
+    assert phases <= set(phase_labels())

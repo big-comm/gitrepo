@@ -42,12 +42,18 @@ EXPECTED_PRIVATE_ICONS = {
 }
 
 
-def test_system_icon_theme_contains_only_desktop_application_icons():
+def test_system_icon_theme_contains_application_icons_and_repository_emblems():
     installed_icons = {
         icon_path.relative_to(SYSTEM_ICON_ROOT).as_posix() for icon_path in SYSTEM_ICON_ROOT.rglob("*.svg")
     }
 
-    assert installed_icons == {"apps/build-iso.svg", "apps/gitrepo.svg"}
+    assert installed_icons == {
+        "apps/build-iso.svg",
+        "apps/gitrepo.svg",
+        *(f"emblems/gitrepo-{state}.svg" for state in ("clean", "modified", "unpushed", "conflict")),
+    }
+    for relative_path in installed_icons:
+        assert ET.parse(SYSTEM_ICON_ROOT / relative_path).getroot().tag == "{http://www.w3.org/2000/svg}svg"
 
 
 def test_private_icons_are_flat_complete_and_valid_svg():

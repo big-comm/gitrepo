@@ -27,7 +27,7 @@ With it, you can:
 - review modified files and the current repository state;
 - download and combine remote changes while preserving local work;
 - prepare a commit, see the Git commands involved, and publish it;
-- create, switch, merge, and clean up branches through guided flows;
+- create, switch, rename, delete, merge, and clean up branches through guided flows;
 - start package workflows for testing, stable, extra, and development channels;
 - import a package from the AUR and start its GitHub Actions workflow;
 - maintain workflow runs and tags without losing the safety confirmations around destructive operations;
@@ -99,6 +99,25 @@ makepkg -si
 ```
 
 The package installs the applications, command-line launchers, icons, desktop entries, AppStream metadata, translations, and optional actions for Dolphin, Nautilus, Nemo, and Thunar under `/usr`.
+
+### Repository emblems
+
+Nautilus (`nautilus-python`) and Nemo (`nemo-python`) display circular GitRepo emblems on repository-root folders:
+
+| Emblem | State |
+| --- | --- |
+| Gray branch | Clean working tree; no known pending publication |
+| Orange pencil | Modified, staged, deleted, or untracked files |
+| Blue arrow | Local commits pending publication |
+| Red exclamation mark | Unresolved conflicts |
+
+Priority: conflicts, local changes, pending publication, clean. Ordinary folders and non-root subfolders receive no emblem. Linked worktrees and submodule roots are supported.
+
+Status refreshes in batches through a separate process every five seconds while folder objects remain in the file manager. Recent results stay cached for five minutes, so revisiting folders shows their emblems immediately while refreshing. Queries use local Git data, never fetch, and do not refresh the index. Ignored files do not mark a repository as modified. Failed queries clear the emblem instead of reporting a clean repository. Remote state reflects the last fetch or push; a clean emblem does not guarantee that the server has no newer commits.
+
+In Nautilus's grid view, GitRepo emblems retain their full colors instead of inheriting the host's dimming. Their size is unchanged; unrelated emblems keep their original dimming.
+
+Install the matching Python extension package and restart the file manager after upgrading GitRepo. The host file manager controls emblem placement. Dolphin and Thunar retain their context-menu integration; these Python emblem providers target Nautilus and Nemo.
 
 ### Requirements
 

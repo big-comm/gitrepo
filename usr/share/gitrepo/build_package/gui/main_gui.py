@@ -234,6 +234,34 @@ class BuildPackageApplication(Adw.Application):
             .build-package-confirmation-item {
                 font-size: 0.9em;
             }
+            .build-package-package-content {
+                padding: 6px 18px 12px 18px;
+            }
+            .build-package-package-counter {
+                font-weight: 600;
+                color: @accent_color;
+            }
+            .build-package-package-warning {
+                padding: 12px 14px;
+                border-radius: 12px;
+                color: @warning_color;
+                background-color: alpha(@warning_bg_color, 0.14);
+            }
+            .build-package-package-list {
+                border: 1px solid alpha(currentColor, 0.08);
+            }
+            .build-package-package-row {
+                padding: 9px 14px;
+            }
+            .build-package-package-name {
+                font-weight: 700;
+            }
+            .build-package-package-description {
+                font-size: 0.9em;
+            }
+            .build-package-package-footer {
+                padding: 12px 18px;
+            }
             .build-package-github-action {
                 padding: 10px 12px;
                 border-radius: 11px;

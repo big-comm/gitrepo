@@ -70,6 +70,7 @@ _PREMIUM_CSS = f"""
         .status-ok {{ color: @success_color; }}
         .status-warning {{ color: @warning_color; }}
         .status-error {{ color: @error_color; }}
+        .status-accent {{ color: @accent_color; }}
 
         .badge.numeric {{
             padding: 2px 7px;
@@ -90,6 +91,7 @@ _PREMIUM_CSS = f"""
         .state-pill.status-ok {{ background-color: alpha(@success_color, 0.16); }}
         .state-pill.status-warning {{ background-color: alpha(@warning_color, 0.16); }}
         .state-pill.status-error {{ background-color: alpha(@error_color, 0.16); }}
+        .state-pill.status-accent {{ background-color: alpha(@accent_color, 0.16); }}
 
         .page-footer-bar {{
             padding: 10px 24px;

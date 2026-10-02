@@ -138,6 +138,20 @@ class BuildSubstepIndicator(Gtk.Box):
         self.update_property([Gtk.AccessibleProperty.LABEL], [accessible_label])
 
 
+def phase_labels() -> dict[str, str]:
+    """What the dialog says during each ISOBuilder phase; one entry per phase in BUILD_STEPS."""
+    return {
+        "check_engine": _("Checking the container engine"),
+        "check_storage": _("Checking container storage"),
+        "check_loop": _("Checking loop device support"),
+        "check_space": _("Checking available disk space"),
+        "pull_image": _("Updating the build image"),
+        "container_build": _("Building and compressing the ISO"),
+        "move_files": _("Publishing the ISO and package list"),
+        "cleanup": _("Removing temporary build resources"),
+    }
+
+
 class BuildProgressDialog(Adw.Window):
     """Dialog showing real-time build progress with terminal log"""
 
@@ -712,15 +726,6 @@ class BuildProgressDialog(Adw.Window):
         return False
 
     def _update_phase(self, phase_name):
-        phase_labels = {
-            "check_engine": _("Checking the container engine"),
-            "check_storage": _("Checking container storage"),
-            "check_space": _("Checking available disk space"),
-            "pull_image": _("Updating the build image"),
-            "container_build": _("Building and compressing the ISO"),
-            "move_files": _("Publishing the ISO and package list"),
-            "cleanup": _("Removing temporary build resources"),
-        }
         step_index = ISOBuilder.step_index_for_phase(phase_name)
         self._active_step_index = step_index
         self._apply_step_states(step_index)
@@ -728,7 +733,7 @@ class BuildProgressDialog(Adw.Window):
         if step_index > ISOBuilder.step_index_for_phase("container_build"):
             self._apply_substep_states(len(self.substep_indicators) - 1, "succeeded")
         self.step_count_label.set_text(_("Step {0} of {1}").format(step_index + 1, len(self.step_indicators)))
-        self.status_label.set_text(phase_labels[phase_name])
+        self.status_label.set_text(phase_labels()[phase_name])
         return False
 
     def _update_build_substep(self, substep_name: str, _fraction: float):

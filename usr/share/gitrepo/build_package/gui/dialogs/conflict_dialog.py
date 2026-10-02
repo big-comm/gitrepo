@@ -104,6 +104,13 @@ class ConflictFileRow(Adw.ActionRow):
             "both": self.both_button,
         }
 
+    def set_side_labels(self, keep_local: str, keep_remote: str) -> None:
+        """Name each side after the branch it comes from (see set_branch_info)."""
+        self.ours_button.set_label(keep_local)
+        self.ours_button.set_tooltip_text(keep_local)
+        self.theirs_button.set_label(keep_remote)
+        self.theirs_button.set_tooltip_text(keep_remote)
+
     def _on_action_clicked(self, _button: Gtk.Button, action: str) -> None:
         """Toggle action selection: click to select, click again to deselect"""
         if self.current_action == action:
@@ -182,6 +189,33 @@ class ConflictDialog(Adw.Window):
 
         self._setup_conflict_css()
         self.create_ui()
+
+    def set_branch_info(self, local_branch: str, remote_branch: str) -> None:
+        """Name both sides after the branches they come from.
+
+        "Local" and "Remote" describe a fetch, and this dialog also resolves a
+        stash transfer between two local branches, where neither side is remote
+        and the version being called local is the work Git holds in stage three.
+        Naming the branches removes the guesswork: one side is the work the user
+        just wrote, the other is what the branch it is going to already had.
+        """
+        if not local_branch or not remote_branch:
+            return
+        self._local_branch = local_branch
+        self._remote_branch = remote_branch
+
+        keep_local = _("Use your work from {0}").format(local_branch)
+        keep_remote = _("Keep {0} version").format(remote_branch)
+        for button, label in (
+            (getattr(self, "_auto_ours_button", None), _("Use all from {0}").format(local_branch)),
+            (getattr(self, "_auto_theirs_button", None), _("Keep all from {0}").format(remote_branch)),
+        ):
+            if button is not None:
+                button.set_label(label)
+
+        for row in getattr(self, "_conflict_rows", []):
+            if hasattr(row, "set_side_labels"):
+                row.set_side_labels(keep_local, keep_remote)
 
     def _setup_conflict_css(self):
         """Register CSS for conflict row states"""
@@ -293,12 +327,14 @@ class ConflictDialog(Adw.Window):
         auto_ours_button.set_label(_("Keep All Local"))
         auto_ours_button.connect("clicked", self.on_auto_ours_clicked)
         strategy_box.append(auto_ours_button)
+        self._auto_ours_button = auto_ours_button
 
         # Auto-theirs button
         auto_theirs_button = Gtk.Button()
         auto_theirs_button.set_label(_("Accept All Remote"))
         auto_theirs_button.connect("clicked", self.on_auto_theirs_clicked)
         strategy_box.append(auto_theirs_button)
+        self._auto_theirs_button = auto_theirs_button
 
         strategy_group.add(strategy_box)
         content_box.append(strategy_group)
@@ -320,6 +356,7 @@ class ConflictDialog(Adw.Window):
         scrolled.set_child(self.conflicts_list)
 
         # Add conflict rows
+        self._conflict_rows = []
         for filepath in self.conflict_files:
             row = ConflictFileRow(filepath, self.local_side)
             row.connect("action-selected", self.on_file_action_selected)
@@ -327,6 +364,7 @@ class ConflictDialog(Adw.Window):
             row.connect("show-diff", self.on_show_diff)
             row.connect("edit-file", self.on_edit_file)
             self.conflicts_list.append(row)
+            self._conflict_rows.append(row)
 
         conflicts_group.add(scrolled)
         content_box.append(conflicts_group)

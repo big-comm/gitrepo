@@ -6,6 +6,8 @@ from dataclasses import dataclass
 
 from gitrepo.common import child_process as subprocess
 
+from .branch_overview import BranchOverview, capture_branch_overview
+from .main_sync import SyncStatus, capture_sync_status
 from .git_status import STATUS_COMMAND, parse_status_records
 from .git_utils import GitUtils
 
@@ -28,6 +30,8 @@ class RepositorySnapshot:
     recent_commits: tuple[tuple[str, str, str, str], ...] = ()
     unpushed_commits: int = 0
     remote_branch_exists: bool = False
+    branch_overview: BranchOverview = BranchOverview()
+    sync_status: SyncStatus = SyncStatus(state="unavailable")
 
     @property
     def has_changes(self) -> bool | None:
@@ -71,9 +75,21 @@ class RepositorySnapshot:
             local_branches=local_branches,
             remote_branches=remote_branches,
             most_recent_branch=_most_recent_remote_branch(),
-            package_name=GitUtils.read_package_name(),
+            package_name=_package_display_name(),
             recent_commits=_recent_commits(),
+            branch_overview=capture_branch_overview(),
+            sync_status=capture_sync_status(),
         )
+
+
+def _package_display_name() -> str:
+    """Name the package, or each package of a repository that keeps several."""
+    name = GitUtils.read_package_name()
+    if name:
+        return name
+    return ", ".join(
+        GitUtils.read_package_name(directory) or directory for directory in GitUtils.list_package_directories()
+    )
 
 
 def _run(command: list[str]):

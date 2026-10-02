@@ -171,3 +171,38 @@ def test_no_generator_logic_is_duplicated_from_the_engine(tmp_path):
     assert "talesam/build-iso" not in source
     for marker in ("pacman-key", "mknod", "sed -i", "buildiso -"):
         assert marker not in script, f"engine responsibility leaked into the setup script: {marker}"
+
+
+def test_community_testing_reaches_the_engine_for_biglinux(tmp_path):
+    builder = _builder(
+        tmp_path,
+        distroname="biglinux",
+        iso_profiles_repo="https://github.com/biglinux/iso-profiles",
+        community_testing=True,
+    )
+
+    assert _env(builder)["COMMUNITY_TESTING"] == "true"
+    # An engine that predates the option would ignore it and build without the
+    # repository, so the cloned engine is checked before the build starts.
+    script = builder._build_setup_script()
+    assert "grep -q COMMUNITY_TESTING /root/gitrepo-build/iso-profiles/build-iso/build-iso.sh" in script
+    assert script.index("grep -q COMMUNITY_TESTING") < script.index("bash /root/gitrepo-build/iso-profiles/build-iso")
+
+
+def test_community_testing_is_off_by_default(tmp_path):
+    builder = _builder(tmp_path, distroname="biglinux", iso_profiles_repo="https://github.com/biglinux/iso-profiles")
+
+    assert _env(builder)["COMMUNITY_TESTING"] == "false"
+    assert "grep -q COMMUNITY_TESTING" not in builder._build_setup_script()
+
+
+def test_community_testing_is_never_sent_for_bigcommunity(tmp_path):
+    # The engine rejects it there: bigcommunity has its own community channel.
+    builder = _builder(
+        tmp_path,
+        distroname="bigcommunity",
+        iso_profiles_repo="https://github.com/big-comm/iso-profiles",
+        community_testing=True,
+    )
+
+    assert _env(builder)["COMMUNITY_TESTING"] == "false"

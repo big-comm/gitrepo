@@ -12,6 +12,7 @@ from gitrepo.common.child_process import authorize_destructive_git
 from .confirmation import StructuredConfirmation
 from .git_status import display_path
 from .git_utils import GitUtils
+from .package_selection import PackageSelection, package_choices
 from gitrepo.common.translation import _
 from .commit_operations import commit_and_push
 from .repository_lock import journey
@@ -162,24 +163,38 @@ def _publish_testing_branch(bp, branch: str) -> bool:
     return True
 
 
-def _package_name(bp) -> str:
-    package_name = GitUtils.get_package_name()
+def _package_name(bp, package_directory="") -> str:
+    package_name = GitUtils.get_package_name(package_directory) if package_directory else GitUtils.get_package_name()
     if not package_name:
         bp.logger.log("red", _("Could not read a package name with makepkg --printsrcinfo."))
         return ""
     return package_name
 
 
-def _trigger_package_workflow(bp, package_name, branch_type, working_branch, tmate_option):
+def _choose_package_directories(bp):
+    """Return which packages to build: [""] for the usual one-PKGBUILD layout.
+
+    A repository that keeps several packages side by side (a kernel and the
+    modules built against it) is asked which ones, since building "the
+    package" has no single answer there. None means the choice was cancelled.
+    """
+    packages = GitUtils.list_package_directories()
+    if len(packages) <= 1:
+        return [""]
+    choices, main = package_choices(packages)
+    directories = bp.menu.choose_packages(PackageSelection(choices, main))
+    if not directories:
+        bp.logger.log("yellow", _("Package build cancelled."))
+        return None
+    return directories
+
+
+def _trigger_package_workflow(bp, package_name, branch_type, working_branch, tmate_option, package_directory=""):
     new_branch = working_branch if working_branch != "main" else ""
-    return bp.github_api.trigger_workflow(
-        package_name,
-        branch_type,
-        new_branch,
-        False,
-        tmate_option,
-        bp.logger,
-    )
+    arguments = (package_name, branch_type, new_branch, False, tmate_option, bp.logger)
+    if package_directory:
+        return bp.github_api.trigger_workflow(*arguments, package_directory=package_directory)
+    return bp.github_api.trigger_workflow(*arguments)
 
 
 def _branch_type_label(branch_type: str) -> str:
@@ -209,15 +224,21 @@ def commit_and_generate_package(build_package_instance, branch_type, commit_mess
     if not _commit_pending_changes(bp, commit_message):
         return False
 
-    if not _package_name(bp):
+    package_directories = _choose_package_directories(bp)
+    if package_directories is None:
+        return False
+    if not all(_package_name(bp, directory) for directory in package_directories):
         return False
     working_branch = _prepare_working_branch(bp, branch_type, testing_branch)
     if not working_branch:
         return False
-    package_name = _package_name(bp)
-    if not package_name:
+    packages = [(directory, _package_name(bp, directory)) for directory in package_directories]
+    if not all(package_name for _directory, package_name in packages):
         return False
-    _show_package_summary(bp, package_name, branch_type, working_branch, tmate_option)
+    if len(packages) > 1:
+        return _generate_several_packages(bp, packages, branch_type, working_branch, tmate_option)
+    package_directory, package_name = packages[0]
+    _show_package_summary(bp, package_name, branch_type, working_branch, tmate_option, package_directory)
     if getattr(bp, "dry_run_mode", False):
         bp.logger.log("green", _("Dry run completed; no workflow was triggered."))
         return True
@@ -227,12 +248,52 @@ def commit_and_generate_package(build_package_instance, branch_type, commit_mess
         _branch_type_label(branch_type),
         working_branch,
     )
+    if package_directory:
+        question += "\n" + _("Directory: {0}").format(f"{package_directory}/")
     if not bp.menu.confirm(StructuredConfirmation(question), default_yes=False):
         bp.logger.log("yellow", _("Package build cancelled."))
         return False
-    success = _trigger_package_workflow(bp, package_name, branch_type, working_branch, tmate_option)
+    success = _trigger_package_workflow(bp, package_name, branch_type, working_branch, tmate_option, package_directory)
     bp.logger.log("green" if success else "red", _("Package workflow started.") if success else _("Workflow failed."))
     return success
+
+
+def _generate_several_packages(bp, packages, branch_type, working_branch, tmate_option):
+    """Trigger one build per chosen package, on the branch already prepared once.
+
+    A failed dispatch is recorded and the rest still go out: the packages are
+    independent builds, and stopping halfway would leave the user guessing
+    which ones started.
+    """
+    names = ", ".join(package_name for _directory, package_name in packages)
+    directories = [directory for directory, _package_name in packages]
+    _show_package_summary(bp, names, branch_type, working_branch, tmate_option, directories)
+    if getattr(bp, "dry_run_mode", False):
+        bp.logger.log("green", _("Dry run completed; no workflow was triggered."))
+        return True
+
+    question = _("Trigger {0} GitHub Actions package builds?\nType: {1}\nBranch: {2}").format(
+        len(packages),
+        _branch_type_label(branch_type),
+        working_branch,
+    )
+    question += "\n" + _("Packages:") + "".join(f"\n• {directory}/" for directory in directories)
+    if not bp.menu.confirm(StructuredConfirmation(question), default_yes=False):
+        bp.logger.log("yellow", _("Package build cancelled."))
+        return False
+
+    triggered, failed = [], []
+    for index, (directory, package_name) in enumerate(packages, start=1):
+        bp.logger.log("cyan", _("[{0}/{1}] Triggering the build of {2}/").format(index, len(packages), directory))
+        success = _trigger_package_workflow(bp, package_name, branch_type, working_branch, tmate_option, directory)
+        (triggered if success else failed).append(f"{directory}/")
+        if not success:
+            bp.logger.log("red", _("Workflow failed for {0}/; continuing with the next package.").format(directory))
+    if triggered:
+        bp.logger.log("green", _("Package workflows started: {0}").format(", ".join(triggered)))
+    if failed:
+        bp.logger.log("red", _("Package workflows that failed: {0}").format(", ".join(failed)))
+    return not failed
 
 
 def _conflicted_paths() -> list[str]:
@@ -608,7 +669,7 @@ def _restore_branch(bp, branch: str) -> bool:
     return True
 
 
-def _show_package_summary(bp, package_name, branch_type, working_branch, tmate_option):
+def _show_package_summary(bp, package_name, branch_type, working_branch, tmate_option, package_directory=""):
     """Helper: Show package build summary"""
     repo_name = GitUtils.get_repo_name()
 
@@ -620,6 +681,10 @@ def _show_package_summary(bp, package_name, branch_type, working_branch, tmate_o
         (_("Working Branch"), working_branch),
     ]
 
+    if package_directory:
+        directories = [package_directory] if isinstance(package_directory, str) else package_directory
+        label = _("Package Directory") if len(directories) == 1 else _("Package Directories")
+        data.append((label, ", ".join(f"{directory}/" for directory in directories)))
     if repo_name:
         data.append((_("Repository"), repo_name))
 
