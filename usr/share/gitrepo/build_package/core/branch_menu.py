@@ -13,6 +13,7 @@ from rich.text import Text
 from gitrepo.common.translation import _
 
 from . import branch_overview as overview_core
+from . import main_sync
 from .branch_handler import create_branch, delete_branch, describe_branch, rename_branch, switch_branch
 from .git_utils import PROTECTED_BRANCHES, GitUtils
 
@@ -47,7 +48,7 @@ def branch_menu(bp) -> None:
         bp.logger.log("red", _("This operation is only available in Git repositories."))
         return
     actions = (
-        (_("Compare branches (local × origin × main)"), _compare_branches_flow),
+        (_("Sync with main (is my work in main?)"), _sync_flow),
         (_("Switch branch"), _switch_branch_flow),
         (_("Create branch"), _create_branch_flow),
         (_("Rename branch"), _rename_branch_flow),
@@ -76,14 +77,24 @@ _TONE_STYLES = {
 }
 
 
+def _tone_text(tone: str, text: str) -> Text:
+    """A coloured label led by a symbol, so the state reads without colour too."""
+    return Text(f"{overview_core.TONE_GLYPHS[tone]} {text}", style=_TONE_STYLES[tone])
+
+
 def _tip_cell(tip) -> Text:
     if tip is None:
         return Text("—", style="dim")
     return Text(tip.short_sha, style="magenta")
 
 
+def _freshness(status_or_overview) -> Text:
+    tone, text = overview_core.describe_freshness(status_or_overview)
+    return Text(text, style=_TONE_STYLES[tone])
+
+
 def _overview_renderable(overview) -> Group:
-    """Lay the overview out as one table plus the freshness of origin and a legend."""
+    """Lay every branch out as one table plus the freshness of origin and a legend."""
     table = Table(box=None, pad_edge=False, header_style="bold", expand=False)
     table.add_column("", width=1)
     table.add_column(_("Branch"), no_wrap=True)
@@ -92,8 +103,6 @@ def _overview_renderable(overview) -> Group:
     table.add_column(_("Local × origin"), no_wrap=True)
     table.add_column(_("× {0}").format(overview.base_ref or "main"), no_wrap=True)
     for branch in overview.branches:
-        remote_tone, remote_text = overview_core.describe_vs_remote(branch)
-        base_tone, base_text = overview_core.describe_vs_base(branch, overview)
         # Text, not markup: a branch name is shown exactly as it is named.
         name = Text(branch.name, style="bold bright_white" if branch.is_current else "white")
         table.add_row(
@@ -101,39 +110,77 @@ def _overview_renderable(overview) -> Group:
             name,
             _tip_cell(branch.local),
             _tip_cell(branch.remote),
-            Text(remote_text, style=_TONE_STYLES[remote_tone]),
-            Text(base_text, style=_TONE_STYLES[base_tone]),
+            _tone_text(*overview_core.describe_vs_remote(branch)),
+            _tone_text(*overview_core.describe_vs_base(branch, overview)),
         )
-    freshness_tone, freshness_text = overview_core.describe_freshness(overview)
-    fetched = Text(freshness_text, style=_TONE_STYLES[freshness_tone])
     legend = Text()
     for tone, meaning in overview_core.legend():
-        legend.append("■ ", style=_TONE_STYLES[tone])
-        legend.append(f"{meaning}   ", style="dim")
-    return Group(table, Text(""), fetched, legend)
+        legend.append_text(_tone_text(tone, meaning))
+        legend.append("   ")
+    return Group(table, Text(""), _freshness(overview), legend)
 
 
-def _compare_branches_flow(bp) -> None:
-    """Show where each branch points; fetch only when the user asks for it."""
-    options = [_("Update from origin (git fetch --prune origin)"), _("Back")]
+def _sync_renderable(status) -> Group:
+    """The verdict in words first, then the four copies it was drawn from."""
+    tone, title, description = main_sync.verdict(status)
+    parts = [_tone_text(tone, title), Text(description), Text("")]
+    if status.refs:
+        table = Table(box=None, pad_edge=False, header_style="bold", expand=False)
+        table.add_column(_("Copy"), no_wrap=True)
+        table.add_column(_("Commit"), no_wrap=True)
+        table.add_column(_("Situation"), no_wrap=True)
+        table.add_column(_("Last commit"), overflow="ellipsis", no_wrap=True, max_width=48)
+        for ref in status.refs:
+            table.add_row(
+                Text(ref.label, style="bold"),
+                _tip_cell(ref.tip),
+                _tone_text(*main_sync.describe_ref(ref)),
+                Text(ref.tip.subject if ref.tip else "", style="dim"),
+            )
+        parts.extend([table, Text("")])
+    parts.append(_freshness(status))
+    return Group(*parts)
+
+
+def _pause() -> None:
+    Prompt.ask(_("Press Enter to continue"), default="", show_default=False)
+
+
+def _all_branches_flow(bp) -> None:
+    overview = overview_core.capture_branch_overview()
+    if overview.error:
+        bp.logger.log("red", _("Could not read the branches of this repository."))
+        return
+    bp.menu.show_menu(_("All branches"), [_("Back")], additional_content=_overview_renderable(overview))
+
+
+def _sync_flow(bp) -> None:
+    """Say whether the branch is in main, and align every copy on request."""
+    options = [
+        _("Synchronize with origin/main (git fetch, then fast-forward)"),
+        _("Only check origin (git fetch --prune origin)"),
+        _("Show all branches"),
+        _("Back"),
+    ]
     while True:
-        overview = overview_core.capture_branch_overview()
-        if overview.error:
-            bp.logger.log("red", _("Could not read the branches of this repository."))
-            return
+        status = main_sync.capture_sync_status()
+        default = 0 if status.state == main_sync.CATCH_UP else 3
         result = bp.menu.show_menu(
-            _("Where each branch is"),
-            options,
-            default_index=1,
-            additional_content=_overview_renderable(overview),
+            _("Sync with main"), options, default_index=default, additional_content=_sync_renderable(status)
         )
-        if result is None or result[0] == 1:
+        if result is None or result[0] == 3:
             return
-        bp.logger.log("cyan", _("Running git fetch --prune origin..."))
-        success, error = overview_core.fetch_origin()
-        if not success:
-            bp.logger.log("red", _("git fetch failed: {0}").format(error or _("unknown error")))
-            Prompt.ask(_("Press Enter to continue"), default="", show_default=False)
+        if result[0] == 0:
+            main_sync.sync_with_main(bp)
+            _pause()
+        elif result[0] == 1:
+            bp.logger.log("cyan", _("Running git fetch --prune origin..."))
+            success, error = overview_core.fetch_origin()
+            if not success:
+                bp.logger.log("red", _("git fetch failed: {0}").format(error or _("unknown error")))
+                _pause()
+        else:
+            _all_branches_flow(bp)
 
 
 def _switch_branch_flow(bp) -> None:

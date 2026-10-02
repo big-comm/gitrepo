@@ -605,6 +605,9 @@ class OperationRunner:
     def _on_operation_error(self, error):
         """Notify about a failure already acknowledged in the progress dialog."""
         if self.parent:
+            # A journey that stopped halfway may still have moved refs.
+            if hasattr(self.parent, "refresh_all_widgets"):
+                self.parent.refresh_all_widgets()
             # Send system notification if window is not focused
             if not self.parent.is_active():
                 if hasattr(self.parent, "send_system_notification"):

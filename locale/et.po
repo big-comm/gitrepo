@@ -7678,21 +7678,6 @@ msgstr "Ei saa võrrelda"
 #: usr/share/gitrepo/build_package/core/branch_overview.py:248
 msgid "Same as origin"
 msgstr "Sama mis origin"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 249
-#: usr/share/gitrepo/build_package/core/branch_overview.py:249
-#, python-brace-format
-msgid "↑{0} to push"
-msgstr "↑{0} saata"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 250
-#: usr/share/gitrepo/build_package/core/branch_overview.py:250
-#, python-brace-format
-msgid "↓{0} to pull"
-msgstr "↓{0} tõmmata"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 251
-#: usr/share/gitrepo/build_package/core/branch_overview.py:251
-#, python-brace-format
-msgid "↑{0} ↓{1} diverged"
-msgstr "↑{0} ↓{1} lahknenud"
 # File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 259
 #: usr/share/gitrepo/build_package/core/branch_overview.py:259
 msgid "Base branch"
@@ -7706,41 +7691,14 @@ msgstr "Pole millega võrrelda"
 #, python-brace-format
 msgid "Same as {0}"
 msgstr "Sama mis {0}"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 265
-#: usr/share/gitrepo/build_package/core/branch_overview.py:265
-#, python-brace-format
-msgid "↑{0} ahead of {1}"
-msgstr "↑{0} ees: {1}"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 266
-#: usr/share/gitrepo/build_package/core/branch_overview.py:266
-#, python-brace-format
-msgid "↓{0} behind {1}"
-msgstr "↓{0} maas: {1}"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 267
-#: usr/share/gitrepo/build_package/core/branch_overview.py:267
-#, python-brace-format
-msgid "↑{0} ↓{1} diverged from {2}"
-msgstr "↑{0} ↓{1} lahknenud: {2}"
 # File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 275
 #: usr/share/gitrepo/build_package/core/branch_overview.py:275
 msgid "same commit"
 msgstr "sama commit"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 276
-#: usr/share/gitrepo/build_package/core/branch_overview.py:276
-msgid "↑ has commits the other side lacks"
-msgstr "↑ sisaldab commite, mida teisel poolel pole"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 277
-#: usr/share/gitrepo/build_package/core/branch_overview.py:277
-msgid "↓ lacks commits the other side has"
-msgstr "↓ puuduvad commitid, mis teisel poolel on"
 # File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 278
 #: usr/share/gitrepo/build_package/core/branch_overview.py:278
 msgid "both: needs a merge or rebase"
 msgstr "mõlemad: vajab mergeʼi või rebaseʼi"
-# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 50
-#: usr/share/gitrepo/build_package/core/branch_menu.py:50
-msgid "Compare branches (local × origin × main)"
-msgstr "Võrdle harusid (kohalik × origin × main)"
 # File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 90
 #: usr/share/gitrepo/build_package/core/branch_menu.py:90
 msgid "Local"
@@ -7754,19 +7712,10 @@ msgstr "Kohalik × origin"
 #, python-brace-format
 msgid "× {0}"
 msgstr "× {0}"
-# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 118
-#: usr/share/gitrepo/build_package/core/branch_menu.py:118
-msgid "Update from origin (git fetch --prune origin)"
-msgstr "Uuenda originist (git fetch --prune origin)"
 # File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 122
 #: usr/share/gitrepo/build_package/core/branch_menu.py:122
 msgid "Could not read the branches of this repository."
 msgstr "Selle hoidla harusid ei õnnestunud lugeda."
-# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 125
-#: usr/share/gitrepo/build_package/core/branch_menu.py:125
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:185
-msgid "Where each branch is"
-msgstr "Kus iga haru asub"
 # File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 132
 #: usr/share/gitrepo/build_package/core/branch_menu.py:132
 msgid "Running git fetch --prune origin..."
@@ -7801,24 +7750,271 @@ msgstr "Kohalik haru × origin/{0}"
 #, python-brace-format
 msgid "This branch × {0}"
 msgstr "See haru × {0}"
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 189
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:189
-msgid "Reading the colours"
-msgstr "Värvide tähendus"
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 191
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:191
-msgid "Green: the same commit on both sides. Blue ↑: this side has commits the other lacks (push or merge them). Yellow ↓: this side lacks commits the other has (pull them). Red: both, so the branches diverged and need a merge or rebase. origin is only as fresh as the last git fetch."
-msgstr "Roheline: sama commit mõlemal pool. Sinine ↑: sellel poolel on commite, mida teisel pole (saada või merge'i need). Kollane ↓: sellel poolel puuduvad commitid, mis teisel on (tõmba need). Punane: mõlemad, st harud on lahknenud ja vajavad mergeʼi või rebaseʼi. origin on sama värske kui viimane git fetch."
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 199
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:199
-msgid "Update from origin"
-msgstr "Uuenda originist"
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 431
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:431
-#, python-brace-format
-msgid "Each branch against its copy on origin and against {0}."
-msgstr "Iga haru võrreldes oma koopiaga originis ja haruga {0}."
 # File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 197
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:197
 msgid "origin updated (git fetch --prune origin)"
 msgstr "origin uuendatud (git fetch --prune origin)"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 260
+#: usr/share/gitrepo/build_package/core/branch_overview.py:260
+#, python-brace-format
+msgid "{0} to push"
+msgstr "{0} saata"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 261
+#: usr/share/gitrepo/build_package/core/branch_overview.py:261
+#, python-brace-format
+msgid "{0} to pull"
+msgstr "{0} tõmmata"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 262
+#: usr/share/gitrepo/build_package/core/branch_overview.py:262
+#, python-brace-format
+msgid "{0} to push, {1} to pull"
+msgstr "{0} saata, {1} tõmmata"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 276
+#: usr/share/gitrepo/build_package/core/branch_overview.py:276
+#, python-brace-format
+msgid "{0} ahead of {1}"
+msgstr "{0} ees harust {1}"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 277
+#: usr/share/gitrepo/build_package/core/branch_overview.py:277
+#, python-brace-format
+msgid "{0} behind {1}"
+msgstr "{0} taga harust {1}"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 278
+#: usr/share/gitrepo/build_package/core/branch_overview.py:278
+#, python-brace-format
+msgid "{0} ahead and {1} behind {2}"
+msgstr "{0} ees ja {1} taga harust {2}"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 287
+#: usr/share/gitrepo/build_package/core/branch_overview.py:287
+msgid "has commits the other side lacks"
+msgstr "sisaldab commit'e, mida teisel poolel pole"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 288
+#: usr/share/gitrepo/build_package/core/branch_overview.py:288
+msgid "lacks commits the other side has"
+msgstr "puuduvad commit'id, mis teisel poolel on"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 89
+#: usr/share/gitrepo/build_package/core/main_sync.py:89
+msgid "This folder is not a Git repository."
+msgstr "See kaust ei ole Giti hoidla."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 95
+#: usr/share/gitrepo/build_package/core/main_sync.py:95
+msgid "No branch is checked out (detached HEAD)."
+msgstr "Ühtegi haru pole välja võetud (lahtine HEAD)."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 105
+#: usr/share/gitrepo/build_package/core/main_sync.py:105
+msgid "origin has no main branch to compare with."
+msgstr "origin'il pole main-haru, millega võrrelda."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 147
+#: usr/share/gitrepo/build_package/core/main_sync.py:147
+msgid "Nothing to compare"
+msgstr "Pole midagi võrrelda"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 151
+#: usr/share/gitrepo/build_package/core/main_sync.py:151
+#, python-brace-format
+msgid "main and origin/main are on the same commit ({0})."
+msgstr "main ja origin/main on samal commit'il ({0})."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 153
+#: usr/share/gitrepo/build_package/core/main_sync.py:153
+#, python-brace-format
+msgid "{0}, origin/{0}, main and origin/main are on the same commit ({1})."
+msgstr "{0}, origin/{0}, main ja origin/main on samal commit'il ({1})."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 156
+#: usr/share/gitrepo/build_package/core/main_sync.py:156
+msgid "Everything is in sync"
+msgstr "Kõik on sünkroonis"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 160
+#: usr/share/gitrepo/build_package/core/main_sync.py:160
+msgid "Your work is already in main"
+msgstr "Su töö on juba main-is"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 162
+#: usr/share/gitrepo/build_package/core/main_sync.py:162
+#, python-brace-format
+msgid "origin/main has everything from {0}, but some copies on this computer or on origin are still on older commits. Synchronize brings them all to {1}."
+msgstr "origin/main sisaldab kõike harust {0}, kuid mõned koopiad sellel arvutil või origin'is on veel vanematel commit'idel. Sünkrooni viib need kõik peale {1}."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 167
+#: usr/share/gitrepo/build_package/core/main_sync.py:167
+#, python-brace-format
+msgid "{0} has commits that origin/main does not have yet ({1}). Take them to main with a pull request or by building a stable package."
+msgstr "Harus {0} on commit'e, mida origin/main-il veel pole ({1}). Vii need main-i pull requesti või stabiilse paketi ehitamisega."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 171
+#: usr/share/gitrepo/build_package/core/main_sync.py:171
+#, python-brace-format
+msgid "{0} of them are not on origin yet: publish your changes first."
+msgstr "{0} neist pole veel origin'is, avalda kõigepealt oma muudatused."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 172
+#: usr/share/gitrepo/build_package/core/main_sync.py:172
+#, python-brace-format
+msgid "{0} has work that is not in main"
+msgstr "Harus {0} on töö, mida main-is pole"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 178
+#: usr/share/gitrepo/build_package/core/main_sync.py:178
+msgid "Reference"
+msgstr "Viide"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 180
+#: usr/share/gitrepo/build_package/core/main_sync.py:180
+msgid "Does not exist"
+msgstr "Puudub"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 185
+#: usr/share/gitrepo/build_package/core/main_sync.py:185
+msgid "Same as origin/main"
+msgstr "Sama mis origin/main"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 186
+#: usr/share/gitrepo/build_package/core/main_sync.py:186
+#, python-brace-format
+msgid "{0} ahead of origin/main"
+msgstr "{0} ees võrreldes origin/main-iga"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 187
+#: usr/share/gitrepo/build_package/core/main_sync.py:187
+#, python-brace-format
+msgid "{0} behind origin/main"
+msgstr "{0} taga võrreldes origin/main-iga"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 190
+#: usr/share/gitrepo/build_package/core/main_sync.py:190
+#, python-brace-format
+msgid "{0} ahead and {1} behind origin/main"
+msgstr "{0} ees ja {1} taga võrreldes origin/main-iga"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 232
+#: usr/share/gitrepo/build_package/core/main_sync.py:232
+#, python-brace-format
+msgid "Bring into {0} the commits already published on origin/{0}."
+msgstr "Too harusse {0} origin/{0}-s juba avaldatud commit'id."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 240
+#: usr/share/gitrepo/build_package/core/main_sync.py:240
+#, python-brace-format
+msgid "Move {0} forward to origin/main; it only gains commits."
+msgstr "Liiguta {0} edasi origin/main-ini; see ainult saab juurde commit'e."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 249
+#: usr/share/gitrepo/build_package/core/main_sync.py:249
+msgid "Create the local main from origin/main."
+msgstr "Loo kohalik main harust origin/main."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 256
+#: usr/share/gitrepo/build_package/core/main_sync.py:256
+msgid "Move the local main forward to origin/main; it only gains commits."
+msgstr "Liiguta kohalik main edasi origin/main-ini; see ainult saab juurde commit'e."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 264
+#: usr/share/gitrepo/build_package/core/main_sync.py:264
+#, python-brace-format
+msgid "The local main has commits that origin/main does not have ({0}); keep them in {1}."
+msgstr "Kohalikul main-il on commit'e, mida origin/main-il pole ({0}); need säilitatakse harus {1}."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 273
+#: usr/share/gitrepo/build_package/core/main_sync.py:273
+msgid "Point the local main at origin/main."
+msgstr "Suuna kohalik main harule origin/main."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 289
+#: usr/share/gitrepo/build_package/core/main_sync.py:289
+#, python-brace-format
+msgid "Publish {0} on origin so origin/{0} matches main too."
+msgstr "Avalda {0} origin'is, et ka origin/{0} ühtiks main-iga."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 341
+#: usr/share/gitrepo/build_package/core/main_sync.py:341
+msgid "Synchronize with origin/main?"
+msgstr "Kas sünkroonida origin/main-iga?"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 342
+#: usr/share/gitrepo/build_package/core/main_sync.py:342
+msgid "Only fast-forwards run, so nothing is merged and no work is discarded."
+msgstr "Käivitatakse ainult fast-forward'id, nii et midagi ei liideta ega visata tööd ära."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 348
+#: usr/share/gitrepo/build_package/core/main_sync.py:348
+msgid "Synchronization cancelled; only git fetch ran."
+msgstr "Sünkroonimine tühistati; töötas ainult git fetch."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 357
+#: usr/share/gitrepo/build_package/core/main_sync.py:357
+#, python-brace-format
+msgid "Synchronization stopped at {0}: {1}"
+msgstr "Sünkroonimine peatus kohas {0}: {1}"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 361
+#: usr/share/gitrepo/build_package/core/main_sync.py:361
+msgid "If Git mentions local changes, commit or stash them and synchronize again."
+msgstr "Kui Git mainib kohalikke muudatusi, tee need commit'iks või stash'i ja sünkrooni uuesti."
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 51
+#: usr/share/gitrepo/build_package/core/branch_menu.py:51
+msgid "Sync with main (is my work in main?)"
+msgstr "Sünkrooni main-iga (kas minu töö on main-is?)"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 129
+#: usr/share/gitrepo/build_package/core/branch_menu.py:129
+msgid "Copy"
+msgstr "Koopia"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 131
+#: usr/share/gitrepo/build_package/core/branch_menu.py:131
+msgid "Situation"
+msgstr "Olukord"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 132
+#: usr/share/gitrepo/build_package/core/branch_menu.py:132
+msgid "Last commit"
+msgstr "Viimane commit"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 154
+#: usr/share/gitrepo/build_package/core/branch_menu.py:154
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:293
+msgid "All branches"
+msgstr "Kõik harud"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 160
+#: usr/share/gitrepo/build_package/core/branch_menu.py:160
+msgid "Synchronize with origin/main (git fetch, then fast-forward)"
+msgstr "Sünkrooni origin/main-iga (git fetch, seejärel fast-forward)"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 161
+#: usr/share/gitrepo/build_package/core/branch_menu.py:161
+msgid "Only check origin (git fetch --prune origin)"
+msgstr "Kontrolli ainult origin'it (git fetch --prune origin)"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 162
+#: usr/share/gitrepo/build_package/core/branch_menu.py:162
+msgid "Show all branches"
+msgstr "Näita kõiki harusid"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 169
+#: usr/share/gitrepo/build_package/core/branch_menu.py:169
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:224
+msgid "Sync with main"
+msgstr "Sünkroonimine main-iga"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 112
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:112
+msgid "Copy on origin (GitHub)"
+msgstr "Koopia origin'is (GitHub)"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 112
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:112
+msgid "Copy on this computer"
+msgstr "Koopia sellel arvutil"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
+#, python-brace-format
+msgid "commit {0} · {1} · {2}"
+msgstr "commit {0} · {1} · {2}"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 119
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:119
+msgid "This copy does not exist."
+msgstr "Seda koopiat pole olemas."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 227
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:227
+msgid "Shows whether your work is already in origin/main, where pull requests land and stable packages are built from."
+msgstr "Näitab, kas su töö on juba origin/main-is, kuhu pull requestid jõuavad ja kust stabiilsed paketid ehitatakse."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 233
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:233
+msgid "How synchronizing works"
+msgstr "Kuidas sünkroonimine töötab"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 235
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:235
+msgid "Synchronize runs git fetch and then only moves copies forward: your branch and the local main advance to origin/main, and your branch is published when it already matches main. Commits that exist only in the local main are kept in a backup branch first. Nothing is merged and no work is discarded."
+msgstr "Sünkrooni käivitab git fetch'i ja liigutab seejärel koopiaid ainult edasi: su haru ja kohalik main jõuavad origin/main-ini ning su haru avaldatakse, kui see juba ühtib main-iga. Commit'id, mis on ainult kohalikus main-is, säilitatakse enne varukoopia harus. Midagi ei liideta ega visata tööd ära."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 243
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:243
+msgid "Check origin"
+msgstr "Kontrolli origin'it"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 247
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:247
+msgid "Read the latest state of origin without changing any branch."
+msgstr "Loe origin'i viimane olek ühtegi haru muutmata."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 263
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:263
+msgid "Synchronize"
+msgstr "Sünkrooni"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 538
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:538
+#, python-brace-format
+msgid "{0} branches, each against its copy on origin and against {1}"
+msgstr "{0} haru, kõik võrreldes oma koopiaga origin'is ja haruga {1}"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 217
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:217
+msgid "Synchronizing with main"
+msgstr "Sünkroonimine main-iga"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 218
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:218
+msgid "git fetch, then moving copies forward to origin/main..."
+msgstr "git fetch, seejärel koopiate liigutamine edasi origin/main-ini..."

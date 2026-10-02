@@ -7674,21 +7674,6 @@ msgstr "Kan ikke sammenligne"
 #: usr/share/gitrepo/build_package/core/branch_overview.py:248
 msgid "Same as origin"
 msgstr "Samme som origin"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 249
-#: usr/share/gitrepo/build_package/core/branch_overview.py:249
-#, python-brace-format
-msgid "↑{0} to push"
-msgstr "↑{0} at pushe"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 250
-#: usr/share/gitrepo/build_package/core/branch_overview.py:250
-#, python-brace-format
-msgid "↓{0} to pull"
-msgstr "↓{0} at pulle"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 251
-#: usr/share/gitrepo/build_package/core/branch_overview.py:251
-#, python-brace-format
-msgid "↑{0} ↓{1} diverged"
-msgstr "↑{0} ↓{1} divergeret"
 # File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 259
 #: usr/share/gitrepo/build_package/core/branch_overview.py:259
 msgid "Base branch"
@@ -7702,41 +7687,14 @@ msgstr "Intet at sammenligne med"
 #, python-brace-format
 msgid "Same as {0}"
 msgstr "Samme som {0}"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 265
-#: usr/share/gitrepo/build_package/core/branch_overview.py:265
-#, python-brace-format
-msgid "↑{0} ahead of {1}"
-msgstr "↑{0} foran {1}"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 266
-#: usr/share/gitrepo/build_package/core/branch_overview.py:266
-#, python-brace-format
-msgid "↓{0} behind {1}"
-msgstr "↓{0} bagud for {1}"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 267
-#: usr/share/gitrepo/build_package/core/branch_overview.py:267
-#, python-brace-format
-msgid "↑{0} ↓{1} diverged from {2}"
-msgstr "↑{0} ↓{1} divergeret fra {2}"
 # File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 275
 #: usr/share/gitrepo/build_package/core/branch_overview.py:275
 msgid "same commit"
 msgstr "samme commit"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 276
-#: usr/share/gitrepo/build_package/core/branch_overview.py:276
-msgid "↑ has commits the other side lacks"
-msgstr "↑ har commits, som den anden side mangler"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 277
-#: usr/share/gitrepo/build_package/core/branch_overview.py:277
-msgid "↓ lacks commits the other side has"
-msgstr "↓ mangler commits, som den anden side har"
 # File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 278
 #: usr/share/gitrepo/build_package/core/branch_overview.py:278
 msgid "both: needs a merge or rebase"
 msgstr "begge: kræver merge eller rebase"
-# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 50
-#: usr/share/gitrepo/build_package/core/branch_menu.py:50
-msgid "Compare branches (local × origin × main)"
-msgstr "Sammenlign grene (lokal × origin × main)"
 # File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 90
 #: usr/share/gitrepo/build_package/core/branch_menu.py:90
 msgid "Local"
@@ -7750,19 +7708,10 @@ msgstr "Lokal × origin"
 #, python-brace-format
 msgid "× {0}"
 msgstr "× {0}"
-# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 118
-#: usr/share/gitrepo/build_package/core/branch_menu.py:118
-msgid "Update from origin (git fetch --prune origin)"
-msgstr "Opdater fra origin (git fetch --prune origin)"
 # File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 122
 #: usr/share/gitrepo/build_package/core/branch_menu.py:122
 msgid "Could not read the branches of this repository."
 msgstr "Kunne ikke læse grenene i dette lager."
-# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 125
-#: usr/share/gitrepo/build_package/core/branch_menu.py:125
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:185
-msgid "Where each branch is"
-msgstr "Hvor hver gren står"
 # File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 132
 #: usr/share/gitrepo/build_package/core/branch_menu.py:132
 msgid "Running git fetch --prune origin..."
@@ -7797,24 +7746,271 @@ msgstr "Lokal gren × origin/{0}"
 #, python-brace-format
 msgid "This branch × {0}"
 msgstr "Denne gren × {0}"
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 189
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:189
-msgid "Reading the colours"
-msgstr "Sådan læses farverne"
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 191
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:191
-msgid "Green: the same commit on both sides. Blue ↑: this side has commits the other lacks (push or merge them). Yellow ↓: this side lacks commits the other has (pull them). Red: both, so the branches diverged and need a merge or rebase. origin is only as fresh as the last git fetch."
-msgstr "Grøn: samme commit på begge sider. Blå ↑: denne side har commits, som den anden mangler (push eller merge dem). Gul ↓: denne side mangler commits, som den anden har (pull dem). Rød: begge, så grenene er divergeret og kræver merge eller rebase. origin er kun så frisk som den seneste git fetch."
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 199
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:199
-msgid "Update from origin"
-msgstr "Opdater fra origin"
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 431
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:431
-#, python-brace-format
-msgid "Each branch against its copy on origin and against {0}."
-msgstr "Hver gren sammenlignet med sin kopi på origin og med {0}."
 # File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 197
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:197
 msgid "origin updated (git fetch --prune origin)"
 msgstr "origin opdateret (git fetch --prune origin)"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 260
+#: usr/share/gitrepo/build_package/core/branch_overview.py:260
+#, python-brace-format
+msgid "{0} to push"
+msgstr "{0} at pushe"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 261
+#: usr/share/gitrepo/build_package/core/branch_overview.py:261
+#, python-brace-format
+msgid "{0} to pull"
+msgstr "{0} at pulle"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 262
+#: usr/share/gitrepo/build_package/core/branch_overview.py:262
+#, python-brace-format
+msgid "{0} to push, {1} to pull"
+msgstr "{0} at pushe, {1} at pulle"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 276
+#: usr/share/gitrepo/build_package/core/branch_overview.py:276
+#, python-brace-format
+msgid "{0} ahead of {1}"
+msgstr "{0} foran {1}"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 277
+#: usr/share/gitrepo/build_package/core/branch_overview.py:277
+#, python-brace-format
+msgid "{0} behind {1}"
+msgstr "{0} bagud for {1}"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 278
+#: usr/share/gitrepo/build_package/core/branch_overview.py:278
+#, python-brace-format
+msgid "{0} ahead and {1} behind {2}"
+msgstr "{0} foran og {1} bagud for {2}"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 287
+#: usr/share/gitrepo/build_package/core/branch_overview.py:287
+msgid "has commits the other side lacks"
+msgstr "har commits, som den anden side mangler"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 288
+#: usr/share/gitrepo/build_package/core/branch_overview.py:288
+msgid "lacks commits the other side has"
+msgstr "mangler commits, som den anden side har"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 89
+#: usr/share/gitrepo/build_package/core/main_sync.py:89
+msgid "This folder is not a Git repository."
+msgstr "Denne mappe er ikke et Git-lager."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 95
+#: usr/share/gitrepo/build_package/core/main_sync.py:95
+msgid "No branch is checked out (detached HEAD)."
+msgstr "Ingen gren er tjekket ud (frakoblet HEAD)."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 105
+#: usr/share/gitrepo/build_package/core/main_sync.py:105
+msgid "origin has no main branch to compare with."
+msgstr "origin har ingen main-gren at sammenligne med."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 147
+#: usr/share/gitrepo/build_package/core/main_sync.py:147
+msgid "Nothing to compare"
+msgstr "Intet at sammenligne"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 151
+#: usr/share/gitrepo/build_package/core/main_sync.py:151
+#, python-brace-format
+msgid "main and origin/main are on the same commit ({0})."
+msgstr "main og origin/main er på samme commit ({0})."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 153
+#: usr/share/gitrepo/build_package/core/main_sync.py:153
+#, python-brace-format
+msgid "{0}, origin/{0}, main and origin/main are on the same commit ({1})."
+msgstr "{0}, origin/{0}, main og origin/main er på samme commit ({1})."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 156
+#: usr/share/gitrepo/build_package/core/main_sync.py:156
+msgid "Everything is in sync"
+msgstr "Alt er synkroniseret"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 160
+#: usr/share/gitrepo/build_package/core/main_sync.py:160
+msgid "Your work is already in main"
+msgstr "Dit arbejde er allerede i main"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 162
+#: usr/share/gitrepo/build_package/core/main_sync.py:162
+#, python-brace-format
+msgid "origin/main has everything from {0}, but some copies on this computer or on origin are still on older commits. Synchronize brings them all to {1}."
+msgstr "origin/main har alt fra {0}, men nogle kopier på denne computer eller på origin er stadig på ældre commits. Synkroniser bringer dem alle til {1}."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 167
+#: usr/share/gitrepo/build_package/core/main_sync.py:167
+#, python-brace-format
+msgid "{0} has commits that origin/main does not have yet ({1}). Take them to main with a pull request or by building a stable package."
+msgstr "{0} har commits, som origin/main endnu ikke har ({1}). Før dem ind i main med en pull request eller ved at bygge en stabil pakke."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 171
+#: usr/share/gitrepo/build_package/core/main_sync.py:171
+#, python-brace-format
+msgid "{0} of them are not on origin yet: publish your changes first."
+msgstr "{0} af dem er endnu ikke på origin: udgiv dine ændringer først."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 172
+#: usr/share/gitrepo/build_package/core/main_sync.py:172
+#, python-brace-format
+msgid "{0} has work that is not in main"
+msgstr "{0} har arbejde, der ikke er i main"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 178
+#: usr/share/gitrepo/build_package/core/main_sync.py:178
+msgid "Reference"
+msgstr "Reference"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 180
+#: usr/share/gitrepo/build_package/core/main_sync.py:180
+msgid "Does not exist"
+msgstr "Findes ikke"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 185
+#: usr/share/gitrepo/build_package/core/main_sync.py:185
+msgid "Same as origin/main"
+msgstr "Samme som origin/main"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 186
+#: usr/share/gitrepo/build_package/core/main_sync.py:186
+#, python-brace-format
+msgid "{0} ahead of origin/main"
+msgstr "{0} foran origin/main"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 187
+#: usr/share/gitrepo/build_package/core/main_sync.py:187
+#, python-brace-format
+msgid "{0} behind origin/main"
+msgstr "{0} bagud for origin/main"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 190
+#: usr/share/gitrepo/build_package/core/main_sync.py:190
+#, python-brace-format
+msgid "{0} ahead and {1} behind origin/main"
+msgstr "{0} foran og {1} bagud for origin/main"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 232
+#: usr/share/gitrepo/build_package/core/main_sync.py:232
+#, python-brace-format
+msgid "Bring into {0} the commits already published on origin/{0}."
+msgstr "Hent de commits ind i {0}, som allerede er udgivet på origin/{0}."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 240
+#: usr/share/gitrepo/build_package/core/main_sync.py:240
+#, python-brace-format
+msgid "Move {0} forward to origin/main; it only gains commits."
+msgstr "Flyt {0} frem til origin/main; den får kun commits."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 249
+#: usr/share/gitrepo/build_package/core/main_sync.py:249
+msgid "Create the local main from origin/main."
+msgstr "Opret den lokale main fra origin/main."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 256
+#: usr/share/gitrepo/build_package/core/main_sync.py:256
+msgid "Move the local main forward to origin/main; it only gains commits."
+msgstr "Flyt den lokale main frem til origin/main; den får kun commits."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 264
+#: usr/share/gitrepo/build_package/core/main_sync.py:264
+#, python-brace-format
+msgid "The local main has commits that origin/main does not have ({0}); keep them in {1}."
+msgstr "Den lokale main har commits, som origin/main ikke har ({0}); behold dem i {1}."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 273
+#: usr/share/gitrepo/build_package/core/main_sync.py:273
+msgid "Point the local main at origin/main."
+msgstr "Lad den lokale main pege på origin/main."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 289
+#: usr/share/gitrepo/build_package/core/main_sync.py:289
+#, python-brace-format
+msgid "Publish {0} on origin so origin/{0} matches main too."
+msgstr "Udgiv {0} på origin, så origin/{0} også svarer til main."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 341
+#: usr/share/gitrepo/build_package/core/main_sync.py:341
+msgid "Synchronize with origin/main?"
+msgstr "Synkronisere med origin/main?"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 342
+#: usr/share/gitrepo/build_package/core/main_sync.py:342
+msgid "Only fast-forwards run, so nothing is merged and no work is discarded."
+msgstr "Kun fast-forward køres, så intet flettes, og intet arbejde kasseres."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 348
+#: usr/share/gitrepo/build_package/core/main_sync.py:348
+msgid "Synchronization cancelled; only git fetch ran."
+msgstr "Synkroniseringen blev annulleret; kun git fetch blev kørt."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 357
+#: usr/share/gitrepo/build_package/core/main_sync.py:357
+#, python-brace-format
+msgid "Synchronization stopped at {0}: {1}"
+msgstr "Synkroniseringen stoppede ved {0}: {1}"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 361
+#: usr/share/gitrepo/build_package/core/main_sync.py:361
+msgid "If Git mentions local changes, commit or stash them and synchronize again."
+msgstr "Hvis Git nævner lokale ændringer, så commit eller stash dem, og synkroniser igen."
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 51
+#: usr/share/gitrepo/build_package/core/branch_menu.py:51
+msgid "Sync with main (is my work in main?)"
+msgstr "Synkroniser med main (er mit arbejde i main?)"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 129
+#: usr/share/gitrepo/build_package/core/branch_menu.py:129
+msgid "Copy"
+msgstr "Kopi"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 131
+#: usr/share/gitrepo/build_package/core/branch_menu.py:131
+msgid "Situation"
+msgstr "Situation"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 132
+#: usr/share/gitrepo/build_package/core/branch_menu.py:132
+msgid "Last commit"
+msgstr "Seneste commit"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 154
+#: usr/share/gitrepo/build_package/core/branch_menu.py:154
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:293
+msgid "All branches"
+msgstr "Alle grene"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 160
+#: usr/share/gitrepo/build_package/core/branch_menu.py:160
+msgid "Synchronize with origin/main (git fetch, then fast-forward)"
+msgstr "Synkroniser med origin/main (git fetch, derefter fast-forward)"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 161
+#: usr/share/gitrepo/build_package/core/branch_menu.py:161
+msgid "Only check origin (git fetch --prune origin)"
+msgstr "Tjek kun origin (git fetch --prune origin)"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 162
+#: usr/share/gitrepo/build_package/core/branch_menu.py:162
+msgid "Show all branches"
+msgstr "Vis alle grene"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 169
+#: usr/share/gitrepo/build_package/core/branch_menu.py:169
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:224
+msgid "Sync with main"
+msgstr "Synkroniser med main"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 112
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:112
+msgid "Copy on origin (GitHub)"
+msgstr "Kopi på origin (GitHub)"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 112
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:112
+msgid "Copy on this computer"
+msgstr "Kopi på denne computer"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
+#, python-brace-format
+msgid "commit {0} · {1} · {2}"
+msgstr "commit {0} · {1} · {2}"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 119
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:119
+msgid "This copy does not exist."
+msgstr "Denne kopi findes ikke."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 227
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:227
+msgid "Shows whether your work is already in origin/main, where pull requests land and stable packages are built from."
+msgstr "Viser, om dit arbejde allerede er i origin/main, hvor pull requests lander, og hvorfra stabile pakker bygges."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 233
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:233
+msgid "How synchronizing works"
+msgstr "Sådan fungerer synkronisering"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 235
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:235
+msgid "Synchronize runs git fetch and then only moves copies forward: your branch and the local main advance to origin/main, and your branch is published when it already matches main. Commits that exist only in the local main are kept in a backup branch first. Nothing is merged and no work is discarded."
+msgstr "Synkroniser kører git fetch og flytter derefter kun kopier frem: din gren og den lokale main rykker frem til origin/main, og din gren udgives, når den allerede svarer til main. Commits, der kun findes i den lokale main, gemmes først i en sikkerhedskopigren. Intet flettes, og intet arbejde kasseres."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 243
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:243
+msgid "Check origin"
+msgstr "Tjek origin"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 247
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:247
+msgid "Read the latest state of origin without changing any branch."
+msgstr "Læs den seneste tilstand på origin uden at ændre nogen gren."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 263
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:263
+msgid "Synchronize"
+msgstr "Synkroniser"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 538
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:538
+#, python-brace-format
+msgid "{0} branches, each against its copy on origin and against {1}"
+msgstr "{0} grene, hver sammenlignet med sin kopi på origin og med {1}"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 217
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:217
+msgid "Synchronizing with main"
+msgstr "Synkroniserer med main"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 218
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:218
+msgid "git fetch, then moving copies forward to origin/main..."
+msgstr "git fetch, derefter flyttes kopierne frem til origin/main..."

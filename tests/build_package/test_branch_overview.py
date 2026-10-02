@@ -44,7 +44,7 @@ def test_fresh_clone_reports_everything_in_sync(tmp_path, monkeypatch):
     overview = overview_core.capture_branch_overview()
     branches = _by_name(overview)
 
-    assert overview.base == "main" and overview.base_ref == "main"
+    assert overview.base == "main" and overview.base_ref == "origin/main"
     # The base comes first, then the checked-out branch.
     assert [branch.name for branch in overview.branches] == ["main", "dev-me"]
     assert branches["dev-me"].is_current
@@ -73,7 +73,7 @@ def test_origin_advanced_elsewhere_shows_only_after_fetch(tmp_path, monkeypatch)
 
     assert success, error
     assert (after.vs_remote.ahead, after.vs_remote.behind) == (0, 2)
-    assert overview_core.describe_vs_remote(after) == (overview_core.TONE_BEHIND, "↓2 to pull")
+    assert overview_core.describe_vs_remote(after) == (overview_core.TONE_BEHIND, "2 to pull")
     assert after_overview.last_fetch is not None
     assert [branch.name for branch in after_overview.needs_attention] == ["main"]
 
@@ -91,7 +91,7 @@ def test_local_and_origin_diverged(tmp_path, monkeypatch):
     main = _by_name(overview_core.capture_branch_overview())["main"]
 
     assert (main.vs_remote.ahead, main.vs_remote.behind) == (2, 1)
-    assert overview_core.describe_vs_remote(main) == (overview_core.TONE_DIVERGED, "↑2 ↓1 diverged")
+    assert overview_core.describe_vs_remote(main) == (overview_core.TONE_DIVERGED, "2 to push, 1 to pull")
 
 
 def test_work_branch_against_main_and_unpublished_commits(tmp_path, monkeypatch):
@@ -101,14 +101,18 @@ def test_work_branch_against_main_and_unpublished_commits(tmp_path, monkeypatch)
     _commit(repository, "work.txt")
     run_git(repository, "checkout", "main")
     _commit(repository, "hotfix.txt")
+    run_git(repository, "push", "origin", "main")
     run_git(repository, "checkout", "dev-me")
     monkeypatch.chdir(repository)
 
     overview = overview_core.capture_branch_overview()
     dev = _by_name(overview)["dev-me"]
 
-    assert overview_core.describe_vs_remote(dev) == (overview_core.TONE_AHEAD, "↑1 to push")
-    assert overview_core.describe_vs_base(dev, overview) == (overview_core.TONE_DIVERGED, "↑1 ↓1 diverged from main")
+    assert overview_core.describe_vs_remote(dev) == (overview_core.TONE_AHEAD, "1 to push")
+    assert overview_core.describe_vs_base(dev, overview) == (
+        overview_core.TONE_DIVERGED,
+        "1 ahead and 1 behind origin/main",
+    )
 
 
 def test_local_only_and_origin_only_branches(tmp_path, monkeypatch):
@@ -118,6 +122,7 @@ def test_local_only_and_origin_only_branches(tmp_path, monkeypatch):
     run_git(other, "push", "-u", "origin", "dev-colleague")
     run_git(repository, "branch", "dev-draft")
     _commit(repository, "main-moved.txt")
+    run_git(repository, "push", "origin", "main")
     monkeypatch.chdir(repository)
     assert overview_core.fetch_origin()[0]
 
@@ -127,7 +132,7 @@ def test_local_only_and_origin_only_branches(tmp_path, monkeypatch):
     draft, colleague = branches["dev-draft"], branches["dev-colleague"]
     assert draft.remote is None and draft.vs_remote is None
     assert overview_core.describe_vs_remote(draft) == (overview_core.TONE_NEUTRAL, "Not on origin")
-    assert overview_core.describe_vs_base(draft, overview) == (overview_core.TONE_BEHIND, "↓1 behind main")
+    assert overview_core.describe_vs_base(draft, overview) == (overview_core.TONE_BEHIND, "1 behind origin/main")
     # A branch only on origin is still measured, from its origin tip.
     assert colleague.local is None
     assert overview_core.describe_vs_remote(colleague) == (overview_core.TONE_NEUTRAL, "Only on origin")
@@ -197,14 +202,14 @@ class _Bp:
         self.is_git_repo = True
 
 
-def test_cli_compare_flow_fetches_on_request_and_redraws(tmp_path, monkeypatch):
+def test_cli_sync_screen_checks_origin_on_request_and_redraws(tmp_path, monkeypatch):
     repository, remote = create_repository_with_remote(tmp_path)
     other = _clone(tmp_path, remote)
     _commit(other, "a.txt")
     run_git(other, "push", "origin", "main")
     monkeypatch.chdir(repository)
-    # branch menu: Compare; compare: Update from origin, then Back; branch menu: Back.
-    menu = _Menu([0, 0, 1, 5])
+    # branch menu: Sync with main; sync: Only check origin, then Back; branch menu: Back.
+    menu = _Menu([0, 1, 3, 5])
     bp = _Bp(menu)
 
     branch_menu.branch_menu(bp)
@@ -217,8 +222,8 @@ def test_cli_compare_flow_fetches_on_request_and_redraws(tmp_path, monkeypatch):
         return console.export_text()
 
     before, after = rendered(menu.contents[1]), rendered(menu.contents[2])
-    assert "Same as origin" in before and "↓1 to pull" not in before
-    assert "↓1 to pull" in after
+    assert "Everything is in sync" in before
+    assert "Your work is already in main" in after and "1 behind origin/main" in after
     assert ("cyan", "Running git fetch --prune origin...") in bp.logger.messages
 
 

@@ -206,6 +206,18 @@ class BranchActionsMixin:
 
         threading.Thread(target=fetch, daemon=True).start()
 
+    def on_sync_requested(self, widget):
+        """Align the branch, its origin copy and the local main with origin/main."""
+        from functools import partial
+
+        from gitrepo.build_package.core.main_sync import sync_with_main
+
+        self.operation_runner.run_with_progress(
+            partial(sync_with_main, self.build_package),
+            _("Synchronizing with main"),
+            _("git fetch, then moving copies forward to origin/main..."),
+        )
+
     def on_merge_requested(self, widget, source_branch, target_branch, auto_merge):
         """Handle merge request - create PR or create branch if target doesn't exist"""
         snapshot = getattr(self, "_repository_snapshot", None)
@@ -677,9 +689,15 @@ class BranchActionsMixin:
             return
 
         def merge_operation():
-            return self.build_package.github_api.create_pull_request(
+            pr_info = self.build_package.github_api.create_pull_request(
                 source_branch, target_branch, auto_merge, self.build_package.logger
             )
+            if pr_info and pr_info.get("auto_merged") and target_branch == "main":
+                from gitrepo.build_package.core.main_sync import sync_with_main
+
+                # The merge happened on GitHub; bring this computer's copies along.
+                sync_with_main(self.build_package)
+            return pr_info
 
         merge_type = _("Auto-merge") if auto_merge else _("Manual")
         self._ensure_token_and_run(

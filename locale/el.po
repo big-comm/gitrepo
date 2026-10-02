@@ -7745,21 +7745,6 @@ msgstr "Αδύνατη η σύγκριση"
 #: usr/share/gitrepo/build_package/core/branch_overview.py:248
 msgid "Same as origin"
 msgstr "Ίδιο με το origin"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 249
-#: usr/share/gitrepo/build_package/core/branch_overview.py:249
-#, python-brace-format
-msgid "↑{0} to push"
-msgstr "↑{0} για push"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 250
-#: usr/share/gitrepo/build_package/core/branch_overview.py:250
-#, python-brace-format
-msgid "↓{0} to pull"
-msgstr "↓{0} για pull"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 251
-#: usr/share/gitrepo/build_package/core/branch_overview.py:251
-#, python-brace-format
-msgid "↑{0} ↓{1} diverged"
-msgstr "↑{0} ↓{1} αποκλίνει"
 # File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 259
 #: usr/share/gitrepo/build_package/core/branch_overview.py:259
 msgid "Base branch"
@@ -7773,41 +7758,14 @@ msgstr "Δεν υπάρχει βάση σύγκρισης"
 #, python-brace-format
 msgid "Same as {0}"
 msgstr "Ίδιο με {0}"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 265
-#: usr/share/gitrepo/build_package/core/branch_overview.py:265
-#, python-brace-format
-msgid "↑{0} ahead of {1}"
-msgstr "↑{0} μπροστά από {1}"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 266
-#: usr/share/gitrepo/build_package/core/branch_overview.py:266
-#, python-brace-format
-msgid "↓{0} behind {1}"
-msgstr "↓{0} πίσω από {1}"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 267
-#: usr/share/gitrepo/build_package/core/branch_overview.py:267
-#, python-brace-format
-msgid "↑{0} ↓{1} diverged from {2}"
-msgstr "↑{0} ↓{1} αποκλίνει από {2}"
 # File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 275
 #: usr/share/gitrepo/build_package/core/branch_overview.py:275
 msgid "same commit"
 msgstr "ίδιο commit"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 276
-#: usr/share/gitrepo/build_package/core/branch_overview.py:276
-msgid "↑ has commits the other side lacks"
-msgstr "↑ έχει commits που λείπουν από την άλλη πλευρά"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 277
-#: usr/share/gitrepo/build_package/core/branch_overview.py:277
-msgid "↓ lacks commits the other side has"
-msgstr "↓ λείπουν commits που έχει η άλλη πλευρά"
 # File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 278
 #: usr/share/gitrepo/build_package/core/branch_overview.py:278
 msgid "both: needs a merge or rebase"
 msgstr "και τα δύο: χρειάζεται merge ή rebase"
-# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 50
-#: usr/share/gitrepo/build_package/core/branch_menu.py:50
-msgid "Compare branches (local × origin × main)"
-msgstr "Σύγκριση κλάδων (τοπικός × origin × main)"
 # File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 90
 #: usr/share/gitrepo/build_package/core/branch_menu.py:90
 msgid "Local"
@@ -7821,19 +7779,10 @@ msgstr "Τοπικός × origin"
 #, python-brace-format
 msgid "× {0}"
 msgstr "× {0}"
-# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 118
-#: usr/share/gitrepo/build_package/core/branch_menu.py:118
-msgid "Update from origin (git fetch --prune origin)"
-msgstr "Ενημέρωση από το origin (git fetch --prune origin)"
 # File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 122
 #: usr/share/gitrepo/build_package/core/branch_menu.py:122
 msgid "Could not read the branches of this repository."
 msgstr "Δεν ήταν δυνατή η ανάγνωση των κλάδων αυτού του αποθετηρίου."
-# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 125
-#: usr/share/gitrepo/build_package/core/branch_menu.py:125
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:185
-msgid "Where each branch is"
-msgstr "Πού βρίσκεται κάθε κλάδος"
 # File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 132
 #: usr/share/gitrepo/build_package/core/branch_menu.py:132
 msgid "Running git fetch --prune origin..."
@@ -7868,24 +7817,271 @@ msgstr "Τοπικός κλάδος × origin/{0}"
 #, python-brace-format
 msgid "This branch × {0}"
 msgstr "Αυτός ο κλάδος × {0}"
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 189
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:189
-msgid "Reading the colours"
-msgstr "Ερμηνεία των χρωμάτων"
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 191
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:191
-msgid "Green: the same commit on both sides. Blue ↑: this side has commits the other lacks (push or merge them). Yellow ↓: this side lacks commits the other has (pull them). Red: both, so the branches diverged and need a merge or rebase. origin is only as fresh as the last git fetch."
-msgstr "Πράσινο: το ίδιο commit και στις δύο πλευρές. Μπλε ↑: αυτή η πλευρά έχει commits που λείπουν από την άλλη (push ή merge). Κίτρινο ↓: σε αυτή την πλευρά λείπουν commits που έχει η άλλη (pull). Κόκκινο: και τα δύο, οπότε οι κλάδοι αποκλίνουν και χρειάζονται merge ή rebase. Το origin είναι τόσο φρέσκο όσο το τελευταίο git fetch."
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 199
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:199
-msgid "Update from origin"
-msgstr "Ενημέρωση από το origin"
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 431
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:431
-#, python-brace-format
-msgid "Each branch against its copy on origin and against {0}."
-msgstr "Κάθε κλάδος σε σχέση με το αντίγραφό του στο origin και με το {0}."
 # File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 197
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:197
 msgid "origin updated (git fetch --prune origin)"
 msgstr "το origin ενημερώθηκε (git fetch --prune origin)"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 260
+#: usr/share/gitrepo/build_package/core/branch_overview.py:260
+#, python-brace-format
+msgid "{0} to push"
+msgstr "{0} προς push"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 261
+#: usr/share/gitrepo/build_package/core/branch_overview.py:261
+#, python-brace-format
+msgid "{0} to pull"
+msgstr "{0} προς pull"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 262
+#: usr/share/gitrepo/build_package/core/branch_overview.py:262
+#, python-brace-format
+msgid "{0} to push, {1} to pull"
+msgstr "{0} προς push, {1} προς pull"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 276
+#: usr/share/gitrepo/build_package/core/branch_overview.py:276
+#, python-brace-format
+msgid "{0} ahead of {1}"
+msgstr "{0} μπροστά από το {1}"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 277
+#: usr/share/gitrepo/build_package/core/branch_overview.py:277
+#, python-brace-format
+msgid "{0} behind {1}"
+msgstr "{0} πίσω από το {1}"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 278
+#: usr/share/gitrepo/build_package/core/branch_overview.py:278
+#, python-brace-format
+msgid "{0} ahead and {1} behind {2}"
+msgstr "{0} μπροστά και {1} πίσω από το {2}"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 287
+#: usr/share/gitrepo/build_package/core/branch_overview.py:287
+msgid "has commits the other side lacks"
+msgstr "έχει commits που λείπουν από την άλλη πλευρά"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 288
+#: usr/share/gitrepo/build_package/core/branch_overview.py:288
+msgid "lacks commits the other side has"
+msgstr "του λείπουν commits που έχει η άλλη πλευρά"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 89
+#: usr/share/gitrepo/build_package/core/main_sync.py:89
+msgid "This folder is not a Git repository."
+msgstr "Αυτός ο φάκελος δεν είναι αποθετήριο Git."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 95
+#: usr/share/gitrepo/build_package/core/main_sync.py:95
+msgid "No branch is checked out (detached HEAD)."
+msgstr "Δεν έχει γίνει checkout σε κανένα branch (detached HEAD)."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 105
+#: usr/share/gitrepo/build_package/core/main_sync.py:105
+msgid "origin has no main branch to compare with."
+msgstr "Το origin δεν έχει branch main για σύγκριση."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 147
+#: usr/share/gitrepo/build_package/core/main_sync.py:147
+msgid "Nothing to compare"
+msgstr "Τίποτα για σύγκριση"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 151
+#: usr/share/gitrepo/build_package/core/main_sync.py:151
+#, python-brace-format
+msgid "main and origin/main are on the same commit ({0})."
+msgstr "Το main και το origin/main βρίσκονται στο ίδιο commit ({0})."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 153
+#: usr/share/gitrepo/build_package/core/main_sync.py:153
+#, python-brace-format
+msgid "{0}, origin/{0}, main and origin/main are on the same commit ({1})."
+msgstr "Τα {0}, origin/{0}, main και origin/main βρίσκονται στο ίδιο commit ({1})."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 156
+#: usr/share/gitrepo/build_package/core/main_sync.py:156
+msgid "Everything is in sync"
+msgstr "Όλα είναι συγχρονισμένα"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 160
+#: usr/share/gitrepo/build_package/core/main_sync.py:160
+msgid "Your work is already in main"
+msgstr "Η δουλειά σας βρίσκεται ήδη στο main"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 162
+#: usr/share/gitrepo/build_package/core/main_sync.py:162
+#, python-brace-format
+msgid "origin/main has everything from {0}, but some copies on this computer or on origin are still on older commits. Synchronize brings them all to {1}."
+msgstr "Το origin/main έχει ό,τι υπάρχει στο {0}, αλλά ορισμένα αντίγραφα σε αυτόν τον υπολογιστή ή στο origin βρίσκονται ακόμη σε παλαιότερα commits. Ο συγχρονισμός τα φέρνει όλα στο {1}."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 167
+#: usr/share/gitrepo/build_package/core/main_sync.py:167
+#, python-brace-format
+msgid "{0} has commits that origin/main does not have yet ({1}). Take them to main with a pull request or by building a stable package."
+msgstr "Το {0} έχει commits που το origin/main δεν έχει ακόμη ({1}). Περάστε τα στο main με pull request ή με κατασκευή σταθερού πακέτου."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 171
+#: usr/share/gitrepo/build_package/core/main_sync.py:171
+#, python-brace-format
+msgid "{0} of them are not on origin yet: publish your changes first."
+msgstr "{0} από αυτά δεν βρίσκονται ακόμη στο origin: δημοσιεύστε πρώτα τις αλλαγές σας."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 172
+#: usr/share/gitrepo/build_package/core/main_sync.py:172
+#, python-brace-format
+msgid "{0} has work that is not in main"
+msgstr "Το {0} έχει δουλειά που δεν είναι στο main"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 178
+#: usr/share/gitrepo/build_package/core/main_sync.py:178
+msgid "Reference"
+msgstr "Αναφορά"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 180
+#: usr/share/gitrepo/build_package/core/main_sync.py:180
+msgid "Does not exist"
+msgstr "Δεν υπάρχει"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 185
+#: usr/share/gitrepo/build_package/core/main_sync.py:185
+msgid "Same as origin/main"
+msgstr "Ίδιο με το origin/main"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 186
+#: usr/share/gitrepo/build_package/core/main_sync.py:186
+#, python-brace-format
+msgid "{0} ahead of origin/main"
+msgstr "{0} μπροστά από το origin/main"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 187
+#: usr/share/gitrepo/build_package/core/main_sync.py:187
+#, python-brace-format
+msgid "{0} behind origin/main"
+msgstr "{0} πίσω από το origin/main"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 190
+#: usr/share/gitrepo/build_package/core/main_sync.py:190
+#, python-brace-format
+msgid "{0} ahead and {1} behind origin/main"
+msgstr "{0} μπροστά και {1} πίσω από το origin/main"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 232
+#: usr/share/gitrepo/build_package/core/main_sync.py:232
+#, python-brace-format
+msgid "Bring into {0} the commits already published on origin/{0}."
+msgstr "Φέρτε στο {0} τα commits που έχουν ήδη δημοσιευτεί στο origin/{0}."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 240
+#: usr/share/gitrepo/build_package/core/main_sync.py:240
+#, python-brace-format
+msgid "Move {0} forward to origin/main; it only gains commits."
+msgstr "Μετακινήστε το {0} μπροστά ως το origin/main· απλώς προσθέτει commits."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 249
+#: usr/share/gitrepo/build_package/core/main_sync.py:249
+msgid "Create the local main from origin/main."
+msgstr "Δημιουργία του τοπικού main από το origin/main."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 256
+#: usr/share/gitrepo/build_package/core/main_sync.py:256
+msgid "Move the local main forward to origin/main; it only gains commits."
+msgstr "Μετακινήστε το τοπικό main μπροστά ως το origin/main· απλώς προσθέτει commits."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 264
+#: usr/share/gitrepo/build_package/core/main_sync.py:264
+#, python-brace-format
+msgid "The local main has commits that origin/main does not have ({0}); keep them in {1}."
+msgstr "Το τοπικό main έχει commits που το origin/main δεν έχει ({0})· διατηρούνται στο {1}."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 273
+#: usr/share/gitrepo/build_package/core/main_sync.py:273
+msgid "Point the local main at origin/main."
+msgstr "Στρέψτε το τοπικό main στο origin/main."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 289
+#: usr/share/gitrepo/build_package/core/main_sync.py:289
+#, python-brace-format
+msgid "Publish {0} on origin so origin/{0} matches main too."
+msgstr "Δημοσιεύστε το {0} στο origin ώστε το origin/{0} να ταιριάζει και με το main."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 341
+#: usr/share/gitrepo/build_package/core/main_sync.py:341
+msgid "Synchronize with origin/main?"
+msgstr "Συγχρονισμός με το origin/main;"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 342
+#: usr/share/gitrepo/build_package/core/main_sync.py:342
+msgid "Only fast-forwards run, so nothing is merged and no work is discarded."
+msgstr "Εκτελούνται μόνο fast-forward, επομένως τίποτα δεν συγχωνεύεται και καμία δουλειά δεν χάνεται."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 348
+#: usr/share/gitrepo/build_package/core/main_sync.py:348
+msgid "Synchronization cancelled; only git fetch ran."
+msgstr "Ο συγχρονισμός ακυρώθηκε· εκτελέστηκε μόνο το git fetch."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 357
+#: usr/share/gitrepo/build_package/core/main_sync.py:357
+#, python-brace-format
+msgid "Synchronization stopped at {0}: {1}"
+msgstr "Ο συγχρονισμός σταμάτησε στο {0}: {1}"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 361
+#: usr/share/gitrepo/build_package/core/main_sync.py:361
+msgid "If Git mentions local changes, commit or stash them and synchronize again."
+msgstr "Αν το Git αναφέρει τοπικές αλλαγές, κάντε commit ή stash και συγχρονίστε ξανά."
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 51
+#: usr/share/gitrepo/build_package/core/branch_menu.py:51
+msgid "Sync with main (is my work in main?)"
+msgstr "Συγχρονισμός με το main (είναι η δουλειά μου στο main;)"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 129
+#: usr/share/gitrepo/build_package/core/branch_menu.py:129
+msgid "Copy"
+msgstr "Αντίγραφο"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 131
+#: usr/share/gitrepo/build_package/core/branch_menu.py:131
+msgid "Situation"
+msgstr "Κατάσταση"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 132
+#: usr/share/gitrepo/build_package/core/branch_menu.py:132
+msgid "Last commit"
+msgstr "Τελευταίο commit"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 154
+#: usr/share/gitrepo/build_package/core/branch_menu.py:154
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:293
+msgid "All branches"
+msgstr "Όλα τα branches"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 160
+#: usr/share/gitrepo/build_package/core/branch_menu.py:160
+msgid "Synchronize with origin/main (git fetch, then fast-forward)"
+msgstr "Συγχρονισμός με το origin/main (git fetch και μετά fast-forward)"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 161
+#: usr/share/gitrepo/build_package/core/branch_menu.py:161
+msgid "Only check origin (git fetch --prune origin)"
+msgstr "Έλεγχος μόνο του origin (git fetch --prune origin)"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 162
+#: usr/share/gitrepo/build_package/core/branch_menu.py:162
+msgid "Show all branches"
+msgstr "Εμφάνιση όλων των branches"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 169
+#: usr/share/gitrepo/build_package/core/branch_menu.py:169
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:224
+msgid "Sync with main"
+msgstr "Συγχρονισμός με το main"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 112
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:112
+msgid "Copy on origin (GitHub)"
+msgstr "Αντίγραφο στο origin (GitHub)"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 112
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:112
+msgid "Copy on this computer"
+msgstr "Αντίγραφο σε αυτόν τον υπολογιστή"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
+#, python-brace-format
+msgid "commit {0} · {1} · {2}"
+msgstr "commit {0} · {1} · {2}"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 119
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:119
+msgid "This copy does not exist."
+msgstr "Αυτό το αντίγραφο δεν υπάρχει."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 227
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:227
+msgid "Shows whether your work is already in origin/main, where pull requests land and stable packages are built from."
+msgstr "Δείχνει αν η δουλειά σας βρίσκεται ήδη στο origin/main, όπου καταλήγουν τα pull requests και απ' όπου κατασκευάζονται τα σταθερά πακέτα."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 233
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:233
+msgid "How synchronizing works"
+msgstr "Πώς λειτουργεί ο συγχρονισμός"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 235
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:235
+msgid "Synchronize runs git fetch and then only moves copies forward: your branch and the local main advance to origin/main, and your branch is published when it already matches main. Commits that exist only in the local main are kept in a backup branch first. Nothing is merged and no work is discarded."
+msgstr "Ο συγχρονισμός εκτελεί git fetch και μετά μετακινεί τα αντίγραφα μόνο προς τα εμπρός: το branch σας και το τοπικό main προχωρούν στο origin/main, και το branch σας δημοσιεύεται όταν ταιριάζει ήδη με το main. Τα commits που υπάρχουν μόνο στο τοπικό main διατηρούνται πρώτα σε ένα εφεδρικό branch. Τίποτα δεν συγχωνεύεται και καμία δουλειά δεν χάνεται."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 243
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:243
+msgid "Check origin"
+msgstr "Έλεγχος origin"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 247
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:247
+msgid "Read the latest state of origin without changing any branch."
+msgstr "Ανάγνωση της τελευταίας κατάστασης του origin χωρίς αλλαγή κάποιου branch."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 263
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:263
+msgid "Synchronize"
+msgstr "Συγχρονισμός"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 538
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:538
+#, python-brace-format
+msgid "{0} branches, each against its copy on origin and against {1}"
+msgstr "{0} branches, καθένα σε σύγκριση με το αντίγραφό του στο origin και με το {1}"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 217
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:217
+msgid "Synchronizing with main"
+msgstr "Συγχρονισμός με το main"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 218
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:218
+msgid "git fetch, then moving copies forward to origin/main..."
+msgstr "git fetch και μετά μετακίνηση των αντιγράφων μπροστά ως το origin/main..."

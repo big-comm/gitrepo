@@ -152,14 +152,15 @@ def capture_branch_overview() -> BranchOverview:
         return BranchOverview(error="not a git repository")
     local, remote = _read_tips()
     current = _current_branch()
-    base = next((name for name in BASE_CANDIDATES if name in local), "")
-    base_tip = local.get(base)
-    base_ref = base
+    # origin/main is where pull requests land and stable packages come from;
+    # a local main only stands in for it when origin has none.
+    base = next((name for name in BASE_CANDIDATES if name in remote), "")
+    base_tip = remote.get(base)
+    base_ref = f"origin/{base}" if base else ""
     if not base_tip:
-        # Without a local main, the published one is still the reference.
-        base = next((name for name in BASE_CANDIDATES if name in remote), "")
-        base_tip = remote.get(base)
-        base_ref = f"origin/{base}" if base else ""
+        base = next((name for name in BASE_CANDIDATES if name in local), "")
+        base_tip = local.get(base)
+        base_ref = base
 
     comparisons = []
     for name in sorted(set(local) | set(remote), key=lambda item: (item != base, item != current, item)):
@@ -199,6 +200,16 @@ def fetch_origin() -> tuple[bool, str]:
 # ---------------------------------------------------------------------------
 # Presentation shared by the CLI table and the GUI rows
 # ---------------------------------------------------------------------------
+
+# Symbolic icon per tone for the window; the terminal prints TONE_GLYPHS.
+TONE_ICONS = {
+    "ok": "object-select-symbolic",
+    "ahead": "go-up-symbolic",
+    "behind": "go-down-symbolic",
+    "diverged": "dialog-warning-symbolic",
+    "neutral": "",
+}
+TONE_GLYPHS = {"ok": "=", "ahead": "↑", "behind": "↓", "diverged": "↕", "neutral": "·"}
 
 # One semantic tone per state; each interface maps it to its own colour.
 TONE_OK = "ok"  # same commit: nothing to do
@@ -246,9 +257,9 @@ def describe_vs_remote(branch: BranchComparison) -> tuple[str, str]:
     ahead, behind = branch.vs_remote.ahead, branch.vs_remote.behind
     text = {
         SAME: _("Same as origin"),
-        AHEAD: _("↑{0} to push").format(ahead),
-        BEHIND: _("↓{0} to pull").format(behind),
-        DIVERGED: _("↑{0} ↓{1} diverged").format(ahead, behind),
+        AHEAD: _("{0} to push").format(ahead),
+        BEHIND: _("{0} to pull").format(behind),
+        DIVERGED: _("{0} to push, {1} to pull").format(ahead, behind),
     }[branch.vs_remote.state]
     return _STATE_TONES[branch.vs_remote.state], text
 
@@ -262,9 +273,9 @@ def describe_vs_base(branch: BranchComparison, overview: BranchOverview) -> tupl
     ahead, behind, base = branch.vs_base.ahead, branch.vs_base.behind, overview.base_ref
     text = {
         SAME: _("Same as {0}").format(base),
-        AHEAD: _("↑{0} ahead of {1}").format(ahead, base),
-        BEHIND: _("↓{0} behind {1}").format(behind, base),
-        DIVERGED: _("↑{0} ↓{1} diverged from {2}").format(ahead, behind, base),
+        AHEAD: _("{0} ahead of {1}").format(ahead, base),
+        BEHIND: _("{0} behind {1}").format(behind, base),
+        DIVERGED: _("{0} ahead and {1} behind {2}").format(ahead, behind, base),
     }[branch.vs_base.state]
     return _STATE_TONES[branch.vs_base.state], text
 
@@ -273,7 +284,7 @@ def legend() -> tuple[tuple[str, str], ...]:
     """What each tone means, in the order the colours are explained."""
     return (
         (TONE_OK, _("same commit")),
-        (TONE_AHEAD, _("↑ has commits the other side lacks")),
-        (TONE_BEHIND, _("↓ lacks commits the other side has")),
+        (TONE_AHEAD, _("has commits the other side lacks")),
+        (TONE_BEHIND, _("lacks commits the other side has")),
         (TONE_DIVERGED, _("both: needs a merge or rebase")),
     )

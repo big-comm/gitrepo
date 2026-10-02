@@ -480,6 +480,11 @@ class BuildPackage:
 
             if pr_info:
                 self.logger.log("green", _("Pull request operation completed."))
+                if pr_info.get("auto_merged"):
+                    from .main_sync import sync_with_main
+
+                    # The merge happened on GitHub; bring this computer's copies along.
+                    sync_with_main(self)
 
         except (subprocess.SubprocessError, ValueError) as error:
             self.logger.log("red", _("Could not prepare the merge request: {0}").format(error))

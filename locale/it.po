@@ -7696,21 +7696,6 @@ msgstr "Impossibile confrontare"
 #: usr/share/gitrepo/build_package/core/branch_overview.py:248
 msgid "Same as origin"
 msgstr "Uguale a origin"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 249
-#: usr/share/gitrepo/build_package/core/branch_overview.py:249
-#, python-brace-format
-msgid "↑{0} to push"
-msgstr "↑{0} da inviare (push)"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 250
-#: usr/share/gitrepo/build_package/core/branch_overview.py:250
-#, python-brace-format
-msgid "↓{0} to pull"
-msgstr "↓{0} da scaricare (pull)"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 251
-#: usr/share/gitrepo/build_package/core/branch_overview.py:251
-#, python-brace-format
-msgid "↑{0} ↓{1} diverged"
-msgstr "↑{0} ↓{1} divergenti"
 # File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 259
 #: usr/share/gitrepo/build_package/core/branch_overview.py:259
 msgid "Base branch"
@@ -7724,41 +7709,14 @@ msgstr "Nessuna base da confrontare"
 #, python-brace-format
 msgid "Same as {0}"
 msgstr "Uguale a {0}"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 265
-#: usr/share/gitrepo/build_package/core/branch_overview.py:265
-#, python-brace-format
-msgid "↑{0} ahead of {1}"
-msgstr "↑{0} avanti rispetto a {1}"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 266
-#: usr/share/gitrepo/build_package/core/branch_overview.py:266
-#, python-brace-format
-msgid "↓{0} behind {1}"
-msgstr "↓{0} indietro rispetto a {1}"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 267
-#: usr/share/gitrepo/build_package/core/branch_overview.py:267
-#, python-brace-format
-msgid "↑{0} ↓{1} diverged from {2}"
-msgstr "↑{0} ↓{1} divergenti da {2}"
 # File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 275
 #: usr/share/gitrepo/build_package/core/branch_overview.py:275
 msgid "same commit"
 msgstr "stesso commit"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 276
-#: usr/share/gitrepo/build_package/core/branch_overview.py:276
-msgid "↑ has commits the other side lacks"
-msgstr "↑ ha commit che mancano all'altro lato"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 277
-#: usr/share/gitrepo/build_package/core/branch_overview.py:277
-msgid "↓ lacks commits the other side has"
-msgstr "↓ mancano commit presenti nell'altro lato"
 # File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 278
 #: usr/share/gitrepo/build_package/core/branch_overview.py:278
 msgid "both: needs a merge or rebase"
 msgstr "entrambi: serve un merge o rebase"
-# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 50
-#: usr/share/gitrepo/build_package/core/branch_menu.py:50
-msgid "Compare branches (local × origin × main)"
-msgstr "Confronta i branch (locale × origin × main)"
 # File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 90
 #: usr/share/gitrepo/build_package/core/branch_menu.py:90
 msgid "Local"
@@ -7772,19 +7730,10 @@ msgstr "Locale × origin"
 #, python-brace-format
 msgid "× {0}"
 msgstr "× {0}"
-# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 118
-#: usr/share/gitrepo/build_package/core/branch_menu.py:118
-msgid "Update from origin (git fetch --prune origin)"
-msgstr "Aggiorna da origin (git fetch --prune origin)"
 # File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 122
 #: usr/share/gitrepo/build_package/core/branch_menu.py:122
 msgid "Could not read the branches of this repository."
 msgstr "Impossibile leggere i branch di questo repository."
-# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 125
-#: usr/share/gitrepo/build_package/core/branch_menu.py:125
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:185
-msgid "Where each branch is"
-msgstr "Dove si trova ogni branch"
 # File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 132
 #: usr/share/gitrepo/build_package/core/branch_menu.py:132
 msgid "Running git fetch --prune origin..."
@@ -7819,24 +7768,271 @@ msgstr "Branch locale × origin/{0}"
 #, python-brace-format
 msgid "This branch × {0}"
 msgstr "Questo branch × {0}"
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 189
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:189
-msgid "Reading the colours"
-msgstr "Lettura dei colori"
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 191
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:191
-msgid "Green: the same commit on both sides. Blue ↑: this side has commits the other lacks (push or merge them). Yellow ↓: this side lacks commits the other has (pull them). Red: both, so the branches diverged and need a merge or rebase. origin is only as fresh as the last git fetch."
-msgstr "Verde: lo stesso commit su entrambi i lati. Blu ↑: questo lato ha commit che all'altro mancano (fai push o merge). Giallo ↓: a questo lato mancano commit presenti nell'altro (fai pull). Rosso: entrambi, quindi i branch sono divergenti e richiedono un merge o rebase. origin è aggiornato solo all'ultimo git fetch."
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 199
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:199
-msgid "Update from origin"
-msgstr "Aggiorna da origin"
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 431
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:431
-#, python-brace-format
-msgid "Each branch against its copy on origin and against {0}."
-msgstr "Ogni branch rispetto alla sua copia su origin e rispetto a {0}."
 # File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 197
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:197
 msgid "origin updated (git fetch --prune origin)"
 msgstr "origin aggiornato (git fetch --prune origin)"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 260
+#: usr/share/gitrepo/build_package/core/branch_overview.py:260
+#, python-brace-format
+msgid "{0} to push"
+msgstr "{0} da inviare"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 261
+#: usr/share/gitrepo/build_package/core/branch_overview.py:261
+#, python-brace-format
+msgid "{0} to pull"
+msgstr "{0} da scaricare"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 262
+#: usr/share/gitrepo/build_package/core/branch_overview.py:262
+#, python-brace-format
+msgid "{0} to push, {1} to pull"
+msgstr "{0} da inviare, {1} da scaricare"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 276
+#: usr/share/gitrepo/build_package/core/branch_overview.py:276
+#, python-brace-format
+msgid "{0} ahead of {1}"
+msgstr "{0} avanti rispetto a {1}"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 277
+#: usr/share/gitrepo/build_package/core/branch_overview.py:277
+#, python-brace-format
+msgid "{0} behind {1}"
+msgstr "{0} indietro rispetto a {1}"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 278
+#: usr/share/gitrepo/build_package/core/branch_overview.py:278
+#, python-brace-format
+msgid "{0} ahead and {1} behind {2}"
+msgstr "{0} avanti e {1} indietro rispetto a {2}"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 287
+#: usr/share/gitrepo/build_package/core/branch_overview.py:287
+msgid "has commits the other side lacks"
+msgstr "ha commit che all'altro lato mancano"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 288
+#: usr/share/gitrepo/build_package/core/branch_overview.py:288
+msgid "lacks commits the other side has"
+msgstr "mancano commit che l'altro lato ha"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 89
+#: usr/share/gitrepo/build_package/core/main_sync.py:89
+msgid "This folder is not a Git repository."
+msgstr "Questa cartella non è un repository Git."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 95
+#: usr/share/gitrepo/build_package/core/main_sync.py:95
+msgid "No branch is checked out (detached HEAD)."
+msgstr "Nessun branch è attivo (HEAD scollegato)."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 105
+#: usr/share/gitrepo/build_package/core/main_sync.py:105
+msgid "origin has no main branch to compare with."
+msgstr "origin non ha un branch main con cui confrontare."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 147
+#: usr/share/gitrepo/build_package/core/main_sync.py:147
+msgid "Nothing to compare"
+msgstr "Niente da confrontare"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 151
+#: usr/share/gitrepo/build_package/core/main_sync.py:151
+#, python-brace-format
+msgid "main and origin/main are on the same commit ({0})."
+msgstr "main e origin/main sono sullo stesso commit ({0})."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 153
+#: usr/share/gitrepo/build_package/core/main_sync.py:153
+#, python-brace-format
+msgid "{0}, origin/{0}, main and origin/main are on the same commit ({1})."
+msgstr "{0}, origin/{0}, main e origin/main sono sullo stesso commit ({1})."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 156
+#: usr/share/gitrepo/build_package/core/main_sync.py:156
+msgid "Everything is in sync"
+msgstr "Tutto è sincronizzato"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 160
+#: usr/share/gitrepo/build_package/core/main_sync.py:160
+msgid "Your work is already in main"
+msgstr "Il tuo lavoro è già in main"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 162
+#: usr/share/gitrepo/build_package/core/main_sync.py:162
+#, python-brace-format
+msgid "origin/main has everything from {0}, but some copies on this computer or on origin are still on older commits. Synchronize brings them all to {1}."
+msgstr "origin/main contiene tutto di {0}, ma alcune copie su questo computer o su origin sono ancora su commit più vecchi. Sincronizza le porta tutte a {1}."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 167
+#: usr/share/gitrepo/build_package/core/main_sync.py:167
+#, python-brace-format
+msgid "{0} has commits that origin/main does not have yet ({1}). Take them to main with a pull request or by building a stable package."
+msgstr "{0} ha commit che origin/main non ha ancora ({1}). Portali in main con una pull request o costruendo un pacchetto stabile."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 171
+#: usr/share/gitrepo/build_package/core/main_sync.py:171
+#, python-brace-format
+msgid "{0} of them are not on origin yet: publish your changes first."
+msgstr "{0} di essi non sono ancora su origin: pubblica prima le tue modifiche."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 172
+#: usr/share/gitrepo/build_package/core/main_sync.py:172
+#, python-brace-format
+msgid "{0} has work that is not in main"
+msgstr "{0} ha lavoro che non è in main"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 178
+#: usr/share/gitrepo/build_package/core/main_sync.py:178
+msgid "Reference"
+msgstr "Riferimento"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 180
+#: usr/share/gitrepo/build_package/core/main_sync.py:180
+msgid "Does not exist"
+msgstr "Non esiste"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 185
+#: usr/share/gitrepo/build_package/core/main_sync.py:185
+msgid "Same as origin/main"
+msgstr "Uguale a origin/main"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 186
+#: usr/share/gitrepo/build_package/core/main_sync.py:186
+#, python-brace-format
+msgid "{0} ahead of origin/main"
+msgstr "{0} avanti rispetto a origin/main"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 187
+#: usr/share/gitrepo/build_package/core/main_sync.py:187
+#, python-brace-format
+msgid "{0} behind origin/main"
+msgstr "{0} indietro rispetto a origin/main"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 190
+#: usr/share/gitrepo/build_package/core/main_sync.py:190
+#, python-brace-format
+msgid "{0} ahead and {1} behind origin/main"
+msgstr "{0} avanti e {1} indietro rispetto a origin/main"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 232
+#: usr/share/gitrepo/build_package/core/main_sync.py:232
+#, python-brace-format
+msgid "Bring into {0} the commits already published on origin/{0}."
+msgstr "Porta in {0} i commit già pubblicati su origin/{0}."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 240
+#: usr/share/gitrepo/build_package/core/main_sync.py:240
+#, python-brace-format
+msgid "Move {0} forward to origin/main; it only gains commits."
+msgstr "Avanza {0} fino a origin/main; guadagna solo commit."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 249
+#: usr/share/gitrepo/build_package/core/main_sync.py:249
+msgid "Create the local main from origin/main."
+msgstr "Crea il main locale da origin/main."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 256
+#: usr/share/gitrepo/build_package/core/main_sync.py:256
+msgid "Move the local main forward to origin/main; it only gains commits."
+msgstr "Avanza il main locale fino a origin/main; guadagna solo commit."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 264
+#: usr/share/gitrepo/build_package/core/main_sync.py:264
+#, python-brace-format
+msgid "The local main has commits that origin/main does not have ({0}); keep them in {1}."
+msgstr "Il main locale ha commit che origin/main non ha ({0}); vengono conservati in {1}."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 273
+#: usr/share/gitrepo/build_package/core/main_sync.py:273
+msgid "Point the local main at origin/main."
+msgstr "Fai puntare il main locale a origin/main."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 289
+#: usr/share/gitrepo/build_package/core/main_sync.py:289
+#, python-brace-format
+msgid "Publish {0} on origin so origin/{0} matches main too."
+msgstr "Pubblica {0} su origin in modo che anche origin/{0} corrisponda a main."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 341
+#: usr/share/gitrepo/build_package/core/main_sync.py:341
+msgid "Synchronize with origin/main?"
+msgstr "Sincronizzare con origin/main?"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 342
+#: usr/share/gitrepo/build_package/core/main_sync.py:342
+msgid "Only fast-forwards run, so nothing is merged and no work is discarded."
+msgstr "Vengono eseguiti solo fast-forward, quindi nulla viene unito e nessun lavoro viene scartato."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 348
+#: usr/share/gitrepo/build_package/core/main_sync.py:348
+msgid "Synchronization cancelled; only git fetch ran."
+msgstr "Sincronizzazione annullata; è stato eseguito solo git fetch."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 357
+#: usr/share/gitrepo/build_package/core/main_sync.py:357
+#, python-brace-format
+msgid "Synchronization stopped at {0}: {1}"
+msgstr "Sincronizzazione interrotta a {0}: {1}"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 361
+#: usr/share/gitrepo/build_package/core/main_sync.py:361
+msgid "If Git mentions local changes, commit or stash them and synchronize again."
+msgstr "Se Git menziona modifiche locali, fai commit o stash e sincronizza di nuovo."
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 51
+#: usr/share/gitrepo/build_package/core/branch_menu.py:51
+msgid "Sync with main (is my work in main?)"
+msgstr "Sincronizza con main (il mio lavoro è in main?)"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 129
+#: usr/share/gitrepo/build_package/core/branch_menu.py:129
+msgid "Copy"
+msgstr "Copia"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 131
+#: usr/share/gitrepo/build_package/core/branch_menu.py:131
+msgid "Situation"
+msgstr "Situazione"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 132
+#: usr/share/gitrepo/build_package/core/branch_menu.py:132
+msgid "Last commit"
+msgstr "Ultimo commit"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 154
+#: usr/share/gitrepo/build_package/core/branch_menu.py:154
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:293
+msgid "All branches"
+msgstr "Tutti i branch"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 160
+#: usr/share/gitrepo/build_package/core/branch_menu.py:160
+msgid "Synchronize with origin/main (git fetch, then fast-forward)"
+msgstr "Sincronizza con origin/main (git fetch, poi fast-forward)"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 161
+#: usr/share/gitrepo/build_package/core/branch_menu.py:161
+msgid "Only check origin (git fetch --prune origin)"
+msgstr "Controlla solo origin (git fetch --prune origin)"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 162
+#: usr/share/gitrepo/build_package/core/branch_menu.py:162
+msgid "Show all branches"
+msgstr "Mostra tutti i branch"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 169
+#: usr/share/gitrepo/build_package/core/branch_menu.py:169
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:224
+msgid "Sync with main"
+msgstr "Sincronizza con main"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 112
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:112
+msgid "Copy on origin (GitHub)"
+msgstr "Copia su origin (GitHub)"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 112
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:112
+msgid "Copy on this computer"
+msgstr "Copia su questo computer"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
+#, python-brace-format
+msgid "commit {0} · {1} · {2}"
+msgstr "commit {0} · {1} · {2}"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 119
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:119
+msgid "This copy does not exist."
+msgstr "Questa copia non esiste."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 227
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:227
+msgid "Shows whether your work is already in origin/main, where pull requests land and stable packages are built from."
+msgstr "Mostra se il tuo lavoro è già in origin/main, dove arrivano le pull request e da cui vengono costruiti i pacchetti stabili."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 233
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:233
+msgid "How synchronizing works"
+msgstr "Come funziona la sincronizzazione"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 235
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:235
+msgid "Synchronize runs git fetch and then only moves copies forward: your branch and the local main advance to origin/main, and your branch is published when it already matches main. Commits that exist only in the local main are kept in a backup branch first. Nothing is merged and no work is discarded."
+msgstr "Sincronizza esegue git fetch e poi fa solo avanzare le copie: il tuo branch e il main locale avanzano fino a origin/main, e il tuo branch viene pubblicato quando coincide già con main. I commit presenti solo nel main locale vengono prima conservati in un branch di backup. Nulla viene unito e nessun lavoro viene scartato."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 243
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:243
+msgid "Check origin"
+msgstr "Controlla origin"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 247
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:247
+msgid "Read the latest state of origin without changing any branch."
+msgstr "Legge lo stato più recente di origin senza modificare alcun branch."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 263
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:263
+msgid "Synchronize"
+msgstr "Sincronizza"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 538
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:538
+#, python-brace-format
+msgid "{0} branches, each against its copy on origin and against {1}"
+msgstr "{0} branch, ciascuno confrontato con la sua copia su origin e con {1}"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 217
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:217
+msgid "Synchronizing with main"
+msgstr "Sincronizzazione con main"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 218
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:218
+msgid "git fetch, then moving copies forward to origin/main..."
+msgstr "git fetch, poi avanzamento delle copie fino a origin/main..."

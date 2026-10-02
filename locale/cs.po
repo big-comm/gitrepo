@@ -7676,21 +7676,6 @@ msgstr "Nelze porovnat"
 #: usr/share/gitrepo/build_package/core/branch_overview.py:248
 msgid "Same as origin"
 msgstr "Stejné jako origin"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 249
-#: usr/share/gitrepo/build_package/core/branch_overview.py:249
-#, python-brace-format
-msgid "↑{0} to push"
-msgstr "↑{0} k push"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 250
-#: usr/share/gitrepo/build_package/core/branch_overview.py:250
-#, python-brace-format
-msgid "↓{0} to pull"
-msgstr "↓{0} k pull"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 251
-#: usr/share/gitrepo/build_package/core/branch_overview.py:251
-#, python-brace-format
-msgid "↑{0} ↓{1} diverged"
-msgstr "↑{0} ↓{1} rozešlé"
 # File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 259
 #: usr/share/gitrepo/build_package/core/branch_overview.py:259
 msgid "Base branch"
@@ -7704,41 +7689,14 @@ msgstr "Není základ k porovnání"
 #, python-brace-format
 msgid "Same as {0}"
 msgstr "Stejné jako {0}"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 265
-#: usr/share/gitrepo/build_package/core/branch_overview.py:265
-#, python-brace-format
-msgid "↑{0} ahead of {1}"
-msgstr "↑{0} před {1}"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 266
-#: usr/share/gitrepo/build_package/core/branch_overview.py:266
-#, python-brace-format
-msgid "↓{0} behind {1}"
-msgstr "↓{0} za {1}"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 267
-#: usr/share/gitrepo/build_package/core/branch_overview.py:267
-#, python-brace-format
-msgid "↑{0} ↓{1} diverged from {2}"
-msgstr "↑{0} ↓{1} rozešlé s {2}"
 # File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 275
 #: usr/share/gitrepo/build_package/core/branch_overview.py:275
 msgid "same commit"
 msgstr "stejný commit"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 276
-#: usr/share/gitrepo/build_package/core/branch_overview.py:276
-msgid "↑ has commits the other side lacks"
-msgstr "↑ má commity, které druhé straně chybí"
-# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 277
-#: usr/share/gitrepo/build_package/core/branch_overview.py:277
-msgid "↓ lacks commits the other side has"
-msgstr "↓ chybí commity, které má druhá strana"
 # File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 278
 #: usr/share/gitrepo/build_package/core/branch_overview.py:278
 msgid "both: needs a merge or rebase"
 msgstr "obojí: je třeba merge nebo rebase"
-# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 50
-#: usr/share/gitrepo/build_package/core/branch_menu.py:50
-msgid "Compare branches (local × origin × main)"
-msgstr "Porovnat větve (lokální × origin × main)"
 # File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 90
 #: usr/share/gitrepo/build_package/core/branch_menu.py:90
 msgid "Local"
@@ -7752,19 +7710,10 @@ msgstr "Lokální × origin"
 #, python-brace-format
 msgid "× {0}"
 msgstr "× {0}"
-# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 118
-#: usr/share/gitrepo/build_package/core/branch_menu.py:118
-msgid "Update from origin (git fetch --prune origin)"
-msgstr "Aktualizovat z origin (git fetch --prune origin)"
 # File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 122
 #: usr/share/gitrepo/build_package/core/branch_menu.py:122
 msgid "Could not read the branches of this repository."
 msgstr "Nepodařilo se načíst větve tohoto repozitáře."
-# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 125
-#: usr/share/gitrepo/build_package/core/branch_menu.py:125
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:185
-msgid "Where each branch is"
-msgstr "Kde je která větev"
 # File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 132
 #: usr/share/gitrepo/build_package/core/branch_menu.py:132
 msgid "Running git fetch --prune origin..."
@@ -7799,24 +7748,271 @@ msgstr "Lokální větev × origin/{0}"
 #, python-brace-format
 msgid "This branch × {0}"
 msgstr "Tato větev × {0}"
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 189
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:189
-msgid "Reading the colours"
-msgstr "Jak číst barvy"
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 191
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:191
-msgid "Green: the same commit on both sides. Blue ↑: this side has commits the other lacks (push or merge them). Yellow ↓: this side lacks commits the other has (pull them). Red: both, so the branches diverged and need a merge or rebase. origin is only as fresh as the last git fetch."
-msgstr "Zelená: stejný commit na obou stranách. Modrá ↑: tato strana má commity, které druhé chybí (proveďte push nebo merge). Žlutá ↓: této straně chybí commity, které má druhá (proveďte pull). Červená: obojí, větve se rozešly a potřebují merge nebo rebase. origin je aktuální jen k poslednímu git fetch."
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 199
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:199
-msgid "Update from origin"
-msgstr "Aktualizovat z origin"
-# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 431
-#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:431
-#, python-brace-format
-msgid "Each branch against its copy on origin and against {0}."
-msgstr "Každá větev oproti své kopii v origin a oproti {0}."
 # File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 197
 #: usr/share/gitrepo/build_package/gui/branch_actions.py:197
 msgid "origin updated (git fetch --prune origin)"
 msgstr "origin aktualizován (git fetch --prune origin)"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 260
+#: usr/share/gitrepo/build_package/core/branch_overview.py:260
+#, python-brace-format
+msgid "{0} to push"
+msgstr "{0} k odeslání"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 261
+#: usr/share/gitrepo/build_package/core/branch_overview.py:261
+#, python-brace-format
+msgid "{0} to pull"
+msgstr "{0} ke stažení"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 262
+#: usr/share/gitrepo/build_package/core/branch_overview.py:262
+#, python-brace-format
+msgid "{0} to push, {1} to pull"
+msgstr "{0} k odeslání, {1} ke stažení"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 276
+#: usr/share/gitrepo/build_package/core/branch_overview.py:276
+#, python-brace-format
+msgid "{0} ahead of {1}"
+msgstr "{0} před {1}"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 277
+#: usr/share/gitrepo/build_package/core/branch_overview.py:277
+#, python-brace-format
+msgid "{0} behind {1}"
+msgstr "{0} za {1}"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 278
+#: usr/share/gitrepo/build_package/core/branch_overview.py:278
+#, python-brace-format
+msgid "{0} ahead and {1} behind {2}"
+msgstr "{0} před a {1} za {2}"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 287
+#: usr/share/gitrepo/build_package/core/branch_overview.py:287
+msgid "has commits the other side lacks"
+msgstr "má commity, které druhé straně chybí"
+# File: usr/share/gitrepo/build_package/core/branch_overview.py, line: 288
+#: usr/share/gitrepo/build_package/core/branch_overview.py:288
+msgid "lacks commits the other side has"
+msgstr "chybí commity, které druhá strana má"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 89
+#: usr/share/gitrepo/build_package/core/main_sync.py:89
+msgid "This folder is not a Git repository."
+msgstr "Tato složka není repozitářem Git."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 95
+#: usr/share/gitrepo/build_package/core/main_sync.py:95
+msgid "No branch is checked out (detached HEAD)."
+msgstr "Není vybrána žádná větev (odpojený HEAD)."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 105
+#: usr/share/gitrepo/build_package/core/main_sync.py:105
+msgid "origin has no main branch to compare with."
+msgstr "origin nemá větev main, se kterou by šlo porovnávat."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 147
+#: usr/share/gitrepo/build_package/core/main_sync.py:147
+msgid "Nothing to compare"
+msgstr "Není co porovnávat"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 151
+#: usr/share/gitrepo/build_package/core/main_sync.py:151
+#, python-brace-format
+msgid "main and origin/main are on the same commit ({0})."
+msgstr "main a origin/main jsou na stejném commitu ({0})."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 153
+#: usr/share/gitrepo/build_package/core/main_sync.py:153
+#, python-brace-format
+msgid "{0}, origin/{0}, main and origin/main are on the same commit ({1})."
+msgstr "{0}, origin/{0}, main a origin/main jsou na stejném commitu ({1})."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 156
+#: usr/share/gitrepo/build_package/core/main_sync.py:156
+msgid "Everything is in sync"
+msgstr "Vše je synchronizováno"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 160
+#: usr/share/gitrepo/build_package/core/main_sync.py:160
+msgid "Your work is already in main"
+msgstr "Vaše práce už je v main"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 162
+#: usr/share/gitrepo/build_package/core/main_sync.py:162
+#, python-brace-format
+msgid "origin/main has everything from {0}, but some copies on this computer or on origin are still on older commits. Synchronize brings them all to {1}."
+msgstr "origin/main obsahuje vše z {0}, ale některé kopie v tomto počítači nebo v origin jsou stále na starších commitech. Synchronizace je všechny posune na {1}."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 167
+#: usr/share/gitrepo/build_package/core/main_sync.py:167
+#, python-brace-format
+msgid "{0} has commits that origin/main does not have yet ({1}). Take them to main with a pull request or by building a stable package."
+msgstr "{0} má commity, které origin/main ještě nemá ({1}). Dostaňte je do main pomocí pull requestu nebo sestavením stabilního balíčku."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 171
+#: usr/share/gitrepo/build_package/core/main_sync.py:171
+#, python-brace-format
+msgid "{0} of them are not on origin yet: publish your changes first."
+msgstr "{0} z nich ještě není v origin: nejdřív publikujte své změny."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 172
+#: usr/share/gitrepo/build_package/core/main_sync.py:172
+#, python-brace-format
+msgid "{0} has work that is not in main"
+msgstr "{0} má práci, která není v main"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 178
+#: usr/share/gitrepo/build_package/core/main_sync.py:178
+msgid "Reference"
+msgstr "Reference"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 180
+#: usr/share/gitrepo/build_package/core/main_sync.py:180
+msgid "Does not exist"
+msgstr "Neexistuje"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 185
+#: usr/share/gitrepo/build_package/core/main_sync.py:185
+msgid "Same as origin/main"
+msgstr "Stejné jako origin/main"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 186
+#: usr/share/gitrepo/build_package/core/main_sync.py:186
+#, python-brace-format
+msgid "{0} ahead of origin/main"
+msgstr "{0} před origin/main"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 187
+#: usr/share/gitrepo/build_package/core/main_sync.py:187
+#, python-brace-format
+msgid "{0} behind origin/main"
+msgstr "{0} za origin/main"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 190
+#: usr/share/gitrepo/build_package/core/main_sync.py:190
+#, python-brace-format
+msgid "{0} ahead and {1} behind origin/main"
+msgstr "{0} před a {1} za origin/main"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 232
+#: usr/share/gitrepo/build_package/core/main_sync.py:232
+#, python-brace-format
+msgid "Bring into {0} the commits already published on origin/{0}."
+msgstr "Přenést do {0} commity už publikované v origin/{0}."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 240
+#: usr/share/gitrepo/build_package/core/main_sync.py:240
+#, python-brace-format
+msgid "Move {0} forward to origin/main; it only gains commits."
+msgstr "Posunout {0} dopředu na origin/main; pouze získává commity."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 249
+#: usr/share/gitrepo/build_package/core/main_sync.py:249
+msgid "Create the local main from origin/main."
+msgstr "Vytvořit lokální main z origin/main."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 256
+#: usr/share/gitrepo/build_package/core/main_sync.py:256
+msgid "Move the local main forward to origin/main; it only gains commits."
+msgstr "Posunout lokální main dopředu na origin/main; pouze získává commity."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 264
+#: usr/share/gitrepo/build_package/core/main_sync.py:264
+#, python-brace-format
+msgid "The local main has commits that origin/main does not have ({0}); keep them in {1}."
+msgstr "Lokální main má commity, které origin/main nemá ({0}); uchovejte je v {1}."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 273
+#: usr/share/gitrepo/build_package/core/main_sync.py:273
+msgid "Point the local main at origin/main."
+msgstr "Nasměrovat lokální main na origin/main."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 289
+#: usr/share/gitrepo/build_package/core/main_sync.py:289
+#, python-brace-format
+msgid "Publish {0} on origin so origin/{0} matches main too."
+msgstr "Publikovat {0} do origin, aby i origin/{0} odpovídal main."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 341
+#: usr/share/gitrepo/build_package/core/main_sync.py:341
+msgid "Synchronize with origin/main?"
+msgstr "Synchronizovat s origin/main?"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 342
+#: usr/share/gitrepo/build_package/core/main_sync.py:342
+msgid "Only fast-forwards run, so nothing is merged and no work is discarded."
+msgstr "Provádějí se pouze fast-forward, takže se nic neslučuje a žádná práce se neztratí."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 348
+#: usr/share/gitrepo/build_package/core/main_sync.py:348
+msgid "Synchronization cancelled; only git fetch ran."
+msgstr "Synchronizace zrušena; proběhl pouze git fetch."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 357
+#: usr/share/gitrepo/build_package/core/main_sync.py:357
+#, python-brace-format
+msgid "Synchronization stopped at {0}: {1}"
+msgstr "Synchronizace se zastavila u {0}: {1}"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 361
+#: usr/share/gitrepo/build_package/core/main_sync.py:361
+msgid "If Git mentions local changes, commit or stash them and synchronize again."
+msgstr "Pokud Git zmíní lokální změny, odevzdejte je nebo odložte (stash) a synchronizujte znovu."
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 51
+#: usr/share/gitrepo/build_package/core/branch_menu.py:51
+msgid "Sync with main (is my work in main?)"
+msgstr "Synchronizace s main (je moje práce v main?)"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 129
+#: usr/share/gitrepo/build_package/core/branch_menu.py:129
+msgid "Copy"
+msgstr "Kopie"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 131
+#: usr/share/gitrepo/build_package/core/branch_menu.py:131
+msgid "Situation"
+msgstr "Situace"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 132
+#: usr/share/gitrepo/build_package/core/branch_menu.py:132
+msgid "Last commit"
+msgstr "Poslední commit"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 154
+#: usr/share/gitrepo/build_package/core/branch_menu.py:154
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:293
+msgid "All branches"
+msgstr "Všechny větve"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 160
+#: usr/share/gitrepo/build_package/core/branch_menu.py:160
+msgid "Synchronize with origin/main (git fetch, then fast-forward)"
+msgstr "Synchronizovat s origin/main (git fetch, pak fast-forward)"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 161
+#: usr/share/gitrepo/build_package/core/branch_menu.py:161
+msgid "Only check origin (git fetch --prune origin)"
+msgstr "Jen zkontrolovat origin (git fetch --prune origin)"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 162
+#: usr/share/gitrepo/build_package/core/branch_menu.py:162
+msgid "Show all branches"
+msgstr "Zobrazit všechny větve"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 169
+#: usr/share/gitrepo/build_package/core/branch_menu.py:169
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:224
+msgid "Sync with main"
+msgstr "Synchronizace s main"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 112
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:112
+msgid "Copy on origin (GitHub)"
+msgstr "Kopie v origin (GitHub)"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 112
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:112
+msgid "Copy on this computer"
+msgstr "Kopie v tomto počítači"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 115
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:115
+#, python-brace-format
+msgid "commit {0} · {1} · {2}"
+msgstr "commit {0} · {1} · {2}"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 119
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:119
+msgid "This copy does not exist."
+msgstr "Tato kopie neexistuje."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 227
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:227
+msgid "Shows whether your work is already in origin/main, where pull requests land and stable packages are built from."
+msgstr "Ukazuje, zda je vaše práce už v origin/main, kam přistávají pull requesty a odkud se sestavují stabilní balíčky."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 233
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:233
+msgid "How synchronizing works"
+msgstr "Jak synchronizace funguje"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 235
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:235
+msgid "Synchronize runs git fetch and then only moves copies forward: your branch and the local main advance to origin/main, and your branch is published when it already matches main. Commits that exist only in the local main are kept in a backup branch first. Nothing is merged and no work is discarded."
+msgstr "Synchronizace provede git fetch a pak kopie pouze posune dopředu: vaše větev a lokální main postoupí na origin/main a vaše větev se publikuje, když už odpovídá main. Commity, které existují jen v lokálním main, se nejdřív uloží do záložní větve. Nic se neslučuje a žádná práce se neztratí."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 243
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:243
+msgid "Check origin"
+msgstr "Zkontrolovat origin"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 247
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:247
+msgid "Read the latest state of origin without changing any branch."
+msgstr "Načíst nejnovější stav origin beze změny jakékoli větve."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 263
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:263
+msgid "Synchronize"
+msgstr "Synchronizovat"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 538
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:538
+#, python-brace-format
+msgid "{0} branches, each against its copy on origin and against {1}"
+msgstr "Větve ({0}) — každá ve srovnání se svou kopií v origin a s {1}"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 217
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:217
+msgid "Synchronizing with main"
+msgstr "Synchronizace s main"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 218
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:218
+msgid "git fetch, then moving copies forward to origin/main..."
+msgstr "git fetch, pak posouvání kopií dopředu na origin/main..."
