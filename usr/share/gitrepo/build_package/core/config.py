@@ -14,6 +14,13 @@ from gitrepo.common.translation import _
 DEFAULT_ORGANIZATION = "big-comm"  # Default organization
 VALID_ORGANIZATIONS = ["big-comm", "biglinux"]  # Valid organizations
 
+# Where a package is built and published: the organization whose build-package
+# workflow runs. The source repository can belong to anyone -- a BigLinux
+# repository can be published to BigCommunity and the other way around.
+DESTINATION_NAMES = {"big-comm": "BigCommunity", "biglinux": "BigLinux"}
+# Repositories each destination publishes to. BigLinux has no extra repository.
+DESTINATION_BRANCHES = {"big-comm": ("testing", "stable", "extra"), "biglinux": ("testing", "stable")}
+
 # File containing GitHub token (new location inside config dir)
 TOKEN_FILE = "~/.config/gitrepo/github_token"
 # Legacy location — kept only for one-time migration

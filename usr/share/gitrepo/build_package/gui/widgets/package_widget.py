@@ -9,6 +9,7 @@ gi.require_version("Adw", "1")
 
 from gi.repository import Gtk, Adw, GObject
 from gitrepo.common.translation import _
+from gitrepo.build_package.core.config import DEFAULT_ORGANIZATION, DESTINATION_NAMES, VALID_ORGANIZATIONS
 
 from gitrepo.common.help_popover import help_button
 from gitrepo.common.page_layout import page_body
@@ -136,6 +137,28 @@ class PackageWidget(Gtk.Box):
 
         self.workflow_content.append(status_group)
 
+        # Destination: which organization's robot builds and publishes. The
+        # choice is remembered as the default for the next builds.
+        destination_group = Adw.PreferencesGroup()
+        destination_group.set_title(_("Destination"))
+        destination_group.set_description(
+            _("The organization whose robot builds and publishes the package. The source repository can be any.")
+        )
+        self.destination_row = Adw.ComboRow()
+        self.destination_row.set_title(_("Publish to"))
+        self.destination_row.set_subtitle(_("Your choice stays as the default for the next builds."))
+        self._destinations = list(VALID_ORGANIZATIONS)
+        names = Gtk.StringList()
+        for organization in self._destinations:
+            names.append(f"{DESTINATION_NAMES.get(organization, organization)} ({organization})")
+        self.destination_row.set_model(names)
+        current = getattr(self.build_package, "organization", DEFAULT_ORGANIZATION)
+        if current in self._destinations:
+            self.destination_row.set_selected(self._destinations.index(current))
+        self.destination_row.connect("notify::selected", self._on_destination_changed)
+        destination_group.add(self.destination_row)
+        self.workflow_content.append(destination_group)
+
         # Package type selection with radio buttons style
         package_type_group = Adw.PreferencesGroup()
         package_type_group.set_title(_("Target Repository"))
@@ -166,6 +189,7 @@ class PackageWidget(Gtk.Box):
         ]
 
         # Use a ListBox for selection
+        self._package_type_rows = {}
         self.package_types_list = Gtk.ListBox()
         self.package_types_list.set_selection_mode(Gtk.SelectionMode.SINGLE)
         self.package_types_list.add_css_class("boxed-list")
@@ -192,8 +216,10 @@ class PackageWidget(Gtk.Box):
             row.add_suffix(check_icon)
 
             self.package_types_list.append(row)
+            self._package_type_rows[pkg_type] = row
 
         package_type_group.add(self.package_types_list)
+        self._apply_destination_branches()
         self.workflow_content.append(package_type_group)
 
         # NOTE: seleção será feita após criar build_button em refresh_status
@@ -340,6 +366,30 @@ class PackageWidget(Gtk.Box):
 
         self.sync_feature_enabled()
 
+    def _on_destination_changed(self, combo, _pspec):
+        selected = combo.get_selected()
+        if selected >= len(self._destinations):
+            return
+        organization = self._destinations[selected]
+        if not self.build_package.set_organization(organization):
+            return
+        self.settings.set("build_destination", organization)
+        self._apply_destination_branches()
+
+    def _apply_destination_branches(self):
+        """Show only the repositories the destination has (BigLinux has no extra)."""
+        allowed = self.build_package.branch_types() if hasattr(self.build_package, "branch_types") else None
+        for pkg_type, row in self._package_type_rows.items():
+            visible = allowed is None or pkg_type in allowed
+            row.set_visible(visible)  # Adw.ActionRow is the list row itself
+            if not visible and self.selected_package_type == pkg_type:
+                self.selected_package_type = None
+                self.package_types_list.unselect_all()
+                if hasattr(row, "check_icon"):
+                    row.check_icon.set_visible(False)
+                if hasattr(self, "build_button"):
+                    self.update_build_button_state()
+
     def sync_feature_enabled(self):
         """Reconcile the visible workflow with its persisted feature flag."""
         enabled = self.settings.get("package_features_enabled", False)
@@ -404,7 +454,7 @@ class PackageWidget(Gtk.Box):
     def on_package_type_selected(self, _list_box, row):
         """Handle package type selection"""
         # Hide all checkmarks first
-        for i in range(3):  # 3 package types
+        for i in range(len(self.package_types)):
             child_row = self.package_types_list.get_row_at_index(i)
             if child_row and hasattr(child_row.get_child(), "check_icon"):
                 child_row.get_child().check_icon.set_visible(False)

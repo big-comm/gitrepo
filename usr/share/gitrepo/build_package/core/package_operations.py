@@ -14,7 +14,9 @@ from .git_status import display_path
 from .git_utils import GitUtils
 from .package_selection import PackageSelection, package_choices
 from gitrepo.common.translation import _
+
 from .commit_operations import commit_and_push
+from .config import DESTINATION_NAMES
 from .repository_lock import journey
 
 
@@ -212,6 +214,15 @@ def commit_and_generate_package(build_package_instance, branch_type, commit_mess
     bp = build_package_instance
     if not bp.is_git_repo:
         bp.logger.log("red", _("This operation is only available in Git repositories."))
+        return False
+    allowed = bp.branch_types() if hasattr(bp, "branch_types") else ("testing", "stable", "extra")
+    if branch_type not in allowed:
+        bp.logger.log(
+            "red",
+            _("{0} does not publish to the {1} repository.").format(
+                DESTINATION_NAMES.get(bp.organization, bp.organization), branch_type
+            ),
+        )
         return False
     testing_branch = ""
     if branch_type == "testing":

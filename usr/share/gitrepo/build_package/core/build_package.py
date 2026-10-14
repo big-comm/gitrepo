@@ -12,7 +12,15 @@ from rich.prompt import Prompt
 
 from gitrepo.common.version_display import print_version_panel
 
-from .config import APP_DESC, APP_NAME, APP_VERSION, DEFAULT_ORGANIZATION, VALID_BRANCHES, VALID_ORGANIZATIONS
+from .config import (
+    APP_DESC,
+    APP_NAME,
+    APP_VERSION,
+    DEFAULT_ORGANIZATION,
+    DESTINATION_BRANCHES,
+    VALID_BRANCHES,
+    VALID_ORGANIZATIONS,
+)
 from .conflict_resolver import ConflictResolver
 from .git_utils import GitUtils
 from .github_api import GitHubAPI
@@ -48,6 +56,13 @@ class BuildPackage:
 
         # Initialize settings and intelligent systems
         self.settings = Settings()
+        # --organization wins; otherwise the destination saved as default.
+        if not self.args.organization:
+            saved = self.settings.get("build_destination", DEFAULT_ORGANIZATION)
+            if saved in VALID_ORGANIZATIONS:
+                self.organization = saved
+                self.repo_workflow = f"{saved}/build-package"
+            self.args.organization = self.organization
         self.conflict_resolver = None  # Initialize after menu is ready
         self.settings_menu = None
 
@@ -86,6 +101,24 @@ class BuildPackage:
 
         # Check dependencies
         self.check_dependencies()
+
+    def set_organization(self, organization: str) -> bool:
+        """Change where the next build runs and publishes (big-comm or biglinux).
+
+        The token is looked up per organization, so the API client and the
+        cached account name are reset with it."""
+        if organization not in VALID_ORGANIZATIONS:
+            return False
+        if organization != self.organization:
+            self.organization = organization
+            self.repo_workflow = f"{organization}/build-package"
+            self.github_api = GitHubAPI(None, organization)
+            self._github_user_name = ""
+        return True
+
+    def branch_types(self) -> tuple:
+        """Repositories the current destination publishes to."""
+        return DESTINATION_BRANCHES.get(self.organization, ("testing", "stable", "extra"))
 
     @property
     def github_user_name(self) -> str:
@@ -300,7 +333,7 @@ class BuildPackage:
         return True
 
     def _menu_package(self):
-        branch_options = ["testing", "stable", "extra", _("Back")]
+        branch_options = [*self.branch_types(), _("Back")]
         branch_result = self.menu.show_menu(_("Select repository"), branch_options)
         if branch_result is None or branch_options[branch_result[0]] == _("Back"):
             return False
@@ -530,9 +563,9 @@ def parse_arguments(argv: list[str] | None = None) -> argparse.Namespace:
         "--org",
         "--organization",
         dest="organization",
-        help=_("Configure GitHub organization (default: big-comm)"),
+        help=_("Configure GitHub organization (default: the destination saved in settings, else big-comm)"),
         choices=VALID_ORGANIZATIONS,
-        default=DEFAULT_ORGANIZATION,
+        default=None,
     )
 
     parser.add_argument("-b", "--build", help=_("Commit/push and generate package"), choices=VALID_BRANCHES)
