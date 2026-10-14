@@ -59,14 +59,20 @@ class GitHubAPI:
                 if response.status_code != 200:
                     logger.log("red", _("Error checking PR: {0}").format(response.status_code))
                     return False, "error"
-                mergeable = response.json().get("mergeable")
-                last_state = response.json().get("mergeable_state") or "unknown"
+                pull = response.json()
+                mergeable = pull.get("mergeable")
+                last_state = pull.get("mergeable_state") or "unknown"
                 if attempt < 3 or attempt % 10 == 0:
                     logger.log(
                         "cyan",
                         _("Attempt {0}/{1}: state={2}").format(attempt + 1, max_wait, last_state),
                     )
                 result = self._completed_pr_check(mergeable, last_state, logger)
+                if result is None and last_state in ("unstable", "blocked"):
+                    # Both states also cover checks still running; only a finished
+                    # failure, or a block no check can lift, ends the wait.
+                    head_sha = (pull.get("head") or {}).get("sha", "")
+                    result = self._settled_checks_verdict(repo_name, head_sha, last_state, logger)
                 if result is not None:
                     return result
             except requests.RequestException as error:
@@ -75,6 +81,64 @@ class GitHubAPI:
                 time.sleep(2)
         logger.log("yellow", _("Timed out waiting for PR state '{0}'. Merge it manually.").format(last_state))
         return False, "timeout"
+
+    # Conclusions of a finished check run that mean it did not pass.
+    _FAILED_CONCLUSIONS = frozenset({"failure", "cancelled", "timed_out", "action_required", "startup_failure"})
+
+    def _commit_checks(self, repo_name: str, sha: str) -> tuple[list[tuple[str, str]], bool]:
+        """Return the failed checks of *sha* as (name, url), and whether any is still running."""
+        failed: list[tuple[str, str]] = []
+        running = False
+        runs = requests.get(
+            f"https://api.github.com/repos/{repo_name}/commits/{sha}/check-runs",
+            headers=self.headers,
+            params={"per_page": 100},
+            timeout=30,
+        )
+        if runs.status_code == 200:
+            for run in runs.json().get("check_runs", []):
+                if run.get("status") != "completed":
+                    running = True
+                elif run.get("conclusion") in self._FAILED_CONCLUSIONS:
+                    failed.append((run.get("name", "?"), run.get("html_url") or run.get("details_url") or ""))
+        statuses = requests.get(
+            f"https://api.github.com/repos/{repo_name}/commits/{sha}/status",
+            headers=self.headers,
+            timeout=30,
+        )
+        if statuses.status_code == 200:
+            for status in statuses.json().get("statuses", []):
+                if status.get("state") == "pending":
+                    running = True
+                elif status.get("state") in ("failure", "error"):
+                    failed.append((status.get("context", "?"), status.get("target_url") or ""))
+        return failed, running
+
+    def _settled_checks_verdict(self, repo_name: str, sha: str, state: str, logger):
+        """Stop waiting once the PR's checks failed, or once nothing left can unblock it."""
+        if not sha:
+            return None
+        failed, running = self._commit_checks(repo_name, sha)
+        if failed:
+            for name, url in failed:
+                logger.log("red", _("A check failed on GitHub: {0}").format(name))
+                if url:
+                    logger.log("white", _("Details: {0}").format(url))
+            logger.log(
+                "yellow",
+                _("The pull request was left open and not merged. Fix the failing check, then merge it on GitHub."),
+            )
+            return False, "checks-failed"
+        if state == "blocked" and not running:
+            logger.log(
+                "yellow",
+                _(
+                    "GitHub blocks this merge (a required review or a branch rule). "
+                    "The pull request was left open and not merged."
+                ),
+            )
+            return False, "blocked"
+        return None
 
     @staticmethod
     def _completed_pr_check(mergeable, mergeable_state, logger):
@@ -517,7 +581,14 @@ class GitHubAPI:
         pr_number = pr_info["number"]
         is_ready, pr_state = self.wait_for_pr_checks(pr_number, logger)
         if not is_ready:
-            pr_info.update(auto_merged=False, merge_error=_("PR not ready: {0}").format(pr_state))
+            reasons = {
+                "checks-failed": _("a check failed on GitHub"),
+                "blocked": _("GitHub blocks the merge"),
+            }
+            pr_info.update(
+                auto_merged=False,
+                merge_error=_("PR not ready: {0}").format(reasons.get(pr_state, pr_state)),
+            )
             return
         data = {
             "commit_title": f"Merge {source_branch} into {target_branch}",
