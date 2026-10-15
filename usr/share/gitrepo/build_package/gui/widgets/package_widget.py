@@ -9,6 +9,7 @@ gi.require_version("Adw", "1")
 
 from gi.repository import Gtk, Adw, GObject
 from gitrepo.common.translation import _
+from gitrepo.build_package.core.destination import remember_destination
 from gitrepo.build_package.core.config import DEFAULT_ORGANIZATION, DESTINATION_NAMES, VALID_ORGANIZATIONS
 
 from gitrepo.common.help_popover import help_button
@@ -137,27 +138,23 @@ class PackageWidget(Gtk.Box):
 
         self.workflow_content.append(status_group)
 
-        # Destination: which organization's robot builds and publishes. The
-        # choice is remembered as the default for the next builds.
-        destination_group = Adw.PreferencesGroup()
-        destination_group.set_title(_("Destination"))
-        destination_group.set_description(
-            _("The organization whose robot builds and publishes the package. The source repository can be any.")
-        )
+        # Which organization's robot builds and publishes. It heads the
+        # target repository group: the list holds only the short names, and the
+        # subtitle spells out the GitHub organization in full, wrapping instead
+        # of cutting it off.
         self.destination_row = Adw.ComboRow()
-        self.destination_row.set_title(_("Publish to"))
-        self.destination_row.set_subtitle(_("Your choice stays as the default for the next builds."))
+        self.destination_row.set_title(_("Organization"))
+        self.destination_row.set_subtitle_lines(0)
         self._destinations = list(VALID_ORGANIZATIONS)
         names = Gtk.StringList()
         for organization in self._destinations:
-            names.append(f"{DESTINATION_NAMES.get(organization, organization)} ({organization})")
+            names.append(DESTINATION_NAMES.get(organization, organization))
         self.destination_row.set_model(names)
         current = getattr(self.build_package, "organization", DEFAULT_ORGANIZATION)
         if current in self._destinations:
             self.destination_row.set_selected(self._destinations.index(current))
+        self._describe_destination()
         self.destination_row.connect("notify::selected", self._on_destination_changed)
-        destination_group.add(self.destination_row)
-        self.workflow_content.append(destination_group)
 
         # Package type selection with radio buttons style
         package_type_group = Adw.PreferencesGroup()
@@ -175,6 +172,7 @@ class PackageWidget(Gtk.Box):
         package_type_group.set_description(
             github_action_description(_("build the package and publish it to the selected repository"))
         )
+        package_type_group.add(self.destination_row)
 
         # Package types
         self.package_types = [
@@ -193,6 +191,7 @@ class PackageWidget(Gtk.Box):
         self.package_types_list = Gtk.ListBox()
         self.package_types_list.set_selection_mode(Gtk.SelectionMode.SINGLE)
         self.package_types_list.add_css_class("boxed-list")
+        self.package_types_list.set_margin_top(12)
         self.package_types_list.connect("row-selected", self.on_package_type_selected)
 
         for pkg_type, title, description, icon_name in self.package_types:
@@ -373,8 +372,19 @@ class PackageWidget(Gtk.Box):
         organization = self._destinations[selected]
         if not self.build_package.set_organization(organization):
             return
-        self.settings.set("build_destination", organization)
+        remember_destination(self.settings, organization)
+        self._describe_destination()
         self._apply_destination_branches()
+
+    def _describe_destination(self):
+        selected = self.destination_row.get_selected()
+        if selected >= len(self._destinations):
+            return
+        self.destination_row.set_subtitle(
+            _("github.com/{0} builds and publishes the package. Kept as the default for the next builds.").format(
+                self._destinations[selected]
+            )
+        )
 
     def _apply_destination_branches(self):
         """Show only the repositories the destination has (BigLinux has no extra)."""

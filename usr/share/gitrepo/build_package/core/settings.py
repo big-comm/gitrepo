@@ -88,6 +88,9 @@ class Settings:
             # Default build destination: the organization whose build-package
             # publishes the package (big-comm = BigCommunity, biglinux = BigLinux)
             "build_destination": "big-comm",
+            # The destination chosen for each repository, keyed by "owner/repository";
+            # build_destination above is the starting point for a repository not listed here.
+            "build_destinations": {},
             # Workflow repository for GitHub Actions
             "workflow_repository": "",
             # GitHub base URL (for enterprise installations)

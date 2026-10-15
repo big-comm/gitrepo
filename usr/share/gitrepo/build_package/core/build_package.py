@@ -25,6 +25,7 @@ from .conflict_resolver import ConflictResolver
 from .git_utils import GitUtils
 from .github_api import GitHubAPI
 from .settings import Settings
+from .destination import resolve_destination
 from .settings_menu import SettingsMenu
 from gitrepo.common.translation import _
 
@@ -56,12 +57,10 @@ class BuildPackage:
 
         # Initialize settings and intelligent systems
         self.settings = Settings()
-        # --organization wins; otherwise the destination saved as default.
+        # --organization wins; otherwise this repository's destination (see destination.py).
         if not self.args.organization:
-            saved = self.settings.get("build_destination", DEFAULT_ORGANIZATION)
-            if saved in VALID_ORGANIZATIONS:
-                self.organization = saved
-                self.repo_workflow = f"{saved}/build-package"
+            self.organization = resolve_destination(self.settings)
+            self.repo_workflow = f"{self.organization}/build-package"
             self.args.organization = self.organization
         self.conflict_resolver = None  # Initialize after menu is ready
         self.settings_menu = None
