@@ -38,7 +38,7 @@ def test_saved_destination_becomes_the_default(modules):
     assert modules.settings.Settings(str(modules.config_dir)).set("build_destination", "biglinux")
     instance = modules.build.BuildPackage()
     assert instance.organization == "biglinux" and instance.repo_workflow == "biglinux/build-package"
-    assert instance.branch_types() == ("testing", "stable")
+    assert instance.branch_types() == ("testing", "stable", "extra")
 
 
 def test_command_line_wins_over_saved_default(modules):
@@ -58,7 +58,8 @@ def test_switching_destination_resets_the_github_client(modules):
     assert not instance.set_organization("someone-else") and instance.organization == "biglinux"
 
 
-def test_biglinux_refuses_the_extra_repository(modules):
+def test_a_destination_refuses_a_repository_it_does_not_have(modules, monkeypatch):
+    monkeypatch.setitem(modules.config.DESTINATION_BRANCHES, "biglinux", ("testing", "stable"))
     instance = modules.build.BuildPackage()
     instance.set_organization("biglinux")
     messages = []

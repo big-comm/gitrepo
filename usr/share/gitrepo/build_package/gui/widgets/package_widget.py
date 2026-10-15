@@ -387,7 +387,7 @@ class PackageWidget(Gtk.Box):
         )
 
     def _apply_destination_branches(self):
-        """Show only the repositories the destination has (BigLinux has no extra)."""
+        """Show only the repositories the destination publishes to."""
         allowed = self.build_package.branch_types() if hasattr(self.build_package, "branch_types") else None
         for pkg_type, row in self._package_type_rows.items():
             visible = allowed is None or pkg_type in allowed
