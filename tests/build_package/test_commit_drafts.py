@@ -8,9 +8,12 @@ def gtk(build_package_modules):
     gi = pytest.importorskip("gi")
     gi.require_version("Gtk", "4.0")
     gi.require_version("Adw", "1")
-    from gi.repository import Adw, Gtk
+    gi.require_version("Gdk", "4.0")
+    from gi.repository import Adw, Gdk, Gtk
 
-    if not Gtk.init_check():
+    # Without a display GTK 4 still answers init_check() with True, and the
+    # first widget then crashes the whole run; only a real display is enough.
+    if not Gtk.init_check() or Gdk.Display.get_default() is None:
         pytest.skip("no display for GTK widgets")
     return Adw, Gtk
 

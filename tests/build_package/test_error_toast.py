@@ -9,9 +9,12 @@ def test_error_toast_is_shown_in_red(build_package_modules):
     gi = pytest.importorskip("gi")
     gi.require_version("Gtk", "4.0")
     gi.require_version("Adw", "1")
-    from gi.repository import Gtk
+    gi.require_version("Gdk", "4.0")
+    from gi.repository import Gdk, Gtk
 
-    if not Gtk.init_check():
+    # Without a display GTK 4 still answers init_check() with True, and the
+    # first widget then crashes the whole run; only a real display is enough.
+    if not Gtk.init_check() or Gdk.Display.get_default() is None:
         pytest.skip("no display for GTK widgets")
     from gitrepo.build_package.gui.main_window import MainWindow
 
