@@ -95,9 +95,7 @@ def _repository(tmp_path, monkeypatch, origin):
     path = tmp_path / origin.replace("/", "-")
     path.mkdir()
     subprocess.run(["git", "init", "-q", "-b", "main", str(path)], check=True)
-    subprocess.run(
-        ["git", "-C", str(path), "remote", "add", "origin", f"https://github.com/{origin}.git"], check=True
-    )
+    subprocess.run(["git", "-C", str(path), "remote", "add", "origin", f"https://github.com/{origin}.git"], check=True)
     monkeypatch.chdir(path)
     return path
 

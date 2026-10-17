@@ -58,6 +58,7 @@ class BuildPackage:
         # Initialize settings and intelligent systems
         self.settings = Settings()
         # --organization wins; otherwise this repository's destination (see destination.py).
+        self._organization_from_command_line = bool(self.args.organization)
         if not self.args.organization:
             self.organization = resolve_destination(self.settings)
             self.repo_workflow = f"{self.organization}/build-package"
@@ -100,6 +101,21 @@ class BuildPackage:
 
         # Check dependencies
         self.check_dependencies()
+
+    def reload_repository(self) -> None:
+        """Re-read what belongs to the current directory after the window moved to another repository."""
+        self.is_git_repo = GitUtils.is_git_repo()
+        self.repo_name = GitUtils.get_repo_name()
+        self.repo_path = GitUtils.get_repo_root_path()
+        self.last_commit_type = None
+        self.last_operation_details = {}
+        self._app_version_cache = None
+        self._app_version_warning_shown = False
+        if self.logger and hasattr(self.logger, "setup_log_file"):
+            self.logger.setup_log_file(GitUtils.get_repo_name)
+        if not self._organization_from_command_line:
+            self.set_organization(resolve_destination(self.settings))
+            self.args.organization = self.organization
 
     def set_organization(self, organization: str) -> bool:
         """Change where the next build runs and publishes (big-comm or biglinux).

@@ -32,7 +32,8 @@ class BuildPackageApplication(Adw.Application):
     """Main application class for the Build Package GTK4 interface."""
 
     def __init__(self):
-        super().__init__(application_id="org.bigcommunity.gitrepo", flags=Gio.ApplicationFlags.DEFAULT_FLAGS)
+        # Launching GitRepo again forwards its directory to this window.
+        super().__init__(application_id="org.bigcommunity.gitrepo", flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE)
         self.main_window = None
         self.setup_actions()
 
@@ -74,6 +75,14 @@ class BuildPackageApplication(Adw.Application):
         if not self.main_window:
             self.main_window = MainWindow(self)
         self.main_window.present()
+
+    def do_command_line(self, command_line):
+        """Open the window; a later launch moves it to the repository it was started in."""
+        first_launch = self.main_window is None
+        self.activate()
+        if not first_launch:
+            self.main_window.open_repository(command_line.get_cwd() or "")
+        return 0
 
     def do_startup(self):
         """Register icons, styles, and the application menu."""

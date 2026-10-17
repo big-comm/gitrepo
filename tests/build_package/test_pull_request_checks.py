@@ -94,9 +94,7 @@ def test_auto_merge_with_a_failed_check_does_not_merge(github_api, monkeypatch):
     _install(github_api, monkeypatch, fake)
     pr_info = {"number": 5}
 
-    github_api.GitHubAPI("token", "acme")._merge_ready_pull_request(
-        "acme/widgets", pr_info, "dev-me", "main", Logger()
-    )
+    github_api.GitHubAPI("token", "acme")._merge_ready_pull_request("acme/widgets", pr_info, "dev-me", "main", Logger())
 
     assert not fake.merged
     assert pr_info["auto_merged"] is False

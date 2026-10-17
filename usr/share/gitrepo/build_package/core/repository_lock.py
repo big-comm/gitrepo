@@ -40,6 +40,11 @@ def _lock_path() -> str:
     return os.path.join(directory, LOCK_FILE_NAME)
 
 
+def journey_running() -> bool:
+    """Whether a journey of this process currently owns its repository."""
+    return _in_process.locked()
+
+
 def current_holder() -> str:
     """Return what the lock file says is running, or an empty string."""
     try:

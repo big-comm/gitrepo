@@ -2,6 +2,7 @@
 # gui/main_window.py - Main window for GTK4 interface
 #
 
+import os
 import threading
 
 import gi
@@ -9,6 +10,7 @@ import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
+from gitrepo.build_package.core import repository_lock, repository_switch
 from gitrepo.build_package.core.build_package import BuildPackage
 from gitrepo.build_package.core.config import APP_DESC, APP_NAME, APP_VERSION
 from gitrepo.build_package.core.repository_snapshot import RepositorySnapshot
@@ -17,6 +19,7 @@ from gitrepo.common.translation import _
 from gi.repository import Adw, Gio, GLib, Gtk, Pango
 
 from .dialogs.progress_dialog import OperationRunner
+from .drafts import capture_draft, restore_draft
 from .branch_actions import BranchActionsMixin
 from .gtk_adapters import GTKConflictResolver, GTKMenuSystem
 from .gtk_logger import GTKLogger
@@ -41,6 +44,8 @@ class MainWindow(RepositoryActionsMixin, BranchActionsMixin, Adw.ApplicationWind
         self.application = application
         self.build_package = None
         self._repository_context = _("Checking repository…")
+        # Unpublished commit drafts of repositories the window moved away from.
+        self._drafts = {}
 
         # Initialize settings first
         self.settings = Settings()
@@ -413,7 +418,11 @@ class MainWindow(RepositoryActionsMixin, BranchActionsMixin, Adw.ApplicationWind
         """Show error toast for minor validation messages (5 s timeout)."""
         toast = Adw.Toast.new(message)
         toast.set_timeout(5)
-        toast.add_css_class("error")
+        toast.set_priority(Adw.ToastPriority.HIGH)
+        # A toast is not a widget and takes no CSS class; its title widget does.
+        label = Gtk.Label(label=message, wrap=True)
+        label.add_css_class("error")
+        toast.set_custom_title(label)
         self.toast_overlay.add_toast(toast)
 
     def show_error_dialog(self, message: str) -> None:
@@ -497,6 +506,42 @@ class MainWindow(RepositoryActionsMixin, BranchActionsMixin, Adw.ApplicationWind
         else:
             self.content_header.add_css_class("build-package-expanded-header")
         self.compact_header.set_visible(is_condensed)
+
+    def open_repository(self, path):
+        """Show the repository GitRepo was launched in again, keeping this window."""
+        target = repository_switch.repository_root(path)
+        current = repository_switch.repository_root(os.getcwd())
+        busy = self.operation_runner.is_busy or repository_lock.journey_running()
+        decision = repository_switch.switch_decision(current, target, busy)
+        if decision == repository_switch.BUSY:
+            self.show_error_toast(
+                _("An operation is still running in {0}. GitRepo stays there until it finishes.").format(
+                    os.path.basename(current)
+                )
+            )
+        elif decision == repository_switch.SWITCH and self.build_package is not None:
+            self._move_to_repository(current, target)
+        self.present()
+
+    def _move_to_repository(self, previous, target):
+        if previous:
+            self._drafts[previous] = {
+                "commit": capture_draft(self.commit_widget),
+                "package": capture_draft(self.package_widget),
+            }
+        os.chdir(target)
+        self.build_package.reload_repository()
+        drafts = self._drafts.pop(target, {})
+        restore_draft(self.commit_widget, drafts.get("commit"), _("Required — select the type of change"))
+        restore_draft(self.package_widget, drafts.get("package"), _("Select the type of change"))
+        self.package_widget.sync_destination()
+        self.refresh_all_widgets()
+        toast = Adw.Toast.new(_("Now in {0}").format(os.path.basename(target)))
+        toast.set_timeout(6)
+        if previous:
+            toast.set_button_label(_("Back to {0}").format(os.path.basename(previous)))
+            toast.connect("button-clicked", lambda _toast: self.open_repository(previous))
+        self.toast_overlay.add_toast(toast)
 
     def refresh_features(self):
         """Reconcile optional workflow content without changing navigation."""

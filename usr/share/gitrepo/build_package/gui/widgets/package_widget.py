@@ -365,7 +365,19 @@ class PackageWidget(Gtk.Box):
 
         self.sync_feature_enabled()
 
+    def sync_destination(self):
+        """Show the destination of the repository the window now displays, without saving it as a choice."""
+        organization = getattr(self.build_package, "organization", DEFAULT_ORGANIZATION)
+        if organization in self._destinations:
+            self._syncing_destination = True
+            self.destination_row.set_selected(self._destinations.index(organization))
+            self._syncing_destination = False
+        self._describe_destination()
+        self._apply_destination_branches()
+
     def _on_destination_changed(self, combo, _pspec):
+        if getattr(self, "_syncing_destination", False):
+            return
         selected = combo.get_selected()
         if selected >= len(self._destinations):
             return

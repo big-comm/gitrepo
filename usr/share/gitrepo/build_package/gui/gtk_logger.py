@@ -31,6 +31,8 @@ class GTKLogger:
     def setup_log_file(self, get_repo_name_func):
         """Sets up the log file"""
         repo_name = get_repo_name_func()
+        # Without a repository name, the previous repository's log must not keep receiving lines.
+        self.log_file = None
         if repo_name:
             log_dir = os.path.join(LOG_DIR_BASE, repo_name)
             os.makedirs(log_dir, exist_ok=True)

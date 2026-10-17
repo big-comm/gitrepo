@@ -490,6 +490,11 @@ class OperationRunner:
         dialog.add_response("close", _("Close"))
         dialog.present(self.parent)
 
+    @property
+    def is_busy(self) -> bool:
+        """Whether a repository journey is running in this window."""
+        return self._busy
+
     def run_with_progress(
         self, operation_func, title, message="", cancellable=False, completion_callback=None, *args, **kwargs
     ):
