@@ -526,7 +526,9 @@ class BuildPackage:
                 return
             pr_info = self.github_api.create_pull_request(selected_branch, "main", auto_merge, self.logger)
 
-            if pr_info:
+            if pr_info and auto_merge and not pr_info.get("auto_merged"):
+                self.logger.log("yellow", _("The pull request is open but was not merged; the reason is above."))
+            elif pr_info:
                 self.logger.log("green", _("Pull request operation completed."))
                 if pr_info.get("auto_merged"):
                     from .main_sync import sync_with_main

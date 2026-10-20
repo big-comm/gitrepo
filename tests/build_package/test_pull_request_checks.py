@@ -38,14 +38,20 @@ class Logger:
 class FakeGitHub:
     """Answers the PR, check-run, and status endpoints from scripted states."""
 
-    def __init__(self, pull_states, check_runs=(), statuses=()):
+    def __init__(self, pull_states, check_runs=(), statuses=(), can_bypass="never"):
         self.pull_states = list(pull_states)
         self.check_runs = list(check_runs)
         self.statuses = list(statuses)
+        self.can_bypass = can_bypass
         self.pull_reads = 0
         self.merged = False
 
     def get(self, url, params=None, **kwargs):
+        if "/rules/branches/" in url:
+            rule = {"ruleset_source_type": "Repository", "ruleset_source": "acme/widgets", "ruleset_id": 7}
+            return Response([{**rule, "type": "update"}, {**rule, "type": "pull_request"}])
+        if url.endswith("/rulesets/7"):
+            return Response({"name": "protege-main", "current_user_can_bypass": self.can_bypass})
         if url.endswith("/check-runs"):
             runs = self.check_runs.pop(0) if len(self.check_runs) > 1 else self.check_runs[0]
             return Response({"check_runs": runs})
@@ -135,7 +141,8 @@ def test_a_block_nothing_can_lift_stops_the_wait(github_api, monkeypatch):
 
     assert (ready, state) == (False, "blocked")
     assert fake.pull_reads == 1
-    assert "required review" in logger.text()
+    assert "a branch rule blocks this merge" in logger.text()
+    assert "not merged" not in logger.text()
 
 
 def test_a_block_while_checks_run_keeps_waiting(github_api, monkeypatch):
@@ -143,3 +150,53 @@ def test_a_block_while_checks_run_keeps_waiting(github_api, monkeypatch):
     _install(github_api, monkeypatch, fake)
 
     assert github_api.GitHubAPI("token", "acme").wait_for_pr_checks(5, Logger()) == (True, "clean")
+
+
+def test_an_owner_merges_through_a_rule_they_may_bypass(github_api, monkeypatch):
+    fake = FakeGitHub(["blocked"], check_runs=[[PASSED_BUILD]], can_bypass="always")
+    _install(github_api, monkeypatch, fake)
+    pr_info, logger = {"number": 5}, Logger()
+
+    github_api.GitHubAPI("token", "acme")._merge_ready_pull_request("acme/widgets", pr_info, "dev-me", "main", logger)
+
+    assert fake.merged and pr_info["auto_merged"] is True
+    assert "The rule protege-main protects main. You can bypass it" in logger.text()
+
+
+def test_without_bypass_the_pr_waits_for_an_admin_and_says_so(github_api, monkeypatch):
+    fake = FakeGitHub(["blocked"], check_runs=[[PASSED_BUILD]], can_bypass="never")
+    _install(github_api, monkeypatch, fake)
+    pr_info, logger = {"number": 5}, Logger()
+    api = github_api.GitHubAPI("token", "acme")
+
+    api._merge_ready_pull_request("acme/widgets", pr_info, "dev-me", "main", logger)
+    api._show_pr_summary(pr_info, "dev-me", "main", logger, auto_merge=True)
+
+    assert not fake.merged and pr_info["auto_merged"] is False
+    assert pr_info["merge_error"] == "an admin has to merge it (rule protege-main)"
+    assert "PULL REQUEST OPENED, BUT NOT MERGED" in logger.text()
+    assert "COMPLETED SUCCESSFULLY" not in logger.text()
+
+
+def test_a_failed_check_is_never_bypassed(github_api, monkeypatch):
+    fake = FakeGitHub(["blocked"], check_runs=[[FAILED_BUILD]], can_bypass="always")
+    _install(github_api, monkeypatch, fake)
+    pr_info = {"number": 5}
+
+    github_api.GitHubAPI("token", "acme")._merge_ready_pull_request("acme/widgets", pr_info, "dev-me", "main", Logger())
+
+    assert not fake.merged
+    assert pr_info["merge_error"] == "PR not ready: a check failed on GitHub"
+
+
+def test_the_window_reports_an_unmerged_auto_merge_as_not_done(github_api, monkeypatch):
+    actions = pytest.importorskip("gitrepo.build_package.gui.branch_actions")
+    window = type("Window", (actions.BranchActionsMixin,), {})()
+    api = type("Api", (), {"create_pull_request": lambda self, *a: {"number": 5, "auto_merged": False}})()
+    window.build_package = type("Bp", (), {"github_api": api, "logger": Logger()})()
+    operations = []
+    window._ensure_token_and_run = lambda operation, title, description: operations.append(operation)
+
+    window._on_merge_confirm_response(None, "create", "dev-me", "main", True)
+
+    assert operations[0]() is False

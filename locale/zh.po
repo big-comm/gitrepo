@@ -7969,10 +7969,6 @@ msgstr "详细信息：{0}"
 #: usr/share/gitrepo/build_package/core/github_api.py:129
 msgid "The pull request was left open and not merged. Fix the failing check, then merge it on GitHub."
 msgstr "拉取请求已保持打开状态，未被合并。请修复失败的检查，然后在 GitHub 上合并。"
-# File: usr/share/gitrepo/build_package/core/github_api.py, line: 136
-#: usr/share/gitrepo/build_package/core/github_api.py:136
-msgid "GitHub blocks this merge (a required review or a branch rule). The pull request was left open and not merged."
-msgstr "GitHub 阻止了此次合并（需要必需的审查或分支规则）。拉取请求已保持打开状态，未被合并。"
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 585
 #: usr/share/gitrepo/build_package/core/github_api.py:585
 msgid "a check failed on GitHub"
@@ -8010,3 +8006,39 @@ msgstr "现在位于 {0}"
 #, python-brace-format
 msgid "Back to {0}"
 msgstr "返回 {0}"
+# File: usr/share/gitrepo/build_package/core/build_package.py, line: 530
+#: usr/share/gitrepo/build_package/core/build_package.py:530
+msgid "The pull request is open but was not merged; the reason is above."
+msgstr "拉取请求已打开，但未被合并；原因见上文。"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 134
+#: usr/share/gitrepo/build_package/core/github_api.py:134
+msgid "GitHub reports that a branch rule blocks this merge."
+msgstr "GitHub 报告称有分支规则阻止了此次合并。"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 586
+#: usr/share/gitrepo/build_package/core/github_api.py:586
+#, python-brace-format
+msgid "The rule {0} protects {1}. You can bypass it, so GitRepo merges the pull request."
+msgstr "规则 {0} 保护着 {1}。您可以绕过它，因此 GitRepo 会合并该拉取请求。"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 592
+#: usr/share/gitrepo/build_package/core/github_api.py:592
+msgid "a branch rule"
+msgstr "分支规则"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 596
+#: usr/share/gitrepo/build_package/core/github_api.py:596
+#, python-brace-format
+msgid "The rule {0} protects {1}: an admin has to merge this pull request."
+msgstr "规则 {0} 保护着 {1}：需要管理员合并此拉取请求。"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 602
+#: usr/share/gitrepo/build_package/core/github_api.py:602
+#, python-brace-format
+msgid "an admin has to merge it (rule {0})"
+msgstr "需要管理员来合并（规则 {0}）"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 699
+#: usr/share/gitrepo/build_package/core/github_api.py:699
+msgid "PULL REQUEST OPENED, BUT NOT MERGED"
+msgstr "拉取请求已打开，但未合并"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 702
+#: usr/share/gitrepo/build_package/core/github_api.py:702
+#, python-brace-format
+msgid "Reason: {0}"
+msgstr "原因：{0}"

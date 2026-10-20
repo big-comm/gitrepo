@@ -8050,10 +8050,6 @@ msgstr "Подробности: {0}"
 #: usr/share/gitrepo/build_package/core/github_api.py:129
 msgid "The pull request was left open and not merged. Fix the failing check, then merge it on GitHub."
 msgstr "Pull request оставлен открытым и не был слит. Исправьте непройденную проверку, затем слейте его на GitHub."
-# File: usr/share/gitrepo/build_package/core/github_api.py, line: 136
-#: usr/share/gitrepo/build_package/core/github_api.py:136
-msgid "GitHub blocks this merge (a required review or a branch rule). The pull request was left open and not merged."
-msgstr "GitHub блокирует это слияние (обязательное рецензирование или правило ветки). Pull request оставлен открытым и не был слит."
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 585
 #: usr/share/gitrepo/build_package/core/github_api.py:585
 msgid "a check failed on GitHub"
@@ -8091,3 +8087,39 @@ msgstr "Теперь в {0}"
 #, python-brace-format
 msgid "Back to {0}"
 msgstr "Назад в {0}"
+# File: usr/share/gitrepo/build_package/core/build_package.py, line: 530
+#: usr/share/gitrepo/build_package/core/build_package.py:530
+msgid "The pull request is open but was not merged; the reason is above."
+msgstr "Pull request открыт, но не был слит; причина указана выше."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 134
+#: usr/share/gitrepo/build_package/core/github_api.py:134
+msgid "GitHub reports that a branch rule blocks this merge."
+msgstr "GitHub сообщает, что правило ветки блокирует это слияние."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 586
+#: usr/share/gitrepo/build_package/core/github_api.py:586
+#, python-brace-format
+msgid "The rule {0} protects {1}. You can bypass it, so GitRepo merges the pull request."
+msgstr "Правило {0} защищает {1}. Вы можете его обойти, поэтому GitRepo сливает pull request."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 592
+#: usr/share/gitrepo/build_package/core/github_api.py:592
+msgid "a branch rule"
+msgstr "правило ветки"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 596
+#: usr/share/gitrepo/build_package/core/github_api.py:596
+#, python-brace-format
+msgid "The rule {0} protects {1}: an admin has to merge this pull request."
+msgstr "Правило {0} защищает {1}: этот pull request должен слить администратор."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 602
+#: usr/share/gitrepo/build_package/core/github_api.py:602
+#, python-brace-format
+msgid "an admin has to merge it (rule {0})"
+msgstr "его должен слить администратор (правило {0})"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 699
+#: usr/share/gitrepo/build_package/core/github_api.py:699
+msgid "PULL REQUEST OPENED, BUT NOT MERGED"
+msgstr "PULL REQUEST ОТКРЫТ, НО НЕ СЛИТ"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 702
+#: usr/share/gitrepo/build_package/core/github_api.py:702
+#, python-brace-format
+msgid "Reason: {0}"
+msgstr "Причина: {0}"

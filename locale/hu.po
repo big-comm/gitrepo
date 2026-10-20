@@ -8059,10 +8059,6 @@ msgstr "Részletek: {0}"
 #: usr/share/gitrepo/build_package/core/github_api.py:129
 msgid "The pull request was left open and not merged. Fix the failing check, then merge it on GitHub."
 msgstr "A pull request nyitva maradt, és nem lett egyesítve. Javítsa ki a sikertelen ellenőrzést, majd egyesítse a GitHubon."
-# File: usr/share/gitrepo/build_package/core/github_api.py, line: 136
-#: usr/share/gitrepo/build_package/core/github_api.py:136
-msgid "GitHub blocks this merge (a required review or a branch rule). The pull request was left open and not merged."
-msgstr "A GitHub blokkolja ezt az egyesítést (kötelező felülvizsgálat vagy ágszabály). A pull request nyitva maradt, és nem lett egyesítve."
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 585
 #: usr/share/gitrepo/build_package/core/github_api.py:585
 msgid "a check failed on GitHub"
@@ -8100,3 +8096,39 @@ msgstr "Most itt {0}"
 #, python-brace-format
 msgid "Back to {0}"
 msgstr "Vissza ide {0}"
+# File: usr/share/gitrepo/build_package/core/build_package.py, line: 530
+#: usr/share/gitrepo/build_package/core/build_package.py:530
+msgid "The pull request is open but was not merged; the reason is above."
+msgstr "A pull request nyitva van, de nem lett egyesítve; az ok fent olvasható."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 134
+#: usr/share/gitrepo/build_package/core/github_api.py:134
+msgid "GitHub reports that a branch rule blocks this merge."
+msgstr "A GitHub jelzi, hogy egy ágszabály blokkolja ezt az egyesítést."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 586
+#: usr/share/gitrepo/build_package/core/github_api.py:586
+#, python-brace-format
+msgid "The rule {0} protects {1}. You can bypass it, so GitRepo merges the pull request."
+msgstr "A(z) {0} szabály védi a(z) {1} ágat. Megkerülheti, ezért a GitRepo egyesíti a pull requestet."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 592
+#: usr/share/gitrepo/build_package/core/github_api.py:592
+msgid "a branch rule"
+msgstr "egy ágszabály"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 596
+#: usr/share/gitrepo/build_package/core/github_api.py:596
+#, python-brace-format
+msgid "The rule {0} protects {1}: an admin has to merge this pull request."
+msgstr "A(z) {0} szabály védi a(z) {1} ágat: egy adminisztrátornak kell egyesítenie ezt a pull requestet."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 602
+#: usr/share/gitrepo/build_package/core/github_api.py:602
+#, python-brace-format
+msgid "an admin has to merge it (rule {0})"
+msgstr "egy adminisztrátornak kell egyesítenie ({0} szabály)"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 699
+#: usr/share/gitrepo/build_package/core/github_api.py:699
+msgid "PULL REQUEST OPENED, BUT NOT MERGED"
+msgstr "PULL REQUEST MEGNYITVA, DE NINCS EGYESÍTVE"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 702
+#: usr/share/gitrepo/build_package/core/github_api.py:702
+#, python-brace-format
+msgid "Reason: {0}"
+msgstr "Ok: {0}"

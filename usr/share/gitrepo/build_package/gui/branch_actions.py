@@ -697,6 +697,9 @@ class BranchActionsMixin:
 
                 # The merge happened on GitHub; bring this computer's copies along.
                 sync_with_main(self.build_package)
+            if auto_merge and pr_info and not pr_info.get("auto_merged"):
+                # The merge that was asked for did not happen; the log says why.
+                return False
             return pr_info
 
         merge_type = _("Auto-merge") if auto_merge else _("Manual")

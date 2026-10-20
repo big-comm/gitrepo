@@ -130,13 +130,8 @@ class GitHubAPI:
             )
             return False, "checks-failed"
         if state == "blocked" and not running:
-            logger.log(
-                "yellow",
-                _(
-                    "GitHub blocks this merge (a required review or a branch rule). "
-                    "The pull request was left open and not merged."
-                ),
-            )
+            # Whether the user may bypass the rule is decided by the caller.
+            logger.log("yellow", _("GitHub reports that a branch rule blocks this merge."))
             return False, "blocked"
         return None
 
@@ -540,7 +535,7 @@ class GitHubAPI:
                 return {}
             if auto_merge and pr_info.get("number"):
                 self._merge_ready_pull_request(repo_name, pr_info, source_branch, target_branch, logger)
-            self._show_pr_summary(pr_info, source_branch, target_branch, logger)
+            self._show_pr_summary(pr_info, source_branch, target_branch, logger, auto_merge)
             return pr_info
         except requests.RequestException as error:
             if logger:
@@ -580,6 +575,33 @@ class GitHubAPI:
     def _merge_ready_pull_request(self, repo_name, pr_info, source_branch, target_branch, logger):
         pr_number = pr_info["number"]
         is_ready, pr_state = self.wait_for_pr_checks(pr_number, logger)
+        if not is_ready and pr_state == "blocked":
+            # Checks have passed; only a rule stands in the way. An owner on the
+            # ruleset's bypass list merges as the website would with "bypass rules".
+            allowed, denied = self._rulesets_on_branch(repo_name, target_branch)
+            if allowed and not denied:
+                if logger:
+                    logger.log(
+                        "yellow",
+                        _("The rule {0} protects {1}. You can bypass it, so GitRepo merges the pull request.").format(
+                            ", ".join(allowed), target_branch
+                        ),
+                    )
+                is_ready = True
+            else:
+                names = ", ".join(denied) or _("a branch rule")
+                if logger:
+                    logger.log(
+                        "red",
+                        _("The rule {0} protects {1}: an admin has to merge this pull request.").format(
+                            names, target_branch
+                        ),
+                    )
+                pr_info.update(
+                    auto_merged=False,
+                    merge_error=_("an admin has to merge it (rule {0})").format(names),
+                )
+                return
         if not is_ready:
             reasons = {
                 "checks-failed": _("a check failed on GitHub"),
@@ -611,6 +633,39 @@ class GitHubAPI:
         if logger:
             logger.log("red", _("Auto-merge failed: {0}").format(pr_info["merge_error"]))
 
+    def _rulesets_on_branch(self, repo_name: str, branch: str) -> tuple[list[str], list[str]]:
+        """Name the rulesets that apply to *branch*: those the current user may bypass, and the others."""
+        allowed: list[str] = []
+        denied: list[str] = []
+        rules = requests.get(
+            f"https://api.github.com/repos/{repo_name}/rules/branches/{quote(branch, safe='')}",
+            headers=self.headers,
+            timeout=30,
+        )
+        if rules.status_code != 200:
+            return allowed, denied
+        seen = set()
+        for rule in rules.json():
+            key = (rule.get("ruleset_source_type"), rule.get("ruleset_source"), rule.get("ruleset_id"))
+            if key in seen or rule.get("ruleset_id") is None:
+                continue
+            seen.add(key)
+            source_type, source, ruleset_id = key
+            owner = "orgs" if source_type == "Organization" else "repos"
+            ruleset = requests.get(
+                f"https://api.github.com/{owner}/{source}/rulesets/{ruleset_id}",
+                headers=self.headers,
+                timeout=30,
+            )
+            details = ruleset.json() if ruleset.status_code == 200 else {}
+            name = details.get("name") or str(ruleset_id)
+            # "pull_requests_only" still lets the user bypass by merging a pull request.
+            if details.get("current_user_can_bypass") in ("always", "pull_requests_only"):
+                allowed.append(name)
+            else:
+                denied.append(name)
+        return allowed, denied
+
     def _find_existing_pr(self, repo_name: str, source_branch: str, target_branch: str) -> dict:
         """Find an existing open PR for the same branch combination"""
         try:
@@ -627,7 +682,9 @@ class GitHubAPI:
             pass
         return {}
 
-    def _show_pr_summary(self, pr_info: dict[str, Any], source_branch: str, target_branch: str, logger: Any) -> None:
+    def _show_pr_summary(
+        self, pr_info: dict[str, Any], source_branch: str, target_branch: str, logger: Any, auto_merge: bool = False
+    ) -> None:
         """Show pull request operation summary"""
         if not logger:
             return
@@ -635,6 +692,16 @@ class GitHubAPI:
         try:
             pr_number = pr_info.get("number", _("unknown"))
             pr_url = pr_info.get("html_url", "")
+
+            if auto_merge and not pr_info.get("auto_merged"):
+                # The pull request exists, but the merge that was asked for did not happen.
+                logger.log("yellow", "=" * 50)
+                logger.log("yellow", _("PULL REQUEST OPENED, BUT NOT MERGED"))
+                logger.log("yellow", "=" * 50)
+                logger.log("white", _("PR #{0} created").format(pr_number))
+                logger.log("yellow", _("Reason: {0}").format(pr_info.get("merge_error") or _("unknown")))
+                logger.log("cyan", _("URL: {0}").format(pr_url))
+                return
 
             logger.log("green", "=" * 50)
             logger.log("green", _("PULL REQUEST COMPLETED SUCCESSFULLY!"))

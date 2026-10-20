@@ -7981,10 +7981,6 @@ msgstr "세부 정보: {0}"
 #: usr/share/gitrepo/build_package/core/github_api.py:129
 msgid "The pull request was left open and not merged. Fix the failing check, then merge it on GitHub."
 msgstr "풀 리퀘스트를 열어 둔 채 병합하지 않았습니다. 실패한 검사를 수정한 다음 GitHub에서 병합하세요."
-# File: usr/share/gitrepo/build_package/core/github_api.py, line: 136
-#: usr/share/gitrepo/build_package/core/github_api.py:136
-msgid "GitHub blocks this merge (a required review or a branch rule). The pull request was left open and not merged."
-msgstr "GitHub가 이 병합을 차단합니다(필수 리뷰 또는 브랜치 규칙). 풀 리퀘스트를 열어 둔 채 병합하지 않았습니다."
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 585
 #: usr/share/gitrepo/build_package/core/github_api.py:585
 msgid "a check failed on GitHub"
@@ -8022,3 +8018,39 @@ msgstr "이제 {0}에 있습니다"
 #, python-brace-format
 msgid "Back to {0}"
 msgstr "{0}(으)로 돌아가기"
+# File: usr/share/gitrepo/build_package/core/build_package.py, line: 530
+#: usr/share/gitrepo/build_package/core/build_package.py:530
+msgid "The pull request is open but was not merged; the reason is above."
+msgstr "풀 리퀘스트가 열려 있지만 병합되지 않았습니다. 이유는 위에 있습니다."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 134
+#: usr/share/gitrepo/build_package/core/github_api.py:134
+msgid "GitHub reports that a branch rule blocks this merge."
+msgstr "GitHub에서 브랜치 규칙이 이 병합을 차단한다고 알려 왔습니다."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 586
+#: usr/share/gitrepo/build_package/core/github_api.py:586
+#, python-brace-format
+msgid "The rule {0} protects {1}. You can bypass it, so GitRepo merges the pull request."
+msgstr "규칙 {0}이(가) {1}을(를) 보호합니다. 우회할 수 있으므로 GitRepo가 풀 리퀘스트를 병합합니다."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 592
+#: usr/share/gitrepo/build_package/core/github_api.py:592
+msgid "a branch rule"
+msgstr "브랜치 규칙"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 596
+#: usr/share/gitrepo/build_package/core/github_api.py:596
+#, python-brace-format
+msgid "The rule {0} protects {1}: an admin has to merge this pull request."
+msgstr "규칙 {0}이(가) {1}을(를) 보호합니다: 관리자가 이 풀 리퀘스트를 병합해야 합니다."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 602
+#: usr/share/gitrepo/build_package/core/github_api.py:602
+#, python-brace-format
+msgid "an admin has to merge it (rule {0})"
+msgstr "관리자가 병합해야 합니다 (규칙 {0})"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 699
+#: usr/share/gitrepo/build_package/core/github_api.py:699
+msgid "PULL REQUEST OPENED, BUT NOT MERGED"
+msgstr "풀 리퀘스트가 열렸지만 병합되지 않았습니다"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 702
+#: usr/share/gitrepo/build_package/core/github_api.py:702
+#, python-brace-format
+msgid "Reason: {0}"
+msgstr "이유: {0}"

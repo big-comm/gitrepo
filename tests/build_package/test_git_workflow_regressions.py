@@ -302,10 +302,12 @@ def test_pull_request_creation_routes_through_the_token_gate():
         "create",
         "dev-personal",
         "main",
-        True,
+        # A pull request left for review: an unmerged auto-merge counts as not done
+        # (see test_pull_request_checks.py).
+        False,
     )
 
-    assert captured["request"] == ("dev-personal", "main", True, logger)
+    assert captured["request"] == ("dev-personal", "main", False, logger)
     assert captured["result"] == {"number": 42}
     assert "gate" in captured
 
