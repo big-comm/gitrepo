@@ -68,9 +68,29 @@ def test_package_name_uses_makepkg_metadata(build_package_modules, tmp_path, mon
         ),
     )
 
-    assert git_utils.GitUtils.get_package_name() == "example-cli"
+    assert git_utils.GitUtils.get_package_name() == "example"
     assert command[0][0] == ["makepkg", "--printsrcinfo"]
     assert command[0][1]["cwd"] == str(tmp_path)
+
+
+def test_package_name_is_the_pkgbase_of_a_split_pkgbuild(
+    build_package_modules, tmp_path, monkeypatch
+):
+    git_utils = importlib.import_module("gitrepo.build_package.core.git_utils")
+    (tmp_path / "PKGBUILD").write_text("pkgbase=bundle\n", encoding="utf-8")
+    srcinfo = (
+        "pkgbase = bundle\n\tpkgver = 1\n\n"
+        "pkgname = bundle-cli\n\npkgname = bundle-gui\n"
+    )
+    monkeypatch.setattr(git_utils.GitUtils, "get_repo_root_path", lambda: str(tmp_path))
+    monkeypatch.setattr(git_utils.shutil, "which", lambda executable: f"/usr/bin/{executable}")
+    monkeypatch.setattr(
+        git_utils.subprocess,
+        "run",
+        lambda argv, **kwargs: subprocess.CompletedProcess(argv, 0, srcinfo, ""),
+    )
+
+    assert git_utils.GitUtils.get_package_name() == "bundle"
 
 
 def test_package_name_uses_nested_pkgbuild_directory(
@@ -111,7 +131,7 @@ def test_package_name_uses_nested_pkgbuild_directory(
         ),
     )
 
-    assert git_utils.GitUtils.get_package_name() == "nested-example"
+    assert git_utils.GitUtils.get_package_name() == "example"
     assert command[0][0] == ["makepkg", "--printsrcinfo"]
     assert command[0][1]["cwd"] == str(pkgbuild_directory)
 

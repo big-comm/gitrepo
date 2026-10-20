@@ -775,7 +775,13 @@ class GitUtils:
 
     @staticmethod
     def get_package_name(package_directory: str = "") -> str:
-        """Read the first package name from makepkg's authoritative metadata.
+        """Read the package base from makepkg's authoritative metadata.
+
+        The build is requested by pkgbase: build-package publishes every
+        package a PKGBUILD makes and checks they share that base. For a
+        PKGBUILD making one package without its own pkgbase, makepkg reports
+        pkgbase = pkgname, so the name is the same as before; a split
+        PKGBUILD (pkgname=(a b)) is built and published as one.
 
         Executes the PKGBUILD. Only call this from a journey that is about to
         build the package anyway; use :meth:`read_package_name` to display one.
@@ -798,11 +804,12 @@ class GitUtils:
             return ""
         if result.returncode != 0:
             return ""
+        names = {}
         for line in result.stdout.splitlines():
             key, separator, value = line.strip().partition(" = ")
-            if separator and key == "pkgname":
-                return value
-        return ""
+            if separator and key in ("pkgbase", "pkgname"):
+                names.setdefault(key, value)
+        return names.get("pkgbase") or names.get("pkgname", "")
 
     @staticmethod
     def list_local_branches() -> list[str]:
