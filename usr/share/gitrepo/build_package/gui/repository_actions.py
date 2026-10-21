@@ -508,7 +508,8 @@ class RepositoryActionsMixin:
         token_label = Gtk.Label(label=_("GitHub Token:"), xalign=0)
         token_entry = Gtk.PasswordEntry()
         token_entry.set_show_peek_icon(True)
-        token_entry.set_placeholder_text("ghp_...")
+        # Gtk.PasswordEntry has no set_placeholder_text(); the property is the only setter.
+        token_entry.set_property("placeholder-text", "ghp_...")
         content_box.append(token_label)
         content_box.append(token_entry)
 
