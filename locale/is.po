@@ -294,14 +294,6 @@ msgstr "Uppsetning GitHub lykils"
 #: usr/share/gitrepo/build_package/core/github_api.py:256 usr/share/gitrepo/build_package/gui/repository_actions.py:493
 msgid "A GitHub Personal Access Token is required for this operation."
 msgstr "Persónulegur aðgangstoken fyrir GitHub er nauðsynlegur fyrir þessa aðgerð."
-# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 351
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:501
-msgid "GitHub Username:"
-msgstr "GitHub Notandanafn:"
-# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 353
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:503
-msgid "your-username"
-msgstr "þitt-notandanafn"
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 358
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:508
 msgid "GitHub Token:"
@@ -314,10 +306,6 @@ msgstr "Opna GitHub Lykilstillingar"
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:526
 msgid "Save and Continue"
 msgstr "Vista og Halda áfram"
-# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 386
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:536
-msgid "Username and token are required"
-msgstr "Notandanafn og lykill eru nauðsynleg"
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 403
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:553
 msgid ""
@@ -2813,16 +2801,6 @@ msgstr "Búa til klassískt aðgangsteikn á GitHub"
 msgid "Save or replace an access token"
 msgstr "Vista eða skipta um aðgangsteikn"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
-# 83
-#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:83
-msgid "Use the GitHub organization or username that owns the repositories where workflows will run."
-msgstr "Notaðu GitHub-fyrirtækið eða notandanafnið sem á geymslurnar þar sem verkflæði munu keyra"
-# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
-# 87
-#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:87
-msgid "GitHub organization or username"
-msgstr "GitHub félag eða notendanafn"
-# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 92
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:92
 msgid "Personal access token"
@@ -2858,21 +2836,11 @@ msgstr "Engin aðgangstákn vistuð"
 msgid "Use the form below when you want to run a GitHub workflow."
 msgstr "Notaðu eyðublaðið hér að neðan þegar þú vilt keyra GitHub vinnuflæði."
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
-# 132
-#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:132
-msgid "Stored securely in the system keyring"
-msgstr "Geymt á öruggan hátt í kerfislyklahring"
-# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 138
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:138
 #, python-brace-format
 msgid "Delete access token for {0}"
 msgstr "Eyða aðgangstákni fyrir {0}"
-# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
-# 150
-#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:150
-msgid "Enter both the GitHub organization and the access token."
-msgstr "Sláðu inn bæði GitHub félag og aðgangstáknið."
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
@@ -7912,10 +7880,6 @@ msgstr "Birtu {0} á origin svo origin/{0} passi líka við main."
 #: usr/share/gitrepo/build_package/core/main_sync.py:341
 msgid "Synchronize with origin/main?"
 msgstr "Samstilla við origin/main?"
-# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 342
-#: usr/share/gitrepo/build_package/core/main_sync.py:342
-msgid "Only fast-forwards run, so nothing is merged and no work is discarded."
-msgstr "Aðeins fast-forward er keyrt, svo ekkert er sameinað og engin vinna glatast."
 # File: usr/share/gitrepo/build_package/core/main_sync.py, line: 348
 #: usr/share/gitrepo/build_package/core/main_sync.py:348
 msgid "Synchronization cancelled; only git fetch ran."
@@ -8108,3 +8072,377 @@ msgstr "PULL REQUEST OPNUÐ, EN EKKI SAMEINUÐ"
 #, python-brace-format
 msgid "Reason: {0}"
 msgstr "Ástæða: {0}"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 57
+#: usr/share/gitrepo/build_package/core/branch_menu.py:57
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:268
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:308
+msgid "Go back to a commit"
+msgstr "Fara aftur í framlag"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 58
+#: usr/share/gitrepo/build_package/core/branch_menu.py:58
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:317
+msgid "Undo the last operation"
+msgstr "Afturkalla síðustu aðgerð"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 223
+#: usr/share/gitrepo/build_package/core/branch_menu.py:223
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:260
+msgid "This branch has no earlier commit to go back to."
+msgstr "Þessi grein á ekkert fyrra framlag til að fara aftur í."
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 230
+#: usr/share/gitrepo/build_package/core/branch_menu.py:230
+msgid "Go back to which commit?"
+msgstr "Fara aftur í hvaða framlag?"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 232
+#: usr/share/gitrepo/build_package/core/branch_menu.py:232
+#, python-brace-format
+msgid "{0} is on {1}: {2}"
+msgstr "{0} er á {1}: {2}"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 243
+#: usr/share/gitrepo/build_package/core/branch_menu.py:243
+#: usr/share/gitrepo/build_package/core/branch_menu.py:258
+msgid "Nothing was changed."
+msgstr "Engu var breytt."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 359
+#: usr/share/gitrepo/build_package/core/main_sync.py:359
+#, python-brace-format
+msgid "These changes come from origin/main. If main dropped work of yours, it disappears from {0} too."
+msgstr "Þessar breytingar koma úr origin/main. Ef main henti vinnu frá þér hverfur hún líka úr {0}."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 364
+#: usr/share/gitrepo/build_package/core/main_sync.py:364
+#, python-brace-format
+msgid "{0} is published on GitHub at the end."
+msgstr "{0} er birt á GitHub í lokin."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 365
+#: usr/share/gitrepo/build_package/core/main_sync.py:365
+msgid "Undo is available afterwards."
+msgstr "Hægt er að afturkalla á eftir."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 368
+#: usr/share/gitrepo/build_package/core/main_sync.py:368
+msgid "Your branch and the local main move forward to origin/main; nothing is merged here."
+msgstr "Greinin þín og staðbundna main færast fram á origin/main; engu er sameinað hér."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 373
+#: usr/share/gitrepo/build_package/core/main_sync.py:373
+#: usr/share/gitrepo/build_package/core/history.py:324
+#: usr/share/gitrepo/build_package/core/history.py:428
+#, python-brace-format
+msgid "Files that change in {0}"
+msgstr "Skrár sem breytast í {0}"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 412
+#: usr/share/gitrepo/build_package/core/main_sync.py:412
+#: usr/share/gitrepo/build_package/core/main_sync.py:416
+msgid "Synchronize with main"
+msgstr "Samstilla við main"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 279
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:279
+#, python-brace-format
+msgid "{0} is on the first commit below. Choose the one it should go back to."
+msgstr "{0} er á fyrsta framlaginu hér fyrir neðan. Veldu það sem hún á að fara aftur í."
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 332
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:332
+msgid "Going back to a commit"
+msgstr "Fer aftur í framlag"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 333
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:333
+#, python-brace-format
+msgid "Moving {0} to {1}..."
+msgstr "Færi {0} á {1}..."
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 336
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:336
+msgid "Go back"
+msgstr "Fara aftur"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 357
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:357
+msgid "Undoing"
+msgstr "Afturkalla"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 357
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:357
+#, python-brace-format
+msgid "Taking back “{0}”..."
+msgstr "Tek „{0}“ til baka..."
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 360
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:360
+#: usr/share/gitrepo/build_package/gui/main_window.py:423
+msgid "Undo"
+msgstr "Afturkalla"
+# File: usr/share/gitrepo/build_package/gui/main_window.py, line: 421
+#: usr/share/gitrepo/build_package/gui/main_window.py:421
+#, python-brace-format
+msgid "“{0}” finished"
+msgstr "„{0}“ lokið"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 303
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:303
+msgid "Branch history"
+msgstr "Saga greinar"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 305
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:305
+msgid "Every change is shown before it runs, and the commits that leave the branch can be brought back."
+msgstr "Sérhver breyting er sýnd áður en hún er keyrð og framlögin sem yfirgefa greinina er hægt að sækja aftur."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 309
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:309
+msgid "Pick an earlier commit of this branch and see what changes before moving to it."
+msgstr "Veldu fyrra framlag þessarar greinar og sjáðu hvað breytist áður en þú ferð í það."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 310
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:310
+msgid "Choose…"
+msgstr "Velja…"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 318
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:318
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:565
+#: usr/share/gitrepo/build_package/core/history.py:252
+msgid "Nothing to undo yet."
+msgstr "Ekkert að afturkalla enn."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 319
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:319
+msgid "Undo…"
+msgstr "Afturkalla…"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 571
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:571
+#, python-brace-format
+msgid "“{0}”, {1}"
+msgstr "„{0}“, {1}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 257
+#: usr/share/gitrepo/build_package/core/history.py:257
+#, python-brace-format
+msgid "{0} changed after “{1}”, so it can no longer be undone safely."
+msgstr "{0} breyttist eftir „{1}“ og því er ekki lengur óhætt að afturkalla það."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 310
+#: usr/share/gitrepo/build_package/core/history.py:310
+#, python-brace-format
+msgid "{0}: from {1} back to {2}"
+msgstr "{0}: frá {1} aftur á {2}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 312
+#: usr/share/gitrepo/build_package/core/history.py:312
+#: usr/share/gitrepo/build_package/core/history.py:454
+#, python-brace-format
+msgid "{0}: from {1} to {2}"
+msgstr "{0}: frá {1} á {2}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 332
+#: usr/share/gitrepo/build_package/core/history.py:332
+#, python-brace-format
+msgid "{0} file(s) will be deleted from your branch. Check the list below."
+msgstr "{0} skrá(m) verður eytt úr greininni þinni. Athugaðu listann hér fyrir neðan."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 341
+#: usr/share/gitrepo/build_package/core/history.py:341
+#, python-brace-format
+msgid "{0} is shared: what was published there stays on GitHub."
+msgstr "{0} er sameiginleg: það sem var birt þar verður áfram á GitHub."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 343
+#: usr/share/gitrepo/build_package/core/history.py:343
+#, python-brace-format
+msgid "Undo “{0}”?"
+msgstr "Afturkalla „{0}“?"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 344
+#: usr/share/gitrepo/build_package/core/history.py:344
+msgid "The branches go back to where they were before this operation. Uncommitted files are kept."
+msgstr "Greinarnar fara aftur þangað sem þær voru fyrir þessa aðgerð. Skrár sem ekki hafa verið framlagðar haldast."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 349
+#: usr/share/gitrepo/build_package/core/history.py:349
+msgid "Also put GitHub back"
+msgstr "Setja líka GitHub til baka"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 353
+#: usr/share/gitrepo/build_package/core/history.py:353
+#: usr/share/gitrepo/build_package/core/history.py:408
+#, python-brace-format
+msgid "origin/{0}: from {1} back to {2}"
+msgstr "origin/{0}: frá {1} aftur á {2}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 365
+#: usr/share/gitrepo/build_package/core/history.py:365
+msgid "This operation can no longer be undone."
+msgstr "Ekki er lengur hægt að afturkalla þessa aðgerð."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 368
+#: usr/share/gitrepo/build_package/core/history.py:368
+#, python-brace-format
+msgid "{0}: back to {1}"
+msgstr "{0}: aftur á {1}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 371
+#: usr/share/gitrepo/build_package/core/history.py:371
+#, python-brace-format
+msgid "Could not move {0} back: {1}"
+msgstr "Gat ekki fært {0} aftur: {1}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 372
+#: usr/share/gitrepo/build_package/core/history.py:372
+msgid "If Git mentions local changes, commit or stash them and undo again."
+msgstr "Ef Git nefnir staðbundnar breytingar skaltu framlegja þær eða geyma (stash) og afturkalla aftur."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 378
+#: usr/share/gitrepo/build_package/core/history.py:378
+#, python-brace-format
+msgid "origin/{0}: back to {1}"
+msgstr "origin/{0}: aftur á {1}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 381
+#: usr/share/gitrepo/build_package/core/history.py:381
+#: usr/share/gitrepo/build_package/core/history.py:470
+#, python-brace-format
+msgid "GitHub was not changed: {0}"
+msgstr "GitHub var ekki breytt: {0}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 385
+#: usr/share/gitrepo/build_package/core/history.py:385
+#, python-brace-format
+msgid "“{0}” was undone."
+msgstr "„{0}“ var afturkallað."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 399
+#: usr/share/gitrepo/build_package/core/history.py:399
+#, python-brace-format
+msgid "The commits leaving {0} are not lost: Undo brings them back."
+msgstr "Framlögin sem yfirgefa {0} glatast ekki: Afturkalla sækir þau aftur."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 413
+#: usr/share/gitrepo/build_package/core/history.py:413
+#, python-brace-format
+msgid "Go back to {0}?"
+msgstr "Fara aftur á {0}?"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 414
+#: usr/share/gitrepo/build_package/core/history.py:414
+#, python-brace-format
+msgid "{0} will point at {1}; {2} commit(s) after it leave the branch."
+msgstr "{0} mun benda á {1}; {2} framlög á eftir því yfirgefa greinina."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 419
+#: usr/share/gitrepo/build_package/core/history.py:419
+#, python-brace-format
+msgid "Leaves {0}: {1} {2}"
+msgstr "Yfirgefur {0}: {1} {2}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 424
+#: usr/share/gitrepo/build_package/core/history.py:424
+#, python-brace-format
+msgid "{0} now points at {1}"
+msgstr "{0} bendir nú á {1}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 431
+#: usr/share/gitrepo/build_package/core/history.py:431
+msgid "Also go back on GitHub"
+msgstr "Fara líka aftur á GitHub"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 441
+#: usr/share/gitrepo/build_package/core/history.py:441
+#, python-brace-format
+msgid "{0} is shared; take changes back on it with a revert instead."
+msgstr "{0} er sameiginleg; taktu breytingar á henni til baka með revert í staðinn."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 457
+#: usr/share/gitrepo/build_package/core/history.py:457
+#, python-brace-format
+msgid "Could not move {0}: {1}"
+msgstr "Gat ekki fært {0}: {1}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 458
+#: usr/share/gitrepo/build_package/core/history.py:458
+msgid "If Git mentions local changes, commit or stash them and try again."
+msgstr "Ef Git nefnir staðbundnar breytingar skaltu framlegja þær eða geyma (stash) og reyna aftur."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 464
+#: usr/share/gitrepo/build_package/core/history.py:464
+#, python-brace-format
+msgid "origin/{0}: from {1} to {2}"
+msgstr "origin/{0}: frá {1} á {2}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 472
+#: usr/share/gitrepo/build_package/core/history.py:472
+#, python-brace-format
+msgid "Go back to {0}"
+msgstr "Fara aftur á {0}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 473
+#: usr/share/gitrepo/build_package/core/history.py:473
+#, python-brace-format
+msgid "{0} now points at {1}."
+msgstr "{0} bendir nú á {1}."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 488
+#: usr/share/gitrepo/build_package/core/history.py:488
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:18
+msgid "added"
+msgstr "bætt við"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 488
+#: usr/share/gitrepo/build_package/core/history.py:488
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:19
+msgid "modified"
+msgstr "breytt"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 488
+#: usr/share/gitrepo/build_package/core/history.py:488
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:20
+msgid "deleted"
+msgstr "eytt"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 488
+#: usr/share/gitrepo/build_package/core/history.py:488
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:21
+msgid "renamed"
+msgstr "endurnefnt"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 488
+#: usr/share/gitrepo/build_package/core/history.py:488
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:22
+msgid "copied"
+msgstr "afritað"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 491
+#: usr/share/gitrepo/build_package/core/history.py:491
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:139
+#, python-brace-format
+msgid "… and {0} more"
+msgstr "… og {0} í viðbót"
+# File: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py, line: 126
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:126
+msgid "What will be done"
+msgstr "Hvað verður gert"
+# File: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py, line: 149
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:149
+msgid "Rewrites the branch on GitHub only if nobody published to it since."
+msgstr "Endurskrifar greinina á GitHub aðeins ef enginn hefur birt á hana síðan."
+# File: usr/share/gitrepo/build_package/core/destination.py, line: 59
+#: usr/share/gitrepo/build_package/core/destination.py:59
+#, python-brace-format
+msgid "Used for packages built by github.com/{0}"
+msgstr "Notað fyrir pakka sem github.com/{0} smíðar"
+# File: usr/share/gitrepo/build_package/core/destination.py, line: 61
+#: usr/share/gitrepo/build_package/core/destination.py:61
+msgid "Used when no token is saved for the destination organization"
+msgstr "Notað þegar enginn lykill er vistaður fyrir áfangastofnunina"
+# File: usr/share/gitrepo/build_package/core/destination.py, line: 63
+#: usr/share/gitrepo/build_package/core/destination.py:63
+#, python-brace-format
+msgid "Never used: GitRepo only looks for {0} or default. Save the token again for the organization."
+msgstr "Aldrei notað: GitRepo leitar aðeins að {0} eða default. Vistaðu lykilinn aftur fyrir stofnunina."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 202
+#: usr/share/gitrepo/build_package/core/github_api.py:202
+#, python-brace-format
+msgid "Using the access token saved for {0}."
+msgstr "Notar aðgangslykilinn sem er vistaður fyrir {0}."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 206
+#: usr/share/gitrepo/build_package/core/github_api.py:206
+#, python-brace-format
+msgid "No access token is saved for {0}; using the one saved as {1}."
+msgstr "Enginn aðgangslykill er vistaður fyrir {0}; notar þann sem er vistaður sem {1}."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 217
+#: usr/share/gitrepo/build_package/core/github_api.py:217
+#, python-brace-format
+msgid "GitHub says: {0}"
+msgstr "GitHub segir: {0}"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 220
+#: usr/share/gitrepo/build_package/core/github_api.py:220
+msgid "Check the access token GitRepo used:"
+msgstr "Athugaðu aðgangslykilinn sem GitRepo notaði:"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 224
+#: usr/share/gitrepo/build_package/core/github_api.py:224
+#, python-brace-format
+msgid "• it is saved for {0} in Settings, under “Save or replace an access token” (a token saved under another name is never used);"
+msgstr "• hann er vistaður fyrir {0} í Stillingum, undir “Vista eða skipta út aðgangslykli” (lykill vistaður undir öðru nafni er aldrei notaður);"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 228
+#: usr/share/gitrepo/build_package/core/github_api.py:228
+msgid "• a classic token has the repo and workflow scopes;"
+msgstr "• klassískur lykill hefur umdæmin repo og workflow;"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 231
+#: usr/share/gitrepo/build_package/core/github_api.py:231
+#, python-brace-format
+msgid "• a fine-grained token belongs to {0} and can write Contents of {1}."
+msgstr "• fíngerður lykill tilheyrir {0} og getur skrifað Contents í {1}."
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 496
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:496
+#, python-brace-format
+msgid "Building needs an access token for {0}. It is saved in the system keyring for that organization."
+msgstr "Smíði krefst aðgangslykils fyrir {0}. Hann er vistaður í lyklakippu kerfisins fyrir þá stofnun."
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 534
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:534
+#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:180
+msgid "Paste the access token first."
+msgstr "Límdu fyrst inn aðgangslykilinn."
+# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line: 86
+#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:86
+msgid "Each token is saved for the organization where packages are built. GitRepo uses the one that matches the destination chosen on the Packages page."
+msgstr "Hver lykill er vistaður fyrir stofnunina þar sem pakkar eru smíðaðir. GitRepo notar þann sem passar við áfangastaðinn sem valinn er á síðunni Pakkar."
+# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line: 94
+#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:94
+msgid "Organization where packages are built"
+msgstr "Stofnun þar sem pakkar eru smíðaðir"
+# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line: 128
+#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:128
+#, python-brace-format
+msgid "Saved as {0}"
+msgstr "Vistað sem {0}"

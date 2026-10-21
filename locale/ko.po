@@ -292,14 +292,6 @@ msgstr "GitHub 토큰 설정"
 #: usr/share/gitrepo/build_package/core/github_api.py:256 usr/share/gitrepo/build_package/gui/repository_actions.py:493
 msgid "A GitHub Personal Access Token is required for this operation."
 msgstr "이 작업을 위해 GitHub 개인 액세스 토큰이 필요합니다."
-# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 351
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:501
-msgid "GitHub Username:"
-msgstr "GitHub 사용자 이름:"
-# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 353
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:503
-msgid "your-username"
-msgstr "your-username"
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 358
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:508
 msgid "GitHub Token:"
@@ -312,10 +304,6 @@ msgstr "GitHub 토큰 설정 열기"
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:526
 msgid "Save and Continue"
 msgstr "저장하고 계속"
-# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 386
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:536
-msgid "Username and token are required"
-msgstr "사용자 이름과 토큰은 필수입니다"
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 403
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:553
 msgid ""
@@ -2789,16 +2777,6 @@ msgstr "GitHub에서 클래식 액세스 토큰 만들기"
 msgid "Save or replace an access token"
 msgstr "액세스 토큰 저장 또는 교체"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
-# 83
-#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:83
-msgid "Use the GitHub organization or username that owns the repositories where workflows will run."
-msgstr "워크플로우가 실행될 저장소를 소유한 GitHub 조직 또는 사용자 이름을 사용하세요."
-# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
-# 87
-#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:87
-msgid "GitHub organization or username"
-msgstr "GitHub 조직 또는 사용자명"
-# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 92
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:92
 msgid "Personal access token"
@@ -2834,21 +2812,11 @@ msgstr "저장된 액세스 토큰 없음"
 msgid "Use the form below when you want to run a GitHub workflow."
 msgstr "GitHub 워크플로를 실행하려면 아래 양식을 사용하세요."
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
-# 132
-#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:132
-msgid "Stored securely in the system keyring"
-msgstr "시스템 키링에 안전하게 저장됨"
-# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 138
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:138
 #, python-brace-format
 msgid "Delete access token for {0}"
 msgstr "{0}의 액세스 토큰 삭제"
-# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
-# 150
-#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:150
-msgid "Enter both the GitHub organization and the access token."
-msgstr "GitHub 조직과 액세스 토큰을 모두 입력하세요."
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
@@ -7858,10 +7826,6 @@ msgstr "origin/{0}도 main과 일치하도록 {0}을(를) origin에 게시합니
 #: usr/share/gitrepo/build_package/core/main_sync.py:341
 msgid "Synchronize with origin/main?"
 msgstr "origin/main과 동기화할까요?"
-# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 342
-#: usr/share/gitrepo/build_package/core/main_sync.py:342
-msgid "Only fast-forwards run, so nothing is merged and no work is discarded."
-msgstr "fast-forward만 실행되므로 병합되는 것도, 버려지는 작업도 없습니다."
 # File: usr/share/gitrepo/build_package/core/main_sync.py, line: 348
 #: usr/share/gitrepo/build_package/core/main_sync.py:348
 msgid "Synchronization cancelled; only git fetch ran."
@@ -8054,3 +8018,377 @@ msgstr "풀 리퀘스트가 열렸지만 병합되지 않았습니다"
 #, python-brace-format
 msgid "Reason: {0}"
 msgstr "이유: {0}"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 57
+#: usr/share/gitrepo/build_package/core/branch_menu.py:57
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:268
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:308
+msgid "Go back to a commit"
+msgstr "커밋으로 되돌리기"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 58
+#: usr/share/gitrepo/build_package/core/branch_menu.py:58
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:317
+msgid "Undo the last operation"
+msgstr "마지막 작업 실행 취소"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 223
+#: usr/share/gitrepo/build_package/core/branch_menu.py:223
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:260
+msgid "This branch has no earlier commit to go back to."
+msgstr "이 브랜치에는 되돌아갈 이전 커밋이 없습니다."
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 230
+#: usr/share/gitrepo/build_package/core/branch_menu.py:230
+msgid "Go back to which commit?"
+msgstr "어느 커밋으로 되돌릴까요?"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 232
+#: usr/share/gitrepo/build_package/core/branch_menu.py:232
+#, python-brace-format
+msgid "{0} is on {1}: {2}"
+msgstr "{0}은(는) {1}에 있습니다: {2}"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 243
+#: usr/share/gitrepo/build_package/core/branch_menu.py:243
+#: usr/share/gitrepo/build_package/core/branch_menu.py:258
+msgid "Nothing was changed."
+msgstr "변경된 것이 없습니다."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 359
+#: usr/share/gitrepo/build_package/core/main_sync.py:359
+#, python-brace-format
+msgid "These changes come from origin/main. If main dropped work of yours, it disappears from {0} too."
+msgstr "이 변경 사항은 origin/main에서 온 것입니다. main이 작업 내용을 제거했다면 {0}에서도 사라집니다."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 364
+#: usr/share/gitrepo/build_package/core/main_sync.py:364
+#, python-brace-format
+msgid "{0} is published on GitHub at the end."
+msgstr "마지막에 {0}이(가) GitHub에 게시됩니다."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 365
+#: usr/share/gitrepo/build_package/core/main_sync.py:365
+msgid "Undo is available afterwards."
+msgstr "이후에 실행 취소할 수 있습니다."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 368
+#: usr/share/gitrepo/build_package/core/main_sync.py:368
+msgid "Your branch and the local main move forward to origin/main; nothing is merged here."
+msgstr "브랜치와 로컬 main이 origin/main까지 앞으로 이동합니다. 여기서는 아무것도 병합되지 않습니다."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 373
+#: usr/share/gitrepo/build_package/core/main_sync.py:373
+#: usr/share/gitrepo/build_package/core/history.py:324
+#: usr/share/gitrepo/build_package/core/history.py:428
+#, python-brace-format
+msgid "Files that change in {0}"
+msgstr "{0}에서 변경되는 파일"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 412
+#: usr/share/gitrepo/build_package/core/main_sync.py:412
+#: usr/share/gitrepo/build_package/core/main_sync.py:416
+msgid "Synchronize with main"
+msgstr "main과 동기화"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 279
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:279
+#, python-brace-format
+msgid "{0} is on the first commit below. Choose the one it should go back to."
+msgstr "{0}은(는) 아래 첫 번째 커밋에 있습니다. 되돌릴 커밋을 선택하세요."
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 332
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:332
+msgid "Going back to a commit"
+msgstr "커밋으로 되돌리는 중"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 333
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:333
+#, python-brace-format
+msgid "Moving {0} to {1}..."
+msgstr "{0}을(를) {1}(으)로 이동하는 중..."
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 336
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:336
+msgid "Go back"
+msgstr "되돌리기"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 357
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:357
+msgid "Undoing"
+msgstr "실행 취소 중"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 357
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:357
+#, python-brace-format
+msgid "Taking back “{0}”..."
+msgstr "“{0}” 되돌리는 중..."
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 360
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:360
+#: usr/share/gitrepo/build_package/gui/main_window.py:423
+msgid "Undo"
+msgstr "실행 취소"
+# File: usr/share/gitrepo/build_package/gui/main_window.py, line: 421
+#: usr/share/gitrepo/build_package/gui/main_window.py:421
+#, python-brace-format
+msgid "“{0}” finished"
+msgstr "“{0}” 완료"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 303
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:303
+msgid "Branch history"
+msgstr "브랜치 기록"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 305
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:305
+msgid "Every change is shown before it runs, and the commits that leave the branch can be brought back."
+msgstr "모든 변경 사항은 실행 전에 표시되며, 브랜치에서 빠지는 커밋은 되살릴 수 있습니다."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 309
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:309
+msgid "Pick an earlier commit of this branch and see what changes before moving to it."
+msgstr "이 브랜치의 이전 커밋을 선택하고 이동하기 전에 무엇이 바뀌는지 확인하세요."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 310
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:310
+msgid "Choose…"
+msgstr "선택…"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 318
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:318
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:565
+#: usr/share/gitrepo/build_package/core/history.py:252
+msgid "Nothing to undo yet."
+msgstr "아직 실행 취소할 항목이 없습니다."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 319
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:319
+msgid "Undo…"
+msgstr "실행 취소…"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 571
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:571
+#, python-brace-format
+msgid "“{0}”, {1}"
+msgstr "“{0}”, {1}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 257
+#: usr/share/gitrepo/build_package/core/history.py:257
+#, python-brace-format
+msgid "{0} changed after “{1}”, so it can no longer be undone safely."
+msgstr "“{1}” 이후 {0}이(가) 변경되어 더 이상 안전하게 실행 취소할 수 없습니다."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 310
+#: usr/share/gitrepo/build_package/core/history.py:310
+#, python-brace-format
+msgid "{0}: from {1} back to {2}"
+msgstr "{0}: {1}에서 {2}(으)로 되돌림"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 312
+#: usr/share/gitrepo/build_package/core/history.py:312
+#: usr/share/gitrepo/build_package/core/history.py:454
+#, python-brace-format
+msgid "{0}: from {1} to {2}"
+msgstr "{0}: {1}에서 {2}(으)로"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 332
+#: usr/share/gitrepo/build_package/core/history.py:332
+#, python-brace-format
+msgid "{0} file(s) will be deleted from your branch. Check the list below."
+msgstr "파일 {0}개가 브랜치에서 삭제됩니다. 아래 목록을 확인하세요."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 341
+#: usr/share/gitrepo/build_package/core/history.py:341
+#, python-brace-format
+msgid "{0} is shared: what was published there stays on GitHub."
+msgstr "{0}은(는) 공유됩니다: 그곳에 게시된 내용은 GitHub에 남습니다."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 343
+#: usr/share/gitrepo/build_package/core/history.py:343
+#, python-brace-format
+msgid "Undo “{0}”?"
+msgstr "“{0}”을(를) 실행 취소할까요?"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 344
+#: usr/share/gitrepo/build_package/core/history.py:344
+msgid "The branches go back to where they were before this operation. Uncommitted files are kept."
+msgstr "브랜치가 이 작업 이전 상태로 돌아갑니다. 커밋하지 않은 파일은 유지됩니다."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 349
+#: usr/share/gitrepo/build_package/core/history.py:349
+msgid "Also put GitHub back"
+msgstr "GitHub도 되돌리기"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 353
+#: usr/share/gitrepo/build_package/core/history.py:353
+#: usr/share/gitrepo/build_package/core/history.py:408
+#, python-brace-format
+msgid "origin/{0}: from {1} back to {2}"
+msgstr "origin/{0}: {1}에서 {2}(으)로 되돌림"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 365
+#: usr/share/gitrepo/build_package/core/history.py:365
+msgid "This operation can no longer be undone."
+msgstr "이 작업은 더 이상 실행 취소할 수 없습니다."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 368
+#: usr/share/gitrepo/build_package/core/history.py:368
+#, python-brace-format
+msgid "{0}: back to {1}"
+msgstr "{0}: {1}(으)로 되돌림"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 371
+#: usr/share/gitrepo/build_package/core/history.py:371
+#, python-brace-format
+msgid "Could not move {0} back: {1}"
+msgstr "{0}을(를) 되돌리지 못했습니다: {1}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 372
+#: usr/share/gitrepo/build_package/core/history.py:372
+msgid "If Git mentions local changes, commit or stash them and undo again."
+msgstr "Git이 로컬 변경 사항을 언급하면 커밋하거나 stash한 후 다시 실행 취소하세요."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 378
+#: usr/share/gitrepo/build_package/core/history.py:378
+#, python-brace-format
+msgid "origin/{0}: back to {1}"
+msgstr "origin/{0}: {1}(으)로 되돌림"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 381
+#: usr/share/gitrepo/build_package/core/history.py:381
+#: usr/share/gitrepo/build_package/core/history.py:470
+#, python-brace-format
+msgid "GitHub was not changed: {0}"
+msgstr "GitHub는 변경되지 않았습니다: {0}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 385
+#: usr/share/gitrepo/build_package/core/history.py:385
+#, python-brace-format
+msgid "“{0}” was undone."
+msgstr "“{0}”을(를) 실행 취소했습니다."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 399
+#: usr/share/gitrepo/build_package/core/history.py:399
+#, python-brace-format
+msgid "The commits leaving {0} are not lost: Undo brings them back."
+msgstr "{0}에서 빠지는 커밋은 사라지지 않습니다: 실행 취소하면 되살아납니다."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 413
+#: usr/share/gitrepo/build_package/core/history.py:413
+#, python-brace-format
+msgid "Go back to {0}?"
+msgstr "{0}(으)로 되돌릴까요?"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 414
+#: usr/share/gitrepo/build_package/core/history.py:414
+#, python-brace-format
+msgid "{0} will point at {1}; {2} commit(s) after it leave the branch."
+msgstr "{0}이(가) {1}을(를) 가리키게 되며, 그 이후 커밋 {2}개가 브랜치에서 빠집니다."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 419
+#: usr/share/gitrepo/build_package/core/history.py:419
+#, python-brace-format
+msgid "Leaves {0}: {1} {2}"
+msgstr "{0}에서 빠짐: {1} {2}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 424
+#: usr/share/gitrepo/build_package/core/history.py:424
+#, python-brace-format
+msgid "{0} now points at {1}"
+msgstr "{0}이(가) 이제 {1}을(를) 가리킵니다"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 431
+#: usr/share/gitrepo/build_package/core/history.py:431
+msgid "Also go back on GitHub"
+msgstr "GitHub에서도 되돌리기"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 441
+#: usr/share/gitrepo/build_package/core/history.py:441
+#, python-brace-format
+msgid "{0} is shared; take changes back on it with a revert instead."
+msgstr "{0}은(는) 공유됩니다. 대신 revert로 변경 사항을 취소하세요."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 457
+#: usr/share/gitrepo/build_package/core/history.py:457
+#, python-brace-format
+msgid "Could not move {0}: {1}"
+msgstr "{0}을(를) 이동하지 못했습니다: {1}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 458
+#: usr/share/gitrepo/build_package/core/history.py:458
+msgid "If Git mentions local changes, commit or stash them and try again."
+msgstr "Git이 로컬 변경 사항을 언급하면 커밋하거나 stash한 후 다시 시도하세요."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 464
+#: usr/share/gitrepo/build_package/core/history.py:464
+#, python-brace-format
+msgid "origin/{0}: from {1} to {2}"
+msgstr "origin/{0}: {1}에서 {2}(으)로"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 472
+#: usr/share/gitrepo/build_package/core/history.py:472
+#, python-brace-format
+msgid "Go back to {0}"
+msgstr "{0}(으)로 되돌리기"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 473
+#: usr/share/gitrepo/build_package/core/history.py:473
+#, python-brace-format
+msgid "{0} now points at {1}."
+msgstr "{0}이(가) 이제 {1}을(를) 가리킵니다."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 488
+#: usr/share/gitrepo/build_package/core/history.py:488
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:18
+msgid "added"
+msgstr "추가됨"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 488
+#: usr/share/gitrepo/build_package/core/history.py:488
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:19
+msgid "modified"
+msgstr "수정됨"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 488
+#: usr/share/gitrepo/build_package/core/history.py:488
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:20
+msgid "deleted"
+msgstr "삭제됨"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 488
+#: usr/share/gitrepo/build_package/core/history.py:488
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:21
+msgid "renamed"
+msgstr "이름 변경됨"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 488
+#: usr/share/gitrepo/build_package/core/history.py:488
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:22
+msgid "copied"
+msgstr "복사됨"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 491
+#: usr/share/gitrepo/build_package/core/history.py:491
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:139
+#, python-brace-format
+msgid "… and {0} more"
+msgstr "… 외 {0}개"
+# File: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py, line: 126
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:126
+msgid "What will be done"
+msgstr "수행될 작업"
+# File: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py, line: 149
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:149
+msgid "Rewrites the branch on GitHub only if nobody published to it since."
+msgstr "그 이후 아무도 게시하지 않은 경우에만 GitHub의 브랜치를 다시 씁니다."
+# File: usr/share/gitrepo/build_package/core/destination.py, line: 59
+#: usr/share/gitrepo/build_package/core/destination.py:59
+#, python-brace-format
+msgid "Used for packages built by github.com/{0}"
+msgstr "github.com/{0}에서 빌드하는 패키지에 사용됩니다"
+# File: usr/share/gitrepo/build_package/core/destination.py, line: 61
+#: usr/share/gitrepo/build_package/core/destination.py:61
+msgid "Used when no token is saved for the destination organization"
+msgstr "대상 조직에 저장된 토큰이 없을 때 사용됩니다"
+# File: usr/share/gitrepo/build_package/core/destination.py, line: 63
+#: usr/share/gitrepo/build_package/core/destination.py:63
+#, python-brace-format
+msgid "Never used: GitRepo only looks for {0} or default. Save the token again for the organization."
+msgstr "사용되지 않음: GitRepo는 {0} 또는 default만 찾습니다. 조직에 맞게 토큰을 다시 저장하세요."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 202
+#: usr/share/gitrepo/build_package/core/github_api.py:202
+#, python-brace-format
+msgid "Using the access token saved for {0}."
+msgstr "{0}에 저장된 액세스 토큰을 사용합니다."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 206
+#: usr/share/gitrepo/build_package/core/github_api.py:206
+#, python-brace-format
+msgid "No access token is saved for {0}; using the one saved as {1}."
+msgstr "{0}에 저장된 액세스 토큰이 없어 {1}(으)로 저장된 토큰을 사용합니다."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 217
+#: usr/share/gitrepo/build_package/core/github_api.py:217
+#, python-brace-format
+msgid "GitHub says: {0}"
+msgstr "GitHub 응답: {0}"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 220
+#: usr/share/gitrepo/build_package/core/github_api.py:220
+msgid "Check the access token GitRepo used:"
+msgstr "GitRepo가 사용한 액세스 토큰을 확인하세요:"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 224
+#: usr/share/gitrepo/build_package/core/github_api.py:224
+#, python-brace-format
+msgid "• it is saved for {0} in Settings, under “Save or replace an access token” (a token saved under another name is never used);"
+msgstr "• 설정의 “액세스 토큰 저장 또는 교체”에서 {0}에 저장되어 있습니다(다른 이름으로 저장된 토큰은 사용되지 않습니다);"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 228
+#: usr/share/gitrepo/build_package/core/github_api.py:228
+msgid "• a classic token has the repo and workflow scopes;"
+msgstr "• 클래식 토큰에 repo 및 workflow 범위가 있습니다;"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 231
+#: usr/share/gitrepo/build_package/core/github_api.py:231
+#, python-brace-format
+msgid "• a fine-grained token belongs to {0} and can write Contents of {1}."
+msgstr "• 세분화된 토큰이 {0} 소유이며 {1}의 Contents에 쓸 수 있습니다."
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 496
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:496
+#, python-brace-format
+msgid "Building needs an access token for {0}. It is saved in the system keyring for that organization."
+msgstr "빌드하려면 {0}용 액세스 토큰이 필요합니다. 해당 조직용으로 시스템 키링에 저장됩니다."
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 534
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:534
+#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:180
+msgid "Paste the access token first."
+msgstr "먼저 액세스 토큰을 붙여넣으세요."
+# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line: 86
+#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:86
+msgid "Each token is saved for the organization where packages are built. GitRepo uses the one that matches the destination chosen on the Packages page."
+msgstr "각 토큰은 패키지를 빌드하는 조직에 맞게 저장됩니다. GitRepo는 패키지 페이지에서 선택한 대상과 일치하는 토큰을 사용합니다."
+# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line: 94
+#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:94
+msgid "Organization where packages are built"
+msgstr "패키지를 빌드하는 조직"
+# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line: 128
+#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:128
+#, python-brace-format
+msgid "Saved as {0}"
+msgstr "{0}(으)로 저장됨"

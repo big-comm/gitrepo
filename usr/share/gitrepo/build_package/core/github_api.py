@@ -171,6 +171,7 @@ class GitHubAPI:
             return False
         event_type, data = dispatch
         repo_workflow = f"{self.organization}/build-package"
+        self._log_token_source(logger)
         dispatched_at = datetime.now(timezone.utc)
         try:
             response = requests.post(
@@ -184,12 +185,53 @@ class GitHubAPI:
             return False
         if response.status_code != 204:
             logger.log("red", _("Error triggering workflow. Response code: {0}").format(response.status_code))
+            self._explain_refused_dispatch(response, repo_workflow, logger)
             return False
         logger.log("green", _("Build workflow ({0}) triggered successfully.").format(event_type))
         monitor_url = f"https://github.com/{repo_workflow}/actions"
         logger.log("cyan", _("URL to monitor the build: {0}").format(monitor_url))
         self._report_dispatched_run(repo_workflow, data.get("event_type", ""), dispatched_at, monitor_url, logger)
         return True
+
+    def _log_token_source(self, logger) -> None:
+        """Name the saved entry the request uses, never the token itself."""
+        from .destination import token_source
+
+        source = token_source(self.organization, TokenStore.read_all())
+        if source == self.organization.lower():
+            logger.log("dim", _("Using the access token saved for {0}.").format(self.organization))
+        elif source:
+            logger.log(
+                "yellow",
+                _("No access token is saved for {0}; using the one saved as {1}.").format(self.organization, source),
+            )
+
+    @staticmethod
+    def _explain_refused_dispatch(response, repo_workflow, logger) -> None:
+        """Pass on GitHub's own reason, and what a 401/403/404 asks to check."""
+        try:
+            message = (response.json() or {}).get("message", "") if response.text else ""
+        except ValueError:
+            message = ""
+        if message:
+            logger.log("red", _("GitHub says: {0}").format(message))
+        if response.status_code in (401, 403, 404):
+            organization = repo_workflow.split("/", 1)[0]
+            logger.log("yellow", _("Check the access token GitRepo used:"))
+            logger.log(
+                "yellow",
+                _(
+                    "• it is saved for {0} in Settings, under “Save or replace an access token” "
+                    "(a token saved under another name is never used);"
+                ).format(organization),
+            )
+            logger.log("yellow", _("• a classic token has the repo and workflow scopes;"))
+            logger.log(
+                "yellow",
+                _("• a fine-grained token belongs to {0} and can write Contents of {1}.").format(
+                    organization, repo_workflow
+                ),
+            )
 
     def _report_dispatched_run(self, repo_workflow, action, dispatched_at, monitor_url, logger) -> None:
         """Say whether the accepted dispatch actually produced a workflow run.

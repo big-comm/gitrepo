@@ -7,6 +7,8 @@ import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
+from gitrepo.build_package.core.config import DEFAULT_ORGANIZATION, DESTINATION_NAMES, VALID_ORGANIZATIONS
+from gitrepo.build_package.core.destination import token_usage
 from gitrepo.build_package.core.token_store import TokenStore
 from gitrepo.common.translation import _
 from gi.repository import Adw, Gio, GLib, Gtk
@@ -80,13 +82,27 @@ class TokenSettingsWidget(Gtk.Box):
         add_group.set_header_suffix(self._token_help())
         add_group.add(self._create_token_link_row())
         add_group.set_description(
-            _("Use the GitHub organization or username that owns the repositories where workflows will run.")
+            _(
+                "Each token is saved for the organization where packages are built. GitRepo uses the one "
+                "that matches the destination chosen on the Packages page."
+            )
         )
 
-        self.token_org_entry = Adw.EntryRow()
-        self.token_org_entry.set_title(_("GitHub organization or username"))
-        self.token_org_entry.set_show_apply_button(False)
-        add_group.add(self.token_org_entry)
+        # A list, not free text: a token saved under any other name (a username,
+        # say) is never read, and the build fails with an unexplained 403.
+        self.token_org_row = Adw.ComboRow()
+        self.token_org_row.set_title(_("Organization where packages are built"))
+        self.token_org_row.set_subtitle_lines(0)
+        names = Gtk.StringList()
+        for organization in VALID_ORGANIZATIONS:
+            names.append(DESTINATION_NAMES.get(organization, organization))
+        self.token_org_row.set_model(names)
+        current = getattr(getattr(self.parent_window, "build_package", None), "organization", DEFAULT_ORGANIZATION)
+        if current in VALID_ORGANIZATIONS:
+            self.token_org_row.set_selected(VALID_ORGANIZATIONS.index(current))
+        self.token_org_row.connect("notify::selected", lambda *_args: self._describe_token_org())
+        self._describe_token_org()
+        add_group.add(self.token_org_row)
 
         self.token_value_entry = Adw.PasswordEntryRow()
         self.token_value_entry.set_title(_("Personal access token"))
@@ -103,6 +119,13 @@ class TokenSettingsWidget(Gtk.Box):
         save_row.add_suffix(self.save_token_button)
         add_group.add(save_row)
         return add_group
+
+    def _selected_token_org(self) -> str:
+        selected = self.token_org_row.get_selected()
+        return VALID_ORGANIZATIONS[selected] if selected < len(VALID_ORGANIZATIONS) else DEFAULT_ORGANIZATION
+
+    def _describe_token_org(self):
+        self.token_org_row.set_subtitle(_("Saved as {0}").format(f"github.com/{self._selected_token_org()}"))
 
     def _refresh_token_rows(self):
         self._replace_token_rows([], _("Checking the system keyring…"))
@@ -128,8 +151,15 @@ class TokenSettingsWidget(Gtk.Box):
 
         for organization, _token in entries:
             row = Adw.ActionRow()
-            row.set_title(organization)
-            row.set_subtitle(_("Stored securely in the system keyring"))
+            row.set_title(GLib.markup_escape_text(organization))
+            used, usage = token_usage(organization)
+            row.set_subtitle(GLib.markup_escape_text(usage))
+            row.set_subtitle_lines(0)
+            if not used:
+                warning = Gtk.Image.new_from_icon_name("dialog-warning-symbolic")
+                warning.add_css_class("status-warning")
+                warning.set_tooltip_text(usage)
+                row.add_prefix(warning)
             delete_button = Gtk.Button(icon_name="edit-delete-symbolic")
             delete_button.set_valign(Gtk.Align.CENTER)
             delete_button.add_css_class("destructive-action")
@@ -144,10 +174,10 @@ class TokenSettingsWidget(Gtk.Box):
         return False
 
     def _on_save_token(self, _widget):
-        organization = self.token_org_entry.get_text().strip()
+        organization = self._selected_token_org()
         token = self.token_value_entry.get_text().strip()
-        if not organization or not token:
-            self.parent_window.show_error_toast(_("Enter both the GitHub organization and the access token."))
+        if not token:
+            self.parent_window.show_error_toast(_("Paste the access token first."))
             return
 
         self.save_token_button.set_sensitive(False)
@@ -173,7 +203,6 @@ class TokenSettingsWidget(Gtk.Box):
                 "Accept": "application/vnd.github.v3+json",
                 "Authorization": f"token {token}",
             }
-        self.token_org_entry.set_text("")
         self.token_value_entry.set_text("")
         self.parent_window.show_toast(_("Access token saved in the system keyring"))
         self._refresh_token_rows()

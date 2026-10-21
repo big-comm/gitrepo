@@ -34,7 +34,7 @@ def test_the_token_dialog_opens_with_a_hidden_token_field(gtk, monkeypatch):
     monkeypatch.setattr(Adw.MessageDialog, "present", lambda dialog: presented.append(dialog))
 
     class Window(RepositoryActionsMixin, Gtk.Window):
-        pass
+        build_package = type("Bp", (), {"organization": "biglinux"})()
 
     Window()._show_token_setup_dialog(lambda: True, "Build", "Starting")
 
@@ -42,3 +42,6 @@ def test_the_token_dialog_opens_with_a_hidden_token_field(gtk, monkeypatch):
     (token_entry,) = [w for w in _descendants(dialog.get_extra_child()) if isinstance(w, Gtk.PasswordEntry)]
     assert token_entry.get_property("placeholder-text") == "ghp_..."
     assert token_entry.get_show_peek_icon()
+    # The token is saved for the destination, so the dialog names it and asks no username.
+    assert "github.com/biglinux" in dialog.get_body()
+    assert not [w for w in _descendants(dialog.get_extra_child()) if type(w) is Gtk.Entry]

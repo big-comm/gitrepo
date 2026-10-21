@@ -8,6 +8,8 @@ one of the destinations; otherwise from the last choice made anywhere.
 
 from __future__ import annotations
 
+from gitrepo.common.translation import _
+
 from .config import DEFAULT_ORGANIZATION, VALID_ORGANIZATIONS
 from .git_utils import GitUtils
 
@@ -44,3 +46,27 @@ def remember_destination(settings, organization: str) -> bool:
         if not settings.set("build_destinations", choices):
             return False
     return settings.set("build_destination", organization)
+
+
+# The name a token is saved under when no organization-specific one exists.
+DEFAULT_TOKEN_NAME = "default"
+
+
+def token_usage(name: str) -> tuple[bool, str]:
+    """Say whether GitRepo ever reads the token saved under *name*, and when."""
+    key = name.strip().lower()
+    if key in VALID_ORGANIZATIONS:
+        return True, _("Used for packages built by github.com/{0}").format(key)
+    if key == DEFAULT_TOKEN_NAME:
+        return True, _("Used when no token is saved for the destination organization")
+    return False, _(
+        "Never used: GitRepo only looks for {0} or default. Save the token again for the organization."
+    ).format(" / ".join(VALID_ORGANIZATIONS))
+
+
+def token_source(organization: str, entries: list[tuple[str, str]]) -> str:
+    """Name of the saved entry GitRepo uses for *organization*: itself, default, or none."""
+    names = [name.lower() for name, _token in entries]
+    if organization.lower() in names:
+        return organization.lower()
+    return DEFAULT_TOKEN_NAME if DEFAULT_TOKEN_NAME in names else ""

@@ -488,21 +488,19 @@ class RepositoryActionsMixin:
 
         from gitrepo.build_package.core.token_store import TokenStore
 
+        organization = self.build_package.organization
         dialog = Adw.MessageDialog(transient_for=self, modal=True)
         dialog.set_heading(_("GitHub Token Setup"))
-        dialog.set_body(_("A GitHub Personal Access Token is required for this operation."))
+        dialog.set_body(
+            _(
+                "Building needs an access token for {0}. It is saved in the system keyring for that organization."
+            ).format(f"github.com/{organization}")
+        )
 
         # Create content box with entry fields
         content_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
         content_box.set_margin_start(24)
         content_box.set_margin_end(24)
-
-        # Username field
-        username_label = Gtk.Label(label=_("GitHub Username:"), xalign=0)
-        username_entry = Gtk.Entry()
-        username_entry.set_placeholder_text(_("your-username"))
-        content_box.append(username_label)
-        content_box.append(username_entry)
 
         # Token field
         token_label = Gtk.Label(label=_("GitHub Token:"), xalign=0)
@@ -530,16 +528,14 @@ class RepositoryActionsMixin:
 
         def on_response(dialog, response):
             if response == "save":
-                username = username_entry.get_text().strip()
                 token_text = token_entry.get_text().strip()
 
-                if not username or not token_text:
-                    self.show_error_toast(_("Username and token are required"))
+                if not token_text:
+                    self.show_error_toast(_("Paste the access token first."))
                     dialog.close()
                     return
 
                 dialog.set_response_enabled("save", False)
-                organization = self.build_package.organization
 
                 def store_token():
                     saved = TokenStore.upsert(organization, token_text)
