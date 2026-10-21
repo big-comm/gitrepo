@@ -209,7 +209,7 @@ def test_cli_sync_screen_checks_origin_on_request_and_redraws(tmp_path, monkeypa
     run_git(other, "push", "origin", "main")
     monkeypatch.chdir(repository)
     # branch menu: Sync with main; sync: Only check origin, then Back; branch menu: Back.
-    menu = _Menu([0, 1, 3, 5])
+    menu = _Menu([0, 1, 3, 7])
     bp = _Bp(menu)
 
     branch_menu.branch_menu(bp)

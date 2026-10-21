@@ -17,6 +17,7 @@ from gitrepo.common.child_process import authorize_destructive_git
 from gitrepo.common.translation import _
 
 from . import branch_overview as overview
+from . import history
 from .confirmation import StructuredConfirmation
 
 MAIN = "main"
@@ -312,43 +313,91 @@ def _log_verdict(bp, status: SyncStatus) -> None:
     bp.logger.log(color, f"{title}: {description}")
 
 
-def sync_with_main(bp, *, confirm: bool = True) -> bool:
-    """Fetch origin, then fast-forward and publish what is only behind origin/main.
+@dataclass(frozen=True)
+class SyncPlan:
+    status: SyncStatus
+    steps: tuple[SyncStep, ...]
+    preview: history.Preview
+    # origin/BRANCH moves the plan publishes, so Undo can take them back.
+    pushes: tuple[history.RefMove, ...] = ()
 
-    Nothing that exists in a single place is lost: a local main holding its
-    own commits is kept in a backup branch first, and only fast-forwards are
-    pushed. Publishing or moving main away from its commits is confirmed
-    unless *confirm* is false.
-    """
-    bp.logger.log("cyan", _("Running git fetch --prune origin..."))
+    @property
+    def changes_files(self) -> bool:
+        return bool(self.preview.files)
+
+
+_STEP_ICONS = {
+    "merge": "go-next-symbolic",
+    "fetch": "go-next-symbolic",
+    "branch": "drive-harddisk-symbolic",
+    "push": "network-server-symbolic",
+}
+
+
+def _sha_of(ref: str) -> str:
+    return overview._output(["git", "rev-parse", "--verify", "--quiet", ref])
+
+
+def _plan_preview(status: SyncStatus, steps: list[SyncStep]) -> tuple[history.Preview, tuple[history.RefMove, ...]]:
+    """Describe what the steps change: the branch's files, the local main, and origin."""
+    branch = status.branch
+    branch_before = _sha_of(f"refs/heads/{branch}")
+    branch_after = branch_before
+    pushes = []
+    for step in steps:
+        if step.argv[:3] == ("git", "merge", "--ff-only"):
+            branch_after = _sha_of(step.argv[3]) or branch_after
+        elif step.argv[:2] == ("git", "push"):
+            pushes.append(history.RefMove(branch, _sha_of(f"refs/remotes/origin/{branch}"), branch_after))
+    files = history.file_changes(branch_before, branch_after)
+    notices = list(history._deletion_notice(files))
+    if files:
+        notices.append(
+            (
+                "warning",
+                _(
+                    "These changes come from origin/main. If main dropped work of yours, it disappears from {0} too."
+                ).format(branch),
+            )
+        )
+    if pushes:
+        notices.append(("info", _("{0} is published on GitHub at the end.").format(branch)))
+    notices.append(("info", _("Undo is available afterwards.")))
+    preview = history.Preview(
+        heading=_("Synchronize with origin/main?"),
+        summary=_("Your branch and the local main move forward to origin/main; nothing is merged here."),
+        steps=tuple(
+            history.PreviewStep(_STEP_ICONS.get(step.argv[1], "go-next-symbolic"), step.description, step.command)
+            for step in steps
+        ),
+        files_title=_("Files that change in {0}").format(branch),
+        files=files,
+        notices=tuple(notices),
+    )
+    return preview, tuple(pushes)
+
+
+def prepare_sync() -> tuple[SyncPlan | None, str]:
+    """Fetch origin and plan the sync; None with the reason when there is nothing to plan."""
     fetched, error = overview.fetch_origin()
     if not fetched:
-        bp.logger.log("red", _("git fetch failed: {0}").format(error or _("unknown error")))
-        return False
-
+        return None, _("git fetch failed: {0}").format(error or _("unknown error"))
     status = capture_sync_status()
     if status.state == UNAVAILABLE:
-        bp.logger.log("yellow", status.reason)
-        return False
+        return None, status.reason
     steps = plan_sync(status)
-    if not steps:
-        _log_verdict(bp, status)
+    preview, pushes = _plan_preview(status, steps)
+    return SyncPlan(status, tuple(steps), preview, pushes), ""
+
+
+def execute_sync(bp, plan: SyncPlan) -> bool:
+    """Run a reviewed plan and keep a checkpoint, so Undo can take it back."""
+    if not plan.steps:
+        _log_verdict(bp, plan.status)
         return True
-
-    if confirm and any(step.needs_confirmation for step in steps):
-        # Each command follows the sentence that says what it changes.
-        lines = [
-            _("Synchronize with origin/main?"),
-            _("Only fast-forwards run, so nothing is merged and no work is discarded."),
-        ]
-        for step in steps:
-            lines.extend([step.description, step.command])
-        question = "\n".join(lines)
-        if not bp.menu.confirm(StructuredConfirmation(question), default_yes=True):
-            bp.logger.log("yellow", _("Synchronization cancelled; only git fetch ran."))
-            return False
-
-    for step in steps:
+    before = history.branch_heads()
+    pushed = []
+    for step in plan.steps:
         bp.logger.log("white", step.description)
         bp.logger.log("dim", f"  {step.command}")
         result = _run_step(step)
@@ -360,7 +409,40 @@ def sync_with_main(bp, *, confirm: bool = True) -> bool:
                     "yellow",
                     _("If Git mentions local changes, commit or stash them and synchronize again."),
                 )
+            history.record(_("Synchronize with main"), before, tuple(pushed))
             return False
-
+        if step.argv[:2] == ("git", "push"):
+            pushed.extend(plan.pushes)
+    history.record(_("Synchronize with main"), before, tuple(pushed))
     _log_verdict(bp, capture_sync_status())
     return True
+
+
+# Marks a callable that records its own checkpoint, so the window does not add one.
+execute_sync.records_undo = True
+
+
+def sync_with_main(bp, *, confirm: bool = True) -> bool:
+    """Fetch origin, show what changes, then fast-forward and publish what is only behind origin/main.
+
+    Nothing that exists in a single place is lost: a local main holding its
+    own commits is kept in a backup branch first, and only fast-forwards are
+    pushed. Any step that publishes, moves main away from its commits, or
+    changes the files of the checked-out branch is confirmed unless *confirm*
+    is false.
+    """
+    bp.logger.log("cyan", _("Running git fetch --prune origin..."))
+    plan, reason = prepare_sync()
+    if plan is None:
+        bp.logger.log("red" if reason.startswith("git fetch") else "yellow", reason)
+        return False
+    if not plan.steps:
+        _log_verdict(bp, plan.status)
+        return True
+    needs_question = plan.changes_files or any(step.needs_confirmation for step in plan.steps)
+    if confirm and needs_question:
+        question = history.preview_text(plan.preview)
+        if not bp.menu.confirm(StructuredConfirmation(question), default_yes=True):
+            bp.logger.log("yellow", _("Synchronization cancelled; only git fetch ran."))
+            return False
+    return execute_sync(bp, plan)

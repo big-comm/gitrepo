@@ -318,6 +318,8 @@ class MainWindow(RepositoryActionsMixin, BranchActionsMixin, Adw.ApplicationWind
         self.branch_widget.connect("delete-branch-requested", self.on_delete_branch_requested)
         self.branch_widget.connect("fetch-requested", self.on_fetch_requested)
         self.branch_widget.connect("sync-requested", self.on_sync_requested)
+        self.branch_widget.connect("go-back-requested", self.on_go_back_requested)
+        self.branch_widget.connect("undo-requested", self.on_undo_requested)
 
         # Advanced widget signals
         self.advanced_widget.connect("cleanup-branches-requested", self.on_cleanup_branches_requested)
@@ -412,6 +414,14 @@ class MainWindow(RepositoryActionsMixin, BranchActionsMixin, Adw.ApplicationWind
         """Show success toast message"""
         toast = Adw.Toast.new(message)
         toast.set_timeout(3)
+        self.toast_overlay.add_toast(toast)
+
+    def show_undo_toast(self, checkpoint):
+        """Say an operation moved a branch and offer to take it back."""
+        toast = Adw.Toast.new(_("“{0}” finished").format(checkpoint.operation))
+        toast.set_timeout(8)
+        toast.set_button_label(_("Undo"))
+        toast.connect("button-clicked", lambda _toast: self.on_undo_requested())
         self.toast_overlay.add_toast(toast)
 
     def show_error_toast(self, message):

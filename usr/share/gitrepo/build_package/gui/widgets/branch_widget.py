@@ -167,6 +167,8 @@ class BranchWidget(Gtk.Box):
         "delete-branch-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
         "fetch-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
         "sync-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "go-back-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "undo-requested": (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
     def __init__(self, build_package):
@@ -295,6 +297,33 @@ class BranchWidget(Gtk.Box):
         self.sync_group.add(all_list)
         self._all_branch_rows = []
         page_content.append(self.sync_group)
+
+        # Take a branch back: to a chosen commit, or to before the last operation.
+        history_group = Adw.PreferencesGroup()
+        history_group.set_title(_("Branch history"))
+        history_group.set_description(
+            _("Every change is shown before it runs, and the commits that leave the branch can be brought back.")
+        )
+        self.go_back_row = self._manage_row(
+            _("Go back to a commit"),
+            _("Pick an earlier commit of this branch and see what changes before moving to it."),
+            _("Choose…"),
+            "document-open-recent-symbolic",
+            "",
+            lambda _button: self.emit("go-back-requested"),
+        )
+        history_group.add(self.go_back_row)
+        self.undo_row = self._manage_row(
+            _("Undo the last operation"),
+            _("Nothing to undo yet."),
+            _("Undo…"),
+            "edit-undo-symbolic",
+            "",
+            lambda _button: self.emit("undo-requested"),
+        )
+        self.undo_button = self.undo_row.get_activatable_widget()
+        history_group.add(self.undo_row)
+        page_content.append(history_group)
 
         # Branch list
         branches_group = Adw.PreferencesGroup()
@@ -501,6 +530,7 @@ class BranchWidget(Gtk.Box):
             )
         self.update_combo_boxes(all_branches)
         self._apply_sync(snapshot.sync_status)
+        self._apply_undo(snapshot)
         self._apply_overview(snapshot.branch_overview)
         self._block_selection_signal = False
 
@@ -527,6 +557,21 @@ class BranchWidget(Gtk.Box):
         for css_class in _TONE_CLASSES.values():
             self.freshness_label.remove_css_class(css_class)
         self.freshness_label.add_css_class(_TONE_CLASSES[freshness_tone])
+
+    def _apply_undo(self, snapshot):
+        checkpoint = getattr(snapshot, "undo_checkpoint", None)
+        if checkpoint is None:
+            self.undo_row.set_subtitle(
+                GLib.markup_escape_text(getattr(snapshot, "undo_reason", "") or _("Nothing to undo yet."))
+            )
+            self.undo_button.set_sensitive(False)
+            return
+        self.undo_row.set_subtitle(
+            GLib.markup_escape_text(
+                _("“{0}”, {1}").format(checkpoint.operation, overview_core.describe_age(checkpoint.at))
+            )
+        )
+        self.undo_button.set_sensitive(True)
 
     def _apply_overview(self, overview):
         for row in self._all_branch_rows:

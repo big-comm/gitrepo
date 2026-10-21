@@ -207,16 +207,157 @@ class BranchActionsMixin:
         threading.Thread(target=fetch, daemon=True).start()
 
     def on_sync_requested(self, widget):
-        """Align the branch, its origin copy and the local main with origin/main."""
+        """Fetch, show what synchronizing changes, and run it only once reviewed."""
+        import threading
+
+        from gitrepo.build_package.core.main_sync import prepare_sync
+
+        widget.set_fetching(True)
+
+        def prepare():
+            plan, reason = prepare_sync()
+            GLib.idle_add(review, plan, reason)
+
+        def review(plan, reason):
+            widget.set_fetching(False)
+            if plan is None:
+                self.show_error_dialog(reason)
+            elif not plan.steps:
+                self.show_toast(_("Everything is in sync"))
+            else:
+                self._review_sync(plan)
+            self.refresh_all_widgets()
+            return False
+
+        threading.Thread(target=prepare, daemon=True).start()
+
+    def _review_sync(self, plan):
         from functools import partial
 
-        from gitrepo.build_package.core.main_sync import sync_with_main
+        from gitrepo.build_package.core.main_sync import execute_sync
 
-        self.operation_runner.run_with_progress(
-            partial(sync_with_main, self.build_package),
-            _("Synchronizing with main"),
-            _("git fetch, then moving copies forward to origin/main..."),
+        from .dialogs.change_preview_dialog import ChangePreviewDialog
+
+        def run(_include_remote):
+            self.operation_runner.run_with_progress(
+                partial(execute_sync, self.build_package, plan),
+                _("Synchronizing with main"),
+                _("git fetch, then moving copies forward to origin/main..."),
+            )
+
+        ChangePreviewDialog(plan.preview, _("Synchronize"), run).present(self)
+
+    def on_go_back_requested(self, widget):
+        """List this branch's commits; the chosen one is previewed before the branch moves."""
+        from gitrepo.build_package.core import history
+
+        allowed, reason = history.can_go_back(history.current_branch())
+        if not allowed:
+            self.show_error_toast(reason)
+            return
+        commits = history.recent_commits()
+        if len(commits) < 2:
+            self.show_error_toast(_("This branch has no earlier commit to go back to."))
+            return
+        self._show_commit_picker(commits)
+
+    def _show_commit_picker(self, commits):
+        from gitrepo.build_package.core import branch_overview, history
+
+        dialog = Adw.Dialog()
+        dialog.set_title(_("Go back to a commit"))
+        dialog.set_content_width(640)
+        # As tall as the list needs, up to a limit; then the list scrolls.
+        dialog.set_content_height(min(560, 150 + 56 * len(commits)))
+        toolbar = Adw.ToolbarView()
+        toolbar.add_top_bar(Adw.HeaderBar())
+        body = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        body.set_margin_start(18)
+        body.set_margin_end(18)
+        body.set_margin_bottom(18)
+        intro = Gtk.Label(
+            label=_("{0} is on the first commit below. Choose the one it should go back to.").format(
+                history.current_branch()
+            ),
+            xalign=0,
+            wrap=True,
         )
+        intro.add_css_class("dim-label")
+        body.append(intro)
+        listbox = Gtk.ListBox()
+        listbox.set_selection_mode(Gtk.SelectionMode.NONE)
+        listbox.add_css_class("boxed-list")
+        for index, commit in enumerate(commits):
+            row = Adw.ActionRow()
+            row.set_title(GLib.markup_escape_text(commit["subject"]))
+            row.set_subtitle(
+                GLib.markup_escape_text(
+                    f"{commit['short']} · {commit['author']} · {branch_overview.describe_age(commit['time'])}"
+                )
+            )
+            if index == 0:
+                pill = Gtk.Label(label=_("Current"))
+                pill.add_css_class("state-pill")
+                pill.add_css_class("status-ok")
+                pill.set_valign(Gtk.Align.CENTER)
+                row.add_suffix(pill)
+            else:
+                row.set_activatable(True)
+                row.add_suffix(Gtk.Image.new_from_icon_name("go-next-symbolic"))
+                row.connect("activated", lambda _row, sha=commit["sha"]: (dialog.close(), self._review_go_back(sha)))
+            listbox.append(row)
+        scroller = Gtk.ScrolledWindow()
+        scroller.set_vexpand(True)
+        scroller.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        scroller.set_child(listbox)
+        body.append(scroller)
+        toolbar.set_content(body)
+        dialog.set_child(toolbar)
+        dialog.present(self)
+
+    def _review_go_back(self, sha):
+        from functools import partial
+
+        from gitrepo.build_package.core import history
+
+        from .dialogs.change_preview_dialog import ChangePreviewDialog
+
+        preview = history.preview_go_back(sha)
+
+        def run(include_remote):
+            operation = partial(history.go_back, self.build_package, sha, include_remote=include_remote)
+            operation.records_undo = True
+            self.operation_runner.run_with_progress(
+                operation,
+                _("Going back to a commit"),
+                _("Moving {0} to {1}...").format(preview.extra["branch"], sha[:8]),
+            )
+
+        ChangePreviewDialog(preview, _("Go back"), run).present(self)
+
+    def on_undo_requested(self, widget=None):
+        """Show what Undo takes back, then do it once confirmed."""
+        from functools import partial
+
+        from gitrepo.build_package.core import history
+
+        from .dialogs.change_preview_dialog import ChangePreviewDialog
+
+        checkpoint, reason = history.latest_checkpoint()
+        if checkpoint is None:
+            self.show_error_toast(reason)
+            self.refresh_all_widgets()
+            return
+
+        def run(include_remote):
+            operation = partial(history.undo, self.build_package, checkpoint, include_remote=include_remote)
+            # Undo is not itself undoable; the runner must not record it.
+            operation.records_undo = True
+            self.operation_runner.run_with_progress(
+                operation, _("Undoing"), _("Taking back “{0}”...").format(checkpoint.operation)
+            )
+
+        ChangePreviewDialog(history.preview_undo(checkpoint), _("Undo"), run).present(self)
 
     def on_merge_requested(self, widget, source_branch, target_branch, auto_merge):
         """Handle merge request - create PR or create branch if target doesn't exist"""

@@ -93,6 +93,31 @@ _PREMIUM_CSS = f"""
         .state-pill.status-error {{ background-color: alpha(@error_color, 0.16); }}
         .state-pill.status-accent {{ background-color: alpha(@accent_color, 0.16); }}
 
+        .change-preview-row {{
+            padding: 10px 14px;
+        }}
+
+        .change-preview-command {{
+            font-family: monospace;
+            font-size: 0.9em;
+            opacity: 0.82;
+        }}
+
+        .change-preview-notice {{
+            padding: 10px 14px;
+            border-radius: 10px;
+        }}
+
+        .change-preview-notice.warning {{
+            background-color: alpha(@warning_color, 0.14);
+            color: @warning_color;
+            font-weight: 600;
+        }}
+
+        .change-preview-notice.info {{
+            background-color: alpha(@accent_color, 0.10);
+        }}
+
         .page-footer-bar {{
             padding: 10px 24px;
             border-top: 1px solid alpha(currentColor, 0.10);

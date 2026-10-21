@@ -490,6 +490,39 @@ class OperationRunner:
         dialog.add_response("close", _("Close"))
         dialog.present(self.parent)
 
+    def _with_checkpoint(self, operation_func, title):
+        """Keep an undo checkpoint for whatever branch heads the operation moves."""
+        self._last_checkpoint = None
+        inner = getattr(operation_func, "func", operation_func)
+        records_itself = getattr(operation_func, "records_undo", False) or getattr(inner, "records_undo", False)
+
+        def recorded(*args, **kwargs):
+            from gitrepo.build_package.core import history
+
+            before = history.branch_heads()
+            known = {checkpoint.id for checkpoint in history.load_checkpoints()}
+            try:
+                return operation_func(*args, **kwargs)
+            finally:
+                # Also after a failure: a journey that stopped halfway may have moved a branch.
+                # A step that kept its own checkpoint (with what it published) wins over a generic one.
+                fresh = [checkpoint for checkpoint in history.load_checkpoints() if checkpoint.id not in known]
+                if fresh:
+                    self._last_checkpoint = fresh[-1]
+                elif not records_itself:
+                    self._last_checkpoint = history.record(title, before)
+
+        return recorded
+
+    def _offer_undo(self) -> bool:
+        """Show the undo toast when the operation just moved a branch; True when shown."""
+        checkpoint = getattr(self, "_last_checkpoint", None)
+        self._last_checkpoint = None
+        if checkpoint is None or not hasattr(self.parent, "show_undo_toast"):
+            return False
+        self.parent.show_undo_toast(checkpoint)
+        return True
+
     @property
     def is_busy(self) -> bool:
         """Whether a repository journey is running in this window."""
@@ -547,7 +580,7 @@ class OperationRunner:
             if hasattr(obj, "set_status_callback"):
                 obj.set_status_callback(dialog.set_status)
 
-        dialog.run_operation(operation_func, *args, **kwargs)
+        dialog.run_operation(self._with_checkpoint(operation_func, title), *args, **kwargs)
 
         return dialog
 
@@ -594,7 +627,7 @@ class OperationRunner:
             self._completion_callback = None
             callback(result)
         if self.parent:
-            if not continues_to_review:
+            if not continues_to_review and not self._offer_undo():
                 self.parent.show_toast(_("Operation completed successfully"))
 
             if not continues_to_review and not self.parent.is_active():
@@ -613,6 +646,7 @@ class OperationRunner:
             # A journey that stopped halfway may still have moved refs.
             if hasattr(self.parent, "refresh_all_widgets"):
                 self.parent.refresh_all_widgets()
+            self._offer_undo()
             # Send system notification if window is not focused
             if not self.parent.is_active():
                 if hasattr(self.parent, "send_system_notification"):
