@@ -38,7 +38,8 @@ _cache_lock = threading.Lock()
 
 def database_url(branch: str) -> str:
     """Return the package database of one community channel (stable, testing, ...)."""
-    url = f"https://{COMMUNITY_REPO_HOST}/{branch}/x86_64/community-{branch}.db"
+    # Served at <host>/<section>/<arch>, the $repo/$arch layout of pacman.conf.
+    url = f"https://{COMMUNITY_REPO_HOST}/community-{branch}/x86_64/community-{branch}.db"
     return validate_https_url(url, {COMMUNITY_REPO_HOST})
 
 
