@@ -118,6 +118,36 @@ _PREMIUM_CSS = f"""
             background-color: alpha(@accent_color, 0.10);
         }}
 
+        .destination-card {{
+            padding: 14px 16px;
+            border-radius: {CARD_RADIUS};
+            border: 2px solid alpha(currentColor, 0.10);
+            background-color: @card_bg_color;
+        }}
+
+        .destination-card.selected {{
+            border-color: @accent_color;
+            background-color: alpha(@accent_bg_color, 0.14);
+        }}
+
+        .destination-check {{
+            min-width: 22px;
+            min-height: 22px;
+            border-radius: 999px;
+            background-color: @accent_bg_color;
+            color: @accent_fg_color;
+        }}
+
+        .destination-check.unmarked {{
+            background-color: transparent;
+            color: transparent;
+            border: 2px solid alpha(@window_fg_color, 0.35);
+        }}
+
+        .destination-summary {{
+            font-weight: 600;
+        }}
+
         .page-footer-bar {{
             padding: 10px 24px;
             border-top: 1px solid alpha(currentColor, 0.10);

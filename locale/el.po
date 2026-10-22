@@ -8078,11 +8078,6 @@ msgstr "Ρύθμιση οργανισμού GitHub (προεπιλογή: ο π�
 #, python-brace-format
 msgid "{0} does not publish to the {1} repository."
 msgstr "Ο οργανισμός {0} δεν δημοσιεύει στο αποθετήριο {1}."
-# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 383
-#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:383
-#, python-brace-format
-msgid "github.com/{0} builds and publishes the package. Kept as the default for the next builds."
-msgstr "Το github.com/{0} δημιουργεί και δημοσιεύει το πακέτο. Διατηρείται ως προεπιλογή για τις επόμενες δημιουργίες."
 # File: usr/share/gitrepo/build_package/gui/main_window.py, line: 518
 #: usr/share/gitrepo/build_package/gui/main_window.py:518
 #, python-brace-format
@@ -8508,3 +8503,76 @@ msgstr "Οργανισμός όπου δημιουργούνται τα πακέ
 #, python-brace-format
 msgid "Saved as {0}"
 msgstr "Αποθηκευμένο ως {0}"
+# File: usr/share/gitrepo/build_package/core/build_package.py, line: 383
+#: usr/share/gitrepo/build_package/core/build_package.py:383
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:424
+msgid "Where to publish"
+msgstr "Πού θα δημοσιευτεί"
+# File: usr/share/gitrepo/build_package/core/destination.py, line: 104
+#: usr/share/gitrepo/build_package/core/destination.py:104
+#, python-brace-format
+msgid "{0} and {1}"
+msgstr "{0} και {1}"
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 228
+#: usr/share/gitrepo/build_package/core/package_operations.py:228
+#, python-brace-format
+msgid "→ {0} (github.com/{1})"
+msgstr "→ {0} (github.com/{1})"
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 236
+#: usr/share/gitrepo/build_package/core/package_operations.py:236
+#, python-brace-format
+msgid "{0}: build started"
+msgstr "{0}: η δημιουργία ξεκίνησε"
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 236
+#: usr/share/gitrepo/build_package/core/package_operations.py:236
+#, python-brace-format
+msgid "{0}: build not started"
+msgstr "{0}: η δημιουργία δεν ξεκίνησε"
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 278
+#: usr/share/gitrepo/build_package/core/package_operations.py:278
+#, python-brace-format
+msgid "No access token is saved for {0}; save one in Settings to publish there too."
+msgstr "Δεν υπάρχει αποθηκευμένο διακριτικό πρόσβασης για το {0}· αποθηκεύστε ένα στις Ρυθμίσεις για να δημοσιεύετε και εκεί."
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 280
+#: usr/share/gitrepo/build_package/core/package_operations.py:280
+msgid "Nothing was committed, pushed or built."
+msgstr "Δεν έγινε commit, push ή δημιουργία τίποτα."
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 309
+#: usr/share/gitrepo/build_package/core/package_operations.py:309
+#: usr/share/gitrepo/build_package/core/package_operations.py:339
+#, python-brace-format
+msgid "Publish to: {0}"
+msgstr "Δημοσίευση σε: {0}"
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 80
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:80
+msgid "Principal"
+msgstr "Κύριος"
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 82
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:82
+msgid "Also publishes"
+msgstr "Δημοσιεύει επίσης"
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 84
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:84
+msgid "Token saved"
+msgstr "Διακριτικό αποθηκεύτηκε"
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 85
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:85
+msgid "Uses the default token"
+msgstr "Χρήση προεπιλεγμένου διακριτικού"
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 86
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:86
+msgid "No token"
+msgstr "Χωρίς διακριτικό"
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 426
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:426
+msgid "Mark one organization or both. The principal one builds first; one always stays marked."
+msgstr "Επιλέξτε έναν οργανισμό ή και τους δύο. Ο κύριος δημιουργεί πρώτος· πάντα μένει επιλεγμένος τουλάχιστον ένας."
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 468
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:468
+#, python-brace-format
+msgid "Will be published by: {0}"
+msgstr "Θα δημοσιευτεί από: {0}"
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 493
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:493
+msgid "At least one organization has to publish the package."
+msgstr "Τουλάχιστον ένας οργανισμός πρέπει να δημοσιεύσει το πακέτο."

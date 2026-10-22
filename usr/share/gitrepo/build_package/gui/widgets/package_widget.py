@@ -2,15 +2,18 @@
 # gui/widgets/package_widget.py - Package generation widget for GUI interface
 #
 
+import threading
+
 import gi
 
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
-from gi.repository import Gtk, Adw, GObject
+from gi.repository import Gtk, Adw, GLib, GObject
 from gitrepo.common.translation import _
-from gitrepo.build_package.core.destination import remember_destination
-from gitrepo.build_package.core.config import DEFAULT_ORGANIZATION, DESTINATION_NAMES, VALID_ORGANIZATIONS
+from gitrepo.build_package.core.destination import describe_targets, remember_targets
+from gitrepo.build_package.core.token_store import TokenStore
+from gitrepo.build_package.core.config import DESTINATION_NAMES, VALID_ORGANIZATIONS
 
 from gitrepo.common.help_popover import help_button
 from gitrepo.common.page_layout import page_body
@@ -19,6 +22,71 @@ from gitrepo.common.page_hero import (
     git_command_description,
     github_action_description,
 )
+
+
+class _DestinationCard(Gtk.ToggleButton):
+    """One organization that can build and publish the package."""
+
+    def __init__(self, organization):
+        super().__init__()
+        self.organization = organization
+        self.add_css_class("destination-card")
+        name = DESTINATION_NAMES.get(organization, organization)
+        self.update_property([Gtk.AccessibleProperty.LABEL], [name])
+
+        content = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
+        self.check = Gtk.Image.new_from_icon_name("object-select-symbolic")
+        self.check.add_css_class("destination-check")
+        self.check.set_valign(Gtk.Align.START)
+        self.check.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
+        content.append(self.check)
+
+        text = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
+        text.set_hexpand(True)
+        title = Gtk.Label(label=name, xalign=0)
+        title.add_css_class("heading")
+        text.append(title)
+        address = Gtk.Label(label=f"github.com/{organization}", xalign=0)
+        address.add_css_class("dim-label")
+        address.add_css_class("caption")
+        text.append(address)
+        self.pills = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+        self.pills.set_margin_top(6)
+        text.append(self.pills)
+        content.append(text)
+        self.set_child(content)
+
+    @staticmethod
+    def _pill(text, css_class):
+        pill = Gtk.Label(label=text)
+        pill.add_css_class("state-pill")
+        pill.add_css_class(css_class)
+        return pill
+
+    def show_state(self, marked, role, token_state):
+        self.set_active(marked)
+        if marked:
+            self.add_css_class("selected")
+        else:
+            self.remove_css_class("selected")
+        # An empty circle on an unmarked card says it can be marked.
+        if marked:
+            self.check.remove_css_class("unmarked")
+        else:
+            self.check.add_css_class("unmarked")
+        while (child := self.pills.get_first_child()) is not None:
+            self.pills.remove(child)
+        if role == "principal":
+            self.pills.append(self._pill(_("Principal"), "status-accent"))
+        elif role == "also":
+            self.pills.append(self._pill(_("Also publishes"), "status-ok"))
+        tokens = {
+            "saved": (_("Token saved"), "status-ok"),
+            "default": (_("Uses the default token"), "dim-label"),
+            "missing": (_("No token"), "status-warning"),
+        }
+        if token_state in tokens:
+            self.pills.append(self._pill(*tokens[token_state]))
 
 
 class PackageWidget(Gtk.Box):
@@ -138,23 +206,10 @@ class PackageWidget(Gtk.Box):
 
         self.workflow_content.append(status_group)
 
-        # Which organization's robot builds and publishes. It heads the
-        # target repository group: the list holds only the short names, and the
-        # subtitle spells out the GitHub organization in full, wrapping instead
-        # of cutting it off.
-        self.destination_row = Adw.ComboRow()
-        self.destination_row.set_title(_("Organization"))
-        self.destination_row.set_subtitle_lines(0)
-        self._destinations = list(VALID_ORGANIZATIONS)
-        names = Gtk.StringList()
-        for organization in self._destinations:
-            names.append(DESTINATION_NAMES.get(organization, organization))
-        self.destination_row.set_model(names)
-        current = getattr(self.build_package, "organization", DEFAULT_ORGANIZATION)
-        if current in self._destinations:
-            self.destination_row.set_selected(self._destinations.index(current))
-        self._describe_destination()
-        self.destination_row.connect("notify::selected", self._on_destination_changed)
+        # Where the package is published: one card per organization, at least
+        # one always marked. The principal one (first) is the remembered
+        # destination; the other card adds a second build of the same commit.
+        self.workflow_content.append(self._build_destination_group())
 
         # Package type selection with radio buttons style
         package_type_group = Adw.PreferencesGroup()
@@ -172,7 +227,6 @@ class PackageWidget(Gtk.Box):
         package_type_group.set_description(
             github_action_description(_("build the package and publish it to the selected repository"))
         )
-        package_type_group.add(self.destination_row)
 
         # Package types
         self.package_types = [
@@ -365,38 +419,88 @@ class PackageWidget(Gtk.Box):
 
         self.sync_feature_enabled()
 
-    def sync_destination(self):
-        """Show the destination of the repository the window now displays, without saving it as a choice."""
-        organization = getattr(self.build_package, "organization", DEFAULT_ORGANIZATION)
-        if organization in self._destinations:
-            self._syncing_destination = True
-            self.destination_row.set_selected(self._destinations.index(organization))
-            self._syncing_destination = False
-        self._describe_destination()
-        self._apply_destination_branches()
-
-    def _on_destination_changed(self, combo, _pspec):
-        if getattr(self, "_syncing_destination", False):
-            return
-        selected = combo.get_selected()
-        if selected >= len(self._destinations):
-            return
-        organization = self._destinations[selected]
-        if not self.build_package.set_organization(organization):
-            return
-        remember_destination(self.settings, organization)
-        self._describe_destination()
-        self._apply_destination_branches()
-
-    def _describe_destination(self):
-        selected = self.destination_row.get_selected()
-        if selected >= len(self._destinations):
-            return
-        self.destination_row.set_subtitle(
-            _("github.com/{0} builds and publishes the package. Kept as the default for the next builds.").format(
-                self._destinations[selected]
-            )
+    def _build_destination_group(self):
+        group = Adw.PreferencesGroup()
+        group.set_title(_("Where to publish"))
+        group.set_description(
+            _("Mark one organization or both. The principal one builds first; one always stays marked.")
         )
+        cards = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12, homogeneous=True)
+        self._destination_cards = {}
+        self._token_names = None
+        for organization in VALID_ORGANIZATIONS:
+            card = _DestinationCard(organization)
+            card.connect("toggled", self._on_card_toggled)
+            self._destination_cards[organization] = card
+            cards.append(card)
+        group.add(cards)
+        self.destination_summary = Gtk.Label(xalign=0, wrap=True)
+        self.destination_summary.add_css_class("destination-summary")
+        self.destination_summary.set_margin_top(10)
+        group.add(self.destination_summary)
+        self._render_destinations()
+        self._load_token_names()
+        return group
+
+    def _load_token_names(self):
+        """Read which tokens are saved, off the main loop, to tag each card."""
+
+        def worker():
+            names = [name.lower() for name, _token in TokenStore.read_all()]
+            GLib.idle_add(self._set_token_names, names)
+
+        threading.Thread(target=worker, daemon=True).start()
+
+    def _set_token_names(self, names):
+        self._token_names = names
+        self._render_destinations()
+        return False
+
+    def _render_destinations(self):
+        targets = self.build_package.publish_targets() if hasattr(self.build_package, "publish_targets") else []
+        self._syncing_destination = True
+        for organization, card in self._destination_cards.items():
+            role = ""
+            if organization in targets:
+                role = "principal" if targets[0] == organization else "also"
+            card.show_state(organization in targets, role, self._token_state(organization))
+        self._syncing_destination = False
+        self.destination_summary.set_label(_("Will be published by: {0}").format(describe_targets(targets)))
+        # The cards are built before the repository list, which applies them itself once it exists.
+        if hasattr(self, "_package_type_rows"):
+            self._apply_destination_branches()
+
+    def _token_state(self, organization):
+        if self._token_names is None:
+            return ""
+        if organization in self._token_names:
+            return "saved"
+        return "default" if "default" in self._token_names else "missing"
+
+    def _on_card_toggled(self, card):
+        if self._syncing_destination:
+            return
+        targets = list(self.build_package.publish_targets())
+        if card.get_active():
+            if card.organization not in targets:
+                targets.append(card.organization)
+        elif card.organization in targets:
+            if len(targets) == 1:
+                # The last marked card stays marked: something has to build.
+                self._render_destinations()
+                root = self.get_root()
+                if hasattr(root, "show_error_toast"):
+                    root.show_error_toast(_("At least one organization has to publish the package."))
+                return
+            targets.remove(card.organization)
+        if self.build_package.set_publish_targets(targets):
+            remember_targets(self.settings, targets)
+        self._render_destinations()
+
+    def sync_destination(self):
+        """Show the destinations of the repository the window now displays, without saving them."""
+        self._render_destinations()
+        self._load_token_names()
 
     def _apply_destination_branches(self):
         """Show only the repositories the destination publishes to."""

@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from gitrepo.common.translation import _
 
-from .config import DEFAULT_ORGANIZATION, VALID_ORGANIZATIONS
+from .config import DEFAULT_ORGANIZATION, DESTINATION_NAMES, VALID_ORGANIZATIONS
 from .git_utils import GitUtils
 
 
@@ -48,6 +48,31 @@ def remember_destination(settings, organization: str) -> bool:
     return settings.set("build_destination", organization)
 
 
+def resolve_also(settings, primary: str) -> list[str]:
+    """Organizations this repository also publishes to, after *primary*."""
+    key = repository_key()
+    if not key:
+        return []
+    also = settings.get("build_also_destinations", {}).get(key, [])
+    return [organization for organization in VALID_ORGANIZATIONS if organization in also and organization != primary]
+
+
+def remember_targets(settings, targets: list[str]) -> bool:
+    """Keep the principal destination and the extra ones for this repository."""
+    targets = [organization for organization in dict.fromkeys(targets) if organization in VALID_ORGANIZATIONS]
+    if not targets or not remember_destination(settings, targets[0]):
+        return False
+    key = repository_key()
+    if not key:
+        return True
+    also = dict(settings.get("build_also_destinations", {}))
+    if targets[1:]:
+        also[key] = targets[1:]
+    else:
+        also.pop(key, None)
+    return settings.set("build_also_destinations", also)
+
+
 # The name a token is saved under when no organization-specific one exists.
 DEFAULT_TOKEN_NAME = "default"
 
@@ -70,3 +95,11 @@ def token_source(organization: str, entries: list[tuple[str, str]]) -> str:
     if organization.lower() in names:
         return organization.lower()
     return DEFAULT_TOKEN_NAME if DEFAULT_TOKEN_NAME in names else ""
+
+
+def describe_targets(organizations: list[str]) -> str:
+    """Name the organizations that publish, as a reader would say it: "BigCommunity and BigLinux"."""
+    names = [DESTINATION_NAMES.get(org, org) for org in organizations]
+    if len(names) == 2:
+        return _("{0} and {1}").format(*names)
+    return ", ".join(names)

@@ -25,7 +25,7 @@ from .conflict_resolver import ConflictResolver
 from .git_utils import GitUtils
 from .github_api import GitHubAPI
 from .settings import Settings
-from .destination import resolve_destination
+from .destination import resolve_also, resolve_destination
 from .settings_menu import SettingsMenu
 from gitrepo.common.translation import _
 
@@ -63,6 +63,10 @@ class BuildPackage:
             self.organization = resolve_destination(self.settings)
             self.repo_workflow = f"{self.organization}/build-package"
             self.args.organization = self.organization
+        # Extra organizations that publish the same build; --organization means just that one.
+        self.also_publish = (
+            [] if self._organization_from_command_line else resolve_also(self.settings, self.organization)
+        )
         self.conflict_resolver = None  # Initialize after menu is ready
         self.settings_menu = None
 
@@ -116,6 +120,7 @@ class BuildPackage:
         if not self._organization_from_command_line:
             self.set_organization(resolve_destination(self.settings))
             self.args.organization = self.organization
+            self.also_publish = resolve_also(self.settings, self.organization)
 
     def set_organization(self, organization: str) -> bool:
         """Change where the next build runs and publishes (big-comm or biglinux).
@@ -131,9 +136,25 @@ class BuildPackage:
             self._github_user_name = ""
         return True
 
+    def publish_targets(self) -> list[str]:
+        """Organizations that build and publish, the principal first."""
+        return [self.organization, *(org for org in getattr(self, "also_publish", []) if org != self.organization)]
+
+    def set_publish_targets(self, targets: list[str]) -> bool:
+        """Make *targets[0]* the principal destination and publish to the rest too."""
+        targets = list(dict.fromkeys(targets))
+        if not targets or not self.set_organization(targets[0]):
+            return False
+        self.also_publish = [org for org in targets[1:] if org in VALID_ORGANIZATIONS]
+        return True
+
     def branch_types(self) -> tuple:
-        """Repositories the current destination publishes to."""
-        return DESTINATION_BRANCHES.get(self.organization, ("testing", "stable", "extra"))
+        """Repositories every chosen destination publishes to."""
+        everywhere = ("testing", "stable", "extra")
+        for organization in self.publish_targets():
+            allowed = DESTINATION_BRANCHES.get(organization, everywhere)
+            everywhere = tuple(kind for kind in everywhere if kind in allowed)
+        return everywhere
 
     @property
     def github_user_name(self) -> str:
@@ -347,7 +368,29 @@ class BuildPackage:
         commit_and_push(self, push=False)
         return True
 
+    def _choose_publish_targets(self) -> bool:
+        """Ask which organizations publish: the principal alone, the other alone, or both."""
+        from .destination import describe_targets, remember_targets
+
+        if self._organization_from_command_line:
+            return True
+        principal = self.organization
+        other = next((org for org in VALID_ORGANIZATIONS if org != principal), "")
+        choices = [[principal], [other], [principal, other]] if other else [[principal]]
+        labels = [describe_targets(choice) for choice in choices] + [_("Back")]
+        current = self.publish_targets()
+        default = next((index for index, choice in enumerate(choices) if choice == current), 0)
+        result = self.menu.show_menu(_("Where to publish"), labels, default_index=default)
+        if result is None or result[0] == len(choices):
+            return False
+        targets = choices[result[0]]
+        if self.set_publish_targets(targets):
+            remember_targets(self.settings, targets)
+        return True
+
     def _menu_package(self):
+        if not self._choose_publish_targets():
+            return False
         branch_options = [*self.branch_types(), _("Back")]
         branch_result = self.menu.show_menu(_("Select repository"), branch_options)
         if branch_result is None or branch_options[branch_result[0]] == _("Back"):
