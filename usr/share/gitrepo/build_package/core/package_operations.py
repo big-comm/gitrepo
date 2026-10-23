@@ -161,9 +161,66 @@ def _publish_testing_branch(bp, branch: str) -> bool:
     )
     if result.returncode != 0:
         detail = (result.stderr or result.stdout).strip()
+        if _push_was_rejected(result) and _explain_testing_rejection(bp, branch):
+            bp.logger.log("dim", detail)
+            return False
         bp.logger.log("red", _("Push failed: {0}").format(detail))
         return False
     bp.logger.log("green", _("✓ Successfully pushed '{0}' to remote!").format(branch))
+    return True
+
+
+def _explain_testing_rejection(bp, branch: str) -> bool:
+    """Say why origin refused the testing branch and what fixes it; False when origin is not ahead.
+
+    Usually another build or computer published commits on origin/BRANCH (a
+    stable build merges main into it). With nothing new here, Synchronize
+    brings them in; with commits on both sides, they have to be merged.
+    """
+    subprocess.run_git(
+        ["git", "fetch", "origin", f"+refs/heads/{branch}:refs/remotes/origin/{branch}"],
+        capture_output=True,
+        text=True,
+        check=False,
+        intent="ordinary",
+    )
+    counts = subprocess.run_git(
+        ["git", "rev-list", "--left-right", "--count", f"refs/heads/{branch}...refs/remotes/origin/{branch}"],
+        capture_output=True,
+        text=True,
+        check=False,
+        intent="ordinary",
+    ).stdout.split()
+    if len(counts) != 2 or not all(count.isdigit() for count in counts):
+        return False
+    only_here, only_on_origin = int(counts[0]), int(counts[1])
+    if not only_on_origin:
+        return False
+    if not only_here:
+        bp.logger.log(
+            "red",
+            _(
+                "GitHub refused the push: origin/{0} has {1} commit(s) that your {0} does not have yet, "
+                "published by another build or computer."
+            ).format(branch, only_on_origin),
+        )
+        bp.logger.log(
+            "yellow",
+            _(
+                "Go to Organize Branches and click Synchronize to bring them into {0}, then build the package again."
+            ).format(branch),
+        )
+        return True
+    bp.logger.log(
+        "red",
+        _(
+            "GitHub refused the push: {0} and origin/{0} have different commits ({1} only here, {2} only on origin)."
+        ).format(branch, only_here, only_on_origin),
+    )
+    bp.logger.log(
+        "yellow",
+        _("Use Download updates to merge origin/{0} into {0}, then build the package again.").format(branch),
+    )
     return True
 
 

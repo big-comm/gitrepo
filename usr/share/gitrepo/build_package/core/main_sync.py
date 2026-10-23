@@ -170,6 +170,7 @@ def verdict(status: SyncStatus) -> tuple[str, str, str]:
     ).format(status.branch, status.work_not_in_main)
     if status.unpushed:
         description += " " + _("{0} of them are not on origin yet: publish your changes first.").format(status.unpushed)
+    description += " " + _("Synchronize does not send this work to main: it only updates the copies on this computer.")
     return overview.TONE_AHEAD, _("{0} has work that is not in main").format(status.branch), description
 
 
@@ -351,6 +352,7 @@ def _plan_preview(status: SyncStatus, steps: list[SyncStep]) -> tuple[history.Pr
             pushes.append(history.RefMove(branch, _sha_of(f"refs/remotes/origin/{branch}"), branch_after))
     files = history.file_changes(branch_before, branch_after)
     notices = list(history._deletion_notice(files))
+    notices.append(("info", _("Nothing is sent to main: origin/main on GitHub stays as it is.")))
     if files:
         notices.append(
             (

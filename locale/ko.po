@@ -8478,3 +8478,39 @@ msgstr "stable보다 먼저 확인되는 biglinux-priority에 게시합니다 (B
 #: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:615
 msgid "Start priority build"
 msgstr "우선순위 빌드 시작"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 173
+#: usr/share/gitrepo/build_package/core/main_sync.py:173
+msgid "Synchronize does not send this work to main: it only updates the copies on this computer."
+msgstr "'동기화'는 이 작업을 main으로 보내지 않습니다. 이 컴퓨터의 사본만 업데이트합니다."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 355
+#: usr/share/gitrepo/build_package/core/main_sync.py:355
+msgid "Nothing is sent to main: origin/main on GitHub stays as it is."
+msgstr "main으로 아무것도 전송되지 않습니다. GitHub의 origin/main은 그대로 유지됩니다."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 243
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:243
+msgid "Synchronize never sends your branch to main and never changes origin/main on GitHub. Your work reaches main only through a pull request or a stable package."
+msgstr "'동기화'는 내 브랜치를 main으로 보내거나 GitHub의 origin/main을 변경하지 않습니다. 작업은 풀 리퀘스트 또는 stable 패키지를 통해서만 main에 반영됩니다."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 274
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:274
+msgid "Brings your branch and the local main up to date with origin/main. It never sends your branch to main."
+msgstr "내 브랜치와 로컬 main을 origin/main에 맞춰 업데이트합니다. 내 브랜치를 main으로 보내지 않습니다."
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 202
+#: usr/share/gitrepo/build_package/core/package_operations.py:202
+#, python-brace-format
+msgid "GitHub refused the push: origin/{0} has {1} commit(s) that your {0} does not have yet, published by another build or computer."
+msgstr "GitHub가 푸시를 거부했습니다: origin/{0}에 다른 빌드나 컴퓨터에서 게시한, 사용자의 {0}에는 아직 없는 커밋이 {1}개 있습니다."
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 209
+#: usr/share/gitrepo/build_package/core/package_operations.py:209
+#, python-brace-format
+msgid "Go to Organize Branches and click Synchronize to bring them into {0}, then build the package again."
+msgstr "「브랜치 정리」로 이동해 「동기화」을(를) 클릭하여 {0}에 가져온 다음, 패키지를 다시 빌드하세요."
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 216
+#: usr/share/gitrepo/build_package/core/package_operations.py:216
+#, python-brace-format
+msgid "GitHub refused the push: {0} and origin/{0} have different commits ({1} only here, {2} only on origin)."
+msgstr "GitHub가 푸시를 거부했습니다: {0}와(과) origin/{0}의 커밋이 서로 다릅니다(여기에만 {1}개, origin에만 {2}개)."
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 222
+#: usr/share/gitrepo/build_package/core/package_operations.py:222
+#, python-brace-format
+msgid "Use Download updates to merge origin/{0} into {0}, then build the package again."
+msgstr "「업데이트 다운로드」을(를) 사용해 origin/{0}을(를) {0}에 병합한 다음, 패키지를 다시 빌드하세요."

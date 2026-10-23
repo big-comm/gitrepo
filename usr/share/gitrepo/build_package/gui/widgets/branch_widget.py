@@ -238,6 +238,11 @@ class BranchWidget(Gtk.Box):
                     "main advance to origin/main, and your branch is published when it already matches main. "
                     "Commits that exist only in the local main are kept in a backup branch first. Nothing is "
                     "merged and no work is discarded."
+                )
+                + "\n\n"
+                + _(
+                    "Synchronize never sends your branch to main and never changes origin/main on GitHub. "
+                    "Your work reaches main only through a pull request or a stable package."
                 ),
             )
         )
@@ -266,7 +271,9 @@ class BranchWidget(Gtk.Box):
         )
         self.sync_button.set_valign(Gtk.Align.CENTER)
         self.sync_button.set_tooltip_text(
-            git_command_description(
+            _("Brings your branch and the local main up to date with origin/main. It never sends your branch to main.")
+            + "\n"
+            + git_command_description(
                 "git fetch --prune origin",
                 "git merge --ff-only origin/main",
                 "git push origin BRANCH (when it already matches main)",
