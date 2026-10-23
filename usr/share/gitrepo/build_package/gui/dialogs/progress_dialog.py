@@ -401,9 +401,9 @@ class ProgressDialog(Adw.Window):
         # Add "Open in GitHub" button if this was a build operation
         if success and hasattr(self, "details_buffer"):
             # Extract GitHub Actions URL from terminal log
-            github_url = self._extract_github_url()
-            if github_url:
-                self._add_github_button(github_url)
+            github_urls = self._extract_github_urls()
+            if github_urls:
+                self._add_github_buttons(github_urls)
 
         # Change cancel button to "Done" button
         if hasattr(self, "cancel_button"):
@@ -427,37 +427,44 @@ class ProgressDialog(Adw.Window):
 
         return False
 
-    def _extract_github_url(self):
-        """Extract GitHub Actions URL from terminal log"""
+    def _extract_github_urls(self):
+        """The GitHub Actions page of every build named in the log, in order, once each.
+
+        A build published by two organizations names one page per
+        organization; following only the first hid the other build.
+        """
         import re
 
         start_iter = self.details_buffer.get_start_iter()
         end_iter = self.details_buffer.get_end_iter()
         text = self.details_buffer.get_text(start_iter, end_iter, False)
+        # Per repository: the confirmed run when the log names it, else its Actions page.
+        pages = {}
+        for match in re.finditer(r"https://github\.com/([^/\s]+/[^/\s]+)/actions(/runs/\d+)?", text):
+            repository, run = match.group(1), match.group(2)
+            if run or repository not in pages:
+                pages[repository] = match.group(0)
+        return list(pages.values())
 
-        # Look for GitHub Actions URL pattern
-        pattern = r"https://github\.com/[^/]+/[^/]+/actions"
-        match = re.search(pattern, text)
-        if match:
-            return match.group(0)
-        return None
-
-    def _add_github_button(self, url):
-        """Add 'Open in GitHub' button"""
-        # Create button box if it doesn't exist
-        github_button = Gtk.Button()
-        github_button.set_label(_("Open in GitHub"))
-        github_button.add_css_class("suggested-action")
-
-        def on_github_clicked(button):
-            open_uri(button, url)
-
-        github_button.connect("clicked", on_github_clicked)
+    def _add_github_buttons(self, urls):
+        """One button per Actions page; named after its organization when there are several."""
+        from gitrepo.build_package.core.config import DESTINATION_NAMES
 
         action_bar = self.cancel_button.get_parent()
-        if action_bar is not None:
-            self.cancel_button.remove_css_class("suggested-action")
-            action_bar.append(github_button)
+        if action_bar is None:
+            return
+        # "Done" stays the one highlighted button; following a build is optional.
+        for url in urls:
+            organization = url.split("/")[3]
+            label = (
+                _("Open in GitHub")
+                if len(urls) == 1
+                else _("Follow on {0}").format(DESTINATION_NAMES.get(organization, organization))
+            )
+            button = Gtk.Button(label=label)
+            button.set_tooltip_text(url)
+            button.connect("clicked", lambda widget, target=url: open_uri(widget, target))
+            action_bar.append(button)
 
     def on_done_clicked(self, button):
         """Handle done button click after operation completes"""

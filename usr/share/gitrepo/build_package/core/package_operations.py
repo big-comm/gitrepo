@@ -243,6 +243,7 @@ def _branch_type_label(branch_type: str) -> str:
     return {
         "testing": _("Testing"),
         "stable": _("Stable"),
+        "priority": _("Priority"),
         "extra": _("Extra"),
     }.get(branch_type, branch_type)
 
@@ -254,7 +255,7 @@ def commit_and_generate_package(build_package_instance, branch_type, commit_mess
     if not bp.is_git_repo:
         bp.logger.log("red", _("This operation is only available in Git repositories."))
         return False
-    allowed = bp.branch_types() if hasattr(bp, "branch_types") else ("testing", "stable", "extra")
+    allowed = bp.branch_types() if hasattr(bp, "branch_types") else ("testing", "stable", "priority", "extra")
     if branch_type not in allowed:
         bp.logger.log(
             "red",

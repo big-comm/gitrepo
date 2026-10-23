@@ -308,10 +308,10 @@ class GitHubAPI:
     @staticmethod
     def _package_workflow_dispatch(package_name, branch_type, new_branch, tmate_option, logger, package_directory=""):
         repo_name = GitUtils.get_repo_name()
-        # Stable and extra packages are published only from main: the package
-        # operation merges and pushes main before triggering the workflow and
-        # then restores the user's working branch.
-        if branch_type in ("stable", "extra"):
+        # Stable, priority and extra packages are published only from main: the
+        # package operation merges and pushes main before triggering the
+        # workflow and then restores the user's working branch.
+        if branch_type in ("stable", "priority", "extra"):
             workflow_branch = "main"
         else:
             workflow_branch = new_branch or GitUtils.get_current_branch()

@@ -145,3 +145,54 @@ def test_the_terminal_menu_offers_one_or_both(modules):
 
     assert offered[:3] == ["BigCommunity", "BigLinux", "BigCommunity and BigLinux"]
     assert bp.publish_targets() == ["big-comm", "biglinux"]
+
+
+def test_priority_exists_only_while_biglinux_publishes_alone(modules):
+    bp = modules.build.BuildPackage()
+    bp.set_publish_targets(["biglinux"])
+    assert "priority" in bp.branch_types()
+
+    bp.set_publish_targets(["big-comm"])
+    assert "priority" not in bp.branch_types()
+
+    # BigCommunity has no priority repository, so publishing with both leaves it out.
+    bp.set_publish_targets(["biglinux", "big-comm"])
+    assert bp.branch_types() == ("testing", "stable", "extra")
+
+
+def test_a_priority_build_is_dispatched_from_main(modules, monkeypatch):
+    calls = []
+    monkeypatch.setattr(modules.api.requests, "post", lambda url, json=None, **kw: calls.append(json) or Response(204))
+    monkeypatch.setattr(modules.api.GitHubAPI, "_report_dispatched_run", lambda *a, **k: None)
+    monkeypatch.setattr(modules.api.TokenStore, "read_all", staticmethod(lambda: list(modules.tokens.items())))
+
+    api = modules.api.GitHubAPI("tok-linux", "biglinux")
+    assert api.trigger_workflow("bigocrpdf", "priority", "dev-talesam", False, False, Logger())
+
+    payload = calls[0]["client_payload"]
+    assert payload["branch_type"] == "priority" and payload["branch"] == "main"
+    assert "new_branch" not in payload
+
+
+def test_the_progress_window_follows_every_build(build_package_modules):
+    pytest.importorskip("gi")
+    from gitrepo.build_package.gui.dialogs.progress_dialog import ProgressDialog
+
+    log = (
+        "URL to monitor the build: https://github.com/big-comm/build-package/actions\n"
+        "Build #2797 started: https://github.com/big-comm/build-package/actions/runs/111\n"
+        "URL to monitor the build: https://github.com/biglinux/build-package/actions\n"
+        "Repository: https://github.com/biglinux/bigocrpdf\n"
+    )
+    buffer = type(
+        "Buffer",
+        (),
+        {"get_start_iter": lambda self: 0, "get_end_iter": lambda self: 1, "get_text": lambda self, a, b, c: log},
+    )()
+    dialog = ProgressDialog.__new__(ProgressDialog)
+    dialog.details_buffer = buffer
+
+    assert dialog._extract_github_urls() == [
+        "https://github.com/big-comm/build-package/actions/runs/111",
+        "https://github.com/biglinux/build-package/actions",
+    ]

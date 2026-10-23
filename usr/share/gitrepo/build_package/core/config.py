@@ -19,7 +19,11 @@ VALID_ORGANIZATIONS = ["big-comm", "biglinux"]  # Valid organizations
 # repository can be published to BigCommunity and the other way around.
 DESTINATION_NAMES = {"big-comm": "BigCommunity", "biglinux": "BigLinux"}
 # Repositories each destination publishes to. Extra holds AUR and third-party packages.
-DESTINATION_BRANCHES = {"big-comm": ("testing", "stable", "extra"), "biglinux": ("testing", "stable", "extra")}
+# biglinux-priority comes before every other BigLinux repository; BigCommunity has none.
+DESTINATION_BRANCHES = {
+    "big-comm": ("testing", "stable", "extra"),
+    "biglinux": ("testing", "stable", "priority", "extra"),
+}
 
 # File containing GitHub token (new location inside config dir)
 TOKEN_FILE = "~/.config/gitrepo/github_token"

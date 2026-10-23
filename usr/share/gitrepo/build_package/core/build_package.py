@@ -150,7 +150,7 @@ class BuildPackage:
 
     def branch_types(self) -> tuple:
         """Repositories every chosen destination publishes to."""
-        everywhere = ("testing", "stable", "extra")
+        everywhere = ("testing", "stable", "priority", "extra")
         for organization in self.publish_targets():
             allowed = DESTINATION_BRANCHES.get(organization, everywhere)
             everywhere = tuple(kind for kind in everywhere if kind in allowed)

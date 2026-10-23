@@ -237,6 +237,12 @@ class PackageWidget(Gtk.Box):
                 "build-package-testing",
             ),
             ("stable", _("Stable"), _("Publish the package for all users"), "build-package-stable"),
+            (
+                "priority",
+                _("Priority"),
+                _("Publish to biglinux-priority, which comes before stable (BigLinux only)"),
+                "build-package-stable",
+            ),
             ("extra", _("Extra"), _("Publish an optional or additional package"), "build-package-extra"),
         ]
 
@@ -606,6 +612,7 @@ class PackageWidget(Gtk.Box):
             type_names = {
                 "testing": _("Start testing build"),
                 "stable": _("Start stable build"),
+                "priority": _("Start priority build"),
                 "extra": _("Start extra build"),
             }
 

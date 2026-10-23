@@ -38,7 +38,7 @@ def test_saved_destination_becomes_the_default(modules):
     assert modules.settings.Settings(str(modules.config_dir)).set("build_destination", "biglinux")
     instance = modules.build.BuildPackage()
     assert instance.organization == "biglinux" and instance.repo_workflow == "biglinux/build-package"
-    assert instance.branch_types() == ("testing", "stable", "extra")
+    assert instance.branch_types() == ("testing", "stable", "priority", "extra")
 
 
 def test_command_line_wins_over_saved_default(modules):
