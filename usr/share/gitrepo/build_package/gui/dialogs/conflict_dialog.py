@@ -30,6 +30,13 @@ def _core_resolver(repo_root):
     return resolver
 
 
+def _side_button(label: str) -> Gtk.Button:
+    """A button whose label shortens with "…": the branch names it carries can be long."""
+    text = Gtk.Label(label=label, ellipsize=Pango.EllipsizeMode.END, max_width_chars=24)
+    button = Gtk.Button(child=text)
+    return button
+
+
 class ConflictFileRow(Adw.ActionRow):
     """Row for a single conflicted file with toggle selection"""
 
@@ -52,7 +59,14 @@ class ConflictFileRow(Adw.ActionRow):
             "both": "both",
         }
         self.current_action: str | None = None
-        self.set_title(filepath)
+        # The name is the title and its folder the subtitle: a full path as
+        # the title wrapped letter by letter into a narrow column beside the
+        # buttons, which take the width the branch names in their labels need.
+        self._folder = os.path.dirname(filepath)
+        self.set_title(os.path.basename(filepath))
+        self.set_title_lines(1)
+        self.set_subtitle(self._folder)
+        self.set_tooltip_text(filepath)
 
         # Status icon
         self.status_icon = Gtk.Image.new_from_icon_name("dialog-warning-symbolic")
@@ -61,13 +75,13 @@ class ConflictFileRow(Adw.ActionRow):
         # Action buttons
         button_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
 
-        self.ours_button = Gtk.Button(label=_("Keep Local"))
+        self.ours_button = _side_button(_("Keep Local"))
         self.ours_button.set_tooltip_text(_("Keep local version"))
         self.ours_button.add_css_class("flat")
         self.ours_button.connect("clicked", self._on_action_clicked, self.local_side)
         button_box.append(self.ours_button)
 
-        self.theirs_button = Gtk.Button(label=_("Accept Remote"))
+        self.theirs_button = _side_button(_("Accept Remote"))
         self.theirs_button.set_tooltip_text(_("Accept remote version"))
         self.theirs_button.add_css_class("flat")
         self.theirs_button.connect("clicked", self._on_action_clicked, self.remote_side)
@@ -106,10 +120,13 @@ class ConflictFileRow(Adw.ActionRow):
 
     def set_side_labels(self, keep_local: str, keep_remote: str) -> None:
         """Name each side after the branch it comes from (see set_branch_info)."""
-        self.ours_button.set_label(keep_local)
-        self.ours_button.set_tooltip_text(keep_local)
-        self.theirs_button.set_label(keep_remote)
-        self.theirs_button.set_tooltip_text(keep_remote)
+        for button, label in ((self.ours_button, keep_local), (self.theirs_button, keep_remote)):
+            button.get_child().set_label(label)
+            button.set_tooltip_text(label)
+
+    def set_note(self, note: str) -> None:
+        """Say something about this file under its name, after its folder."""
+        self.set_subtitle(f"{self._folder} — {note}" if self._folder else note)
 
     def _on_action_clicked(self, _button: Gtk.Button, action: str) -> None:
         """Toggle action selection: click to select, click again to deselect"""
@@ -442,7 +459,7 @@ class ConflictDialog(Adw.Window):
         # commit. Say so on the row itself -- the toast this used to build was
         # posted to a self.toast_overlay that is never created, so it was never
         # shown, and the 'Mark as Edited' control it named does not exist.
-        row.set_subtitle(_("Edited by hand — checked for conflict markers when you apply"))
+        row.set_note(_("Edited by hand — checked for conflict markers when you apply"))
         self.resolutions[row.filepath] = "manual"
         row.set_action("manual")
         self._update_status()
@@ -786,9 +803,15 @@ class ConflictDialog(Adw.Window):
         self._apply_resolutions()
 
     def _on_deletion_confirmation(self, dialog, response):
-        """Continue only after the explicit file-deletion response."""
+        """Continue only after the explicit file-deletion response.
+
+        The alert is still open while it emits its response, and closing this
+        window then only closes the alert: the files were deleted, the
+        operation went on, and this window stayed open as if nothing happened.
+        So the resolutions are applied once the alert is gone.
+        """
         if response == "delete":
-            self._apply_resolutions()
+            dialog.connect("closed", lambda _alert: self._apply_resolutions())
 
     def _apply_resolutions(self):
         """Apply the already reviewed conflict choices.
@@ -807,7 +830,7 @@ class ConflictDialog(Adw.Window):
             success = False
             for row in self._iter_conflict_rows():
                 if getattr(row, "filepath", None) == filepath:
-                    row.set_subtitle(_("Could not apply this choice — see the log"))
+                    row.set_note(_("Could not apply this choice — see the log"))
                     break
             if applied:
                 print(_("Already applied before the failure: {0}").format(", ".join(applied)))
