@@ -10,6 +10,7 @@ from typing import Any
 
 from gi.repository import Gio, GLib
 
+from . import mounts
 from .scanner import ScanJob
 from .status import EMBLEMS, State
 
@@ -30,12 +31,16 @@ class EmblemProvider:
     MAX_ENTRIES = 256
     REFRESH_SECONDS = 5
     CACHE_SECONDS = 300
+    # A batch that outlived the scan timeout is not probed again for this
+    # long: its process may still be stuck, and another would join it.
+    BACKOFF_SECONDS = 600
 
     def __init__(self, on_changed=None):
         self._entries: OrderedDict[str, _Entry] = OrderedDict()
         self._queued = {}
         self._dispatch_source = 0
         self._scan = None
+        self._blocked: dict[str, float] = {}
         self._on_changed = on_changed
         self._timer = 0
         self._closed = False
@@ -99,17 +104,46 @@ class EmblemProvider:
             if self._entries.get(path) is entry and not future.cancelled()
         }
         self._queued.clear()
+        batch = self._settle_unprobeable(batch)
         if batch:
-            self._scan = ScanJob(list(batch), lambda states: self._scan_finished(batch, states))
+            self._scan = ScanJob(
+                list(batch), lambda states, timed_out=False: self._scan_finished(batch, states, timed_out)
+            )
         return GLib.SOURCE_REMOVE
 
-    def _scan_finished(self, batch, states):
+    def _settle_unprobeable(self, batch):
+        """Answer, without a probe, the folders a probe must not touch.
+
+        FUSE and network mounts get no emblem; folders backing off after a
+        timed-out scan keep the one they had. Returns the rest of the batch.
+        The mount table is read again for every batch: a USB drive mounted
+        with ntfs-3g a minute ago is skipped as well.
+        """
+        now = monotonic()
+        self._blocked = {path: until for path, until in self._blocked.items() if until > now}
+        table = mounts.read_mounts()
+        probe = {}
+        for path, (entry, future) in batch.items():
+            if path in self._blocked:
+                future.set_result(entry.state)
+            elif not mounts.probe_allowed(path, table):
+                future.set_result(None)
+            else:
+                probe[path] = (entry, future)
+                continue
+            self._complete(path, entry, future)
+        return probe
+
+    def _scan_finished(self, batch, states, timed_out=False):
         self._scan = None
         if self._closed:
             return
+        if timed_out:
+            until = monotonic() + self.BACKOFF_SECONDS
+            self._blocked.update(dict.fromkeys(batch, until))
         for path, (entry, future) in batch.items():
             if not future.cancelled():
-                state = states.get(path)
+                state = entry.state if timed_out else states.get(path)
                 future.set_result(state if isinstance(state, str) and state in EMBLEMS else None)
                 self._complete(path, entry, future)
         if self._queued:
