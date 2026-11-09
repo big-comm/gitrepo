@@ -13,7 +13,7 @@ from gitrepo.common.desktop_launch import open_uri
 from gitrepo.common.translation import _
 from gitrepo.common.diagnostic_redaction import redact_diagnostic
 from gitrepo.common.terminal_palette import apply_log_palette, log_palette
-from gi.repository import Adw, Gdk, GLib, GObject, Gtk
+from gi.repository import Adw, Gdk, GLib, GObject, Gtk, Pango
 
 
 class ProgressDialog(Adw.Window):
@@ -125,6 +125,10 @@ class ProgressDialog(Adw.Window):
         self.status_label.set_wrap(True)
         self.status_label.set_natural_wrap_mode(Gtk.NaturalWrapMode.WORD)
         self.status_label.set_width_chars(1)
+        # A fixed-size window: hundreds of lines (git merge lists every file)
+        # once grew it past the screen. The log below keeps the full text.
+        self.status_label.set_lines(2)
+        self.status_label.set_ellipsize(Pango.EllipsizeMode.END)
         text_box.append(self.status_label)
 
         self.substatus_label = Gtk.Label(label="", xalign=0)
@@ -133,6 +137,8 @@ class ProgressDialog(Adw.Window):
         self.substatus_label.set_wrap(True)
         self.substatus_label.set_natural_wrap_mode(Gtk.NaturalWrapMode.WORD)
         self.substatus_label.set_width_chars(1)
+        self.substatus_label.set_lines(2)
+        self.substatus_label.set_ellipsize(Pango.EllipsizeMode.END)
         text_box.append(self.substatus_label)
         headline.append(text_box)
         card.append(headline)
@@ -257,10 +263,15 @@ class ProgressDialog(Adw.Window):
         GLib.idle_add(update)
 
     def set_status(self, text):
-        """Set status text (thread-safe)"""
+        """Show the first line of *text* as the status (thread-safe).
+
+        Logged messages arrive here whole; a command's output is many lines,
+        and the log card already shows all of them.
+        """
+        line = next((line.strip() for line in str(text).splitlines() if line.strip()), "")
 
         def update():
-            self.status_label.set_text(text)
+            self.status_label.set_text(line)
             return False
 
         GLib.idle_add(update)
