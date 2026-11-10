@@ -85,6 +85,14 @@ class Settings:
             # === ORGANIZATION CONFIG ===
             # Organization name (empty = detect from git remote)
             "organization_name": "",
+            # Default build destination: the organization whose build-package
+            # publishes the package (big-comm = BigCommunity, biglinux = BigLinux)
+            "build_destination": "big-comm",
+            # The destination chosen for each repository, keyed by "owner/repository";
+            # build_destination above is the starting point for a repository not listed here.
+            "build_destinations": {},
+            # Organizations a repository also publishes to, besides its principal destination.
+            "build_also_destinations": {},
             # Workflow repository for GitHub Actions
             "workflow_repository": "",
             # GitHub base URL (for enterprise installations)

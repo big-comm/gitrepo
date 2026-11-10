@@ -13,7 +13,8 @@ from rich.text import Text
 from gitrepo.common.translation import _
 
 from . import branch_overview as overview_core
-from . import main_sync
+from . import history, main_sync
+from .confirmation import StructuredConfirmation
 from .branch_handler import create_branch, delete_branch, describe_branch, rename_branch, switch_branch
 from .git_utils import PROTECTED_BRANCHES, GitUtils
 
@@ -53,6 +54,8 @@ def branch_menu(bp) -> None:
         (_("Create branch"), _create_branch_flow),
         (_("Rename branch"), _rename_branch_flow),
         (_("Delete branch"), _delete_branch_flow),
+        (_("Go back to a commit"), _go_back_flow),
+        (_("Undo the last operation"), _undo_flow),
         (_("Back"), None),
     )
     while True:
@@ -171,7 +174,7 @@ def _sync_flow(bp) -> None:
         if result is None or result[0] == 3:
             return
         if result[0] == 0:
-            main_sync.sync_with_main(bp)
+            _review_and_sync(bp)
             _pause()
         elif result[0] == 1:
             bp.logger.log("cyan", _("Running git fetch --prune origin..."))
@@ -181,6 +184,80 @@ def _sync_flow(bp) -> None:
                 _pause()
         else:
             _all_branches_flow(bp)
+
+
+def _review_and_sync(bp) -> None:
+    """Show everything synchronizing changes, and run it only when confirmed."""
+    bp.logger.log("cyan", _("Running git fetch --prune origin..."))
+    plan, reason = main_sync.prepare_sync()
+    if plan is None:
+        bp.logger.log("red", reason)
+        return
+    if plan.steps and not bp.menu.confirm(
+        StructuredConfirmation(history.preview_text(plan.preview)), default_yes=not plan.changes_files
+    ):
+        bp.logger.log("yellow", _("Synchronization cancelled; only git fetch ran."))
+        return
+    main_sync.execute_sync(bp, plan)
+
+
+def _ask_include_remote(bp, preview) -> bool:
+    if not preview.remote_steps:
+        return False
+    return bp.menu.confirm(
+        StructuredConfirmation(
+            "\n".join([f"{preview.remote_title}?", *(f"• {step.text}" for step in preview.remote_steps)])
+        ),
+        default_yes=True,
+    )
+
+
+def _go_back_flow(bp) -> None:
+    """Pick an earlier commit, review what changes, then move the branch to it."""
+    allowed, reason = history.can_go_back(history.current_branch())
+    if not allowed:
+        bp.logger.log("red", reason)
+        return
+    commits = history.recent_commits()
+    if len(commits) < 2:
+        bp.logger.log("yellow", _("This branch has no earlier commit to go back to."))
+        return
+    labels = [
+        f"{commit['short']}  {commit['subject'][:60]}  ({overview_core.describe_age(commit['time'])})"
+        for commit in commits[1:]
+    ]
+    result = bp.menu.show_menu(
+        _("Go back to which commit?"),
+        [*labels, _("Back")],
+        additional_content=_("{0} is on {1}: {2}").format(
+            history.current_branch(), commits[0]["short"], commits[0]["subject"]
+        ),
+    )
+    if result is None or result[0] == len(labels):
+        return
+    target = commits[result[0] + 1]["sha"]
+    preview = history.preview_go_back(target)
+    if not bp.menu.confirm(
+        StructuredConfirmation(history.preview_text(preview, include_remote=False)), default_yes=False
+    ):
+        bp.logger.log("yellow", _("Nothing was changed."))
+        return
+    history.go_back(bp, target, include_remote=_ask_include_remote(bp, preview))
+
+
+def _undo_flow(bp) -> None:
+    """Review and take back the last operation that moved a branch."""
+    checkpoint, reason = history.latest_checkpoint()
+    if checkpoint is None:
+        bp.logger.log("yellow", reason)
+        return
+    preview = history.preview_undo(checkpoint)
+    if not bp.menu.confirm(
+        StructuredConfirmation(history.preview_text(preview, include_remote=False)), default_yes=False
+    ):
+        bp.logger.log("yellow", _("Nothing was changed."))
+        return
+    history.undo(bp, checkpoint, include_remote=_ask_include_remote(bp, preview))
 
 
 def _switch_branch_flow(bp) -> None:

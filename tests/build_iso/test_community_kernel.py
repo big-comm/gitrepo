@@ -85,7 +85,7 @@ def test_package_names_ignore_version_and_similar_names():
 
 
 def test_the_database_url_is_the_community_channel():
-    assert database_url("stable") == "https://repo.communitybig.org/stable/x86_64/community-stable.db"
+    assert database_url("stable") == "https://repo.communitybig.org/community-stable/x86_64/community-stable.db"
 
 
 @pytest.mark.parametrize(

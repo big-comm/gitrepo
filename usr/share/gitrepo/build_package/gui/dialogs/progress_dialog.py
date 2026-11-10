@@ -13,7 +13,7 @@ from gitrepo.common.desktop_launch import open_uri
 from gitrepo.common.translation import _
 from gitrepo.common.diagnostic_redaction import redact_diagnostic
 from gitrepo.common.terminal_palette import apply_log_palette, log_palette
-from gi.repository import Adw, Gdk, GLib, GObject, Gtk
+from gi.repository import Adw, Gdk, GLib, GObject, Gtk, Pango
 
 
 class ProgressDialog(Adw.Window):
@@ -125,6 +125,10 @@ class ProgressDialog(Adw.Window):
         self.status_label.set_wrap(True)
         self.status_label.set_natural_wrap_mode(Gtk.NaturalWrapMode.WORD)
         self.status_label.set_width_chars(1)
+        # A fixed-size window: hundreds of lines (git merge lists every file)
+        # once grew it past the screen. The log below keeps the full text.
+        self.status_label.set_lines(2)
+        self.status_label.set_ellipsize(Pango.EllipsizeMode.END)
         text_box.append(self.status_label)
 
         self.substatus_label = Gtk.Label(label="", xalign=0)
@@ -133,6 +137,8 @@ class ProgressDialog(Adw.Window):
         self.substatus_label.set_wrap(True)
         self.substatus_label.set_natural_wrap_mode(Gtk.NaturalWrapMode.WORD)
         self.substatus_label.set_width_chars(1)
+        self.substatus_label.set_lines(2)
+        self.substatus_label.set_ellipsize(Pango.EllipsizeMode.END)
         text_box.append(self.substatus_label)
         headline.append(text_box)
         card.append(headline)
@@ -257,10 +263,15 @@ class ProgressDialog(Adw.Window):
         GLib.idle_add(update)
 
     def set_status(self, text):
-        """Set status text (thread-safe)"""
+        """Show the first line of *text* as the status (thread-safe).
+
+        Logged messages arrive here whole; a command's output is many lines,
+        and the log card already shows all of them.
+        """
+        line = next((line.strip() for line in str(text).splitlines() if line.strip()), "")
 
         def update():
-            self.status_label.set_text(text)
+            self.status_label.set_text(line)
             return False
 
         GLib.idle_add(update)
@@ -401,9 +412,9 @@ class ProgressDialog(Adw.Window):
         # Add "Open in GitHub" button if this was a build operation
         if success and hasattr(self, "details_buffer"):
             # Extract GitHub Actions URL from terminal log
-            github_url = self._extract_github_url()
-            if github_url:
-                self._add_github_button(github_url)
+            github_urls = self._extract_github_urls()
+            if github_urls:
+                self._add_github_buttons(github_urls)
 
         # Change cancel button to "Done" button
         if hasattr(self, "cancel_button"):
@@ -427,37 +438,44 @@ class ProgressDialog(Adw.Window):
 
         return False
 
-    def _extract_github_url(self):
-        """Extract GitHub Actions URL from terminal log"""
+    def _extract_github_urls(self):
+        """The GitHub Actions page of every build named in the log, in order, once each.
+
+        A build published by two organizations names one page per
+        organization; following only the first hid the other build.
+        """
         import re
 
         start_iter = self.details_buffer.get_start_iter()
         end_iter = self.details_buffer.get_end_iter()
         text = self.details_buffer.get_text(start_iter, end_iter, False)
+        # Per repository: the confirmed run when the log names it, else its Actions page.
+        pages = {}
+        for match in re.finditer(r"https://github\.com/([^/\s]+/[^/\s]+)/actions(/runs/\d+)?", text):
+            repository, run = match.group(1), match.group(2)
+            if run or repository not in pages:
+                pages[repository] = match.group(0)
+        return list(pages.values())
 
-        # Look for GitHub Actions URL pattern
-        pattern = r"https://github\.com/[^/]+/[^/]+/actions"
-        match = re.search(pattern, text)
-        if match:
-            return match.group(0)
-        return None
-
-    def _add_github_button(self, url):
-        """Add 'Open in GitHub' button"""
-        # Create button box if it doesn't exist
-        github_button = Gtk.Button()
-        github_button.set_label(_("Open in GitHub"))
-        github_button.add_css_class("suggested-action")
-
-        def on_github_clicked(button):
-            open_uri(button, url)
-
-        github_button.connect("clicked", on_github_clicked)
+    def _add_github_buttons(self, urls):
+        """One button per Actions page; named after its organization when there are several."""
+        from gitrepo.build_package.core.config import DESTINATION_NAMES
 
         action_bar = self.cancel_button.get_parent()
-        if action_bar is not None:
-            self.cancel_button.remove_css_class("suggested-action")
-            action_bar.append(github_button)
+        if action_bar is None:
+            return
+        # "Done" stays the one highlighted button; following a build is optional.
+        for url in urls:
+            organization = url.split("/")[3]
+            label = (
+                _("Open in GitHub")
+                if len(urls) == 1
+                else _("Follow on {0}").format(DESTINATION_NAMES.get(organization, organization))
+            )
+            button = Gtk.Button(label=label)
+            button.set_tooltip_text(url)
+            button.connect("clicked", lambda widget, target=url: open_uri(widget, target))
+            action_bar.append(button)
 
     def on_done_clicked(self, button):
         """Handle done button click after operation completes"""
@@ -489,6 +507,44 @@ class OperationRunner:
         )
         dialog.add_response("close", _("Close"))
         dialog.present(self.parent)
+
+    def _with_checkpoint(self, operation_func, title):
+        """Keep an undo checkpoint for whatever branch heads the operation moves."""
+        self._last_checkpoint = None
+        inner = getattr(operation_func, "func", operation_func)
+        records_itself = getattr(operation_func, "records_undo", False) or getattr(inner, "records_undo", False)
+
+        def recorded(*args, **kwargs):
+            from gitrepo.build_package.core import history
+
+            before = history.branch_heads()
+            known = {checkpoint.id for checkpoint in history.load_checkpoints()}
+            try:
+                return operation_func(*args, **kwargs)
+            finally:
+                # Also after a failure: a journey that stopped halfway may have moved a branch.
+                # A step that kept its own checkpoint (with what it published) wins over a generic one.
+                fresh = [checkpoint for checkpoint in history.load_checkpoints() if checkpoint.id not in known]
+                if fresh:
+                    self._last_checkpoint = fresh[-1]
+                elif not records_itself:
+                    self._last_checkpoint = history.record(title, before)
+
+        return recorded
+
+    def _offer_undo(self) -> bool:
+        """Show the undo toast when the operation just moved a branch; True when shown."""
+        checkpoint = getattr(self, "_last_checkpoint", None)
+        self._last_checkpoint = None
+        if checkpoint is None or not hasattr(self.parent, "show_undo_toast"):
+            return False
+        self.parent.show_undo_toast(checkpoint)
+        return True
+
+    @property
+    def is_busy(self) -> bool:
+        """Whether a repository journey is running in this window."""
+        return self._busy
 
     def run_with_progress(
         self, operation_func, title, message="", cancellable=False, completion_callback=None, *args, **kwargs
@@ -542,7 +598,7 @@ class OperationRunner:
             if hasattr(obj, "set_status_callback"):
                 obj.set_status_callback(dialog.set_status)
 
-        dialog.run_operation(operation_func, *args, **kwargs)
+        dialog.run_operation(self._with_checkpoint(operation_func, title), *args, **kwargs)
 
         return dialog
 
@@ -589,7 +645,7 @@ class OperationRunner:
             self._completion_callback = None
             callback(result)
         if self.parent:
-            if not continues_to_review:
+            if not continues_to_review and not self._offer_undo():
                 self.parent.show_toast(_("Operation completed successfully"))
 
             if not continues_to_review and not self.parent.is_active():
@@ -608,6 +664,7 @@ class OperationRunner:
             # A journey that stopped halfway may still have moved refs.
             if hasattr(self.parent, "refresh_all_widgets"):
                 self.parent.refresh_all_widgets()
+            self._offer_undo()
             # Send system notification if window is not focused
             if not self.parent.is_active():
                 if hasattr(self.parent, "send_system_notification"):

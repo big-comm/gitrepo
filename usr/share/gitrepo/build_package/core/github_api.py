@@ -130,13 +130,8 @@ class GitHubAPI:
             )
             return False, "checks-failed"
         if state == "blocked" and not running:
-            logger.log(
-                "yellow",
-                _(
-                    "GitHub blocks this merge (a required review or a branch rule). "
-                    "The pull request was left open and not merged."
-                ),
-            )
+            # Whether the user may bypass the rule is decided by the caller.
+            logger.log("yellow", _("GitHub reports that a branch rule blocks this merge."))
             return False, "blocked"
         return None
 
@@ -176,6 +171,7 @@ class GitHubAPI:
             return False
         event_type, data = dispatch
         repo_workflow = f"{self.organization}/build-package"
+        self._log_token_source(logger)
         dispatched_at = datetime.now(timezone.utc)
         try:
             response = requests.post(
@@ -189,12 +185,53 @@ class GitHubAPI:
             return False
         if response.status_code != 204:
             logger.log("red", _("Error triggering workflow. Response code: {0}").format(response.status_code))
+            self._explain_refused_dispatch(response, repo_workflow, logger)
             return False
         logger.log("green", _("Build workflow ({0}) triggered successfully.").format(event_type))
         monitor_url = f"https://github.com/{repo_workflow}/actions"
         logger.log("cyan", _("URL to monitor the build: {0}").format(monitor_url))
         self._report_dispatched_run(repo_workflow, data.get("event_type", ""), dispatched_at, monitor_url, logger)
         return True
+
+    def _log_token_source(self, logger) -> None:
+        """Name the saved entry the request uses, never the token itself."""
+        from .destination import token_source
+
+        source = token_source(self.organization, TokenStore.read_all())
+        if source == self.organization.lower():
+            logger.log("dim", _("Using the access token saved for {0}.").format(self.organization))
+        elif source:
+            logger.log(
+                "yellow",
+                _("No access token is saved for {0}; using the one saved as {1}.").format(self.organization, source),
+            )
+
+    @staticmethod
+    def _explain_refused_dispatch(response, repo_workflow, logger) -> None:
+        """Pass on GitHub's own reason, and what a 401/403/404 asks to check."""
+        try:
+            message = (response.json() or {}).get("message", "") if response.text else ""
+        except ValueError:
+            message = ""
+        if message:
+            logger.log("red", _("GitHub says: {0}").format(message))
+        if response.status_code in (401, 403, 404):
+            organization = repo_workflow.split("/", 1)[0]
+            logger.log("yellow", _("Check the access token GitRepo used:"))
+            logger.log(
+                "yellow",
+                _(
+                    "• it is saved for {0} in Settings, under “Save or replace an access token” "
+                    "(a token saved under another name is never used);"
+                ).format(organization),
+            )
+            logger.log("yellow", _("• a classic token has the repo and workflow scopes;"))
+            logger.log(
+                "yellow",
+                _("• a fine-grained token belongs to {0} and can write Contents of {1}.").format(
+                    organization, repo_workflow
+                ),
+            )
 
     def _report_dispatched_run(self, repo_workflow, action, dispatched_at, monitor_url, logger) -> None:
         """Say whether the accepted dispatch actually produced a workflow run.
@@ -271,10 +308,10 @@ class GitHubAPI:
     @staticmethod
     def _package_workflow_dispatch(package_name, branch_type, new_branch, tmate_option, logger, package_directory=""):
         repo_name = GitUtils.get_repo_name()
-        # Stable and extra packages are published only from main: the package
-        # operation merges and pushes main before triggering the workflow and
-        # then restores the user's working branch.
-        if branch_type in ("stable", "extra"):
+        # Stable, priority and extra packages are published only from main: the
+        # package operation merges and pushes main before triggering the
+        # workflow and then restores the user's working branch.
+        if branch_type in ("stable", "priority", "extra"):
             workflow_branch = "main"
         else:
             workflow_branch = new_branch or GitUtils.get_current_branch()
@@ -540,7 +577,7 @@ class GitHubAPI:
                 return {}
             if auto_merge and pr_info.get("number"):
                 self._merge_ready_pull_request(repo_name, pr_info, source_branch, target_branch, logger)
-            self._show_pr_summary(pr_info, source_branch, target_branch, logger)
+            self._show_pr_summary(pr_info, source_branch, target_branch, logger, auto_merge)
             return pr_info
         except requests.RequestException as error:
             if logger:
@@ -580,6 +617,33 @@ class GitHubAPI:
     def _merge_ready_pull_request(self, repo_name, pr_info, source_branch, target_branch, logger):
         pr_number = pr_info["number"]
         is_ready, pr_state = self.wait_for_pr_checks(pr_number, logger)
+        if not is_ready and pr_state == "blocked":
+            # Checks have passed; only a rule stands in the way. An owner on the
+            # ruleset's bypass list merges as the website would with "bypass rules".
+            allowed, denied = self._rulesets_on_branch(repo_name, target_branch)
+            if allowed and not denied:
+                if logger:
+                    logger.log(
+                        "yellow",
+                        _("The rule {0} protects {1}. You can bypass it, so GitRepo merges the pull request.").format(
+                            ", ".join(allowed), target_branch
+                        ),
+                    )
+                is_ready = True
+            else:
+                names = ", ".join(denied) or _("a branch rule")
+                if logger:
+                    logger.log(
+                        "red",
+                        _("The rule {0} protects {1}: an admin has to merge this pull request.").format(
+                            names, target_branch
+                        ),
+                    )
+                pr_info.update(
+                    auto_merged=False,
+                    merge_error=_("an admin has to merge it (rule {0})").format(names),
+                )
+                return
         if not is_ready:
             reasons = {
                 "checks-failed": _("a check failed on GitHub"),
@@ -611,6 +675,39 @@ class GitHubAPI:
         if logger:
             logger.log("red", _("Auto-merge failed: {0}").format(pr_info["merge_error"]))
 
+    def _rulesets_on_branch(self, repo_name: str, branch: str) -> tuple[list[str], list[str]]:
+        """Name the rulesets that apply to *branch*: those the current user may bypass, and the others."""
+        allowed: list[str] = []
+        denied: list[str] = []
+        rules = requests.get(
+            f"https://api.github.com/repos/{repo_name}/rules/branches/{quote(branch, safe='')}",
+            headers=self.headers,
+            timeout=30,
+        )
+        if rules.status_code != 200:
+            return allowed, denied
+        seen = set()
+        for rule in rules.json():
+            key = (rule.get("ruleset_source_type"), rule.get("ruleset_source"), rule.get("ruleset_id"))
+            if key in seen or rule.get("ruleset_id") is None:
+                continue
+            seen.add(key)
+            source_type, source, ruleset_id = key
+            owner = "orgs" if source_type == "Organization" else "repos"
+            ruleset = requests.get(
+                f"https://api.github.com/{owner}/{source}/rulesets/{ruleset_id}",
+                headers=self.headers,
+                timeout=30,
+            )
+            details = ruleset.json() if ruleset.status_code == 200 else {}
+            name = details.get("name") or str(ruleset_id)
+            # "pull_requests_only" still lets the user bypass by merging a pull request.
+            if details.get("current_user_can_bypass") in ("always", "pull_requests_only"):
+                allowed.append(name)
+            else:
+                denied.append(name)
+        return allowed, denied
+
     def _find_existing_pr(self, repo_name: str, source_branch: str, target_branch: str) -> dict:
         """Find an existing open PR for the same branch combination"""
         try:
@@ -627,7 +724,9 @@ class GitHubAPI:
             pass
         return {}
 
-    def _show_pr_summary(self, pr_info: dict[str, Any], source_branch: str, target_branch: str, logger: Any) -> None:
+    def _show_pr_summary(
+        self, pr_info: dict[str, Any], source_branch: str, target_branch: str, logger: Any, auto_merge: bool = False
+    ) -> None:
         """Show pull request operation summary"""
         if not logger:
             return
@@ -635,6 +734,16 @@ class GitHubAPI:
         try:
             pr_number = pr_info.get("number", _("unknown"))
             pr_url = pr_info.get("html_url", "")
+
+            if auto_merge and not pr_info.get("auto_merged"):
+                # The pull request exists, but the merge that was asked for did not happen.
+                logger.log("yellow", "=" * 50)
+                logger.log("yellow", _("PULL REQUEST OPENED, BUT NOT MERGED"))
+                logger.log("yellow", "=" * 50)
+                logger.log("white", _("PR #{0} created").format(pr_number))
+                logger.log("yellow", _("Reason: {0}").format(pr_info.get("merge_error") or _("unknown")))
+                logger.log("cyan", _("URL: {0}").format(pr_url))
+                return
 
             logger.log("green", "=" * 50)
             logger.log("green", _("PULL REQUEST COMPLETED SUCCESSFULLY!"))

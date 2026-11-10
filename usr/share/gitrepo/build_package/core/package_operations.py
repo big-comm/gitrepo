@@ -14,7 +14,11 @@ from .git_status import display_path
 from .git_utils import GitUtils
 from .package_selection import PackageSelection, package_choices
 from gitrepo.common.translation import _
+
 from .commit_operations import commit_and_push
+from .config import DESTINATION_NAMES
+from .github_api import GitHubAPI
+from .token_store import TokenStore
 from .repository_lock import journey
 
 
@@ -157,9 +161,66 @@ def _publish_testing_branch(bp, branch: str) -> bool:
     )
     if result.returncode != 0:
         detail = (result.stderr or result.stdout).strip()
+        if _push_was_rejected(result) and _explain_testing_rejection(bp, branch):
+            bp.logger.log("dim", detail)
+            return False
         bp.logger.log("red", _("Push failed: {0}").format(detail))
         return False
     bp.logger.log("green", _("✓ Successfully pushed '{0}' to remote!").format(branch))
+    return True
+
+
+def _explain_testing_rejection(bp, branch: str) -> bool:
+    """Say why origin refused the testing branch and what fixes it; False when origin is not ahead.
+
+    Usually another build or computer published commits on origin/BRANCH (a
+    stable build merges main into it). With nothing new here, Synchronize
+    brings them in; with commits on both sides, they have to be merged.
+    """
+    subprocess.run_git(
+        ["git", "fetch", "origin", f"+refs/heads/{branch}:refs/remotes/origin/{branch}"],
+        capture_output=True,
+        text=True,
+        check=False,
+        intent="ordinary",
+    )
+    counts = subprocess.run_git(
+        ["git", "rev-list", "--left-right", "--count", f"refs/heads/{branch}...refs/remotes/origin/{branch}"],
+        capture_output=True,
+        text=True,
+        check=False,
+        intent="ordinary",
+    ).stdout.split()
+    if len(counts) != 2 or not all(count.isdigit() for count in counts):
+        return False
+    only_here, only_on_origin = int(counts[0]), int(counts[1])
+    if not only_on_origin:
+        return False
+    if not only_here:
+        bp.logger.log(
+            "red",
+            _(
+                "GitHub refused the push: origin/{0} has {1} commit(s) that your {0} does not have yet, "
+                "published by another build or computer."
+            ).format(branch, only_on_origin),
+        )
+        bp.logger.log(
+            "yellow",
+            _(
+                "Go to Organize Branches and click Synchronize to bring them into {0}, then build the package again."
+            ).format(branch),
+        )
+        return True
+    bp.logger.log(
+        "red",
+        _(
+            "GitHub refused the push: {0} and origin/{0} have different commits ({1} only here, {2} only on origin)."
+        ).format(branch, only_here, only_on_origin),
+    )
+    bp.logger.log(
+        "yellow",
+        _("Use Download updates to merge origin/{0} into {0}, then build the package again.").format(branch),
+    )
     return True
 
 
@@ -189,12 +250,49 @@ def _choose_package_directories(bp):
     return directories
 
 
+def _targets(bp) -> list[str]:
+    return bp.publish_targets() if hasattr(bp, "publish_targets") else [bp.organization]
+
+
+def _target_names(bp) -> str:
+    from .destination import describe_targets
+
+    return describe_targets(_targets(bp))
+
+
+def _missing_tokens(bp) -> list[str]:
+    """Extra destinations with no token to dispatch with; checked before anything changes."""
+    return [org for org in _targets(bp)[1:] if not TokenStore.get_token(org)]
+
+
+def _api_for(bp, organization):
+    if organization == bp.organization:
+        return bp.github_api
+    return GitHubAPI(TokenStore.get_token(organization), organization)
+
+
 def _trigger_package_workflow(bp, package_name, branch_type, working_branch, tmate_option, package_directory=""):
+    """Dispatch the build to every chosen organization, the principal first."""
     new_branch = working_branch if working_branch != "main" else ""
     arguments = (package_name, branch_type, new_branch, False, tmate_option, bp.logger)
-    if package_directory:
-        return bp.github_api.trigger_workflow(*arguments, package_directory=package_directory)
-    return bp.github_api.trigger_workflow(*arguments)
+    extra = {"package_directory": package_directory} if package_directory else {}
+    targets = _targets(bp)
+    outcomes = []
+    for organization in targets:
+        if len(targets) > 1:
+            bp.logger.log(
+                "cyan",
+                _("→ {0} (github.com/{1})").format(DESTINATION_NAMES.get(organization, organization), organization),
+            )
+        outcomes.append((organization, _api_for(bp, organization).trigger_workflow(*arguments, **extra)))
+    if len(targets) > 1:
+        for organization, started in outcomes:
+            name = DESTINATION_NAMES.get(organization, organization)
+            bp.logger.log(
+                "green" if started else "red",
+                _("{0}: build started").format(name) if started else _("{0}: build not started").format(name),
+            )
+    return all(started for _organization, started in outcomes)
 
 
 def _branch_type_label(branch_type: str) -> str:
@@ -202,6 +300,7 @@ def _branch_type_label(branch_type: str) -> str:
     return {
         "testing": _("Testing"),
         "stable": _("Stable"),
+        "priority": _("Priority"),
         "extra": _("Extra"),
     }.get(branch_type, branch_type)
 
@@ -213,6 +312,13 @@ def commit_and_generate_package(build_package_instance, branch_type, commit_mess
     if not bp.is_git_repo:
         bp.logger.log("red", _("This operation is only available in Git repositories."))
         return False
+    allowed = bp.branch_types() if hasattr(bp, "branch_types") else ("testing", "stable", "priority", "extra")
+    if branch_type not in allowed:
+        bp.logger.log(
+            "red",
+            _("{0} does not publish to the {1} repository.").format(_target_names(bp), branch_type),
+        )
+        return False
     testing_branch = ""
     if branch_type == "testing":
         testing_branch = _testing_branch_for_current(bp)
@@ -220,6 +326,16 @@ def commit_and_generate_package(build_package_instance, branch_type, commit_mess
             return False
     if not bp.github_api.ensure_github_token(bp.logger):
         bp.logger.log("red", _("Configure a GitHub token before generating a package."))
+        return False
+    missing = _missing_tokens(bp)
+    if missing:
+        # Checked before committing: half a publication is worse than none.
+        for organization in missing:
+            bp.logger.log(
+                "red",
+                _("No access token is saved for {0}; save one in Settings to publish there too.").format(organization),
+            )
+        bp.logger.log("yellow", _("Nothing was committed, pushed or built."))
         return False
     if not _commit_pending_changes(bp, commit_message):
         return False
@@ -248,6 +364,7 @@ def commit_and_generate_package(build_package_instance, branch_type, commit_mess
         _branch_type_label(branch_type),
         working_branch,
     )
+    question += "\n" + _("Publish to: {0}").format(_target_names(bp))
     if package_directory:
         question += "\n" + _("Directory: {0}").format(f"{package_directory}/")
     if not bp.menu.confirm(StructuredConfirmation(question), default_yes=False):
@@ -277,6 +394,7 @@ def _generate_several_packages(bp, packages, branch_type, working_branch, tmate_
         _branch_type_label(branch_type),
         working_branch,
     )
+    question += "\n" + _("Publish to: {0}").format(_target_names(bp))
     question += "\n" + _("Packages:") + "".join(f"\n• {directory}/" for directory in directories)
     if not bp.menu.confirm(StructuredConfirmation(question), default_yes=False):
         bp.logger.log("yellow", _("Package build cancelled."))
@@ -674,7 +792,7 @@ def _show_package_summary(bp, package_name, branch_type, working_branch, tmate_o
     repo_name = GitUtils.get_repo_name()
 
     data = [
-        (_("Organization"), bp.organization),
+        (_("Organization"), ", ".join(_targets(bp))),
         (_("User Name"), bp.github_user_name),
         (_("Package Name"), package_name),
         (_("Repository Type"), _branch_type_label(branch_type)),

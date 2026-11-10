@@ -294,14 +294,6 @@ msgstr "Configuration du Token GitHub"
 #: usr/share/gitrepo/build_package/core/github_api.py:256 usr/share/gitrepo/build_package/gui/repository_actions.py:493
 msgid "A GitHub Personal Access Token is required for this operation."
 msgstr "Un token d'accès personnel GitHub est requis pour cette opération."
-# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 351
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:501
-msgid "GitHub Username:"
-msgstr "Nom d’utilisateur GitHub :"
-# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 353
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:503
-msgid "your-username"
-msgstr "votre-nom-utilisateur"
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 358
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:508
 msgid "GitHub Token:"
@@ -314,10 +306,6 @@ msgstr "Ouvrir les paramètres du Token GitHub"
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:526
 msgid "Save and Continue"
 msgstr "Enregistrer et Continuer"
-# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 386
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:536
-msgid "Username and token are required"
-msgstr "Nom d’utilisateur et token requis"
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 403
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:553
 msgid ""
@@ -2820,18 +2808,6 @@ msgstr "Créer un jeton d'accès classique sur GitHub"
 msgid "Save or replace an access token"
 msgstr "Enregistrer ou remplacer un jeton d'accès"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
-# 83
-#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:83
-msgid "Use the GitHub organization or username that owns the repositories where workflows will run."
-msgstr ""
-"Utilisez le nom d'organisation ou d'utilisateur GitHub qui possède les référentiels où les "
-"workflows seront exécutés."
-# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
-# 87
-#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:87
-msgid "GitHub organization or username"
-msgstr "Organisation ou nom d'utilisateur GitHub"
-# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 92
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:92
 msgid "Personal access token"
@@ -2867,21 +2843,11 @@ msgstr "Aucun jeton d'accès enregistré"
 msgid "Use the form below when you want to run a GitHub workflow."
 msgstr "Utilisez le formulaire ci-dessous lorsque vous souhaitez exécuter un workflow GitHub."
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
-# 132
-#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:132
-msgid "Stored securely in the system keyring"
-msgstr "Stocké en toute sécurité dans le trousseau système"
-# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 138
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:138
 #, python-brace-format
 msgid "Delete access token for {0}"
 msgstr "Supprimer le jeton d'accès pour {0}"
-# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
-# 150
-#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:150
-msgid "Enter both the GitHub organization and the access token."
-msgstr "Saisissez à la fois l'organisation GitHub et le jeton d'accès."
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
@@ -7947,10 +7913,6 @@ msgstr "Publier {0} sur origin pour qu'origin/{0} corresponde aussi à main."
 #: usr/share/gitrepo/build_package/core/main_sync.py:341
 msgid "Synchronize with origin/main?"
 msgstr "Synchroniser avec origin/main ?"
-# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 342
-#: usr/share/gitrepo/build_package/core/main_sync.py:342
-msgid "Only fast-forwards run, so nothing is merged and no work is discarded."
-msgstr "Seules des avances rapides (fast-forward) sont exécutées, donc rien n'est fusionné et aucun travail n'est perdu."
 # File: usr/share/gitrepo/build_package/core/main_sync.py, line: 348
 #: usr/share/gitrepo/build_package/core/main_sync.py:348
 msgid "Synchronization cancelled; only git fetch ran."
@@ -8070,10 +8032,6 @@ msgstr "Détails : {0}"
 #: usr/share/gitrepo/build_package/core/github_api.py:129
 msgid "The pull request was left open and not merged. Fix the failing check, then merge it on GitHub."
 msgstr "La pull request a été laissée ouverte et n'a pas été fusionnée. Corrigez la vérification en échec, puis fusionnez-la sur GitHub."
-# File: usr/share/gitrepo/build_package/core/github_api.py, line: 136
-#: usr/share/gitrepo/build_package/core/github_api.py:136
-msgid "GitHub blocks this merge (a required review or a branch rule). The pull request was left open and not merged."
-msgstr "GitHub bloque cette fusion (une revue obligatoire ou une règle de branche). La pull request a été laissée ouverte et n'a pas été fusionnée."
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 585
 #: usr/share/gitrepo/build_package/core/github_api.py:585
 msgid "a check failed on GitHub"
@@ -8082,3 +8040,564 @@ msgstr "une vérification a échoué sur GitHub"
 #: usr/share/gitrepo/build_package/core/github_api.py:586
 msgid "GitHub blocks the merge"
 msgstr "GitHub bloque la fusion"
+# File: usr/share/gitrepo/build_package/core/build_package.py, line: 566
+#: usr/share/gitrepo/build_package/core/build_package.py:566
+msgid "Configure GitHub organization (default: the destination saved in settings, else big-comm)"
+msgstr "Configurer l'organisation GitHub (par défaut : la destination enregistrée dans les paramètres, sinon big-comm)"
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 222
+#: usr/share/gitrepo/build_package/core/package_operations.py:222
+#, python-brace-format
+msgid "{0} does not publish to the {1} repository."
+msgstr "{0} ne publie pas dans le dépôt {1}."
+# File: usr/share/gitrepo/build_package/gui/main_window.py, line: 518
+#: usr/share/gitrepo/build_package/gui/main_window.py:518
+#, python-brace-format
+msgid "An operation is still running in {0}. GitRepo stays there until it finishes."
+msgstr "Une opération est encore en cours dans {0}. GitRepo y reste jusqu'à sa fin."
+# File: usr/share/gitrepo/build_package/gui/main_window.py, line: 539
+#: usr/share/gitrepo/build_package/gui/main_window.py:539
+#, python-brace-format
+msgid "Now in {0}"
+msgstr "Maintenant dans {0}"
+# File: usr/share/gitrepo/build_package/gui/main_window.py, line: 542
+#: usr/share/gitrepo/build_package/gui/main_window.py:542
+#, python-brace-format
+msgid "Back to {0}"
+msgstr "Retour à {0}"
+# File: usr/share/gitrepo/build_package/core/build_package.py, line: 530
+#: usr/share/gitrepo/build_package/core/build_package.py:530
+msgid "The pull request is open but was not merged; the reason is above."
+msgstr "La pull request est ouverte mais n'a pas été fusionnée ; la raison est indiquée ci-dessus."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 134
+#: usr/share/gitrepo/build_package/core/github_api.py:134
+msgid "GitHub reports that a branch rule blocks this merge."
+msgstr "GitHub signale qu'une règle de branche bloque cette fusion."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 586
+#: usr/share/gitrepo/build_package/core/github_api.py:586
+#, python-brace-format
+msgid "The rule {0} protects {1}. You can bypass it, so GitRepo merges the pull request."
+msgstr "La règle {0} protège {1}. Vous pouvez la contourner, donc GitRepo fusionne la pull request."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 592
+#: usr/share/gitrepo/build_package/core/github_api.py:592
+msgid "a branch rule"
+msgstr "une règle de branche"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 596
+#: usr/share/gitrepo/build_package/core/github_api.py:596
+#, python-brace-format
+msgid "The rule {0} protects {1}: an admin has to merge this pull request."
+msgstr "La règle {0} protège {1} : un administrateur doit fusionner cette pull request."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 602
+#: usr/share/gitrepo/build_package/core/github_api.py:602
+#, python-brace-format
+msgid "an admin has to merge it (rule {0})"
+msgstr "un administrateur doit la fusionner (règle {0})"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 699
+#: usr/share/gitrepo/build_package/core/github_api.py:699
+msgid "PULL REQUEST OPENED, BUT NOT MERGED"
+msgstr "PULL REQUEST OUVERTE, MAIS NON FUSIONNÉE"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 702
+#: usr/share/gitrepo/build_package/core/github_api.py:702
+#, python-brace-format
+msgid "Reason: {0}"
+msgstr "Raison : {0}"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 57
+#: usr/share/gitrepo/build_package/core/branch_menu.py:57
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:268
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:308
+msgid "Go back to a commit"
+msgstr "Revenir à un commit"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 58
+#: usr/share/gitrepo/build_package/core/branch_menu.py:58
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:317
+msgid "Undo the last operation"
+msgstr "Annuler la dernière opération"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 223
+#: usr/share/gitrepo/build_package/core/branch_menu.py:223
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:260
+msgid "This branch has no earlier commit to go back to."
+msgstr "Cette branche n'a aucun commit antérieur auquel revenir."
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 230
+#: usr/share/gitrepo/build_package/core/branch_menu.py:230
+msgid "Go back to which commit?"
+msgstr "Revenir à quel commit ?"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 232
+#: usr/share/gitrepo/build_package/core/branch_menu.py:232
+#, python-brace-format
+msgid "{0} is on {1}: {2}"
+msgstr "{0} est sur {1} : {2}"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 243
+#: usr/share/gitrepo/build_package/core/branch_menu.py:243
+#: usr/share/gitrepo/build_package/core/branch_menu.py:258
+msgid "Nothing was changed."
+msgstr "Rien n'a été modifié."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 359
+#: usr/share/gitrepo/build_package/core/main_sync.py:359
+#, python-brace-format
+msgid "These changes come from origin/main. If main dropped work of yours, it disappears from {0} too."
+msgstr "Ces changements viennent de origin/main. Si main a écarté un de vos travaux, il disparaît aussi de {0}."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 364
+#: usr/share/gitrepo/build_package/core/main_sync.py:364
+#, python-brace-format
+msgid "{0} is published on GitHub at the end."
+msgstr "{0} est publiée sur GitHub à la fin."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 365
+#: usr/share/gitrepo/build_package/core/main_sync.py:365
+msgid "Undo is available afterwards."
+msgstr "L'annulation reste possible ensuite."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 368
+#: usr/share/gitrepo/build_package/core/main_sync.py:368
+msgid "Your branch and the local main move forward to origin/main; nothing is merged here."
+msgstr "Votre branche et le main local avancent jusqu'à origin/main ; rien n'est fusionné ici."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 373
+#: usr/share/gitrepo/build_package/core/main_sync.py:373
+#: usr/share/gitrepo/build_package/core/history.py:324
+#: usr/share/gitrepo/build_package/core/history.py:428
+#, python-brace-format
+msgid "Files that change in {0}"
+msgstr "Fichiers qui changent dans {0}"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 412
+#: usr/share/gitrepo/build_package/core/main_sync.py:412
+#: usr/share/gitrepo/build_package/core/main_sync.py:416
+msgid "Synchronize with main"
+msgstr "Synchroniser avec main"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 279
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:279
+#, python-brace-format
+msgid "{0} is on the first commit below. Choose the one it should go back to."
+msgstr "{0} est sur le premier commit ci-dessous. Choisissez celui auquel elle doit revenir."
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 332
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:332
+msgid "Going back to a commit"
+msgstr "Retour à un commit"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 333
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:333
+#, python-brace-format
+msgid "Moving {0} to {1}..."
+msgstr "Déplacement de {0} vers {1}..."
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 336
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:336
+msgid "Go back"
+msgstr "Revenir"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 357
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:357
+msgid "Undoing"
+msgstr "Annulation"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 357
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:357
+#, python-brace-format
+msgid "Taking back “{0}”..."
+msgstr "Annulation de “{0}”..."
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 360
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:360
+#: usr/share/gitrepo/build_package/gui/main_window.py:423
+msgid "Undo"
+msgstr "Annuler"
+# File: usr/share/gitrepo/build_package/gui/main_window.py, line: 421
+#: usr/share/gitrepo/build_package/gui/main_window.py:421
+#, python-brace-format
+msgid "“{0}” finished"
+msgstr "“{0}” terminé"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 303
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:303
+msgid "Branch history"
+msgstr "Historique de la branche"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 305
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:305
+msgid "Every change is shown before it runs, and the commits that leave the branch can be brought back."
+msgstr "Chaque changement est affiché avant son exécution, et les commits qui quittent la branche peuvent être récupérés."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 309
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:309
+msgid "Pick an earlier commit of this branch and see what changes before moving to it."
+msgstr "Choisissez un commit antérieur de cette branche et voyez ce qui change avant de vous y déplacer."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 310
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:310
+msgid "Choose…"
+msgstr "Choisir…"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 318
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:318
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:565
+#: usr/share/gitrepo/build_package/core/history.py:252
+msgid "Nothing to undo yet."
+msgstr "Rien à annuler pour l'instant."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 319
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:319
+msgid "Undo…"
+msgstr "Annuler…"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 571
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:571
+#, python-brace-format
+msgid "“{0}”, {1}"
+msgstr "“{0}”, {1}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 257
+#: usr/share/gitrepo/build_package/core/history.py:257
+#, python-brace-format
+msgid "{0} changed after “{1}”, so it can no longer be undone safely."
+msgstr "{0} a changé après “{1}” ; l'annulation n'est donc plus possible en toute sécurité."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 310
+#: usr/share/gitrepo/build_package/core/history.py:310
+#, python-brace-format
+msgid "{0}: from {1} back to {2}"
+msgstr "{0} : de {1} retour à {2}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 312
+#: usr/share/gitrepo/build_package/core/history.py:312
+#: usr/share/gitrepo/build_package/core/history.py:454
+#, python-brace-format
+msgid "{0}: from {1} to {2}"
+msgstr "{0} : de {1} à {2}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 332
+#: usr/share/gitrepo/build_package/core/history.py:332
+#, python-brace-format
+msgid "{0} file(s) will be deleted from your branch. Check the list below."
+msgstr "{0} fichier(s) seront supprimés de votre branche. Vérifiez la liste ci-dessous."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 341
+#: usr/share/gitrepo/build_package/core/history.py:341
+#, python-brace-format
+msgid "{0} is shared: what was published there stays on GitHub."
+msgstr "{0} est partagée : ce qui y a été publié reste sur GitHub."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 343
+#: usr/share/gitrepo/build_package/core/history.py:343
+#, python-brace-format
+msgid "Undo “{0}”?"
+msgstr "Annuler “{0}” ?"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 344
+#: usr/share/gitrepo/build_package/core/history.py:344
+msgid "The branches go back to where they were before this operation. Uncommitted files are kept."
+msgstr "Les branches reviennent à leur état d'avant cette opération. Les fichiers non commités sont conservés."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 349
+#: usr/share/gitrepo/build_package/core/history.py:349
+msgid "Also put GitHub back"
+msgstr "Rétablir aussi GitHub"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 353
+#: usr/share/gitrepo/build_package/core/history.py:353
+#: usr/share/gitrepo/build_package/core/history.py:408
+#, python-brace-format
+msgid "origin/{0}: from {1} back to {2}"
+msgstr "origin/{0} : de {1} retour à {2}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 365
+#: usr/share/gitrepo/build_package/core/history.py:365
+msgid "This operation can no longer be undone."
+msgstr "Cette opération ne peut plus être annulée."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 368
+#: usr/share/gitrepo/build_package/core/history.py:368
+#, python-brace-format
+msgid "{0}: back to {1}"
+msgstr "{0} : retour à {1}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 371
+#: usr/share/gitrepo/build_package/core/history.py:371
+#, python-brace-format
+msgid "Could not move {0} back: {1}"
+msgstr "Impossible de ramener {0} en arrière : {1}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 372
+#: usr/share/gitrepo/build_package/core/history.py:372
+msgid "If Git mentions local changes, commit or stash them and undo again."
+msgstr "Si Git mentionne des modifications locales, commitez-les ou mettez-les de côté (stash), puis annulez de nouveau."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 378
+#: usr/share/gitrepo/build_package/core/history.py:378
+#, python-brace-format
+msgid "origin/{0}: back to {1}"
+msgstr "origin/{0} : retour à {1}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 381
+#: usr/share/gitrepo/build_package/core/history.py:381
+#: usr/share/gitrepo/build_package/core/history.py:470
+#, python-brace-format
+msgid "GitHub was not changed: {0}"
+msgstr "GitHub n'a pas été modifié : {0}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 385
+#: usr/share/gitrepo/build_package/core/history.py:385
+#, python-brace-format
+msgid "“{0}” was undone."
+msgstr "“{0}” a été annulé."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 399
+#: usr/share/gitrepo/build_package/core/history.py:399
+#, python-brace-format
+msgid "The commits leaving {0} are not lost: Undo brings them back."
+msgstr "Les commits qui quittent {0} ne sont pas perdus : Annuler les rétablit."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 413
+#: usr/share/gitrepo/build_package/core/history.py:413
+#, python-brace-format
+msgid "Go back to {0}?"
+msgstr "Revenir à {0} ?"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 414
+#: usr/share/gitrepo/build_package/core/history.py:414
+#, python-brace-format
+msgid "{0} will point at {1}; {2} commit(s) after it leave the branch."
+msgstr "{0} pointera sur {1} ; {2} commit(s) qui le suivent quittent la branche."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 419
+#: usr/share/gitrepo/build_package/core/history.py:419
+#, python-brace-format
+msgid "Leaves {0}: {1} {2}"
+msgstr "Quitte {0} : {1} {2}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 424
+#: usr/share/gitrepo/build_package/core/history.py:424
+#, python-brace-format
+msgid "{0} now points at {1}"
+msgstr "{0} pointe maintenant sur {1}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 431
+#: usr/share/gitrepo/build_package/core/history.py:431
+msgid "Also go back on GitHub"
+msgstr "Revenir aussi sur GitHub"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 441
+#: usr/share/gitrepo/build_package/core/history.py:441
+#, python-brace-format
+msgid "{0} is shared; take changes back on it with a revert instead."
+msgstr "{0} est partagée ; annulez-y plutôt les changements avec un revert."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 457
+#: usr/share/gitrepo/build_package/core/history.py:457
+#, python-brace-format
+msgid "Could not move {0}: {1}"
+msgstr "Impossible de déplacer {0} : {1}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 458
+#: usr/share/gitrepo/build_package/core/history.py:458
+msgid "If Git mentions local changes, commit or stash them and try again."
+msgstr "Si Git mentionne des modifications locales, commitez-les ou mettez-les de côté (stash), puis réessayez."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 464
+#: usr/share/gitrepo/build_package/core/history.py:464
+#, python-brace-format
+msgid "origin/{0}: from {1} to {2}"
+msgstr "origin/{0} : de {1} à {2}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 472
+#: usr/share/gitrepo/build_package/core/history.py:472
+#, python-brace-format
+msgid "Go back to {0}"
+msgstr "Revenir à {0}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 473
+#: usr/share/gitrepo/build_package/core/history.py:473
+#, python-brace-format
+msgid "{0} now points at {1}."
+msgstr "{0} pointe maintenant sur {1}."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 488
+#: usr/share/gitrepo/build_package/core/history.py:488
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:18
+msgid "added"
+msgstr "ajouté"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 488
+#: usr/share/gitrepo/build_package/core/history.py:488
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:19
+msgid "modified"
+msgstr "modifié"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 488
+#: usr/share/gitrepo/build_package/core/history.py:488
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:20
+msgid "deleted"
+msgstr "supprimé"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 488
+#: usr/share/gitrepo/build_package/core/history.py:488
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:21
+msgid "renamed"
+msgstr "renommé"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 488
+#: usr/share/gitrepo/build_package/core/history.py:488
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:22
+msgid "copied"
+msgstr "copié"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 491
+#: usr/share/gitrepo/build_package/core/history.py:491
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:139
+#, python-brace-format
+msgid "… and {0} more"
+msgstr "… et {0} de plus"
+# File: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py, line: 126
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:126
+msgid "What will be done"
+msgstr "Ce qui va être fait"
+# File: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py, line: 149
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:149
+msgid "Rewrites the branch on GitHub only if nobody published to it since."
+msgstr "Réécrit la branche sur GitHub uniquement si personne n'y a publié depuis."
+# File: usr/share/gitrepo/build_package/core/destination.py, line: 59
+#: usr/share/gitrepo/build_package/core/destination.py:59
+#, python-brace-format
+msgid "Used for packages built by github.com/{0}"
+msgstr "Utilisé pour les paquets construits par github.com/{0}"
+# File: usr/share/gitrepo/build_package/core/destination.py, line: 61
+#: usr/share/gitrepo/build_package/core/destination.py:61
+msgid "Used when no token is saved for the destination organization"
+msgstr "Utilisé lorsqu'aucun jeton n'est enregistré pour l'organisation de destination"
+# File: usr/share/gitrepo/build_package/core/destination.py, line: 63
+#: usr/share/gitrepo/build_package/core/destination.py:63
+#, python-brace-format
+msgid "Never used: GitRepo only looks for {0} or default. Save the token again for the organization."
+msgstr "Jamais utilisé : GitRepo ne cherche que {0} ou default. Enregistrez à nouveau le jeton pour l'organisation."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 202
+#: usr/share/gitrepo/build_package/core/github_api.py:202
+#, python-brace-format
+msgid "Using the access token saved for {0}."
+msgstr "Utilisation du jeton d'accès enregistré pour {0}."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 206
+#: usr/share/gitrepo/build_package/core/github_api.py:206
+#, python-brace-format
+msgid "No access token is saved for {0}; using the one saved as {1}."
+msgstr "Aucun jeton d'accès n'est enregistré pour {0} ; utilisation de celui enregistré sous {1}."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 217
+#: usr/share/gitrepo/build_package/core/github_api.py:217
+#, python-brace-format
+msgid "GitHub says: {0}"
+msgstr "GitHub indique : {0}"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 220
+#: usr/share/gitrepo/build_package/core/github_api.py:220
+msgid "Check the access token GitRepo used:"
+msgstr "Vérifiez le jeton d'accès utilisé par GitRepo :"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 224
+#: usr/share/gitrepo/build_package/core/github_api.py:224
+#, python-brace-format
+msgid "• it is saved for {0} in Settings, under “Save or replace an access token” (a token saved under another name is never used);"
+msgstr "• il est enregistré pour {0} dans Paramètres, sous « Enregistrer ou remplacer un jeton d'accès » (un jeton enregistré sous un autre nom n'est jamais utilisé) ;"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 228
+#: usr/share/gitrepo/build_package/core/github_api.py:228
+msgid "• a classic token has the repo and workflow scopes;"
+msgstr "• un jeton classique possède les portées repo et workflow ;"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 231
+#: usr/share/gitrepo/build_package/core/github_api.py:231
+#, python-brace-format
+msgid "• a fine-grained token belongs to {0} and can write Contents of {1}."
+msgstr "• un jeton à granularité fine appartient à {0} et peut écrire Contents de {1}."
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 496
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:496
+#, python-brace-format
+msgid "Building needs an access token for {0}. It is saved in the system keyring for that organization."
+msgstr "La construction nécessite un jeton d'accès pour {0}. Il est enregistré dans le trousseau du système pour cette organisation."
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 534
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:534
+#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:180
+msgid "Paste the access token first."
+msgstr "Collez d'abord le jeton d'accès."
+# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line: 86
+#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:86
+msgid "Each token is saved for the organization where packages are built. GitRepo uses the one that matches the destination chosen on the Packages page."
+msgstr "Chaque jeton est enregistré pour l'organisation où les paquets sont construits. GitRepo utilise celui qui correspond à la destination choisie sur la page Paquets."
+# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line: 94
+#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:94
+msgid "Organization where packages are built"
+msgstr "Organisation où les paquets sont construits"
+# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line: 128
+#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:128
+#, python-brace-format
+msgid "Saved as {0}"
+msgstr "Enregistré sous {0}"
+# File: usr/share/gitrepo/build_package/core/build_package.py, line: 383
+#: usr/share/gitrepo/build_package/core/build_package.py:383
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:424
+msgid "Where to publish"
+msgstr "Où publier"
+# File: usr/share/gitrepo/build_package/core/destination.py, line: 104
+#: usr/share/gitrepo/build_package/core/destination.py:104
+#, python-brace-format
+msgid "{0} and {1}"
+msgstr "{0} et {1}"
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 228
+#: usr/share/gitrepo/build_package/core/package_operations.py:228
+#, python-brace-format
+msgid "→ {0} (github.com/{1})"
+msgstr "→ {0} (github.com/{1})"
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 236
+#: usr/share/gitrepo/build_package/core/package_operations.py:236
+#, python-brace-format
+msgid "{0}: build started"
+msgstr "{0} : compilation lancée"
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 236
+#: usr/share/gitrepo/build_package/core/package_operations.py:236
+#, python-brace-format
+msgid "{0}: build not started"
+msgstr "{0} : compilation non lancée"
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 278
+#: usr/share/gitrepo/build_package/core/package_operations.py:278
+#, python-brace-format
+msgid "No access token is saved for {0}; save one in Settings to publish there too."
+msgstr "Aucun jeton d’accès n’est enregistré pour {0} ; enregistrez-en un dans les Paramètres pour y publier aussi."
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 280
+#: usr/share/gitrepo/build_package/core/package_operations.py:280
+msgid "Nothing was committed, pushed or built."
+msgstr "Rien n’a été commité, poussé ni compilé."
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 309
+#: usr/share/gitrepo/build_package/core/package_operations.py:309
+#: usr/share/gitrepo/build_package/core/package_operations.py:339
+#, python-brace-format
+msgid "Publish to: {0}"
+msgstr "Publier sur : {0}"
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 80
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:80
+msgid "Principal"
+msgstr "Principale"
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 82
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:82
+msgid "Also publishes"
+msgstr "Publie aussi"
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 84
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:84
+msgid "Token saved"
+msgstr "Jeton enregistré"
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 85
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:85
+msgid "Uses the default token"
+msgstr "Utilise le jeton par défaut"
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 86
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:86
+msgid "No token"
+msgstr "Pas de jeton"
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 426
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:426
+msgid "Mark one organization or both. The principal one builds first; one always stays marked."
+msgstr "Cochez une organisation ou les deux. La principale compile en premier ; une reste toujours cochée."
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 468
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:468
+#, python-brace-format
+msgid "Will be published by: {0}"
+msgstr "Sera publié par : {0}"
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 493
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:493
+msgid "At least one organization has to publish the package."
+msgstr "Au moins une organisation doit publier le paquet."
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 246
+#: usr/share/gitrepo/build_package/core/package_operations.py:246
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:242
+msgid "Priority"
+msgstr "Priorité"
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 462
+#: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:462
+#, python-brace-format
+msgid "Follow on {0}"
+msgstr "Suivre sur {0}"
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 243
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:243
+msgid "Publish to biglinux-priority, which comes before stable (BigLinux only)"
+msgstr "Publier dans biglinux-priority, qui passe avant stable (BigLinux uniquement)"
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 615
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:615
+msgid "Start priority build"
+msgstr "Lancer la compilation prioritaire"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 173
+#: usr/share/gitrepo/build_package/core/main_sync.py:173
+msgid "Synchronize does not send this work to main: it only updates the copies on this computer."
+msgstr "Synchroniser n’envoie pas ce travail vers main : il met seulement à jour les copies sur cet ordinateur."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 355
+#: usr/share/gitrepo/build_package/core/main_sync.py:355
+msgid "Nothing is sent to main: origin/main on GitHub stays as it is."
+msgstr "Rien n’est envoyé vers main : origin/main sur GitHub reste tel quel."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 243
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:243
+msgid "Synchronize never sends your branch to main and never changes origin/main on GitHub. Your work reaches main only through a pull request or a stable package."
+msgstr "Synchroniser n’envoie jamais votre branche vers main et ne modifie jamais origin/main sur GitHub. Votre travail n’atteint main que par une pull request ou un paquet stable."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 274
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:274
+msgid "Brings your branch and the local main up to date with origin/main. It never sends your branch to main."
+msgstr "Met à jour votre branche et le main local d’après origin/main. N’envoie jamais votre branche vers main."
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 202
+#: usr/share/gitrepo/build_package/core/package_operations.py:202
+#, python-brace-format
+msgid "GitHub refused the push: origin/{0} has {1} commit(s) that your {0} does not have yet, published by another build or computer."
+msgstr "GitHub a refusé le push : origin/{0} contient {1} commit(s) que votre {0} n’a pas encore, publiés par un autre build ou un autre ordinateur."
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 209
+#: usr/share/gitrepo/build_package/core/package_operations.py:209
+#, python-brace-format
+msgid "Go to Organize Branches and click Synchronize to bring them into {0}, then build the package again."
+msgstr "Allez dans « Organiser les branches » et cliquez sur « Synchroniser » pour les intégrer à {0}, puis recompilez le paquet."
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 216
+#: usr/share/gitrepo/build_package/core/package_operations.py:216
+#, python-brace-format
+msgid "GitHub refused the push: {0} and origin/{0} have different commits ({1} only here, {2} only on origin)."
+msgstr "GitHub a refusé le push : {0} et origin/{0} ont des commits différents ({1} uniquement ici, {2} uniquement sur origin)."
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 222
+#: usr/share/gitrepo/build_package/core/package_operations.py:222
+#, python-brace-format
+msgid "Use Download updates to merge origin/{0} into {0}, then build the package again."
+msgstr "Utilisez « Télécharger les mises à jour » pour fusionner origin/{0} dans {0}, puis recompilez le paquet."

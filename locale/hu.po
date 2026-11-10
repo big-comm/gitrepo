@@ -294,14 +294,6 @@ msgstr "GitHub Token beállítása"
 #: usr/share/gitrepo/build_package/core/github_api.py:256 usr/share/gitrepo/build_package/gui/repository_actions.py:493
 msgid "A GitHub Personal Access Token is required for this operation."
 msgstr "Ehhez a művelethez GitHub Személyes Hozzáférési Token szükséges."
-# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 351
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:501
-msgid "GitHub Username:"
-msgstr "GitHub felhasználónév:"
-# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 353
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:503
-msgid "your-username"
-msgstr "felhasználó-neved"
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 358
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:508
 msgid "GitHub Token:"
@@ -314,10 +306,6 @@ msgstr "GitHub token beállítások megnyitása"
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:526
 msgid "Save and Continue"
 msgstr "Mentés és folytatás"
-# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 386
-#: usr/share/gitrepo/build_package/gui/repository_actions.py:536
-msgid "Username and token are required"
-msgstr "Felhasználónév és token megadása kötelező"
 # File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 403
 #: usr/share/gitrepo/build_package/gui/repository_actions.py:553
 msgid ""
@@ -2815,18 +2803,6 @@ msgstr "Klasszikus hozzáférési token létrehozása a GitHubon"
 msgid "Save or replace an access token"
 msgstr "Hozzáférési token mentése vagy cseréje"
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
-# 83
-#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:83
-msgid "Use the GitHub organization or username that owns the repositories where workflows will run."
-msgstr ""
-"Használja azt a GitHub szervezetet vagy felhasználónevet, amelyhez a munkafolyamatokat futtató "
-"tárolók tartoznak."
-# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
-# 87
-#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:87
-msgid "GitHub organization or username"
-msgstr "GitHub szervezet vagy felhasználónév"
-# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 92
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:92
 msgid "Personal access token"
@@ -2862,21 +2838,11 @@ msgstr "Nincsenek mentett hozzáférési tokenek"
 msgid "Use the form below when you want to run a GitHub workflow."
 msgstr "Használja az alábbi űrlapot, amikor egy GitHub munkafolyamatot szeretne futtatni."
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
-# 132
-#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:132
-msgid "Stored securely in the system keyring"
-msgstr "Biztonságosan tárolva a rendszer kulcstartójában"
-# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
 # 138
 #: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:138
 #, python-brace-format
 msgid "Delete access token for {0}"
 msgstr "Hozzáférési token törlése ehhez: {0}"
-# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
-# 150
-#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:150
-msgid "Enter both the GitHub organization and the access token."
-msgstr "Adja meg a GitHub szervezetet és a hozzáférési tokenet is."
 # #-#-#-#-#  gitrepo.pot (gitrepo)  #-#-#-#-#
 # 
 # File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line:
@@ -7936,10 +7902,6 @@ msgstr "Tedd közzé a(z) {0} ágat az origin-en, hogy az origin/{0} is megegyez
 #: usr/share/gitrepo/build_package/core/main_sync.py:341
 msgid "Synchronize with origin/main?"
 msgstr "Szinkronizálod az origin/main-nel?"
-# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 342
-#: usr/share/gitrepo/build_package/core/main_sync.py:342
-msgid "Only fast-forwards run, so nothing is merged and no work is discarded."
-msgstr "Csak fast-forward műveletek futnak, így semmi sem egyesül, és semmilyen munka nem vész el."
 # File: usr/share/gitrepo/build_package/core/main_sync.py, line: 348
 #: usr/share/gitrepo/build_package/core/main_sync.py:348
 msgid "Synchronization cancelled; only git fetch ran."
@@ -8059,10 +8021,6 @@ msgstr "Részletek: {0}"
 #: usr/share/gitrepo/build_package/core/github_api.py:129
 msgid "The pull request was left open and not merged. Fix the failing check, then merge it on GitHub."
 msgstr "A pull request nyitva maradt, és nem lett egyesítve. Javítsa ki a sikertelen ellenőrzést, majd egyesítse a GitHubon."
-# File: usr/share/gitrepo/build_package/core/github_api.py, line: 136
-#: usr/share/gitrepo/build_package/core/github_api.py:136
-msgid "GitHub blocks this merge (a required review or a branch rule). The pull request was left open and not merged."
-msgstr "A GitHub blokkolja ezt az egyesítést (kötelező felülvizsgálat vagy ágszabály). A pull request nyitva maradt, és nem lett egyesítve."
 # File: usr/share/gitrepo/build_package/core/github_api.py, line: 585
 #: usr/share/gitrepo/build_package/core/github_api.py:585
 msgid "a check failed on GitHub"
@@ -8071,3 +8029,564 @@ msgstr "egy ellenőrzés sikertelen volt a GitHubon"
 #: usr/share/gitrepo/build_package/core/github_api.py:586
 msgid "GitHub blocks the merge"
 msgstr "a GitHub blokkolja az egyesítést"
+# File: usr/share/gitrepo/build_package/core/build_package.py, line: 566
+#: usr/share/gitrepo/build_package/core/build_package.py:566
+msgid "Configure GitHub organization (default: the destination saved in settings, else big-comm)"
+msgstr "GitHub-szervezet beállítása (alapértelmezett: a beállításokban mentett cél, egyébként big-comm)"
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 222
+#: usr/share/gitrepo/build_package/core/package_operations.py:222
+#, python-brace-format
+msgid "{0} does not publish to the {1} repository."
+msgstr "{0} nem publikál a(z) {1} tárolóba."
+# File: usr/share/gitrepo/build_package/gui/main_window.py, line: 518
+#: usr/share/gitrepo/build_package/gui/main_window.py:518
+#, python-brace-format
+msgid "An operation is still running in {0}. GitRepo stays there until it finishes."
+msgstr "A(z) {0} mappában még fut egy művelet. A GitRepo ott marad, amíg be nem fejeződik."
+# File: usr/share/gitrepo/build_package/gui/main_window.py, line: 539
+#: usr/share/gitrepo/build_package/gui/main_window.py:539
+#, python-brace-format
+msgid "Now in {0}"
+msgstr "Most itt {0}"
+# File: usr/share/gitrepo/build_package/gui/main_window.py, line: 542
+#: usr/share/gitrepo/build_package/gui/main_window.py:542
+#, python-brace-format
+msgid "Back to {0}"
+msgstr "Vissza ide {0}"
+# File: usr/share/gitrepo/build_package/core/build_package.py, line: 530
+#: usr/share/gitrepo/build_package/core/build_package.py:530
+msgid "The pull request is open but was not merged; the reason is above."
+msgstr "A pull request nyitva van, de nem lett egyesítve; az ok fent olvasható."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 134
+#: usr/share/gitrepo/build_package/core/github_api.py:134
+msgid "GitHub reports that a branch rule blocks this merge."
+msgstr "A GitHub jelzi, hogy egy ágszabály blokkolja ezt az egyesítést."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 586
+#: usr/share/gitrepo/build_package/core/github_api.py:586
+#, python-brace-format
+msgid "The rule {0} protects {1}. You can bypass it, so GitRepo merges the pull request."
+msgstr "A(z) {0} szabály védi a(z) {1} ágat. Megkerülheti, ezért a GitRepo egyesíti a pull requestet."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 592
+#: usr/share/gitrepo/build_package/core/github_api.py:592
+msgid "a branch rule"
+msgstr "egy ágszabály"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 596
+#: usr/share/gitrepo/build_package/core/github_api.py:596
+#, python-brace-format
+msgid "The rule {0} protects {1}: an admin has to merge this pull request."
+msgstr "A(z) {0} szabály védi a(z) {1} ágat: egy adminisztrátornak kell egyesítenie ezt a pull requestet."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 602
+#: usr/share/gitrepo/build_package/core/github_api.py:602
+#, python-brace-format
+msgid "an admin has to merge it (rule {0})"
+msgstr "egy adminisztrátornak kell egyesítenie ({0} szabály)"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 699
+#: usr/share/gitrepo/build_package/core/github_api.py:699
+msgid "PULL REQUEST OPENED, BUT NOT MERGED"
+msgstr "PULL REQUEST MEGNYITVA, DE NINCS EGYESÍTVE"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 702
+#: usr/share/gitrepo/build_package/core/github_api.py:702
+#, python-brace-format
+msgid "Reason: {0}"
+msgstr "Ok: {0}"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 57
+#: usr/share/gitrepo/build_package/core/branch_menu.py:57
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:268
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:308
+msgid "Go back to a commit"
+msgstr "Visszatérés egy commithoz"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 58
+#: usr/share/gitrepo/build_package/core/branch_menu.py:58
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:317
+msgid "Undo the last operation"
+msgstr "Az utolsó művelet visszavonása"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 223
+#: usr/share/gitrepo/build_package/core/branch_menu.py:223
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:260
+msgid "This branch has no earlier commit to go back to."
+msgstr "Ennek az ágnak nincs korábbi commitja, amelyhez vissza lehetne térni."
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 230
+#: usr/share/gitrepo/build_package/core/branch_menu.py:230
+msgid "Go back to which commit?"
+msgstr "Melyik committhoz térjen vissza?"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 232
+#: usr/share/gitrepo/build_package/core/branch_menu.py:232
+#, python-brace-format
+msgid "{0} is on {1}: {2}"
+msgstr "{0} itt áll: {1}: {2}"
+# File: usr/share/gitrepo/build_package/core/branch_menu.py, line: 243
+#: usr/share/gitrepo/build_package/core/branch_menu.py:243
+#: usr/share/gitrepo/build_package/core/branch_menu.py:258
+msgid "Nothing was changed."
+msgstr "Semmi sem változott."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 359
+#: usr/share/gitrepo/build_package/core/main_sync.py:359
+#, python-brace-format
+msgid "These changes come from origin/main. If main dropped work of yours, it disappears from {0} too."
+msgstr "Ezek a változtatások az origin/main ágról jönnek. Ha a main eldobta a munkádat, az a(z) {0} ágról is eltűnik."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 364
+#: usr/share/gitrepo/build_package/core/main_sync.py:364
+#, python-brace-format
+msgid "{0} is published on GitHub at the end."
+msgstr "A(z) {0} a végén közzé lesz téve a GitHubon."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 365
+#: usr/share/gitrepo/build_package/core/main_sync.py:365
+msgid "Undo is available afterwards."
+msgstr "A visszavonás ezután is elérhető."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 368
+#: usr/share/gitrepo/build_package/core/main_sync.py:368
+msgid "Your branch and the local main move forward to origin/main; nothing is merged here."
+msgstr "Az ágad és a helyi main előreugrik az origin/main ághoz; itt semmi sem egyesül."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 373
+#: usr/share/gitrepo/build_package/core/main_sync.py:373
+#: usr/share/gitrepo/build_package/core/history.py:324
+#: usr/share/gitrepo/build_package/core/history.py:428
+#, python-brace-format
+msgid "Files that change in {0}"
+msgstr "A(z) {0} ágban megváltozó fájlok"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 412
+#: usr/share/gitrepo/build_package/core/main_sync.py:412
+#: usr/share/gitrepo/build_package/core/main_sync.py:416
+msgid "Synchronize with main"
+msgstr "Szinkronizálás a main ággal"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 279
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:279
+#, python-brace-format
+msgid "{0} is on the first commit below. Choose the one it should go back to."
+msgstr "A(z) {0} az alábbi első commiton áll. Válaszd ki, melyikhez térjen vissza."
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 332
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:332
+msgid "Going back to a commit"
+msgstr "Visszatérés egy commithoz"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 333
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:333
+#, python-brace-format
+msgid "Moving {0} to {1}..."
+msgstr "A(z) {0} áthelyezése a(z) {1} pontra..."
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 336
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:336
+msgid "Go back"
+msgstr "Vissza"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 357
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:357
+msgid "Undoing"
+msgstr "Visszavonás"
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 357
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:357
+#, python-brace-format
+msgid "Taking back “{0}”..."
+msgstr "A(z) „{0}” visszavonása..."
+# File: usr/share/gitrepo/build_package/gui/branch_actions.py, line: 360
+#: usr/share/gitrepo/build_package/gui/branch_actions.py:360
+#: usr/share/gitrepo/build_package/gui/main_window.py:423
+msgid "Undo"
+msgstr "Visszavonás"
+# File: usr/share/gitrepo/build_package/gui/main_window.py, line: 421
+#: usr/share/gitrepo/build_package/gui/main_window.py:421
+#, python-brace-format
+msgid "“{0}” finished"
+msgstr "A(z) „{0}” befejeződött"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 303
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:303
+msgid "Branch history"
+msgstr "Az ág története"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 305
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:305
+msgid "Every change is shown before it runs, and the commits that leave the branch can be brought back."
+msgstr "Minden változtatás megjelenik végrehajtás előtt, és az ágat elhagyó commitok visszahozhatók."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 309
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:309
+msgid "Pick an earlier commit of this branch and see what changes before moving to it."
+msgstr "Válassz egy korábbi commitot ebből az ágból, és nézd meg, mi változik, mielőtt átlépsz rá."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 310
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:310
+msgid "Choose…"
+msgstr "Kiválasztás…"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 318
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:318
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:565
+#: usr/share/gitrepo/build_package/core/history.py:252
+msgid "Nothing to undo yet."
+msgstr "Még nincs mit visszavonni."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 319
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:319
+msgid "Undo…"
+msgstr "Visszavonás…"
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 571
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:571
+#, python-brace-format
+msgid "“{0}”, {1}"
+msgstr "„{0}”, {1}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 257
+#: usr/share/gitrepo/build_package/core/history.py:257
+#, python-brace-format
+msgid "{0} changed after “{1}”, so it can no longer be undone safely."
+msgstr "A(z) {0} megváltozott a(z) „{1}” után, ezért már nem vonható vissza biztonságosan."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 310
+#: usr/share/gitrepo/build_package/core/history.py:310
+#, python-brace-format
+msgid "{0}: from {1} back to {2}"
+msgstr "{0}: innen: {1}, vissza ide: {2}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 312
+#: usr/share/gitrepo/build_package/core/history.py:312
+#: usr/share/gitrepo/build_package/core/history.py:454
+#, python-brace-format
+msgid "{0}: from {1} to {2}"
+msgstr "{0}: innen: {1}, ide: {2}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 332
+#: usr/share/gitrepo/build_package/core/history.py:332
+#, python-brace-format
+msgid "{0} file(s) will be deleted from your branch. Check the list below."
+msgstr "{0} fájl törlődik az ágadból. Ellenőrizd az alábbi listát."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 341
+#: usr/share/gitrepo/build_package/core/history.py:341
+#, python-brace-format
+msgid "{0} is shared: what was published there stays on GitHub."
+msgstr "A(z) {0} megosztott: ami ott közzé lett téve, az a GitHubon marad."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 343
+#: usr/share/gitrepo/build_package/core/history.py:343
+#, python-brace-format
+msgid "Undo “{0}”?"
+msgstr "Visszavonod a(z) „{0}” műveletet?"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 344
+#: usr/share/gitrepo/build_package/core/history.py:344
+msgid "The branches go back to where they were before this operation. Uncommitted files are kept."
+msgstr "Az ágak oda térnek vissza, ahol e művelet előtt voltak. A commitolatlan fájlok megmaradnak."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 349
+#: usr/share/gitrepo/build_package/core/history.py:349
+msgid "Also put GitHub back"
+msgstr "A GitHub visszaállítása is"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 353
+#: usr/share/gitrepo/build_package/core/history.py:353
+#: usr/share/gitrepo/build_package/core/history.py:408
+#, python-brace-format
+msgid "origin/{0}: from {1} back to {2}"
+msgstr "origin/{0}: innen: {1}, vissza ide: {2}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 365
+#: usr/share/gitrepo/build_package/core/history.py:365
+msgid "This operation can no longer be undone."
+msgstr "Ez a művelet már nem vonható vissza."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 368
+#: usr/share/gitrepo/build_package/core/history.py:368
+#, python-brace-format
+msgid "{0}: back to {1}"
+msgstr "{0}: vissza ide: {1}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 371
+#: usr/share/gitrepo/build_package/core/history.py:371
+#, python-brace-format
+msgid "Could not move {0} back: {1}"
+msgstr "A(z) {0} nem helyezhető vissza: {1}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 372
+#: usr/share/gitrepo/build_package/core/history.py:372
+msgid "If Git mentions local changes, commit or stash them and undo again."
+msgstr "Ha a Git helyi változtatásokat említ, commitold vagy stash-eld őket, és vond vissza újra."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 378
+#: usr/share/gitrepo/build_package/core/history.py:378
+#, python-brace-format
+msgid "origin/{0}: back to {1}"
+msgstr "origin/{0}: vissza ide: {1}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 381
+#: usr/share/gitrepo/build_package/core/history.py:381
+#: usr/share/gitrepo/build_package/core/history.py:470
+#, python-brace-format
+msgid "GitHub was not changed: {0}"
+msgstr "A GitHub nem változott: {0}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 385
+#: usr/share/gitrepo/build_package/core/history.py:385
+#, python-brace-format
+msgid "“{0}” was undone."
+msgstr "A(z) „{0}” vissza lett vonva."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 399
+#: usr/share/gitrepo/build_package/core/history.py:399
+#, python-brace-format
+msgid "The commits leaving {0} are not lost: Undo brings them back."
+msgstr "A(z) {0} ágat elhagyó commitok nem vesznek el: a Visszavonás visszahozza őket."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 413
+#: usr/share/gitrepo/build_package/core/history.py:413
+#, python-brace-format
+msgid "Go back to {0}?"
+msgstr "Visszatérsz a(z) {0} pontra?"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 414
+#: usr/share/gitrepo/build_package/core/history.py:414
+#, python-brace-format
+msgid "{0} will point at {1}; {2} commit(s) after it leave the branch."
+msgstr "A(z) {0} a(z) {1} pontra fog mutatni; az utána következő {2} commit elhagyja az ágat."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 419
+#: usr/share/gitrepo/build_package/core/history.py:419
+#, python-brace-format
+msgid "Leaves {0}: {1} {2}"
+msgstr "Elhagyja a(z) {0} ágat: {1} {2}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 424
+#: usr/share/gitrepo/build_package/core/history.py:424
+#, python-brace-format
+msgid "{0} now points at {1}"
+msgstr "A(z) {0} most a(z) {1} pontra mutat"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 431
+#: usr/share/gitrepo/build_package/core/history.py:431
+msgid "Also go back on GitHub"
+msgstr "A GitHubon is térjen vissza"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 441
+#: usr/share/gitrepo/build_package/core/history.py:441
+#, python-brace-format
+msgid "{0} is shared; take changes back on it with a revert instead."
+msgstr "A(z) {0} megosztott; a változtatásokat rajta inkább revert-tel vond vissza."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 457
+#: usr/share/gitrepo/build_package/core/history.py:457
+#, python-brace-format
+msgid "Could not move {0}: {1}"
+msgstr "A(z) {0} nem helyezhető át: {1}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 458
+#: usr/share/gitrepo/build_package/core/history.py:458
+msgid "If Git mentions local changes, commit or stash them and try again."
+msgstr "Ha a Git helyi változtatásokat említ, commitold vagy stash-eld őket, és próbáld újra."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 464
+#: usr/share/gitrepo/build_package/core/history.py:464
+#, python-brace-format
+msgid "origin/{0}: from {1} to {2}"
+msgstr "origin/{0}: innen: {1}, ide: {2}"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 472
+#: usr/share/gitrepo/build_package/core/history.py:472
+#, python-brace-format
+msgid "Go back to {0}"
+msgstr "Visszatérés a(z) {0} pontra"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 473
+#: usr/share/gitrepo/build_package/core/history.py:473
+#, python-brace-format
+msgid "{0} now points at {1}."
+msgstr "A(z) {0} most a(z) {1} pontra mutat."
+# File: usr/share/gitrepo/build_package/core/history.py, line: 488
+#: usr/share/gitrepo/build_package/core/history.py:488
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:18
+msgid "added"
+msgstr "hozzáadva"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 488
+#: usr/share/gitrepo/build_package/core/history.py:488
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:19
+msgid "modified"
+msgstr "módosítva"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 488
+#: usr/share/gitrepo/build_package/core/history.py:488
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:20
+msgid "deleted"
+msgstr "törölve"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 488
+#: usr/share/gitrepo/build_package/core/history.py:488
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:21
+msgid "renamed"
+msgstr "átnevezve"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 488
+#: usr/share/gitrepo/build_package/core/history.py:488
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:22
+msgid "copied"
+msgstr "másolva"
+# File: usr/share/gitrepo/build_package/core/history.py, line: 491
+#: usr/share/gitrepo/build_package/core/history.py:491
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:139
+#, python-brace-format
+msgid "… and {0} more"
+msgstr "… és még {0}"
+# File: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py, line: 126
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:126
+msgid "What will be done"
+msgstr "Mi fog történni"
+# File: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py, line: 149
+#: usr/share/gitrepo/build_package/gui/dialogs/change_preview_dialog.py:149
+msgid "Rewrites the branch on GitHub only if nobody published to it since."
+msgstr "Csak akkor írja át az ágat a GitHubon, ha azóta senki sem publikált rá."
+# File: usr/share/gitrepo/build_package/core/destination.py, line: 59
+#: usr/share/gitrepo/build_package/core/destination.py:59
+#, python-brace-format
+msgid "Used for packages built by github.com/{0}"
+msgstr "A github.com/{0} által készített csomagokhoz használatos"
+# File: usr/share/gitrepo/build_package/core/destination.py, line: 61
+#: usr/share/gitrepo/build_package/core/destination.py:61
+msgid "Used when no token is saved for the destination organization"
+msgstr "Akkor használatos, ha a célszervezethez nincs mentett token"
+# File: usr/share/gitrepo/build_package/core/destination.py, line: 63
+#: usr/share/gitrepo/build_package/core/destination.py:63
+#, python-brace-format
+msgid "Never used: GitRepo only looks for {0} or default. Save the token again for the organization."
+msgstr "Soha nem használatos: a GitRepo csak a {0} vagy a default nevet keresi. Mentse újra a tokent a szervezethez."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 202
+#: usr/share/gitrepo/build_package/core/github_api.py:202
+#, python-brace-format
+msgid "Using the access token saved for {0}."
+msgstr "A(z) {0} szervezethez mentett hozzáférési token használatban van."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 206
+#: usr/share/gitrepo/build_package/core/github_api.py:206
+#, python-brace-format
+msgid "No access token is saved for {0}; using the one saved as {1}."
+msgstr "A(z) {0} szervezethez nincs mentett hozzáférési token; a(z) {1} néven mentett használatos."
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 217
+#: usr/share/gitrepo/build_package/core/github_api.py:217
+#, python-brace-format
+msgid "GitHub says: {0}"
+msgstr "A GitHub üzenete: {0}"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 220
+#: usr/share/gitrepo/build_package/core/github_api.py:220
+msgid "Check the access token GitRepo used:"
+msgstr "Ellenőrizze a GitRepo által használt hozzáférési tokent:"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 224
+#: usr/share/gitrepo/build_package/core/github_api.py:224
+#, python-brace-format
+msgid "• it is saved for {0} in Settings, under “Save or replace an access token” (a token saved under another name is never used);"
+msgstr "• a(z) {0} szervezethez van mentve a Beállításokban, a “Hozzáférési token mentése vagy cseréje” alatt (más néven mentett token soha nem használatos);"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 228
+#: usr/share/gitrepo/build_package/core/github_api.py:228
+msgid "• a classic token has the repo and workflow scopes;"
+msgstr "• a klasszikus token rendelkezik a repo és workflow hatókörökkel;"
+# File: usr/share/gitrepo/build_package/core/github_api.py, line: 231
+#: usr/share/gitrepo/build_package/core/github_api.py:231
+#, python-brace-format
+msgid "• a fine-grained token belongs to {0} and can write Contents of {1}."
+msgstr "• a finomhangolt token a(z) {0} szervezethez tartozik, és írhatja a(z) {1} Contents jogosultságát."
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 496
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:496
+#, python-brace-format
+msgid "Building needs an access token for {0}. It is saved in the system keyring for that organization."
+msgstr "Az építéshez a(z) {0} szervezet hozzáférési tokenje szükséges. A rendszer kulcstartójában van elmentve ehhez a szervezethez."
+# File: usr/share/gitrepo/build_package/gui/repository_actions.py, line: 534
+#: usr/share/gitrepo/build_package/gui/repository_actions.py:534
+#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:180
+msgid "Paste the access token first."
+msgstr "Először illessze be a hozzáférési tokent."
+# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line: 86
+#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:86
+msgid "Each token is saved for the organization where packages are built. GitRepo uses the one that matches the destination chosen on the Packages page."
+msgstr "Minden token ahhoz a szervezethez van mentve, ahol a csomagokat építik. A GitRepo a Csomagok oldalon választott célnak megfelelőt használja."
+# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line: 94
+#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:94
+msgid "Organization where packages are built"
+msgstr "A szervezet, ahol a csomagokat építik"
+# File: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py, line: 128
+#: usr/share/gitrepo/build_package/gui/widgets/settings_widgets.py:128
+#, python-brace-format
+msgid "Saved as {0}"
+msgstr "Mentve mint {0}"
+# File: usr/share/gitrepo/build_package/core/build_package.py, line: 383
+#: usr/share/gitrepo/build_package/core/build_package.py:383
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:424
+msgid "Where to publish"
+msgstr "Hova publikáljon"
+# File: usr/share/gitrepo/build_package/core/destination.py, line: 104
+#: usr/share/gitrepo/build_package/core/destination.py:104
+#, python-brace-format
+msgid "{0} and {1}"
+msgstr "{0} és {1}"
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 228
+#: usr/share/gitrepo/build_package/core/package_operations.py:228
+#, python-brace-format
+msgid "→ {0} (github.com/{1})"
+msgstr "→ {0} (github.com/{1})"
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 236
+#: usr/share/gitrepo/build_package/core/package_operations.py:236
+#, python-brace-format
+msgid "{0}: build started"
+msgstr "{0}: a build elindult"
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 236
+#: usr/share/gitrepo/build_package/core/package_operations.py:236
+#, python-brace-format
+msgid "{0}: build not started"
+msgstr "{0}: a build nem indult el"
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 278
+#: usr/share/gitrepo/build_package/core/package_operations.py:278
+#, python-brace-format
+msgid "No access token is saved for {0}; save one in Settings to publish there too."
+msgstr "Nincs mentett hozzáférési token a(z) {0} szervezethez; mentsen egyet a Beállításokban, hogy oda is publikálhasson."
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 280
+#: usr/share/gitrepo/build_package/core/package_operations.py:280
+msgid "Nothing was committed, pushed or built."
+msgstr "Semmi sem lett commitolva, pusholva vagy buildelve."
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 309
+#: usr/share/gitrepo/build_package/core/package_operations.py:309
+#: usr/share/gitrepo/build_package/core/package_operations.py:339
+#, python-brace-format
+msgid "Publish to: {0}"
+msgstr "Publikálás ide: {0}"
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 80
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:80
+msgid "Principal"
+msgstr "Elsődleges"
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 82
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:82
+msgid "Also publishes"
+msgstr "Szintén publikál"
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 84
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:84
+msgid "Token saved"
+msgstr "Token mentve"
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 85
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:85
+msgid "Uses the default token"
+msgstr "Az alapértelmezett tokent használja"
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 86
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:86
+msgid "No token"
+msgstr "Nincs token"
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 426
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:426
+msgid "Mark one organization or both. The principal one builds first; one always stays marked."
+msgstr "Jelöljön be egy szervezetet vagy mindkettőt. Az elsődleges épít először; mindig marad legalább egy bejelölve."
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 468
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:468
+#, python-brace-format
+msgid "Will be published by: {0}"
+msgstr "Publikálja: {0}"
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 493
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:493
+msgid "At least one organization has to publish the package."
+msgstr "Legalább egy szervezetnek publikálnia kell a csomagot."
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 246
+#: usr/share/gitrepo/build_package/core/package_operations.py:246
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:242
+msgid "Priority"
+msgstr "Prioritás"
+# File: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py, line: 462
+#: usr/share/gitrepo/build_package/gui/dialogs/progress_dialog.py:462
+#, python-brace-format
+msgid "Follow on {0}"
+msgstr "Követés {0}"
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 243
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:243
+msgid "Publish to biglinux-priority, which comes before stable (BigLinux only)"
+msgstr "Közzététel a biglinux-priority tárolóba, amely a stable előtt következik (csak BigLinux)"
+# File: usr/share/gitrepo/build_package/gui/widgets/package_widget.py, line: 615
+#: usr/share/gitrepo/build_package/gui/widgets/package_widget.py:615
+msgid "Start priority build"
+msgstr "Prioritásos összeállítás indítása"
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 173
+#: usr/share/gitrepo/build_package/core/main_sync.py:173
+msgid "Synchronize does not send this work to main: it only updates the copies on this computer."
+msgstr "A Szinkronizálás nem küldi ezt a munkát a main ágba: csak a számítógépen lévő másolatokat frissíti."
+# File: usr/share/gitrepo/build_package/core/main_sync.py, line: 355
+#: usr/share/gitrepo/build_package/core/main_sync.py:355
+msgid "Nothing is sent to main: origin/main on GitHub stays as it is."
+msgstr "Semmi sem kerül a main ágba: az origin/main a GitHubon változatlan marad."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 243
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:243
+msgid "Synchronize never sends your branch to main and never changes origin/main on GitHub. Your work reaches main only through a pull request or a stable package."
+msgstr "A Szinkronizálás soha nem küldi az ágadat a main ágba, és soha nem módosítja az origin/main ágat a GitHubon. A munkád csak pull requesttel vagy stabil csomaggal kerül a main ágba."
+# File: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py, line: 274
+#: usr/share/gitrepo/build_package/gui/widgets/branch_widget.py:274
+msgid "Brings your branch and the local main up to date with origin/main. It never sends your branch to main."
+msgstr "Frissíti az ágadat és a helyi main ágat az origin/main alapján. Soha nem küldi az ágadat a main ágba."
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 202
+#: usr/share/gitrepo/build_package/core/package_operations.py:202
+#, python-brace-format
+msgid "GitHub refused the push: origin/{0} has {1} commit(s) that your {0} does not have yet, published by another build or computer."
+msgstr "A GitHub elutasította a push-t: az origin/{0} ágon {1} commit van, amely a te {0} ágadon még nincs meg, és egy másik build vagy számítógép tette közzé."
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 209
+#: usr/share/gitrepo/build_package/core/package_operations.py:209
+#, python-brace-format
+msgid "Go to Organize Branches and click Synchronize to bring them into {0}, then build the package again."
+msgstr "Nyisd meg a(z) „Ágak rendszerezése“ részt, és kattints a(z) „Szinkronizálás“ gombra, hogy behozd őket a(z) {0} ágba, majd építsd újra a csomagot."
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 216
+#: usr/share/gitrepo/build_package/core/package_operations.py:216
+#, python-brace-format
+msgid "GitHub refused the push: {0} and origin/{0} have different commits ({1} only here, {2} only on origin)."
+msgstr "A GitHub elutasította a push-t: a(z) {0} és az origin/{0} commitjai eltérnek ({1} csak itt, {2} csak az originen)."
+# File: usr/share/gitrepo/build_package/core/package_operations.py, line: 222
+#: usr/share/gitrepo/build_package/core/package_operations.py:222
+#, python-brace-format
+msgid "Use Download updates to merge origin/{0} into {0}, then build the package again."
+msgstr "Használd a(z) „Frissítések letöltése“ műveletet az origin/{0} összefésüléséhez a(z) {0} ágba, majd építsd újra a csomagot."

@@ -2,13 +2,18 @@
 # gui/widgets/package_widget.py - Package generation widget for GUI interface
 #
 
+import threading
+
 import gi
 
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
-from gi.repository import Gtk, Adw, GObject
+from gi.repository import Gtk, Adw, GLib, GObject
 from gitrepo.common.translation import _
+from gitrepo.build_package.core.destination import describe_targets, remember_targets
+from gitrepo.build_package.core.token_store import TokenStore
+from gitrepo.build_package.core.config import DESTINATION_NAMES, VALID_ORGANIZATIONS
 
 from gitrepo.common.help_popover import help_button
 from gitrepo.common.page_layout import page_body
@@ -17,6 +22,71 @@ from gitrepo.common.page_hero import (
     git_command_description,
     github_action_description,
 )
+
+
+class _DestinationCard(Gtk.ToggleButton):
+    """One organization that can build and publish the package."""
+
+    def __init__(self, organization):
+        super().__init__()
+        self.organization = organization
+        self.add_css_class("destination-card")
+        name = DESTINATION_NAMES.get(organization, organization)
+        self.update_property([Gtk.AccessibleProperty.LABEL], [name])
+
+        content = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
+        self.check = Gtk.Image.new_from_icon_name("object-select-symbolic")
+        self.check.add_css_class("destination-check")
+        self.check.set_valign(Gtk.Align.START)
+        self.check.set_accessible_role(Gtk.AccessibleRole.PRESENTATION)
+        content.append(self.check)
+
+        text = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
+        text.set_hexpand(True)
+        title = Gtk.Label(label=name, xalign=0)
+        title.add_css_class("heading")
+        text.append(title)
+        address = Gtk.Label(label=f"github.com/{organization}", xalign=0)
+        address.add_css_class("dim-label")
+        address.add_css_class("caption")
+        text.append(address)
+        self.pills = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+        self.pills.set_margin_top(6)
+        text.append(self.pills)
+        content.append(text)
+        self.set_child(content)
+
+    @staticmethod
+    def _pill(text, css_class):
+        pill = Gtk.Label(label=text)
+        pill.add_css_class("state-pill")
+        pill.add_css_class(css_class)
+        return pill
+
+    def show_state(self, marked, role, token_state):
+        self.set_active(marked)
+        if marked:
+            self.add_css_class("selected")
+        else:
+            self.remove_css_class("selected")
+        # An empty circle on an unmarked card says it can be marked.
+        if marked:
+            self.check.remove_css_class("unmarked")
+        else:
+            self.check.add_css_class("unmarked")
+        while (child := self.pills.get_first_child()) is not None:
+            self.pills.remove(child)
+        if role == "principal":
+            self.pills.append(self._pill(_("Principal"), "status-accent"))
+        elif role == "also":
+            self.pills.append(self._pill(_("Also publishes"), "status-ok"))
+        tokens = {
+            "saved": (_("Token saved"), "status-ok"),
+            "default": (_("Uses the default token"), "dim-label"),
+            "missing": (_("No token"), "status-warning"),
+        }
+        if token_state in tokens:
+            self.pills.append(self._pill(*tokens[token_state]))
 
 
 class PackageWidget(Gtk.Box):
@@ -136,6 +206,11 @@ class PackageWidget(Gtk.Box):
 
         self.workflow_content.append(status_group)
 
+        # Where the package is published: one card per organization, at least
+        # one always marked. The principal one (first) is the remembered
+        # destination; the other card adds a second build of the same commit.
+        self.workflow_content.append(self._build_destination_group())
+
         # Package type selection with radio buttons style
         package_type_group = Adw.PreferencesGroup()
         package_type_group.set_title(_("Target Repository"))
@@ -162,13 +237,21 @@ class PackageWidget(Gtk.Box):
                 "build-package-testing",
             ),
             ("stable", _("Stable"), _("Publish the package for all users"), "build-package-stable"),
+            (
+                "priority",
+                _("Priority"),
+                _("Publish to biglinux-priority, which comes before stable (BigLinux only)"),
+                "build-package-stable",
+            ),
             ("extra", _("Extra"), _("Publish an optional or additional package"), "build-package-extra"),
         ]
 
         # Use a ListBox for selection
+        self._package_type_rows = {}
         self.package_types_list = Gtk.ListBox()
         self.package_types_list.set_selection_mode(Gtk.SelectionMode.SINGLE)
         self.package_types_list.add_css_class("boxed-list")
+        self.package_types_list.set_margin_top(12)
         self.package_types_list.connect("row-selected", self.on_package_type_selected)
 
         for pkg_type, title, description, icon_name in self.package_types:
@@ -192,8 +275,10 @@ class PackageWidget(Gtk.Box):
             row.add_suffix(check_icon)
 
             self.package_types_list.append(row)
+            self._package_type_rows[pkg_type] = row
 
         package_type_group.add(self.package_types_list)
+        self._apply_destination_branches()
         self.workflow_content.append(package_type_group)
 
         # NOTE: seleção será feita após criar build_button em refresh_status
@@ -340,6 +425,103 @@ class PackageWidget(Gtk.Box):
 
         self.sync_feature_enabled()
 
+    def _build_destination_group(self):
+        group = Adw.PreferencesGroup()
+        group.set_title(_("Where to publish"))
+        group.set_description(
+            _("Mark one organization or both. The principal one builds first; one always stays marked.")
+        )
+        cards = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12, homogeneous=True)
+        self._destination_cards = {}
+        self._token_names = None
+        for organization in VALID_ORGANIZATIONS:
+            card = _DestinationCard(organization)
+            card.connect("toggled", self._on_card_toggled)
+            self._destination_cards[organization] = card
+            cards.append(card)
+        group.add(cards)
+        self.destination_summary = Gtk.Label(xalign=0, wrap=True)
+        self.destination_summary.add_css_class("destination-summary")
+        self.destination_summary.set_margin_top(10)
+        group.add(self.destination_summary)
+        self._render_destinations()
+        self._load_token_names()
+        return group
+
+    def _load_token_names(self):
+        """Read which tokens are saved, off the main loop, to tag each card."""
+
+        def worker():
+            names = [name.lower() for name, _token in TokenStore.read_all()]
+            GLib.idle_add(self._set_token_names, names)
+
+        threading.Thread(target=worker, daemon=True).start()
+
+    def _set_token_names(self, names):
+        self._token_names = names
+        self._render_destinations()
+        return False
+
+    def _render_destinations(self):
+        targets = self.build_package.publish_targets() if hasattr(self.build_package, "publish_targets") else []
+        self._syncing_destination = True
+        for organization, card in self._destination_cards.items():
+            role = ""
+            if organization in targets:
+                role = "principal" if targets[0] == organization else "also"
+            card.show_state(organization in targets, role, self._token_state(organization))
+        self._syncing_destination = False
+        self.destination_summary.set_label(_("Will be published by: {0}").format(describe_targets(targets)))
+        # The cards are built before the repository list, which applies them itself once it exists.
+        if hasattr(self, "_package_type_rows"):
+            self._apply_destination_branches()
+
+    def _token_state(self, organization):
+        if self._token_names is None:
+            return ""
+        if organization in self._token_names:
+            return "saved"
+        return "default" if "default" in self._token_names else "missing"
+
+    def _on_card_toggled(self, card):
+        if self._syncing_destination:
+            return
+        targets = list(self.build_package.publish_targets())
+        if card.get_active():
+            if card.organization not in targets:
+                targets.append(card.organization)
+        elif card.organization in targets:
+            if len(targets) == 1:
+                # The last marked card stays marked: something has to build.
+                self._render_destinations()
+                root = self.get_root()
+                if hasattr(root, "show_error_toast"):
+                    root.show_error_toast(_("At least one organization has to publish the package."))
+                return
+            targets.remove(card.organization)
+        if self.build_package.set_publish_targets(targets):
+            remember_targets(self.settings, targets)
+        self._render_destinations()
+
+    def sync_destination(self):
+        """Show the destinations of the repository the window now displays, without saving them."""
+        self._render_destinations()
+        self._load_token_names()
+
+    def _apply_destination_branches(self):
+        """Show only the repositories the destination publishes to."""
+        allowed = self.build_package.branch_types() if hasattr(self.build_package, "branch_types") else None
+        for pkg_type, row in self._package_type_rows.items():
+            visible = allowed is None or pkg_type in allowed
+            row.set_visible(visible)  # Adw.ActionRow is the list row itself
+            if not visible and self.selected_package_type == pkg_type:
+                self.selected_package_type = None
+                self.package_types_list.unselect_all()
+                if hasattr(row, "check_icon"):
+                    row.check_icon.set_visible(False)
+                if hasattr(self, "build_button"):
+                    self.update_build_button_state()
+
     def sync_feature_enabled(self):
         """Reconcile the visible workflow with its persisted feature flag."""
         enabled = self.settings.get("package_features_enabled", False)
@@ -404,7 +586,7 @@ class PackageWidget(Gtk.Box):
     def on_package_type_selected(self, _list_box, row):
         """Handle package type selection"""
         # Hide all checkmarks first
-        for i in range(3):  # 3 package types
+        for i in range(len(self.package_types)):
             child_row = self.package_types_list.get_row_at_index(i)
             if child_row and hasattr(child_row.get_child(), "check_icon"):
                 child_row.get_child().check_icon.set_visible(False)
@@ -430,6 +612,7 @@ class PackageWidget(Gtk.Box):
             type_names = {
                 "testing": _("Start testing build"),
                 "stable": _("Start stable build"),
+                "priority": _("Start priority build"),
                 "extra": _("Start extra build"),
             }
 

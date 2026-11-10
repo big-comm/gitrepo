@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from gitrepo.common import child_process as subprocess
 
 from .branch_overview import BranchOverview, capture_branch_overview
+from . import history
 from .main_sync import SyncStatus, capture_sync_status
 from .git_status import STATUS_COMMAND, parse_status_records
 from .git_utils import GitUtils
@@ -32,6 +33,9 @@ class RepositorySnapshot:
     remote_branch_exists: bool = False
     branch_overview: BranchOverview = BranchOverview()
     sync_status: SyncStatus = SyncStatus(state="unavailable")
+    # What Undo would take back, or why it cannot.
+    undo_checkpoint: history.Checkpoint | None = None
+    undo_reason: str = ""
 
     @property
     def has_changes(self) -> bool | None:
@@ -79,6 +83,7 @@ class RepositorySnapshot:
             recent_commits=_recent_commits(),
             branch_overview=capture_branch_overview(),
             sync_status=capture_sync_status(),
+            **_undo_fields(),
         )
 
 
@@ -151,3 +156,8 @@ def _recent_commits() -> tuple[tuple[str, str, str, str], ...]:
         if len(parts) == 4:
             commits.append(tuple(parts))
     return tuple(commits)
+
+
+def _undo_fields() -> dict:
+    checkpoint, reason = history.latest_checkpoint()
+    return {"undo_checkpoint": checkpoint, "undo_reason": reason}

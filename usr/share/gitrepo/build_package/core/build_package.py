@@ -12,11 +12,20 @@ from rich.prompt import Prompt
 
 from gitrepo.common.version_display import print_version_panel
 
-from .config import APP_DESC, APP_NAME, APP_VERSION, DEFAULT_ORGANIZATION, VALID_BRANCHES, VALID_ORGANIZATIONS
+from .config import (
+    APP_DESC,
+    APP_NAME,
+    APP_VERSION,
+    DEFAULT_ORGANIZATION,
+    DESTINATION_BRANCHES,
+    VALID_BRANCHES,
+    VALID_ORGANIZATIONS,
+)
 from .conflict_resolver import ConflictResolver
 from .git_utils import GitUtils
 from .github_api import GitHubAPI
 from .settings import Settings
+from .destination import resolve_also, resolve_destination
 from .settings_menu import SettingsMenu
 from gitrepo.common.translation import _
 
@@ -48,6 +57,16 @@ class BuildPackage:
 
         # Initialize settings and intelligent systems
         self.settings = Settings()
+        # --organization wins; otherwise this repository's destination (see destination.py).
+        self._organization_from_command_line = bool(self.args.organization)
+        if not self.args.organization:
+            self.organization = resolve_destination(self.settings)
+            self.repo_workflow = f"{self.organization}/build-package"
+            self.args.organization = self.organization
+        # Extra organizations that publish the same build; --organization means just that one.
+        self.also_publish = (
+            [] if self._organization_from_command_line else resolve_also(self.settings, self.organization)
+        )
         self.conflict_resolver = None  # Initialize after menu is ready
         self.settings_menu = None
 
@@ -86,6 +105,56 @@ class BuildPackage:
 
         # Check dependencies
         self.check_dependencies()
+
+    def reload_repository(self) -> None:
+        """Re-read what belongs to the current directory after the window moved to another repository."""
+        self.is_git_repo = GitUtils.is_git_repo()
+        self.repo_name = GitUtils.get_repo_name()
+        self.repo_path = GitUtils.get_repo_root_path()
+        self.last_commit_type = None
+        self.last_operation_details = {}
+        self._app_version_cache = None
+        self._app_version_warning_shown = False
+        if self.logger and hasattr(self.logger, "setup_log_file"):
+            self.logger.setup_log_file(GitUtils.get_repo_name)
+        if not self._organization_from_command_line:
+            self.set_organization(resolve_destination(self.settings))
+            self.args.organization = self.organization
+            self.also_publish = resolve_also(self.settings, self.organization)
+
+    def set_organization(self, organization: str) -> bool:
+        """Change where the next build runs and publishes (big-comm or biglinux).
+
+        The token is looked up per organization, so the API client and the
+        cached account name are reset with it."""
+        if organization not in VALID_ORGANIZATIONS:
+            return False
+        if organization != self.organization:
+            self.organization = organization
+            self.repo_workflow = f"{organization}/build-package"
+            self.github_api = GitHubAPI(None, organization)
+            self._github_user_name = ""
+        return True
+
+    def publish_targets(self) -> list[str]:
+        """Organizations that build and publish, the principal first."""
+        return [self.organization, *(org for org in getattr(self, "also_publish", []) if org != self.organization)]
+
+    def set_publish_targets(self, targets: list[str]) -> bool:
+        """Make *targets[0]* the principal destination and publish to the rest too."""
+        targets = list(dict.fromkeys(targets))
+        if not targets or not self.set_organization(targets[0]):
+            return False
+        self.also_publish = [org for org in targets[1:] if org in VALID_ORGANIZATIONS]
+        return True
+
+    def branch_types(self) -> tuple:
+        """Repositories every chosen destination publishes to."""
+        everywhere = ("testing", "stable", "priority", "extra")
+        for organization in self.publish_targets():
+            allowed = DESTINATION_BRANCHES.get(organization, everywhere)
+            everywhere = tuple(kind for kind in everywhere if kind in allowed)
+        return everywhere
 
     @property
     def github_user_name(self) -> str:
@@ -299,8 +368,30 @@ class BuildPackage:
         commit_and_push(self, push=False)
         return True
 
+    def _choose_publish_targets(self) -> bool:
+        """Ask which organizations publish: the principal alone, the other alone, or both."""
+        from .destination import describe_targets, remember_targets
+
+        if self._organization_from_command_line:
+            return True
+        principal = self.organization
+        other = next((org for org in VALID_ORGANIZATIONS if org != principal), "")
+        choices = [[principal], [other], [principal, other]] if other else [[principal]]
+        labels = [describe_targets(choice) for choice in choices] + [_("Back")]
+        current = self.publish_targets()
+        default = next((index for index, choice in enumerate(choices) if choice == current), 0)
+        result = self.menu.show_menu(_("Where to publish"), labels, default_index=default)
+        if result is None or result[0] == len(choices):
+            return False
+        targets = choices[result[0]]
+        if self.set_publish_targets(targets):
+            remember_targets(self.settings, targets)
+        return True
+
     def _menu_package(self):
-        branch_options = ["testing", "stable", "extra", _("Back")]
+        if not self._choose_publish_targets():
+            return False
+        branch_options = [*self.branch_types(), _("Back")]
         branch_result = self.menu.show_menu(_("Select repository"), branch_options)
         if branch_result is None or branch_options[branch_result[0]] == _("Back"):
             return False
@@ -478,7 +569,9 @@ class BuildPackage:
                 return
             pr_info = self.github_api.create_pull_request(selected_branch, "main", auto_merge, self.logger)
 
-            if pr_info:
+            if pr_info and auto_merge and not pr_info.get("auto_merged"):
+                self.logger.log("yellow", _("The pull request is open but was not merged; the reason is above."))
+            elif pr_info:
                 self.logger.log("green", _("Pull request operation completed."))
                 if pr_info.get("auto_merged"):
                     from .main_sync import sync_with_main
@@ -530,9 +623,9 @@ def parse_arguments(argv: list[str] | None = None) -> argparse.Namespace:
         "--org",
         "--organization",
         dest="organization",
-        help=_("Configure GitHub organization (default: big-comm)"),
+        help=_("Configure GitHub organization (default: the destination saved in settings, else big-comm)"),
         choices=VALID_ORGANIZATIONS,
-        default=DEFAULT_ORGANIZATION,
+        default=None,
     )
 
     parser.add_argument("-b", "--build", help=_("Commit/push and generate package"), choices=VALID_BRANCHES)

@@ -186,8 +186,8 @@ def test_native_scanner_delivers_results_through_glib(repository, tmp_path):
     loop = GLib.MainLoop()
     results = []
 
-    def complete(states):
-        results.append(states)
+    def complete(states, timed_out):
+        results.append((states, timed_out))
         loop.quit()
 
     job = ScanJob([str(repository), str(tmp_path)], complete)
@@ -198,4 +198,4 @@ def test_native_scanner_delivers_results_through_glib(repository, tmp_path):
         job.cancel()
         pytest.fail("Native scanner did not deliver results")
     GLib.source_remove(watchdog)
-    assert results == [{str(repository): "clean", str(tmp_path): None}]
+    assert results == [({str(repository): "clean", str(tmp_path): None}, False)]
