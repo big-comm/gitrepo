@@ -468,9 +468,17 @@ class BranchActionsMixin:
             return None
         return list(snapshot.local_branches), list(snapshot.remote_branches), snapshot.branch
 
-    def _validate_new_branch_name(self, name: str, existing: set[str]) -> bool:
+    def _validate_new_branch_name(self, name: str, existing: set[str], published: set[str] | None = None) -> bool:
         if not name:
             self.show_error_toast(_("Type a name for the branch."))
+            return False
+        if name in existing and published is not None and name not in published:
+            # Only here, never pushed: creating it again is not the way to GitHub.
+            self.show_error_toast(
+                _(
+                    "'{0}' already exists on this computer but not on GitHub. Opening a pull request to it offers to publish it."
+                ).format(name)
+            )
             return False
         if name in existing:
             self.show_error_toast(_("A branch named '{0}' already exists.").format(name))
@@ -531,7 +539,7 @@ class BranchActionsMixin:
             if response != "create":
                 return
             new_name = name_row.get_text().strip()
-            if not self._validate_new_branch_name(new_name, set(choices)):
+            if not self._validate_new_branch_name(new_name, set(choices), set(remote)):
                 return
             self._run_branch_operation(
                 "create",
@@ -830,6 +838,10 @@ class BranchActionsMixin:
             return
 
         def merge_operation():
+            from gitrepo.build_package.core.branch_handler import ensure_pull_request_branches
+
+            if not ensure_pull_request_branches(self.build_package, source_branch, target_branch):
+                return False
             pr_info = self.build_package.github_api.create_pull_request(
                 source_branch, target_branch, auto_merge, self.build_package.logger
             )

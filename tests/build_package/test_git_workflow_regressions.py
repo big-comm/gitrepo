@@ -275,10 +275,17 @@ def test_commit_gui_suggests_the_configured_personal_branch(tmp_path, monkeypatc
     assert window._pending_commit_message == "fix: choose branch"
 
 
-def test_pull_request_creation_routes_through_the_token_gate():
+def test_pull_request_creation_routes_through_the_token_gate(monkeypatch):
+    from gitrepo.build_package.core import branch_handler
     from gitrepo.build_package.gui.branch_actions import BranchActionsMixin
 
     captured = {}
+    # Both branches are on GitHub (see test_pull_request_branches.py).
+    monkeypatch.setattr(
+        branch_handler,
+        "ensure_pull_request_branches",
+        lambda _bp, source, target: captured.setdefault("checked", (source, target)) and True,
+    )
 
     class API:
         def create_pull_request(self, source, target, auto_merge, logger):
@@ -307,6 +314,7 @@ def test_pull_request_creation_routes_through_the_token_gate():
         False,
     )
 
+    assert captured["checked"] == ("dev-personal", "main")
     assert captured["request"] == ("dev-personal", "main", False, logger)
     assert captured["result"] == {"number": 42}
     assert "gate" in captured

@@ -567,6 +567,10 @@ class BuildPackage:
             # Create pull request
             if not self.github_api.ensure_github_token(self.logger):
                 return
+            from .branch_handler import ensure_pull_request_branches
+
+            if not ensure_pull_request_branches(self, selected_branch, "main"):
+                return
             pr_info = self.github_api.create_pull_request(selected_branch, "main", auto_merge, self.logger)
 
             if pr_info and auto_merge and not pr_info.get("auto_merged"):

@@ -606,13 +606,33 @@ class GitHubAPI:
             return response.json()
         if response.status_code == 422:
             existing = self._find_existing_pr(repo_name, source_branch, target_branch)
-            if existing and logger:
-                logger.log("yellow", _("Using existing PR #{0}").format(existing.get("number", 0)))
-            return existing
+            if existing:
+                if logger:
+                    logger.log("yellow", _("Using existing PR #{0}").format(existing.get("number", 0)))
+                return existing
+            # 422 is also how GitHub refuses an invalid head or base: say so.
         if logger:
-            message = response.json().get("message", _("Unknown error")) if response.text else _("Unknown error")
-            logger.log("red", _("Failed to create PR: {0}").format(message))
+            logger.log("red", _("Failed to create PR: {0}").format(self._github_error(response)))
         return {}
+
+    @staticmethod
+    def _github_error(response) -> str:
+        """GitHub's message plus its per-field details ("base: invalid")."""
+        try:
+            details = response.json()
+        except ValueError:
+            return _("Unknown error")
+        if not isinstance(details, dict):
+            return _("Unknown error")
+        parts = [str(details.get("message") or _("Unknown error"))]
+        for error in details.get("errors") or ():
+            if isinstance(error, dict):
+                text = error.get("message") or " ".join(str(error[key]) for key in ("field", "code") if error.get(key))
+            else:
+                text = str(error)
+            if text:
+                parts.append(text)
+        return " — ".join(parts)
 
     def _merge_ready_pull_request(self, repo_name, pr_info, source_branch, target_branch, logger):
         pr_number = pr_info["number"]

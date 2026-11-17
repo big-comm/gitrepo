@@ -432,6 +432,63 @@ def _publish_branch(bp, branch: str) -> bool:
     return True
 
 
+def _on_github(branch: str) -> bool | None:
+    """Whether origin has *branch*, asked of origin itself; None when it cannot be reached."""
+    result = subprocess.run_git(
+        ["git", "ls-remote", "--exit-code", "--heads", "origin", f"refs/heads/{branch}"],
+        capture_output=True,
+        text=True,
+        check=False,
+        intent="ordinary",
+    )
+    if result.returncode == 0:
+        return True
+    return False if result.returncode == 2 else None
+
+
+def ensure_pull_request_branches(bp, source_branch: str, target_branch: str) -> bool:
+    """Make sure GitHub has both ends of a pull request before asking for one.
+
+    A project that never published main (only dev-* on GitHub, main left on
+    this computer) used to fail with an empty log: GitHub answers 422, read as
+    "a pull request already exists". A branch that exists here is published
+    after the user agrees; one that exists nowhere is explained.
+    """
+    for branch in (target_branch, source_branch):
+        published = _on_github(branch)
+        if published is not False:
+            continue  # On GitHub, or origin unreachable: the API reports that.
+        if not GitUtils.ref_exists(f"refs/heads/{branch}"):
+            bp.logger.log("red", _("The branch {0} does not exist on GitHub or on this computer.").format(branch))
+            bp.logger.log(
+                "yellow",
+                _(
+                    "Create {0} in Organize Branches with Publish to origin now turned on, "
+                    "then open the pull request again."
+                ).format(branch),
+            )
+            return False
+        head = subprocess.run_git(
+            ["git", "log", "-1", "--format=%h %s", f"refs/heads/{branch}", "--"],
+            capture_output=True,
+            text=True,
+            check=False,
+            intent="ordinary",
+        ).stdout.strip()
+        bp.logger.log(
+            "yellow",
+            _("{0} exists only on this computer ({1}): GitHub has no {0} for the pull request.").format(
+                branch, head or branch
+            ),
+        )
+        if not bp.menu.confirm(_("Publish the local {0} to GitHub and continue with the pull request?").format(branch)):
+            bp.logger.log("yellow", _("Operation cancelled by user."))
+            return False
+        if not _publish_branch(bp, branch):
+            return False
+    return True
+
+
 def _delete_remote_branch(bp, branch: str) -> bool:
     """Delete ``origin/<branch>``; the caller has already confirmed the loss."""
     bp.logger.log("cyan", _("Deleting origin/{0}...").format(branch))
