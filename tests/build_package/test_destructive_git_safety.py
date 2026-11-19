@@ -210,6 +210,10 @@ def test_commit_preview_cancel_preserves_working_tree(build_package_modules, tmp
     monkeypatch.chdir(repository)
 
     class Menu:
+        def show_menu(self, title, options, **_kwargs):
+            # Publishing on main is what this test is about; see test_commit_off_main.py.
+            return 1, options[1]
+
         def confirm(self, question, default_yes=True):
             assert "tracked.txt" in question
             assert "Branch: main" in question
@@ -248,6 +252,10 @@ def test_confirmed_commit_pushes_exact_branch(build_package_modules, tmp_path, m
     monkeypatch.chdir(repository)
 
     class Menu:
+        def show_menu(self, title, options, **_kwargs):
+            # Publishing on main is what this test is about; see test_commit_off_main.py.
+            return 1, options[1]
+
         def confirm(self, question, default_yes=True):
             assert default_yes is False
             return True

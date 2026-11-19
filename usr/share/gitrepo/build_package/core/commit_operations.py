@@ -60,6 +60,36 @@ def _planned_branch(bp) -> str:
     return GitUtils.get_personal_branch(bp.github_user_name, repo_path)
 
 
+# The graphical commit dialog warns on the same branches ("Commit to Protected
+# Branch?"); dev is a shared branch people do commit to.
+_MAIN_BRANCHES = ("main", "master")
+
+
+def _choose_branch_off_main(bp, branch: str) -> str:
+    """On main, ask before publishing there; the personal branch is the default.
+
+    The terminal used to commit and push straight to main: a user on main who
+    meant to open a pull request found the work already on origin/main.
+    Returns the chosen branch, or "" when the user backs out.
+    """
+    if branch not in _MAIN_BRANCHES or not GitUtils.has_commits():
+        return branch
+    personal = GitUtils.get_personal_branch(bp.github_user_name, getattr(bp, "repo_path", None))
+    if not personal or personal in _MAIN_BRANCHES:
+        return branch
+    choice = bp.menu.show_menu(
+        _("You are on {0}. Where should these changes go?").format(branch),
+        [
+            _("To {0}, then open a pull request to {1} (recommended)").format(personal, branch),
+            _("Straight to {0}").format(branch),
+        ],
+        default_index=0,
+    )
+    if choice is None:
+        return ""
+    return personal if choice[0] == 0 else branch
+
+
 def _display_commit_message(message: str) -> str:
     """Quote user text and keep its line boundaries visible in the preview."""
     lines = message.split("\n")
@@ -279,9 +309,12 @@ def commit_and_push(build_package_instance, push: bool = True) -> bool:
         bp.logger.log("yellow", _("No changes to commit"))
         return True
 
-    branch = _planned_branch(bp)
+    branch = _choose_branch_off_main(bp, _planned_branch(bp))
+    if not branch:
+        bp.logger.log("yellow", _("Commit cancelled."))
+        return False
     message = _read_commit_message(bp)
-    if not branch or not message:
+    if not message:
         return False
 
     bump = (

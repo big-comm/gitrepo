@@ -43,6 +43,10 @@ class RecordingMenu:
         self.defaults.append(default_yes)
         return self.answer
 
+    def show_menu(self, title, options, **_kwargs):
+        # Publishing on main is what this test is about; see test_commit_off_main.py.
+        return 1, options[1]
+
 
 def _bp(menu=None):
     return SimpleNamespace(
