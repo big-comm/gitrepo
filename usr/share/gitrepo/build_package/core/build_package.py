@@ -195,7 +195,7 @@ class BuildPackage:
             ("📦", "build", _("Changes that affect the build system or external dependencies")),
             ("👷", "ci", _("Changes to CI configuration files and scripts")),
             ("🔧", "chore", _("Other changes that don't modify src or test files")),
-            ("✏️", "custom", _("Custom commit message (free text)")),
+            ("📝", "custom", _("Custom commit message (free text)")),
         ]
 
     def show_commit_type_menu(self):
@@ -205,10 +205,7 @@ class BuildPackage:
         # Create menu options
         options = []
         for emoji, commit_type, description in commit_types:
-            if commit_type == "custom":
-                options.append(f"{emoji} {commit_type}: {description}")
-            else:
-                options.append(f"{emoji} {commit_type}: {description}")
+            options.append(f"{emoji} {commit_type}: {description}")
 
         # Show menu
         result = self.menu.show_menu(_("Select commit type"), options)

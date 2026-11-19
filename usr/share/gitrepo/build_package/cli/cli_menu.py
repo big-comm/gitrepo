@@ -11,9 +11,11 @@ from typing import Optional, Tuple
 from gitrepo.common import child_process as subprocess
 from gitrepo.common.translation import _
 from rich.box import ROUNDED
+from rich.cells import cell_len
 from rich.console import Console, Group
 from rich.panel import Panel
 from rich.prompt import Confirm
+from rich.table import Table
 from rich.text import Text
 
 # Header, panel frame, counter and key help take about this many lines; the
@@ -29,12 +31,41 @@ class MenuSystem:
         self.console = Console()
 
     @staticmethod
-    def _option_markup(option: str, is_selected: bool) -> str:
-        semantic_color = "cyan" if "AUR" in option or option == _("Back") else "red" if option == _("Exit") else "white"
-        text_style = f"bold bright_{semantic_color}" if is_selected else f"dim {semantic_color}"
-        bullet = "• " if is_selected else "  "
-        bullet_style = "bold blue" if is_selected else "dim white"
-        return f"[{bullet_style}]{bullet}[/][{text_style}]{option}[/]"
+    def _option_rows(options: list[str], selected_index: int) -> Table:
+        """One row per option; a long one wraps under its own text, not under the bullet.
+
+        Options are plain text, never markup: a branch or file name is shown
+        exactly as it is named.
+        """
+        options = [str(option) for option in options]
+        # "🐛 fix: A bug fix": when every option leads with an icon, the icon
+        # gets its own column so wrapped words line up with the text.
+        icons = [MenuSystem._leading_icon(option) for option in options]
+        with_icons = all(icons)
+        rows = Table.grid(padding=0)
+        rows.add_column(width=2, no_wrap=True)
+        if with_icons:
+            rows.add_column(width=3, no_wrap=True)
+        rows.add_column(overflow="fold")
+        for index, option in enumerate(options):
+            is_selected = index == selected_index
+            semantic_color = (
+                "cyan" if "AUR" in option or option == _("Back") else "red" if option == _("Exit") else "white"
+            )
+            style = f"bold bright_{semantic_color}" if is_selected else f"dim {semantic_color}"
+            cells = [Text("• " if is_selected else "  ", style="bold blue" if is_selected else "dim white")]
+            if with_icons:
+                cells += [Text(icons[index]), Text(option[len(icons[index]) + 1 :], style=style)]
+            else:
+                cells.append(Text(option, style=style))
+            rows.add_row(*cells)
+        return rows
+
+    @staticmethod
+    def _leading_icon(option: str) -> str:
+        """The emoji an option starts with ("🐛 fix: …"), or "" when there is none."""
+        icon, separator, _rest = option.partition(" ")
+        return icon if separator and icon and not icon.isascii() and cell_len(icon) == 2 else ""
 
     def _draw_menu(self, title: str, options: list[str], selected_index: int, additional_content: str | None) -> None:
         subprocess.run(["clear"], check=False)
@@ -42,9 +73,7 @@ class MenuSystem:
         if additional_content:
             self.console.print(additional_content)
             self.console.print()
-        content = "\n".join(
-            self._option_markup(option, index == selected_index) for index, option in enumerate(options)
-        )
+        content = self._option_rows(options, selected_index)
         self.console.print(Panel(content, title=title, border_style="blue", box=ROUNDED, padding=(1, 2), width=70))
         self.console.print(_("Use arrow keys to navigate, Enter to select, or Escape to return."))
 
