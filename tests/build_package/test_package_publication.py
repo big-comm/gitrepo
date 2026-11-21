@@ -81,6 +81,10 @@ def build_package(menu=None):
         menu=menu or Menu(),
         dry_run_mode=False,
         github_user_name="tester",
+        settings={"auto_version_bump": True},
+        repo_path=None,
+        _app_version_cache=None,
+        _app_version_warning_shown=False,
     )
 
 

@@ -10,6 +10,7 @@ import re
 import stat
 from dataclasses import dataclass
 
+from gitrepo.common import child_process as subprocess
 from gitrepo.common.atomic_file import AtomicWriteError, atomic_write_text
 
 from .git_utils import GitUtils
@@ -26,6 +27,7 @@ class VersionBump:
     new_version: str
     bump_level: str
     content: str
+    commit_count: int = 0
 
 
 def _extract_commit_metadata(commit_message: str, explicit_type=None):
@@ -297,13 +299,8 @@ def _writable_repository_file(file_path: str, repo_root: str) -> str:
     return resolved
 
 
-def plan_version_bump(bp, commit_message: str, explicit_type=None) -> VersionBump | None:
-    """Prepare the APP_VERSION change without touching the working tree."""
-    commit_type, breaking_change = _extract_commit_metadata(commit_message, explicit_type)
-    bump_level = _infer_bump_level(commit_type, breaking_change)
-    if not bump_level:
-        return None
-
+def _writable_version_entry(bp):
+    """Return (resolved path, repo root, content, match) for the owned APP_VERSION, or None."""
     file_path, content, match = _locate_app_version_entry(bp)
     if not file_path or not match:
         if not bp._app_version_warning_shown and bp.logger:
@@ -320,7 +317,11 @@ def plan_version_bump(bp, commit_message: str, explicit_type=None) -> VersionBum
                 _("Skipping the version bump: {0} is not a regular file inside the repository.").format(file_path),
             )
         return None
+    return resolved, repo_root, content, match
 
+
+def _bump_entry(entry, bump_level: str, commit_count: int = 0) -> VersionBump | None:
+    resolved, repo_root, content, match = entry
     current_version = match.group(3)
     new_version = _bump_semver(current_version, bump_level)
     if current_version == new_version:
@@ -334,7 +335,67 @@ def plan_version_bump(bp, commit_message: str, explicit_type=None) -> VersionBum
         new_version=new_version,
         bump_level=bump_level,
         content=content[: match.start()] + new_assignment + content[match.end() :],
+        commit_count=commit_count,
     )
+
+
+def plan_version_bump(bp, commit_message: str, explicit_type=None) -> VersionBump | None:
+    """Prepare the APP_VERSION change without touching the working tree."""
+    commit_type, breaking_change = _extract_commit_metadata(commit_message, explicit_type)
+    bump_level = _infer_bump_level(commit_type, breaking_change)
+    if not bump_level:
+        return None
+    entry = _writable_version_entry(bp)
+    return _bump_entry(entry, bump_level) if entry else None
+
+
+# Matches a diff line that sets APP_VERSION to a literal, as `git log -G` (POSIX ERE) reads it.
+_VERSION_CHANGE_PICKAXE = r"""APP_VERSION[^=;]*=[[:space:]]*["'][0-9]+\.[0-9]+\.[0-9]+["']"""
+_BUMP_LEVEL_RANK = {"patch": 0, "minor": 1, "major": 2}
+
+
+def _messages_since_version_change(repo_root: str, relative_path: str) -> list[str]:
+    """Return the messages of non-merge commits made after APP_VERSION last changed."""
+    last_change = subprocess.run_git(
+        ["git", "log", "-1", "--format=%H", "-G", _VERSION_CHANGE_PICKAXE, "--", relative_path],
+        cwd=repo_root,
+        capture_output=True,
+        text=True,
+        check=False,
+        intent="ordinary",
+    )
+    commit = last_change.stdout.strip()
+    if last_change.returncode != 0 or not commit:
+        return []
+    since = subprocess.run_git(
+        ["git", "log", "--no-merges", "--format=%B%x00", f"{commit}..HEAD"],
+        cwd=repo_root,
+        capture_output=True,
+        text=True,
+        check=True,
+        intent="ordinary",
+    )
+    return [message.strip() for message in since.stdout.split("\0") if message.strip()]
+
+
+def plan_release_bump(bp) -> VersionBump | None:
+    """Prepare the bump a package needs when commits landed after APP_VERSION last changed.
+
+    Commits made outside gitrepo's commit flow (pull requests, other tools) never
+    reach plan_version_bump; the package build is the point every change passes.
+    An untyped commit counts as a patch.
+    """
+    entry = _writable_version_entry(bp)
+    if not entry:
+        return None
+    resolved, repo_root = entry[0], entry[1]
+    relative_path = os.path.relpath(resolved, os.path.realpath(repo_root))
+    messages = _messages_since_version_change(repo_root, relative_path)
+    if not messages:
+        return None
+    levels = [_infer_bump_level(*_extract_commit_metadata(message)) or "patch" for message in messages]
+    bump_level = max(levels, key=_BUMP_LEVEL_RANK.__getitem__)
+    return _bump_entry(entry, bump_level, commit_count=len(messages))
 
 
 def publish_version_bump(bp, plan: VersionBump) -> bool:

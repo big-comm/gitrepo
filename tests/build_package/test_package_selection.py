@@ -268,6 +268,7 @@ def journey(repository, monkeypatch):
         return "dev-tester"
 
     monkeypatch.setattr(package_operations, "_commit_pending_changes", commit)
+    monkeypatch.setattr(package_operations, "_commit_release_bump", lambda _bp: True)
     monkeypatch.setattr(package_operations, "_prepare_working_branch", prepare)
     monkeypatch.setattr(package_operations, "_testing_branch_for_current", lambda _bp, _expected="": "dev-tester")
     monkeypatch.setattr(GitUtils, "get_package_name", staticmethod(lambda directory="": directory or "demo"))

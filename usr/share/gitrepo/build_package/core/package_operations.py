@@ -20,6 +20,7 @@ from .config import DESTINATION_NAMES
 from .github_api import GitHubAPI
 from .token_store import TokenStore
 from .repository_lock import journey
+from .version_bumper import plan_release_bump, publish_version_bump
 
 
 def _commit_pending_changes(bp, commit_message: str | None) -> bool:
@@ -28,6 +29,49 @@ def _commit_pending_changes(bp, commit_message: str | None) -> bool:
     if commit_message:
         bp.args.commit = commit_message
     return commit_and_push(bp)
+
+
+def _commit_release_bump(bp) -> bool:
+    """Give the package a new APP_VERSION when commits landed after the last one.
+
+    Returns False only when an approved bump could not be written or committed.
+    """
+    if not bp.settings.get("auto_version_bump", True):
+        return True
+    plan = plan_release_bump(bp)
+    if plan is None:
+        return True
+    question = _(
+        "Bump the version for this package?\n"
+        "Version: {0} → {1} ({2}) in {3}\n"
+        "Commits since the last version change: {4}\n"
+        'Command: git commit -m "chore: bump version to {1}" -- {3}'
+    ).format(
+        plan.current_version,
+        plan.new_version,
+        plan.bump_level,
+        display_path(plan.relative_path),
+        plan.commit_count,
+    )
+    if not bp.menu.confirm(StructuredConfirmation(question), default_yes=True):
+        bp.logger.log("yellow", _("Version kept at {0}.").format(plan.current_version))
+        return True
+    if getattr(bp, "dry_run_mode", False):
+        bp.logger.log("green", _("Dry run: the version would change to {0}.").format(plan.new_version))
+        return True
+    if not publish_version_bump(bp, plan):
+        return False
+    commit = subprocess.run_git(
+        ["git", "commit", "-m", f"chore: bump version to {plan.new_version}", "--", plan.file_path],
+        capture_output=True,
+        text=True,
+        check=False,
+        intent="ordinary",
+    )
+    if commit.returncode != 0:
+        bp.logger.log("red", _("The version bump could not be committed: {0}").format(commit.stderr.strip()))
+        return False
+    return True
 
 
 def _prepare_working_branch(bp, branch_type: str, expected_testing_branch: str = "") -> str:
@@ -338,6 +382,8 @@ def commit_and_generate_package(build_package_instance, branch_type, commit_mess
         bp.logger.log("yellow", _("Nothing was committed, pushed or built."))
         return False
     if not _commit_pending_changes(bp, commit_message):
+        return False
+    if not _commit_release_bump(bp):
         return False
 
     package_directories = _choose_package_directories(bp)
