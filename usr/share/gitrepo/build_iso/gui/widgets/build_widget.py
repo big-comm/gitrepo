@@ -224,8 +224,8 @@ class BuildWidget(Gtk.Box):
                 _(
                     "Big is the BigLinux kernel, from the BigLinux repositories, with a scheduler tuned for "
                     "desktop responsiveness; it is the default for BigLinux and BigCommunity. LTS receives "
-                    "long-term fixes. Latest supports very recent hardware but changes faster. Old LTS helps "
-                    "on older machines, and XanMod is another desktop-tuned kernel."
+                    "long-term fixes. Latest supports very recent hardware but changes faster, and Old LTS "
+                    "helps on older machines."
                 ),
             )
         )

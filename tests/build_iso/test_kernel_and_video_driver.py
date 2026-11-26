@@ -42,8 +42,8 @@ class Menu:
 @pytest.mark.parametrize(
     "mode,offered",
     [
-        (BUILD_MODE_LOCAL, ["big", "lts", "latest", "oldlts", "xanmod"]),
-        (BUILD_MODE_REMOTE, ["lts", "latest", "oldlts", "xanmod"]),
+        (BUILD_MODE_LOCAL, ["big", "lts", "latest", "oldlts"]),
+        (BUILD_MODE_REMOTE, ["lts", "latest", "oldlts"]),
     ],
 )
 def test_terminal_kernel_choices(mode, offered):

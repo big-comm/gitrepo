@@ -63,13 +63,12 @@ def edition_display_name(edition: str) -> str:
 
 
 # Kernel options, the default first
-VALID_KERNELS = ["big", "lts", "latest", "oldlts", "xanmod"]
+VALID_KERNELS = ["big", "lts", "latest", "oldlts"]
 KERNEL_DISPLAY_NAMES = {
     "big": _("Big (Recommended)"),
     "lts": _("LTS"),
     "latest": _("Latest"),
     "oldlts": _("Old LTS"),
-    "xanmod": _("XanMod"),
 }
 DEFAULT_KERNEL = VALID_KERNELS[0]
 
@@ -163,7 +162,7 @@ ORG_DEFAULT_CONFIGS = {
     #         "community": "stable",   # stable, testing, unstable (leave "" if not used)
     #         "biglinux": "stable"     # stable, testing, unstable (leave "" if not used)
     #     },
-    #     "kernel": "big",             # big, lts, latest, oldlts, xanmod
+    #     "kernel": "big",             # big, lts, latest, oldlts
     #     "build_dir": "bigcommunity", # directory name in iso-profiles (will be validated via API)
     #     "edition": "xfce"            # xfce, kde, gnome, etc. (will be validated via API)
     # }
