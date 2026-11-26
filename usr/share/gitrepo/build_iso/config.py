@@ -62,20 +62,25 @@ def edition_display_name(edition: str) -> str:
     return EDITION_DISPLAY_NAMES.get(edition.lower(), edition.capitalize())
 
 
-# Kernel options
-VALID_KERNELS = ["latest", "lts", "oldlts", "xanmod", "big"]
+# Kernel options, the default first
+VALID_KERNELS = ["big", "lts", "latest", "oldlts", "xanmod"]
 KERNEL_DISPLAY_NAMES = {
-    "lts": _("LTS (Recommended)"),
+    "big": _("Big (Recommended)"),
+    "lts": _("LTS"),
     "latest": _("Latest"),
     "oldlts": _("Old LTS"),
     "xanmod": _("XanMod"),
-    "big": _("BigCommunity"),
 }
-# Kernels packaged only in the community repositories, by the package the
-# ISO installs. Only a BigCommunity build has those repositories.
-COMMUNITY_KERNEL_PACKAGES = {"big": "linux-big"}
-# Same default as the build engine's COMMUNITY_REPO_HOST.
-COMMUNITY_REPO_HOST = "repo.communitybig.org"
+DEFAULT_KERNEL = VALID_KERNELS[0]
+
+# Video drivers (the engine's MESA), the default first. mesa-big is in the
+# BigLinux repositories, which both distributions build with.
+VALID_MESA = ["big", "manjaro"]
+MESA_DISPLAY_NAMES = {
+    "big": _("mesa-big (Recommended)"),
+    "manjaro": _("Manjaro mesa"),
+}
+DEFAULT_MESA = VALID_MESA[0]
 
 # Log directory
 LOG_DIR_BASE = os.path.join(
@@ -117,7 +122,7 @@ ORG_DEFAULT_CONFIGS = {
         "distroname": "bigcommunity",
         "iso_profiles_repo": "https://github.com/big-comm/iso-profiles",
         "branches": {"manjaro": "stable", "community": "stable", "biglinux": "stable"},
-        "kernel": "latest",
+        "kernel": DEFAULT_KERNEL,
         "build_dir": "bigcommunity",
         "edition": "xfce",
     },
@@ -125,7 +130,7 @@ ORG_DEFAULT_CONFIGS = {
         "distroname": "biglinux",
         "iso_profiles_repo": "https://github.com/biglinux/iso-profiles",
         "branches": {"manjaro": "stable", "community": "", "biglinux": "stable"},
-        "kernel": "latest",
+        "kernel": DEFAULT_KERNEL,
         "build_dir": "biglinux",
         "edition": "kde",
     },
@@ -133,7 +138,7 @@ ORG_DEFAULT_CONFIGS = {
         "distroname": "bigcommunity",  # talesam builds BigCommunity
         "iso_profiles_repo": "https://github.com/big-comm/iso-profiles",
         "branches": {"manjaro": "stable", "community": "stable", "biglinux": "stable"},
-        "kernel": "latest",
+        "kernel": DEFAULT_KERNEL,
         "build_dir": "bigcommunity",
         "edition": "gnome",
     },
@@ -143,7 +148,7 @@ ORG_DEFAULT_CONFIGS = {
         "distroname": "biglinux",
         "iso_profiles_repo": "https://github.com/biglinux/iso-profiles",
         "branches": {"manjaro": "stable", "community": "", "biglinux": "stable"},
-        "kernel": "latest",
+        "kernel": DEFAULT_KERNEL,
         "build_dir": "biglinux",
         "edition": "kde",
     },
@@ -158,7 +163,7 @@ ORG_DEFAULT_CONFIGS = {
     #         "community": "stable",   # stable, testing, unstable (leave "" if not used)
     #         "biglinux": "stable"     # stable, testing, unstable (leave "" if not used)
     #     },
-    #     "kernel": "latest",          # latest, lts, oldlts, xanmod, big
+    #     "kernel": "big",             # big, lts, latest, oldlts, xanmod
     #     "build_dir": "bigcommunity", # directory name in iso-profiles (will be validated via API)
     #     "edition": "xfce"            # xfce, kde, gnome, etc. (will be validated via API)
     # }

@@ -7,6 +7,7 @@
 
 import os
 
+from gitrepo.build_iso.core.config import DEFAULT_KERNEL
 from gitrepo.build_iso.core.settings import Settings
 
 
@@ -20,7 +21,7 @@ class LocalConfig:
         "manjaro_branch": "stable",
         "biglinux_branch": "stable",
         "bigcommunity_branch": "stable",
-        "kernel": "lts",
+        "kernel": DEFAULT_KERNEL,
     }
 
     def __init__(self, settings: Settings | None = None) -> None:

@@ -18,7 +18,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import BinaryIO, Iterator
 
-from gitrepo.build_iso.core.config import BUILD_ENGINE_REPO, CONTAINER_IMAGE
+from gitrepo.build_iso.core.config import BUILD_ENGINE_REPO, CONTAINER_IMAGE, DEFAULT_KERNEL, DEFAULT_MESA
 from gitrepo.build_iso.core.container_manager import ISO_BUILDER_LABEL
 from gitrepo.common.translation import _
 from gitrepo.common import child_process as subprocess
@@ -143,7 +143,8 @@ class ISOBuilder:
         self.distroname = config.get("distroname", "bigcommunity")
         self.edition = config.get("edition", "gnome")
         self.branches = config.get("branches", {})
-        self.kernel = config.get("kernel", "lts")
+        self.kernel = config.get("kernel", DEFAULT_KERNEL)
+        self.mesa = config.get("mesa", DEFAULT_MESA)
         # [community-testing] above the BigLinux repositories; the engine only
         # accepts it for biglinux, so it is never sent for anything else.
         self.community_testing = bool(config.get("community_testing")) and self.distroname == "biglinux"
@@ -617,6 +618,12 @@ echo "GITREPO-MANIFEST iso-profiles $(git -C {_CONTAINER_ENGINE} rev-parse HEAD)
 grep -q COMMUNITY_TESTING {_CONTAINER_ENGINE}/build-iso/build-iso.sh || {{ echo "The build engine in $ENGINE_REPO does not support community-testing yet." >&2; exit 1; }}
 """)
 
+        if self.mesa != "manjaro":
+            # An engine older than MESA ignores it and keeps Manjaro's mesa.
+            parts.append(f"""
+grep -q swap_mesa {_CONTAINER_ENGINE}/build-iso/build-iso.sh || {{ echo "The build engine in $ENGINE_REPO does not support the {self.mesa} video driver yet." >&2; exit 1; }}
+""")
+
         if self._uses_local_profiles():
             # The engine edits the profiles in place, so it gets a copy of the
             # read-only mount.
@@ -654,6 +661,8 @@ test "$(find {_CONTAINER_OUTPUT} -maxdepth 1 -type f -name '*.iso' | wc -l)" -eq
             f"EDITION={self.edition}",
             "-e",
             f"KERNEL={self.kernel}",
+            "-e",
+            f"MESA={self.mesa}",
             "-e",
             f"MANJARO_BRANCH={self.branches.get('manjaro') or 'stable'}",
             "-e",

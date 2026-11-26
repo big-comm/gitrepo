@@ -206,3 +206,22 @@ def test_community_testing_is_never_sent_for_bigcommunity(tmp_path):
     )
 
     assert _env(builder)["COMMUNITY_TESTING"] == "false"
+
+
+def test_big_defaults_reach_engine(tmp_path):
+    builder = _builder(tmp_path, distroname="biglinux", iso_profiles_repo="https://github.com/biglinux/iso-profiles")
+
+    env = _env(builder)
+    assert env["KERNEL"] == "big"
+    assert env["MESA"] == "big"
+    # An engine that predates MESA would keep Manjaro's mesa without a word.
+    script = builder._build_setup_script()
+    assert "grep -q swap_mesa /root/gitrepo-build/iso-profiles/build-iso/build-iso.sh" in script
+    assert script.index("grep -q swap_mesa") < script.index("bash /root/gitrepo-build/iso-profiles/build-iso")
+
+
+def test_manjaro_mesa_needs_no_engine_check(tmp_path):
+    builder = _builder(tmp_path, mesa="manjaro")
+
+    assert _env(builder)["MESA"] == "manjaro"
+    assert "grep -q swap_mesa" not in builder._build_setup_script()

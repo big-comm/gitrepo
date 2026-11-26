@@ -15,15 +15,16 @@ gi.require_version("Adw", "1")
 from gitrepo.build_iso.core.config import (
     BRANCH_DESCRIPTIONS,
     BRANCH_DISPLAY_NAMES,
-    COMMUNITY_KERNEL_PACKAGES,
     DEFAULT_EDITION_BY_DISTRO,
+    DEFAULT_KERNEL,
+    DEFAULT_MESA,
     ISO_PROFILES_REPOS,
     VALID_BRANCHES,
     VALID_DISTROS,
     VALID_KERNELS,
+    VALID_MESA,
     edition_display_name,
 )
-from gitrepo.build_iso.core.community_packages import available_kernels, kernel_notice
 from gitrepo.build_iso.core.profile_catalog import ProfileCatalogResult, load_profile_catalog
 from gitrepo.common.translation import _
 from gitrepo.common.network_url import UnsafeNetworkUrl, validate_github_repository_url
@@ -70,8 +71,6 @@ class BuildWidget(Gtk.Box):
         self._catalog_has_loaded = False
         self._catalog_retry_timeout_id = 0
         self._is_initializing = True
-        self._kernel_notice_request = 0
-        self._kernel_notice = ""
 
         self._create_ui()
         self._load_from_settings()
@@ -210,84 +209,49 @@ class BuildWidget(Gtk.Box):
         group = Adw.PreferencesGroup()
         expander = Adw.ExpanderRow()
         expander.set_title(_("Advanced options"))
-        expander.set_subtitle(_("Kernel, package channels, and where profiles come from"))
+        expander.set_subtitle(_("Kernel, video driver, package channels, and where profiles come from"))
         group.add(expander)
 
+        self._kernel_keys = list(VALID_KERNELS)
         self.kernel_row = Adw.ComboRow()
         self.kernel_row.set_title(_("Kernel Variant"))
-        self.kernel_row.set_subtitle(self._kernel_subtitle())
-        self._kernel_keys = []
-        self._set_kernel_choices(self._get_selected_distro())
+        self.kernel_row.set_subtitle(_("Big is the BigLinux kernel, tuned for desktop responsiveness"))
+        self.kernel_row.set_model(Gtk.StringList.new([VALID_KERNELS[key] for key in self._kernel_keys]))
+        self.kernel_row.set_selected(self._kernel_keys.index(DEFAULT_KERNEL))
         self.kernel_row.add_suffix(
             help_button(
                 _("Which kernel to choose"),
                 _(
-                    "LTS receives long-term fixes and is the safest default. Latest supports very recent "
-                    "hardware but changes faster. Old LTS helps on older machines, and XanMod targets "
-                    "desktop responsiveness. linux-big is the BigCommunity kernel, for BigCommunity images "
-                    "only; it must be published in the chosen Community channel."
+                    "Big is the BigLinux kernel, from the BigLinux repositories, with a scheduler tuned for "
+                    "desktop responsiveness; it is the default for BigLinux and BigCommunity. LTS receives "
+                    "long-term fixes. Latest supports very recent hardware but changes faster. Old LTS helps "
+                    "on older machines, and XanMod is another desktop-tuned kernel."
                 ),
             )
         )
         expander.add_row(self.kernel_row)
 
+        self._mesa_keys = list(VALID_MESA)
+        self.mesa_row = Adw.ComboRow()
+        self.mesa_row.set_title(_("Video Driver"))
+        self.mesa_row.set_subtitle(_("OpenGL and Vulkan drivers for AMD, Intel and open NVIDIA"))
+        self.mesa_row.set_model(Gtk.StringList.new([VALID_MESA[key] for key in self._mesa_keys]))
+        self.mesa_row.set_selected(self._mesa_keys.index(DEFAULT_MESA))
+        self.mesa_row.add_suffix(
+            help_button(
+                _("Which video driver to choose"),
+                _(
+                    "mesa-big is the BigLinux build of Mesa, from the BigLinux repositories: each new Mesa "
+                    "release, as it comes out. Manjaro mesa is the one Manjaro ships, which follows Arch "
+                    "through its testing and stable branches."
+                ),
+            )
+        )
+        expander.add_row(self.mesa_row)
+
         self._add_channel_rows(expander)
         self._add_profile_source_rows(expander)
-        for row in (self.kernel_row, self.community_branch_row):
-            row.connect("notify::selected", lambda *_args: self._refresh_kernel_notice())
         return group
-
-    @staticmethod
-    def _kernel_subtitle() -> str:
-        return _("Long-term stability or newer hardware support")
-
-    def _set_kernel_choices(self, distro: str) -> None:
-        """Offer only the kernels this distribution can build, keeping the current choice."""
-        keys = available_kernels(list(VALID_KERNELS), distro)
-        if keys == self._kernel_keys:
-            return
-        current = self._get_selected_kernel() if self._kernel_keys else ""
-        self._kernel_keys = keys
-        model = Gtk.StringList()
-        for key in keys:
-            model.append(VALID_KERNELS[key])
-        self.kernel_row.set_model(model)
-        selected = current if current in keys else "lts"
-        self.kernel_row.set_selected(keys.index(selected) if selected in keys else 0)
-
-    def _refresh_kernel_notice(self) -> None:
-        """Check, off the main loop, that the chosen kernel can be installed from the chosen channel."""
-        self._kernel_notice_request += 1
-        request = self._kernel_notice_request
-        # A choice restored at startup is shown on the row, not announced.
-        announce = not self._is_initializing
-        kernel = self._get_selected_kernel()
-        if kernel not in COMMUNITY_KERNEL_PACKAGES:
-            self._show_kernel_notice(request, "", announce)
-            return
-        distro = self._get_selected_distro()
-        branch = self._get_selected_branch(self.community_branch_row)
-
-        def check() -> None:
-            GLib.idle_add(self._show_kernel_notice, request, kernel_notice(kernel, distro, branch), announce)
-
-        threading.Thread(target=check, daemon=True).start()
-
-    def _show_kernel_notice(self, request: int, notice: str, announce: bool) -> bool:
-        """Show the result of the latest check only; it informs and never blocks the build."""
-        if request != self._kernel_notice_request:
-            return False
-        self.kernel_row.set_subtitle(notice or self._kernel_subtitle())
-        if notice:
-            self.kernel_row.add_css_class("warning")
-        else:
-            self.kernel_row.remove_css_class("warning")
-        if notice and notice != self._kernel_notice and announce:
-            root = self.get_root()
-            if root and hasattr(root, "show_toast"):
-                root.show_toast(notice)
-        self._kernel_notice = notice
-        return False
 
     def _add_channel_rows(self, expander: Adw.ExpanderRow) -> None:
         """Package channels share one explanation and one model."""
@@ -494,6 +458,10 @@ class BuildWidget(Gtk.Box):
         if kernel in self._kernel_keys:
             self.kernel_row.set_selected(self._kernel_keys.index(kernel))
 
+        mesa = self.settings.mesa
+        if mesa in self._mesa_keys:
+            self.mesa_row.set_selected(self._mesa_keys.index(mesa))
+
         # Branches
         branches = self.settings.branches
         for i, b in enumerate(VALID_BRANCHES):
@@ -582,8 +550,6 @@ class BuildWidget(Gtk.Box):
     def _on_distro_changed(self, row, _pspec):
         """Handle distribution change - refresh editions and toggle community branch"""
         self._update_community_branch_visibility()
-        self._set_kernel_choices(self._get_selected_distro())
-        self._refresh_kernel_notice()
         if self._is_initializing:
             return
         self._editions_cache.clear()
@@ -786,7 +752,13 @@ class BuildWidget(Gtk.Box):
         idx = self.kernel_row.get_selected()
         if 0 <= idx < len(self._kernel_keys):
             return self._kernel_keys[idx]
-        return "lts"
+        return DEFAULT_KERNEL
+
+    def _get_selected_mesa(self):
+        idx = self.mesa_row.get_selected()
+        if 0 <= idx < len(self._mesa_keys):
+            return self._mesa_keys[idx]
+        return DEFAULT_MESA
 
     def _get_selected_branch(self, row):
         idx = row.get_selected()
@@ -877,6 +849,7 @@ class BuildWidget(Gtk.Box):
             "distroname": distro,
             "edition": self._get_selected_edition(),
             "kernel": self._get_selected_kernel(),
+            "mesa": self._get_selected_mesa(),
             "branches": {
                 "manjaro": self._get_selected_branch(self.manjaro_branch_row),
                 "biglinux": self._get_selected_branch(self.biglinux_branch_row),
@@ -897,6 +870,7 @@ class BuildWidget(Gtk.Box):
                 ("general", "distribution"): distro,
                 ("general", "edition"): config["edition"],
                 ("general", "kernel"): config["kernel"],
+                ("general", "mesa"): config["mesa"],
                 ("general", "branches"): config["branches"],
                 ("general", "community_testing"): self.community_testing_row.get_active(),
                 ("general", "output_dir"): config["output_dir"],

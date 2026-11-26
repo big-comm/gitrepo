@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Any, cast
 
 from gitrepo.build_iso.config import LEGACY_CLI_CONFIG_FILE, LEGACY_GUI_CONFIG_FILE
-from gitrepo.build_iso.core.config import CONFIG_FILE, DEFAULT_OUTPUT_DIR
+from gitrepo.build_iso.core.config import CONFIG_FILE, DEFAULT_KERNEL, DEFAULT_MESA, DEFAULT_OUTPUT_DIR
 from gitrepo.common.atomic_file import AtomicJsonStore, AtomicWriteError, CorruptJsonError
 
 
@@ -21,7 +21,9 @@ class Settings:
         "general": {
             "distribution": "bigcommunity",
             "edition": "gnome",
-            "kernel": "lts",
+            "kernel": DEFAULT_KERNEL,
+            # The engine's MESA: the video driver the image installs.
+            "mesa": DEFAULT_MESA,
             "branches": {
                 "manjaro": "stable",
                 "biglinux": "stable",
@@ -228,6 +230,7 @@ class Settings:
             "biglinux_branch": self.branches["biglinux"],
             "bigcommunity_branch": self.branches["community"],
             "kernel": self.kernel,
+            "mesa": self.mesa,
             "container_engine": self.container_engine_preference,
         }
 
@@ -243,6 +246,7 @@ class Settings:
             "distroname": ("general", "distribution"),
             "edition": ("general", "edition"),
             "kernel": ("general", "kernel"),
+            "mesa": ("general", "mesa"),
             "manjaro_branch": ("general", "branches", "manjaro"),
             "biglinux_branch": ("general", "branches", "biglinux"),
             "bigcommunity_branch": ("general", "branches", "community"),
@@ -260,7 +264,11 @@ class Settings:
 
     @property
     def kernel(self) -> str:
-        return cast(str, self.get("general", "kernel", default="lts"))
+        return cast(str, self.get("general", "kernel", default=DEFAULT_KERNEL))
+
+    @property
+    def mesa(self) -> str:
+        return cast(str, self.get("general", "mesa", default=DEFAULT_MESA))
 
     @property
     def branches(self) -> dict[str, str]:

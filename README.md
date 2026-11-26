@@ -105,7 +105,7 @@ bpkg --aur google-chrome               # build a package from the AUR
 bpkg --dry-run                         # show what would run, change nothing
 
 biso                                   # interactive menu
-biso --local --distro biglinux --edition kde --kernel lts
+biso --local --distro biglinux --edition kde --kernel lts --mesa manjaro
 biso --auto --distro bigcommunity --edition gnome
 ```
 

@@ -18,19 +18,21 @@ from gitrepo.build_iso.config import (
     APP_VERSION,
     BUILD_MODE_LOCAL,
     BUILD_MODE_REMOTE,
-    COMMUNITY_KERNEL_PACKAGES,
     DEFAULT_ISO_PROFILES,
+    DEFAULT_KERNEL,
+    DEFAULT_MESA,
     DEFAULT_ORGANIZATION,
     DISTRO_DISPLAY_NAMES,
     ISO_PROFILES,
     LOG_DIR_BASE,
+    MESA_DISPLAY_NAMES,
     ORG_DEFAULT_CONFIGS,
     VALID_BRANCHES,
     VALID_DISTROS,
     VALID_KERNELS,
+    VALID_MESA,
     VALID_ORGANIZATIONS,
 )
-from gitrepo.build_iso.core.community_packages import available_kernels, kernel_notice
 from gitrepo.build_iso.git_utils import GitUtils
 from gitrepo.build_iso.github_api import GitHubAPI
 from gitrepo.build_iso.menu_system import MenuSystem
@@ -53,7 +55,9 @@ class BuildISO:
         # Initial default values
         self.distroname = self.args.distroname or "big-comm"
         self.edition = self.args.edition or "xfce"
-        self.kernel = self.args.kernel or "lts"
+        self.kernel = self.args.kernel or DEFAULT_KERNEL
+        # Local builds only; the remote workflows do not take it.
+        self.mesa = self.args.mesa or DEFAULT_MESA
         self.iso_profiles_repo = ""
         self.build_dir = ""
         self.branches = {"manjaro": "stable", "community": "stable", "biglinux": "stable"}
@@ -127,6 +131,8 @@ class BuildISO:
         parser.add_argument("-e", "--edition", help=_("Set the edition (desktop environment)"))
 
         parser.add_argument("-k", "--kernel", help=_("Set the kernel type"), choices=VALID_KERNELS)
+
+        parser.add_argument("--mesa", help=_("Set the video driver (local builds)"), choices=VALID_MESA)
 
         parser.add_argument(
             "-a", "--auto", "--automatic", action="store_true", help=_("Automatic mode using default values")
@@ -352,7 +358,8 @@ class BuildISO:
 
     def get_kernel(self) -> bool:
         """Select the kernel version"""
-        kernels = available_kernels(VALID_KERNELS, self.distroname)
+        # The remote workflow's own build script has no Big kernel yet.
+        kernels = [kernel for kernel in VALID_KERNELS if kernel != "big" or self.build_mode == BUILD_MODE_LOCAL]
         result = self.menu.show_menu(_("Choose the {0} version:").format("[yellow]KERNEL[/]"), kernels + [_("Back")])
 
         if result is None or result[0] == len(kernels):
@@ -361,20 +368,15 @@ class BuildISO:
         self.kernel = kernels[result[0]]
         return True
 
-    def _kernel_is_buildable(self) -> bool:
-        """Warn when the kernel is not published in the chosen community channel.
+    def get_mesa(self) -> bool:
+        """Select the video driver of a local build"""
+        names = [MESA_DISPLAY_NAMES[mesa] for mesa in VALID_MESA]
+        result = self.menu.show_menu(_("Choose the video driver:"), names + [_("Back")])
 
-        Only informs: the channel may be about to receive it. A kernel the
-        distribution cannot install at all stops here instead of an hour into
-        the build.
-        """
-        notice = kernel_notice(self.kernel, self.distroname, self.branches.get("community") or "stable")
-        if not notice:
-            return True
-        if self.kernel in COMMUNITY_KERNEL_PACKAGES and self.distroname != "bigcommunity":
-            self.logger.log("red", notice)
+        if result is None or result[0] == len(VALID_MESA):
             return False
-        self.logger.log("yellow", notice)
+
+        self.mesa = VALID_MESA[result[0]]
         return True
 
     def get_debug(self) -> bool:
@@ -435,9 +437,6 @@ class BuildISO:
         """Display summary and execute local build"""
         from datetime import datetime
 
-        if not self._kernel_is_buildable():
-            return False
-
         from gitrepo.build_iso.local_builder import LocalBuilder
 
         tag = datetime.now().strftime("%Y-%m-%d_%H-%M")
@@ -454,6 +453,7 @@ class BuildISO:
             (_("BigLinux Branch"), self.branches.get("biglinux", "")),
             (_("Community Testing"), _("Yes") if self._uses_community_testing() else _("No")),
             (_("Kernel"), self.kernel),
+            (_("Video Driver"), MESA_DISPLAY_NAMES[self.mesa]),
             (_("Output Directory"), self.output_dir),
             (_("Release Tag"), tag),
         ]
@@ -473,6 +473,7 @@ class BuildISO:
                 "biglinux_branch": self.branches.get("biglinux", "stable"),
                 "bigcommunity_branch": self.branches.get("community", "stable"),
                 "kernel": self.kernel,
+                "mesa": self.mesa,
                 "output_dir": self.output_dir,
             }
             self.local_config.save_config(config_dict)
@@ -484,6 +485,7 @@ class BuildISO:
             "branches": self.branches,
             "community_testing": self._uses_community_testing(),
             "kernel": self.kernel,
+            "mesa": self.mesa,
             "iso_profiles_repo": self.iso_profiles_repo,
             "build_dir": self.build_dir,
             "output_dir": self.output_dir,
@@ -497,7 +499,10 @@ class BuildISO:
 
     def resume_and_build(self) -> bool:
         """Display build summary and trigger workflow if confirmed"""
-        if not self._kernel_is_buildable():
+        if self.kernel == "big":
+            self.logger.log(
+                "red", _("The Big kernel is only available for local builds. Choose another kernel with --kernel.")
+            )
             return False
         if self._uses_community_testing():
             self.logger.log("red", _("Community testing is only available for local builds."))
@@ -636,7 +641,7 @@ class BuildISO:
 
     def _complete_selected_build(self) -> bool:
         if self.build_mode == BUILD_MODE_LOCAL:
-            return self.get_output_directory() and self.resume_and_build_local()
+            return self.get_mesa() and self.get_output_directory() and self.resume_and_build_local()
         return self.get_debug() and self.resume_and_build()
 
     def run(self):
