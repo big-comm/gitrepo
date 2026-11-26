@@ -6,6 +6,7 @@
 #
 
 import os
+import re
 
 # Import translation function
 from gitrepo.common.translation import _
@@ -71,6 +72,28 @@ KERNEL_DISPLAY_NAMES = {
     "oldlts": _("Old LTS"),
 }
 DEFAULT_KERNEL = VALID_KERNELS[0]
+# One series of the Big kernel, named after its package: big73 is linux-big73.
+BIG_SERIES = re.compile(r"big[0-9]{2,}")
+
+
+def kernel_display_name(kernel: str, current_big: str = "") -> str:
+    """Return the name of a kernel selector, a Big series included.
+
+    current_big is the series big resolves to, when it is known.
+    """
+    if kernel == "big" and current_big:
+        return _("Big {0} (Recommended)").format(_big_series_version(current_big))
+    if kernel in KERNEL_DISPLAY_NAMES:
+        return KERNEL_DISPLAY_NAMES[kernel]
+    if BIG_SERIES.fullmatch(kernel):
+        return _("Big {0}").format(_big_series_version(kernel))
+    return kernel
+
+
+def _big_series_version(series: str) -> str:
+    # The package squashes the version: big73 is 7.3, as long as the major is one digit.
+    return f"{series[3]}.{series[4:]}"
+
 
 # Video drivers (the engine's MESA), the default first. mesa-big is in the
 # BigLinux repositories, which both distributions build with.

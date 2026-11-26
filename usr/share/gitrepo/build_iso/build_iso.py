@@ -6,6 +6,7 @@ import argparse
 import os
 import shutil
 import sys
+import tarfile
 from datetime import datetime
 
 import requests
@@ -17,6 +18,7 @@ from gitrepo.build_iso.config import (
     APP_NAME,
     APP_VERSION,
     BUILD_MODE_LOCAL,
+    BIG_SERIES,
     BUILD_MODE_REMOTE,
     DEFAULT_ISO_PROFILES,
     DEFAULT_KERNEL,
@@ -32,13 +34,26 @@ from gitrepo.build_iso.config import (
     VALID_KERNELS,
     VALID_MESA,
     VALID_ORGANIZATIONS,
+    kernel_display_name,
 )
+from gitrepo.build_iso.core.big_kernels import local_kernel_choices, read_big_kernels
 from gitrepo.build_iso.git_utils import GitUtils
 from gitrepo.build_iso.github_api import GitHubAPI
 from gitrepo.build_iso.menu_system import MenuSystem
 from gitrepo.common.rich_logger import RichLogger
 from rich.console import Console
 from gitrepo.common.translation import _
+
+
+def _kernel_selector(value: str) -> str:
+    """Accept a kernel of VALID_KERNELS or a Big series (big73) for --kernel."""
+    if value in VALID_KERNELS or BIG_SERIES.fullmatch(value):
+        return value
+    raise argparse.ArgumentTypeError(
+        _("invalid kernel: {0} (choose from {1}, or a Big series such as big73)").format(
+            value, ", ".join(VALID_KERNELS)
+        )
+    )
 
 
 class BuildISO:
@@ -130,7 +145,7 @@ class BuildISO:
 
         parser.add_argument("-e", "--edition", help=_("Set the edition (desktop environment)"))
 
-        parser.add_argument("-k", "--kernel", help=_("Set the kernel type"), choices=VALID_KERNELS)
+        parser.add_argument("-k", "--kernel", help=_("Set the kernel type"), type=_kernel_selector)
 
         parser.add_argument("--mesa", help=_("Set the video driver (local builds)"), choices=VALID_MESA)
 
@@ -358,9 +373,19 @@ class BuildISO:
 
     def get_kernel(self) -> bool:
         """Select the kernel version"""
-        # The remote workflow's own build script has no Big kernel yet.
-        kernels = [kernel for kernel in VALID_KERNELS if kernel != "big" or self.build_mode == BUILD_MODE_LOCAL]
-        result = self.menu.show_menu(_("Choose the {0} version:").format("[yellow]KERNEL[/]"), kernels + [_("Back")])
+        current_big = ""
+        if self.build_mode == BUILD_MODE_LOCAL:
+            try:
+                current_big, big_series = read_big_kernels(self.branches.get("biglinux", "stable"))
+            except (OSError, tarfile.TarError) as error:
+                self.logger.log("yellow", _("Could not list the Big kernel series: {0}").format(error))
+                big_series = ()
+            kernels = local_kernel_choices(current_big, big_series)
+        else:
+            # The remote workflow's own build script has no Big kernel yet.
+            kernels = [kernel for kernel in VALID_KERNELS if kernel != "big"]
+        names = [kernel_display_name(kernel, current_big) for kernel in kernels]
+        result = self.menu.show_menu(_("Choose the {0} version:").format("[yellow]KERNEL[/]"), names + [_("Back")])
 
         if result is None or result[0] == len(kernels):
             return False
@@ -452,7 +477,7 @@ class BuildISO:
             (_("Community Branch"), self.branches.get("community", "")),
             (_("BigLinux Branch"), self.branches.get("biglinux", "")),
             (_("Community Testing"), _("Yes") if self._uses_community_testing() else _("No")),
-            (_("Kernel"), self.kernel),
+            (_("Kernel"), kernel_display_name(self.kernel)),
             (_("Video Driver"), MESA_DISPLAY_NAMES[self.mesa]),
             (_("Output Directory"), self.output_dir),
             (_("Release Tag"), tag),
@@ -499,7 +524,7 @@ class BuildISO:
 
     def resume_and_build(self) -> bool:
         """Display build summary and trigger workflow if confirmed"""
-        if self.kernel == "big":
+        if self.kernel.startswith("big"):
             self.logger.log(
                 "red", _("The Big kernel is only available for local builds. Choose another kernel with --kernel.")
             )
@@ -524,7 +549,7 @@ class BuildISO:
             (_("Manjaro Branch"), self.branches.get("manjaro", "")),
             (_("Community Branch"), self.branches.get("community", "")),
             (_("BigLinux Branch"), self.branches.get("biglinux", "")),
-            (_("Kernel"), self.kernel),
+            (_("Kernel"), kernel_display_name(self.kernel)),
             (_("Release Tag"), tag),
             (_("TMATE Debug"), _("Yes") if self.tmate else _("No")),
         ]

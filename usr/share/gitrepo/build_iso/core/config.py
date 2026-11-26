@@ -23,6 +23,7 @@ from gitrepo.build_iso.config import (
     MESA_DISPLAY_NAMES as VALID_MESA,
     VALID_BRANCHES,
     edition_display_name,
+    kernel_display_name,
 )
 
 
@@ -35,6 +36,7 @@ __all__ = [
     "BRANCH_DESCRIPTIONS",
     "BRANCH_DISPLAY_NAMES",
     "edition_display_name",
+    "kernel_display_name",
     "BUILD_ENGINE_REPO",
     "CONFIG_DIR",
     "CONFIG_FILE",

@@ -13,7 +13,7 @@ gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
 from gitrepo.build_iso.core.build_estimate import historical_total_seconds, remaining_seconds
-from gitrepo.build_iso.core.config import VALID_DISTROS, VALID_KERNELS, edition_display_name
+from gitrepo.build_iso.core.config import VALID_DISTROS, edition_display_name, kernel_display_name
 from gitrepo.build_iso.core.build_log import BuildLogFile
 from gitrepo.build_iso.core.history_store import BuildHistoryStore
 from gitrepo.build_iso.core.iso_builder import ISOBuilder
@@ -230,7 +230,7 @@ class BuildProgressDialog(Adw.Window):
                 subtitle=_("{0} • {1} • kernel {2}").format(
                     VALID_DISTROS.get(self.config.get("distroname", ""), self.config.get("distroname", "?")),
                     edition_display_name(self.config.get("edition", "?")),
-                    VALID_KERNELS.get(self.config.get("kernel", ""), self.config.get("kernel", "?")),
+                    kernel_display_name(self.config.get("kernel", "?")),
                 ),
             )
         )

@@ -4,6 +4,7 @@
 
 import os
 import shutil
+import tarfile
 import threading
 import time
 
@@ -24,7 +25,9 @@ from gitrepo.build_iso.core.config import (
     VALID_KERNELS,
     VALID_MESA,
     edition_display_name,
+    kernel_display_name,
 )
+from gitrepo.build_iso.core.big_kernels import local_kernel_choices, read_big_kernels
 from gitrepo.build_iso.core.profile_catalog import ProfileCatalogResult, load_profile_catalog
 from gitrepo.common.translation import _
 from gitrepo.common.network_url import UnsafeNetworkUrl, validate_github_repository_url
@@ -212,11 +215,15 @@ class BuildWidget(Gtk.Box):
         expander.set_subtitle(_("Kernel, video driver, package channels, and where profiles come from"))
         group.add(expander)
 
+        # The Big series come from the BigLinux repositories once the page is shown.
         self._kernel_keys = list(VALID_KERNELS)
+        self._wanted_kernel = DEFAULT_KERNEL
+        self._current_big = ""
+        self._big_kernels_request_id = 0
         self.kernel_row = Adw.ComboRow()
         self.kernel_row.set_title(_("Kernel Variant"))
         self.kernel_row.set_subtitle(_("Big is the BigLinux kernel, tuned for desktop responsiveness"))
-        self.kernel_row.set_model(Gtk.StringList.new([VALID_KERNELS[key] for key in self._kernel_keys]))
+        self.kernel_row.set_model(Gtk.StringList.new([kernel_display_name(key) for key in self._kernel_keys]))
         self.kernel_row.set_selected(self._kernel_keys.index(DEFAULT_KERNEL))
         self.kernel_row.add_suffix(
             help_button(
@@ -385,6 +392,7 @@ class BuildWidget(Gtk.Box):
         ):
             row.connect("notify::selected", lambda *_args: self._update_summary())
         self.community_testing_row.connect("notify::active", lambda *_args: self._update_summary())
+        self.biglinux_branch_row.connect("notify::selected", self._on_biglinux_branch_changed)
         self.output_row.connect("changed", lambda *_args: self._update_summary())
         self._update_summary()
         # The footer is owned by the window's bottom bar, not by the page body.
@@ -439,7 +447,7 @@ class BuildWidget(Gtk.Box):
             _("{0} • {1} • kernel {2}").format(
                 VALID_DISTROS.get(distro, distro),
                 edition_display_name(self._get_selected_edition()),
-                VALID_KERNELS.get(self._get_selected_kernel(), self._get_selected_kernel()),
+                kernel_display_name(self._get_selected_kernel(), self._current_big),
             )
         )
         self.summary_detail.set_text(
@@ -455,6 +463,8 @@ class BuildWidget(Gtk.Box):
 
         # Kernel
         kernel = self.settings.kernel
+        # A saved series is selected when the series list arrives.
+        self._wanted_kernel = kernel
         if kernel in self._kernel_keys:
             self.kernel_row.set_selected(self._kernel_keys.index(kernel))
 
@@ -567,6 +577,50 @@ class BuildWidget(Gtk.Box):
         """Load the selected catalog only when the Build page is first shown."""
         if not self._catalog_has_loaded and not self._loading_editions:
             self._fetch_editions_async()
+        if not self._big_kernels_request_id:
+            self._fetch_big_kernels_async()
+
+    def _on_biglinux_branch_changed(self, _row, _pspec) -> None:
+        # A testing build also offers the series still in testing.
+        if not self._is_initializing and self._big_kernels_request_id:
+            self._fetch_big_kernels_async()
+
+    def _fetch_big_kernels_async(self) -> None:
+        self._big_kernels_request_id += 1
+        threading.Thread(
+            target=self._fetch_big_kernels_worker,
+            args=(self._big_kernels_request_id, self._get_selected_branch(self.biglinux_branch_row)),
+            daemon=True,
+        ).start()
+
+    def _fetch_big_kernels_worker(self, request_id: int, biglinux_branch: str) -> None:
+        try:
+            current, series = read_big_kernels(biglinux_branch)
+        except (OSError, tarfile.TarError):
+            GLib.idle_add(self._apply_big_kernels, request_id, None)
+            return
+        GLib.idle_add(self._apply_big_kernels, request_id, (current, series))
+
+    def _apply_big_kernels(self, request_id: int, result: tuple[str, tuple[str, ...]] | None) -> bool:
+        if request_id != self._big_kernels_request_id:
+            return False
+        if result is None:
+            # Big alone still builds: the engine resolves it to the current series.
+            self.kernel_row.set_subtitle(_("Could not list the Big kernel series; Big follows the current one"))
+            return False
+        current, series = result
+        self._current_big = current
+        self.kernel_row.set_subtitle(_("Big is the BigLinux kernel, tuned for desktop responsiveness"))
+        selected = self._get_selected_kernel()
+        self._kernel_keys = local_kernel_choices(current, series)
+        self.kernel_row.set_model(Gtk.StringList.new([kernel_display_name(key, current) for key in self._kernel_keys]))
+        for kernel in (self._wanted_kernel, selected, DEFAULT_KERNEL):
+            if kernel in self._kernel_keys:
+                self.kernel_row.set_selected(self._kernel_keys.index(kernel))
+                break
+        self._wanted_kernel = ""
+        self._update_summary()
+        return False
 
     def _fetch_editions_async(self, *, force_refresh: bool = False) -> None:
         """Fetch editions off the GTK main loop and reject stale replies."""

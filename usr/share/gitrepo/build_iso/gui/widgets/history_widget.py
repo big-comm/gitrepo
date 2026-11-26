@@ -9,7 +9,7 @@ import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
-from gitrepo.build_iso.core.config import VALID_DISTROS, VALID_KERNELS, edition_display_name
+from gitrepo.build_iso.core.config import VALID_DISTROS, edition_display_name, kernel_display_name
 from gitrepo.build_iso.core.history_store import BuildHistoryStore
 from gitrepo.common.desktop_launch import open_folder
 from gitrepo.common.translation import _
@@ -169,7 +169,7 @@ class HistoryWidget(Gtk.Box):
                 edition_display_name(entry.get("edition", "?")),
                 # "(recommended)" advises a choice; a finished build only has
                 # the kernel it used.
-                VALID_KERNELS.get(kernel, kernel).partition(" (")[0],
+                kernel_display_name(kernel).partition(" (")[0],
             ),
             _("{0} min").format(int(entry.get("duration", 0)) // 60),
         ]
