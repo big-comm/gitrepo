@@ -5,8 +5,11 @@ from email.message import Message
 import threading
 import time
 import urllib.error
+from types import SimpleNamespace
 
 import pytest
+
+from gitrepo.build_iso.core.profile_catalog import _stored_github_token as STORED_GITHUB_TOKEN
 
 
 class Response(io.BytesIO):
@@ -25,6 +28,10 @@ class Response(io.BytesIO):
 def catalog(monkeypatch, tmp_path):
     module = importlib.import_module("gitrepo.build_iso.core.profile_catalog")
     monkeypatch.setattr(module, "PROFILE_CACHE_FILE", tmp_path / "profile-catalog.json")
+    # Anonymous by default: no environment token, nothing from the keyring.
+    monkeypatch.delenv("GITHUB_TOKEN", raising=False)
+    monkeypatch.delenv("GH_TOKEN", raising=False)
+    monkeypatch.setattr(module, "_stored_github_token", lambda _owner: "")
     module._reset_runtime_state_for_tests()
     return module
 
@@ -283,3 +290,63 @@ def test_corrupt_or_unwritable_cache_does_not_hide_remote_success(monkeypatch, c
     assert result.editions == ("kde",)
     assert result.is_fallback is False
     assert catalog.PROFILE_CACHE_FILE.read_text(encoding="utf-8") == '{"truncated":'
+
+
+@pytest.mark.parametrize(
+    "entries,expected",
+    [
+        ([("bigbruno", "other-token"), ("biglinux", "owner-token")], "Bearer owner-token"),
+        ([("talesam", "any-token")], "Bearer any-token"),
+        ([], None),
+    ],
+)
+def test_stored_token_reads_profiles(monkeypatch, catalog, entries, expected):
+    payload = json.dumps([{"type": "dir", "name": "kde"}]).encode()
+    requests = []
+    monkeypatch.setattr(catalog, "_stored_github_token", STORED_GITHUB_TOKEN)
+    monkeypatch.setattr(catalog, "GitHubTokenStore", lambda: SimpleNamespace(read_all=lambda: entries))
+    monkeypatch.setattr(
+        catalog.urllib.request,
+        "urlopen",
+        lambda request, **_kwargs: requests.append(request) or Response(payload),
+    )
+
+    assert catalog.load_profile_catalog("biglinux", "remote").editions == ("kde",)
+    assert requests[0].get_header("Authorization") == expected
+
+
+def test_rejected_token_keeps_cached_editions(monkeypatch, catalog):
+    payload = json.dumps([{"type": "dir", "name": "kde"}]).encode()
+    monkeypatch.setattr(catalog.urllib.request, "urlopen", lambda *_args, **_kwargs: Response(payload))
+    catalog.load_profile_catalog("biglinux", "remote", force_refresh=True)
+    monkeypatch.setattr(
+        catalog.urllib.request,
+        "urlopen",
+        lambda request, **_kwargs: (_ for _ in ()).throw(
+            urllib.error.HTTPError(request.full_url, 401, "bad credentials", Message(), io.BytesIO(b"{}"))
+        ),
+    )
+
+    result = catalog.load_profile_catalog("biglinux", "remote", force_refresh=True)
+
+    assert result.editions == ("kde",)
+    assert result.is_cached is True
+
+
+def test_token_skips_anonymous_rate_wait(monkeypatch, catalog):
+    reset = int(time.time()) + 600
+    monkeypatch.setattr(
+        catalog.urllib.request,
+        "urlopen",
+        lambda request, **_kwargs: (_ for _ in ()).throw(http_error(request.full_url, reset=str(reset))),
+    )
+    assert catalog.load_profile_catalog("biglinux", "remote").failure_kind == "rate_limit"
+
+    payload = json.dumps([{"type": "dir", "name": "kde"}]).encode()
+    monkeypatch.setattr(catalog, "_stored_github_token", lambda _owner: "stored-token")
+    monkeypatch.setattr(catalog.urllib.request, "urlopen", lambda *_args, **_kwargs: Response(payload))
+
+    result = catalog.load_profile_catalog("biglinux", "remote")
+
+    assert result.editions == ("kde",)
+    assert result.failure_kind == ""

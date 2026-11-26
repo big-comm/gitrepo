@@ -14,6 +14,7 @@ import urllib.request
 
 from gitrepo.common.atomic_file import AtomicJsonStore, CorruptJsonError
 from gitrepo.common.network_url import validate_github_repository_url, validate_https_url
+from gitrepo.common.token_store import GitHubTokenStore
 
 from .config import API_PROFILES, APP_VERSION, DEFAULT_EDITIONS, EXCLUDED_EDITIONS
 
@@ -119,13 +120,15 @@ def _read_github_editions(url: str, *, force_refresh: bool = False) -> _RemoteCa
         cached = _read_cache_entry(safe_url)
         cached_editions = tuple(cached.get("editions", ())) if cached else ()
         retry_at = int(cached.get("retry_at", 0)) if cached else 0
+        token = _github_token(safe_url)
 
-        if retry_at > now:
+        # The quota a token lifts is the anonymous one.
+        if retry_at > now and not token:
             return _rate_limited_catalog(cached_editions, retry_at)
         if _cache_is_fresh(cached, cached_editions, now, force_refresh, retry_at):
             return _RemoteCatalog(cached_editions, is_cached=True)
 
-        request = urllib.request.Request(safe_url, headers=_github_headers(cached))
+        request = urllib.request.Request(safe_url, headers=_github_headers(token, cached))
         try:
             with urllib.request.urlopen(request, timeout=10) as response:  # nosec B310
                 payload = json.loads(response.read().decode("utf-8"))
@@ -158,7 +161,7 @@ def _read_github_editions(url: str, *, force_refresh: bool = False) -> _RemoteCa
                     retry_at=reset,
                 )
                 return _rate_limited_catalog(cached_editions, reset)
-            if cached_editions and error.code in (403, 429, 500, 502, 503, 504):
+            if cached_editions and error.code in (401, 403, 429, 500, 502, 503, 504):
                 return _RemoteCatalog(cached_editions, True, True, "network", error=str(error))
             raise
         except (OSError, ValueError, TypeError, json.JSONDecodeError, urllib.error.URLError) as error:
@@ -183,13 +186,12 @@ def _cache_is_fresh(
     )
 
 
-def _github_headers(cached: dict | None) -> dict[str, str]:
+def _github_headers(token: str, cached: dict | None) -> dict[str, str]:
     headers = {
         "Accept": "application/vnd.github+json",
         "User-Agent": f"Build-ISO/{APP_VERSION}",
         "X-GitHub-Api-Version": "2022-11-28",
     }
-    token = _github_token()
     if token:
         headers["Authorization"] = f"Bearer {token}"
     if cached and cached.get("etag"):
@@ -197,11 +199,23 @@ def _github_headers(cached: dict | None) -> dict[str, str]:
     return headers
 
 
-def _github_token() -> str:
+def _github_token(url: str) -> str:
+    """The token to read the profiles with: anonymous reads share 60 requests an hour per address."""
     token = (os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN") or "").strip()
+    if not token:
+        token = _stored_github_token(urlsplit(url).path.split("/")[2])
     if not token or len(token) > 4096 or any(character in token for character in "\r\n\0"):
         return ""
     return token
+
+
+def _stored_github_token(owner: str) -> str:
+    """The owner's token gitrepo keeps, else any of them: the profiles are public."""
+    entries = GitHubTokenStore().read_all()
+    for organization, token in entries:
+        if organization.lower() == owner.lower():
+            return token
+    return entries[0][1] if entries else ""
 
 
 def _primary_rate_limit_reset(error: urllib.error.HTTPError, now: int) -> int:
